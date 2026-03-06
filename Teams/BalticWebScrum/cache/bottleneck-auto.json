@@ -1,0 +1,60 @@
+[
+  {
+    "period": "2026-01",
+    "columns": [
+      {
+        "name": "Backlog",
+        "avgDays": 41.15446696696697
+      },
+      {
+        "name": "Open",
+        "avgDays": 27.702256944444446
+      },
+      {
+        "name": "AC Test",
+        "avgDays": 11.92793209876543
+      },
+      {
+        "name": "In Progress",
+        "avgDays": 7.006597222222222
+      },
+      {
+        "name": "To Do",
+        "avgDays": 2.906795634920635
+      },
+      {
+        "name": "Code review",
+        "avgDays": 1.9301282051282054
+      }
+    ]
+  },
+  {
+    "period": "2026-02",
+    "columns": [
+      {
+        "name": "Selected for Development",
+        "avgDays": 48.13194444444444
+      },
+      {
+        "name": "Backlog",
+        "avgDays": 29.76998181216932
+      },
+      {
+        "name": "AC Test",
+        "avgDays": 7.563035475234271
+      },
+      {
+        "name": "In Progress",
+        "avgDays": 4.894818376068378
+      },
+      {
+        "name": "To Do",
+        "avgDays": 2.5601359338061465
+      },
+      {
+        "name": "Code review",
+        "avgDays": 1.4706463675213675
+      }
+    ]
+  }
+]

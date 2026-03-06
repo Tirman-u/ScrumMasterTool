@@ -1,0 +1,21 @@
+{
+  "name": "scrum-master-tool",
+  "version": "0.1.0",
+  "private": true,
+  "description": "Offline Scrum Master tool for local Jira CSV exports",
+  "type": "module",
+  "scripts": {
+    "analyze": "tsx src/cli.ts",
+    "test": "vitest run",
+    "test:watch": "vitest",
+    "sm:install": "npm --prefix apps/sm-tool install",
+    "sm:dev": "npm --prefix apps/sm-tool run dev",
+    "sm:build": "npm --prefix apps/sm-tool run build"
+  },
+  "devDependencies": {
+    "@types/node": "^22.13.10",
+    "tsx": "^4.19.3",
+    "typescript": "^5.8.2",
+    "vitest": "^3.0.8"
+  }
+}

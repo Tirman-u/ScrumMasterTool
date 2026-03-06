@@ -1,0 +1,76 @@
+{
+  "teamName": "IbankService",
+  "doneConfig": {
+    "useStatusCategoryDone": true,
+    "doneStatuses": [
+      "Done",
+      "Closed",
+      "Resolved",
+      "Canceled"
+    ]
+  },
+  "sleConfig": {
+    "percentiles": [
+      50,
+      70,
+      85,
+      95
+    ],
+    "rounding": "ceil"
+  },
+  "mapping": {
+    "key": "Issue key",
+    "created": "Created",
+    "resolutionDate": "Resolved",
+    "updated": "Updated",
+    "status": "Status",
+    "resolution": "Resolution",
+    "storyPoints": "Story points",
+    "sprint": "Sprint",
+    "issueType": "Issue Type"
+  },
+  "excludedIssueKeys": [
+    "IBSET-214",
+    "IBSET-216",
+    "IBSET-301",
+    "IBSET-302",
+    "IBSET-303",
+    "IBSET-473",
+    "IBSET-539",
+    "IBSET-547",
+    "IBSET-548",
+    "IBSET-549",
+    "IBSET-586",
+    "IBSET-605",
+    "IBSET-649",
+    "IBSET-654",
+    "IBSET-655",
+    "IBSET-669",
+    "IBSET-721",
+    "IBSET-722",
+    "IBSET-754"
+  ],
+  "velocityConfig": {
+    "mode": "sprint",
+    "sprintStartDate": "2026-01-17",
+    "sprintLengthWeeks": 2
+  },
+  "cycleTimeConfig": {
+    "endDateSource": "resolvedOrUpdated"
+  },
+  "bugConfig": {
+    "issueTypes": [
+      "Bug"
+    ]
+  },
+  "bottleneckConfig": {
+    "flowStatuses": [
+      "In Progress",
+      "Acceptance test",
+      "Code review",
+      "Ready for Release",
+      "Test",
+      "To Do"
+    ]
+  }
+}

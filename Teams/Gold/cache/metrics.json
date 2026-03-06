@@ -1,0 +1,1134 @@
+{
+  "generatedAt": "2026-02-27T13:30:37.334Z",
+  "teamName": "Gold",
+  "totalImportedRows": 147,
+  "uniqueIssues": 143,
+  "doneIssues": 72,
+  "cycleTimeCount": 72,
+  "cycleTimeDays": [
+    97.05694444444444,
+    152.90555555555557,
+    7.927777777777778,
+    86.00625,
+    22.29861111111111,
+    132.28333333333333,
+    75.72222222222223,
+    56.04097222222222,
+    166.78194444444443,
+    5.084027777777778,
+    0.7638888888888888,
+    9.879166666666666,
+    7.917361111111111,
+    105.82013888888889,
+    75.69652777777777,
+    23.925,
+    23.97013888888889,
+    13.063194444444445,
+    12.8625,
+    44.15972222222222,
+    15.980555555555556,
+    24.000694444444445,
+    24.12152777777778,
+    24.76875,
+    24.820833333333333,
+    11.879166666666666,
+    18.085416666666667,
+    21.135416666666668,
+    146.92291666666668,
+    74.95208333333333,
+    148.0125,
+    148.0125,
+    147.95833333333334,
+    148.08541666666667,
+    147.9875,
+    0.009722222222222222,
+    30.038888888888888,
+    30.165972222222223,
+    148.20694444444445,
+    148.11875,
+    21.099305555555556,
+    0.030555555555555555,
+    0.8888888888888888,
+    149.1611111111111,
+    32.125,
+    117.59444444444445,
+    35.71180555555556,
+    83.89305555555555,
+    110.12708333333333,
+    104.0375,
+    36.046527777777776,
+    14.145138888888889,
+    35.96319444444445,
+    26.197916666666668,
+    27.985416666666666,
+    10.049305555555556,
+    38.017361111111114,
+    38.017361111111114,
+    165.31666666666666,
+    196.02430555555554,
+    41.12916666666667,
+    43.02986111111111,
+    3.602777777777778,
+    196.23194444444445,
+    17.710416666666667,
+    0.94375,
+    75.89305555555555,
+    41.019444444444446,
+    42.89930555555556,
+    170.15277777777777,
+    52.077777777777776,
+    44.83819444444445
+  ],
+  "avgCycleTimeDays": 63.5470775462963,
+  "sle": {
+    "percentiles": [
+      50,
+      70,
+      85,
+      95
+    ],
+    "rounding": "ceil",
+    "values": {
+      "p50": 39,
+      "p70": 86,
+      "p85": 149,
+      "p95": 166
+    }
+  },
+  "scatter": [
+    {
+      "issueKey": "CORE-9357",
+      "resolutionDate": "2025-12-15T13:45:00.000Z",
+      "cycleTimeDays": 97.05694444444444,
+      "issueType": "Task"
+    },
+    {
+      "issueKey": "CORE-9214",
+      "resolutionDate": "2026-01-06T07:48:00.000Z",
+      "cycleTimeDays": 152.90555555555557,
+      "issueType": "Task"
+    },
+    {
+      "issueKey": "CORE-10155",
+      "resolutionDate": "2026-01-06T09:26:00.000Z",
+      "cycleTimeDays": 7.927777777777778,
+      "issueType": "Task"
+    },
+    {
+      "issueKey": "CORE-9558",
+      "resolutionDate": "2026-01-08T11:39:00.000Z",
+      "cycleTimeDays": 86.00625,
+      "issueType": "Task"
+    },
+    {
+      "issueKey": "CORE-10140",
+      "resolutionDate": "2026-01-08T14:55:00.000Z",
+      "cycleTimeDays": 22.29861111111111,
+      "issueType": "Task"
+    },
+    {
+      "issueKey": "CORE-9315",
+      "resolutionDate": "2026-01-13T11:18:00.000Z",
+      "cycleTimeDays": 132.28333333333333,
+      "issueType": "Task"
+    },
+    {
+      "issueKey": "CORE-9710",
+      "resolutionDate": "2026-01-13T11:19:00.000Z",
+      "cycleTimeDays": 75.72222222222223,
+      "issueType": "Task"
+    },
+    {
+      "issueKey": "CORE-9998",
+      "resolutionDate": "2026-01-13T11:21:00.000Z",
+      "cycleTimeDays": 56.04097222222222,
+      "issueType": "Task"
+    },
+    {
+      "issueKey": "CORE-9208",
+      "resolutionDate": "2026-01-19T07:17:00.000Z",
+      "cycleTimeDays": 166.78194444444443,
+      "issueType": "Task"
+    },
+    {
+      "issueKey": "CORE-10390",
+      "resolutionDate": "2026-01-19T12:31:00.000Z",
+      "cycleTimeDays": 5.084027777777778,
+      "issueType": "Task"
+    },
+    {
+      "issueKey": "CORE-10479",
+      "resolutionDate": "2026-01-22T08:04:00.000Z",
+      "cycleTimeDays": 0.7638888888888888,
+      "issueType": "Task"
+    },
+    {
+      "issueKey": "CORE-10386",
+      "resolutionDate": "2026-01-23T08:01:00.000Z",
+      "cycleTimeDays": 9.879166666666666,
+      "issueType": "Task"
+    },
+    {
+      "issueKey": "CORE-10409",
+      "resolutionDate": "2026-01-23T09:35:00.000Z",
+      "cycleTimeDays": 7.917361111111111,
+      "issueType": "Task"
+    },
+    {
+      "issueKey": "CORE-9555",
+      "resolutionDate": "2026-01-28T04:42:00.000Z",
+      "cycleTimeDays": 105.82013888888889,
+      "issueType": "Task"
+    },
+    {
+      "issueKey": "CORE-9937",
+      "resolutionDate": "2026-01-28T06:12:00.000Z",
+      "cycleTimeDays": 75.69652777777777,
+      "issueType": "Task"
+    },
+    {
+      "issueKey": "CORE-10197",
+      "resolutionDate": "2026-01-29T07:18:00.000Z",
+      "cycleTimeDays": 23.925,
+      "issueType": "Task"
+    },
+    {
+      "issueKey": "CORE-10171",
+      "resolutionDate": "2026-01-29T07:18:00.000Z",
+      "cycleTimeDays": 23.97013888888889,
+      "issueType": "Task"
+    },
+    {
+      "issueKey": "CORE-10411",
+      "resolutionDate": "2026-01-29T08:53:00.000Z",
+      "cycleTimeDays": 13.063194444444445,
+      "issueType": "Task"
+    },
+    {
+      "issueKey": "CORE-10416",
+      "resolutionDate": "2026-01-29T08:55:00.000Z",
+      "cycleTimeDays": 12.8625,
+      "issueType": "Task"
+    },
+    {
+      "issueKey": "CORE-10137",
+      "resolutionDate": "2026-01-29T10:32:00.000Z",
+      "cycleTimeDays": 44.15972222222222,
+      "issueType": "Task"
+    },
+    {
+      "issueKey": "CORE-10387",
+      "resolutionDate": "2026-01-29T11:27:00.000Z",
+      "cycleTimeDays": 15.980555555555556,
+      "issueType": "Task"
+    },
+    {
+      "issueKey": "CORE-10245",
+      "resolutionDate": "2026-01-29T11:44:00.000Z",
+      "cycleTimeDays": 24.000694444444445,
+      "issueType": "Task"
+    },
+    {
+      "issueKey": "CORE-10205",
+      "resolutionDate": "2026-01-29T12:03:00.000Z",
+      "cycleTimeDays": 24.12152777777778,
+      "issueType": "Task"
+    },
+    {
+      "issueKey": "CORE-10221",
+      "resolutionDate": "2026-01-30T05:59:00.000Z",
+      "cycleTimeDays": 24.76875,
+      "issueType": "Task"
+    },
+    {
+      "issueKey": "CORE-10358",
+      "resolutionDate": "2026-01-30T09:34:00.000Z",
+      "cycleTimeDays": 24.820833333333333,
+      "issueType": "Task"
+    },
+    {
+      "issueKey": "CORE-10472",
+      "resolutionDate": "2026-02-02T06:05:00.000Z",
+      "cycleTimeDays": 11.879166666666666,
+      "issueType": "Bug"
+    },
+    {
+      "issueKey": "CORE-10399",
+      "resolutionDate": "2026-02-02T09:09:00.000Z",
+      "cycleTimeDays": 18.085416666666667,
+      "issueType": "Task"
+    },
+    {
+      "issueKey": "CORE-10383",
+      "resolutionDate": "2026-02-03T07:50:00.000Z",
+      "cycleTimeDays": 21.135416666666668,
+      "issueType": "Task"
+    },
+    {
+      "issueKey": "CORE-9358",
+      "resolutionDate": "2026-02-03T10:46:00.000Z",
+      "cycleTimeDays": 146.92291666666668,
+      "issueType": "Task"
+    },
+    {
+      "issueKey": "CORE-10039",
+      "resolutionDate": "2026-02-04T06:28:00.000Z",
+      "cycleTimeDays": 74.95208333333333,
+      "issueType": "Task"
+    },
+    {
+      "issueKey": "CORE-9346",
+      "resolutionDate": "2026-02-04T10:09:00.000Z",
+      "cycleTimeDays": 148.0125,
+      "issueType": "Task"
+    },
+    {
+      "issueKey": "CORE-9351",
+      "resolutionDate": "2026-02-04T10:31:00.000Z",
+      "cycleTimeDays": 148.0125,
+      "issueType": "Task"
+    },
+    {
+      "issueKey": "CORE-9354",
+      "resolutionDate": "2026-02-04T10:32:00.000Z",
+      "cycleTimeDays": 147.95833333333334,
+      "issueType": "Task"
+    },
+    {
+      "issueKey": "CORE-9348",
+      "resolutionDate": "2026-02-04T11:55:00.000Z",
+      "cycleTimeDays": 148.08541666666667,
+      "issueType": "Task"
+    },
+    {
+      "issueKey": "CORE-9355",
+      "resolutionDate": "2026-02-04T11:57:00.000Z",
+      "cycleTimeDays": 147.9875,
+      "issueType": "Task"
+    },
+    {
+      "issueKey": "CORE-10529",
+      "resolutionDate": "2026-02-04T12:26:00.000Z",
+      "cycleTimeDays": 0.009722222222222222,
+      "issueType": "Story"
+    },
+    {
+      "issueKey": "CORE-10285",
+      "resolutionDate": "2026-02-04T12:45:00.000Z",
+      "cycleTimeDays": 30.038888888888888,
+      "issueType": "Task"
+    },
+    {
+      "issueKey": "CORE-10189",
+      "resolutionDate": "2026-02-04T12:55:00.000Z",
+      "cycleTimeDays": 30.165972222222223,
+      "issueType": "Task"
+    },
+    {
+      "issueKey": "CORE-9344",
+      "resolutionDate": "2026-02-04T14:49:00.000Z",
+      "cycleTimeDays": 148.20694444444445,
+      "issueType": "Task"
+    },
+    {
+      "issueKey": "CORE-9356",
+      "resolutionDate": "2026-02-04T15:10:00.000Z",
+      "cycleTimeDays": 148.11875,
+      "issueType": "Task"
+    },
+    {
+      "issueKey": "CORE-10395",
+      "resolutionDate": "2026-02-05T08:17:00.000Z",
+      "cycleTimeDays": 21.099305555555556,
+      "issueType": "Task"
+    },
+    {
+      "issueKey": "CORE-10531",
+      "resolutionDate": "2026-02-05T08:55:00.000Z",
+      "cycleTimeDays": 0.030555555555555555,
+      "issueType": "Task"
+    },
+    {
+      "issueKey": "CORE-10528",
+      "resolutionDate": "2026-02-05T09:31:00.000Z",
+      "cycleTimeDays": 0.8888888888888888,
+      "issueType": "Story"
+    },
+    {
+      "issueKey": "CORE-9347",
+      "resolutionDate": "2026-02-05T13:44:00.000Z",
+      "cycleTimeDays": 149.1611111111111,
+      "issueType": "Task"
+    },
+    {
+      "issueKey": "CORE-10213",
+      "resolutionDate": "2026-02-06T12:11:00.000Z",
+      "cycleTimeDays": 32.125,
+      "issueType": "Task"
+    },
+    {
+      "issueKey": "CORE-9564",
+      "resolutionDate": "2026-02-09T20:09:00.000Z",
+      "cycleTimeDays": 117.59444444444445,
+      "issueType": "Story"
+    },
+    {
+      "issueKey": "CORE-10301",
+      "resolutionDate": "2026-02-10T05:21:00.000Z",
+      "cycleTimeDays": 35.71180555555556,
+      "issueType": "Task"
+    },
+    {
+      "issueKey": "CORE-10008",
+      "resolutionDate": "2026-02-10T08:03:00.000Z",
+      "cycleTimeDays": 83.89305555555555,
+      "issueType": "Task"
+    },
+    {
+      "issueKey": "CORE-9655",
+      "resolutionDate": "2026-02-10T09:11:00.000Z",
+      "cycleTimeDays": 110.12708333333333,
+      "issueType": "Task"
+    },
+    {
+      "issueKey": "CORE-9699",
+      "resolutionDate": "2026-02-10T09:12:00.000Z",
+      "cycleTimeDays": 104.0375,
+      "issueType": "Task"
+    },
+    {
+      "issueKey": "CORE-10181",
+      "resolutionDate": "2026-02-10T10:00:00.000Z",
+      "cycleTimeDays": 36.046527777777776,
+      "issueType": "Task"
+    },
+    {
+      "issueKey": "CORE-10499",
+      "resolutionDate": "2026-02-10T10:06:00.000Z",
+      "cycleTimeDays": 14.145138888888889,
+      "issueType": "Task"
+    },
+    {
+      "issueKey": "CORE-10253",
+      "resolutionDate": "2026-02-10T10:52:00.000Z",
+      "cycleTimeDays": 35.96319444444445,
+      "issueType": "Task"
+    },
+    {
+      "issueKey": "CORE-10398",
+      "resolutionDate": "2026-02-10T11:40:00.000Z",
+      "cycleTimeDays": 26.197916666666668,
+      "issueType": "Task"
+    },
+    {
+      "issueKey": "CORE-10397",
+      "resolutionDate": "2026-02-12T06:29:00.000Z",
+      "cycleTimeDays": 27.985416666666666,
+      "issueType": "Task"
+    },
+    {
+      "issueKey": "CORE-10520",
+      "resolutionDate": "2026-02-12T11:21:00.000Z",
+      "cycleTimeDays": 10.049305555555556,
+      "issueType": "Task"
+    },
+    {
+      "issueKey": "CORE-10261",
+      "resolutionDate": "2026-02-12T12:11:00.000Z",
+      "cycleTimeDays": 38.017361111111114,
+      "issueType": "Task"
+    },
+    {
+      "issueKey": "CORE-10269",
+      "resolutionDate": "2026-02-12T12:12:00.000Z",
+      "cycleTimeDays": 38.017361111111114,
+      "issueType": "Task"
+    },
+    {
+      "issueKey": "CORE-9291",
+      "resolutionDate": "2026-02-12T14:02:00.000Z",
+      "cycleTimeDays": 165.31666666666666,
+      "issueType": "Task"
+    },
+    {
+      "issueKey": "CORE-9213",
+      "resolutionDate": "2026-02-18T10:26:00.000Z",
+      "cycleTimeDays": 196.02430555555554,
+      "issueType": "Task"
+    },
+    {
+      "issueKey": "CORE-10376",
+      "resolutionDate": "2026-02-19T10:18:00.000Z",
+      "cycleTimeDays": 41.12916666666667,
+      "issueType": "Task"
+    },
+    {
+      "issueKey": "CORE-10369",
+      "resolutionDate": "2026-02-20T13:29:00.000Z",
+      "cycleTimeDays": 43.02986111111111,
+      "issueType": "Task"
+    },
+    {
+      "issueKey": "CORE-10590",
+      "resolutionDate": "2026-02-23T04:20:00.000Z",
+      "cycleTimeDays": 3.602777777777778,
+      "issueType": "Task"
+    },
+    {
+      "issueKey": "CORE-9221",
+      "resolutionDate": "2026-02-23T10:53:00.000Z",
+      "cycleTimeDays": 196.23194444444445,
+      "issueType": "Task"
+    },
+    {
+      "issueKey": "CORE-10538",
+      "resolutionDate": "2026-02-24T06:10:00.000Z",
+      "cycleTimeDays": 17.710416666666667,
+      "issueType": "Task"
+    },
+    {
+      "issueKey": "CORE-10594",
+      "resolutionDate": "2026-02-24T06:15:00.000Z",
+      "cycleTimeDays": 0.94375,
+      "issueType": "Task"
+    },
+    {
+      "issueKey": "CORE-10124",
+      "resolutionDate": "2026-02-25T05:19:00.000Z",
+      "cycleTimeDays": 75.89305555555555,
+      "issueType": "Task"
+    },
+    {
+      "issueKey": "CORE-10412",
+      "resolutionDate": "2026-02-26T10:42:00.000Z",
+      "cycleTimeDays": 41.019444444444446,
+      "issueType": "Task"
+    },
+    {
+      "issueKey": "CORE-10392",
+      "resolutionDate": "2026-02-26T10:42:00.000Z",
+      "cycleTimeDays": 42.89930555555556,
+      "issueType": "Task"
+    },
+    {
+      "issueKey": "CORE-9350",
+      "resolutionDate": "2026-02-26T13:33:00.000Z",
+      "cycleTimeDays": 170.15277777777777,
+      "issueType": "Task"
+    },
+    {
+      "issueKey": "CORE-10341",
+      "resolutionDate": "2026-02-26T14:15:00.000Z",
+      "cycleTimeDays": 52.077777777777776,
+      "issueType": "Task"
+    },
+    {
+      "issueKey": "CORE-10385",
+      "resolutionDate": "2026-02-27T04:31:00.000Z",
+      "cycleTimeDays": 44.83819444444445,
+      "issueType": "Task"
+    }
+  ],
+  "scatterOverlay": {
+    "p50": 39,
+    "p70": 86,
+    "p85": 149,
+    "p95": 166
+  },
+  "velocityMonthly": [
+    {
+      "month": "2025-12",
+      "value": 1
+    },
+    {
+      "month": "2026-01",
+      "value": 24
+    },
+    {
+      "month": "2026-02",
+      "value": 47
+    }
+  ],
+  "doneIssueDetails": [
+    {
+      "issueKey": "CORE-10594",
+      "resolutionDate": "2026-02-24T06:15:00.000Z",
+      "cycleTimeDays": 0.94375,
+      "issueType": "Task",
+      "storyPoints": null,
+      "sprintCount": 0
+    },
+    {
+      "issueKey": "CORE-10590",
+      "resolutionDate": "2026-02-23T04:20:00.000Z",
+      "cycleTimeDays": 3.602777777777778,
+      "issueType": "Task",
+      "storyPoints": null,
+      "sprintCount": 0
+    },
+    {
+      "issueKey": "CORE-10538",
+      "resolutionDate": "2026-02-24T06:10:00.000Z",
+      "cycleTimeDays": 17.710416666666667,
+      "issueType": "Task",
+      "storyPoints": null,
+      "sprintCount": 0
+    },
+    {
+      "issueKey": "CORE-10531",
+      "resolutionDate": "2026-02-05T08:55:00.000Z",
+      "cycleTimeDays": 0.030555555555555555,
+      "issueType": "Task",
+      "storyPoints": null,
+      "sprintCount": 0
+    },
+    {
+      "issueKey": "CORE-10529",
+      "resolutionDate": "2026-02-04T12:26:00.000Z",
+      "cycleTimeDays": 0.009722222222222222,
+      "issueType": "Story",
+      "storyPoints": null,
+      "sprintCount": 0
+    },
+    {
+      "issueKey": "CORE-10528",
+      "resolutionDate": "2026-02-05T09:31:00.000Z",
+      "cycleTimeDays": 0.8888888888888888,
+      "issueType": "Story",
+      "storyPoints": null,
+      "sprintCount": 0
+    },
+    {
+      "issueKey": "CORE-10520",
+      "resolutionDate": "2026-02-12T11:21:00.000Z",
+      "cycleTimeDays": 10.049305555555556,
+      "issueType": "Task",
+      "storyPoints": null,
+      "sprintCount": 0
+    },
+    {
+      "issueKey": "CORE-10499",
+      "resolutionDate": "2026-02-10T10:06:00.000Z",
+      "cycleTimeDays": 14.145138888888889,
+      "issueType": "Task",
+      "storyPoints": null,
+      "sprintCount": 0
+    },
+    {
+      "issueKey": "CORE-10479",
+      "resolutionDate": "2026-01-22T08:04:00.000Z",
+      "cycleTimeDays": 0.7638888888888888,
+      "issueType": "Task",
+      "storyPoints": null,
+      "sprintCount": 0
+    },
+    {
+      "issueKey": "CORE-10472",
+      "resolutionDate": "2026-02-02T06:05:00.000Z",
+      "cycleTimeDays": 11.879166666666666,
+      "issueType": "Bug",
+      "storyPoints": null,
+      "sprintCount": 0
+    },
+    {
+      "issueKey": "CORE-10416",
+      "resolutionDate": "2026-01-29T08:55:00.000Z",
+      "cycleTimeDays": 12.8625,
+      "issueType": "Task",
+      "storyPoints": null,
+      "sprintCount": 1
+    },
+    {
+      "issueKey": "CORE-10412",
+      "resolutionDate": "2026-02-26T10:42:00.000Z",
+      "cycleTimeDays": 41.019444444444446,
+      "issueType": "Task",
+      "storyPoints": null,
+      "sprintCount": 1
+    },
+    {
+      "issueKey": "CORE-10411",
+      "resolutionDate": "2026-01-29T08:53:00.000Z",
+      "cycleTimeDays": 13.063194444444445,
+      "issueType": "Task",
+      "storyPoints": null,
+      "sprintCount": 1
+    },
+    {
+      "issueKey": "CORE-10409",
+      "resolutionDate": "2026-01-23T09:35:00.000Z",
+      "cycleTimeDays": 7.917361111111111,
+      "issueType": "Task",
+      "storyPoints": null,
+      "sprintCount": 1
+    },
+    {
+      "issueKey": "CORE-10399",
+      "resolutionDate": "2026-02-02T09:09:00.000Z",
+      "cycleTimeDays": 18.085416666666667,
+      "issueType": "Task",
+      "storyPoints": null,
+      "sprintCount": 0
+    },
+    {
+      "issueKey": "CORE-10398",
+      "resolutionDate": "2026-02-10T11:40:00.000Z",
+      "cycleTimeDays": 26.197916666666668,
+      "issueType": "Task",
+      "storyPoints": null,
+      "sprintCount": 0
+    },
+    {
+      "issueKey": "CORE-10397",
+      "resolutionDate": "2026-02-12T06:29:00.000Z",
+      "cycleTimeDays": 27.985416666666666,
+      "issueType": "Task",
+      "storyPoints": null,
+      "sprintCount": 0
+    },
+    {
+      "issueKey": "CORE-10395",
+      "resolutionDate": "2026-02-05T08:17:00.000Z",
+      "cycleTimeDays": 21.099305555555556,
+      "issueType": "Task",
+      "storyPoints": null,
+      "sprintCount": 1
+    },
+    {
+      "issueKey": "CORE-10392",
+      "resolutionDate": "2026-02-26T10:42:00.000Z",
+      "cycleTimeDays": 42.89930555555556,
+      "issueType": "Task",
+      "storyPoints": null,
+      "sprintCount": 1
+    },
+    {
+      "issueKey": "CORE-10390",
+      "resolutionDate": "2026-01-19T12:31:00.000Z",
+      "cycleTimeDays": 5.084027777777778,
+      "issueType": "Task",
+      "storyPoints": null,
+      "sprintCount": 0
+    },
+    {
+      "issueKey": "CORE-10387",
+      "resolutionDate": "2026-01-29T11:27:00.000Z",
+      "cycleTimeDays": 15.980555555555556,
+      "issueType": "Task",
+      "storyPoints": null,
+      "sprintCount": 0
+    },
+    {
+      "issueKey": "CORE-10386",
+      "resolutionDate": "2026-01-23T08:01:00.000Z",
+      "cycleTimeDays": 9.879166666666666,
+      "issueType": "Task",
+      "storyPoints": null,
+      "sprintCount": 1
+    },
+    {
+      "issueKey": "CORE-10385",
+      "resolutionDate": "2026-02-27T04:31:00.000Z",
+      "cycleTimeDays": 44.83819444444445,
+      "issueType": "Task",
+      "storyPoints": null,
+      "sprintCount": 0
+    },
+    {
+      "issueKey": "CORE-10383",
+      "resolutionDate": "2026-02-03T07:50:00.000Z",
+      "cycleTimeDays": 21.135416666666668,
+      "issueType": "Task",
+      "storyPoints": null,
+      "sprintCount": 0
+    },
+    {
+      "issueKey": "CORE-10376",
+      "resolutionDate": "2026-02-19T10:18:00.000Z",
+      "cycleTimeDays": 41.12916666666667,
+      "issueType": "Task",
+      "storyPoints": null,
+      "sprintCount": 1
+    },
+    {
+      "issueKey": "CORE-10369",
+      "resolutionDate": "2026-02-20T13:29:00.000Z",
+      "cycleTimeDays": 43.02986111111111,
+      "issueType": "Task",
+      "storyPoints": null,
+      "sprintCount": 1
+    },
+    {
+      "issueKey": "CORE-10358",
+      "resolutionDate": "2026-01-30T09:34:00.000Z",
+      "cycleTimeDays": 24.820833333333333,
+      "issueType": "Task",
+      "storyPoints": null,
+      "sprintCount": 0
+    },
+    {
+      "issueKey": "CORE-10341",
+      "resolutionDate": "2026-02-26T14:15:00.000Z",
+      "cycleTimeDays": 52.077777777777776,
+      "issueType": "Task",
+      "storyPoints": null,
+      "sprintCount": 1
+    },
+    {
+      "issueKey": "CORE-10301",
+      "resolutionDate": "2026-02-10T05:21:00.000Z",
+      "cycleTimeDays": 35.71180555555556,
+      "issueType": "Task",
+      "storyPoints": null,
+      "sprintCount": 2
+    },
+    {
+      "issueKey": "CORE-10285",
+      "resolutionDate": "2026-02-04T12:45:00.000Z",
+      "cycleTimeDays": 30.038888888888888,
+      "issueType": "Task",
+      "storyPoints": null,
+      "sprintCount": 1
+    },
+    {
+      "issueKey": "CORE-10269",
+      "resolutionDate": "2026-02-12T12:12:00.000Z",
+      "cycleTimeDays": 38.017361111111114,
+      "issueType": "Task",
+      "storyPoints": null,
+      "sprintCount": 1
+    },
+    {
+      "issueKey": "CORE-10261",
+      "resolutionDate": "2026-02-12T12:11:00.000Z",
+      "cycleTimeDays": 38.017361111111114,
+      "issueType": "Task",
+      "storyPoints": null,
+      "sprintCount": 1
+    },
+    {
+      "issueKey": "CORE-10253",
+      "resolutionDate": "2026-02-10T10:52:00.000Z",
+      "cycleTimeDays": 35.96319444444445,
+      "issueType": "Task",
+      "storyPoints": null,
+      "sprintCount": 1
+    },
+    {
+      "issueKey": "CORE-10245",
+      "resolutionDate": "2026-01-29T11:44:00.000Z",
+      "cycleTimeDays": 24.000694444444445,
+      "issueType": "Task",
+      "storyPoints": null,
+      "sprintCount": 1
+    },
+    {
+      "issueKey": "CORE-10221",
+      "resolutionDate": "2026-01-30T05:59:00.000Z",
+      "cycleTimeDays": 24.76875,
+      "issueType": "Task",
+      "storyPoints": null,
+      "sprintCount": 1
+    },
+    {
+      "issueKey": "CORE-10213",
+      "resolutionDate": "2026-02-06T12:11:00.000Z",
+      "cycleTimeDays": 32.125,
+      "issueType": "Task",
+      "storyPoints": null,
+      "sprintCount": 1
+    },
+    {
+      "issueKey": "CORE-10205",
+      "resolutionDate": "2026-01-29T12:03:00.000Z",
+      "cycleTimeDays": 24.12152777777778,
+      "issueType": "Task",
+      "storyPoints": null,
+      "sprintCount": 1
+    },
+    {
+      "issueKey": "CORE-10197",
+      "resolutionDate": "2026-01-29T07:18:00.000Z",
+      "cycleTimeDays": 23.925,
+      "issueType": "Task",
+      "storyPoints": null,
+      "sprintCount": 1
+    },
+    {
+      "issueKey": "CORE-10189",
+      "resolutionDate": "2026-02-04T12:55:00.000Z",
+      "cycleTimeDays": 30.165972222222223,
+      "issueType": "Task",
+      "storyPoints": null,
+      "sprintCount": 1
+    },
+    {
+      "issueKey": "CORE-10181",
+      "resolutionDate": "2026-02-10T10:00:00.000Z",
+      "cycleTimeDays": 36.046527777777776,
+      "issueType": "Task",
+      "storyPoints": null,
+      "sprintCount": 1
+    },
+    {
+      "issueKey": "CORE-10171",
+      "resolutionDate": "2026-01-29T07:18:00.000Z",
+      "cycleTimeDays": 23.97013888888889,
+      "issueType": "Task",
+      "storyPoints": null,
+      "sprintCount": 1
+    },
+    {
+      "issueKey": "CORE-10155",
+      "resolutionDate": "2026-01-06T09:26:00.000Z",
+      "cycleTimeDays": 7.927777777777778,
+      "issueType": "Task",
+      "storyPoints": null,
+      "sprintCount": 0
+    },
+    {
+      "issueKey": "CORE-10140",
+      "resolutionDate": "2026-01-08T14:55:00.000Z",
+      "cycleTimeDays": 22.29861111111111,
+      "issueType": "Task",
+      "storyPoints": null,
+      "sprintCount": 1
+    },
+    {
+      "issueKey": "CORE-10137",
+      "resolutionDate": "2026-01-29T10:32:00.000Z",
+      "cycleTimeDays": 44.15972222222222,
+      "issueType": "Task",
+      "storyPoints": null,
+      "sprintCount": 1
+    },
+    {
+      "issueKey": "CORE-10124",
+      "resolutionDate": "2026-02-25T05:19:00.000Z",
+      "cycleTimeDays": 75.89305555555555,
+      "issueType": "Task",
+      "storyPoints": null,
+      "sprintCount": 0
+    },
+    {
+      "issueKey": "CORE-10039",
+      "resolutionDate": "2026-02-04T06:28:00.000Z",
+      "cycleTimeDays": 74.95208333333333,
+      "issueType": "Task",
+      "storyPoints": null,
+      "sprintCount": 0
+    },
+    {
+      "issueKey": "CORE-10008",
+      "resolutionDate": "2026-02-10T08:03:00.000Z",
+      "cycleTimeDays": 83.89305555555555,
+      "issueType": "Task",
+      "storyPoints": null,
+      "sprintCount": 0
+    },
+    {
+      "issueKey": "CORE-9998",
+      "resolutionDate": "2026-01-13T11:21:00.000Z",
+      "cycleTimeDays": 56.04097222222222,
+      "issueType": "Task",
+      "storyPoints": null,
+      "sprintCount": 0
+    },
+    {
+      "issueKey": "CORE-9937",
+      "resolutionDate": "2026-01-28T06:12:00.000Z",
+      "cycleTimeDays": 75.69652777777777,
+      "issueType": "Task",
+      "storyPoints": null,
+      "sprintCount": 0
+    },
+    {
+      "issueKey": "CORE-9710",
+      "resolutionDate": "2026-01-13T11:19:00.000Z",
+      "cycleTimeDays": 75.72222222222223,
+      "issueType": "Task",
+      "storyPoints": null,
+      "sprintCount": 0
+    },
+    {
+      "issueKey": "CORE-9699",
+      "resolutionDate": "2026-02-10T09:12:00.000Z",
+      "cycleTimeDays": 104.0375,
+      "issueType": "Task",
+      "storyPoints": null,
+      "sprintCount": 0
+    },
+    {
+      "issueKey": "CORE-9655",
+      "resolutionDate": "2026-02-10T09:11:00.000Z",
+      "cycleTimeDays": 110.12708333333333,
+      "issueType": "Task",
+      "storyPoints": null,
+      "sprintCount": 0
+    },
+    {
+      "issueKey": "CORE-9564",
+      "resolutionDate": "2026-02-09T20:09:00.000Z",
+      "cycleTimeDays": 117.59444444444445,
+      "issueType": "Story",
+      "storyPoints": null,
+      "sprintCount": 0
+    },
+    {
+      "issueKey": "CORE-9558",
+      "resolutionDate": "2026-01-08T11:39:00.000Z",
+      "cycleTimeDays": 86.00625,
+      "issueType": "Task",
+      "storyPoints": null,
+      "sprintCount": 1
+    },
+    {
+      "issueKey": "CORE-9555",
+      "resolutionDate": "2026-01-28T04:42:00.000Z",
+      "cycleTimeDays": 105.82013888888889,
+      "issueType": "Task",
+      "storyPoints": null,
+      "sprintCount": 1
+    },
+    {
+      "issueKey": "CORE-9358",
+      "resolutionDate": "2026-02-03T10:46:00.000Z",
+      "cycleTimeDays": 146.92291666666668,
+      "issueType": "Task",
+      "storyPoints": null,
+      "sprintCount": 1
+    },
+    {
+      "issueKey": "CORE-9357",
+      "resolutionDate": "2025-12-15T13:45:00.000Z",
+      "cycleTimeDays": 97.05694444444444,
+      "issueType": "Task",
+      "storyPoints": null,
+      "sprintCount": 0
+    },
+    {
+      "issueKey": "CORE-9356",
+      "resolutionDate": "2026-02-04T15:10:00.000Z",
+      "cycleTimeDays": 148.11875,
+      "issueType": "Task",
+      "storyPoints": null,
+      "sprintCount": 0
+    },
+    {
+      "issueKey": "CORE-9355",
+      "resolutionDate": "2026-02-04T11:57:00.000Z",
+      "cycleTimeDays": 147.9875,
+      "issueType": "Task",
+      "storyPoints": null,
+      "sprintCount": 0
+    },
+    {
+      "issueKey": "CORE-9354",
+      "resolutionDate": "2026-02-04T10:32:00.000Z",
+      "cycleTimeDays": 147.95833333333334,
+      "issueType": "Task",
+      "storyPoints": null,
+      "sprintCount": 0
+    },
+    {
+      "issueKey": "CORE-9351",
+      "resolutionDate": "2026-02-04T10:31:00.000Z",
+      "cycleTimeDays": 148.0125,
+      "issueType": "Task",
+      "storyPoints": null,
+      "sprintCount": 0
+    },
+    {
+      "issueKey": "CORE-9350",
+      "resolutionDate": "2026-02-26T13:33:00.000Z",
+      "cycleTimeDays": 170.15277777777777,
+      "issueType": "Task",
+      "storyPoints": null,
+      "sprintCount": 0
+    },
+    {
+      "issueKey": "CORE-9348",
+      "resolutionDate": "2026-02-04T11:55:00.000Z",
+      "cycleTimeDays": 148.08541666666667,
+      "issueType": "Task",
+      "storyPoints": null,
+      "sprintCount": 0
+    },
+    {
+      "issueKey": "CORE-9347",
+      "resolutionDate": "2026-02-05T13:44:00.000Z",
+      "cycleTimeDays": 149.1611111111111,
+      "issueType": "Task",
+      "storyPoints": null,
+      "sprintCount": 0
+    },
+    {
+      "issueKey": "CORE-9346",
+      "resolutionDate": "2026-02-04T10:09:00.000Z",
+      "cycleTimeDays": 148.0125,
+      "issueType": "Task",
+      "storyPoints": null,
+      "sprintCount": 0
+    },
+    {
+      "issueKey": "CORE-9344",
+      "resolutionDate": "2026-02-04T14:49:00.000Z",
+      "cycleTimeDays": 148.20694444444445,
+      "issueType": "Task",
+      "storyPoints": null,
+      "sprintCount": 0
+    },
+    {
+      "issueKey": "CORE-9315",
+      "resolutionDate": "2026-01-13T11:18:00.000Z",
+      "cycleTimeDays": 132.28333333333333,
+      "issueType": "Task",
+      "storyPoints": null,
+      "sprintCount": 0
+    },
+    {
+      "issueKey": "CORE-9291",
+      "resolutionDate": "2026-02-12T14:02:00.000Z",
+      "cycleTimeDays": 165.31666666666666,
+      "issueType": "Task",
+      "storyPoints": null,
+      "sprintCount": 0
+    },
+    {
+      "issueKey": "CORE-9221",
+      "resolutionDate": "2026-02-23T10:53:00.000Z",
+      "cycleTimeDays": 196.23194444444445,
+      "issueType": "Task",
+      "storyPoints": null,
+      "sprintCount": 1
+    },
+    {
+      "issueKey": "CORE-9214",
+      "resolutionDate": "2026-01-06T07:48:00.000Z",
+      "cycleTimeDays": 152.90555555555557,
+      "issueType": "Task",
+      "storyPoints": null,
+      "sprintCount": 0
+    },
+    {
+      "issueKey": "CORE-9213",
+      "resolutionDate": "2026-02-18T10:26:00.000Z",
+      "cycleTimeDays": 196.02430555555554,
+      "issueType": "Task",
+      "storyPoints": null,
+      "sprintCount": 1
+    },
+    {
+      "issueKey": "CORE-9208",
+      "resolutionDate": "2026-01-19T07:17:00.000Z",
+      "cycleTimeDays": 166.78194444444443,
+      "issueType": "Task",
+      "storyPoints": null,
+      "sprintCount": 0
+    }
+  ],
+  "multiSprint": {
+    "count": 1,
+    "percentage": 1.3888888888888888
+  }
+}

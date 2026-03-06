@@ -1,0 +1,60 @@
+[
+  {
+    "period": "2026-01",
+    "columns": [
+      {
+        "name": "In Progress",
+        "avgDays": 6.462284482758623
+      },
+      {
+        "name": "Acceptance test",
+        "avgDays": 1.4108506944444446
+      },
+      {
+        "name": "Code review",
+        "avgDays": 6.115318627450981
+      },
+      {
+        "name": "Ready for Release",
+        "avgDays": 58.56180555555556
+      },
+      {
+        "name": "Test",
+        "avgDays": 2.1375
+      },
+      {
+        "name": "To Do",
+        "avgDays": 0.9254629629629628
+      }
+    ]
+  },
+  {
+    "period": "2026-02",
+    "columns": [
+      {
+        "name": "In Progress",
+        "avgDays": 8.940705128205128
+      },
+      {
+        "name": "Acceptance test",
+        "avgDays": 3.619861111111111
+      },
+      {
+        "name": "Code review",
+        "avgDays": 2.1324252136752135
+      },
+      {
+        "name": "Ready for Release",
+        "avgDays": 1.67354797979798
+      },
+      {
+        "name": "Test",
+        "avgDays": 0.9208333333333333
+      },
+      {
+        "name": "To Do",
+        "avgDays": 0.9105902777777777
+      }
+    ]
+  }
+]

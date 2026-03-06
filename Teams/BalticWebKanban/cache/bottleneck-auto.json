@@ -1,0 +1,24 @@
+[
+  {
+    "period": "2026-01",
+    "columns": [
+      {
+        "name": "In Progress",
+        "avgDays": 1.9101316503800225
+      }
+    ]
+  },
+  {
+    "period": "2026-02",
+    "columns": [
+      {
+        "name": "In Progress",
+        "avgDays": 1.7138672395417005
+      },
+      {
+        "name": "Code Review",
+        "avgDays": 0.04444444444444444
+      }
+    ]
+  }
+]

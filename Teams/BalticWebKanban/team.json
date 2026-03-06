@@ -1,0 +1,129 @@
+{
+  "teamName": "BalticWebKanban",
+  "doneConfig": {
+    "useStatusCategoryDone": false,
+    "doneStatuses": [
+      "AC Test",
+      "Done",
+      "canceled"
+    ]
+  },
+  "sleConfig": {
+    "percentiles": [
+      50,
+      70,
+      85,
+      95
+    ],
+    "rounding": "ceil"
+  },
+  "mapping": {
+    "key": "Issue key",
+    "created": "Created",
+    "resolutionDate": "Resolved",
+    "updated": "Updated",
+    "status": "Status",
+    "resolution": "Resolution",
+    "storyPoints": "Story points",
+    "sprint": "Sprint",
+    "issueType": "Issue Type"
+  },
+  "cycleTimeConfig": {
+    "endDateSource": "updatedOnly"
+  },
+  "excludedIssueKeys": [
+    "BWEBDEV-368",
+    "BWEBDEV-369",
+    "BWEBDEV-4824",
+    "BWEBDEV-4928",
+    "BWEBDEV-5100",
+    "BWEBDEV-5562",
+    "BWEBDEV-5580",
+    "BWEBDEV-5845",
+    "BWEBDEV-6173",
+    "BWEBDEV-6512",
+    "BWEBDEV-6639",
+    "BWEBDEV-6804",
+    "BWEBDEV-6807",
+    "BWEBDEV-6864",
+    "BWEBDEV-6890",
+    "BWEBDEV-6893",
+    "BWEBDEV-6897",
+    "BWEBDEV-6906",
+    "BWEBDEV-6915",
+    "BWEBDEV-6938",
+    "BWEBDEV-6959",
+    "BWEBDEV-6964",
+    "BWEBDEV-6985",
+    "BWEBDEV-6992",
+    "BWEBDEV-6997",
+    "BWEBDEV-7000",
+    "BWEBDEV-7019",
+    "BWEBDEV-7020",
+    "BWEBDEV-7045",
+    "BWEBDEV-7046",
+    "BWEBDEV-7058",
+    "BWEBDEV-7091",
+    "BWEBDEV-7104",
+    "BWEBDEV-7105",
+    "BWEBDEV-7110",
+    "BWEBDEV-7116",
+    "BWEBDEV-7149",
+    "BWEBDEV-7157",
+    "BWEBDEV-7181",
+    "BWEBDEV-7185",
+    "BWEBDEV-7190",
+    "BWEBDEV-7203",
+    "BWEBDEV-7219",
+    "BWEBDEV-7225",
+    "BWEBDEV-7256",
+    "BWEBDEV-7268",
+    "BWEBDEV-7277",
+    "BWEBDEV-7301",
+    "BWEBDEV-7322",
+    "BWEBDEV-7331",
+    "BWEBDEV-7361",
+    "BWEBDEV-7378",
+    "BWEBDEV-7397",
+    "BWEBDEV-7420",
+    "BWEBDEV-7445",
+    "BWEBDEV-7498",
+    "BWEBDEV-7536",
+    "BWEBDEV-7542",
+    "BWEBDEV-7635",
+    "BWEBDEV-7940"
+  ],
+  "velocityConfig": {
+    "mode": "weekly"
+  },
+  "bottleneckConfig": {
+    "flowStatuses": [
+      "In Progress",
+      "Code Review",
+      "Test",
+      "Acceptance"
+    ]
+  },
+  "bugConfig": {
+    "issueTypes": [
+      "bug"
+    ]
+  },
+  "jiraQuery": {
+    "defaultQueryId": "default",
+    "queries": [
+      {
+        "id": "default",
+        "name": "Team Import Query",
+        "jql": "project = YOURPROJECT ORDER BY updated DESC",
+        "note": "Edit this query for the team scope."
+      },
+      {
+        "id": "team-import-query",
+        "name": "Team Import Query",
+        "jql": "project = \"Baltic Web Development\" AND Topic in (\"E-Mails & Bank messages\", \"Feedback Widgets\", \"Marketing Campaign\", \"Offers & Banners\", \"PDF-s\", \"Small iBank changes (updating few labels/pictures)\") AND status in (\"AC Test\" ,\"Done\") and status changed DURING (startOfYear(), endOfYear())",
+        "note": "Edit this query for the team scope."
+      }
+    ]
+  }
+}

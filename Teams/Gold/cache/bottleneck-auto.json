@@ -1,0 +1,84 @@
+[
+  {
+    "period": "2026-01",
+    "columns": [
+      {
+        "name": "On Hold",
+        "avgDays": 48.04201388888889
+      },
+      {
+        "name": "Refinement",
+        "avgDays": 41.441805555555554
+      },
+      {
+        "name": "Development",
+        "avgDays": 29.08234126984127
+      },
+      {
+        "name": "To Do",
+        "avgDays": 17.3657196969697
+      },
+      {
+        "name": "Open",
+        "avgDays": 15.34943783068783
+      },
+      {
+        "name": "Analysis",
+        "avgDays": 7.857638888888888
+      },
+      {
+        "name": "Testing",
+        "avgDays": 3.8941840277777775
+      },
+      {
+        "name": "Ready for Testing",
+        "avgDays": 3.4111496913580246
+      },
+      {
+        "name": "Code review",
+        "avgDays": 1.725
+      }
+    ]
+  },
+  {
+    "period": "2026-02",
+    "columns": [
+      {
+        "name": "Open",
+        "avgDays": 43.33546511627906
+      },
+      {
+        "name": "Refinement",
+        "avgDays": 37.62604166666667
+      },
+      {
+        "name": "On Hold",
+        "avgDays": 26.149768518518517
+      },
+      {
+        "name": "Ready for Testing",
+        "avgDays": 19.649305555555557
+      },
+      {
+        "name": "To Do",
+        "avgDays": 10.703449820788533
+      },
+      {
+        "name": "Development",
+        "avgDays": 9.59693100358423
+      },
+      {
+        "name": "Testing",
+        "avgDays": 7.831666666666667
+      },
+      {
+        "name": "Analysis",
+        "avgDays": 4.123611111111111
+      },
+      {
+        "name": "Code review",
+        "avgDays": 2.447519841269841
+      }
+    ]
+  }
+]

@@ -1,0 +1,99 @@
+﻿Type,Key,Resolution Date,Backlog,To Do,On Hold,In Progress,Code review,Ready for Release,Acceptance test,Test,Done,Canceled
+,,,41d 22h 12m,0d 8h 6m,223d 19h 7m,6d 3h 53m,3d 9h 24m,13d 20h 50m,1d 21h 35m,0d 20h 40m,26d 22h 40m,33d 10h 6m
+,IBSET-974,,0d 0h 0m,0d 0h 0m,,0d 6h 15m,,,,,0d 20h 1m,
+,IBSET-971,,0d 0h 1m,2d 6h 8m,,0d 0h 0m,,,,,3d 19h 52m,
+,IBSET-965,,0d 0h 40m,0d 20h 21m,,2d 23h 54m,,,,,3d 7h 1m,
+,IBSET-963,,0d 5h 9m,,,0d 0h 40m,,,,,13d 21h 1m,
+,IBSET-962,,0d 0h 1m,0d 9h 49m,,0d 0h 0m,0d 0h 0m,0d 0h 0m,,,14d 16h 16m,
+,IBSET-961,,0d 3h 47m,,,0d 1h 57m,1d 19h 52m,0d 0h 0m,0d 0h 0m,,13d 5h 3m,
+,IBSET-960,,4d 23h 19m,0d 0h 0m,,6d 23h 37m,,,,,3d 7h 50m,
+,IBSET-959,,5d 22h 22m,,,0d 0h 0m,0d 1h 55m,0d 0h 0m,,,10d 3h 15m,
+,IBSET-958,,5d 22h 34m,0d 0h 0m,,0d 0h 0m,1d 0h 25m,0d 0h 0m,,,9d 4h 52m,
+,IBSET-957,,0d 0h 0m,,,0d 3h 4m,,0d 0h 0m,0d 16h 13m,0d 0h 0m,15d 8h 40m,
+,IBSET-956,,3d 0h 28m,,,2d 21h 4m,0d 0h 13m,0d 0h 0m,,,10d 7h 18m,
+,IBSET-955,,3d 0h 13m,,,0d 0h 0m,2d 21h 50m,0d 0h 0m,0d 0h 0m,,10d 7h 19m,
+,IBSET-954,,3d 2h 15m,,,0d 0h 3m,2d 21h 16m,0d 0h 0m,,,10d 7h 34m,
+,IBSET-953,,3d 1h 27m,,,0d 0h 0m,2d 22h 37m,0d 0h 0m,,,10d 7h 19m,
+,IBSET-952,,2d 5h 0m,,,0d 0h 0m,0d 2h 37m,0d 0h 0m,0d 0h 0m,0d 0h 0m,14d 0h 25m,
+,IBSET-951,,8d 6h 11m,,,,,,,,,8d 2h 45m
+,IBSET-950,,2d 15h 42m,,,0d 0h 0m,,0d 0h 0m,,,14d 16h 18m,
+,IBSET-949,,0d 0h 0m,,,2d 4h 53m,,,,,17d 21h 46m,
+,IBSET-948,,5d 19h 40m,,,2d 3h 4m,2d 20h 55m,0d 0h 0m,,,10d 7h 4m,
+,IBSET-945,,0d 3h 32m,,,2d 1h 13m,,0d 0h 0m,0d 0h 40m,,20d 2h 21m,
+,IBSET-943,,0d 0h 0m,,,0d 0h 42m,,,,,23d 1h 45m,
+,IBSET-942,,0d 0h 1m,,,0d 16h 34m,,,,,23d 8h 53m,
+,IBSET-941,,0d 0h 6m,,,0d 1h 0m,,,,,29d 2h 51m,
+,IBSET-937,,0d 0h 1m,0d 3h 7m,,0d 0h 0m,,,,,31d 0h 25m,
+,IBSET-936,,3d 2h 19m,0d 0h 0m,,0d 0h 0m,0d 18h 16m,0d 2h 36m,,,30d 4h 22m,
+,IBSET-935,,3d 2h 54m,,,0d 18h 30m,0d 1h 22m,0d 0h 28m,,,30d 4h 22m,
+,IBSET-934,,3d 2h 24m,0d 0h 0m,,0d 0h 0m,0d 18h 43m,0d 2h 10m,,,30d 4h 22m,
+,IBSET-933,,3d 2h 30m,0d 0h 0m,,0d 0h 0m,0d 18h 16m,0d 2h 37m,,,30d 4h 22m,
+,IBSET-932,,3d 2h 34m,0d 0h 0m,,0d 0h 0m,0d 18h 34m,0d 2h 19m,,,30d 4h 23m,
+,IBSET-931,,3d 2h 39m,0d 0h 0m,,0d 0h 0m,0d 18h 16m,0d 2h 38m,,,30d 4h 23m,
+,IBSET-930,,0d 0h 1m,,,0d 0h 55m,,,,,34d 20h 13m,
+,IBSET-929,,6d 14h 49m,,,12d 21h 19m,,,,,17d 6h 56m,
+,IBSET-918,,23d 17h 46m,,,3d 22h 30m,1d 17h 31m,0d 0h 0m,1d 1h 52m,,6d 7h 58m,
+,IBSET-917,,20d 23h 37m,,,2d 18h 52m,1d 2h 46m,0d 0h 0m,2d 23h 22m,,9d 4h 52m,
+,IBSET-916,,12d 23h 30m,,,7d 19h 55m,0d 0h 0m,0d 1h 26m,0d 0h 0m,0d 0h 0m,16d 4h 43m,
+,IBSET-914,,0d 0h 0m,,,3d 0h 52m,0d 0h 7m,0d 0h 0m,,,34d 3h 42m,
+,IBSET-912,,27d 0h 37m,,,1d 23h 28m,,,,,8d 5h 40m,
+,IBSET-910,,26d 22h 28m,,,1d 1h 6m,0d 3h 6m,0d 0h 0m,,,9d 3h 25m,
+,IBSET-909,,0d 3h 31m,,,,,,,,,37d 2h 36m
+,IBSET-907,,29d 0h 47m,,,6d 22h 43m,0d 0h 0m,0d 0h 0m,,,1d 6h 56m,
+,IBSET-904,,0d 0h 1m,,,0d 0h 1m,,,,,37d 6h 31m,
+,IBSET-901,,0d 4h 16m,,,,,,,,,37d 2h 52m
+,IBSET-898,,23d 3h 49m,,,4d 21h 16m,,,,,9d 6h 5m,
+,IBSET-896,,9d 0h 9m,,,11d 4h 46m,0d 0h 25m,0d 0h 0m,,,17d 1h 52m,
+,IBSET-891,,8d 18h 24m,,,11d 23h 15m,0d 0h 0m,0d 0h 0m,,,17d 1h 49m,
+,IBSET-890,,0d 17h 7m,,,,,,,,,37d 2h 22m
+,IBSET-887,,8d 18h 37m,,,11d 18h 11m,,,,,17d 6h 58m,
+,IBSET-885,,0d 0h 3m,,,1d 5h 28m,2d 4h 30m,4d 16h 28m,14d 19h 28m,,15d 9h 1m,
+,IBSET-884,,0d 0h 13m,,,0d 1h 30m,,,,,38d 6h 43m,
+,IBSET-882,,0d 0h 1m,,,0d 0h 46m,,,,,41d 20h 19m,
+,IBSET-881,,0d 0h 0m,,,3d 21h 10m,0d 3h 38m,0d 0h 0m,,,38d 3h 23m,
+,IBSET-880,,0d 0h 4m,0d 12h 9m,,0d 0h 0m,,,,,42d 16h 28m,
+,IBSET-879,,0d 1h 19m,,,5d 0h 16m,,,,,38d 4h 8m,
+,IBSET-878,,1d 15h 43m,,,0d 0h 0m,,,,,42d 16h 28m,
+,IBSET-875,,0d 0h 46m,,,3d 4h 0m,,,,,45d 1h 10m,
+,IBSET-873,,0d 0h 1m,0d 18h 21m,,0d 0h 0m,,,,,49d 9h 13m,
+,IBSET-868,,0d 0h 0m,0d 0h 0m,,1d 4h 38m,,0d 0h 0m,2d 2h 13m,0d 22h 6m,48d 2h 17m,
+,IBSET-866,,45d 20h 40m,,,3d 2h 58m,,,,,21d 2h 58m,
+,IBSET-863,,0d 0h 0m,,,4d 23h 10m,28d 2h 13m,0d 0h 0m,0d 0h 0m,0d 0h 0m,37d 4h 52m,
+,IBSET-862,,15d 21h 58m,,,5d 4h 19m,4d 16h 28m,0d 0h 0m,,,45d 7h 7m,
+,IBSET-861,,0d 0h 0m,,,19d 20h 19m,,,,,52d 7h 0m,
+,IBSET-859,,17d 1h 28m,,,3d 0h 4m,,,,,52d 7h 0m,
+,IBSET-853,,0d 0h 0m,,,39d 23h 43m,6d 0h 13m,0d 0h 0m,0d 0h 0m,0d 0h 0m,30d 7h 7m,
+,IBSET-849,,0d 0h 54m,,,43d 20h 25m,11d 22h 11m,,,,30d 6h 46m,
+,IBSET-836,,13d 2h 13m,1d 12h 8m,,5d 11h 5m,20d 21h 55m,0d 0h 1m,,6d 22h 40m,51d 4h 7m,1d 3h 34m
+,IBSET-832,,0d 0h 0m,0d 0h 0m,,79d 3h 19m,,0d 1h 26m,5d 20h 13m,,16d 4h 43m,
+,IBSET-831,,6d 8h 49m,,,59d 15h 2m,8d 23h 35m,,,,30d 4h 23m,
+,IBSET-828,,26d 22h 47m,,,0d 23h 55m,0d 23h 16m,39d 1h 55m,,,38d 5h 2m,
+,IBSET-826,,30d 2h 15m,,,3d 14h 4m,6d 5h 41m,7d 1h 22m,4d 0h 12m,,55d 5h 54m,
+,IBSET-820,,64d 0h 22m,,,11d 22h 22m,3d 0h 24m,0d 0h 0m,0d 0h 43m,,27d 6h 22m,
+,IBSET-815,,54d 23h 46m,,,3d 23h 37m,2d 21h 1m,6d 0h 19m,0d 22h 53m,,38d 5h 8m,
+,IBSET-806,,32d 20h 43m,,,0d 1h 48m,0d 1h 58m,46d 13h 34m,1d 6h 36m,0d 0h 0m,38d 5h 13m,
+,IBSET-793,,76d 22h 13m,,,1d 11h 31m,1d 13h 7m,0d 0h 0m,,,52d 7h 0m,
+,IBSET-792,,14d 0h 31m,,,4d 3h 7m,2d 20h 34m,73d 0h 28m,,,38d 5h 10m,
+,IBSET-784,,53d 4h 43m,,,1d 7h 31m,1d 12h 1m,45d 0h 1m,0d 0h 51m,0d 0h 39m,38d 5h 13m,
+,IBSET-782,,63d 1h 4m,,,4d 21h 57m,,34d 1h 49m,0d 22h 11m,,38d 5h 13m,
+,IBSET-745,,20d 5h 25m,,,1d 1h 26m,0d 21h 52m,115d 22h 9m,1d 1h 3m,,38d 5h 10m,
+,IBSET-735,,88d 21h 4m,,,3d 11h 17m,7d 14h 13m,41d 2h 21m,3d 22h 37m,,38d 5h 8m,
+,IBSET-733,,29d 1h 55m,,,4d 0h 7m,2d 4h 6m,107d 14h 37m,0d 13h 0m,1d 13h 46m,38d 5h 10m,
+,IBSET-731,,28d 0h 25m,,,1d 1h 31m,11d 18h 4m,104d 3h 24m,,0d 0h 7m,38d 5h 10m,
+,IBSET-730,,69d 2h 32m,,,18d 12h 41m,5d 17h 43m,48d 2h 43m,3d 11h 52m,,38d 5h 10m,
+,IBSET-729,,83d 22h 34m,,,5d 6h 22m,7d 15h 52m,48d 2h 46m,0d 0h 0m,,38d 5h 8m,
+,IBSET-726,,130d 21h 49m,,,4d 4h 43m,0d 0h 4m,0d 0h 0m,,,48d 2h 10m,
+,IBSET-722,,112d 19h 11m,,,43d 7h 7m,,0d 0h 0m,3d 17h 40m,,23d 8h 49m,
+,IBSET-721,,154d 3h 40m,,,5d 18h 25m,,,,,23d 6h 43m,
+,IBSET-669,,21d 2h 58m,,174d 7h 16m,6d 15h 55m,,,,,,37d 4h 37m
+,IBSET-655,,224d 11h 22m,,,,,,,,,37d 19h 46m
+,IBSET-654,,224d 11h 23m,,,,,,,,,37d 19h 46m
+,IBSET-649,,50d 22h 54m,,162d 0h 16m,12d 3h 51m,,,,,,37d 4h 37m
+,IBSET-605,,98d 5h 1m,,147d 2h 25m,14d 20h 51m,,,,,,37d 4h 37m
+,IBSET-586,,279d 1h 36m,,,,,,,,,37d 4h 38m
+,IBSET-539,,13d 20h 16m,,285d 3h 28m,3d 0h 16m,,,,,,37d 4h 34m
+,IBSET-303,,428d 1h 16m,,,,,,,,,37d 4h 36m
+,IBSET-302,,428d 1h 31m,,,,,,,,,37d 4h 34m
+,IBSET-301,,428d 1h 32m,,,,,,,,,37d 4h 36m
+,IBSET-216,,185d 22h 30m,0d 0h 0m,287d 2h 40m,0d 0h 0m,,,,,,37d 4h 37m
+,IBSET-214,,185d 22h 33m,0d 0h 0m,287d 2h 40m,0d 0h 0m,,,,,,37d 4h 37m

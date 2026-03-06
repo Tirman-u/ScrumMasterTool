@@ -1,0 +1,77 @@
+{
+  "teamName": "BalticWebScrum",
+  "doneConfig": {
+    "useStatusCategoryDone": false,
+    "doneStatuses": [
+      "Done",
+      "Closed",
+      "Resolved"
+    ]
+  },
+  "sleConfig": {
+    "percentiles": [
+      50,
+      70,
+      85,
+      95
+    ],
+    "rounding": "ceil",
+    "issueTypes": [
+      "Task",
+      "Bug",
+      "Story"
+    ]
+  },
+  "mapping": {
+    "key": "Issue key",
+    "created": "Created",
+    "resolutionDate": "Resolved",
+    "updated": "Updated",
+    "status": "Status",
+    "resolution": "Resolution",
+    "storyPoints": "Story points",
+    "sprint": "Sprint",
+    "issueType": "Issue Type"
+  },
+  "cycleTimeConfig": {
+    "endDateSource": "resolvedOrUpdated"
+  },
+  "excludedIssueKeys": [
+    "BWEBDEV-1543",
+    "BWEBDEV-1914",
+    "BWEBDEV-2077",
+    "BWEBDEV-2322",
+    "BWEBDEV-2615",
+    "BWEBDEV-2690",
+    "BWEBDEV-2949",
+    "BWEBDEV-3044",
+    "BWEBDEV-3663",
+    "BWEBDEV-3754",
+    "BWEBDEV-4468",
+    "BWEBDEV-4474",
+    "BWEBDEV-4598",
+    "BWEBDEV-4798",
+    "BWEBDEV-4802",
+    "BWEBDEV-4805",
+    "BWEBDEV-5516",
+    "BWEBDEV-5545",
+    "BWEBDEV-5685",
+    "BWEBDEV-6110",
+    "BWEBDEV-6277",
+    "BWEBDEV-6370",
+    "BWEBDEV-6533",
+    "BWEBDEV-6810",
+    "BWEBDEV-6845",
+    "BWEBDEV-7067"
+  ],
+  "velocityConfig": {
+    "mode": "sprint",
+    "sprintStartDate": "2026-01-15",
+    "sprintLengthWeeks": 2
+  },
+  "bugConfig": {
+    "issueTypes": [
+      "Bug"
+    ]
+  }
+}

@@ -1,0 +1,69 @@
+{
+  "teamName": "Gold",
+  "doneConfig": {
+    "useStatusCategoryDone": false,
+    "doneStatuses": [
+      "Done",
+      "Closed",
+      "Resolved"
+    ]
+  },
+  "sleConfig": {
+    "percentiles": [
+      50,
+      70,
+      85,
+      95
+    ],
+    "rounding": "ceil",
+    "issueTypes": [
+      "Task",
+      "Bug",
+      "Story"
+    ]
+  },
+  "cycleTimeConfig": {
+    "endDateSource": "resolvedOrUpdated"
+  },
+  "mapping": {
+    "key": "Issue key",
+    "created": "Created",
+    "resolutionDate": "Resolved",
+    "updated": "Updated",
+    "status": "Status",
+    "resolution": "Resolution",
+    "storyPoints": "Story points",
+    "sprint": "Sprint",
+    "issueType": "Issue Type"
+  },
+  "velocityConfig": {
+    "mode": "sprint-story-points",
+    "sprintStartDate": "2026-01-21",
+    "sprintLengthWeeks": 2
+  },
+  "bugConfig": {
+    "issueTypes": [
+      "Bug"
+    ]
+  },
+  "bottleneckConfig": {
+    "flowStatuses": []
+  },
+  "excludedIssueKeys": [
+    "CORE-8137",
+    "CORE-8798",
+    "CORE-9064",
+    "CORE-9069"
+  ],
+  "jiraQuery": {
+    "defaultQueryId": "default",
+    "queries": [
+      {
+        "id": "default",
+        "name": "Team Import Query",
+        "jql": "project = YOURPROJECT ORDER BY updated DESC",
+        "note": "Edit this query per team scope."
+      }
+    ]
+  }
+}

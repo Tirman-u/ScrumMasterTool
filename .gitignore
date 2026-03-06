@@ -1,0 +1,6 @@
+node_modules/
+apps/sm-tool/node_modules/
+apps/sm-tool/dist/
+coverage/
+*.log
+.DS_Store
