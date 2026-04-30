@@ -1089,6 +1089,7 @@ export default function App(): JSX.Element {
   const [bottleneckNotesInput, setBottleneckNotesInput] = useState("");
   const [todayRef, setTodayRef] = useState(() => new Date());
   const [quickInsightsOpen, setQuickInsightsOpen] = useState(false);
+  const [dashboardDetailOpen, setDashboardDetailOpen] = useState(false);
   const [doneDefinitionOpen, setDoneDefinitionOpen] = useState(false);
   const [agingWipCompactOpen, setAgingWipCompactOpen] = useState(false);
   const [bottleneckPanelOpen, setBottleneckPanelOpen] = useState(false);
@@ -5173,9 +5174,33 @@ export default function App(): JSX.Element {
 
                 {selectedTeam && selectedTeamRow ? (
                   <section className="table-panel dashboard-merged-panel">
-                    <p className="period-hint dashboard-merged-period">
-                      Current period: {periodSummary.currentLabel} • {periodSummary.comparisonLabel}
-                    </p>
+                    <div className="dashboard-detail-summary">
+                      <div>
+                        <div className="table-title">{dashboardScopeCopy.detailTitle}: {selectedTeam.config.teamName}</div>
+                        <div className="table-subtitle">
+                          Current period: {periodSummary.currentLabel} • {periodSummary.comparisonLabel}
+                        </div>
+                      </div>
+                      <div className="dashboard-detail-actions">
+                        <button className="soft-btn" onClick={() => openTeamView(selectedTeam.teamId)}>
+                          Open Full Team View
+                        </button>
+                        <button
+                          type="button"
+                          className="soft-btn"
+                          aria-expanded={dashboardDetailOpen}
+                          onClick={() => setDashboardDetailOpen((current) => !current)}
+                        >
+                          {dashboardDetailOpen ? "Hide Details" : "Show Details"}
+                        </button>
+                      </div>
+                    </div>
+
+                    {dashboardDetailOpen && (
+                      <>
+                        <p className="period-hint dashboard-merged-period">
+                          Current period: {periodSummary.currentLabel} • {periodSummary.comparisonLabel}
+                        </p>
 
                     <div className="team-section-head dashboard-merged-detailed-head">
                       <h2 className="team-section-title">{dashboardScopeCopy.detailTitle}</h2>
@@ -5542,6 +5567,8 @@ export default function App(): JSX.Element {
                       </section>
                       {renderTimeInStatusPanel("dashboard-time-in-status-content")}
                     </section>
+                      </>
+                    )}
                   </section>
                 ) : (
                   <section className="table-panel dashboard-merged-empty">
