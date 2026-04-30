@@ -6,6 +6,7 @@
   "type": "module",
   "scripts": {
     "analyze": "tsx src/cli.ts",
+    "jira:pull": "tsx src/jira-pull.ts",
     "test": "vitest run",
     "test:watch": "vitest",
     "sm:install": "npm --prefix apps/sm-tool install",
