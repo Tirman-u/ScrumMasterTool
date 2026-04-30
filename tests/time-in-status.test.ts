@@ -44,31 +44,37 @@ describe("time-in-status parser", () => {
   });
 
   it("dedupes issue rows by latest Updated and excludes terminal status columns by default", () => {
-    const headers = ["Issue key", "Resolution Date", "Updated", "In Progress", "Code Review", "Done"];
+    const headers = ["Issue key", "Resolution Date", "Updated", "Backlog", "In Progress", "Code Review", "Done", "Abandoned"];
     const rows = [
       {
         "Issue key": "BW-1",
         "Resolution Date": "10.02.2026 10:00",
         Updated: "10.02.2026 10:00",
+        Backlog: "20d 0h 0m",
         "In Progress": "5d 0h 0m",
         "Code Review": "1d 0h 0m",
         Done: "0d 0h 0m",
+        Abandoned: "40d 0h 0m",
       },
       {
         "Issue key": "BW-1",
         "Resolution Date": "11.02.2026 10:00",
         Updated: "11.02.2026 10:00",
+        Backlog: "25d 0h 0m",
         "In Progress": "10d 0h 0m",
         "Code Review": "2d 0h 0m",
         Done: "0d 0h 0m",
+        Abandoned: "45d 0h 0m",
       },
       {
         "Issue key": "BW-2",
         "Resolution Date": "12.02.2026 10:00",
         Updated: "12.02.2026 10:00",
+        Backlog: "30d 0h 0m",
         "In Progress": "6d 0h 0m",
         "Code Review": "2d 0h 0m",
         Done: "1d 0h 0m",
+        Abandoned: "50d 0h 0m",
       },
     ];
 
@@ -87,6 +93,31 @@ describe("time-in-status parser", () => {
 
     expect(inProgress?.avgDays).toBeCloseTo(8, 2);
     expect(codeReview?.avgDays).toBeCloseTo(2, 2);
+  });
+
+  it("excludes abandoned and backlog statuses from issue-row aggregation by default", () => {
+    const entries = buildAutoBottleneckEntriesFromIssueRows({
+      issueRows: [
+        {
+          issueKey: "BW-8",
+          resolvedDate: null,
+          periodHint: "2026-02",
+          durations: [
+            { status: "Backlog", days: 30 },
+            { status: "Abandoned", days: 60 },
+            { status: "In Progress", days: 6 },
+          ],
+        },
+      ],
+      issuePeriodByKey: new Map([["bw-8", "2026-02"]]),
+    });
+
+    expect(entries).toEqual([
+      {
+        period: "2026-02",
+        columns: [{ name: "In Progress", avgDays: 6 }],
+      },
+    ]);
   });
 
   it("maps issue rows to month by matched done issue and keeps latest row per key", () => {
@@ -173,6 +204,35 @@ describe("time-in-status parser", () => {
         columns: [
           { name: "In Progress", avgDays: 8 },
           { name: "Code Review", avgDays: 4 },
+        ],
+      },
+    ]);
+  });
+
+  it("keeps configured active statuses but still blocks cancelled statuses", () => {
+    const entries = buildAutoBottleneckEntriesFromIssueRows({
+      issueRows: [
+        {
+          issueKey: "BW-9",
+          resolvedDate: null,
+          periodHint: "2026-02",
+          durations: [
+            { status: "Reopened", days: 9 },
+            { status: "Abandoned", days: 60 },
+            { status: "In Progress", days: 5 },
+          ],
+        },
+      ],
+      issuePeriodByKey: new Map([["bw-9", "2026-02"]]),
+      flowStatuses: ["Reopened", "Abandoned", "In Progress"],
+    });
+
+    expect(entries).toEqual([
+      {
+        period: "2026-02",
+        columns: [
+          { name: "Reopened", avgDays: 9 },
+          { name: "In Progress", avgDays: 5 },
         ],
       },
     ]);

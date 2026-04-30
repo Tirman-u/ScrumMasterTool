@@ -73,11 +73,36 @@ const TERMINAL_STATUS_HINTS = new Set<string>([
   "done",
   "closed",
   "resolved",
+  "abandoned",
   "cancelled",
   "canceled",
   "won't do",
   "wont do",
 ]);
+
+const CANCELLED_STATUS_HINTS = [
+  "abandon",
+  "cancel",
+  "won't do",
+  "wont do",
+  "reject",
+  "declin",
+  "duplicate",
+  "obsolete",
+  "discard",
+  "removed",
+  "out of scope",
+];
+
+const DEFAULT_NON_FLOW_STATUS_HINTS = [
+  ...CANCELLED_STATUS_HINTS,
+  "backlog",
+  "to do",
+  "todo",
+  "open",
+  "ready for refinement",
+  "refinement",
+];
 
 export function isTimeInStatusCsv(headers: string[], rows: Array<Record<string, string>>): boolean {
   if (headers.length === 0 || rows.length === 0) {
@@ -107,9 +132,11 @@ export function parseTimeInStatusIssueRows(options: TimeInStatusParseOptions): T
   let durationHeaders = detectedDurationHeaders;
   if (normalizedFlowStatuses.length > 0) {
     const flowOrder = new Set(normalizedFlowStatuses.map((value) => normalizeText(value)));
-    durationHeaders = detectedDurationHeaders.filter((header) => flowOrder.has(normalizeText(header)));
+    durationHeaders = detectedDurationHeaders.filter(
+      (header) => flowOrder.has(normalizeText(header)) && !isTerminalOrCancelledStatus(header),
+    );
   } else {
-    durationHeaders = detectedDurationHeaders.filter((header) => !TERMINAL_STATUS_HINTS.has(normalizeText(header)));
+    durationHeaders = detectedDurationHeaders.filter((header) => !isDefaultNonFlowStatus(header));
   }
 
   if (durationHeaders.length === 0) {
@@ -222,10 +249,10 @@ export function buildAutoBottleneckEntriesFromIssueRows(
       }
 
       if (normalizedFlowStatuses.length > 0) {
-        if (!flowOrder.has(statusKey)) {
+        if (!flowOrder.has(statusKey) || isTerminalOrCancelledStatus(rawStatus)) {
           return;
         }
-      } else if (TERMINAL_STATUS_HINTS.has(statusKey)) {
+      } else if (isDefaultNonFlowStatus(rawStatus)) {
         return;
       }
 
@@ -279,9 +306,11 @@ export function buildAutoBottleneckEntriesFromTimeInStatus(options: TimeInStatus
   let durationHeaders = detectedDurationHeaders;
 
   if (normalizedFlowStatuses.length > 0) {
-    durationHeaders = detectedDurationHeaders.filter((header) => flowOrder.has(normalizeText(header)));
+    durationHeaders = detectedDurationHeaders.filter(
+      (header) => flowOrder.has(normalizeText(header)) && !isTerminalOrCancelledStatus(header),
+    );
   } else {
-    durationHeaders = detectedDurationHeaders.filter((header) => !TERMINAL_STATUS_HINTS.has(normalizeText(header)));
+    durationHeaders = detectedDurationHeaders.filter((header) => !isDefaultNonFlowStatus(header));
   }
 
   if (durationHeaders.length === 0) {
@@ -464,6 +493,32 @@ export function parseTimeInStatusDurationDays(value: string | undefined): number
   }
 
   return null;
+}
+
+export function isDefaultNonFlowStatus(statusName: string | undefined): boolean {
+  if (isTerminalOrCancelledStatus(statusName)) {
+    return true;
+  }
+
+  const normalized = normalizeText(statusName);
+  if (!normalized) {
+    return true;
+  }
+
+  return DEFAULT_NON_FLOW_STATUS_HINTS.some((hint) => normalized.includes(hint));
+}
+
+export function isTerminalOrCancelledStatus(statusName: string | undefined): boolean {
+  const normalized = normalizeText(statusName);
+  if (!normalized) {
+    return true;
+  }
+
+  if (TERMINAL_STATUS_HINTS.has(normalized)) {
+    return true;
+  }
+
+  return CANCELLED_STATUS_HINTS.some((hint) => normalized.includes(hint));
 }
 
 function detectDurationHeaders(headers: string[], rows: Array<Record<string, string>>): string[] {

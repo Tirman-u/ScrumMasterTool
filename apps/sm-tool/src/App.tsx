@@ -8,6 +8,7 @@ import {
   resolveEffectiveSleIssueTypes,
   resolveVelocityStoryPoints,
 } from "./lib/metrics";
+import { isDefaultNonFlowStatus, isTerminalOrCancelledStatus } from "./lib/time-in-status";
 import {
   addTeam,
   analyzeTeam,
@@ -9471,15 +9472,103 @@ function buildEffectiveBottleneckEntries(team: TeamRuntime | null): BottleneckEn
     return [];
   }
 
+  const statusFilter = buildBottleneckCandidateStatusFilter(team);
   const byPeriod = new Map<string, BottleneckEntry>();
   team.autoBottleneck.forEach((entry) => {
-    byPeriod.set(entry.period, entry);
+    const filtered = filterBottleneckEntryForTeam(entry, statusFilter);
+    if (filtered) {
+      byPeriod.set(filtered.period, filtered);
+    }
   });
   team.manualBottleneck.forEach((entry) => {
-    byPeriod.set(entry.period, entry);
+    const filtered = filterBottleneckEntryForTeam(entry, statusFilter);
+    if (filtered) {
+      byPeriod.set(filtered.period, filtered);
+    }
   });
 
   return Array.from(byPeriod.values()).sort((a, b) => a.period.localeCompare(b.period));
+}
+
+interface BottleneckStatusFilter {
+  candidateStatusMap: Map<string, string>;
+  hasConfiguredStatuses: boolean;
+}
+
+function buildBottleneckCandidateStatusFilter(team: TeamRuntime): BottleneckStatusFilter {
+  const explicitFlowStatuses = normalizeFlowStatuses(team.config.bottleneckConfig?.flowStatuses ?? []);
+  const configuredStatuses =
+    explicitFlowStatuses.length > 0
+      ? explicitFlowStatuses
+      : normalizeFlowStatuses(team.config.workflowConfig?.activeStatuses ?? []);
+
+  if (configuredStatuses.length > 0) {
+    return {
+      candidateStatusMap: new Map(configuredStatuses.map((status) => [normalizeTextValue(status), status])),
+      hasConfiguredStatuses: true,
+    };
+  }
+
+  const excludedStatuses = new Set(
+    normalizeFlowStatuses([
+      ...(team.config.doneConfig.doneStatuses ?? []),
+      ...(team.config.workflowConfig?.backlogStatuses ?? []),
+    ]).map((status) => normalizeTextValue(status)),
+  );
+  const candidateMap = new Map<string, string>();
+
+  buildBoardStatusMap(team.parsedIssues).forEach((statusName, statusKey) => {
+    if (excludedStatuses.has(statusKey) || isDefaultNonFlowStatus(statusName)) {
+      return;
+    }
+
+    candidateMap.set(statusKey, statusName);
+  });
+
+  return {
+    candidateStatusMap: candidateMap,
+    hasConfiguredStatuses: false,
+  };
+}
+
+function filterBottleneckEntryForTeam(
+  entry: BottleneckEntry,
+  statusFilter: BottleneckStatusFilter,
+): BottleneckEntry | null {
+  const { candidateStatusMap, hasConfiguredStatuses } = statusFilter;
+  const columns = entry.columns
+    .filter((column) => {
+      if (!Number.isFinite(column.avgDays) || column.avgDays <= 0) {
+        return false;
+      }
+
+      const statusKey = normalizeTextValue(column.name);
+      if (!statusKey) {
+        return false;
+      }
+
+      if (hasConfiguredStatuses ? isTerminalOrCancelledStatus(column.name) : isDefaultNonFlowStatus(column.name)) {
+        return false;
+      }
+
+      return candidateStatusMap.size === 0 || candidateStatusMap.has(statusKey);
+    })
+    .map((column) => {
+      const statusKey = normalizeTextValue(column.name);
+      return {
+        ...column,
+        name: candidateStatusMap.get(statusKey) ?? column.name,
+      };
+    });
+
+  if (columns.length === 0) {
+    return null;
+  }
+
+  return {
+    ...entry,
+    columns,
+  };
 }
 
 function normalizeFlowStatuses(values: string[]): string[] {

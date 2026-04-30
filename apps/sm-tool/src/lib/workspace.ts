@@ -416,6 +416,7 @@ export async function analyzeTeam(team: TeamRuntime): Promise<TeamMetrics> {
 
   const issues: ParsedIssue[] = [];
   const timeInStatusIssueRows: ReturnType<typeof parseTimeInStatusIssueRows> = [];
+  const bottleneckFlowStatuses = resolveBottleneckFlowStatuses(team.config);
   let totalRows = 0;
 
   const csvFiles = await collectCsvFilesRecursive(importsDir);
@@ -455,7 +456,7 @@ export async function analyzeTeam(team: TeamRuntime): Promise<TeamMetrics> {
         headers: parsed.headers,
         rows: parsed.rows,
         fallbackPeriod,
-        flowStatuses: team.config.bottleneckConfig?.flowStatuses ?? [],
+        flowStatuses: bottleneckFlowStatuses,
       });
       timeInStatusIssueRows.push(...issueRows);
 
@@ -495,7 +496,7 @@ export async function analyzeTeam(team: TeamRuntime): Promise<TeamMetrics> {
   const autoBottleneckEntries = buildAutoBottleneckEntriesFromIssueRows({
     issueRows: timeInStatusIssueRows,
     issuePeriodByKey: doneIssuePeriodByKey,
-    flowStatuses: team.config.bottleneckConfig?.flowStatuses ?? [],
+    flowStatuses: bottleneckFlowStatuses,
   });
 
   const normalizedParsed = deduped.map((issue) => ({
@@ -1215,6 +1216,33 @@ function normalizeBottleneckEntry(entry: Record<string, unknown>): BottleneckEnt
         ? entry.updatedAt
         : undefined,
   };
+}
+
+function resolveBottleneckFlowStatuses(config: TeamConfig): string[] {
+  const explicitFlowStatuses = normalizeStatusList(config.bottleneckConfig?.flowStatuses ?? []);
+  if (explicitFlowStatuses.length > 0) {
+    return explicitFlowStatuses;
+  }
+
+  return normalizeStatusList(config.workflowConfig?.activeStatuses ?? []);
+}
+
+function normalizeStatusList(values: string[]): string[] {
+  const seen = new Set<string>();
+  const normalized: string[] = [];
+
+  values.forEach((value) => {
+    const trimmed = value.trim();
+    const key = trimmed.toLowerCase();
+    if (!trimmed || seen.has(key)) {
+      return;
+    }
+
+    seen.add(key);
+    normalized.push(trimmed);
+  });
+
+  return normalized;
 }
 
 async function getDirectoryHandle(
