@@ -93,6 +93,15 @@ body,
   gap: 4px;
 }
 
+.nav-section-label {
+  margin: 10px 10px 2px;
+  color: #64748b;
+  font-size: 0.72rem;
+  font-weight: 800;
+  letter-spacing: 0;
+  text-transform: uppercase;
+}
+
 .nav-link {
   text-align: left;
   border: 0;
@@ -852,6 +861,143 @@ button:disabled {
 
 .dashboard-team-picker {
   margin: 14px 0;
+}
+
+.dashboard-scope-tabs {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 10px;
+  margin-bottom: 12px;
+}
+
+.dashboard-scope-tabs button {
+  min-height: 72px;
+  border: 1px solid #d9e2f0;
+  border-radius: 12px;
+  background: #ffffff;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  justify-content: center;
+  gap: 4px;
+  padding: 12px 14px;
+  color: #0f172a;
+  box-shadow: var(--shadow-sm);
+}
+
+.dashboard-scope-tabs button.active {
+  border-color: #2f6f73;
+  background: #edf8f4;
+}
+
+.dashboard-scope-tabs strong {
+  font-size: 1rem;
+  line-height: 1.2;
+}
+
+.dashboard-scope-tabs span {
+  color: #64748b;
+  font-size: 0.82rem;
+  line-height: 1.25;
+}
+
+.dashboard-context-panel {
+  display: grid;
+  grid-template-columns: minmax(260px, 0.9fr) minmax(420px, 1.6fr);
+  gap: 12px;
+  margin-bottom: 14px;
+}
+
+.dashboard-context-copy,
+.dashboard-context-stats article {
+  border: 1px solid #d9e2f0;
+  border-radius: 12px;
+  background: #ffffff;
+  box-shadow: var(--shadow-sm);
+}
+
+.dashboard-context-copy {
+  padding: 16px;
+}
+
+.scope-eyebrow {
+  color: #2f6f73;
+  font-size: 0.75rem;
+  font-weight: 800;
+  letter-spacing: 0;
+  text-transform: uppercase;
+}
+
+.dashboard-context-copy h2 {
+  margin: 5px 0 6px;
+  font-size: 1.28rem;
+  line-height: 1.2;
+}
+
+.dashboard-context-copy p {
+  margin: 0;
+  color: #475569;
+  line-height: 1.4;
+}
+
+.dashboard-context-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-top: 14px;
+}
+
+.dashboard-context-stats {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 10px;
+}
+
+.dashboard-context-stats article {
+  min-height: 94px;
+  padding: 12px;
+}
+
+.dashboard-context-stats span {
+  display: block;
+  color: #64748b;
+  font-size: 0.78rem;
+  font-weight: 700;
+  line-height: 1.25;
+}
+
+.dashboard-context-stats strong {
+  display: block;
+  margin-top: 7px;
+  font-size: 1.28rem;
+  line-height: 1.12;
+}
+
+.dashboard-context-stats small {
+  display: block;
+  margin-top: 6px;
+  color: #64748b;
+  font-size: 0.76rem;
+  line-height: 1.25;
+}
+
+.dashboard-context-stats .dashboard-health-summary {
+  grid-column: span 2;
+}
+
+.dashboard-health-summary.good {
+  border-color: #95d5b2;
+  background: #e7f7ec;
+}
+
+.dashboard-health-summary.warn {
+  border-color: #f1d38a;
+  background: #fff7e0;
+}
+
+.dashboard-health-summary.bad {
+  border-color: #f3b2b2;
+  background: #fdeaea;
 }
 
 .dashboard-page .summary-grid {
@@ -1890,6 +2036,10 @@ details summary {
   .advanced-flow-grid {
     grid-template-columns: repeat(2, minmax(170px, 1fr));
   }
+
+  .dashboard-context-panel {
+    grid-template-columns: 1fr;
+  }
 }
 
 @media (max-width: 900px) {
@@ -1906,6 +2056,10 @@ details summary {
   .nav-links {
     flex-direction: row;
     flex-wrap: wrap;
+  }
+
+  .nav-section-label {
+    width: 100%;
   }
 
   .nav-link {
@@ -1950,6 +2104,10 @@ details summary {
     justify-content: flex-start;
   }
 
+  .dashboard-context-stats {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
   .sle-type-filter-head {
     flex-direction: column;
     align-items: flex-start;
@@ -1979,6 +2137,15 @@ details summary {
 
   .team-tab {
     flex: 1;
+  }
+
+  .dashboard-scope-tabs,
+  .dashboard-context-stats {
+    grid-template-columns: 1fr;
+  }
+
+  .dashboard-context-stats .dashboard-health-summary {
+    grid-column: auto;
   }
 
   .section-head h1 {

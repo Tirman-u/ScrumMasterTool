@@ -102,8 +102,49 @@ const METRIC_SCOPES: MetricScope[] = ["team", "value-stream", "art"];
 const METRIC_GROUPS: ConfigurableMetricGroup[] = ["Core", "Flow", "Predictability", "Quality", "Data"];
 const METRIC_SCOPE_LABELS: Record<MetricScope, string> = {
   team: "Team",
-  "value-stream": "Value Stream",
+  "value-stream": "VDE / Value Stream",
   art: "ART",
+};
+
+const DASHBOARD_SCOPE_COPY: Record<
+  MetricScope,
+  {
+    navLabel: string;
+    title: string;
+    subtitle: string;
+    focusTitle: string;
+    focusSubtitle: string;
+    tableTitle: string;
+    detailTitle: string;
+  }
+> = {
+  team: {
+    navLabel: "Teams",
+    title: "Teams Dashboard",
+    subtitle: "Team-level flow, planning, quality and data readiness in one working view.",
+    focusTitle: "Team Focus",
+    focusSubtitle: "Pick a team to drill into its current metrics.",
+    tableTitle: "Team Metrics",
+    detailTitle: "Selected Team Detail",
+  },
+  "value-stream": {
+    navLabel: "VDE",
+    title: "VDE / Value Stream Dashboard",
+    subtitle: "A value-stream view built from the teams included in the selected workspace view.",
+    focusTitle: "Teams in This Value Stream",
+    focusSubtitle: "Use Workspace Views to define which teams belong to this VDE/value stream.",
+    tableTitle: "Value Stream Team Signals",
+    detailTitle: "Value Stream Drill-down",
+  },
+  art: {
+    navLabel: "ART",
+    title: "ART Dashboard",
+    subtitle: "ART-level delivery health using the same team data, grouped by the selected workspace view.",
+    focusTitle: "Teams in This ART",
+    focusSubtitle: "Use Workspace Views to define the ART membership and compare the included teams.",
+    tableTitle: "ART Team Signals",
+    detailTitle: "ART Drill-down",
+  },
 };
 
 const CONFIGURABLE_METRICS: ConfigurableMetricDefinition[] = [
@@ -1420,6 +1461,37 @@ export default function App(): JSX.Element {
     });
   }, [filteredTeams, periodMonth, availableMonths, dashboardBottleneckPeriod, periodReferenceDate]);
 
+  const dashboardScopeCopy = DASHBOARD_SCOPE_COPY[activeMetricScope];
+
+  const dashboardScopeSummary = useMemo(() => {
+    const doneCount = dashboardRows.reduce((sum, row) => sum + row.current.done, 0);
+    const openWipCount = dashboardRows.reduce((sum, row) => sum + row.healthCurrent.agingWip.total, 0);
+    const dataRowCount = filteredTeams.reduce((sum, team) => sum + team.parsedIssues.length, 0);
+    const importCount = filteredTeams.reduce((sum, team) => sum + team.importFiles.length, 0);
+    const cycleValues = dashboardRows
+      .map((row) => row.current.avgCycleTime)
+      .filter((value): value is number => value !== null && Number.isFinite(value));
+    const p85Values = dashboardRows
+      .map((row) => row.current.sle.p85)
+      .filter((value): value is number => value !== null && Number.isFinite(value));
+    const healthChecks = dashboardRows.map((row) =>
+      buildTeamHealthCheckSummary(buildTeamHealthSignals(row.healthCurrent)),
+    );
+
+    return {
+      teamCount: filteredTeams.length,
+      doneCount,
+      openWipCount,
+      dataRowCount,
+      importCount,
+      avgCycleTime:
+        cycleValues.length === 0 ? null : cycleValues.reduce((sum, value) => sum + value, 0) / cycleValues.length,
+      avgSleP85: p85Values.length === 0 ? null : p85Values.reduce((sum, value) => sum + value, 0) / p85Values.length,
+      actionTeams: healthChecks.filter((item) => item.actionCount > 0).length,
+      watchTeams: healthChecks.filter((item) => item.actionCount === 0 && item.watchCount > 0).length,
+    };
+  }, [dashboardRows, filteredTeams]);
+
   const selectedTeamRow = useMemo(() => {
     if (!selectedTeamId) {
       return null;
@@ -1914,6 +1986,97 @@ export default function App(): JSX.Element {
           ))}
         </div>
       </div>
+    );
+  }
+
+  function renderDashboardScopeTabs(): JSX.Element {
+    return (
+      <section className="dashboard-scope-tabs" aria-label="Dashboard scope">
+        {METRIC_SCOPES.map((scope) => {
+          const copy = DASHBOARD_SCOPE_COPY[scope];
+          return (
+            <button
+              key={`dashboard-scope-${scope}`}
+              type="button"
+              className={activeMetricScope === scope ? "active" : ""}
+              aria-pressed={activeMetricScope === scope}
+              onClick={() => setActiveMetricScope(scope)}
+            >
+              <strong>{copy.navLabel}</strong>
+              <span>{METRIC_SCOPE_LABELS[scope]}</span>
+            </button>
+          );
+        })}
+      </section>
+    );
+  }
+
+  function renderDashboardContextPanel(): JSX.Element {
+    const healthTone =
+      dashboardScopeSummary.actionTeams > 0
+        ? "bad"
+        : dashboardScopeSummary.watchTeams > 0
+          ? "warn"
+          : "good";
+    const healthLabel =
+      dashboardScopeSummary.actionTeams > 0
+        ? `${dashboardScopeSummary.actionTeams} team(s) need action`
+        : dashboardScopeSummary.watchTeams > 0
+          ? `${dashboardScopeSummary.watchTeams} team(s) on watch`
+          : "No critical team signals";
+
+    return (
+      <section className="dashboard-context-panel">
+        <div className="dashboard-context-copy">
+          <div className="scope-eyebrow">{METRIC_SCOPE_LABELS[activeMetricScope]}</div>
+          <h2>{activeWorkspaceProfile?.name ?? "All Teams"}</h2>
+          <p>{dashboardScopeCopy.subtitle}</p>
+          <div className="dashboard-context-actions">
+            <button className="soft-btn" onClick={() => setPage("workspace")}>
+              Manage Views
+            </button>
+            <button className="soft-btn" onClick={() => setPage("metrics")}>
+              Configure Metrics
+            </button>
+          </div>
+        </div>
+
+        <div className="dashboard-context-stats">
+          <article>
+            <span>Teams</span>
+            <strong>{dashboardScopeSummary.teamCount}</strong>
+          </article>
+          <article>
+            <span>Data rows</span>
+            <strong>{formatNumber(dashboardScopeSummary.dataRowCount, 0)}</strong>
+            <small>{formatNumber(dashboardScopeSummary.importCount, 0)} import(s)</small>
+          </article>
+          <article>
+            <span>Done</span>
+            <strong>{formatNumber(dashboardScopeSummary.doneCount, 0)}</strong>
+            <small>{periodSummary.currentLabel}</small>
+          </article>
+          <article>
+            <span>Open WIP</span>
+            <strong>{formatNumber(dashboardScopeSummary.openWipCount, 0)}</strong>
+          </article>
+          <article>
+            <span>Avg cycle</span>
+            <strong>{formatDays(dashboardScopeSummary.avgCycleTime)}</strong>
+          </article>
+          <article>
+            <span>Avg SLE P85</span>
+            <strong>{formatDays(dashboardScopeSummary.avgSleP85)}</strong>
+          </article>
+          <article className={`dashboard-health-summary ${healthTone}`}>
+            <span>Health</span>
+            <strong>{healthLabel}</strong>
+            <small>
+              Watch {dashboardScopeSummary.watchTeams} • Action {dashboardScopeSummary.actionTeams}
+            </small>
+          </article>
+        </div>
+      </section>
     );
   }
 
@@ -4058,8 +4221,14 @@ export default function App(): JSX.Element {
 
   function openTeamView(teamId: string): void {
     setSelectedTeamId(teamId);
+    setActiveMetricScope("team");
     setTeamTab("overview");
     setPage("team");
+  }
+
+  function openDashboardScope(scope: MetricScope): void {
+    setActiveMetricScope(scope);
+    setPage("dashboard");
   }
 
   function handleApplyClassicJiraPreset(): void {
@@ -4569,8 +4738,6 @@ export default function App(): JSX.Element {
     URL.revokeObjectURL(url);
   }
 
-  const dashboardNavActive = page === "dashboard" || page === "team";
-
   return (
     <div className="figma-shell">
       <aside className="left-nav">
@@ -4594,9 +4761,27 @@ export default function App(): JSX.Element {
             <span className="nav-icon">⚙</span>
             Workspace Setup
           </button>
-          <button className={dashboardNavActive ? "nav-link active" : "nav-link"} onClick={() => setPage("dashboard")}>
+          <div className="nav-section-label">Dashboards</div>
+          <button
+            className={(page === "dashboard" && activeMetricScope === "team") || page === "team" ? "nav-link active" : "nav-link"}
+            onClick={() => openDashboardScope("team")}
+          >
             <span className="nav-icon">◫</span>
-            Dashboard
+            Teams
+          </button>
+          <button
+            className={page === "dashboard" && activeMetricScope === "value-stream" ? "nav-link active" : "nav-link"}
+            onClick={() => openDashboardScope("value-stream")}
+          >
+            <span className="nav-icon">▤</span>
+            VDE
+          </button>
+          <button
+            className={page === "dashboard" && activeMetricScope === "art" ? "nav-link active" : "nav-link"}
+            onClick={() => openDashboardScope("art")}
+          >
+            <span className="nav-icon">▥</span>
+            ART
           </button>
           <button className={page === "metrics" ? "nav-link active" : "nav-link"} onClick={() => setPage("metrics")}>
             <span className="nav-icon">☷</span>
@@ -4823,24 +5008,26 @@ export default function App(): JSX.Element {
               <section className="page-section dashboard-page">
                 <div className="section-head">
                   <div>
-                    <h1>Multi-Team Dashboard</h1>
-                    <p>Compare team health metrics and identify trends.</p>
+                    <h1>{dashboardScopeCopy.title}</h1>
+                    <p>{dashboardScopeCopy.subtitle}</p>
                   </div>
                   <div className="section-tools">
                     {renderPeriodPicker()}
-                    {renderMetricScopeSelector()}
                     <button className="soft-btn" disabled={busy || teams.length === 0} onClick={handleRecalculateAll}>
                       Recalculate
                     </button>
                   </div>
                 </div>
 
+                {renderDashboardScopeTabs()}
+                {renderDashboardContextPanel()}
+
                 <section className="table-panel dashboard-team-picker">
                   <div className="dashboard-team-picker-head">
                     <div>
-                      <div className="table-title small-title">Team Focus Selector</div>
+                      <div className="table-title small-title">{dashboardScopeCopy.focusTitle}</div>
                       <div className="table-subtitle">
-                        Workspace view: {activeWorkspaceProfile?.name ?? "All Teams"} • Current focus: {selectedTeam?.config.teamName ?? "-"}
+                        {dashboardScopeCopy.focusSubtitle} Current focus: {selectedTeam?.config.teamName ?? "-"}
                       </div>
                     </div>
                     <div className="dashboard-team-picker-actions">
@@ -4895,11 +5082,11 @@ export default function App(): JSX.Element {
 
                 <section className="table-panel dashboard-team-metrics">
                   <div className="table-title-row">
-                    <div className="table-title">Team Metrics</div>
+                    <div className="table-title">{dashboardScopeCopy.tableTitle}</div>
                     {renderMetricInfoButton("understandingTrends")}
                   </div>
                   <div className="table-subtitle">
-                    Current period: {periodSummary.currentLabel} • {periodSummary.comparisonLabel} • Bottleneck month: {formatPeriodLabel(dashboardBottleneckPeriod)}
+                    Current period: {periodSummary.currentLabel} • {periodSummary.comparisonLabel} • Bottleneck month: {formatPeriodLabel(dashboardBottleneckPeriod)} • Metrics configured for {METRIC_SCOPE_LABELS[activeMetricScope]}
                   </div>
 
                   <div className="table-wrap">
@@ -4991,7 +5178,7 @@ export default function App(): JSX.Element {
                     </p>
 
                     <div className="team-section-head dashboard-merged-detailed-head">
-                      <h2 className="team-section-title">Detailed Metrics</h2>
+                      <h2 className="team-section-title">{dashboardScopeCopy.detailTitle}</h2>
                       <button
                         type="button"
                         className="quick-insights-icon"
@@ -5025,7 +5212,7 @@ export default function App(): JSX.Element {
                     {renderDataMonitorPanel("data-monitor-panel")}
 
                     <section className="overview-top dashboard-merged-overview">
-                      <h2 className="team-section-title">Key Metrics</h2>
+                      <h2 className="team-section-title">Flow, Planning and Quality</h2>
                       <div className="team-kpi-grid">
                         {renderHealthCheckCompactCard("dashboard")}
                         <article className={`team-kpi-card flow-signal-card${isMetricVisible("wip-age-risk") ? "" : " metric-hidden"}`}>
