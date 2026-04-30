@@ -238,6 +238,11 @@ describe("computeTeamHealthSnapshot", () => {
     expect(snapshot.wipRiskHeatmap.rows.length).toBeGreaterThan(0);
     expect(snapshot.forecast.backlogCount).toBe(3);
     expect(snapshot.forecast.p50Days).not.toBeNull();
+    expect(snapshot.sleRisk.atRiskCount).toBe(3);
+    expect(snapshot.sleRisk.totalWip).toBe(3);
+    expect(snapshot.staleWip.staleCount).toBe(3);
+    expect(snapshot.workMix.totalDone).toBe(2);
+    expect(snapshot.workMix.topTypes.map((item) => item.issueType)).toEqual(["Bug", "Story"]);
   });
 
   it("builds exclusive WIP heatmap buckets that sum to total", () => {

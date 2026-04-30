@@ -43,6 +43,8 @@ export interface WorkflowConfig {
   activeStatuses?: string[];
 }
 
+export type TeamEntityType = "team" | "vde" | "art";
+
 export type SafeEntityType =
   | "team"
   | "agile-release-train"
@@ -84,6 +86,8 @@ export interface CsvMapping {
 
 export interface TeamConfig {
   teamName: string;
+  description?: string;
+  entityType?: TeamEntityType;
   doneConfig: DoneConfig;
   sleConfig: SleConfig;
   cycleTimeConfig?: CycleTimeConfig;

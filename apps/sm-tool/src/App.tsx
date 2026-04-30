@@ -40,6 +40,7 @@ import {
   type SleValues,
   type ParsedIssue,
   type TeamConfig,
+  type TeamEntityType,
   type VelocityConfig,
   type TeamMetrics,
   type TeamProgressSnapshot,
@@ -61,12 +62,23 @@ type JiraQueryTarget = "issueQuery" | "timeInStatusQuery";
 type TrendTone = "good" | "bad" | "neutral";
 type HealthTone = "good" | "warn" | "bad" | "neutral";
 type SleLineKey = "p50" | "p70" | "p85" | "p95";
+
+const TEAM_ENTITY_TYPES: TeamEntityType[] = ["team", "vde", "art"];
+const TEAM_ENTITY_LABELS: Record<TeamEntityType, string> = {
+  team: "Team",
+  vde: "VDE / Value Stream",
+  art: "ART / Train",
+};
+
 type ConfigurableMetricId =
   | "health-check"
   | "stories-done"
   | "avg-cycle-time"
   | "sle-p85"
   | "velocity"
+  | "sle-risk"
+  | "stale-wip"
+  | "work-mix"
   | "wip-age-risk"
   | "forecast"
   | "bug-ratio"
@@ -192,6 +204,33 @@ const CONFIGURABLE_METRICS: ConfigurableMetricDefinition[] = [
     description: "Delivered ticket count or story points by configured cadence.",
     defaultScopes: ["team", "art"],
     safeMetricIds: ["flow-velocity"],
+  },
+  {
+    id: "sle-risk",
+    label: "SLE Risk",
+    group: "Flow",
+    source: "Derived",
+    description: "Open WIP already older than the current SLE P85 threshold.",
+    defaultScopes: ["team", "value-stream", "art"],
+    safeMetricIds: ["flow-time", "flow-predictability"],
+  },
+  {
+    id: "stale-wip",
+    label: "Stale WIP",
+    group: "Flow",
+    source: "Jira CSV",
+    description: "Open work items that have not been updated for more than 14 days.",
+    defaultScopes: ["team", "value-stream", "art"],
+    safeMetricIds: ["flow-load"],
+  },
+  {
+    id: "work-mix",
+    label: "Work Mix",
+    group: "Quality",
+    source: "Jira CSV",
+    description: "Delivered work distribution by issue type.",
+    defaultScopes: ["team", "value-stream", "art"],
+    safeMetricIds: ["flow-distribution"],
   },
   {
     id: "wip-age-risk",
@@ -430,6 +469,31 @@ interface WipRiskSnapshot {
   over30DeltaPpVs30dBaseline: number;
 }
 
+interface SleRiskSnapshot {
+  thresholdDays: number | null;
+  atRiskCount: number;
+  totalWip: number;
+  atRiskPct: number | null;
+}
+
+interface StaleWipSnapshot {
+  thresholdDays: number;
+  staleCount: number;
+  totalWip: number;
+  stalePct: number | null;
+}
+
+interface WorkMixItem {
+  issueType: string;
+  count: number;
+  percentage: number;
+}
+
+interface WorkMixSnapshot {
+  totalDone: number;
+  topTypes: WorkMixItem[];
+}
+
 interface LeadTimeByTypeSnapshot {
   issueType: string;
   avgDays: number;
@@ -519,6 +583,9 @@ interface TeamHealthSnapshot {
   netFlow: NetFlowSnapshot;
   throughputStability: ThroughputStabilitySnapshot;
   wipRisk: WipRiskSnapshot;
+  sleRisk: SleRiskSnapshot;
+  staleWip: StaleWipSnapshot;
+  workMix: WorkMixSnapshot;
   wipRiskHeatmap: WipRiskHeatmapSnapshot;
   flowEfficiency: FlowEfficiencySnapshot;
   queueTime: QueueTimeSnapshot;
@@ -547,6 +614,8 @@ interface TrendBundle {
 
 interface TeamMetricsHealthTrendBundle {
   wipAgeRisk: TrendResult;
+  sleRisk: TrendResult;
+  staleWip: TrendResult;
   bugRatio: TrendResult;
   monteCarlo: TrendResult;
 }
@@ -572,6 +641,9 @@ interface TeamHealthSignals {
   netFlow: MetricHealthSignal;
   throughputStability: MetricHealthSignal;
   wipAgeRisk: MetricHealthSignal;
+  sleRisk: MetricHealthSignal;
+  staleWip: MetricHealthSignal;
+  workMix: MetricHealthSignal;
   leadTimeByType: MetricHealthSignal;
   flowEfficiency: MetricHealthSignal;
   queueTimeByStatus: MetricHealthSignal;
@@ -620,6 +692,9 @@ type MetricHelpKey =
   | "netFlow"
   | "throughputStability"
   | "wipAgeRisk"
+  | "sleRisk"
+  | "staleWip"
+  | "workMix"
   | "leadTimeByType"
   | "flowEfficiency"
   | "queueTimeByStatus"
@@ -851,6 +926,46 @@ const METRIC_HELP: Record<MetricHelpKey, MetricHelpCopy> = {
       { tone: "bad", label: "Action", range: "> 40%" },
     ],
   },
+  sleRisk: {
+    title: "SLE Risk",
+    meaning: "Open WIP already older than the current SLE P85 threshold.",
+    whyGood: "Lower is better. It shows active tickets likely to breach your normal delivery expectation.",
+    improveTips: [
+      "Swarm on tickets older than the SLE P85 threshold.",
+      "Split or close aged work that is no longer valuable.",
+      "Check whether the active/done statuses are configured correctly.",
+    ],
+    healthScale: [
+      { tone: "good", label: "Healthy", range: "<= 10% of WIP" },
+      { tone: "warn", label: "Watch", range: "10.1% to 25%" },
+      { tone: "bad", label: "Action", range: "> 25%" },
+    ],
+  },
+  staleWip: {
+    title: "Stale WIP",
+    meaning: "Open tickets that have not been updated for more than 14 days.",
+    whyGood: "Lower is better. Stale WIP often means blocked, forgotten or oversized work.",
+    improveTips: [
+      "Review stale items in daily flow review.",
+      "Move blocked work explicitly to the right status or close it.",
+      "Keep active work small enough to change status frequently.",
+    ],
+    healthScale: [
+      { tone: "good", label: "Healthy", range: "<= 10% of WIP" },
+      { tone: "warn", label: "Watch", range: "10.1% to 25%" },
+      { tone: "bad", label: "Action", range: "> 25%" },
+    ],
+  },
+  workMix: {
+    title: "Work Mix",
+    meaning: "Delivered work distribution by issue type in the selected period.",
+    whyGood: "Healthy mix depends on context. A single dominant work type can hide feature starvation or quality load.",
+    improveTips: [
+      "Use the mix to discuss feature work, defects, support and tech debt separately.",
+      "Avoid comparing teams only by ticket count when the mix differs.",
+      "Tune issue type mapping if Jira types are too broad.",
+    ],
+  },
   leadTimeByType: {
     title: "Lead Time by Type",
     meaning: "Average Created->Resolved time by issue type.",
@@ -1070,6 +1185,7 @@ export default function App(): JSX.Element {
   const [showAddTeamModal, setShowAddTeamModal] = useState(false);
   const [newTeamName, setNewTeamName] = useState("");
   const [newTeamDescription, setNewTeamDescription] = useState("");
+  const [newTeamEntityType, setNewTeamEntityType] = useState<TeamEntityType>("team");
 
   const [showAdvancedImport, setShowAdvancedImport] = useState(false);
   const [doneStatusesInput, setDoneStatusesInput] = useState("");
@@ -1121,6 +1237,18 @@ export default function App(): JSX.Element {
     const teamIdSet = new Set(activeWorkspaceProfile.teamIds);
     return teams.filter((team) => teamIdSet.has(team.teamId));
   }, [teams, activeWorkspaceProfile]);
+
+  const dashboardTeams = useMemo(() => {
+    const scopedTeams = filteredTeams.filter((team) => getMetricScopeForEntityType(getTeamEntityType(team.config)) === activeMetricScope);
+
+    if (activeMetricScope === "team" || scopedTeams.length > 0) {
+      return scopedTeams;
+    }
+
+    return filteredTeams;
+  }, [filteredTeams, activeMetricScope]);
+
+  const dashboardUsesWorkspaceFallback = activeMetricScope !== "team" && dashboardTeams.length === filteredTeams.length;
 
   const selectedTeam = useMemo(
     () => filteredTeams.find((team) => team.teamId === selectedTeamId) ?? null,
@@ -1420,7 +1548,7 @@ export default function App(): JSX.Element {
   const dashboardRows = useMemo(() => {
     const previousPeriod = getPreviousPeriodKey(periodMonth, availableMonths);
 
-    return filteredTeams.map((team) => {
+    return dashboardTeams.map((team) => {
       const effectiveEntries = buildEffectiveBottleneckEntries(team);
       const current = computeSnapshot(team.metrics, periodMonth, team.config, team.parsedIssues, periodReferenceDate);
       const previous = previousPeriod
@@ -1445,6 +1573,8 @@ export default function App(): JSX.Element {
             );
       const healthTrends: TeamMetricsHealthTrendBundle = {
         wipAgeRisk: trend(healthCurrent.wipRisk.over30Pct, healthPrevious?.wipRisk.over30Pct ?? null, "down"),
+        sleRisk: trend(healthCurrent.sleRisk.atRiskPct, healthPrevious?.sleRisk.atRiskPct ?? null, "down"),
+        staleWip: trend(healthCurrent.staleWip.stalePct, healthPrevious?.staleWip.stalePct ?? null, "down"),
         bugRatio: trend(healthCurrent.bugRatio.doneBugRatio, healthPrevious?.bugRatio.doneBugRatio ?? null, "down"),
         monteCarlo: trend(healthCurrent.forecast.p85Days, healthPrevious?.forecast.p85Days ?? null, "down"),
       };
@@ -1460,15 +1590,15 @@ export default function App(): JSX.Element {
         bottleneck: getBottleneckForPeriod(effectiveEntries, dashboardBottleneckPeriod),
       };
     });
-  }, [filteredTeams, periodMonth, availableMonths, dashboardBottleneckPeriod, periodReferenceDate]);
+  }, [dashboardTeams, periodMonth, availableMonths, dashboardBottleneckPeriod, periodReferenceDate]);
 
   const dashboardScopeCopy = DASHBOARD_SCOPE_COPY[activeMetricScope];
 
   const dashboardScopeSummary = useMemo(() => {
     const doneCount = dashboardRows.reduce((sum, row) => sum + row.current.done, 0);
     const openWipCount = dashboardRows.reduce((sum, row) => sum + row.healthCurrent.agingWip.total, 0);
-    const dataRowCount = filteredTeams.reduce((sum, team) => sum + team.parsedIssues.length, 0);
-    const importCount = filteredTeams.reduce((sum, team) => sum + team.importFiles.length, 0);
+    const dataRowCount = dashboardTeams.reduce((sum, team) => sum + team.parsedIssues.length, 0);
+    const importCount = dashboardTeams.reduce((sum, team) => sum + team.importFiles.length, 0);
     const cycleValues = dashboardRows
       .map((row) => row.current.avgCycleTime)
       .filter((value): value is number => value !== null && Number.isFinite(value));
@@ -1480,7 +1610,7 @@ export default function App(): JSX.Element {
     );
 
     return {
-      teamCount: filteredTeams.length,
+      teamCount: dashboardTeams.length,
       doneCount,
       openWipCount,
       dataRowCount,
@@ -1491,7 +1621,7 @@ export default function App(): JSX.Element {
       actionTeams: healthChecks.filter((item) => item.actionCount > 0).length,
       watchTeams: healthChecks.filter((item) => item.actionCount === 0 && item.watchCount > 0).length,
     };
-  }, [dashboardRows, filteredTeams]);
+  }, [dashboardRows, dashboardTeams]);
 
   const selectedTeamRow = useMemo(() => {
     if (!selectedTeamId) {
@@ -2031,7 +2161,12 @@ export default function App(): JSX.Element {
         <div className="dashboard-context-copy">
           <div className="scope-eyebrow">{METRIC_SCOPE_LABELS[activeMetricScope]}</div>
           <h2>{activeWorkspaceProfile?.name ?? "All Teams"}</h2>
-          <p>{dashboardScopeCopy.subtitle}</p>
+          <p>
+            {dashboardScopeCopy.subtitle}
+            {dashboardUsesWorkspaceFallback
+              ? " No typed entity exists for this layer yet, so this dashboard uses the active workspace view."
+              : ""}
+          </p>
           <div className="dashboard-context-actions">
             <button className="soft-btn" onClick={() => setPage("workspace")}>
               Manage Views
@@ -2102,7 +2237,7 @@ export default function App(): JSX.Element {
           </button>
           {workspaceHandle && (
             <button className="soft-btn" onClick={() => setShowAddTeamModal(true)}>
-              + Add Team
+              + Add Entity
             </button>
           )}
         </div>
@@ -3227,7 +3362,7 @@ export default function App(): JSX.Element {
 
     setBusy(true);
     try {
-      const createdTeam = await addTeam(workspaceHandle, name, newTeamDescription.trim() || undefined);
+      const createdTeam = await addTeam(workspaceHandle, name, newTeamDescription.trim() || undefined, newTeamEntityType);
       const loadedTeams = await listTeams(workspaceHandle);
       setTeams(loadedTeams);
 
@@ -3249,8 +3384,9 @@ export default function App(): JSX.Element {
       setSelectedTeamId(createdTeam.teamId);
       setNewTeamName("");
       setNewTeamDescription("");
+      setNewTeamEntityType("team");
       setShowAddTeamModal(false);
-      setStatus(`Team "${name}" created.`);
+      setStatus(`${TEAM_ENTITY_LABELS[newTeamEntityType]} "${name}" created.`);
     } catch (error) {
       setStatus(`Failed to create team: ${getErrorMessage(error)}`);
     } finally {
@@ -4678,8 +4814,11 @@ export default function App(): JSX.Element {
       "Done",
       "Avg Cycle Time",
       "SLE P85",
+      "SLE Risk",
       "WIP Age Risk",
+      "Stale WIP",
       "Bug Ratio",
+      "Work Mix",
       "Monte Carlo",
       "2+ Sprint %",
       "Velocity",
@@ -4690,16 +4829,19 @@ export default function App(): JSX.Element {
       formatMetricWithTrendCsv(String(row.current.done), row.trends.done),
       formatMetricWithTrendCsv(formatDays(row.current.avgCycleTime), row.trends.avgCycleTime),
       formatMetricWithTrendCsv(formatDays(row.current.sle.p85), row.trends.sleP85),
+      formatMetricWithTrendCsv(formatSleRiskValue(row.healthCurrent.sleRisk), row.healthTrends.sleRisk),
       formatMetricWithTrendCsv(
         `${formatPercentValue(row.healthCurrent.wipRisk.over30Pct)}% >1 month`,
         row.healthTrends.wipAgeRisk,
       ),
+      formatMetricWithTrendCsv(formatStaleWipValue(row.healthCurrent.staleWip), row.healthTrends.staleWip),
       formatMetricWithTrendCsv(
         row.healthCurrent.bugRatio.doneBugRatio === null
           ? "-"
           : `${formatPercentValue(row.healthCurrent.bugRatio.doneBugRatio)}%`,
         row.healthTrends.bugRatio,
       ),
+      formatWorkMixSummary(row.healthCurrent.workMix),
       formatMetricWithTrendCsv(
         row.healthCurrent.forecast.p85Days === null ? "-" : `P85 ${row.healthCurrent.forecast.p85Days} days`,
         row.healthTrends.monteCarlo,
@@ -4851,7 +4993,7 @@ export default function App(): JSX.Element {
                     <button className="soft-btn" onClick={handlePickWorkspace} disabled={busy}>
                       Choose Workspace
                     </button>
-                    <button onClick={() => setShowAddTeamModal(true)}>+ Add Team</button>
+                    <button onClick={() => setShowAddTeamModal(true)}>+ Add Entity</button>
                   </div>
                 </div>
 
@@ -4967,6 +5109,7 @@ export default function App(): JSX.Element {
                 <div className="team-cards-grid">
                   {filteredTeams.map((team) => {
                     const latestImport = team.importFiles[0];
+                    const entityType = getTeamEntityType(team.config);
                     return (
                       <article
                         key={team.teamId}
@@ -4983,6 +5126,7 @@ export default function App(): JSX.Element {
                           {team.config.teamName}
                         </button>
                         <p>{team.config.description || "No description"}</p>
+                        <div className="card-meta">{TEAM_ENTITY_LABELS[entityType]}</div>
                         <div className="card-meta">Imports: {team.importFiles.length} files</div>
                         <div className="card-meta">
                           Last import: {latestImport ? formatDateText(latestImport.updatedAt) : "-"}
@@ -5046,14 +5190,15 @@ export default function App(): JSX.Element {
                         Workspace Setup
                       </button>
                       <button onClick={() => setShowAddTeamModal(true)}>
-                        + Add Team
+                        + Add Entity
                       </button>
                     </div>
                   </div>
 
                   <div className="team-cards-grid dashboard-team-cards">
-                    {filteredTeams.map((team) => {
+                    {dashboardTeams.map((team) => {
                       const latestImport = team.importFiles[0];
+                      const entityType = getTeamEntityType(team.config);
                       return (
                         <article
                           key={`dashboard-picker-${team.teamId}`}
@@ -5070,14 +5215,14 @@ export default function App(): JSX.Element {
                             {team.config.teamName}
                           </button>
                           <p>{team.config.description || "No description"}</p>
-                          <div className="card-meta">Imports: {team.importFiles.length} files</div>
+                          <div className="card-meta">{TEAM_ENTITY_LABELS[entityType]} • Imports: {team.importFiles.length} files</div>
                           <div className="card-meta">
                             Last import: {latestImport ? formatDateText(latestImport.updatedAt) : "-"}
                           </div>
                         </article>
                       );
                     })}
-                    {filteredTeams.length === 0 && <div className="muted">No teams in this workspace view yet.</div>}
+                    {dashboardTeams.length === 0 && <div className="muted">No entities in this dashboard scope yet.</div>}
                   </div>
                 </section>
 
@@ -5098,8 +5243,11 @@ export default function App(): JSX.Element {
                           {isMetricVisible("stories-done") && <th>Done</th>}
                           {isMetricVisible("avg-cycle-time") && <th>Avg Cycle Time</th>}
                           {isMetricVisible("sle-p85") && <th>SLE P85</th>}
+                          {isMetricVisible("sle-risk") && <th>SLE Risk</th>}
                           {isMetricVisible("wip-age-risk") && <th>WIP Age Risk</th>}
+                          {isMetricVisible("stale-wip") && <th>Stale WIP</th>}
                           {isMetricVisible("bug-ratio") && <th>Bug Ratio</th>}
+                          {isMetricVisible("work-mix") && <th>Work Mix</th>}
                           {isMetricVisible("forecast") && <th>Monte Carlo</th>}
                           {isMetricVisible("sprint-predictability") && <th>2+ Sprint %</th>}
                           {isMetricVisible("velocity") && <th>Velocity</th>}
@@ -5127,11 +5275,31 @@ export default function App(): JSX.Element {
                             {isMetricVisible("stories-done") && <td>{renderMetricWithTrend(String(row.current.done), row.trends.done)}</td>}
                             {isMetricVisible("avg-cycle-time") && <td>{renderMetricWithTrend(formatDays(row.current.avgCycleTime), row.trends.avgCycleTime)}</td>}
                             {isMetricVisible("sle-p85") && <td>{renderMetricWithTrend(formatDays(row.current.sle.p85), row.trends.sleP85)}</td>}
+                            {isMetricVisible("sle-risk") && (
+                              <td>
+                                {renderMetricWithTrend(
+                                  row.healthCurrent.sleRisk.atRiskPct === null
+                                    ? "-"
+                                    : `${formatPercentValue(row.healthCurrent.sleRisk.atRiskPct)}% (${row.healthCurrent.sleRisk.atRiskCount})`,
+                                  row.healthTrends.sleRisk,
+                                )}
+                              </td>
+                            )}
                             {isMetricVisible("wip-age-risk") && (
                               <td>
                                 {renderMetricWithTrend(
                                   `${formatPercentValue(row.healthCurrent.wipRisk.over30Pct)}% >1 month`,
                                   row.healthTrends.wipAgeRisk,
+                                )}
+                              </td>
+                            )}
+                            {isMetricVisible("stale-wip") && (
+                              <td>
+                                {renderMetricWithTrend(
+                                  row.healthCurrent.staleWip.stalePct === null
+                                    ? "-"
+                                    : `${formatPercentValue(row.healthCurrent.staleWip.stalePct)}% (${row.healthCurrent.staleWip.staleCount})`,
+                                  row.healthTrends.staleWip,
                                 )}
                               </td>
                             )}
@@ -5144,6 +5312,9 @@ export default function App(): JSX.Element {
                                   row.healthTrends.bugRatio,
                                 )}
                               </td>
+                            )}
+                            {isMetricVisible("work-mix") && (
+                              <td>{formatWorkMixSummary(row.healthCurrent.workMix)}</td>
                             )}
                             {isMetricVisible("forecast") && (
                               <td>
@@ -5251,6 +5422,20 @@ export default function App(): JSX.Element {
                             {formatPercentValue(Math.max(0, selectedTeamHealth.wipRisk.over30DeltaPpVs30dBaseline))}%
                           </small>
                         </article>
+                        <article className={`team-kpi-card flow-signal-card${isMetricVisible("sle-risk") ? "" : " metric-hidden"}`}>
+                          {renderMetricLabel("SLE Risk", "sleRisk", selectedTeamHealthSignals.sleRisk)}
+                          <strong>{formatSleRiskValue(selectedTeamHealth.sleRisk)}</strong>
+                          <small>
+                            Threshold {formatDays(selectedTeamHealth.sleRisk.thresholdDays)} • WIP {selectedTeamHealth.sleRisk.totalWip}
+                          </small>
+                        </article>
+                        <article className={`team-kpi-card flow-signal-card${isMetricVisible("stale-wip") ? "" : " metric-hidden"}`}>
+                          {renderMetricLabel("Stale WIP", "staleWip", selectedTeamHealthSignals.staleWip)}
+                          <strong>{formatStaleWipValue(selectedTeamHealth.staleWip)}</strong>
+                          <small>
+                            No update for &gt;{selectedTeamHealth.staleWip.thresholdDays} days • WIP {selectedTeamHealth.staleWip.totalWip}
+                          </small>
+                        </article>
                         <article className={`team-kpi-card flow-signal-card${isMetricVisible("forecast") ? "" : " metric-hidden"}`}>
                           {renderMetricLabel(
                             "Forecast (Monte Carlo lite)",
@@ -5300,6 +5485,18 @@ export default function App(): JSX.Element {
                             {selectedTeamHealth.bugRatio.doneBugCount}/{selectedTeamHealth.bugRatio.doneTotal} bugs in done
                           </small>
                           {renderMetricDataIssue("doneBugRatio")}
+                        </article>
+                        <article className={`team-kpi-card${isMetricVisible("work-mix") ? "" : " metric-hidden"}`}>
+                          {renderMetricLabel("Work Mix", "workMix", selectedTeamHealthSignals.workMix)}
+                          <strong>{formatWorkMixSummary(selectedTeamHealth.workMix)}</strong>
+                          <small>
+                            {selectedTeamHealth.workMix.totalDone === 0
+                              ? "No delivered work in selected period."
+                              : selectedTeamHealth.workMix.topTypes
+                                  .slice(0, 3)
+                                  .map((item) => `${item.issueType} ${formatPercentValue(item.percentage)}%`)
+                                  .join(" • ")}
+                          </small>
                         </article>
                       </div>
                       <section className="flow-health-grid">
@@ -5689,6 +5886,20 @@ export default function App(): JSX.Element {
                                 {formatPercentValue(Math.max(0, selectedTeamHealth.wipRisk.over30DeltaPpVs30dBaseline))}%
                               </small>
                             </article>
+                            <article className={`team-kpi-card flow-signal-card${isMetricVisible("sle-risk") ? "" : " metric-hidden"}`}>
+                              {renderMetricLabel("SLE Risk", "sleRisk", selectedTeamHealthSignals.sleRisk)}
+                              <strong>{formatSleRiskValue(selectedTeamHealth.sleRisk)}</strong>
+                              <small>
+                                Threshold {formatDays(selectedTeamHealth.sleRisk.thresholdDays)} • WIP {selectedTeamHealth.sleRisk.totalWip}
+                              </small>
+                            </article>
+                            <article className={`team-kpi-card flow-signal-card${isMetricVisible("stale-wip") ? "" : " metric-hidden"}`}>
+                              {renderMetricLabel("Stale WIP", "staleWip", selectedTeamHealthSignals.staleWip)}
+                              <strong>{formatStaleWipValue(selectedTeamHealth.staleWip)}</strong>
+                              <small>
+                                No update for &gt;{selectedTeamHealth.staleWip.thresholdDays} days • WIP {selectedTeamHealth.staleWip.totalWip}
+                              </small>
+                            </article>
                             <article className={`team-kpi-card flow-signal-card${isMetricVisible("forecast") ? "" : " metric-hidden"}`}>
                               {renderMetricLabel(
                                 "Forecast (Monte Carlo lite)",
@@ -5738,6 +5949,18 @@ export default function App(): JSX.Element {
                                 {selectedTeamHealth.bugRatio.doneBugCount}/{selectedTeamHealth.bugRatio.doneTotal} bugs in done
                               </small>
                               {renderMetricDataIssue("doneBugRatio")}
+                            </article>
+                            <article className={`team-kpi-card${isMetricVisible("work-mix") ? "" : " metric-hidden"}`}>
+                              {renderMetricLabel("Work Mix", "workMix", selectedTeamHealthSignals.workMix)}
+                              <strong>{formatWorkMixSummary(selectedTeamHealth.workMix)}</strong>
+                              <small>
+                                {selectedTeamHealth.workMix.totalDone === 0
+                                  ? "No delivered work in selected period."
+                                  : selectedTeamHealth.workMix.topTypes
+                                      .slice(0, 3)
+                                      .map((item) => `${item.issueType} ${formatPercentValue(item.percentage)}%`)
+                                      .join(" • ")}
+                              </small>
                             </article>
                           </div>
                           <section className="flow-health-grid">
@@ -7044,7 +7267,7 @@ export default function App(): JSX.Element {
         <div className="modal-overlay" onClick={() => setShowAddTeamModal(false)}>
           <div className="modal-card" onClick={(event) => event.stopPropagation()}>
             <div className="modal-head">
-              <h3>Add New Team</h3>
+              <h3>Add New Entity</h3>
               <button className="ghost-btn" onClick={() => setShowAddTeamModal(false)}>
                 ✕
               </button>
@@ -7052,13 +7275,27 @@ export default function App(): JSX.Element {
 
             <form onSubmit={handleCreateTeam} className="modal-form">
               <label>
-                Team Name
+                Name
                 <input
                   value={newTeamName}
                   onChange={(event) => setNewTeamName(event.target.value)}
-                  placeholder="e.g., Platform Engineering"
+                  placeholder="e.g., Platform Engineering or Payments ART"
                   required
                 />
+              </label>
+
+              <label>
+                Layer
+                <select
+                  value={newTeamEntityType}
+                  onChange={(event) => setNewTeamEntityType(event.target.value as TeamEntityType)}
+                >
+                  {TEAM_ENTITY_TYPES.map((entityType) => (
+                    <option key={entityType} value={entityType}>
+                      {TEAM_ENTITY_LABELS[entityType]}
+                    </option>
+                  ))}
+                </select>
               </label>
 
               <label>
@@ -7075,7 +7312,7 @@ export default function App(): JSX.Element {
                   Cancel
                 </button>
                 <button type="submit" disabled={busy}>
-                  Create Team
+                  Create {TEAM_ENTITY_LABELS[newTeamEntityType]}
                 </button>
               </div>
             </form>
@@ -7533,6 +7770,35 @@ function slugifyValue(value: string): string {
   return slug || "query";
 }
 
+function getTeamEntityType(config: TeamConfig | undefined): TeamEntityType {
+  if (config?.entityType === "team" || config?.entityType === "vde" || config?.entityType === "art") {
+    return config.entityType;
+  }
+
+  const safeType = config?.safeConfig?.entityType;
+  if (safeType === "agile-release-train" || safeType === "solution-train") {
+    return "art";
+  }
+
+  if (safeType === "development-value-stream" || safeType === "operational-value-stream" || safeType === "portfolio") {
+    return "vde";
+  }
+
+  return "team";
+}
+
+function getMetricScopeForEntityType(entityType: TeamEntityType): MetricScope {
+  if (entityType === "vde") {
+    return "value-stream";
+  }
+
+  if (entityType === "art") {
+    return "art";
+  }
+
+  return "team";
+}
+
 function normalizeVelocityConfig(config: VelocityConfig | undefined): VelocityConfig {
   if (config?.mode === "weekly-ticket-count" || config?.mode === "weekly") {
     return { mode: "weekly-ticket-count" };
@@ -7914,29 +8180,44 @@ const TEAM_HEALTH_METRIC_META: Record<
     priority: 3,
     recommendation: "Close stale tickets and split aged work into smaller items.",
   },
+  sleRisk: {
+    label: "SLE Risk",
+    priority: 4,
+    recommendation: "Swarm on active work that is already older than the SLE P85 threshold.",
+  },
+  staleWip: {
+    label: "Stale WIP",
+    priority: 5,
+    recommendation: "Review old untouched tickets and make blocked work explicit.",
+  },
+  workMix: {
+    label: "Work Mix",
+    priority: 11,
+    recommendation: "Separate feature, defect, support and debt discussions when the mix is skewed.",
+  },
   leadTimeByType: {
     label: "Lead Time by Type",
-    priority: 6,
+    priority: 7,
     recommendation: "Target the slowest work type first and remove handoff delays.",
   },
   flowEfficiency: {
     label: "Flow Efficiency",
-    priority: 4,
+    priority: 6,
     recommendation: "Cut queue/wait states and pull work faster between steps.",
   },
   queueTimeByStatus: {
     label: "Queue Time by Status",
-    priority: 5,
+    priority: 8,
     recommendation: "Set WIP limits and swarm on the longest waiting stage.",
   },
   bottleneckTrend: {
     label: "Bottleneck Trend",
-    priority: 9,
+    priority: 10,
     recommendation: "Run a focused experiment on the recurring bottleneck stage.",
   },
   forecast: {
     label: "Forecast (Monte Carlo lite)",
-    priority: 10,
+    priority: 12,
     recommendation: "Reduce open backlog and stabilize throughput to shorten forecast horizon.",
   },
 };
@@ -7989,6 +8270,36 @@ export function buildTeamHealthSignals(snapshot: TeamHealthSnapshot): TeamHealth
       : snapshot.wipRisk.over30Pct <= 40
         ? createMetricHealth("warn", "Aging WIP is rising; monitor flow blockage.")
         : createMetricHealth("bad", "High aging WIP share; flow needs intervention.");
+
+  const sleRisk =
+    snapshot.sleRisk.atRiskPct === null
+      ? snapshot.sleRisk.thresholdDays === null
+        ? createMetricHealth("neutral", "Need completed work history to calculate SLE P85 threshold.")
+        : createMetricHealth("neutral", "No open WIP to compare against SLE.")
+      : snapshot.sleRisk.atRiskPct <= 10
+        ? createMetricHealth("good", "Low share of WIP older than SLE P85.")
+        : snapshot.sleRisk.atRiskPct <= 25
+          ? createMetricHealth("warn", "Some active work is older than SLE P85.")
+          : createMetricHealth("bad", "High share of active work is already past SLE P85.");
+
+  const staleWip =
+    snapshot.staleWip.stalePct === null
+      ? createMetricHealth("neutral", "No open WIP to evaluate for stale updates.")
+      : snapshot.staleWip.stalePct <= 10
+        ? createMetricHealth("good", "Low share of stale WIP.")
+        : snapshot.staleWip.stalePct <= 25
+          ? createMetricHealth("warn", "Some active work has not moved recently.")
+          : createMetricHealth("bad", "High share of WIP has not been updated recently.");
+
+  const dominantWorkType = snapshot.workMix.topTypes[0] ?? null;
+  const workMix =
+    dominantWorkType === null
+      ? createMetricHealth("neutral", "No delivered work in selected period.")
+      : dominantWorkType.percentage <= 65
+        ? createMetricHealth("good", "Delivered work mix is not dominated by one issue type.")
+        : dominantWorkType.percentage <= 80
+          ? createMetricHealth("warn", `${dominantWorkType.issueType} dominates delivered work mix.`)
+          : createMetricHealth("bad", `Delivered work is heavily dominated by ${dominantWorkType.issueType}.`);
 
   const leadTimeAnchor = snapshot.leadTimeByType[0]?.avgDays ?? null;
   const leadTimeByType =
@@ -8043,6 +8354,9 @@ export function buildTeamHealthSignals(snapshot: TeamHealthSnapshot): TeamHealth
     netFlow,
     throughputStability,
     wipAgeRisk,
+    sleRisk,
+    staleWip,
+    workMix,
     leadTimeByType,
     flowEfficiency,
     queueTimeByStatus,
@@ -8451,6 +8765,31 @@ function formatDays(value: number | null): string {
     return "-";
   }
   return `${value.toFixed(1)} days`;
+}
+
+function formatSleRiskValue(snapshot: SleRiskSnapshot): string {
+  if (snapshot.atRiskPct === null) {
+    return "-";
+  }
+
+  return `${formatPercentValue(snapshot.atRiskPct)}% (${snapshot.atRiskCount})`;
+}
+
+function formatStaleWipValue(snapshot: StaleWipSnapshot): string {
+  if (snapshot.stalePct === null) {
+    return "-";
+  }
+
+  return `${formatPercentValue(snapshot.stalePct)}% (${snapshot.staleCount})`;
+}
+
+function formatWorkMixSummary(snapshot: WorkMixSnapshot): string {
+  const top = snapshot.topTypes[0] ?? null;
+  if (!top) {
+    return "-";
+  }
+
+  return `${top.issueType} ${formatPercentValue(top.percentage)}%`;
 }
 
 function formatPercentValue(value: number): string {
@@ -9295,6 +9634,9 @@ export function computeTeamHealthSnapshot(
   const over60 = wipAgingItems.filter((item) => item.agingDays > 60).length;
   const over90 = wipAgingItems.filter((item) => item.agingDays > 90).length;
   const wipRisk = buildWipRiskSnapshot(wipAgingItems, wipIssues.length);
+  const sleRisk = buildSleRiskSnapshot(doneWithDeliveryDate, wipAgingItems, teamConfig);
+  const staleWip = buildStaleWipSnapshot(wipIssues, todayStart);
+  const workMix = buildWorkMixSnapshot(doneInPeriod);
   const wipRiskHeatmap = buildWipRiskHeatmapSnapshot(wipAgingItems);
   const selectedBottleneckEntry = resolveBottleneckEntryForPeriod(bottleneckEntries, selectedPeriod);
   const flowEfficiency = buildFlowEfficiencySnapshot(selectedBottleneckEntry, selectedPeriod);
@@ -9313,6 +9655,9 @@ export function computeTeamHealthSnapshot(
     netFlow,
     throughputStability,
     wipRisk,
+    sleRisk,
+    staleWip,
+    workMix,
     wipRiskHeatmap,
     flowEfficiency,
     queueTime,
@@ -9440,6 +9785,93 @@ function buildWipRiskSnapshot(items: AgingWipItem[], totalWip: number): WipRiskS
     over60Pct,
     over90Pct,
     over30DeltaPpVs30dBaseline: over30Pct - over30BaselinePct,
+  };
+}
+
+function buildSleRiskSnapshot(
+  doneWithDeliveryDate: ParsedIssue[],
+  wipAgingItems: AgingWipItem[],
+  teamConfig: TeamConfig | undefined,
+): SleRiskSnapshot {
+  const observedIssueTypes = doneWithDeliveryDate.map((issue) => issue.issueType);
+  const sleIssueTypes = new Set(
+    resolveEffectiveSleIssueTypes(teamConfig?.sleConfig.issueTypes, observedIssueTypes).map(normalizeTextValue),
+  );
+  const cycleTimes = doneWithDeliveryDate
+    .filter((issue) => issue.created && getIssueDeliveryDate(issue))
+    .filter((issue) => sleIssueTypes.has(normalizeTextValue(issue.issueType)))
+    .map((issue) => {
+      const deliveryDate = getIssueDeliveryDate(issue) as Date;
+      return (deliveryDate.getTime() - (issue.created as Date).getTime()) / (24 * 60 * 60 * 1000);
+    })
+    .filter((value) => Number.isFinite(value) && value >= 0);
+  const thresholdDays = buildSleValues(cycleTimes, "ceil").p85;
+
+  if (thresholdDays === null || wipAgingItems.length === 0) {
+    return {
+      thresholdDays,
+      atRiskCount: 0,
+      totalWip: wipAgingItems.length,
+      atRiskPct: wipAgingItems.length === 0 ? null : 0,
+    };
+  }
+
+  const atRiskCount = wipAgingItems.filter((item) => item.agingDays > thresholdDays).length;
+  return {
+    thresholdDays,
+    atRiskCount,
+    totalWip: wipAgingItems.length,
+    atRiskPct: (atRiskCount / wipAgingItems.length) * 100,
+  };
+}
+
+function buildStaleWipSnapshot(wipIssues: ParsedIssue[], todayStartMs: number): StaleWipSnapshot {
+  const thresholdDays = 14;
+  const staleCount = wipIssues.filter((issue) => {
+    const activityDate = issue.updated ?? issue.created;
+    if (!activityDate) {
+      return true;
+    }
+
+    const ageDays = Math.max(0, Math.floor((todayStartMs - startOfDay(activityDate).getTime()) / (24 * 60 * 60 * 1000)));
+    return ageDays > thresholdDays;
+  }).length;
+
+  return {
+    thresholdDays,
+    staleCount,
+    totalWip: wipIssues.length,
+    stalePct: wipIssues.length === 0 ? null : (staleCount / wipIssues.length) * 100,
+  };
+}
+
+function buildWorkMixSnapshot(doneInPeriod: ParsedIssue[]): WorkMixSnapshot {
+  const counts = new Map<string, { issueType: string; count: number }>();
+  doneInPeriod.forEach((issue) => {
+    const issueType = issue.issueType.trim() || "Unknown";
+    const key = normalizeTextValue(issueType) || "unknown";
+    const current = counts.get(key) ?? { issueType, count: 0 };
+    current.count += 1;
+    counts.set(key, current);
+  });
+
+  const totalDone = doneInPeriod.length;
+  const topTypes = Array.from(counts.values())
+    .map((item) => ({
+      issueType: item.issueType,
+      count: item.count,
+      percentage: totalDone === 0 ? 0 : (item.count / totalDone) * 100,
+    }))
+    .sort((left, right) => {
+      if (right.count !== left.count) {
+        return right.count - left.count;
+      }
+      return left.issueType.localeCompare(right.issueType);
+    });
+
+  return {
+    totalDone,
+    topTypes,
   };
 }
 

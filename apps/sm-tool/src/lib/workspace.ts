@@ -12,6 +12,7 @@ import {
   type MetricScope,
   type ParsedIssue,
   type TeamConfig,
+  type TeamEntityType,
   type TeamMetrics,
   type TeamProgressSnapshot,
   type WorkspaceConfig,
@@ -247,6 +248,7 @@ export async function addTeam(
   workspaceHandle: FileSystemDirectoryHandle,
   teamName: string,
   description?: string,
+  entityType: TeamEntityType = "team",
 ): Promise<TeamRuntime> {
   const teamsDir = await ensureTeamsDirectory(workspaceHandle);
 
@@ -265,7 +267,7 @@ export async function addTeam(
   await teamHandle.getDirectoryHandle("cache", { create: true });
   await teamHandle.getDirectoryHandle("manual", { create: true });
 
-  const config = buildDefaultTeamConfig(teamName || teamId, description);
+  const config = buildDefaultTeamConfig(teamName || teamId, description, entityType);
   await writeJsonFile(teamHandle, "team.json", config);
 
   return {
@@ -1270,10 +1272,11 @@ async function writeJsonFile(dirHandle: FileSystemDirectoryHandle, fileName: str
   await writable.close();
 }
 
-function buildDefaultTeamConfig(teamName: string, description?: string): TeamConfig {
+function buildDefaultTeamConfig(teamName: string, description?: string, entityType: TeamEntityType = "team"): TeamConfig {
   return {
     teamName,
     description: description?.trim() || undefined,
+    entityType,
     doneConfig: {
       useStatusCategoryDone: false,
       doneStatuses: ["Done", "Closed", "Resolved"],
@@ -1317,7 +1320,12 @@ function buildDefaultTeamConfig(teamName: string, description?: string): TeamCon
     excludedIssueKeys: [],
     safeConfig: {
       enabled: false,
-      entityType: "team",
+      entityType:
+        entityType === "art"
+          ? "agile-release-train"
+          : entityType === "vde"
+            ? "development-value-stream"
+            : "team",
       metricIds: [
         "flow-time",
         "flow-velocity",
