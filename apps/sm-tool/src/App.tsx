@@ -219,19 +219,19 @@ const CONFIGURABLE_METRICS: ConfigurableMetricDefinition[] = [
   },
   {
     id: "sle-risk",
-    label: "SLE Risk",
+    label: "Open tickets past SLE P85",
     group: "Flow",
     source: "Derived",
-    description: "Open WIP already older than the current SLE P85 threshold.",
+    description: "Open tickets that are already older than the team's normal P85 delivery time.",
     defaultScopes: ["team", "value-stream", "art", "portfolio"],
     safeMetricIds: ["flow-time", "flow-predictability"],
   },
   {
     id: "stale-wip",
-    label: "Stale WIP",
+    label: "Open tickets not updated",
     group: "Flow",
     source: "Jira CSV",
-    description: "Open work items that have not been updated for more than 14 days.",
+    description: "Open tickets that have not changed for more than 14 days.",
     defaultScopes: ["team", "value-stream", "art", "portfolio"],
     safeMetricIds: ["flow-load"],
   },
@@ -246,10 +246,10 @@ const CONFIGURABLE_METRICS: ConfigurableMetricDefinition[] = [
   },
   {
     id: "wip-age-risk",
-    label: "WIP Age Risk",
+    label: "Old open tickets",
     group: "Flow",
     source: "Jira CSV",
-    description: "Open ticket age risk split.",
+    description: "Open tickets grouped by how long they have been waiting.",
     defaultScopes: ["team", "value-stream", "art", "portfolio"],
     safeMetricIds: ["flow-load"],
   },
@@ -354,19 +354,19 @@ const CONFIGURABLE_METRICS: ConfigurableMetricDefinition[] = [
   },
   {
     id: "wip-heatmap",
-    label: "WIP Risk Heatmap",
+    label: "Open ticket age by status",
     group: "Flow",
     source: "Jira CSV",
-    description: "Open WIP age split by status.",
+    description: "Open tickets by workflow status and age bucket.",
     defaultScopes: ["team", "value-stream", "portfolio"],
     safeMetricIds: ["flow-load"],
   },
   {
     id: "aging-wip",
-    label: "Aging WIP Details",
+    label: "Old open ticket details",
     group: "Flow",
     source: "Jira CSV",
-    description: "Oldest open tickets and aging distribution.",
+    description: "Oldest open tickets and their age distribution.",
     defaultScopes: ["team"],
     safeMetricIds: ["flow-load"],
   },
@@ -787,7 +787,7 @@ const METRIC_HELP: Record<MetricHelpKey, MetricHelpCopy> = {
     whyGood: "Higher is better if quality and predictability stay stable.",
     improveTips: [
       "Split large stories into smaller vertical slices.",
-      "Limit WIP and finish started work before pulling new items.",
+      "Limit work in progress and finish started tickets before pulling new ones.",
       "Remove blockers daily and escalate aging items quickly.",
     ],
   },
@@ -859,7 +859,7 @@ const METRIC_HELP: Record<MetricHelpKey, MetricHelpCopy> = {
     whyGood: "Less sensitive to month boundaries than calendar month totals.",
     improveTips: [
       "Track weekly fluctuations and investigate sudden drops.",
-      "Limit WIP and enforce pull-based flow between statuses.",
+      "Limit work in progress and use clear pull rules between statuses.",
       "Ensure done criteria are clear to avoid late rework.",
     ],
   },
@@ -924,9 +924,9 @@ const METRIC_HELP: Record<MetricHelpKey, MetricHelpCopy> = {
     ],
   },
   wipAgeRisk: {
-    title: "WIP Age Risk",
-    meaning: "Percent of open tickets older than 1+ months, plus 60/90 day aging split.",
-    whyGood: "Lower is better. High aging signals flow blockage and stale work.",
+    title: "Old open tickets",
+    meaning: "Open tickets that are not done yet and have been open for more than 30 days.",
+    whyGood: "Lower is better. Many old open tickets usually means work is blocked, forgotten or too large.",
     improveTips: [
       "Review and close stale tickets every week.",
       "Split old tickets into smaller deliverable chunks.",
@@ -939,31 +939,33 @@ const METRIC_HELP: Record<MetricHelpKey, MetricHelpCopy> = {
     ],
   },
   sleRisk: {
-    title: "SLE Risk",
-    meaning: "Open WIP already older than the current SLE P85 threshold.",
-    whyGood: "Lower is better. It shows active tickets likely to breach your normal delivery expectation.",
+    title: "Open tickets older than SLE P85",
+    meaning:
+      "Open tickets that are not done yet and are already older than your team's normal P85 delivery time.",
+    whyGood:
+      "Lower is better. SLE P85 means 85% of recently done tickets finished within this many days, so these open tickets are already outside the normal expectation.",
     improveTips: [
-      "Swarm on tickets older than the SLE P85 threshold.",
+      "Swarm on open tickets older than SLE P85.",
       "Split or close aged work that is no longer valuable.",
       "Check whether the active/done statuses are configured correctly.",
     ],
     healthScale: [
-      { tone: "good", label: "Healthy", range: "<= 10% of WIP" },
+      { tone: "good", label: "Healthy", range: "<= 10% of open tickets" },
       { tone: "warn", label: "Watch", range: "10.1% to 25%" },
       { tone: "bad", label: "Action", range: "> 25%" },
     ],
   },
   staleWip: {
-    title: "Stale WIP",
-    meaning: "Open tickets that have not been updated for more than 14 days.",
-    whyGood: "Lower is better. Stale WIP often means blocked, forgotten or oversized work.",
+    title: "Open tickets not updated",
+    meaning: "Open tickets that have not changed for more than 14 days.",
+    whyGood: "Lower is better. No recent update often means the ticket is blocked, forgotten or too large.",
     improveTips: [
       "Review stale items in daily flow review.",
       "Move blocked work explicitly to the right status or close it.",
       "Keep active work small enough to change status frequently.",
     ],
     healthScale: [
-      { tone: "good", label: "Healthy", range: "<= 10% of WIP" },
+      { tone: "good", label: "Healthy", range: "<= 10% of open tickets" },
       { tone: "warn", label: "Watch", range: "10.1% to 25%" },
       { tone: "bad", label: "Action", range: "> 25%" },
     ],
@@ -1013,7 +1015,7 @@ const METRIC_HELP: Record<MetricHelpKey, MetricHelpCopy> = {
     meaning: "Top statuses where average wait time is highest in selected period.",
     whyGood: "Shows exactly where work is waiting so improvements can be targeted.",
     improveTips: [
-      "Set explicit WIP limits for high-wait statuses.",
+      "Set explicit work-in-progress limits for high-wait statuses.",
       "Define entry/exit criteria so work does not idle in queue.",
       "Swarm on oldest items in the bottleneck status.",
     ],
@@ -1085,12 +1087,12 @@ const METRIC_HELP: Record<MetricHelpKey, MetricHelpCopy> = {
     ],
   },
   wipRiskHeatmap: {
-    title: "WIP Risk Heatmap by Status",
-    meaning: "Open WIP split by status into exclusive aging buckets so each row sums to Total.",
-    whyGood: "Highlights exactly which statuses are accumulating stale work.",
+    title: "Open ticket age by status",
+    meaning: "Open tickets grouped by workflow status and age bucket. Each row adds up to the total for that status.",
+    whyGood: "Highlights exactly which statuses are accumulating old tickets.",
     improveTips: [
       "Set aging alerts for >30 and >60 day tickets.",
-      "Define weekly clean-up for statuses with oldest WIP.",
+      "Define weekly clean-up for statuses with the oldest open tickets.",
       "Close or cancel tickets that no longer have value.",
     ],
   },
@@ -2244,7 +2246,7 @@ export default function App(): JSX.Element {
             <small>{periodSummary.currentLabel}</small>
           </article>
           <article>
-            <span>Open WIP</span>
+            <span>Open tickets</span>
             <strong>{formatNumber(dashboardScopeSummary.openWipCount, 0)}</strong>
           </article>
           <article>
@@ -2958,11 +2960,11 @@ export default function App(): JSX.Element {
     return (
       <section className={className}>
         <div className="table-title-row">
-          <div className="table-title small-title">WIP Risk Heatmap by Status</div>
+          <div className="table-title small-title">Open ticket age by status</div>
           {renderMetricInfoButton("wipRiskHeatmap")}
         </div>
         {selectedTeamHealth.wipRiskHeatmap.rows.length === 0 ? (
-          <p className="muted">No open WIP issues.</p>
+          <p className="muted">No open tickets.</p>
         ) : (
           <div className="table-wrap">
             <table className="metrics-table">
@@ -4759,10 +4761,10 @@ export default function App(): JSX.Element {
         periodMonth,
       ],
       [
-        "WIP Age Risk",
-        `${formatPercentValue(selectedTeamHealth.wipRisk.over30Pct)}% >1 month`,
+        "Old open tickets",
+        `${formatPercentValue(selectedTeamHealth.wipRisk.over30Pct)}% older than 30 days`,
         previousHealth
-          ? `${formatPercentValue(previousHealth.wipRisk.over30Pct)}% >1 month`
+          ? `${formatPercentValue(previousHealth.wipRisk.over30Pct)}% older than 30 days`
           : "-",
         selectedTeamHealthSignals.wipAgeRisk.label,
         periodMonth,
@@ -4917,9 +4919,9 @@ export default function App(): JSX.Element {
       "Done",
       "Avg Cycle Time",
       "SLE P85",
-      "SLE Risk",
-      "WIP Age Risk",
-      "Stale WIP",
+      "Past SLE P85",
+      "Old open tickets",
+      "Not updated",
       "Bug Ratio",
       "Work Mix",
       "Monte Carlo",
@@ -4934,7 +4936,7 @@ export default function App(): JSX.Element {
       formatMetricWithTrendCsv(formatDays(row.current.sle.p85), row.trends.sleP85),
       formatMetricWithTrendCsv(formatSleRiskValue(row.healthCurrent.sleRisk), row.healthTrends.sleRisk),
       formatMetricWithTrendCsv(
-        `${formatPercentValue(row.healthCurrent.wipRisk.over30Pct)}% >1 month`,
+        `${formatPercentValue(row.healthCurrent.wipRisk.over30Pct)}% older than 30 days`,
         row.healthTrends.wipAgeRisk,
       ),
       formatMetricWithTrendCsv(formatStaleWipValue(row.healthCurrent.staleWip), row.healthTrends.staleWip),
@@ -5380,9 +5382,9 @@ export default function App(): JSX.Element {
                           {isMetricVisible("stories-done") && <th>Done</th>}
                           {isMetricVisible("avg-cycle-time") && <th>Avg Cycle Time</th>}
                           {isMetricVisible("sle-p85") && <th>SLE P85</th>}
-                          {isMetricVisible("sle-risk") && <th>SLE Risk</th>}
-                          {isMetricVisible("wip-age-risk") && <th>WIP Age Risk</th>}
-                          {isMetricVisible("stale-wip") && <th>Stale WIP</th>}
+                          {isMetricVisible("sle-risk") && <th>Past SLE P85</th>}
+                          {isMetricVisible("wip-age-risk") && <th>Old open tickets</th>}
+                          {isMetricVisible("stale-wip") && <th>Not updated</th>}
                           {isMetricVisible("bug-ratio") && <th>Bug Ratio</th>}
                           {isMetricVisible("work-mix") && <th>Work Mix</th>}
                           {isMetricVisible("forecast") && <th>Monte Carlo</th>}
@@ -5425,7 +5427,7 @@ export default function App(): JSX.Element {
                             {isMetricVisible("wip-age-risk") && (
                               <td>
                                 {renderMetricWithTrend(
-                                  `${formatPercentValue(row.healthCurrent.wipRisk.over30Pct)}% >1 month`,
+                                  `${formatPercentValue(row.healthCurrent.wipRisk.over30Pct)}% older than 30 days`,
                                   row.healthTrends.wipAgeRisk,
                                 )}
                               </td>
@@ -5549,9 +5551,9 @@ export default function App(): JSX.Element {
                       <div className="team-kpi-grid">
                         {renderHealthCheckCompactCard("dashboard")}
                         <article className={`team-kpi-card flow-signal-card${isMetricVisible("wip-age-risk") ? "" : " metric-hidden"}`}>
-                          {renderMetricLabel("WIP Age Risk", "wipAgeRisk", selectedTeamHealthSignals.wipAgeRisk)}
+                          {renderMetricLabel("Old open tickets", "wipAgeRisk", selectedTeamHealthSignals.wipAgeRisk)}
                           <strong>
-                            {formatPercentValue(selectedTeamHealth.wipRisk.over30Pct)}% of open tickets are older than 1+ Months
+                            {formatPercentValue(selectedTeamHealth.wipRisk.over30Pct)}% of open tickets are older than 30 days
                           </strong>
                           <small>
                             &gt;60 days {formatPercentValue(selectedTeamHealth.wipRisk.over60Pct)}% • &gt;90 days{" "}
@@ -5560,17 +5562,17 @@ export default function App(): JSX.Element {
                           </small>
                         </article>
                         <article className={`team-kpi-card flow-signal-card${isMetricVisible("sle-risk") ? "" : " metric-hidden"}`}>
-                          {renderMetricLabel("SLE Risk", "sleRisk", selectedTeamHealthSignals.sleRisk)}
+                          {renderMetricLabel("Open tickets older than SLE P85", "sleRisk", selectedTeamHealthSignals.sleRisk)}
                           <strong>{formatSleRiskValue(selectedTeamHealth.sleRisk)}</strong>
                           <small>
-                            Threshold {formatDays(selectedTeamHealth.sleRisk.thresholdDays)} • WIP {selectedTeamHealth.sleRisk.totalWip}
+                            SLE P85 {formatDays(selectedTeamHealth.sleRisk.thresholdDays)} • open tickets {selectedTeamHealth.sleRisk.totalWip}
                           </small>
                         </article>
                         <article className={`team-kpi-card flow-signal-card${isMetricVisible("stale-wip") ? "" : " metric-hidden"}`}>
-                          {renderMetricLabel("Stale WIP", "staleWip", selectedTeamHealthSignals.staleWip)}
+                          {renderMetricLabel("Open tickets not updated", "staleWip", selectedTeamHealthSignals.staleWip)}
                           <strong>{formatStaleWipValue(selectedTeamHealth.staleWip)}</strong>
                           <small>
-                            No update for &gt;{selectedTeamHealth.staleWip.thresholdDays} days • WIP {selectedTeamHealth.staleWip.totalWip}
+                            No update for &gt;{selectedTeamHealth.staleWip.thresholdDays} days • open tickets {selectedTeamHealth.staleWip.totalWip}
                           </small>
                         </article>
                         <article className={`team-kpi-card flow-signal-card${isMetricVisible("forecast") ? "" : " metric-hidden"}`}>
@@ -5781,13 +5783,13 @@ export default function App(): JSX.Element {
                           </div>
                           <strong className="aging-wip-main-value">{formatDays(selectedTeamHealth.agingWip.avgDays)}</strong>
                           <small>
-                            WIP total {selectedTeamHealth.agingWip.total} • 1m+ {selectedTeamHealth.agingWip.over30} • &gt;90 days {selectedTeamHealth.agingWip.over90}
+                            Open tickets {selectedTeamHealth.agingWip.total} • 30+ days {selectedTeamHealth.agingWip.over30} • &gt;90 days {selectedTeamHealth.agingWip.over90}
                           </small>
                           {!agingWipCompactOpen && (
                             <div className="aging-wip-compact-preview">
                               <div className="aging-wip-preview-title">Top 3 oldest</div>
                               {agingTopThree.length === 0 ? (
-                                <div className="muted">No open WIP issues.</div>
+                                <div className="muted">No open tickets.</div>
                               ) : (
                                 <div className="aging-wip-compact-top">
                                   <div className="aging-wip-compact-top-header">
@@ -5809,15 +5811,15 @@ export default function App(): JSX.Element {
                           {agingWipCompactOpen && (
                             <div className="aging-wip-compact-details" id="dashboard-aging-wip-compact-details">
                               <div>
-                                Median {formatDays(selectedTeamHealth.agingWip.medianDays)} • WIP bugs {selectedTeamHealth.bugRatio.wipBugCount} (
+                                Median {formatDays(selectedTeamHealth.agingWip.medianDays)} • open bugs {selectedTeamHealth.bugRatio.wipBugCount} (
                                 {selectedTeamHealth.bugRatio.wipBugRatio === null ? "-" : `${formatPercentValue(selectedTeamHealth.bugRatio.wipBugRatio)}%`})
                               </div>
                               <div className="aging-wip-old-total">
-                                <div className="aging-wip-old-total-title">Older than 1 month</div>
+                                <div className="aging-wip-old-total-title">Older than 30 days</div>
                                 <div>{selectedTeamHealth.agingWip.over30} ticket(s)</div>
                               </div>
                               {agingOlderThanMonthItems.length === 0 ? (
-                                <div className="muted">No open WIP issues.</div>
+                                <div className="muted">No open tickets.</div>
                               ) : (
                                 <div className="aging-wip-compact-top aging-wip-compact-list-scroll">
                                   <div className="aging-wip-compact-top-header">
@@ -6029,9 +6031,9 @@ export default function App(): JSX.Element {
                           <div className="team-kpi-grid">
                             {renderHealthCheckCompactCard("team")}
                             <article className={`team-kpi-card flow-signal-card${isMetricVisible("wip-age-risk") ? "" : " metric-hidden"}`}>
-                              {renderMetricLabel("WIP Age Risk", "wipAgeRisk", selectedTeamHealthSignals.wipAgeRisk)}
+                              {renderMetricLabel("Old open tickets", "wipAgeRisk", selectedTeamHealthSignals.wipAgeRisk)}
                               <strong>
-                                {formatPercentValue(selectedTeamHealth.wipRisk.over30Pct)}% of open tickets are older than 1+ Months
+                                {formatPercentValue(selectedTeamHealth.wipRisk.over30Pct)}% of open tickets are older than 30 days
                               </strong>
                               <small>
                                 &gt;60 days {formatPercentValue(selectedTeamHealth.wipRisk.over60Pct)}% • &gt;90 days{" "}
@@ -6040,17 +6042,17 @@ export default function App(): JSX.Element {
                               </small>
                             </article>
                             <article className={`team-kpi-card flow-signal-card${isMetricVisible("sle-risk") ? "" : " metric-hidden"}`}>
-                              {renderMetricLabel("SLE Risk", "sleRisk", selectedTeamHealthSignals.sleRisk)}
+                              {renderMetricLabel("Open tickets older than SLE P85", "sleRisk", selectedTeamHealthSignals.sleRisk)}
                               <strong>{formatSleRiskValue(selectedTeamHealth.sleRisk)}</strong>
                               <small>
-                                Threshold {formatDays(selectedTeamHealth.sleRisk.thresholdDays)} • WIP {selectedTeamHealth.sleRisk.totalWip}
+                                SLE P85 {formatDays(selectedTeamHealth.sleRisk.thresholdDays)} • open tickets {selectedTeamHealth.sleRisk.totalWip}
                               </small>
                             </article>
                             <article className={`team-kpi-card flow-signal-card${isMetricVisible("stale-wip") ? "" : " metric-hidden"}`}>
-                              {renderMetricLabel("Stale WIP", "staleWip", selectedTeamHealthSignals.staleWip)}
+                              {renderMetricLabel("Open tickets not updated", "staleWip", selectedTeamHealthSignals.staleWip)}
                               <strong>{formatStaleWipValue(selectedTeamHealth.staleWip)}</strong>
                               <small>
-                                No update for &gt;{selectedTeamHealth.staleWip.thresholdDays} days • WIP {selectedTeamHealth.staleWip.totalWip}
+                                No update for &gt;{selectedTeamHealth.staleWip.thresholdDays} days • open tickets {selectedTeamHealth.staleWip.totalWip}
                               </small>
                             </article>
                             <article className={`team-kpi-card flow-signal-card${isMetricVisible("forecast") ? "" : " metric-hidden"}`}>
@@ -6263,13 +6265,13 @@ export default function App(): JSX.Element {
                               </div>
                               <strong className="aging-wip-main-value">{formatDays(selectedTeamHealth.agingWip.avgDays)}</strong>
                               <small>
-                                WIP total {selectedTeamHealth.agingWip.total} • 1m+ {selectedTeamHealth.agingWip.over30} • &gt;90 days {selectedTeamHealth.agingWip.over90}
+                                Open tickets {selectedTeamHealth.agingWip.total} • 30+ days {selectedTeamHealth.agingWip.over30} • &gt;90 days {selectedTeamHealth.agingWip.over90}
                               </small>
                               {!agingWipCompactOpen && (
                                 <div className="aging-wip-compact-preview">
                                   <div className="aging-wip-preview-title">Top 3 oldest</div>
                                   {agingTopThree.length === 0 ? (
-                                    <div className="muted">No open WIP issues.</div>
+                                    <div className="muted">No open tickets.</div>
                                   ) : (
                                     <div className="aging-wip-compact-top">
                                       <div className="aging-wip-compact-top-header">
@@ -6291,15 +6293,15 @@ export default function App(): JSX.Element {
                               {agingWipCompactOpen && (
                                 <div className="aging-wip-compact-details" id="aging-wip-compact-details">
                                   <div>
-                                    Median {formatDays(selectedTeamHealth.agingWip.medianDays)} • WIP bugs {selectedTeamHealth.bugRatio.wipBugCount} (
+                                    Median {formatDays(selectedTeamHealth.agingWip.medianDays)} • open bugs {selectedTeamHealth.bugRatio.wipBugCount} (
                                     {selectedTeamHealth.bugRatio.wipBugRatio === null ? "-" : `${formatPercentValue(selectedTeamHealth.bugRatio.wipBugRatio)}%`})
                                   </div>
                                   <div className="aging-wip-old-total">
-                                    <div className="aging-wip-old-total-title">Older than 1 month</div>
+                                    <div className="aging-wip-old-total-title">Older than 30 days</div>
                                     <div>{selectedTeamHealth.agingWip.over30} ticket(s)</div>
                                   </div>
                                   {agingOlderThanMonthItems.length === 0 ? (
-                                    <div className="muted">No open WIP issues.</div>
+                                    <div className="muted">No open tickets.</div>
                                   ) : (
                                     <div className="aging-wip-compact-top aging-wip-compact-list-scroll">
                                       <div className="aging-wip-compact-top-header">
@@ -8342,17 +8344,17 @@ const TEAM_HEALTH_METRIC_META: Record<
     recommendation: "Stabilize work item size and reduce unplanned interruptions.",
   },
   wipAgeRisk: {
-    label: "WIP Age Risk",
+    label: "Old open tickets",
     priority: 3,
     recommendation: "Close stale tickets and split aged work into smaller items.",
   },
   sleRisk: {
-    label: "SLE Risk",
+    label: "Open tickets past SLE P85",
     priority: 4,
-    recommendation: "Swarm on active work that is already older than the SLE P85 threshold.",
+    recommendation: "Swarm on open tickets that are already older than SLE P85.",
   },
   staleWip: {
-    label: "Stale WIP",
+    label: "Open tickets not updated",
     priority: 5,
     recommendation: "Review old untouched tickets and make blocked work explicit.",
   },
@@ -8374,7 +8376,7 @@ const TEAM_HEALTH_METRIC_META: Record<
   queueTimeByStatus: {
     label: "Queue Time by Status",
     priority: 8,
-    recommendation: "Set WIP limits and swarm on the longest waiting stage.",
+    recommendation: "Set work-in-progress limits and swarm on the longest waiting stage.",
   },
   bottleneckTrend: {
     label: "Bottleneck Trend",
@@ -8432,30 +8434,30 @@ export function buildTeamHealthSignals(snapshot: TeamHealthSnapshot): TeamHealth
 
   const wipAgeRisk =
     snapshot.wipRisk.over30Pct <= 25
-      ? createMetricHealth("good", "Low share of aging WIP.")
+      ? createMetricHealth("good", "Low share of old open tickets.")
       : snapshot.wipRisk.over30Pct <= 40
-        ? createMetricHealth("warn", "Aging WIP is rising; monitor flow blockage.")
-        : createMetricHealth("bad", "High aging WIP share; flow needs intervention.");
+        ? createMetricHealth("warn", "Old open tickets are rising; monitor flow blockage.")
+        : createMetricHealth("bad", "High share of open tickets are old; flow needs intervention.");
 
   const sleRisk =
     snapshot.sleRisk.atRiskPct === null
       ? snapshot.sleRisk.thresholdDays === null
         ? createMetricHealth("neutral", "Need completed work history to calculate SLE P85 threshold.")
-        : createMetricHealth("neutral", "No open WIP to compare against SLE.")
+        : createMetricHealth("neutral", "No open tickets to compare against SLE P85.")
       : snapshot.sleRisk.atRiskPct <= 10
-        ? createMetricHealth("good", "Low share of WIP older than SLE P85.")
+        ? createMetricHealth("good", "Low share of open tickets older than SLE P85.")
         : snapshot.sleRisk.atRiskPct <= 25
-          ? createMetricHealth("warn", "Some active work is older than SLE P85.")
-          : createMetricHealth("bad", "High share of active work is already past SLE P85.");
+          ? createMetricHealth("warn", "Some open tickets are older than SLE P85.")
+          : createMetricHealth("bad", "High share of open tickets are already past SLE P85.");
 
   const staleWip =
     snapshot.staleWip.stalePct === null
-      ? createMetricHealth("neutral", "No open WIP to evaluate for stale updates.")
+      ? createMetricHealth("neutral", "No open tickets to evaluate for stale updates.")
       : snapshot.staleWip.stalePct <= 10
-        ? createMetricHealth("good", "Low share of stale WIP.")
+        ? createMetricHealth("good", "Low share of open tickets without recent updates.")
         : snapshot.staleWip.stalePct <= 25
-          ? createMetricHealth("warn", "Some active work has not moved recently.")
-          : createMetricHealth("bad", "High share of WIP has not been updated recently.");
+          ? createMetricHealth("warn", "Some open tickets have not moved recently.")
+          : createMetricHealth("bad", "High share of open tickets have not been updated recently.");
 
   const dominantWorkType = snapshot.workMix.topTypes[0] ?? null;
   const workMix =
@@ -8710,7 +8712,7 @@ export function buildDataMonitorEntries(
     pushFieldEntry(
       "source:open-missing-created",
       "Created missing on open items",
-      `Aging WIP excludes ${openMissingCreated.length} open ticket(s) because Created is empty.`,
+      `Open ticket age excludes ${openMissingCreated.length} open ticket(s) because Created is empty.`,
       openMissingCreated,
       resolveDataMonitorTone(openMissingCreated.length, openIssues.length, 0.2),
     );
@@ -9089,8 +9091,8 @@ export function buildProgressComparisonSummary(history: TeamProgressSnapshot[]):
     compareProgressMetric("2+ Sprint %", "down", "percent", latest.metrics.multiSprintPct, previous.metrics.multiSprintPct),
     compareProgressMetric("Velocity (latest)", "up", "count", latest.metrics.velocityLatest, previous.metrics.velocityLatest),
     compareProgressMetric("Done Bug Ratio", "down", "percent", latest.metrics.doneBugRatioPct, previous.metrics.doneBugRatioPct),
-    compareProgressMetric("Open WIP count", "down", "count", latest.metrics.openWipCount, previous.metrics.openWipCount),
-    compareProgressMetric("Open WIP avg age", "down", "days", latest.metrics.openWipAvgAgeDays, previous.metrics.openWipAvgAgeDays),
+    compareProgressMetric("Open ticket count", "down", "count", latest.metrics.openWipCount, previous.metrics.openWipCount),
+    compareProgressMetric("Open ticket avg age", "down", "days", latest.metrics.openWipAvgAgeDays, previous.metrics.openWipAvgAgeDays),
   ];
 
   return {

@@ -440,7 +440,7 @@ describe("buildTeamHealthCheckSummary", () => {
       intakeVsThroughput: { tone: "bad", label: "Action", reason: "Intake outpaces delivery." },
       netFlow: { tone: "bad", label: "Action", reason: "Backlog growth is high." },
       throughputStability: { tone: "good", label: "Healthy", reason: "Stable weekly throughput." },
-      wipAgeRisk: { tone: "warn", label: "Watch", reason: "Aging WIP is rising." },
+      wipAgeRisk: { tone: "warn", label: "Watch", reason: "Old open tickets are rising." },
       leadTimeByType: { tone: "neutral", label: "N/A", reason: "No completed issues." },
       flowEfficiency: { tone: "good", label: "Healthy", reason: "Good active-work share." },
       queueTimeByStatus: { tone: "warn", label: "Watch", reason: "Waiting time is moderate." },
@@ -468,7 +468,7 @@ describe("buildTeamHealthCheckSummary", () => {
       intakeVsThroughput: { tone: "good", label: "Healthy", reason: "Intake in control." },
       netFlow: { tone: "good", label: "Healthy", reason: "Backlog is stable." },
       throughputStability: { tone: "good", label: "Healthy", reason: "Stable throughput." },
-      wipAgeRisk: { tone: "good", label: "Healthy", reason: "Low aged WIP." },
+      wipAgeRisk: { tone: "good", label: "Healthy", reason: "Low share of old open tickets." },
       leadTimeByType: { tone: "neutral", label: "N/A", reason: "No data." },
       flowEfficiency: { tone: "good", label: "Healthy", reason: "High active share." },
       queueTimeByStatus: { tone: "good", label: "Healthy", reason: "Low queue time." },
@@ -877,6 +877,6 @@ describe("buildProgressComparisonSummary", () => {
     expect(rowByLabel.get("Avg Cycle Time")).toBe("improved");
     expect(rowByLabel.get("2+ Sprint %")).toBe("worsened");
     expect(rowByLabel.get("Velocity (latest)")).toBe("improved");
-    expect(rowByLabel.get("Open WIP count")).toBe("worsened");
+    expect(rowByLabel.get("Open ticket count")).toBe("worsened");
   });
 });
