@@ -63,11 +63,12 @@ type TrendTone = "good" | "bad" | "neutral";
 type HealthTone = "good" | "warn" | "bad" | "neutral";
 type SleLineKey = "p50" | "p70" | "p85" | "p95";
 
-const TEAM_ENTITY_TYPES: TeamEntityType[] = ["team", "vde", "art"];
+const TEAM_ENTITY_TYPES: TeamEntityType[] = ["team", "vde", "art", "portfolio"];
 const TEAM_ENTITY_LABELS: Record<TeamEntityType, string> = {
   team: "Team",
   vde: "VDE / Value Stream",
   art: "ART / Train",
+  portfolio: "Portfolio",
 };
 
 type ConfigurableMetricId =
@@ -110,12 +111,13 @@ interface ConfigurableMetricDefinition {
 
 type ConfigurableMetricGroup = "Core" | "Flow" | "Predictability" | "Quality" | "Data";
 
-const METRIC_SCOPES: MetricScope[] = ["team", "value-stream", "art"];
+const METRIC_SCOPES: MetricScope[] = ["team", "value-stream", "art", "portfolio"];
 const METRIC_GROUPS: ConfigurableMetricGroup[] = ["Core", "Flow", "Predictability", "Quality", "Data"];
 const METRIC_SCOPE_LABELS: Record<MetricScope, string> = {
   team: "Team",
   "value-stream": "VDE / Value Stream",
   art: "ART",
+  portfolio: "Portfolio",
 };
 
 const DASHBOARD_SCOPE_COPY: Record<
@@ -157,6 +159,15 @@ const DASHBOARD_SCOPE_COPY: Record<
     tableTitle: "ART Team Signals",
     detailTitle: "ART Drill-down",
   },
+  portfolio: {
+    navLabel: "Portfolio",
+    title: "Portfolio Dashboard",
+    subtitle: "Portfolio-level flow and investment signals for portfolio entities in the active workspace view.",
+    focusTitle: "Portfolio Focus",
+    focusSubtitle: "Choose a portfolio entity to inspect its flow, work mix and data readiness.",
+    tableTitle: "Portfolio Signals",
+    detailTitle: "Portfolio Drill-down",
+  },
 };
 
 const CONFIGURABLE_METRICS: ConfigurableMetricDefinition[] = [
@@ -166,7 +177,7 @@ const CONFIGURABLE_METRICS: ConfigurableMetricDefinition[] = [
     group: "Core",
     source: "Derived",
     description: "Compact action/watch/healthy summary for the selected scope.",
-    defaultScopes: ["team", "value-stream", "art"],
+    defaultScopes: ["team", "value-stream", "art", "portfolio"],
     safeMetricIds: ["flow-predictability", "built-in-quality"],
   },
   {
@@ -175,7 +186,7 @@ const CONFIGURABLE_METRICS: ConfigurableMetricDefinition[] = [
     group: "Core",
     source: "Jira CSV",
     description: "Done count in the selected period.",
-    defaultScopes: ["team", "value-stream", "art"],
+    defaultScopes: ["team", "value-stream", "art", "portfolio"],
     safeMetricIds: ["flow-velocity"],
   },
   {
@@ -184,7 +195,7 @@ const CONFIGURABLE_METRICS: ConfigurableMetricDefinition[] = [
     group: "Core",
     source: "Jira CSV",
     description: "Average created-to-done time.",
-    defaultScopes: ["team", "value-stream", "art"],
+    defaultScopes: ["team", "value-stream", "art", "portfolio"],
     safeMetricIds: ["flow-time"],
   },
   {
@@ -193,7 +204,7 @@ const CONFIGURABLE_METRICS: ConfigurableMetricDefinition[] = [
     group: "Core",
     source: "Jira CSV",
     description: "85th percentile delivery time.",
-    defaultScopes: ["team", "value-stream", "art"],
+    defaultScopes: ["team", "value-stream", "art", "portfolio"],
     safeMetricIds: ["flow-time"],
   },
   {
@@ -211,7 +222,7 @@ const CONFIGURABLE_METRICS: ConfigurableMetricDefinition[] = [
     group: "Flow",
     source: "Derived",
     description: "Open WIP already older than the current SLE P85 threshold.",
-    defaultScopes: ["team", "value-stream", "art"],
+    defaultScopes: ["team", "value-stream", "art", "portfolio"],
     safeMetricIds: ["flow-time", "flow-predictability"],
   },
   {
@@ -220,7 +231,7 @@ const CONFIGURABLE_METRICS: ConfigurableMetricDefinition[] = [
     group: "Flow",
     source: "Jira CSV",
     description: "Open work items that have not been updated for more than 14 days.",
-    defaultScopes: ["team", "value-stream", "art"],
+    defaultScopes: ["team", "value-stream", "art", "portfolio"],
     safeMetricIds: ["flow-load"],
   },
   {
@@ -229,7 +240,7 @@ const CONFIGURABLE_METRICS: ConfigurableMetricDefinition[] = [
     group: "Quality",
     source: "Jira CSV",
     description: "Delivered work distribution by issue type.",
-    defaultScopes: ["team", "value-stream", "art"],
+    defaultScopes: ["team", "value-stream", "art", "portfolio"],
     safeMetricIds: ["flow-distribution"],
   },
   {
@@ -238,7 +249,7 @@ const CONFIGURABLE_METRICS: ConfigurableMetricDefinition[] = [
     group: "Flow",
     source: "Jira CSV",
     description: "Open ticket age risk split.",
-    defaultScopes: ["team", "value-stream", "art"],
+    defaultScopes: ["team", "value-stream", "art", "portfolio"],
     safeMetricIds: ["flow-load"],
   },
   {
@@ -247,7 +258,7 @@ const CONFIGURABLE_METRICS: ConfigurableMetricDefinition[] = [
     group: "Predictability",
     source: "Derived",
     description: "Monte Carlo lite forecast based on throughput history.",
-    defaultScopes: ["team", "value-stream", "art"],
+    defaultScopes: ["team", "value-stream", "art", "portfolio"],
     safeMetricIds: ["flow-predictability"],
   },
   {
@@ -256,7 +267,7 @@ const CONFIGURABLE_METRICS: ConfigurableMetricDefinition[] = [
     group: "Quality",
     source: "Jira CSV",
     description: "Share of done items matching configured bug issue types.",
-    defaultScopes: ["team", "art"],
+    defaultScopes: ["team", "art", "portfolio"],
     safeMetricIds: ["built-in-quality"],
   },
   {
@@ -265,7 +276,7 @@ const CONFIGURABLE_METRICS: ConfigurableMetricDefinition[] = [
     group: "Flow",
     source: "Jira CSV",
     description: "Current month, previous month and rolling 30-day throughput.",
-    defaultScopes: ["team", "value-stream", "art"],
+    defaultScopes: ["team", "value-stream", "art", "portfolio"],
     safeMetricIds: ["flow-velocity"],
   },
   {
@@ -292,7 +303,7 @@ const CONFIGURABLE_METRICS: ConfigurableMetricDefinition[] = [
     group: "Flow",
     source: "Jira CSV",
     description: "Intake, throughput and backlog flow.",
-    defaultScopes: ["team", "value-stream", "art"],
+    defaultScopes: ["team", "value-stream", "art", "portfolio"],
     safeMetricIds: ["flow-load", "flow-velocity"],
   },
   {
@@ -301,7 +312,7 @@ const CONFIGURABLE_METRICS: ConfigurableMetricDefinition[] = [
     group: "Predictability",
     source: "Derived",
     description: "Predictability from weekly and monthly throughput variation.",
-    defaultScopes: ["team", "value-stream", "art"],
+    defaultScopes: ["team", "value-stream", "art", "portfolio"],
     safeMetricIds: ["flow-predictability"],
   },
   {
@@ -310,7 +321,7 @@ const CONFIGURABLE_METRICS: ConfigurableMetricDefinition[] = [
     group: "Flow",
     source: "Jira CSV",
     description: "Slowest issue types by average lead time.",
-    defaultScopes: ["team", "value-stream"],
+    defaultScopes: ["team", "value-stream", "portfolio"],
     safeMetricIds: ["flow-time", "flow-distribution"],
   },
   {
@@ -319,7 +330,7 @@ const CONFIGURABLE_METRICS: ConfigurableMetricDefinition[] = [
     group: "Flow",
     source: "Time in Status",
     description: "Active time versus waiting time.",
-    defaultScopes: ["team", "value-stream", "art"],
+    defaultScopes: ["team", "value-stream", "art", "portfolio"],
     safeMetricIds: ["flow-efficiency"],
   },
   {
@@ -328,7 +339,7 @@ const CONFIGURABLE_METRICS: ConfigurableMetricDefinition[] = [
     group: "Flow",
     source: "Time in Status",
     description: "Statuses with highest average waiting time.",
-    defaultScopes: ["team", "value-stream", "art"],
+    defaultScopes: ["team", "value-stream", "art", "portfolio"],
     safeMetricIds: ["flow-efficiency"],
   },
   {
@@ -337,7 +348,7 @@ const CONFIGURABLE_METRICS: ConfigurableMetricDefinition[] = [
     group: "Flow",
     source: "Time in Status",
     description: "Recurring monthly bottleneck signal.",
-    defaultScopes: ["team", "value-stream", "art"],
+    defaultScopes: ["team", "value-stream", "art", "portfolio"],
     safeMetricIds: ["flow-efficiency"],
   },
   {
@@ -346,7 +357,7 @@ const CONFIGURABLE_METRICS: ConfigurableMetricDefinition[] = [
     group: "Flow",
     source: "Jira CSV",
     description: "Open WIP age split by status.",
-    defaultScopes: ["team", "value-stream"],
+    defaultScopes: ["team", "value-stream", "portfolio"],
     safeMetricIds: ["flow-load"],
   },
   {
@@ -364,7 +375,7 @@ const CONFIGURABLE_METRICS: ConfigurableMetricDefinition[] = [
     group: "Flow",
     source: "Time in Status",
     description: "Monthly bottleneck table and manual override editor link.",
-    defaultScopes: ["team", "value-stream", "art"],
+    defaultScopes: ["team", "value-stream", "art", "portfolio"],
     safeMetricIds: ["flow-efficiency"],
   },
   {
@@ -382,7 +393,7 @@ const CONFIGURABLE_METRICS: ConfigurableMetricDefinition[] = [
     group: "Data",
     source: "Derived",
     description: "Missing fields and metric prerequisite checks.",
-    defaultScopes: ["team", "value-stream", "art"],
+    defaultScopes: ["team", "value-stream", "art", "portfolio"],
   },
   {
     id: "detailed-table",
@@ -1239,20 +1250,12 @@ export default function App(): JSX.Element {
   }, [teams, activeWorkspaceProfile]);
 
   const dashboardTeams = useMemo(() => {
-    const scopedTeams = filteredTeams.filter((team) => getMetricScopeForEntityType(getTeamEntityType(team.config)) === activeMetricScope);
-
-    if (activeMetricScope === "team" || scopedTeams.length > 0) {
-      return scopedTeams;
-    }
-
-    return filteredTeams;
+    return filteredTeams.filter((team) => getMetricScopeForEntityType(getTeamEntityType(team.config)) === activeMetricScope);
   }, [filteredTeams, activeMetricScope]);
 
-  const dashboardUsesWorkspaceFallback = activeMetricScope !== "team" && dashboardTeams.length === filteredTeams.length;
-
   const selectedTeam = useMemo(
-    () => filteredTeams.find((team) => team.teamId === selectedTeamId) ?? null,
-    [filteredTeams, selectedTeamId],
+    () => teams.find((team) => team.teamId === selectedTeamId) ?? null,
+    [teams, selectedTeamId],
   );
 
   const selectedImportTeam = useMemo(
@@ -1627,8 +1630,60 @@ export default function App(): JSX.Element {
     if (!selectedTeamId) {
       return null;
     }
-    return dashboardRows.find((row) => row.team.teamId === selectedTeamId) ?? null;
-  }, [dashboardRows, selectedTeamId]);
+    const row = dashboardRows.find((item) => item.team.teamId === selectedTeamId);
+    if (row || !selectedTeam) {
+      return row ?? null;
+    }
+
+    const previousPeriod = getPreviousPeriodKey(periodMonth, availableMonths);
+    const effectiveEntries = buildEffectiveBottleneckEntries(selectedTeam);
+    const current = computeSnapshot(selectedTeam.metrics, periodMonth, selectedTeam.config, selectedTeam.parsedIssues, periodReferenceDate);
+    const previous = previousPeriod
+      ? computeSnapshot(selectedTeam.metrics, previousPeriod, selectedTeam.config, selectedTeam.parsedIssues, periodReferenceDate)
+      : null;
+    const healthCurrent = computeTeamHealthSnapshot(
+      selectedTeam.parsedIssues,
+      selectedTeam.config,
+      periodMonth,
+      periodReferenceDate,
+      effectiveEntries,
+    );
+    const healthPrevious =
+      previousPeriod === null
+        ? null
+        : computeTeamHealthSnapshot(
+            selectedTeam.parsedIssues,
+            selectedTeam.config,
+            previousPeriod,
+            periodReferenceDate,
+            effectiveEntries,
+          );
+
+    return {
+      team: selectedTeam,
+      current,
+      previous,
+      trends: buildTrendBundle(current, previous),
+      healthCurrent,
+      healthPrevious,
+      healthTrends: {
+        wipAgeRisk: trend(healthCurrent.wipRisk.over30Pct, healthPrevious?.wipRisk.over30Pct ?? null, "down"),
+        sleRisk: trend(healthCurrent.sleRisk.atRiskPct, healthPrevious?.sleRisk.atRiskPct ?? null, "down"),
+        staleWip: trend(healthCurrent.staleWip.stalePct, healthPrevious?.staleWip.stalePct ?? null, "down"),
+        bugRatio: trend(healthCurrent.bugRatio.doneBugRatio, healthPrevious?.bugRatio.doneBugRatio ?? null, "down"),
+        monteCarlo: trend(healthCurrent.forecast.p85Days, healthPrevious?.forecast.p85Days ?? null, "down"),
+      },
+      bottleneck: getBottleneckForPeriod(effectiveEntries, dashboardBottleneckPeriod),
+    };
+  }, [
+    dashboardRows,
+    selectedTeamId,
+    selectedTeam,
+    periodMonth,
+    availableMonths,
+    periodReferenceDate,
+    dashboardBottleneckPeriod,
+  ]);
 
   const selectedVelocityUnit = useMemo(() => {
     return getVelocityUnitLabel(selectedTeam?.config.velocityConfig);
@@ -2131,7 +2186,7 @@ export default function App(): JSX.Element {
               type="button"
               className={activeMetricScope === scope ? "active" : ""}
               aria-pressed={activeMetricScope === scope}
-              onClick={() => setActiveMetricScope(scope)}
+              onClick={() => openDashboardScope(scope)}
             >
               <strong>{copy.navLabel}</strong>
               <span>{METRIC_SCOPE_LABELS[scope]}</span>
@@ -2161,12 +2216,7 @@ export default function App(): JSX.Element {
         <div className="dashboard-context-copy">
           <div className="scope-eyebrow">{METRIC_SCOPE_LABELS[activeMetricScope]}</div>
           <h2>{activeWorkspaceProfile?.name ?? "All Teams"}</h2>
-          <p>
-            {dashboardScopeCopy.subtitle}
-            {dashboardUsesWorkspaceFallback
-              ? " No typed entity exists for this layer yet, so this dashboard uses the active workspace view."
-              : ""}
-          </p>
+          <p>{dashboardScopeCopy.subtitle}</p>
           <div className="dashboard-context-actions">
             <button className="soft-btn" onClick={() => setPage("workspace")}>
               Manage Views
@@ -3346,6 +3396,49 @@ export default function App(): JSX.Element {
     }
   }
 
+  async function handleUpdateTeamEntityType(teamId: string, entityType: TeamEntityType): Promise<void> {
+    const team = teams.find((item) => item.teamId === teamId);
+    if (!team) {
+      setStatus("Selected entity was not found.");
+      return;
+    }
+
+    const updatedTeam: TeamRuntime = {
+      ...team,
+      config: {
+        ...team.config,
+        entityType,
+        safeConfig: {
+          ...(team.config.safeConfig ?? { enabled: false, entityType: "team" }),
+          entityType:
+            entityType === "art"
+              ? "agile-release-train"
+              : entityType === "portfolio"
+                ? "portfolio"
+                : entityType === "vde"
+                  ? "development-value-stream"
+                  : "team",
+        },
+      },
+    };
+
+    setBusy(true);
+    try {
+      await saveTeamConfig(updatedTeam);
+      const refreshed = workspaceHandle
+        ? await listTeams(workspaceHandle)
+        : teams.map((item) => (item.teamId === teamId ? updatedTeam : item));
+      setTeams(refreshed);
+      setSelectedTeamId(teamId);
+      setActiveMetricScope(getMetricScopeForEntityType(entityType));
+      setStatus(`${team.config.teamName} moved to ${TEAM_ENTITY_LABELS[entityType]}.`);
+    } catch (error) {
+      setStatus(`Failed to update entity layer: ${getErrorMessage(error)}`);
+    } finally {
+      setBusy(false);
+    }
+  }
+
   async function handleCreateTeam(event: FormEvent<HTMLFormElement>): Promise<void> {
     event.preventDefault();
 
@@ -4357,14 +4450,23 @@ export default function App(): JSX.Element {
   }
 
   function openTeamView(teamId: string): void {
+    const target = teams.find((team) => team.teamId === teamId);
     setSelectedTeamId(teamId);
-    setActiveMetricScope("team");
+    setActiveMetricScope(getMetricScopeForEntityType(getTeamEntityType(target?.config)));
     setTeamTab("overview");
     setPage("team");
   }
 
   function openDashboardScope(scope: MetricScope): void {
     setActiveMetricScope(scope);
+    setSelectedTeamId((current) => {
+      if (!current) {
+        return null;
+      }
+
+      const selected = teams.find((team) => team.teamId === current);
+      return selected && getMetricScopeForEntityType(getTeamEntityType(selected.config)) === scope ? current : null;
+    });
     setPage("dashboard");
   }
 
@@ -4906,25 +5008,32 @@ export default function App(): JSX.Element {
           </button>
           <div className="nav-section-label">Dashboards</div>
           <button
-            className={(page === "dashboard" && activeMetricScope === "team") || page === "team" ? "nav-link active" : "nav-link"}
+            className={(page === "dashboard" || page === "team") && activeMetricScope === "team" ? "nav-link active" : "nav-link"}
             onClick={() => openDashboardScope("team")}
           >
             <span className="nav-icon">◫</span>
             Teams
           </button>
           <button
-            className={page === "dashboard" && activeMetricScope === "value-stream" ? "nav-link active" : "nav-link"}
+            className={(page === "dashboard" || page === "team") && activeMetricScope === "value-stream" ? "nav-link active" : "nav-link"}
             onClick={() => openDashboardScope("value-stream")}
           >
             <span className="nav-icon">▤</span>
             VDE
           </button>
           <button
-            className={page === "dashboard" && activeMetricScope === "art" ? "nav-link active" : "nav-link"}
+            className={(page === "dashboard" || page === "team") && activeMetricScope === "art" ? "nav-link active" : "nav-link"}
             onClick={() => openDashboardScope("art")}
           >
             <span className="nav-icon">▥</span>
             ART
+          </button>
+          <button
+            className={(page === "dashboard" || page === "team") && activeMetricScope === "portfolio" ? "nav-link active" : "nav-link"}
+            onClick={() => openDashboardScope("portfolio")}
+          >
+            <span className="nav-icon">▦</span>
+            Portfolio
           </button>
           <button className={page === "metrics" ? "nav-link active" : "nav-link"} onClick={() => setPage("metrics")}>
             <span className="nav-icon">☷</span>
@@ -5126,7 +5235,20 @@ export default function App(): JSX.Element {
                           {team.config.teamName}
                         </button>
                         <p>{team.config.description || "No description"}</p>
-                        <div className="card-meta">{TEAM_ENTITY_LABELS[entityType]}</div>
+                        <label className="entity-type-control" onClick={(event) => event.stopPropagation()}>
+                          <span>Layer</span>
+                          <select
+                            value={entityType}
+                            disabled={busy}
+                            onChange={(event) => void handleUpdateTeamEntityType(team.teamId, event.target.value as TeamEntityType)}
+                          >
+                            {TEAM_ENTITY_TYPES.map((type) => (
+                              <option key={`${team.teamId}-${type}`} value={type}>
+                                {TEAM_ENTITY_LABELS[type]}
+                              </option>
+                            ))}
+                          </select>
+                        </label>
                         <div className="card-meta">Imports: {team.importFiles.length} files</div>
                         <div className="card-meta">
                           Last import: {latestImport ? formatDateText(latestImport.updatedAt) : "-"}
@@ -5179,10 +5301,10 @@ export default function App(): JSX.Element {
                       {selectedTeam && selectedTeamRow && (
                         <>
                           <button className="soft-btn" onClick={() => openTeamView(selectedTeam.teamId)}>
-                            Open Full Team View
+                            Open Full View
                           </button>
                           <button className="soft-btn" onClick={handleExportTeamReport}>
-                            Export Team Report
+                            Export Report
                           </button>
                         </>
                       )}
@@ -5216,6 +5338,20 @@ export default function App(): JSX.Element {
                           </button>
                           <p>{team.config.description || "No description"}</p>
                           <div className="card-meta">{TEAM_ENTITY_LABELS[entityType]} • Imports: {team.importFiles.length} files</div>
+                          <label className="entity-type-control card-layer-control" onClick={(event) => event.stopPropagation()}>
+                            <span>Layer</span>
+                            <select
+                              value={entityType}
+                              disabled={busy}
+                              onChange={(event) => void handleUpdateTeamEntityType(team.teamId, event.target.value as TeamEntityType)}
+                            >
+                              {TEAM_ENTITY_TYPES.map((type) => (
+                                <option key={`dashboard-picker-${team.teamId}-${type}`} value={type}>
+                                  {TEAM_ENTITY_LABELS[type]}
+                                </option>
+                              ))}
+                            </select>
+                          </label>
                           <div className="card-meta">
                             Last import: {latestImport ? formatDateText(latestImport.updatedAt) : "-"}
                           </div>
@@ -5239,7 +5375,7 @@ export default function App(): JSX.Element {
                     <table className="metrics-table">
                       <thead>
                         <tr>
-                          <th>Team</th>
+                          <th>{dashboardScopeCopy.navLabel}</th>
                           {isMetricVisible("stories-done") && <th>Done</th>}
                           {isMetricVisible("avg-cycle-time") && <th>Avg Cycle Time</th>}
                           {isMetricVisible("sle-p85") && <th>SLE P85</th>}
@@ -5354,7 +5490,7 @@ export default function App(): JSX.Element {
                       </div>
                       <div className="dashboard-detail-actions">
                         <button className="soft-btn" onClick={() => openTeamView(selectedTeam.teamId)}>
-                          Open Full Team View
+                          Open Full View
                         </button>
                         <button
                           type="button"
@@ -5757,7 +5893,7 @@ export default function App(): JSX.Element {
                           )}
                           <div className="dashboard-merged-bottleneck-actions">
                             <button className="soft-btn" onClick={() => openTeamView(selectedTeam.teamId)}>
-                              Open editor in Full Team View
+                              Open editor in Full View
                             </button>
                           </div>
                         </div>
@@ -5769,7 +5905,7 @@ export default function App(): JSX.Element {
                   </section>
                 ) : (
                   <section className="table-panel dashboard-merged-empty">
-                    <p className="muted">Select a team row to open merged team details below the multi-team view.</p>
+                    <p className="muted">Select an entity row to open details below the multi-entity view.</p>
                   </section>
                 )}
               </section>
@@ -5779,8 +5915,8 @@ export default function App(): JSX.Element {
               <section className="page-section team-page">
                 {!selectedTeam || !selectedTeamRow ? (
                   <section className="panel-box">
-                    <h2>No team selected</h2>
-                    <p className="muted">Select a team from Dashboard to open detailed view.</p>
+                    <h2>No entity selected</h2>
+                    <p className="muted">Select an entity from the current dashboard to open the detailed view.</p>
                   </section>
                 ) : (
                   <>
@@ -5793,6 +5929,22 @@ export default function App(): JSX.Element {
                         </p>
                       </div>
                       <div className="team-page-tools">
+                        <label className="entity-type-control compact">
+                          <span>Layer</span>
+                          <select
+                            value={getTeamEntityType(selectedTeam.config)}
+                            disabled={busy}
+                            onChange={(event) =>
+                              void handleUpdateTeamEntityType(selectedTeam.teamId, event.target.value as TeamEntityType)
+                            }
+                          >
+                            {TEAM_ENTITY_TYPES.map((type) => (
+                              <option key={`team-page-${type}`} value={type}>
+                                {TEAM_ENTITY_LABELS[type]}
+                              </option>
+                            ))}
+                          </select>
+                        </label>
                         <button className="soft-btn" onClick={handleExportTeamReport}>Export Report</button>
                       </div>
                     </div>
@@ -7771,16 +7923,25 @@ function slugifyValue(value: string): string {
 }
 
 function getTeamEntityType(config: TeamConfig | undefined): TeamEntityType {
-  if (config?.entityType === "team" || config?.entityType === "vde" || config?.entityType === "art") {
+  if (
+    config?.entityType === "team" ||
+    config?.entityType === "vde" ||
+    config?.entityType === "art" ||
+    config?.entityType === "portfolio"
+  ) {
     return config.entityType;
   }
 
   const safeType = config?.safeConfig?.entityType;
+  if (safeType === "portfolio") {
+    return "portfolio";
+  }
+
   if (safeType === "agile-release-train" || safeType === "solution-train") {
     return "art";
   }
 
-  if (safeType === "development-value-stream" || safeType === "operational-value-stream" || safeType === "portfolio") {
+  if (safeType === "development-value-stream" || safeType === "operational-value-stream") {
     return "vde";
   }
 
@@ -7794,6 +7955,10 @@ function getMetricScopeForEntityType(entityType: TeamEntityType): MetricScope {
 
   if (entityType === "art") {
     return "art";
+  }
+
+  if (entityType === "portfolio") {
+    return "portfolio";
   }
 
   return "team";

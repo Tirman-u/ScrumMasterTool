@@ -31,7 +31,11 @@
         "smartpay",
         "solaris",
         "e-pay",
-        "paylynx"
+        "paylynx",
+        "payments-portfolio-level",
+        "payment-vde-program-epics",
+        "payments-baltics-feature",
+        "payments-baltics-vde-feature-board"
       ]
     }
   ],
@@ -84,7 +88,9 @@
         "bottleneck-trend",
         "wip-heatmap",
         "bottleneck",
-        "data-monitor"
+        "data-monitor",
+        "time-in-status",
+        "aging-wip"
       ],
       "art": [
         "health-check",
@@ -106,7 +112,33 @@
         "queue-time",
         "bottleneck-trend",
         "bottleneck",
-        "data-monitor"
+        "data-monitor",
+        "time-in-status",
+        "aging-wip"
+      ],
+      "portfolio": [
+        "health-check",
+        "stories-done",
+        "avg-cycle-time",
+        "sle-p85",
+        "sle-risk",
+        "stale-wip",
+        "work-mix",
+        "wip-age-risk",
+        "forecast",
+        "bug-ratio",
+        "throughput",
+        "flow-balance",
+        "throughput-stability",
+        "lead-time-by-type",
+        "flow-efficiency",
+        "queue-time",
+        "bottleneck-trend",
+        "wip-heatmap",
+        "bottleneck",
+        "data-monitor",
+        "time-in-status",
+        "aging-wip"
       ]
     }
   }

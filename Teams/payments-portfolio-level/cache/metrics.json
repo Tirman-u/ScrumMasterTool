@@ -1,0 +1,61 @@
+{
+  "generatedAt": "2026-04-30T08:12:35.237Z",
+  "teamName": "Payments Portfolio level",
+  "totalImportedRows": 12,
+  "uniqueIssues": 12,
+  "doneIssues": 1,
+  "cycleTimeCount": 1,
+  "cycleTimeDays": [
+    2116.855
+  ],
+  "avgCycleTimeDays": 2116.855,
+  "sle": {
+    "percentiles": [
+      50,
+      70,
+      85,
+      95
+    ],
+    "rounding": "ceil",
+    "values": {
+      "p50": 2117,
+      "p70": 2117,
+      "p85": 2117,
+      "p95": 2117
+    }
+  },
+  "scatter": [
+    {
+      "issueKey": "IA-3081",
+      "resolutionDate": "2026-04-21T11:16:00.000Z",
+      "cycleTimeDays": 2116.855,
+      "issueType": "Portfolio Epic"
+    }
+  ],
+  "scatterOverlay": {
+    "p50": 2117,
+    "p70": 2117,
+    "p85": 2117,
+    "p95": 2117
+  },
+  "velocityMonthly": [
+    {
+      "month": "2026-04",
+      "value": 1
+    }
+  ],
+  "doneIssueDetails": [
+    {
+      "issueKey": "IA-3081",
+      "resolutionDate": "2026-04-21T11:16:00.000Z",
+      "cycleTimeDays": 2116.855,
+      "issueType": "Portfolio Epic",
+      "storyPoints": null,
+      "sprintCount": 0
+    }
+  ],
+  "multiSprint": {
+    "count": 0,
+    "percentage": 0
+  }
+}

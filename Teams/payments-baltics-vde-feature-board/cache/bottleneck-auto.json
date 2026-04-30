@@ -1,0 +1,504 @@
+[
+  {
+    "period": "2025-03",
+    "columns": [
+      {
+        "name": "In Development",
+        "avgDays": 461.90958333333333
+      },
+      {
+        "name": "In Testing",
+        "avgDays": 64.10916666666667
+      },
+      {
+        "name": "Refined",
+        "avgDays": 54.946666666666665
+      },
+      {
+        "name": "Analysing",
+        "avgDays": 47.00958333333333
+      },
+      {
+        "name": "On Hold",
+        "avgDays": 9.06875
+      },
+      {
+        "name": "Implementing",
+        "avgDays": 7.9366666666666665
+      },
+      {
+        "name": "Funnel",
+        "avgDays": 0.09375
+      }
+    ]
+  },
+  {
+    "period": "2025-06",
+    "columns": [
+      {
+        "name": "In Development",
+        "avgDays": 326.9148611111111
+      },
+      {
+        "name": "In Testing",
+        "avgDays": 190.32125
+      },
+      {
+        "name": "Funnel",
+        "avgDays": 88.34263888888889
+      },
+      {
+        "name": "Refined",
+        "avgDays": 49.348749999999995
+      },
+      {
+        "name": "Analysing",
+        "avgDays": 43.36194444444445
+      },
+      {
+        "name": "On Hold",
+        "avgDays": 29.61111111111111
+      },
+      {
+        "name": "Backlog",
+        "avgDays": 23.018749999999997
+      },
+      {
+        "name": "Implementing",
+        "avgDays": 5.986805555555556
+      }
+    ]
+  },
+  {
+    "period": "2025-09",
+    "columns": [
+      {
+        "name": "In Testing",
+        "avgDays": 325.09250000000003
+      },
+      {
+        "name": "Analysing",
+        "avgDays": 287.05541666666664
+      },
+      {
+        "name": "Refined",
+        "avgDays": 287.05541666666664
+      },
+      {
+        "name": "In Development",
+        "avgDays": 230.92291666666665
+      },
+      {
+        "name": "Funnel to Done",
+        "avgDays": 24.0675
+      },
+      {
+        "name": "Funnel",
+        "avgDays": 20.545208333333335
+      },
+      {
+        "name": "Implementing",
+        "avgDays": 15.065416666666666
+      },
+      {
+        "name": "Implementing to Done",
+        "avgDays": 15.065416666666666
+      },
+      {
+        "name": "Backlog",
+        "avgDays": 2.972083333333333
+      },
+      {
+        "name": "On Hold",
+        "avgDays": 0.004166666666666667
+      }
+    ]
+  },
+  {
+    "period": "2025-10",
+    "columns": [
+      {
+        "name": "In Development",
+        "avgDays": 366.06874999999997
+      },
+      {
+        "name": "In Testing",
+        "avgDays": 70.75291666666666
+      },
+      {
+        "name": "Refined",
+        "avgDays": 63.79583333333333
+      },
+      {
+        "name": "Funnel to Done",
+        "avgDays": 39.88333333333333
+      },
+      {
+        "name": "Analysing",
+        "avgDays": 31.89166666666667
+      },
+      {
+        "name": "Implementing to Done",
+        "avgDays": 18.934166666666666
+      },
+      {
+        "name": "Funnel",
+        "avgDays": 10.420208333333335
+      },
+      {
+        "name": "Implementing",
+        "avgDays": 9.474583333333333
+      },
+      {
+        "name": "On Hold",
+        "avgDays": 6.204166666666667
+      },
+      {
+        "name": "Backlog",
+        "avgDays": 0.8574999999999999
+      },
+      {
+        "name": "In Deployment",
+        "avgDays": 0.00125
+      }
+    ]
+  },
+  {
+    "period": "2025-11",
+    "columns": [
+      {
+        "name": "In Testing",
+        "avgDays": 242.55510416666664
+      },
+      {
+        "name": "In Development",
+        "avgDays": 209.81
+      },
+      {
+        "name": "Funnel to Done",
+        "avgDays": 125.57854166666667
+      },
+      {
+        "name": "Refined",
+        "avgDays": 114.2853125
+      },
+      {
+        "name": "Open",
+        "avgDays": 99.08833333333332
+      },
+      {
+        "name": "On Hold",
+        "avgDays": 87.39197916666667
+      },
+      {
+        "name": "Analysing",
+        "avgDays": 81.86809523809525
+      },
+      {
+        "name": "Implementing to Done",
+        "avgDays": 36.65375
+      },
+      {
+        "name": "Implementing",
+        "avgDays": 29.322333333333336
+      },
+      {
+        "name": "Funnel",
+        "avgDays": 26.638630952380954
+      },
+      {
+        "name": "Backlog",
+        "avgDays": 23.543
+      },
+      {
+        "name": "In Deployment",
+        "avgDays": 0.004166666666666667
+      }
+    ]
+  },
+  {
+    "period": "2025-12",
+    "columns": [
+      {
+        "name": "In Development",
+        "avgDays": 444.05958333333336
+      },
+      {
+        "name": "In Testing",
+        "avgDays": 72.92208333333333
+      },
+      {
+        "name": "Open",
+        "avgDays": 35.05916666666666
+      },
+      {
+        "name": "On Hold",
+        "avgDays": 15.122083333333334
+      },
+      {
+        "name": "Funnel",
+        "avgDays": 9.944583333333332
+      },
+      {
+        "name": "Backlog",
+        "avgDays": 6.854166666666667
+      },
+      {
+        "name": "Analysing",
+        "avgDays": 5.9425
+      },
+      {
+        "name": "Refined",
+        "avgDays": 5.9425
+      }
+    ]
+  },
+  {
+    "period": "2026-01",
+    "columns": [
+      {
+        "name": "In Testing",
+        "avgDays": 289.9891666666667
+      },
+      {
+        "name": "Funnel to Done",
+        "avgDays": 173.41694444444443
+      },
+      {
+        "name": "Refined",
+        "avgDays": 132.35354166666667
+      },
+      {
+        "name": "In Development",
+        "avgDays": 131.02520833333332
+      },
+      {
+        "name": "On Hold",
+        "avgDays": 114.88291666666666
+      },
+      {
+        "name": "Backlog",
+        "avgDays": 83.07541666666667
+      },
+      {
+        "name": "Analysing",
+        "avgDays": 72.75425
+      },
+      {
+        "name": "Implementing to Done",
+        "avgDays": 56.52930555555556
+      },
+      {
+        "name": "Implementing",
+        "avgDays": 42.39166666666666
+      },
+      {
+        "name": "Funnel",
+        "avgDays": 35.017500000000005
+      },
+      {
+        "name": "In Deployment",
+        "avgDays": 15.452083333333333
+      }
+    ]
+  },
+  {
+    "period": "2026-02",
+    "columns": [
+      {
+        "name": "Funnel to Done",
+        "avgDays": 141.92868055555553
+      },
+      {
+        "name": "Backlog",
+        "avgDays": 117.263125
+      },
+      {
+        "name": "In Development",
+        "avgDays": 88.66930555555557
+      },
+      {
+        "name": "Analysing",
+        "avgDays": 78.07066666666665
+      },
+      {
+        "name": "Investigation",
+        "avgDays": 59.76666666666667
+      },
+      {
+        "name": "In Testing",
+        "avgDays": 59.34722222222223
+      },
+      {
+        "name": "Refined",
+        "avgDays": 47.882916666666674
+      },
+      {
+        "name": "On Hold",
+        "avgDays": 27.956874999999997
+      },
+      {
+        "name": "Implementing to Done",
+        "avgDays": 23.695250000000005
+      },
+      {
+        "name": "Funnel",
+        "avgDays": 19.978055555555557
+      },
+      {
+        "name": "Implementing",
+        "avgDays": 17.33354166666667
+      },
+      {
+        "name": "Ready for Refinement",
+        "avgDays": 11.133611111111113
+      },
+      {
+        "name": "Open",
+        "avgDays": 5.085
+      },
+      {
+        "name": "In Deployment",
+        "avgDays": 4.343888888888889
+      }
+    ]
+  },
+  {
+    "period": "2026-03",
+    "columns": [
+      {
+        "name": "Abandoned",
+        "avgDays": 363.14291666666674
+      },
+      {
+        "name": "In Testing",
+        "avgDays": 201.4789798850575
+      },
+      {
+        "name": "In Development",
+        "avgDays": 164.00191767068267
+      },
+      {
+        "name": "Funnel to Done",
+        "avgDays": 112.9115086206896
+      },
+      {
+        "name": "Funnel",
+        "avgDays": 92.08421828908556
+      },
+      {
+        "name": "In Deployment",
+        "avgDays": 87.91278153153154
+      },
+      {
+        "name": "Refined",
+        "avgDays": 67.03877976190475
+      },
+      {
+        "name": "On Hold",
+        "avgDays": 53.64113782051281
+      },
+      {
+        "name": "Implementing to Done",
+        "avgDays": 48.90924731182796
+      },
+      {
+        "name": "Analysing",
+        "avgDays": 41.291391843971624
+      },
+      {
+        "name": "Implementing",
+        "avgDays": 36.56906914893618
+      },
+      {
+        "name": "Backlog",
+        "avgDays": 30.210533854166663
+      },
+      {
+        "name": "Open",
+        "avgDays": 20.92722868217055
+      },
+      {
+        "name": "Ready for Refinement",
+        "avgDays": 18.556875
+      },
+      {
+        "name": "Ready for test",
+        "avgDays": 14.093039215686275
+      },
+      {
+        "name": "Investigation",
+        "avgDays": 11.367149122807021
+      },
+      {
+        "name": "Waiting for acceptance",
+        "avgDays": 3.1843055555555555
+      }
+    ]
+  },
+  {
+    "period": "2026-04",
+    "columns": [
+      {
+        "name": "Abandoned",
+        "avgDays": 512.2159722222221
+      },
+      {
+        "name": "In Testing",
+        "avgDays": 354.4859259259259
+      },
+      {
+        "name": "Funnel to Done",
+        "avgDays": 171.27183333333332
+      },
+      {
+        "name": "Refined",
+        "avgDays": 160.20027777777779
+      },
+      {
+        "name": "In Development",
+        "avgDays": 123.88122222222223
+      },
+      {
+        "name": "Open",
+        "avgDays": 117.98875000000001
+      },
+      {
+        "name": "Analysing",
+        "avgDays": 95.72352272727272
+      },
+      {
+        "name": "Implementing to Done",
+        "avgDays": 88.2550641025641
+      },
+      {
+        "name": "In Deployment",
+        "avgDays": 87.54020833333334
+      },
+      {
+        "name": "On Hold",
+        "avgDays": 85.11310185185185
+      },
+      {
+        "name": "Backlog",
+        "avgDays": 76.79116666666667
+      },
+      {
+        "name": "Implementing",
+        "avgDays": 70.91440104166666
+      },
+      {
+        "name": "Funnel",
+        "avgDays": 63.90029761904761
+      },
+      {
+        "name": "Ready for test",
+        "avgDays": 6.929583333333333
+      },
+      {
+        "name": "Investigation",
+        "avgDays": 3.955416666666667
+      }
+    ]
+  }
+]

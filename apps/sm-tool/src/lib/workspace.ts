@@ -50,7 +50,7 @@ const WORKSPACE_LIST_KEY = "workspace-handle-list-v1";
 const MAX_REMEMBERED_WORKSPACES = 12;
 const TEAM_PROGRESS_HISTORY_FILE = "progress-history.json";
 const TEAM_PROGRESS_HISTORY_LIMIT = 120;
-const METRIC_SCOPES: MetricScope[] = ["team", "value-stream", "art"];
+const METRIC_SCOPES: MetricScope[] = ["team", "value-stream", "art", "portfolio"];
 
 interface RememberedWorkspaceRecord {
   id: string;
@@ -1323,6 +1323,8 @@ function buildDefaultTeamConfig(teamName: string, description?: string, entityTy
       entityType:
         entityType === "art"
           ? "agile-release-train"
+          : entityType === "portfolio"
+            ? "portfolio"
           : entityType === "vde"
             ? "development-value-stream"
             : "team",

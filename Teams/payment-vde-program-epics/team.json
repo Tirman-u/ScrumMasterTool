@@ -1,5 +1,6 @@
 {
-  "teamName": "Payments Baltics Feature",
+  "teamName": "Payment VDE Program Epics",
+  "entityType": "vde",
   "doneConfig": {
     "useStatusCategoryDone": false,
     "doneStatuses": [
@@ -37,7 +38,7 @@
     "issueType": "Issue Type"
   },
   "velocityConfig": {
-    "mode": "monthly-ticket-count"
+    "mode": "weekly-ticket-count"
   },
   "bugConfig": {
     "issueTypes": [
@@ -45,16 +46,30 @@
     ]
   },
   "sprintScopeConfig": {
-    "statuses": [
-      "Implementing",
-      "Analysing",
-      "In Deployment"
-    ]
+    "statuses": []
+  },
+  "workflowConfig": {
+    "backlogStatuses": [],
+    "activeStatuses": []
   },
   "bottleneckConfig": {
     "flowStatuses": []
   },
   "excludedIssueKeys": [],
+  "safeConfig": {
+    "enabled": false,
+    "entityType": "development-value-stream",
+    "metricIds": [
+      "flow-time",
+      "flow-velocity",
+      "flow-load",
+      "flow-efficiency",
+      "flow-predictability",
+      "flow-distribution",
+      "built-in-quality",
+      "competency-assessment"
+    ]
+  },
   "jiraQuery": {
     "defaultQueryId": "default",
     "queries": [
@@ -87,22 +102,5 @@
         }
       ]
     }
-  },
-  "safeConfig": {
-    "enabled": true,
-    "entityType": "agile-release-train",
-    "metricIds": [
-      "business-outcomes",
-      "flow-time",
-      "flow-velocity",
-      "flow-load",
-      "flow-efficiency",
-      "flow-predictability",
-      "flow-distribution",
-      "art-predictability",
-      "built-in-quality",
-      "competency-assessment",
-      "employee-engagement"
-    ]
   }
 }

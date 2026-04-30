@@ -1,0 +1,31 @@
+[
+  {
+    "period": "2026-04",
+    "columns": [
+      {
+        "name": "Funnel to Done",
+        "avgDays": 953.8029166666666
+      },
+      {
+        "name": "Funnel",
+        "avgDays": 722.8320833333333
+      },
+      {
+        "name": "Implementing",
+        "avgDays": 209.24875
+      },
+      {
+        "name": "Implementing to Done",
+        "avgDays": 209.24875
+      },
+      {
+        "name": "Reviewing",
+        "avgDays": 13.763333333333334
+      },
+      {
+        "name": "Analysing",
+        "avgDays": 7.959166666666667
+      }
+    ]
+  }
+]

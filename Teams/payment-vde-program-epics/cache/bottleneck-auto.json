@@ -1,0 +1,125 @@
+[
+  {
+    "period": "2026-01",
+    "columns": [
+      {
+        "name": "Funnel to Done",
+        "avgDays": 363.0216666666667
+      },
+      {
+        "name": "Implementing",
+        "avgDays": 177.16583333333332
+      },
+      {
+        "name": "Implementing to Done",
+        "avgDays": 177.16583333333332
+      },
+      {
+        "name": "Funnel",
+        "avgDays": 78.0325
+      },
+      {
+        "name": "Reviewing",
+        "avgDays": 60.86666666666667
+      },
+      {
+        "name": "Backlog",
+        "avgDays": 26.016666666666666
+      },
+      {
+        "name": "Analysing",
+        "avgDays": 20.939583333333335
+      }
+    ]
+  },
+  {
+    "period": "2026-03",
+    "columns": [
+      {
+        "name": "Funnel to Done",
+        "avgDays": 610.8466319444444
+      },
+      {
+        "name": "Implementing to Done",
+        "avgDays": 472.5897916666666
+      },
+      {
+        "name": "Implementing",
+        "avgDays": 212.09416666666667
+      },
+      {
+        "name": "Delivery",
+        "avgDays": 173.98744791666667
+      },
+      {
+        "name": "Initial discovery",
+        "avgDays": 140.30370370370372
+      },
+      {
+        "name": "Funnel",
+        "avgDays": 135.33479166666666
+      },
+      {
+        "name": "Reviewing",
+        "avgDays": 76.37916666666666
+      },
+      {
+        "name": "Think it",
+        "avgDays": 72.48617424242424
+      },
+      {
+        "name": "Analysing",
+        "avgDays": 68.7859375
+      },
+      {
+        "name": "Choose It",
+        "avgDays": 47.13158333333333
+      },
+      {
+        "name": "Backlog",
+        "avgDays": 34.80354166666667
+      },
+      {
+        "name": "Idea Box Business",
+        "avgDays": 17.177083333333332
+      }
+    ]
+  },
+  {
+    "period": "2026-04",
+    "columns": [
+      {
+        "name": "Funnel to Done",
+        "avgDays": 887.9133333333333
+      },
+      {
+        "name": "Think it",
+        "avgDays": 337.18333333333334
+      },
+      {
+        "name": "Funnel",
+        "avgDays": 318.78416666666664
+      },
+      {
+        "name": "Implementing to Done",
+        "avgDays": 208.9595833333333
+      },
+      {
+        "name": "Implementing",
+        "avgDays": 201.11041666666665
+      },
+      {
+        "name": "Reviewing",
+        "avgDays": 14.990833333333333
+      },
+      {
+        "name": "Analysing",
+        "avgDays": 7.995
+      },
+      {
+        "name": "Choose It",
+        "avgDays": 7.849166666666666
+      }
+    ]
+  }
+]

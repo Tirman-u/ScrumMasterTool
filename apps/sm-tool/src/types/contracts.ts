@@ -48,7 +48,7 @@ export interface WorkflowConfig {
   activeStatuses?: string[];
 }
 
-export type TeamEntityType = "team" | "vde" | "art";
+export type TeamEntityType = "team" | "vde" | "art" | "portfolio";
 
 export type SafeEntityType =
   | "team"
@@ -130,7 +130,7 @@ export interface WorkspaceProfileConfig {
   teamIds: string[];
 }
 
-export type MetricScope = "team" | "value-stream" | "art";
+export type MetricScope = "team" | "value-stream" | "art" | "portfolio";
 
 export interface WorkspaceMetricConfig {
   scopeVisibility?: Partial<Record<MetricScope, string[]>>;
