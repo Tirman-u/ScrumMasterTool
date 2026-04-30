@@ -1,0 +1,121 @@
+{
+  "generatedAt": "2026-04-29T09:08:46.927Z",
+  "teamName": "Orion",
+  "totalImportedRows": 27,
+  "uniqueIssues": 26,
+  "doneIssues": 5,
+  "cycleTimeCount": 5,
+  "cycleTimeDays": [
+    5.0575,
+    7.94375,
+    24.937083333333334,
+    24.936666666666667,
+    0.09458333333333334
+  ],
+  "avgCycleTimeDays": 12.593916666666667,
+  "sle": {
+    "percentiles": [
+      50,
+      70,
+      85,
+      95
+    ],
+    "rounding": "ceil",
+    "values": {
+      "p50": 15,
+      "p70": 25,
+      "p85": 25,
+      "p95": 25
+    }
+  },
+  "scatter": [
+    {
+      "issueKey": "ORION-13",
+      "resolutionDate": "2026-04-07T06:32:00.000Z",
+      "cycleTimeDays": 5.0575,
+      "issueType": "Story"
+    },
+    {
+      "issueKey": "ORION-32",
+      "resolutionDate": "2026-04-17T06:37:00.000Z",
+      "cycleTimeDays": 7.94375,
+      "issueType": "Engineering job"
+    },
+    {
+      "issueKey": "ORION-25",
+      "resolutionDate": "2026-04-21T07:36:00.000Z",
+      "cycleTimeDays": 24.937083333333334,
+      "issueType": "Story"
+    },
+    {
+      "issueKey": "ORION-26",
+      "resolutionDate": "2026-04-21T07:36:00.000Z",
+      "cycleTimeDays": 24.936666666666667,
+      "issueType": "Story"
+    },
+    {
+      "issueKey": "ORION-4",
+      "resolutionDate": "2026-04-27T07:33:00.000Z",
+      "cycleTimeDays": 0.09458333333333334,
+      "issueType": "Story"
+    }
+  ],
+  "scatterOverlay": {
+    "p50": 15,
+    "p70": 25,
+    "p85": 25,
+    "p95": 25
+  },
+  "velocityMonthly": [
+    {
+      "month": "2026-04",
+      "value": 26
+    }
+  ],
+  "doneIssueDetails": [
+    {
+      "issueKey": "ORION-4",
+      "resolutionDate": "2026-04-27T07:33:00.000Z",
+      "cycleTimeDays": 0.09458333333333334,
+      "issueType": "Story",
+      "storyPoints": 8,
+      "sprintCount": 1
+    },
+    {
+      "issueKey": "ORION-25",
+      "resolutionDate": "2026-04-21T07:36:00.000Z",
+      "cycleTimeDays": 24.937083333333334,
+      "issueType": "Story",
+      "storyPoints": 5,
+      "sprintCount": 1
+    },
+    {
+      "issueKey": "ORION-26",
+      "resolutionDate": "2026-04-21T07:36:00.000Z",
+      "cycleTimeDays": 24.936666666666667,
+      "issueType": "Story",
+      "storyPoints": 5,
+      "sprintCount": 1
+    },
+    {
+      "issueKey": "ORION-13",
+      "resolutionDate": "2026-04-07T06:32:00.000Z",
+      "cycleTimeDays": 5.0575,
+      "issueType": "Story",
+      "storyPoints": 3,
+      "sprintCount": 1
+    },
+    {
+      "issueKey": "ORION-32",
+      "resolutionDate": "2026-04-17T06:37:00.000Z",
+      "cycleTimeDays": 7.94375,
+      "issueType": "Engineering job",
+      "storyPoints": 5,
+      "sprintCount": 1
+    }
+  ],
+  "multiSprint": {
+    "count": 0,
+    "percentage": 0
+  }
+}

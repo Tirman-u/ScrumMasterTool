@@ -1,78 +1,78 @@
-Type,Key,Summary,Resolution Date,Open,To Do,On Hold,Development,Ready for Testing,Testing,Refinement,Code review,Analysis,Done
-,,Average time taken (from table),,28d 18h 15m,12d 10h 46m,29d 6h 39m,17d 11h 11m,14d 20h 35m,6d 18h 48m,33d 7h 19m,2d 4h 26m,4d 20h 54m,24d 4h 10m
-,CORE-10594,TIDY Index crebit.customer_limit_log,2/24/26,0d 0h 4m,,,0d 2h 10m,0d 20h 19m,0d 0h 4m,,,,3d 4h 5m
-,CORE-10590,LT: for arrest reservation end date should be set,2/23/26,0d 16h 13m,,,0d 0h 36m,2d 21h 31m,0d 0h 4m,,,,4d 6h 1m
-,CORE-10538,TIDY Add and use accounts attributes table in LDM,2/24/26,0d 0h 0m,0d 0h 54m,,8d 2h 43m,5d 18h 40m,,3d 18h 42m,,,3d 4h 10m
-,CORE-10531,GATE environment generated files must be written into the GATE filebarn,2/5/26,0d 0h 42m,,,,,0d 0h 1m,,,,22d 1h 27m
-,CORE-10529,Update iBank GATE to use GATE APIs,2/4/26,0d 0h 0m,0d 0h 13m,,,,,,,,22d 21h 55m
-,CORE-10528,Update STAR GATE to use GATE APIs,2/5/26,0d 0h 0m,0d 0h 6m,,,,,,0d 21h 13m,,22d 0h 49m
-,CORE-10520,API tests: Extend API tests and classes with vaults properties,2/12/26,0d 0h 0m,,,10d 1h 7m,,0d 0h 1m,,,,14d 23h 1m
-,CORE-10499,Onboard core-position-keeping-account-balance-api GATE to skyvault as an andromeda application/1,2/10/26,2d 6h 58m,,,5d 23h 39m,5d 20h 49m,,,,,17d 0h 16m
-,CORE-10479,Whitelisting Account api GATE,1/22/26,0d 0h 13m,0d 17h 26m,,,,,,0d 0h 37m,,36d 2h 17m
-,CORE-10472,Retention rule for crebit.eszr_ctpy_request_type is missing,2/2/26,6d 22h 20m,,,0d 2h 22m,1d 23h 49m,2d 20h 30m,,,,25d 4h 16m
-,CORE-10416,TIDY Merge collection and deletion in one batch for local disposal,1/29/26,0d 0h 1m,,,8d 4h 52m,1d 21h 57m,,2d 17h 49m,,,29d 1h 27m
-,CORE-10412,Account Ownership API: Additionally providing client's first name swapped with last name,2/26/26,18d 20h 40m,,,1d 2h 49m,6d 21h 28m,14d 0h 43m,,0d 2h 45m,,0d 23h 38m
-,CORE-10411,TIDY Reduce execution cycles needed to delete engagement data,1/29/26,0d 0h 0m,3d 20h 2m,,4d 5h 30m,1d 19h 45m,,3d 4h 10m,,,29d 1h 28m
-,CORE-10409,"core-transaction-api response attribute ""exchangeRateActual"" value must be rounded to 6 decimal places",1/23/26,0d 0h 4m,,,6d 22h 3m,0d 21h 15m,0d 2h 37m,,,,35d 0h 46m
-,CORE-10399,Filebarn API certificate will expire (bca_reports_PB ),2/2/26,0d 0h 18m,5d 3h 45m,,0d 19h 51m,12d 2h 7m,0d 0h 0m,,,,25d 1h 13m
-,CORE-10398,Migrate kSQL resources to w663 cluster,2/10/26,10d 21h 7m,,14d 6h 3m,1d 1h 33m,,,,,,16d 22h 41m
-,CORE-10397,Filebarn API certificate will expire,2/12/26,1d 0h 15m,3d 9h 43m,,0d 14h 49m,,22d 22h 49m,,,,15d 3h 52m
-,CORE-10395,Notification center message generation using RestAPI service,2/5/26,0d 0h 0m,,,7d 13h 13m,4d 2h 13m,1d 23h 45m,,,7d 11h 10m,22d 2h 4m
-,CORE-10392,Account Ownership API: Additionally providing names after normalization,2/26/26,20d 18h 40m,,,2d 15h 19m,0d 17h 26m,14d 8h 22m,,4d 9h 43m,,0d 23h 38m
-,CORE-10390,TIDY Implement double identification for disposal candidate records,1/19/26,0d 0h 0m,0d 0h 51m,,2d 21h 34m,2d 3h 31m,,0d 0h 0m,,,38d 21h 49m
-,CORE-10387,"TIDY Add account types CE, CG, and CL to LDM setup",1/29/26,0d 0h 1m,,,,0d 23h 33m,0d 0h 54m,14d 23h 3m,,,28d 22h 55m
-,CORE-10386,LV: Custom booking for Easy Saver,1/23/26,2d 6h 28m,5d 13h 24m,,,0d 23h 25m,0d 0h 58m,,1d 0h 49m,,35d 2h 21m
-,CORE-10385,"Onboard Azure NS to Andromeda Portal (DEV, TEST, GATE)",2/27/26,0d 0h 0m,,44d 20h 5m,,,,,,,0d 5h 50m
-,CORE-10383,Ibank get interest rate from Deposits API in deposits product page,2/3/26,0d 0h 0m,,,7d 0h 56m,0d 3h 13m,10d 22h 13m,,3d 0h 49m,,24d 2h 31m
-,CORE-10376,TIDY New batch to check shadow tables structure,2/19/26,0d 0h 0m,15d 18h 31m,,5d 13h 45m,8d 11h 54m,1d 2h 30m,10d 4h 22m,,,8d 0h 3m
-,CORE-10369,TIDY Create shadow tables for data backup,2/20/26,0d 0h 1m,9d 17h 49m,,11d 8h 19m,7d 15h 43m,3d 8h 0m,10d 22h 45m,,,6d 20h 52m
-,CORE-10358,TIDY Update disposal summary record when global disposal is canceled,1/30/26,0d 0h 1m,,,,0d 23h 11m,0d 22h 4m,22d 22h 21m,,,28d 0h 47m
-,CORE-10341,Onboard worker-ldm-task-exec GATE to skyvault as an andromeda application,2/26/26,13d 20h 25m,1d 3h 15m,,16d 22h 58m,20d 3h 11m,,,,,0d 20h 7m
-,CORE-10301,Onboard worker-statementsdb-sync GATE to skyvault as an andromeda application/1,2/10/26,13d 20h 28m,2d 23h 34m,,11d 22h 3m,6d 22h 56m,,,,,17d 5h 1m
-,CORE-10285,Onboard core-deposit-guarantee-fund-api GATE to skyvault as an andromeda application,2/4/26,9d 19h 58m,,,19d 3h 34m,1d 1h 7m,0d 0h 13m,,,,22d 21h 37m
-,CORE-10269,Onboard core-vop-request-processor-api GATE to skyvault as an andromeda application,2/12/26,16d 20h 40m,,,11d 23h 4m,9d 4h 37m,,,,,14d 22h 10m
-,CORE-10261,Onboard core-vop-match-engine-api GATE to skyvault as an andromeda application,2/12/26,16d 2h 13m,,,12d 17h 31m,9d 4h 37m,,,,,14d 22h 10m
-,CORE-10253,Onboard core-vop-acc-ownership-api GATE to skyvault as an andromeda application,2/10/26,15d 19h 6m,,,13d 1h 0m,7d 2h 56m,0d 0h 1m,,,,16d 23h 30m
-,CORE-10245,Onboard core-deposits-api GATE to skyvault as an andromeda application,1/29/26,8d 2h 31m,,,12d 23h 4m,2d 22h 22m,0d 0h 0m,,,,28d 22h 37m
-,CORE-10221,Onboard baltic-stmt-trx-core-api GATE to skyvault as an andromeda application,1/30/26,10d 0h 1m,,,12d 0h 49m,2d 17h 34m,,,,,28d 4h 22m
-,CORE-10213,Onboard baltic-stmt-res-core-api GATE to skyvault as an andromeda application,2/6/26,10d 2h 10m,,,17d 19h 33m,2d 0h 16m,2d 4h 57m,,,,20d 22h 10m
-,CORE-10205,Onboard pricing-api GATE to skyvault as an andromeda application,1/29/26,9d 22h 40m,,,12d 7h 4m,1d 21h 7m,0d 0h 1m,,,,28d 22h 17m
-,CORE-10197,Onboard core-cash-handling-api-baltic GATE to skyvault as an andromeda application,1/29/26,9d 23h 37m,,,12d 1h 25m,1d 21h 6m,,,,,29d 3h 4m
-,CORE-10189,Onboard core-position-keeping-res-api GATE to skyvault as an andromeda application/1,2/4/26,0d 0h 9m,7d 20h 28m,,21d 7h 11m,0d 23h 49m,0d 0h 16m,,,,22d 21h 27m
-,CORE-10181,Onboard core-position-keeping-trx-api GATE to skyvault as an andromeda application/1,2/10/26,0d 0h 12m,11d 0h 18m,,17d 22h 0m,1d 0h 22m,6d 2h 13m,,,,17d 0h 21m
-,CORE-10171,Onboard core-accounts-api GATE to skyvault as an andromeda application/1,1/29/26,0d 1h 4m,9d 22h 43m,,12d 2h 21m,1d 21h 7m,,,,,29d 3h 4m
-,CORE-10155,Tune deletion from accounts_ldm.disposal_details in LDM executor,1/6/26,0d 0h 1m,,,1d 20h 2m,6d 2h 10m,,,,,52d 0h 55m
-,CORE-10140,Forms Teller: display customers residency country at the time of transaction in the data editing screen,1/8/26,0d 0h 0m,,,0d 3h 34m,0d 19h 8m,21d 8h 23m,,,,49d 19h 27m
-,CORE-10137,Newly established companies pricelist improvement in Latvia,1/29/26,30d 8h 0m,12d 16h 37m,,0d 0h 40m,1d 0h 58m,0d 1h 31m,,,,28d 23h 49m
-,CORE-10124,Test for Forms Teller,2/25/26,31d 4h 7m,,,,15d 19h 13m,28d 22h 2m,,,,2d 5h 2m
-,CORE-10039,Delete CasC configurations after APIs installed to prod Openshift,2/4/26,0d 0h 0m,,68d 4h 15m,6d 2h 26m,,,,0d 16h 7m,,23d 3h 53m
-,CORE-10008,Test for VoP,2/10/26,31d 5h 13m,1d 23h 27m,,,15d 9h 49m,35d 6h 55m,,,,17d 2h 16m
-,CORE-9998,Onboard worker-transaction-enricher to skyvault as an andromeda application,1/13/26,0d 0h 21m,,48d 1h 1m,7d 23h 34m,,,,,,44d 23h 1m
-,CORE-9937,TIDY Delay data deletion in LDM Task Executor,1/28/26,0d 0h 4m,56d 16h 28m,,0d 8h 24m,13d 0h 4m,,,5d 15h 40m,,30d 4h 8m
-,CORE-9710,Onboard core-position-keeping-res-api to skyvault as an andromeda application,1/13/26,0d 13h 16m,4d 22h 2m,48d 1h 0m,22d 4h 58m,,,,,,44d 23h 1m
-,CORE-9699,API's performance test,2/10/26,14d 4h 6m,7d 17h 19m,19d 5h 18m,,62d 22h 9m,,,,,17d 1h 10m
-,CORE-9655,Test for Account API,2/10/26,7d 6h 4m,0d 3h 46m,,,9d 23h 28m,13d 22h 7m,,,,93d 20h 43m
-,CORE-9564,"""Statement API"" - add support for ""amountEuro"" (for transactions in foreign currency)""",2/9/26,85d 14h 40m,,,,31d 23h 34m,,,,,17d 14h 13m
-,CORE-9558,Printing investment account in iBank and STAR,1/8/26,0d 0h 10m,0d 23h 52m,10d 5h 34m,52d 17h 9m,19d 23h 51m,,,1d 2h 25m,0d 23h 1m,49d 22h 43m
-,CORE-9555,LV: Enable partial withdrawal for Majority Savings Account in STAR,1/28/26,83d 3h 16m,2d 20h 52m,,5d 20h 49m,8d 18h 55m,4d 23h 15m,,0d 4h 30m,,30d 5h 40m
-,CORE-9358,Travel insurance certificate under bundle details,2/3/26,90d 5h 1m,2d 11h 19m,43d 1h 4m,10d 2h 9m,1d 2h 31m,,,,,23d 23h 34m
-,CORE-9357,Test for IBANK - ARRESTS LV/EE(W705) in skyvault,12/15/25,112d 19h 41m,1d 23h 30m,,,31d 4h 51m,,,,,23d 21h 55m
-,CORE-9356,Test for IBANK - DEPOSITS(W636) in skyvault,2/4/26,113d 17h 33m,1d 23h 23m,,,15d 12h 28m,15d 21h 23m,,,,22d 19h 12m
-,CORE-9355,Test for IBANK - VAT(W969) in skyvault,2/4/26,106d 18h 10m,1d 23h 31m,6d 21h 9m,,29d 13h 0m,1d 19h 49m,,,,22d 22h 23m
-,CORE-9354,Test for IBANK - PRICING(W709) in skyvault,2/4/26,76d 22h 13m,1d 23h 34m,,,50d 2h 25m,16d 22h 45m,,,,22d 23h 49m
-,CORE-9351,Test for IBANK - ACCOUNTS(W663) in skyvault,2/4/26,76d 23h 37m,1d 23h 27m,,,65d 21h 57m,1d 3h 13m,,,,22d 23h 51m
-,CORE-9350,Test for STAR - ARRESTS(W705) in skyvault,2/26/26,73d 0h 16m,1d 23h 34m,6d 21h 25m,,67d 3h 19m,22d 3h 2m,,,,0d 20h 48m
-,CORE-9348,Test for STAR - VAT(W969) in skyvault,2/4/26,106d 13h 46m,1d 23h 34m,6d 21h 10m,,29d 13h 10m,2d 2h 17m,,,,22d 22h 25m
-,CORE-9347,Test for STAR - PRICING(W709) in skyvault,2/5/26,76d 23h 31m,1d 23h 36m,,,51d 13h 22m,16d 15h 21m,,,,21d 20h 37m
-,CORE-9346,Test for STAR - CUSTOM BOOKING(W709) in skyvault,2/4/26,105d 18h 9m,1d 23h 36m,,,31d 5h 12m,8d 1h 18m,,,,23d 0h 13m
-,CORE-9344,Test for STAR - DEPOSITS(W636) in skyvault,2/4/26,105d 16h 40m,1d 23h 36m,,,14d 12h 23m,25d 0h 15m,,,,22d 19h 32m
-,CORE-9315,Onboard pricing-api to skyvault as an andromeda application,1/13/26,64d 3h 49m,,,68d 2h 58m,,,,,,44d 23h 4m
-,CORE-9291,Test for Hippis in skyvault,2/12/26,76d 23h 45m,64d 4h 39m,21d 23h 2m,,,0d 4h 7m,,,,14d 20h 19m
-,CORE-9221,TIDY Insert data based on customer list provided by MDM,2/23/26,0d 5h 32m,98d 22h 18m,,3d 22h 24m,0d 0h 19m,0d 4h 13m,92d 22h 43m,,,3d 23h 28m
-,CORE-9214,TIDY Add planned execution dtime to DISPOSAL_TASK table,1/6/26,6d 0h 13m,39d 21h 43m,,7d 23h 4m,5d 21h 28m,,85d 6h 34m,,7d 20h 35m,52d 2h 34m
-,CORE-9213,TIDY Short-time storage implementation,2/18/26,6d 0h 28m,13d 17h 49m,57d 3h 10m,7d 8h 48m,7d 20h 58m,0d 23h 10m,92d 22h 34m,,7d 23h 28m,8d 23h 55m
-,CORE-9208,TIDY DB log trigger update to avoid Tidy deletion logging,1/19/26,5d 18h 40m,53d 20h 25m,,8d 6h 55m,5d 18h 34m,3d 16h 52m,93d 2h 7m,,,35d 10h 12m
-,CORE-9069,Setting Forms Teller in gate env in Skyvault,2/13/26,63d 12h 49m,13d 1h 28m,,3d 6h 25m,159d 14h 26m,0d 1h 13m,0d 0h 0m,,0d 2h 13m,14d 2h 3m
-,CORE-9064,Onboard core-accounts-api to skyvault as an andromeda application/1,1/13/26,63d 23h 31m,,,147d 3h 22m,,,,,,45d 0h 40m
-,CORE-8798,Setup parallel test environments for applications in UCD,1/19/26,28d 0h 16m,,,257d 2h 28m,,,,,,39d 1h 27m
-,CORE-8137,PB privates: Show interest rate on deposit conclusion,1/21/26,343d 22h 1m,51d 15h 28m,14d 6h 53m,9d 2h 41m,17d 21h 4m,4d 23h 50m,,6d 22h 9m,,37d 4h 7m
+Type,Key,Summary,Resolution Date,Open,To Do,On Hold,Development,Ready for Testing,Testing,Code review,Refinement,Business acceptance test,Analysis
+,,Average time taken (from table),,317.67h,331.31h,793.46h,371.65h,203.96h,91.59h,41.82h,763.04h,69.36h,116.90h
+,CORE-10813,IBANK BUSINESS EE OFFLINE statements generation is failing,3/20/26,0.47h,0.75h,,1.93h,0.03h,0.05h,,,,
+,CORE-10774,TIDY Index table crebit.DEPOSIT_ATTRIBUTE_VALUE_LOG,3/18/26,24.58h,,,0.45h,20.38h,0.10h,,,,
+,CORE-10773,TIDY Index tables crebit.E_INT_MAAR_LOG and crebit.E_INT_TING_LOG,3/18/26,24.45h,,,0.90h,20.27h,,,,,
+,CORE-10725,TIDY Index crebit.cash_auth_req,3/16/26,3.10h,,,,67.98h,0.37h,,,,
+,CORE-10707,Ibank Private: deposits comparison table bug when resizing window,3/18/26,0.00h,,,4.20h,3.48h,20.23h,112.70h,,,
+,CORE-10698,EE iBank private: overnight interest rate table amount out of order,3/16/26,0.00h,,,6.97h,77.58h,,17.28h,,,
+,CORE-10684,Statements DB changes,3/17/26,95.48h,70.57h,,19.37h,,,,,,
+,CORE-10683,TIDY Distribute GDM engagements equally among consumers,3/19/26,0.62h,65.00h,,120.05h,45.27h,4.92h,,,,
+,CORE-10682,iBank private: Easy Saver calculator interest rate loaded from Deposits API,3/17/26,16.77h,,,7.47h,160.87h,1.68h,,,,
+,CORE-10612,TIDY Index crebit.cut[number] tables,3/4/26,66.87h,,,22.48h,22.55h,,,,,
+,CORE-10610,TIDY Index crebit.ik_mk_logi_arh and crebit.ik_mk_arh,3/3/26,72.72h,,,,17.12h,,,,,
+,CORE-10609,TIDY Index crebit.unregistered_service_log,3/3/26,73.07h,,,,16.30h,,,,,
+,CORE-10608,TIDY Index crebit.qn_response_log,3/3/26,73.73h,,,,16.23h,,,,,
+,CORE-10607,VoP performance after all changes,3/19/26,0.00h,,,,,482.22h,,,,
+,CORE-10606,TIDY Index crebit.arve_vv_logi,3/3/26,73.93h,,,,16.12h,,,,,
+,CORE-10604,Change order of PROD Kafka bootstrap servers,3/2/26,0.00h,,,70.18h,,,,,,
+,CORE-10603,iBank business - interest rates loaded from Deposits API,3/19/26,0.25h,,,167.53h,240.57h,63.27h,7.23h,,,
+,CORE-10596,Incorrect BIC validation,3/19/26,5.07h,,,18.28h,118.40h,411.42h,0.00h,,,
+,CORE-10594,TIDY Index crebit.customer_limit_log,2/24/26,0.07h,,,2.17h,20.32h,0.07h,,,,
+,CORE-10590,LT: for arrest reservation end date should be set,2/23/26,16.23h,,,0.60h,69.52h,0.08h,,,,
+,CORE-10558,Ibank: Deposits API usage in interest rates page and pricelist page,3/18/26,0.22h,,,119.43h,667.13h,1.60h,7.23h,,,
+,CORE-10538,TIDY Add and use accounts attributes table in LDM,2/24/26,0.00h,0.90h,,194.73h,138.67h,,,90.70h,,
+,CORE-10531,GATE environment generated files must be written into the GATE filebarn,2/5/26,0.70h,,,,,0.02h,,,,
+,CORE-10529,Update iBank GATE to use GATE APIs,2/4/26,0.00h,0.22h,,,,,,,,
+,CORE-10528,Update STAR GATE to use GATE APIs,2/5/26,0.00h,0.10h,,,,,21.23h,,,
+,CORE-10525,For start-up pricelist should be added additional products,3/2/26,30.43h,120.15h,,38.90h,261.83h,76.52h,0.67h,,161.82h,
+,CORE-10520,API tests: Extend API tests and classes with vaults properties,2/12/26,0.00h,,,241.13h,,0.03h,,,,
+,CORE-10499,Onboard core-position-keeping-account-balance-api GATE to skyvault as an andromeda application/1,2/10/26,54.98h,,,143.65h,140.82h,,,,,
+,CORE-10479,Whitelisting Account api GATE,1/22/26,0.22h,17.45h,,,,,0.63h,,,
+,CORE-10472,Retention rule for crebit.eszr_ctpy_request_type is missing,2/2/26,166.35h,,,2.38h,47.83h,68.50h,,,,
+,CORE-10436,PSD2 statements with balances,3/3/26,333.20h,,,393.10h,132.73h,122.08h,,,24.45h,
+,CORE-10416,TIDY Merge collection and deletion in one batch for local disposal,1/29/26,0.02h,,,196.87h,45.95h,,,65.83h,,
+,CORE-10412,Account Ownership API: Additionally providing client's first name swapped with last name,2/26/26,452.67h,,,26.83h,165.48h,336.72h,2.75h,,,
+,CORE-10411,TIDY Reduce execution cycles needed to delete engagement data,1/29/26,0.00h,92.05h,,101.50h,43.75h,,,76.18h,,
+,CORE-10409,"core-transaction-api response attribute ""exchangeRateActual"" value must be rounded to 6 decimal places",1/23/26,0.08h,,,166.05h,21.25h,2.62h,,,,
+,CORE-10399,Filebarn API certificate will expire (bca_reports_PB ),2/2/26,0.30h,123.75h,,19.85h,290.12h,0.00h,,,,
+,CORE-10398,Migrate kSQL resources to w663 cluster,2/10/26,261.13h,,342.05h,25.55h,,,,,,
+,CORE-10397,Filebarn API certificate will expire,2/12/26,24.25h,81.73h,,14.82h,,550.83h,,,,
+,CORE-10395,Notification center message generation using RestAPI service,2/5/26,0.00h,,,181.22h,98.23h,47.75h,,,,179.17h
+,CORE-10392,Account Ownership API: Additionally providing names after normalization,2/26/26,498.68h,,,63.32h,17.45h,344.38h,105.72h,,,
+,CORE-10390,TIDY Implement double identification for disposal candidate records,1/19/26,0.00h,0.85h,,69.58h,51.53h,,,0.00h,,
+,CORE-10387,"TIDY Add account types CE, CG, and CL to LDM setup",1/29/26,0.02h,,,,23.55h,0.90h,,359.05h,,
+,CORE-10386,LV: Custom booking for Easy Saver,1/23/26,54.47h,133.40h,,,23.42h,0.97h,24.82h,,,
+,CORE-10385,"Onboard Azure NS to Andromeda Portal (DEV, TEST, GATE)",2/27/26,0.00h,,1076.10h,,,,,,,
+,CORE-10383,Ibank get interest rate from Deposits API in deposits product page,2/3/26,0.00h,,,168.95h,3.23h,262.22h,72.82h,,,
+,CORE-10376,TIDY New batch to check shadow tables structure,2/19/26,0.00h,378.53h,,133.75h,203.90h,26.50h,,244.37h,,
+,CORE-10369,TIDY Create shadow tables for data backup,2/20/26,0.03h,233.83h,,272.32h,183.73h,80.00h,,262.75h,,
+,CORE-10368,Easy Saver and Savings Incentive,3/6/26,173.73h,179.80h,5.50h,960.42h,1.10h,,24.87h,,21.82h,
+,CORE-10358,TIDY Update disposal summary record when global disposal is canceled,1/30/26,0.03h,,,,23.20h,22.08h,,550.35h,,
+,CORE-10341,Onboard worker-ldm-task-exec GATE to skyvault as an andromeda application,2/26/26,332.42h,27.25h,,406.97h,483.20h,,,,,
+,CORE-10301,Onboard worker-statementsdb-sync GATE to skyvault as an andromeda application/1,2/10/26,332.48h,71.57h,,286.05h,166.95h,,,,,
+,CORE-10285,Onboard core-deposit-guarantee-fund-api GATE to skyvault as an andromeda application,2/4/26,235.98h,,,459.57h,25.13h,0.22h,,,,
+,CORE-10277,Onboard agreementorch-api GATE to skyvault as an andromeda application,3/2/26,236.03h,21.58h,314.60h,598.60h,,123.10h,47.80h,,,
+,CORE-10269,Onboard core-vop-request-processor-api GATE to skyvault as an andromeda application,2/12/26,404.67h,,,287.07h,220.63h,,,,,
+,CORE-10261,Onboard core-vop-match-engine-api GATE to skyvault as an andromeda application,2/12/26,386.22h,,,305.53h,220.63h,,,,,
+,CORE-10253,Onboard core-vop-acc-ownership-api GATE to skyvault as an andromeda application,2/10/26,379.10h,,,313.00h,170.95h,0.02h,,,,
+,CORE-10245,Onboard core-deposits-api GATE to skyvault as an andromeda application,1/29/26,194.52h,,,311.08h,70.38h,0.00h,,,,
+,CORE-10221,Onboard baltic-stmt-trx-core-api GATE to skyvault as an andromeda application,1/30/26,240.03h,,,288.82h,65.58h,,,,,
+,CORE-10213,Onboard baltic-stmt-res-core-api GATE to skyvault as an andromeda application,2/6/26,242.18h,,,427.55h,48.28h,52.95h,,,,
+,CORE-10205,Onboard pricing-api GATE to skyvault as an andromeda application,1/29/26,238.67h,,,295.07h,45.13h,0.02h,,,,
+,CORE-10197,Onboard core-cash-handling-api-baltic GATE to skyvault as an andromeda application,1/29/26,239.63h,,,289.43h,45.10h,,,,,
+,CORE-10189,Onboard core-position-keeping-res-api GATE to skyvault as an andromeda application/1,2/4/26,0.15h,188.47h,,511.20h,23.83h,0.28h,,,,
+,CORE-10181,Onboard core-position-keeping-trx-api GATE to skyvault as an andromeda application/1,2/10/26,0.20h,264.30h,,430.00h,24.38h,146.22h,,,,
+,CORE-10171,Onboard core-accounts-api GATE to skyvault as an andromeda application/1,1/29/26,1.07h,238.72h,,290.35h,45.12h,,,,,
+,CORE-10155,Tune deletion from accounts_ldm.disposal_details in LDM executor,1/6/26,0.02h,,,44.05h,146.17h,,,,,
+,CORE-10140,Forms Teller: display customers residency country at the time of transaction in the data editing screen,1/8/26,0.00h,,,3.58h,19.15h,512.40h,,,,
+,CORE-10137,Newly established companies pricelist improvement in Latvia,1/29/26,728.00h,304.63h,,0.67h,24.97h,1.52h,,,,
+,CORE-10039,Delete CasC configurations after APIs installed to prod Openshift,2/4/26,0.00h,,1636.25h,146.45h,,,16.12h,,,
+,CORE-9998,Onboard worker-transaction-enricher to skyvault as an andromeda application,1/13/26,0.35h,,1153.02h,191.58h,,,,,,
+,CORE-9937,TIDY Delay data deletion in LDM Task Executor,1/28/26,0.08h,1360.48h,,8.40h,312.07h,,135.68h,,,
+,CORE-9710,Onboard core-position-keeping-res-api to skyvault as an andromeda application,1/13/26,13.27h,118.05h,1153.00h,532.98h,,,,,,
+,CORE-9699,API's performance test - Skyvault testing,2/10/26,340.10h,185.32h,461.30h,,1510.15h,,,,,
+,CORE-9564,"""Statement API"" - add support for ""amountEuro"" (for transactions in foreign currency)""",2/9/26,2054.68h,,,,767.57h,,,,,
+,CORE-9558,Printing investment account in iBank and STAR,1/8/26,0.18h,23.88h,245.57h,1265.15h,479.85h,,26.42h,,,23.03h
+,CORE-9555,LV: Enable partial withdrawal for Majority Savings Account in STAR,1/28/26,1995.27h,68.87h,,140.83h,210.93h,119.25h,4.50h,,,
+,CORE-9358,Travel insurance certificate under bundle details,2/3/26,2165.02h,59.33h,1033.08h,242.15h,26.53h,,,,,

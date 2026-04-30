@@ -1,0 +1,28 @@
+Issue key,Issue id,Created,Resolved,Status,Priority,Due Date,Updated,Sprint,Sprint,Custom field (Story Points),Issue Type,Resolution
+ORION-21,2418239,17.07.2024 09:41,,Ready for Refinement,Major,,09.04.2026 09:23,,,,Story,
+ORION-22,2348329,14.05.2024 11:17,,Ready for Refinement,Major,,01.04.2026 09:27,,,,Engineering job,
+ORION-24,2348355,14.05.2024 11:45,,Ready for Refinement,Major,,01.04.2026 09:28,,,,Engineering job,
+ORION-17,2412094,09.07.2024 09:14,,Ready for Refinement,Major,,01.04.2026 08:47,BPAY PI 2026:2.4-BPAY - Orion,,5.0,Engineering job,
+ORION-18,2415076,12.07.2024 10:49,,Ready for Refinement,Major,,10.04.2026 13:37,BPAY PI 2026:2.4-BPAY - Orion,,5.0,Engineering job,
+ORION-19,2415595,12.07.2024 13:13,,Ready for Refinement,Major,,09.04.2026 09:16,BPAY PI 2026:2.4-BPAY - Orion,,5.0,Engineering job,
+ORION-20,2417733,16.07.2024 13:38,,Ready for Refinement,Major,,01.04.2026 09:16,BPAY PI 2026:2.3-BPAY - Orion,,3.0,Engineering job,
+ORION-9,2419027,18.07.2024 09:06,,Ready for Refinement,Major,,01.04.2026 09:24,BPAY PI 2026:2.2-BPAY - Orion,,1.0,Engineering job,
+ORION-11,2370639,03.06.2024 10:53,,Ready for Refinement,Major,,31.03.2026 14:52,BPAY PI 2026:2.3-BPAY - Orion,,1.0,Engineering job,
+ORION-12,2370938,03.06.2024 12:40,,Ready for Refinement,Major,,09.04.2026 09:58,BPAY PI 2026:2.3-BPAY - Orion,,8.0,Engineering job,
+ORION-4,3194393,31.03.2026 09:07,27.04.2026 10:33,Done,Major,,27.04.2026 15:07,BPAY PI 2026:2.3-BPAY - Orion,,8.0,Story,Done
+ORION-23,2419846,19.07.2024 10:06,,Ready for Refinement,Major,,01.04.2026 09:28,,,,Engineering job,
+ORION-25,3190303,27.03.2026 11:04,21.04.2026 10:36,Done,Major,,21.04.2026 10:51,BPAY PI 2026:2.1-BPAY - Orion,,5.0,Story,Done
+ORION-26,3183513,24.03.2026 12:19,21.04.2026 10:36,Done,Major,,21.04.2026 10:37,BPAY PI 2026:2.1-BPAY - Orion,,5.0,Story,Done
+ORION-13,3197172,31.03.2026 14:50,07.04.2026 09:32,Done,Major,,07.04.2026 09:32,BPAY PI 2026:2.1-BPAY - Orion,,3.0,Story,Done
+ORION-32,3159967,09.03.2026 09:05,17.04.2026 09:37,Done,Major,,23.04.2026 10:29,BPAY PI 2026:2.1-BPAY - Orion,,5.0,Engineering job,Done
+ORION-8,2418261,17.07.2024 10:27,08.04.2026 13:08,Done,Major,,22.04.2026 10:09,BPAY PI 2026:2.1-BPAY - Orion,,1.0,Engineering job,Done
+ORION-10,2418249,17.07.2024 10:06,,Ready for Refinement,Major,,22.04.2026 16:01,BPAY PI 2026:2.1-BPAY - Orion,BPAY PI 2026:2.2-BPAY - Orion,1.0,Engineering job,
+ORION-6,2418246,17.07.2024 10:04,,Ready for Refinement,Major,,22.04.2026 16:01,BPAY PI 2026:2.1-BPAY - Orion,BPAY PI 2026:2.2-BPAY - Orion,1.0,Engineering job,
+ORION-33,3159968,09.03.2026 09:06,,In Development,Major,,22.04.2026 16:01,BPAY PI 2026:2.1-BPAY - Orion,BPAY PI 2026:2.2-BPAY - Orion,,Engineering job,
+ORION-7,3196529,31.03.2026 13:19,,In Development,Major,,23.04.2026 13:53,BPAY PI 2026:2.2-BPAY - Orion,,3.0,Task,
+ORION-27,3214580,09.04.2026 09:19,,Open,Major,,27.04.2026 07:37,,,,Story,
+ORION-34,3224748,16.04.2026 11:14,,In Development,Major,,22.04.2026 16:01,BPAY PI 2026:2.1-BPAY - Orion,BPAY PI 2026:2.2-BPAY - Orion,,Engineering job,
+ORION-35,3232307,23.04.2026 09:07,,Open,Major,,23.04.2026 09:07,,,,Story,
+ORION-36,3233038,23.04.2026 12:14,,Open,Major,,23.04.2026 13:52,,,,Engineering job,
+ORION-37,3233042,23.04.2026 12:18,,Open,Major,,23.04.2026 13:53,,,,Engineering job,
+ORION-38,3236541,27.04.2026 13:21,,Open,Major,,27.04.2026 13:28,,,,Engineering job,

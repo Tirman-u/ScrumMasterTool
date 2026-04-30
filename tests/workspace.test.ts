@@ -145,4 +145,29 @@ describe("workspace pipeline", () => {
     expect(deduped[0].issueType).toBe("Bug");
     expect(metrics.scatter[0].cycleTimeDays).toBe(9);
   });
+
+  it("auto-detects custom field headers for story points and sprint", async () => {
+    const workspacePath = await makeTempWorkspace([
+      "ALPHA-8,2026-02-01,2026-02-05,2026-02-06,Done,Done,8,Sprint Z",
+    ]);
+
+    const teamPath = path.join(workspacePath, "teams", "alpha");
+    await fs.writeFile(
+      path.join(teamPath, "imports", "jira.csv"),
+      [
+        "Issue key,Created,Resolved,Updated,Status,Resolution,Custom field (Story Points),Custom field (Sprint)",
+        "ALPHA-8,2026-02-01,2026-02-05,2026-02-06,Done,Done,8,Sprint Z",
+      ].join("\n"),
+      "utf-8",
+    );
+
+    const workspace = await loadWorkspace(workspacePath);
+    const team = workspace.teams[0];
+    const deduped = dedupeIssuesByLatestUpdate(team.issues);
+    const metrics = buildMetrics(team.teamConfig, team.totalRows, deduped);
+
+    expect(deduped[0].storyPoints).toBe(8);
+    expect(deduped[0].sprintRaw).toBe("Sprint Z");
+    expect(metrics.velocityMonthly).toEqual([{ month: "2026-02", value: 8 }]);
+  });
 });

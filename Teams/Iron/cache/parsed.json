@@ -2,119 +2,119 @@
   {
     "issueKey": "CORE-10601",
     "created": "2026-02-25T11:55:00.000Z",
-    "updated": "2026-02-25T13:49:00.000Z",
-    "resolutionDate": "2026-02-25T13:49:00.000Z",
-    "status": "Code review",
-    "resolution": "",
+    "updated": "2026-03-03T06:08:00.000Z",
+    "resolutionDate": "2026-03-02T06:19:00.000Z",
+    "status": "Done",
+    "resolution": "Done",
     "issueType": "Bug",
     "storyPoints": null,
     "sprintRaw": "",
-    "sourceFile": "2026-02/IRON SMTool - Open (Swedbank) 2026-02-27T12_12_53+0100.csv",
-    "sourceRow": 2
+    "sourceFile": "2026-02/IRON SMTool - Closed (Swedbank) 2026-03-21T09_54_53+0100.csv",
+    "sourceRow": 16
   },
   {
     "issueKey": "CORE-10593",
     "created": "2026-02-20T13:42:00.000Z",
-    "updated": "2026-02-20T13:42:00.000Z",
-    "resolutionDate": "2026-02-20T13:42:00.000Z",
-    "status": "Open",
-    "resolution": "",
-    "issueType": "Task",
-    "storyPoints": null,
-    "sprintRaw": "",
-    "sourceFile": "2026-02/IRON SMTool - Open (Swedbank) 2026-02-27T12_12_53+0100.csv",
-    "sourceRow": 3
-  },
-  {
-    "issueKey": "CORE-10592",
-    "created": "2026-02-20T13:14:00.000Z",
-    "updated": "2026-02-20T13:14:00.000Z",
-    "resolutionDate": "2026-02-20T13:14:00.000Z",
-    "status": "Open",
-    "resolution": "",
-    "issueType": "Task",
-    "storyPoints": null,
-    "sprintRaw": "",
-    "sourceFile": "2026-02/IRON SMTool - Open (Swedbank) 2026-02-27T12_12_53+0100.csv",
-    "sourceRow": 4
-  },
-  {
-    "issueKey": "CORE-10575",
-    "created": "2026-02-16T13:13:00.000Z",
-    "updated": "2026-02-19T10:29:00.000Z",
-    "resolutionDate": "2026-02-19T10:29:00.000Z",
+    "updated": "2026-03-17T09:59:00.000Z",
+    "resolutionDate": "2026-03-17T09:59:00.000Z",
     "status": "Refinement",
     "resolution": "",
     "issueType": "Task",
     "storyPoints": null,
     "sprintRaw": "",
-    "sourceFile": "2026-02/IRON SMTool - Open (Swedbank) 2026-02-27T12_12_53+0100.csv",
-    "sourceRow": 5
+    "sourceFile": "2026-02/IRON SMTool - Open (Swedbank) 2026-03-21T09_54_32+0100.csv",
+    "sourceRow": 36
+  },
+  {
+    "issueKey": "CORE-10592",
+    "created": "2026-02-20T13:14:00.000Z",
+    "updated": "2026-03-17T07:41:00.000Z",
+    "resolutionDate": "2026-03-17T07:41:00.000Z",
+    "status": "To Do",
+    "resolution": "",
+    "issueType": "Task",
+    "storyPoints": 5,
+    "sprintRaw": "",
+    "sourceFile": "2026-02/IRON SMTool - Open (Swedbank) 2026-03-21T09_54_32+0100.csv",
+    "sourceRow": 37
+  },
+  {
+    "issueKey": "CORE-10575",
+    "created": "2026-02-16T13:13:00.000Z",
+    "updated": "2026-03-19T14:15:00.000Z",
+    "resolutionDate": "2026-03-19T14:15:00.000Z",
+    "status": "To Do",
+    "resolution": "",
+    "issueType": "Task",
+    "storyPoints": 5,
+    "sprintRaw": "26PI2_2-Iron",
+    "sourceFile": "2026-02/IRON SMTool - Open (Swedbank) 2026-03-21T09_54_32+0100.csv",
+    "sourceRow": 41
   },
   {
     "issueKey": "CORE-10517",
     "created": "2026-01-30T11:43:00.000Z",
-    "updated": "2026-02-26T12:30:00.000Z",
-    "resolutionDate": "2026-02-26T12:30:00.000Z",
-    "status": "Open",
+    "updated": "2026-03-19T11:13:00.000Z",
+    "resolutionDate": "2026-03-19T11:13:00.000Z",
+    "status": "Development",
     "resolution": "",
     "issueType": "Task",
     "storyPoints": null,
     "sprintRaw": "",
-    "sourceFile": "2026-02/IRON SMTool - Open (Swedbank) 2026-02-27T12_12_53+0100.csv",
-    "sourceRow": 6
+    "sourceFile": "2026-02/IRON SMTool - Open (Swedbank) 2026-03-21T09_54_32+0100.csv",
+    "sourceRow": 55
   },
   {
     "issueKey": "CORE-10507",
     "created": "2026-01-27T07:02:00.000Z",
-    "updated": "2026-02-23T10:32:00.000Z",
-    "resolutionDate": "2026-02-23T10:32:00.000Z",
-    "status": "Testing",
-    "resolution": "",
+    "updated": "2026-03-20T07:24:00.000Z",
+    "resolutionDate": "2026-03-20T06:44:00.000Z",
+    "status": "Done",
+    "resolution": "Done",
     "issueType": "Task",
     "storyPoints": null,
     "sprintRaw": "",
-    "sourceFile": "2026-02/IRON SMTool - Open (Swedbank) 2026-02-27T12_12_53+0100.csv",
-    "sourceRow": 7
+    "sourceFile": "2026-02/IRON SMTool - Closed (Swedbank) 2026-03-21T09_54_53+0100.csv",
+    "sourceRow": 24
   },
   {
     "issueKey": "CORE-10439",
     "created": "2026-01-20T12:43:00.000Z",
-    "updated": "2026-02-26T07:26:00.000Z",
-    "resolutionDate": "2026-02-26T07:26:00.000Z",
-    "status": "To Do",
+    "updated": "2026-03-19T13:21:00.000Z",
+    "resolutionDate": "2026-03-19T13:21:00.000Z",
+    "status": "Code review",
     "resolution": "",
     "issueType": "Task",
-    "storyPoints": null,
-    "sprintRaw": "",
-    "sourceFile": "2026-02/IRON SMTool - Open (Swedbank) 2026-02-27T12_12_53+0100.csv",
-    "sourceRow": 8
+    "storyPoints": 2,
+    "sprintRaw": "26PI2_1-Iron",
+    "sourceFile": "2026-02/IRON SMTool - Open (Swedbank) 2026-03-21T09_54_32+0100.csv",
+    "sourceRow": 57
   },
   {
     "issueKey": "CORE-10432",
     "created": "2026-01-20T05:41:00.000Z",
-    "updated": "2026-02-17T06:25:00.000Z",
-    "resolutionDate": "2026-02-17T06:25:00.000Z",
-    "status": "To Do",
-    "resolution": "",
+    "updated": "2026-03-16T07:42:00.000Z",
+    "resolutionDate": "2026-03-16T07:42:00.000Z",
+    "status": "Done",
+    "resolution": "Done",
     "issueType": "Story",
-    "storyPoints": null,
+    "storyPoints": 1,
     "sprintRaw": "",
-    "sourceFile": "2026-02/IRON SMTool - Open (Swedbank) 2026-02-27T12_12_53+0100.csv",
-    "sourceRow": 9
+    "sourceFile": "2026-02/IRON SMTool - Closed (Swedbank) 2026-03-21T09_54_53+0100.csv",
+    "sourceRow": 29
   },
   {
     "issueKey": "CORE-10424",
     "created": "2026-01-19T05:55:00.000Z",
-    "updated": "2026-01-19T05:55:00.000Z",
-    "resolutionDate": "2026-01-19T05:55:00.000Z",
-    "status": "Open",
+    "updated": "2026-03-17T13:50:00.000Z",
+    "resolutionDate": "2026-03-17T13:50:00.000Z",
+    "status": "On Hold",
     "resolution": "",
     "issueType": "Task",
-    "storyPoints": null,
+    "storyPoints": 13,
     "sprintRaw": "",
-    "sourceFile": "2026-02/IRON SMTool - Open (Swedbank) 2026-02-27T12_12_53+0100.csv",
-    "sourceRow": 10
+    "sourceFile": "2026-02/IRON SMTool - Open (Swedbank) 2026-03-21T09_54_32+0100.csv",
+    "sourceRow": 58
   },
   {
     "issueKey": "CORE-10403",
@@ -124,10 +124,10 @@
     "status": "On Hold",
     "resolution": "",
     "issueType": "Task",
-    "storyPoints": null,
+    "storyPoints": 10,
     "sprintRaw": "",
-    "sourceFile": "2026-02/IRON SMTool - Open (Swedbank) 2026-02-27T12_12_53+0100.csv",
-    "sourceRow": 11
+    "sourceFile": "2026-02/IRON SMTool - Open (Swedbank) 2026-03-21T09_54_32+0100.csv",
+    "sourceRow": 59
   },
   {
     "issueKey": "CORE-10401",
@@ -137,49 +137,49 @@
     "status": "On Hold",
     "resolution": "",
     "issueType": "Task",
-    "storyPoints": null,
+    "storyPoints": 10,
     "sprintRaw": "",
-    "sourceFile": "2026-02/IRON SMTool - Open (Swedbank) 2026-02-27T12_12_53+0100.csv",
-    "sourceRow": 12
+    "sourceFile": "2026-02/IRON SMTool - Open (Swedbank) 2026-03-21T09_54_32+0100.csv",
+    "sourceRow": 60
   },
   {
     "issueKey": "CORE-10400",
     "created": "2026-01-15T07:08:00.000Z",
-    "updated": "2026-02-19T06:29:00.000Z",
-    "resolutionDate": "2026-02-19T06:29:00.000Z",
-    "status": "Development",
+    "updated": "2026-03-18T06:00:00.000Z",
+    "resolutionDate": "2026-03-18T06:00:00.000Z",
+    "status": "On Hold",
     "resolution": "",
     "issueType": "Task",
     "storyPoints": null,
-    "sprintRaw": "26PI1_1-Iron,26PI1_2-Iron",
-    "sourceFile": "2026-02/IRON SMTool - Open (Swedbank) 2026-02-27T12_12_53+0100.csv",
-    "sourceRow": 13
+    "sprintRaw": "26PI1_1-Iron,26PI1_2-Iron,26PI1_3-Iron",
+    "sourceFile": "2026-02/IRON SMTool - Open (Swedbank) 2026-03-21T09_54_32+0100.csv",
+    "sourceRow": 61
   },
   {
     "issueKey": "CORE-10393",
     "created": "2026-01-14T14:12:00.000Z",
-    "updated": "2026-02-17T10:15:00.000Z",
-    "resolutionDate": "2026-02-17T10:15:00.000Z",
+    "updated": "2026-03-16T11:54:00.000Z",
+    "resolutionDate": "2026-03-16T11:54:00.000Z",
     "status": "Testing",
     "resolution": "",
     "issueType": "Story",
     "storyPoints": null,
     "sprintRaw": "",
-    "sourceFile": "2026-02/IRON SMTool - Open (Swedbank) 2026-02-27T12_12_53+0100.csv",
-    "sourceRow": 14
+    "sourceFile": "2026-02/IRON SMTool - Open (Swedbank) 2026-03-21T09_54_32+0100.csv",
+    "sourceRow": 62
   },
   {
     "issueKey": "CORE-10391",
     "created": "2026-01-14T10:54:00.000Z",
-    "updated": "2026-01-14T10:54:00.000Z",
-    "resolutionDate": "2026-01-14T10:54:00.000Z",
+    "updated": "2026-03-12T08:12:00.000Z",
+    "resolutionDate": "2026-03-12T08:12:00.000Z",
     "status": "Open",
     "resolution": "",
     "issueType": "Task",
     "storyPoints": null,
     "sprintRaw": "",
-    "sourceFile": "2026-02/IRON SMTool - Open (Swedbank) 2026-02-27T12_12_53+0100.csv",
-    "sourceRow": 15
+    "sourceFile": "2026-02/IRON SMTool - Open (Swedbank) 2026-03-21T09_54_32+0100.csv",
+    "sourceRow": 63
   },
   {
     "issueKey": "CORE-10357",
@@ -191,268 +191,268 @@
     "issueType": "Task",
     "storyPoints": null,
     "sprintRaw": "",
-    "sourceFile": "2026-02/IRON SMTool - Open (Swedbank) 2026-02-27T12_12_53+0100.csv",
-    "sourceRow": 16
+    "sourceFile": "2026-02/IRON SMTool - Open (Swedbank) 2026-03-21T09_54_32+0100.csv",
+    "sourceRow": 64
   },
   {
     "issueKey": "CORE-10349",
     "created": "2026-01-05T12:24:00.000Z",
-    "updated": "2026-02-03T06:25:00.000Z",
-    "resolutionDate": "2026-02-03T06:25:00.000Z",
+    "updated": "2026-03-09T08:32:00.000Z",
+    "resolutionDate": "2026-03-09T08:32:00.000Z",
     "status": "On Hold",
     "resolution": "",
     "issueType": "Task",
-    "storyPoints": null,
-    "sprintRaw": "26PI1_2-Iron",
-    "sourceFile": "2026-02/IRON SMTool - Open (Swedbank) 2026-02-27T12_12_53+0100.csv",
-    "sourceRow": 17
+    "storyPoints": 4,
+    "sprintRaw": "26PI1_2-Iron,26PI1_3-Iron",
+    "sourceFile": "2026-02/IRON SMTool - Open (Swedbank) 2026-03-21T09_54_32+0100.csv",
+    "sourceRow": 65
   },
   {
     "issueKey": "CORE-10333",
     "created": "2026-01-05T12:21:00.000Z",
-    "updated": "2026-02-10T10:53:00.000Z",
-    "resolutionDate": "2026-02-10T10:53:00.000Z",
+    "updated": "2026-03-10T12:06:00.000Z",
+    "resolutionDate": "2026-03-10T12:06:00.000Z",
     "status": "On Hold",
     "resolution": "",
     "issueType": "Task",
-    "storyPoints": null,
-    "sprintRaw": "26PI1_1-Gold,26PI1_2-Gold",
-    "sourceFile": "2026-02/IRON SMTool - Open (Swedbank) 2026-02-27T12_12_53+0100.csv",
-    "sourceRow": 18
+    "storyPoints": 4,
+    "sprintRaw": "26PI1_1-Gold,26PI1_2-Gold,26PI1_3-Gold",
+    "sourceFile": "2026-02/IRON SMTool - Open (Swedbank) 2026-03-21T09_54_32+0100.csv",
+    "sourceRow": 66
   },
   {
     "issueKey": "CORE-10325",
     "created": "2026-01-05T12:20:00.000Z",
-    "updated": "2026-02-09T11:38:00.000Z",
-    "resolutionDate": "2026-02-09T11:38:00.000Z",
+    "updated": "2026-03-09T08:32:00.000Z",
+    "resolutionDate": "2026-03-09T08:32:00.000Z",
     "status": "On Hold",
     "resolution": "",
     "issueType": "Task",
-    "storyPoints": null,
-    "sprintRaw": "26PI1_1-Iron,26PI1_2-Iron",
-    "sourceFile": "2026-02/IRON SMTool - Open (Swedbank) 2026-02-27T12_12_53+0100.csv",
-    "sourceRow": 19
+    "storyPoints": 4,
+    "sprintRaw": "26PI1_1-Iron,26PI1_2-Iron,26PI1_3-Iron",
+    "sourceFile": "2026-02/IRON SMTool - Open (Swedbank) 2026-03-21T09_54_32+0100.csv",
+    "sourceRow": 67
   },
   {
     "issueKey": "CORE-10317",
     "created": "2026-01-05T12:18:00.000Z",
-    "updated": "2026-02-09T11:38:00.000Z",
-    "resolutionDate": "2026-02-09T11:38:00.000Z",
+    "updated": "2026-03-09T08:32:00.000Z",
+    "resolutionDate": "2026-03-09T08:32:00.000Z",
     "status": "On Hold",
     "resolution": "",
     "issueType": "Task",
-    "storyPoints": null,
-    "sprintRaw": "26PI1_1-Iron,26PI1_2-Iron",
-    "sourceFile": "2026-02/IRON SMTool - Open (Swedbank) 2026-02-27T12_12_53+0100.csv",
-    "sourceRow": 20
+    "storyPoints": 4,
+    "sprintRaw": "26PI1_1-Iron,26PI1_2-Iron,26PI1_3-Iron",
+    "sourceFile": "2026-02/IRON SMTool - Open (Swedbank) 2026-03-21T09_54_32+0100.csv",
+    "sourceRow": 68
   },
   {
     "issueKey": "CORE-10309",
     "created": "2026-01-05T12:17:00.000Z",
-    "updated": "2026-02-09T11:38:00.000Z",
-    "resolutionDate": "2026-02-09T11:38:00.000Z",
+    "updated": "2026-03-09T08:32:00.000Z",
+    "resolutionDate": "2026-03-09T08:32:00.000Z",
     "status": "On Hold",
     "resolution": "",
     "issueType": "Task",
-    "storyPoints": null,
-    "sprintRaw": "26PI1_1-Iron,26PI1_2-Iron",
-    "sourceFile": "2026-02/IRON SMTool - Open (Swedbank) 2026-02-27T12_12_53+0100.csv",
-    "sourceRow": 21
+    "storyPoints": 4,
+    "sprintRaw": "26PI1_1-Iron,26PI1_2-Iron,26PI1_3-Iron",
+    "sourceFile": "2026-02/IRON SMTool - Open (Swedbank) 2026-03-21T09_54_32+0100.csv",
+    "sourceRow": 69
   },
   {
     "issueKey": "CORE-10293",
     "created": "2026-01-05T12:13:00.000Z",
-    "updated": "2026-02-09T11:38:00.000Z",
-    "resolutionDate": "2026-02-09T11:38:00.000Z",
+    "updated": "2026-03-09T08:32:00.000Z",
+    "resolutionDate": "2026-03-09T08:32:00.000Z",
     "status": "On Hold",
     "resolution": "",
     "issueType": "Task",
-    "storyPoints": null,
-    "sprintRaw": "26PI1_1-Iron,26PI1_2-Iron",
-    "sourceFile": "2026-02/IRON SMTool - Open (Swedbank) 2026-02-27T12_12_53+0100.csv",
-    "sourceRow": 22
+    "storyPoints": 4,
+    "sprintRaw": "26PI1_1-Iron,26PI1_2-Iron,26PI1_3-Iron",
+    "sourceFile": "2026-02/IRON SMTool - Open (Swedbank) 2026-03-21T09_54_32+0100.csv",
+    "sourceRow": 70
   },
   {
     "issueKey": "CORE-10277",
     "created": "2026-01-05T11:48:00.000Z",
-    "updated": "2026-02-25T06:27:00.000Z",
-    "resolutionDate": "2026-02-25T06:27:00.000Z",
-    "status": "Testing",
-    "resolution": "",
+    "updated": "2026-03-02T09:34:00.000Z",
+    "resolutionDate": "2026-03-02T09:34:00.000Z",
+    "status": "Done",
+    "resolution": "Done",
     "issueType": "Task",
-    "storyPoints": null,
+    "storyPoints": 3,
     "sprintRaw": "26PI1_1-Iron,26PI1_2-Iron",
-    "sourceFile": "2026-02/IRON SMTool - Open (Swedbank) 2026-02-27T12_12_53+0100.csv",
-    "sourceRow": 23
+    "sourceFile": "2026-02/IRON SMTool - Closed (Swedbank) 2026-03-21T09_54_53+0100.csv",
+    "sourceRow": 46
   },
   {
     "issueKey": "CORE-10237",
     "created": "2026-01-05T11:36:00.000Z",
-    "updated": "2026-02-09T11:38:00.000Z",
-    "resolutionDate": "2026-02-09T11:38:00.000Z",
+    "updated": "2026-03-09T08:32:00.000Z",
+    "resolutionDate": "2026-03-09T08:32:00.000Z",
     "status": "On Hold",
     "resolution": "",
     "issueType": "Task",
-    "storyPoints": null,
-    "sprintRaw": "26PI1_1-Iron,26PI1_2-Iron",
-    "sourceFile": "2026-02/IRON SMTool - Open (Swedbank) 2026-02-27T12_12_53+0100.csv",
-    "sourceRow": 24
+    "storyPoints": 4,
+    "sprintRaw": "26PI1_1-Iron,26PI1_2-Iron,26PI1_3-Iron",
+    "sourceFile": "2026-02/IRON SMTool - Open (Swedbank) 2026-03-21T09_54_32+0100.csv",
+    "sourceRow": 71
   },
   {
     "issueKey": "CORE-10229",
     "created": "2026-01-05T11:34:00.000Z",
-    "updated": "2026-02-02T11:16:00.000Z",
-    "resolutionDate": "2026-02-02T11:16:00.000Z",
+    "updated": "2026-03-09T08:32:00.000Z",
+    "resolutionDate": "2026-03-09T08:32:00.000Z",
     "status": "On Hold",
     "resolution": "",
     "issueType": "Task",
-    "storyPoints": null,
-    "sprintRaw": "26PI1_2-Iron",
-    "sourceFile": "2026-02/IRON SMTool - Open (Swedbank) 2026-02-27T12_12_53+0100.csv",
-    "sourceRow": 25
+    "storyPoints": 8,
+    "sprintRaw": "26PI1_2-Iron,26PI1_3-Iron",
+    "sourceFile": "2026-02/IRON SMTool - Open (Swedbank) 2026-03-21T09_54_32+0100.csv",
+    "sourceRow": 72
   },
   {
     "issueKey": "CORE-10120",
     "created": "2025-12-10T12:36:00.000Z",
-    "updated": "2026-02-26T07:33:00.000Z",
-    "resolutionDate": "2026-02-26T07:33:00.000Z",
-    "status": "To Do",
-    "resolution": "",
+    "updated": "2026-03-16T09:15:00.000Z",
+    "resolutionDate": "2026-03-16T09:15:00.000Z",
+    "status": "Done",
+    "resolution": "Done",
     "issueType": "Story",
-    "storyPoints": null,
+    "storyPoints": 2,
     "sprintRaw": "",
-    "sourceFile": "2026-02/IRON SMTool - Open (Swedbank) 2026-02-27T12_12_53+0100.csv",
-    "sourceRow": 26
+    "sourceFile": "2026-02/IRON SMTool - Closed (Swedbank) 2026-03-21T09_54_53+0100.csv",
+    "sourceRow": 58
   },
   {
     "issueKey": "CORE-10118",
     "created": "2025-12-10T12:18:00.000Z",
-    "updated": "2026-02-26T07:23:00.000Z",
-    "resolutionDate": "2026-02-26T07:23:00.000Z",
-    "status": "To Do",
+    "updated": "2026-03-20T06:03:00.000Z",
+    "resolutionDate": "2026-03-20T06:03:00.000Z",
+    "status": "Ready for Testing",
     "resolution": "",
     "issueType": "Story",
-    "storyPoints": null,
-    "sprintRaw": "",
-    "sourceFile": "2026-02/IRON SMTool - Open (Swedbank) 2026-02-27T12_12_53+0100.csv",
-    "sourceRow": 27
+    "storyPoints": 5,
+    "sprintRaw": "26PI1_IO-Iron",
+    "sourceFile": "2026-02/IRON SMTool - Open (Swedbank) 2026-03-21T09_54_32+0100.csv",
+    "sourceRow": 76
   },
   {
     "issueKey": "CORE-10117",
     "created": "2025-12-10T11:56:00.000Z",
-    "updated": "2025-12-10T13:03:00.000Z",
-    "resolutionDate": "2025-12-10T13:03:00.000Z",
-    "status": "Open",
+    "updated": "2026-03-17T10:27:00.000Z",
+    "resolutionDate": "2026-03-17T10:27:00.000Z",
+    "status": "On Hold",
     "resolution": "",
     "issueType": "Story",
     "storyPoints": null,
     "sprintRaw": "",
-    "sourceFile": "2026-02/IRON SMTool - Open (Swedbank) 2026-02-27T12_12_53+0100.csv",
-    "sourceRow": 28
+    "sourceFile": "2026-02/IRON SMTool - Open (Swedbank) 2026-03-21T09_54_32+0100.csv",
+    "sourceRow": 77
   },
   {
     "issueKey": "CORE-10116",
     "created": "2025-12-10T11:45:00.000Z",
-    "updated": "2026-02-26T13:16:00.000Z",
-    "resolutionDate": "2026-02-26T13:16:00.000Z",
-    "status": "Development",
+    "updated": "2026-03-16T06:03:00.000Z",
+    "resolutionDate": "2026-03-16T06:03:00.000Z",
+    "status": "Code review",
     "resolution": "",
     "issueType": "Story",
-    "storyPoints": null,
+    "storyPoints": 8,
     "sprintRaw": "",
-    "sourceFile": "2026-02/IRON SMTool - Open (Swedbank) 2026-02-27T12_12_53+0100.csv",
-    "sourceRow": 29
+    "sourceFile": "2026-02/IRON SMTool - Open (Swedbank) 2026-03-21T09_54_32+0100.csv",
+    "sourceRow": 78
   },
   {
     "issueKey": "CORE-10115",
     "created": "2025-12-10T11:32:00.000Z",
-    "updated": "2026-02-26T07:29:00.000Z",
-    "resolutionDate": "2026-02-26T07:29:00.000Z",
-    "status": "To Do",
-    "resolution": "",
+    "updated": "2026-03-16T08:21:00.000Z",
+    "resolutionDate": "2026-03-16T08:21:00.000Z",
+    "status": "Done",
+    "resolution": "Done",
     "issueType": "Story",
-    "storyPoints": null,
+    "storyPoints": 2,
     "sprintRaw": "",
-    "sourceFile": "2026-02/IRON SMTool - Open (Swedbank) 2026-02-27T12_12_53+0100.csv",
-    "sourceRow": 30
+    "sourceFile": "2026-02/IRON SMTool - Closed (Swedbank) 2026-03-21T09_54_53+0100.csv",
+    "sourceRow": 59
   },
   {
     "issueKey": "CORE-10114",
     "created": "2025-12-10T11:22:00.000Z",
-    "updated": "2026-02-26T07:28:00.000Z",
-    "resolutionDate": "2026-02-26T07:28:00.000Z",
-    "status": "To Do",
-    "resolution": "",
+    "updated": "2026-03-16T09:06:00.000Z",
+    "resolutionDate": "2026-03-16T09:06:00.000Z",
+    "status": "Done",
+    "resolution": "Done",
     "issueType": "Story",
-    "storyPoints": null,
+    "storyPoints": 2,
     "sprintRaw": "",
-    "sourceFile": "2026-02/IRON SMTool - Open (Swedbank) 2026-02-27T12_12_53+0100.csv",
-    "sourceRow": 31
+    "sourceFile": "2026-02/IRON SMTool - Closed (Swedbank) 2026-03-21T09_54_53+0100.csv",
+    "sourceRow": 60
   },
   {
     "issueKey": "CORE-10065",
     "created": "2025-12-03T08:45:00.000Z",
-    "updated": "2025-12-03T08:58:00.000Z",
-    "resolutionDate": "2025-12-03T08:58:00.000Z",
+    "updated": "2026-03-10T07:13:00.000Z",
+    "resolutionDate": "2026-03-10T07:13:00.000Z",
     "status": "Open",
     "resolution": "",
     "issueType": "Task",
     "storyPoints": null,
     "sprintRaw": "",
-    "sourceFile": "2026-02/IRON SMTool - Open (Swedbank) 2026-02-27T12_12_53+0100.csv",
-    "sourceRow": 32
+    "sourceFile": "2026-02/IRON SMTool - Open (Swedbank) 2026-03-21T09_54_32+0100.csv",
+    "sourceRow": 79
   },
   {
     "issueKey": "CORE-10064",
     "created": "2025-12-03T08:33:00.000Z",
-    "updated": "2026-02-12T10:21:00.000Z",
-    "resolutionDate": "2026-02-12T10:21:00.000Z",
-    "status": "Open",
+    "updated": "2026-03-12T08:35:00.000Z",
+    "resolutionDate": "2026-03-12T08:35:00.000Z",
+    "status": "Analysis",
     "resolution": "",
     "issueType": "Task",
     "storyPoints": null,
     "sprintRaw": "",
-    "sourceFile": "2026-02/IRON SMTool - Open (Swedbank) 2026-02-27T12_12_53+0100.csv",
-    "sourceRow": 33
+    "sourceFile": "2026-02/IRON SMTool - Open (Swedbank) 2026-03-21T09_54_32+0100.csv",
+    "sourceRow": 80
   },
   {
     "issueKey": "CORE-10049",
     "created": "2025-11-28T11:15:00.000Z",
-    "updated": "2025-12-29T07:38:00.000Z",
-    "resolutionDate": "2025-12-29T07:38:00.000Z",
+    "updated": "2026-03-12T08:02:00.000Z",
+    "resolutionDate": "2026-03-12T08:02:00.000Z",
     "status": "Open",
     "resolution": "",
     "issueType": "Task",
     "storyPoints": null,
     "sprintRaw": "",
-    "sourceFile": "2026-02/IRON SMTool - Open (Swedbank) 2026-02-27T12_12_53+0100.csv",
-    "sourceRow": 34
+    "sourceFile": "2026-02/IRON SMTool - Open (Swedbank) 2026-03-21T09_54_32+0100.csv",
+    "sourceRow": 81
   },
   {
     "issueKey": "CORE-10028",
     "created": "2025-11-21T07:07:00.000Z",
-    "updated": "2025-11-21T07:10:00.000Z",
-    "resolutionDate": "2025-11-21T07:10:00.000Z",
-    "status": "Open",
-    "resolution": "",
-    "issueType": "Task",
-    "storyPoints": null,
-    "sprintRaw": "",
-    "sourceFile": "2026-02/IRON SMTool - Open (Swedbank) 2026-02-27T12_12_53+0100.csv",
-    "sourceRow": 35
-  },
-  {
-    "issueKey": "CORE-9948",
-    "created": "2025-11-14T12:47:00.000Z",
-    "updated": "2026-02-09T15:14:00.000Z",
-    "resolutionDate": "2026-02-09T15:14:00.000Z",
+    "updated": "2026-03-17T13:58:00.000Z",
+    "resolutionDate": "2026-03-17T13:58:00.000Z",
     "status": "To Do",
     "resolution": "",
     "issueType": "Task",
     "storyPoints": null,
     "sprintRaw": "",
-    "sourceFile": "2026-02/IRON SMTool - Open (Swedbank) 2026-02-27T12_12_53+0100.csv",
-    "sourceRow": 36
+    "sourceFile": "2026-02/IRON SMTool - Open (Swedbank) 2026-03-21T09_54_32+0100.csv",
+    "sourceRow": 82
+  },
+  {
+    "issueKey": "CORE-9948",
+    "created": "2025-11-14T12:47:00.000Z",
+    "updated": "2026-03-12T07:56:00.000Z",
+    "resolutionDate": "2026-03-12T07:56:00.000Z",
+    "status": "Open",
+    "resolution": "",
+    "issueType": "Task",
+    "storyPoints": null,
+    "sprintRaw": "",
+    "sourceFile": "2026-02/IRON SMTool - Open (Swedbank) 2026-03-21T09_54_32+0100.csv",
+    "sourceRow": 83
   },
   {
     "issueKey": "CORE-9770",
@@ -464,8 +464,8 @@
     "issueType": "Task",
     "storyPoints": null,
     "sprintRaw": "",
-    "sourceFile": "2026-02/IRON SMTool - Open (Swedbank) 2026-02-27T12_12_53+0100.csv",
-    "sourceRow": 37
+    "sourceFile": "2026-02/IRON SMTool - Open (Swedbank) 2026-03-21T09_54_32+0100.csv",
+    "sourceRow": 84
   },
   {
     "issueKey": "CORE-9638",
@@ -477,73 +477,73 @@
     "issueType": "Task",
     "storyPoints": null,
     "sprintRaw": "",
-    "sourceFile": "2026-02/IRON SMTool - Open (Swedbank) 2026-02-27T12_12_53+0100.csv",
-    "sourceRow": 38
+    "sourceFile": "2026-02/IRON SMTool - Open (Swedbank) 2026-03-21T09_54_32+0100.csv",
+    "sourceRow": 86
   },
   {
     "issueKey": "CORE-9571",
     "created": "2025-10-16T06:21:00.000Z",
-    "updated": "2026-02-19T06:23:00.000Z",
-    "resolutionDate": "2026-02-19T06:23:00.000Z",
-    "status": "Testing",
+    "updated": "2026-03-18T05:56:00.000Z",
+    "resolutionDate": "2026-03-18T05:56:00.000Z",
+    "status": "On Hold",
     "resolution": "",
     "issueType": "Task",
     "storyPoints": null,
     "sprintRaw": "",
-    "sourceFile": "2026-02/IRON SMTool - Open (Swedbank) 2026-02-27T12_12_53+0100.csv",
-    "sourceRow": 39
+    "sourceFile": "2026-02/IRON SMTool - Open (Swedbank) 2026-03-21T09_54_32+0100.csv",
+    "sourceRow": 87
   },
   {
     "issueKey": "CORE-9570",
     "created": "2025-10-16T06:17:00.000Z",
-    "updated": "2026-02-19T06:20:00.000Z",
-    "resolutionDate": "2026-02-19T06:20:00.000Z",
-    "status": "Testing",
+    "updated": "2026-03-18T05:56:00.000Z",
+    "resolutionDate": "2026-03-18T05:56:00.000Z",
+    "status": "On Hold",
     "resolution": "",
     "issueType": "Task",
     "storyPoints": null,
     "sprintRaw": "",
-    "sourceFile": "2026-02/IRON SMTool - Open (Swedbank) 2026-02-27T12_12_53+0100.csv",
-    "sourceRow": 40
+    "sourceFile": "2026-02/IRON SMTool - Open (Swedbank) 2026-03-21T09_54_32+0100.csv",
+    "sourceRow": 88
   },
   {
     "issueKey": "CORE-9569",
     "created": "2025-10-16T06:13:00.000Z",
-    "updated": "2026-02-19T06:23:00.000Z",
-    "resolutionDate": "2026-02-19T06:23:00.000Z",
-    "status": "Testing",
+    "updated": "2026-03-18T05:55:00.000Z",
+    "resolutionDate": "2026-03-18T05:55:00.000Z",
+    "status": "On Hold",
     "resolution": "",
     "issueType": "Task",
     "storyPoints": null,
     "sprintRaw": "",
-    "sourceFile": "2026-02/IRON SMTool - Open (Swedbank) 2026-02-27T12_12_53+0100.csv",
-    "sourceRow": 41
+    "sourceFile": "2026-02/IRON SMTool - Open (Swedbank) 2026-03-21T09_54_32+0100.csv",
+    "sourceRow": 89
   },
   {
     "issueKey": "CORE-9554",
     "created": "2025-10-14T08:28:00.000Z",
-    "updated": "2026-02-19T13:23:00.000Z",
-    "resolutionDate": "2026-02-19T13:23:00.000Z",
-    "status": "Testing",
-    "resolution": "",
+    "updated": "2026-03-02T07:10:00.000Z",
+    "resolutionDate": "2026-03-02T07:10:00.000Z",
+    "status": "Done",
+    "resolution": "Done",
     "issueType": "Story",
-    "storyPoints": null,
+    "storyPoints": 5,
     "sprintRaw": "26PI1_3-Iron",
-    "sourceFile": "2026-02/IRON SMTool - Open (Swedbank) 2026-02-27T12_12_53+0100.csv",
-    "sourceRow": 42
+    "sourceFile": "2026-02/IRON SMTool - Closed (Swedbank) 2026-03-21T09_54_53+0100.csv",
+    "sourceRow": 92
   },
   {
     "issueKey": "CORE-9549",
     "created": "2025-10-14T07:39:00.000Z",
-    "updated": "2026-02-12T11:12:00.000Z",
-    "resolutionDate": "2026-02-12T11:12:00.000Z",
+    "updated": "2026-03-19T14:03:00.000Z",
+    "resolutionDate": "2026-03-19T14:03:00.000Z",
     "status": "On Hold",
     "resolution": "",
     "issueType": "Story",
-    "storyPoints": null,
-    "sprintRaw": "26PI1_3-Iron",
-    "sourceFile": "2026-02/IRON SMTool - Open (Swedbank) 2026-02-27T12_12_53+0100.csv",
-    "sourceRow": 43
+    "storyPoints": 5,
+    "sprintRaw": "26PI2_2-Iron",
+    "sourceFile": "2026-02/IRON SMTool - Open (Swedbank) 2026-03-21T09_54_32+0100.csv",
+    "sourceRow": 90
   },
   {
     "issueKey": "CORE-9547",
@@ -561,41 +561,41 @@
   {
     "issueKey": "CORE-9534",
     "created": "2025-10-14T06:50:00.000Z",
-    "updated": "2025-11-10T08:49:00.000Z",
-    "resolutionDate": "2025-11-10T08:49:00.000Z",
-    "status": "Refinement",
+    "updated": "2026-03-19T13:44:00.000Z",
+    "resolutionDate": "2026-03-19T13:44:00.000Z",
+    "status": "To Do",
     "resolution": "",
     "issueType": "Task",
-    "storyPoints": null,
+    "storyPoints": 3,
     "sprintRaw": "",
-    "sourceFile": "2026-02/IRON SMTool - Open (Swedbank) 2026-02-27T12_12_53+0100.csv",
-    "sourceRow": 45
+    "sourceFile": "2026-02/IRON SMTool - Open (Swedbank) 2026-03-21T09_54_32+0100.csv",
+    "sourceRow": 91
   },
   {
     "issueKey": "CORE-9533",
     "created": "2025-10-14T06:48:00.000Z",
-    "updated": "2025-10-14T06:49:00.000Z",
-    "resolutionDate": "2025-10-14T06:49:00.000Z",
-    "status": "Refinement",
+    "updated": "2026-03-19T13:41:00.000Z",
+    "resolutionDate": "2026-03-19T13:41:00.000Z",
+    "status": "To Do",
     "resolution": "",
     "issueType": "Task",
-    "storyPoints": null,
+    "storyPoints": 3,
     "sprintRaw": "",
-    "sourceFile": "2026-02/IRON SMTool - Open (Swedbank) 2026-02-27T12_12_53+0100.csv",
-    "sourceRow": 46
+    "sourceFile": "2026-02/IRON SMTool - Open (Swedbank) 2026-03-21T09_54_32+0100.csv",
+    "sourceRow": 92
   },
   {
     "issueKey": "CORE-9499",
     "created": "2025-10-09T12:01:00.000Z",
-    "updated": "2025-10-14T07:31:00.000Z",
-    "resolutionDate": "2025-10-14T07:31:00.000Z",
+    "updated": "2026-03-16T06:35:00.000Z",
+    "resolutionDate": "2026-03-16T06:35:00.000Z",
     "status": "Refinement",
     "resolution": "",
     "issueType": "Task",
     "storyPoints": null,
     "sprintRaw": "",
-    "sourceFile": "2026-02/IRON SMTool - Open (Swedbank) 2026-02-27T12_12_53+0100.csv",
-    "sourceRow": 47
+    "sourceFile": "2026-02/IRON SMTool - Open (Swedbank) 2026-03-21T09_54_32+0100.csv",
+    "sourceRow": 93
   },
   {
     "issueKey": "CORE-9489",
@@ -626,15 +626,15 @@
   {
     "issueKey": "CORE-9434",
     "created": "2025-09-26T11:59:00.000Z",
-    "updated": "2025-10-09T13:01:00.000Z",
-    "resolutionDate": "2025-10-09T13:01:00.000Z",
-    "status": "Refinement",
+    "updated": "2026-03-19T08:23:00.000Z",
+    "resolutionDate": "2026-03-19T08:23:00.000Z",
+    "status": "To Do",
     "resolution": "",
     "issueType": "Task",
     "storyPoints": null,
     "sprintRaw": "",
-    "sourceFile": "2026-02/IRON SMTool - Open (Swedbank) 2026-02-27T12_12_53+0100.csv",
-    "sourceRow": 50
+    "sourceFile": "2026-02/IRON SMTool - Open (Swedbank) 2026-03-21T09_54_32+0100.csv",
+    "sourceRow": 94
   },
   {
     "issueKey": "CORE-9433",
@@ -652,67 +652,67 @@
   {
     "issueKey": "CORE-9432",
     "created": "2025-09-26T11:55:00.000Z",
-    "updated": "2025-10-09T13:01:00.000Z",
-    "resolutionDate": "2025-10-09T13:01:00.000Z",
-    "status": "Refinement",
+    "updated": "2026-03-19T08:04:00.000Z",
+    "resolutionDate": "2026-03-19T08:04:00.000Z",
+    "status": "To Do",
     "resolution": "",
     "issueType": "Task",
-    "storyPoints": null,
+    "storyPoints": 5,
     "sprintRaw": "",
-    "sourceFile": "2026-02/IRON SMTool - Open (Swedbank) 2026-02-27T12_12_53+0100.csv",
-    "sourceRow": 52
+    "sourceFile": "2026-02/IRON SMTool - Open (Swedbank) 2026-03-21T09_54_32+0100.csv",
+    "sourceRow": 95
   },
   {
     "issueKey": "CORE-9431",
     "created": "2025-09-26T11:51:00.000Z",
-    "updated": "2025-10-10T07:53:00.000Z",
-    "resolutionDate": "2025-10-10T07:53:00.000Z",
-    "status": "Refinement",
+    "updated": "2026-03-19T08:27:00.000Z",
+    "resolutionDate": "2026-03-19T08:27:00.000Z",
+    "status": "To Do",
     "resolution": "",
     "issueType": "Task",
-    "storyPoints": null,
+    "storyPoints": 1,
     "sprintRaw": "",
-    "sourceFile": "2026-02/IRON SMTool - Open (Swedbank) 2026-02-27T12_12_53+0100.csv",
-    "sourceRow": 53
+    "sourceFile": "2026-02/IRON SMTool - Open (Swedbank) 2026-03-21T09_54_32+0100.csv",
+    "sourceRow": 96
   },
   {
     "issueKey": "CORE-9430",
     "created": "2025-09-26T11:46:00.000Z",
-    "updated": "2025-10-07T12:49:00.000Z",
-    "resolutionDate": "2025-10-07T12:49:00.000Z",
-    "status": "Refinement",
+    "updated": "2026-03-19T07:43:00.000Z",
+    "resolutionDate": "2026-03-19T07:43:00.000Z",
+    "status": "To Do",
     "resolution": "",
     "issueType": "Task",
-    "storyPoints": null,
+    "storyPoints": 5,
     "sprintRaw": "",
-    "sourceFile": "2026-02/IRON SMTool - Open (Swedbank) 2026-02-27T12_12_53+0100.csv",
-    "sourceRow": 54
+    "sourceFile": "2026-02/IRON SMTool - Open (Swedbank) 2026-03-21T09_54_32+0100.csv",
+    "sourceRow": 97
   },
   {
     "issueKey": "CORE-9429",
     "created": "2025-09-26T11:42:00.000Z",
-    "updated": "2025-11-10T08:49:00.000Z",
-    "resolutionDate": "2025-11-10T08:49:00.000Z",
-    "status": "Refinement",
+    "updated": "2026-03-19T11:47:00.000Z",
+    "resolutionDate": "2026-03-19T11:47:00.000Z",
+    "status": "To Do",
     "resolution": "",
     "issueType": "Task",
-    "storyPoints": null,
+    "storyPoints": 5,
     "sprintRaw": "",
-    "sourceFile": "2026-02/IRON SMTool - Open (Swedbank) 2026-02-27T12_12_53+0100.csv",
-    "sourceRow": 55
+    "sourceFile": "2026-02/IRON SMTool - Open (Swedbank) 2026-03-21T09_54_32+0100.csv",
+    "sourceRow": 98
   },
   {
     "issueKey": "CORE-9428",
     "created": "2025-09-26T11:40:00.000Z",
-    "updated": "2025-11-10T08:49:00.000Z",
-    "resolutionDate": "2025-11-10T08:49:00.000Z",
-    "status": "Refinement",
+    "updated": "2026-03-19T07:23:00.000Z",
+    "resolutionDate": "2026-03-19T07:23:00.000Z",
+    "status": "To Do",
     "resolution": "",
     "issueType": "Task",
-    "storyPoints": null,
+    "storyPoints": 5,
     "sprintRaw": "",
-    "sourceFile": "2026-02/IRON SMTool - Open (Swedbank) 2026-02-27T12_12_53+0100.csv",
-    "sourceRow": 56
+    "sourceFile": "2026-02/IRON SMTool - Open (Swedbank) 2026-03-21T09_54_32+0100.csv",
+    "sourceRow": 99
   },
   {
     "issueKey": "CORE-9427",
@@ -724,8 +724,8 @@
     "issueType": "Task",
     "storyPoints": null,
     "sprintRaw": "",
-    "sourceFile": "2026-02/IRON SMTool - Open (Swedbank) 2026-02-27T12_12_53+0100.csv",
-    "sourceRow": 57
+    "sourceFile": "2026-02/IRON SMTool - Open (Swedbank) 2026-03-21T09_54_32+0100.csv",
+    "sourceRow": 100
   },
   {
     "issueKey": "CORE-9404",
@@ -737,86 +737,86 @@
     "issueType": "Task",
     "storyPoints": null,
     "sprintRaw": "",
-    "sourceFile": "2026-02/IRON SMTool - Open (Swedbank) 2026-02-27T12_12_53+0100.csv",
-    "sourceRow": 58
+    "sourceFile": "2026-02/IRON SMTool - Open (Swedbank) 2026-03-21T09_54_32+0100.csv",
+    "sourceRow": 101
   },
   {
     "issueKey": "CORE-9360",
     "created": "2025-09-10T11:38:00.000Z",
-    "updated": "2026-01-30T07:47:00.000Z",
-    "resolutionDate": "2026-01-30T07:47:00.000Z",
+    "updated": "2026-03-16T12:25:00.000Z",
+    "resolutionDate": "2026-03-16T12:25:00.000Z",
     "status": "On Hold",
     "resolution": "",
     "issueType": "Task",
-    "storyPoints": null,
+    "storyPoints": 2,
     "sprintRaw": "",
-    "sourceFile": "2026-02/IRON SMTool - Open (Swedbank) 2026-02-27T12_12_53+0100.csv",
-    "sourceRow": 59
+    "sourceFile": "2026-02/IRON SMTool - Open (Swedbank) 2026-03-21T09_54_32+0100.csv",
+    "sourceRow": 102
   },
   {
     "issueKey": "CORE-9359",
     "created": "2025-09-10T11:31:00.000Z",
-    "updated": "2026-01-21T08:19:00.000Z",
-    "resolutionDate": "2026-01-21T08:19:00.000Z",
+    "updated": "2026-03-16T12:02:00.000Z",
+    "resolutionDate": "2026-03-16T12:02:00.000Z",
     "status": "On Hold",
     "resolution": "",
     "issueType": "Task",
-    "storyPoints": null,
+    "storyPoints": 2,
     "sprintRaw": "",
-    "sourceFile": "2026-02/IRON SMTool - Open (Swedbank) 2026-02-27T12_12_53+0100.csv",
-    "sourceRow": 60
+    "sourceFile": "2026-02/IRON SMTool - Open (Swedbank) 2026-03-21T09_54_32+0100.csv",
+    "sourceRow": 103
   },
   {
     "issueKey": "CORE-9352",
     "created": "2025-09-09T10:13:00.000Z",
-    "updated": "2026-02-25T12:08:00.000Z",
-    "resolutionDate": "2026-02-25T12:08:00.000Z",
-    "status": "Testing",
+    "updated": "2026-03-19T13:14:00.000Z",
+    "resolutionDate": "2026-03-19T13:14:00.000Z",
+    "status": "Open",
     "resolution": "",
     "issueType": "Task",
     "storyPoints": null,
     "sprintRaw": "",
-    "sourceFile": "2026-02/IRON SMTool - Open (Swedbank) 2026-02-27T12_12_53+0100.csv",
-    "sourceRow": 61
+    "sourceFile": "2026-02/IRON SMTool - Open (Swedbank) 2026-03-21T09_54_32+0100.csv",
+    "sourceRow": 108
   },
   {
     "issueKey": "CORE-9345",
     "created": "2025-09-09T09:51:00.000Z",
-    "updated": "2026-02-03T11:41:00.000Z",
-    "resolutionDate": "2026-02-03T11:41:00.000Z",
-    "status": "Testing",
-    "resolution": "",
+    "updated": "2026-03-18T12:51:00.000Z",
+    "resolutionDate": "2026-03-04T08:53:00.000Z",
+    "status": "Open",
+    "resolution": "Done",
     "issueType": "Task",
     "storyPoints": null,
     "sprintRaw": "",
-    "sourceFile": "2026-02/IRON SMTool - Open (Swedbank) 2026-02-27T12_12_53+0100.csv",
-    "sourceRow": 62
+    "sourceFile": "2026-02/IRON SMTool - Open (Swedbank) 2026-03-21T09_54_32+0100.csv",
+    "sourceRow": 114
   },
   {
     "issueKey": "CORE-9343",
     "created": "2025-09-09T09:50:00.000Z",
-    "updated": "2026-02-25T12:08:00.000Z",
-    "resolutionDate": "2026-02-25T12:08:00.000Z",
-    "status": "Testing",
-    "resolution": "",
+    "updated": "2026-03-18T12:52:00.000Z",
+    "resolutionDate": "2026-03-04T12:12:00.000Z",
+    "status": "Open",
+    "resolution": "Fixed",
     "issueType": "Task",
     "storyPoints": null,
     "sprintRaw": "",
-    "sourceFile": "2026-02/IRON SMTool - Open (Swedbank) 2026-02-27T12_12_53+0100.csv",
-    "sourceRow": 63
+    "sourceFile": "2026-02/IRON SMTool - Open (Swedbank) 2026-03-21T09_54_32+0100.csv",
+    "sourceRow": 116
   },
   {
     "issueKey": "CORE-9342",
     "created": "2025-09-09T09:50:00.000Z",
-    "updated": "2026-02-25T12:08:00.000Z",
-    "resolutionDate": "2026-02-25T12:08:00.000Z",
-    "status": "Testing",
+    "updated": "2026-03-18T12:52:00.000Z",
+    "resolutionDate": "2026-03-18T12:52:00.000Z",
+    "status": "Open",
     "resolution": "",
     "issueType": "Task",
     "storyPoints": null,
     "sprintRaw": "",
-    "sourceFile": "2026-02/IRON SMTool - Open (Swedbank) 2026-02-27T12_12_53+0100.csv",
-    "sourceRow": 64
+    "sourceFile": "2026-02/IRON SMTool - Open (Swedbank) 2026-03-21T09_54_32+0100.csv",
+    "sourceRow": 117
   },
   {
     "issueKey": "CORE-9338",
@@ -828,8 +828,8 @@
     "issueType": "Task",
     "storyPoints": null,
     "sprintRaw": "",
-    "sourceFile": "2026-02/IRON SMTool - Open (Swedbank) 2026-02-27T12_12_53+0100.csv",
-    "sourceRow": 65
+    "sourceFile": "2026-02/IRON SMTool - Open (Swedbank) 2026-03-21T09_54_32+0100.csv",
+    "sourceRow": 118
   },
   {
     "issueKey": "CORE-9337",
@@ -841,21 +841,21 @@
     "issueType": "Task",
     "storyPoints": null,
     "sprintRaw": "",
-    "sourceFile": "2026-02/IRON SMTool - Open (Swedbank) 2026-02-27T12_12_53+0100.csv",
-    "sourceRow": 66
+    "sourceFile": "2026-02/IRON SMTool - Open (Swedbank) 2026-03-21T09_54_32+0100.csv",
+    "sourceRow": 119
   },
   {
     "issueKey": "CORE-9280",
     "created": "2025-08-28T10:25:00.000Z",
-    "updated": "2026-02-25T12:07:00.000Z",
-    "resolutionDate": "2026-02-25T12:07:00.000Z",
-    "status": "On Hold",
+    "updated": "2026-03-19T13:16:00.000Z",
+    "resolutionDate": "2026-03-19T13:16:00.000Z",
+    "status": "Open",
     "resolution": "",
     "issueType": "Task",
-    "storyPoints": null,
+    "storyPoints": 2,
     "sprintRaw": "",
-    "sourceFile": "2026-02/IRON SMTool - Open (Swedbank) 2026-02-27T12_12_53+0100.csv",
-    "sourceRow": 67
+    "sourceFile": "2026-02/IRON SMTool - Open (Swedbank) 2026-03-21T09_54_32+0100.csv",
+    "sourceRow": 120
   },
   {
     "issueKey": "CORE-9279",
@@ -865,10 +865,10 @@
     "status": "On Hold",
     "resolution": "",
     "issueType": "Task",
-    "storyPoints": null,
+    "storyPoints": 2,
     "sprintRaw": "",
-    "sourceFile": "2026-02/IRON SMTool - Open (Swedbank) 2026-02-27T12_12_53+0100.csv",
-    "sourceRow": 68
+    "sourceFile": "2026-02/IRON SMTool - Open (Swedbank) 2026-03-21T09_54_32+0100.csv",
+    "sourceRow": 121
   },
   {
     "issueKey": "CORE-9228",
@@ -878,23 +878,23 @@
     "status": "On Hold",
     "resolution": "",
     "issueType": "Task",
-    "storyPoints": null,
+    "storyPoints": 1,
     "sprintRaw": "",
-    "sourceFile": "2026-02/IRON SMTool - Open (Swedbank) 2026-02-27T12_12_53+0100.csv",
-    "sourceRow": 69
+    "sourceFile": "2026-02/IRON SMTool - Open (Swedbank) 2026-03-21T09_54_32+0100.csv",
+    "sourceRow": 122
   },
   {
     "issueKey": "CORE-9227",
     "created": "2025-08-11T05:47:00.000Z",
-    "updated": "2026-01-16T13:45:00.000Z",
-    "resolutionDate": "2026-01-16T13:45:00.000Z",
+    "updated": "2026-03-17T13:48:00.000Z",
+    "resolutionDate": "2026-03-17T13:48:00.000Z",
     "status": "On Hold",
     "resolution": "",
     "issueType": "Task",
-    "storyPoints": null,
+    "storyPoints": 5,
     "sprintRaw": "",
-    "sourceFile": "2026-02/IRON SMTool - Open (Swedbank) 2026-02-27T12_12_53+0100.csv",
-    "sourceRow": 70
+    "sourceFile": "2026-02/IRON SMTool - Open (Swedbank) 2026-03-21T09_54_32+0100.csv",
+    "sourceRow": 123
   },
   {
     "issueKey": "CORE-9183",
@@ -906,8 +906,8 @@
     "issueType": "Task",
     "storyPoints": null,
     "sprintRaw": "",
-    "sourceFile": "2026-02/IRON SMTool - Open (Swedbank) 2026-02-27T12_12_53+0100.csv",
-    "sourceRow": 71
+    "sourceFile": "2026-02/IRON SMTool - Open (Swedbank) 2026-03-21T09_54_32+0100.csv",
+    "sourceRow": 124
   },
   {
     "issueKey": "CORE-9021",
@@ -917,23 +917,23 @@
     "status": "Open",
     "resolution": "",
     "issueType": "Task",
-    "storyPoints": null,
+    "storyPoints": 3,
     "sprintRaw": "",
-    "sourceFile": "2026-02/IRON SMTool - Open (Swedbank) 2026-02-27T12_12_53+0100.csv",
-    "sourceRow": 72
+    "sourceFile": "2026-02/IRON SMTool - Open (Swedbank) 2026-03-21T09_54_32+0100.csv",
+    "sourceRow": 125
   },
   {
     "issueKey": "CORE-8884",
     "created": "2025-05-07T05:43:00.000Z",
-    "updated": "2025-11-10T07:42:00.000Z",
-    "resolutionDate": "2025-11-10T07:42:00.000Z",
-    "status": "Refinement",
+    "updated": "2026-03-19T07:48:00.000Z",
+    "resolutionDate": "2026-03-19T07:48:00.000Z",
+    "status": "To Do",
     "resolution": "",
     "issueType": "Task",
-    "storyPoints": null,
+    "storyPoints": 24,
     "sprintRaw": "",
-    "sourceFile": "2026-02/IRON SMTool - Open (Swedbank) 2026-02-27T12_12_53+0100.csv",
-    "sourceRow": 73
+    "sourceFile": "2026-02/IRON SMTool - Open (Swedbank) 2026-03-21T09_54_32+0100.csv",
+    "sourceRow": 126
   },
   {
     "issueKey": "CORE-8702",
@@ -945,8 +945,8 @@
     "issueType": "Task",
     "storyPoints": null,
     "sprintRaw": "",
-    "sourceFile": "2026-02/IRON SMTool - Open (Swedbank) 2026-02-27T12_12_53+0100.csv",
-    "sourceRow": 74
+    "sourceFile": "2026-02/IRON SMTool - Open (Swedbank) 2026-03-21T09_54_32+0100.csv",
+    "sourceRow": 127
   },
   {
     "issueKey": "CORE-8700",
@@ -958,60 +958,60 @@
     "issueType": "Task",
     "storyPoints": null,
     "sprintRaw": "",
-    "sourceFile": "2026-02/IRON SMTool - Open (Swedbank) 2026-02-27T12_12_53+0100.csv",
-    "sourceRow": 75
+    "sourceFile": "2026-02/IRON SMTool - Open (Swedbank) 2026-03-21T09_54_32+0100.csv",
+    "sourceRow": 128
   },
   {
     "issueKey": "CORE-8437",
     "created": "2025-01-07T12:52:00.000Z",
-    "updated": "2025-11-10T07:44:00.000Z",
-    "resolutionDate": "2025-11-10T07:44:00.000Z",
+    "updated": "2026-03-17T12:28:00.000Z",
+    "resolutionDate": "2026-03-17T12:28:00.000Z",
     "status": "To Do",
     "resolution": "",
     "issueType": "Task",
-    "storyPoints": null,
-    "sprintRaw": "",
-    "sourceFile": "2026-02/IRON SMTool - Open (Swedbank) 2026-02-27T12_12_53+0100.csv",
-    "sourceRow": 76
+    "storyPoints": 5,
+    "sprintRaw": "26PI2_1-Iron",
+    "sourceFile": "2026-02/IRON SMTool - Open (Swedbank) 2026-03-21T09_54_32+0100.csv",
+    "sourceRow": 129
   },
   {
     "issueKey": "CORE-8390",
     "created": "2024-12-16T11:38:00.000Z",
-    "updated": "2025-11-10T07:42:00.000Z",
-    "resolutionDate": "2025-11-10T07:42:00.000Z",
-    "status": "Refinement",
+    "updated": "2026-03-19T08:07:00.000Z",
+    "resolutionDate": "2026-03-19T08:07:00.000Z",
+    "status": "To Do",
     "resolution": "",
     "issueType": "Task",
-    "storyPoints": null,
+    "storyPoints": 13,
     "sprintRaw": "",
-    "sourceFile": "2026-02/IRON SMTool - Open (Swedbank) 2026-02-27T12_12_53+0100.csv",
-    "sourceRow": 77
+    "sourceFile": "2026-02/IRON SMTool - Open (Swedbank) 2026-03-21T09_54_32+0100.csv",
+    "sourceRow": 130
   },
   {
     "issueKey": "CORE-8343",
     "created": "2023-04-17T08:04:00.000Z",
-    "updated": "2026-02-23T07:52:00.000Z",
-    "resolutionDate": "2026-02-23T07:52:00.000Z",
-    "status": "On Hold",
-    "resolution": "",
+    "updated": "2026-03-16T10:48:00.000Z",
+    "resolutionDate": "2026-03-16T10:48:00.000Z",
+    "status": "Done",
+    "resolution": "Done",
     "issueType": "Task",
     "storyPoints": null,
     "sprintRaw": "",
-    "sourceFile": "2026-02/IRON SMTool - Open (Swedbank) 2026-02-27T12_12_53+0100.csv",
-    "sourceRow": 78
+    "sourceFile": "2026-02/IRON SMTool - Closed (Swedbank) 2026-03-21T09_54_53+0100.csv",
+    "sourceRow": 106
   },
   {
     "issueKey": "CORE-8342",
     "created": "2023-04-17T07:57:00.000Z",
-    "updated": "2026-02-23T10:14:00.000Z",
-    "resolutionDate": "2026-02-23T10:14:00.000Z",
-    "status": "On Hold",
-    "resolution": "",
+    "updated": "2026-03-16T11:15:00.000Z",
+    "resolutionDate": "2026-03-16T11:15:00.000Z",
+    "status": "Done",
+    "resolution": "Done",
     "issueType": "Task",
     "storyPoints": null,
     "sprintRaw": "",
-    "sourceFile": "2026-02/IRON SMTool - Open (Swedbank) 2026-02-27T12_12_53+0100.csv",
-    "sourceRow": 79
+    "sourceFile": "2026-02/IRON SMTool - Closed (Swedbank) 2026-03-21T09_54_53+0100.csv",
+    "sourceRow": 107
   },
   {
     "issueKey": "CORE-8341",
@@ -1023,34 +1023,34 @@
     "issueType": "Task",
     "storyPoints": null,
     "sprintRaw": "",
-    "sourceFile": "2026-02/IRON SMTool - Open (Swedbank) 2026-02-27T12_12_53+0100.csv",
-    "sourceRow": 80
+    "sourceFile": "2026-02/IRON SMTool - Open (Swedbank) 2026-03-21T09_54_32+0100.csv",
+    "sourceRow": 131
   },
   {
     "issueKey": "CORE-8339",
     "created": "2023-04-17T07:46:00.000Z",
-    "updated": "2026-02-23T07:39:00.000Z",
-    "resolutionDate": "2026-02-23T07:39:00.000Z",
-    "status": "On Hold",
-    "resolution": "",
+    "updated": "2026-03-16T09:22:00.000Z",
+    "resolutionDate": "2026-03-16T09:22:00.000Z",
+    "status": "Done",
+    "resolution": "Done",
     "issueType": "Task",
     "storyPoints": null,
     "sprintRaw": "",
-    "sourceFile": "2026-02/IRON SMTool - Open (Swedbank) 2026-02-27T12_12_53+0100.csv",
-    "sourceRow": 81
+    "sourceFile": "2026-02/IRON SMTool - Closed (Swedbank) 2026-03-21T09_54_53+0100.csv",
+    "sourceRow": 108
   },
   {
     "issueKey": "CORE-8302",
     "created": "2024-11-28T13:21:00.000Z",
-    "updated": "2026-02-17T13:01:00.000Z",
-    "resolutionDate": "2026-02-17T13:01:00.000Z",
-    "status": "To Do",
-    "resolution": "",
+    "updated": "2026-03-18T07:25:00.000Z",
+    "resolutionDate": "2026-03-18T07:25:00.000Z",
+    "status": "Done",
+    "resolution": "Done",
     "issueType": "Story",
     "storyPoints": null,
     "sprintRaw": "",
-    "sourceFile": "2026-02/IRON SMTool - Open (Swedbank) 2026-02-27T12_12_53+0100.csv",
-    "sourceRow": 82
+    "sourceFile": "2026-02/IRON SMTool - Closed (Swedbank) 2026-03-21T09_54_53+0100.csv",
+    "sourceRow": 109
   },
   {
     "issueKey": "CORE-8238",
@@ -1062,8 +1062,8 @@
     "issueType": "Task",
     "storyPoints": null,
     "sprintRaw": "",
-    "sourceFile": "2026-02/IRON SMTool - Open (Swedbank) 2026-02-27T12_12_53+0100.csv",
-    "sourceRow": 83
+    "sourceFile": "2026-02/IRON SMTool - Open (Swedbank) 2026-03-21T09_54_32+0100.csv",
+    "sourceRow": 132
   },
   {
     "issueKey": "CORE-8127",
@@ -1075,8 +1075,8 @@
     "issueType": "Task",
     "storyPoints": null,
     "sprintRaw": "",
-    "sourceFile": "2026-02/IRON SMTool - Open (Swedbank) 2026-02-27T12_12_53+0100.csv",
-    "sourceRow": 84
+    "sourceFile": "2026-02/IRON SMTool - Open (Swedbank) 2026-03-21T09_54_32+0100.csv",
+    "sourceRow": 133
   },
   {
     "issueKey": "CORE-7956",
@@ -1088,21 +1088,21 @@
     "issueType": "Task",
     "storyPoints": null,
     "sprintRaw": "",
-    "sourceFile": "2026-02/IRON SMTool - Open (Swedbank) 2026-02-27T12_12_53+0100.csv",
-    "sourceRow": 85
+    "sourceFile": "2026-02/IRON SMTool - Open (Swedbank) 2026-03-21T09_54_32+0100.csv",
+    "sourceRow": 134
   },
   {
     "issueKey": "CORE-7944",
     "created": "2024-09-13T10:51:00.000Z",
-    "updated": "2026-02-19T06:48:00.000Z",
-    "resolutionDate": "2026-02-19T06:48:00.000Z",
-    "status": "Refinement",
+    "updated": "2026-03-17T07:55:00.000Z",
+    "resolutionDate": "2026-03-17T07:55:00.000Z",
+    "status": "To Do",
     "resolution": "",
     "issueType": "Story",
-    "storyPoints": null,
+    "storyPoints": 3,
     "sprintRaw": "",
-    "sourceFile": "2026-02/IRON SMTool - Open (Swedbank) 2026-02-27T12_12_53+0100.csv",
-    "sourceRow": 86
+    "sourceFile": "2026-02/IRON SMTool - Open (Swedbank) 2026-03-21T09_54_32+0100.csv",
+    "sourceRow": 135
   },
   {
     "issueKey": "CORE-7700",
@@ -1114,8 +1114,8 @@
     "issueType": "Task",
     "storyPoints": null,
     "sprintRaw": "",
-    "sourceFile": "2026-02/IRON SMTool - Open (Swedbank) 2026-02-27T12_12_53+0100.csv",
-    "sourceRow": 87
+    "sourceFile": "2026-02/IRON SMTool - Open (Swedbank) 2026-03-21T09_54_32+0100.csv",
+    "sourceRow": 136
   },
   {
     "issueKey": "CORE-7655",
@@ -1127,8 +1127,8 @@
     "issueType": "Task",
     "storyPoints": null,
     "sprintRaw": "",
-    "sourceFile": "2026-02/IRON SMTool - Open (Swedbank) 2026-02-27T12_12_53+0100.csv",
-    "sourceRow": 88
+    "sourceFile": "2026-02/IRON SMTool - Open (Swedbank) 2026-03-21T09_54_32+0100.csv",
+    "sourceRow": 137
   },
   {
     "issueKey": "CORE-7578",
@@ -1140,8 +1140,8 @@
     "issueType": "Task",
     "storyPoints": null,
     "sprintRaw": "",
-    "sourceFile": "2026-02/IRON SMTool - Open (Swedbank) 2026-02-27T12_12_53+0100.csv",
-    "sourceRow": 89
+    "sourceFile": "2026-02/IRON SMTool - Open (Swedbank) 2026-03-21T09_54_32+0100.csv",
+    "sourceRow": 138
   },
   {
     "issueKey": "CORE-7496",
@@ -1153,8 +1153,8 @@
     "issueType": "Story",
     "storyPoints": null,
     "sprintRaw": "",
-    "sourceFile": "2026-02/IRON SMTool - Open (Swedbank) 2026-02-27T12_12_53+0100.csv",
-    "sourceRow": 90
+    "sourceFile": "2026-02/IRON SMTool - Open (Swedbank) 2026-03-21T09_54_32+0100.csv",
+    "sourceRow": 139
   },
   {
     "issueKey": "CORE-7469",
@@ -1166,8 +1166,8 @@
     "issueType": "Task",
     "storyPoints": null,
     "sprintRaw": "",
-    "sourceFile": "2026-02/IRON SMTool - Open (Swedbank) 2026-02-27T12_12_53+0100.csv",
-    "sourceRow": 91
+    "sourceFile": "2026-02/IRON SMTool - Open (Swedbank) 2026-03-21T09_54_32+0100.csv",
+    "sourceRow": 140
   },
   {
     "issueKey": "CORE-7390",
@@ -1179,34 +1179,34 @@
     "issueType": "Task",
     "storyPoints": null,
     "sprintRaw": "",
-    "sourceFile": "2026-02/IRON SMTool - Open (Swedbank) 2026-02-27T12_12_53+0100.csv",
-    "sourceRow": 92
+    "sourceFile": "2026-02/IRON SMTool - Open (Swedbank) 2026-03-21T09_54_32+0100.csv",
+    "sourceRow": 141
   },
   {
     "issueKey": "CORE-7120",
     "created": "2023-12-05T07:58:00.000Z",
-    "updated": "2024-04-09T10:58:00.000Z",
-    "resolutionDate": "2024-04-09T10:58:00.000Z",
+    "updated": "2026-03-11T07:38:00.000Z",
+    "resolutionDate": "2026-03-11T07:38:00.000Z",
     "status": "Open",
     "resolution": "",
     "issueType": "Task",
-    "storyPoints": null,
+    "storyPoints": 0,
     "sprintRaw": "",
-    "sourceFile": "2026-02/IRON SMTool - Open (Swedbank) 2026-02-27T12_12_53+0100.csv",
-    "sourceRow": 93
+    "sourceFile": "2026-02/IRON SMTool - Open (Swedbank) 2026-03-21T09_54_32+0100.csv",
+    "sourceRow": 142
   },
   {
     "issueKey": "CORE-7119",
     "created": "2023-12-05T07:57:00.000Z",
-    "updated": "2024-04-09T10:58:00.000Z",
-    "resolutionDate": "2024-04-09T10:58:00.000Z",
+    "updated": "2026-03-11T07:38:00.000Z",
+    "resolutionDate": "2026-03-11T07:38:00.000Z",
     "status": "Open",
     "resolution": "",
     "issueType": "Task",
-    "storyPoints": null,
+    "storyPoints": 0,
     "sprintRaw": "",
-    "sourceFile": "2026-02/IRON SMTool - Open (Swedbank) 2026-02-27T12_12_53+0100.csv",
-    "sourceRow": 94
+    "sourceFile": "2026-02/IRON SMTool - Open (Swedbank) 2026-03-21T09_54_32+0100.csv",
+    "sourceRow": 143
   },
   {
     "issueKey": "CORE-6551",
@@ -1218,8 +1218,8 @@
     "issueType": "Story",
     "storyPoints": null,
     "sprintRaw": "",
-    "sourceFile": "2026-02/IRON SMTool - Open (Swedbank) 2026-02-27T12_12_53+0100.csv",
-    "sourceRow": 95
+    "sourceFile": "2026-02/IRON SMTool - Open (Swedbank) 2026-03-21T09_54_32+0100.csv",
+    "sourceRow": 144
   },
   {
     "issueKey": "CORE-6512",
@@ -1231,8 +1231,8 @@
     "issueType": "Task",
     "storyPoints": null,
     "sprintRaw": "",
-    "sourceFile": "2026-02/IRON SMTool - Open (Swedbank) 2026-02-27T12_12_53+0100.csv",
-    "sourceRow": 96
+    "sourceFile": "2026-02/IRON SMTool - Open (Swedbank) 2026-03-21T09_54_32+0100.csv",
+    "sourceRow": 145
   },
   {
     "issueKey": "CORE-6477",
@@ -1244,8 +1244,8 @@
     "issueType": "Task",
     "storyPoints": null,
     "sprintRaw": "",
-    "sourceFile": "2026-02/IRON SMTool - Open (Swedbank) 2026-02-27T12_12_53+0100.csv",
-    "sourceRow": 97
+    "sourceFile": "2026-02/IRON SMTool - Open (Swedbank) 2026-03-21T09_54_32+0100.csv",
+    "sourceRow": 146
   },
   {
     "issueKey": "CORE-6378",
@@ -1257,8 +1257,8 @@
     "issueType": "Story",
     "storyPoints": null,
     "sprintRaw": "",
-    "sourceFile": "2026-02/IRON SMTool - Open (Swedbank) 2026-02-27T12_12_53+0100.csv",
-    "sourceRow": 98
+    "sourceFile": "2026-02/IRON SMTool - Open (Swedbank) 2026-03-21T09_54_32+0100.csv",
+    "sourceRow": 148
   },
   {
     "issueKey": "CORE-6370",
@@ -1270,21 +1270,21 @@
     "issueType": "Task",
     "storyPoints": null,
     "sprintRaw": "",
-    "sourceFile": "2026-02/IRON SMTool - Open (Swedbank) 2026-02-27T12_12_53+0100.csv",
-    "sourceRow": 99
+    "sourceFile": "2026-02/IRON SMTool - Open (Swedbank) 2026-03-21T09_54_32+0100.csv",
+    "sourceRow": 149
   },
   {
     "issueKey": "CORE-6283",
     "created": "2023-02-28T13:27:00.000Z",
-    "updated": "2025-10-10T05:48:00.000Z",
-    "resolutionDate": "2025-10-10T05:48:00.000Z",
-    "status": "Refinement",
-    "resolution": "",
+    "updated": "2026-03-12T13:34:00.000Z",
+    "resolutionDate": "2026-03-12T13:34:00.000Z",
+    "status": "Done",
+    "resolution": "Done",
     "issueType": "Task",
     "storyPoints": null,
     "sprintRaw": "",
-    "sourceFile": "2026-02/IRON SMTool - Open (Swedbank) 2026-02-27T12_12_53+0100.csv",
-    "sourceRow": 100
+    "sourceFile": "2026-02/IRON SMTool - Closed (Swedbank) 2026-03-21T09_54_53+0100.csv",
+    "sourceRow": 111
   },
   {
     "issueKey": "CORE-5976",
@@ -1296,8 +1296,8 @@
     "issueType": "Task",
     "storyPoints": null,
     "sprintRaw": "",
-    "sourceFile": "2026-02/IRON SMTool - Open (Swedbank) 2026-02-27T12_12_53+0100.csv",
-    "sourceRow": 101
+    "sourceFile": "2026-02/IRON SMTool - Open (Swedbank) 2026-03-21T09_54_32+0100.csv",
+    "sourceRow": 150
   },
   {
     "issueKey": "CORE-4685",
@@ -1309,8 +1309,8 @@
     "issueType": "Story",
     "storyPoints": null,
     "sprintRaw": "",
-    "sourceFile": "2026-02/IRON SMTool - Open (Swedbank) 2026-02-27T12_12_53+0100.csv",
-    "sourceRow": 102
+    "sourceFile": "2026-02/IRON SMTool - Open (Swedbank) 2026-03-21T09_54_32+0100.csv",
+    "sourceRow": 151
   },
   {
     "issueKey": "CORE-2300",
@@ -1322,8 +1322,8 @@
     "issueType": "Story",
     "storyPoints": null,
     "sprintRaw": "",
-    "sourceFile": "2026-02/IRON SMTool - Open (Swedbank) 2026-02-27T12_12_53+0100.csv",
-    "sourceRow": 103
+    "sourceFile": "2026-02/IRON SMTool - Open (Swedbank) 2026-03-21T09_54_32+0100.csv",
+    "sourceRow": 152
   },
   {
     "issueKey": "CORE-2299",
@@ -1335,8 +1335,8 @@
     "issueType": "Story",
     "storyPoints": null,
     "sprintRaw": "",
-    "sourceFile": "2026-02/IRON SMTool - Open (Swedbank) 2026-02-27T12_12_53+0100.csv",
-    "sourceRow": 104
+    "sourceFile": "2026-02/IRON SMTool - Open (Swedbank) 2026-03-21T09_54_32+0100.csv",
+    "sourceRow": 153
   },
   {
     "issueKey": "CORE-2185",
@@ -1348,8 +1348,8 @@
     "issueType": "Story",
     "storyPoints": null,
     "sprintRaw": "",
-    "sourceFile": "2026-02/IRON SMTool - Open (Swedbank) 2026-02-27T12_12_53+0100.csv",
-    "sourceRow": 105
+    "sourceFile": "2026-02/IRON SMTool - Open (Swedbank) 2026-03-21T09_54_32+0100.csv",
+    "sourceRow": 154
   },
   {
     "issueKey": "CORE-10594",
@@ -1361,8 +1361,8 @@
     "issueType": "Task",
     "storyPoints": null,
     "sprintRaw": "",
-    "sourceFile": "2026-02/IRON SMTool - Closed (Swedbank) 2026-02-27T12_19_53+0100.csv",
-    "sourceRow": 2
+    "sourceFile": "2026-02/IRON SMTool - Closed (Swedbank) 2026-03-21T09_54_53+0100.csv",
+    "sourceRow": 17
   },
   {
     "issueKey": "CORE-10590",
@@ -1374,8 +1374,8 @@
     "issueType": "Task",
     "storyPoints": null,
     "sprintRaw": "",
-    "sourceFile": "2026-02/IRON SMTool - Closed (Swedbank) 2026-02-27T12_19_53+0100.csv",
-    "sourceRow": 3
+    "sourceFile": "2026-02/IRON SMTool - Closed (Swedbank) 2026-03-21T09_54_53+0100.csv",
+    "sourceRow": 18
   },
   {
     "issueKey": "CORE-10538",
@@ -1385,10 +1385,10 @@
     "status": "Done",
     "resolution": "Done",
     "issueType": "Task",
-    "storyPoints": null,
+    "storyPoints": 3,
     "sprintRaw": "",
-    "sourceFile": "2026-02/IRON SMTool - Closed (Swedbank) 2026-02-27T12_19_53+0100.csv",
-    "sourceRow": 4
+    "sourceFile": "2026-02/IRON SMTool - Closed (Swedbank) 2026-03-21T09_54_53+0100.csv",
+    "sourceRow": 19
   },
   {
     "issueKey": "CORE-10531",
@@ -1400,8 +1400,8 @@
     "issueType": "Task",
     "storyPoints": null,
     "sprintRaw": "",
-    "sourceFile": "2026-02/IRON SMTool - Closed (Swedbank) 2026-02-27T12_19_53+0100.csv",
-    "sourceRow": 5
+    "sourceFile": "2026-02/IRON SMTool - Closed (Swedbank) 2026-03-21T09_54_53+0100.csv",
+    "sourceRow": 20
   },
   {
     "issueKey": "CORE-10529",
@@ -1413,8 +1413,8 @@
     "issueType": "Story",
     "storyPoints": null,
     "sprintRaw": "",
-    "sourceFile": "2026-02/IRON SMTool - Closed (Swedbank) 2026-02-27T12_19_53+0100.csv",
-    "sourceRow": 6
+    "sourceFile": "2026-02/IRON SMTool - Closed (Swedbank) 2026-03-21T09_54_53+0100.csv",
+    "sourceRow": 21
   },
   {
     "issueKey": "CORE-10528",
@@ -1426,8 +1426,8 @@
     "issueType": "Story",
     "storyPoints": null,
     "sprintRaw": "",
-    "sourceFile": "2026-02/IRON SMTool - Closed (Swedbank) 2026-02-27T12_19_53+0100.csv",
-    "sourceRow": 7
+    "sourceFile": "2026-02/IRON SMTool - Closed (Swedbank) 2026-03-21T09_54_53+0100.csv",
+    "sourceRow": 22
   },
   {
     "issueKey": "CORE-10520",
@@ -1439,8 +1439,8 @@
     "issueType": "Task",
     "storyPoints": null,
     "sprintRaw": "",
-    "sourceFile": "2026-02/IRON SMTool - Closed (Swedbank) 2026-02-27T12_19_53+0100.csv",
-    "sourceRow": 8
+    "sourceFile": "2026-02/IRON SMTool - Closed (Swedbank) 2026-03-21T09_54_53+0100.csv",
+    "sourceRow": 23
   },
   {
     "issueKey": "CORE-10499",
@@ -1450,10 +1450,10 @@
     "status": "Done",
     "resolution": "Done",
     "issueType": "Task",
-    "storyPoints": null,
+    "storyPoints": 3,
     "sprintRaw": "",
-    "sourceFile": "2026-02/IRON SMTool - Closed (Swedbank) 2026-02-27T12_19_53+0100.csv",
-    "sourceRow": 9
+    "sourceFile": "2026-02/IRON SMTool - Closed (Swedbank) 2026-03-21T09_54_53+0100.csv",
+    "sourceRow": 25
   },
   {
     "issueKey": "CORE-10479",
@@ -1465,8 +1465,8 @@
     "issueType": "Task",
     "storyPoints": null,
     "sprintRaw": "",
-    "sourceFile": "2026-02/IRON SMTool - Closed (Swedbank) 2026-02-27T12_19_53+0100.csv",
-    "sourceRow": 10
+    "sourceFile": "2026-02/IRON SMTool - Closed (Swedbank) 2026-03-21T09_54_53+0100.csv",
+    "sourceRow": 26
   },
   {
     "issueKey": "CORE-10472",
@@ -1478,8 +1478,8 @@
     "issueType": "Bug",
     "storyPoints": null,
     "sprintRaw": "",
-    "sourceFile": "2026-02/IRON SMTool - Closed (Swedbank) 2026-02-27T12_19_53+0100.csv",
-    "sourceRow": 11
+    "sourceFile": "2026-02/IRON SMTool - Closed (Swedbank) 2026-03-21T09_54_53+0100.csv",
+    "sourceRow": 27
   },
   {
     "issueKey": "CORE-10437",
@@ -1491,8 +1491,8 @@
     "issueType": "Task",
     "storyPoints": null,
     "sprintRaw": "",
-    "sourceFile": "2026-02/IRON SMTool - Closed (Swedbank) 2026-02-27T12_19_53+0100.csv",
-    "sourceRow": 12
+    "sourceFile": "2026-02/IRON SMTool - Closed (Swedbank) 2026-03-21T09_54_53+0100.csv",
+    "sourceRow": 28
   },
   {
     "issueKey": "CORE-10416",
@@ -1502,10 +1502,10 @@
     "status": "Done",
     "resolution": "Fixed",
     "issueType": "Task",
-    "storyPoints": null,
+    "storyPoints": 3,
     "sprintRaw": "26PI1_1-Iron",
-    "sourceFile": "2026-02/IRON SMTool - Closed (Swedbank) 2026-02-27T12_19_53+0100.csv",
-    "sourceRow": 13
+    "sourceFile": "2026-02/IRON SMTool - Closed (Swedbank) 2026-03-21T09_54_53+0100.csv",
+    "sourceRow": 30
   },
   {
     "issueKey": "CORE-10411",
@@ -1515,10 +1515,10 @@
     "status": "Done",
     "resolution": "Fixed",
     "issueType": "Task",
-    "storyPoints": null,
+    "storyPoints": 5,
     "sprintRaw": "26PI1_2-Iron",
-    "sourceFile": "2026-02/IRON SMTool - Closed (Swedbank) 2026-02-27T12_19_53+0100.csv",
-    "sourceRow": 14
+    "sourceFile": "2026-02/IRON SMTool - Closed (Swedbank) 2026-03-21T09_54_53+0100.csv",
+    "sourceRow": 31
   },
   {
     "issueKey": "CORE-10402",
@@ -1530,8 +1530,8 @@
     "issueType": "Task",
     "storyPoints": null,
     "sprintRaw": "",
-    "sourceFile": "2026-02/IRON SMTool - Closed (Swedbank) 2026-02-27T12_19_53+0100.csv",
-    "sourceRow": 15
+    "sourceFile": "2026-02/IRON SMTool - Closed (Swedbank) 2026-03-21T09_54_53+0100.csv",
+    "sourceRow": 32
   },
   {
     "issueKey": "CORE-10399",
@@ -1543,8 +1543,8 @@
     "issueType": "Task",
     "storyPoints": null,
     "sprintRaw": "",
-    "sourceFile": "2026-02/IRON SMTool - Closed (Swedbank) 2026-02-27T12_19_53+0100.csv",
-    "sourceRow": 16
+    "sourceFile": "2026-02/IRON SMTool - Closed (Swedbank) 2026-03-21T09_54_53+0100.csv",
+    "sourceRow": 33
   },
   {
     "issueKey": "CORE-10397",
@@ -1556,8 +1556,8 @@
     "issueType": "Task",
     "storyPoints": null,
     "sprintRaw": "",
-    "sourceFile": "2026-02/IRON SMTool - Closed (Swedbank) 2026-02-27T12_19_53+0100.csv",
-    "sourceRow": 17
+    "sourceFile": "2026-02/IRON SMTool - Closed (Swedbank) 2026-03-21T09_54_53+0100.csv",
+    "sourceRow": 34
   },
   {
     "issueKey": "CORE-10390",
@@ -1567,10 +1567,10 @@
     "status": "Done",
     "resolution": "Fixed",
     "issueType": "Task",
-    "storyPoints": null,
+    "storyPoints": 5,
     "sprintRaw": "",
-    "sourceFile": "2026-02/IRON SMTool - Closed (Swedbank) 2026-02-27T12_19_53+0100.csv",
-    "sourceRow": 18
+    "sourceFile": "2026-02/IRON SMTool - Closed (Swedbank) 2026-03-21T09_54_53+0100.csv",
+    "sourceRow": 35
   },
   {
     "issueKey": "CORE-10387",
@@ -1582,8 +1582,8 @@
     "issueType": "Task",
     "storyPoints": null,
     "sprintRaw": "",
-    "sourceFile": "2026-02/IRON SMTool - Closed (Swedbank) 2026-02-27T12_19_53+0100.csv",
-    "sourceRow": 19
+    "sourceFile": "2026-02/IRON SMTool - Closed (Swedbank) 2026-03-21T09_54_53+0100.csv",
+    "sourceRow": 36
   },
   {
     "issueKey": "CORE-10385",
@@ -1595,21 +1595,21 @@
     "issueType": "Task",
     "storyPoints": null,
     "sprintRaw": "",
-    "sourceFile": "2026-02/IRON SMTool - Closed (Swedbank) 2026-02-27T12_19_53+0100.csv",
-    "sourceRow": 20
+    "sourceFile": "2026-02/IRON SMTool - Closed (Swedbank) 2026-03-21T09_54_53+0100.csv",
+    "sourceRow": 37
   },
   {
     "issueKey": "CORE-10378",
     "created": "2026-01-12T08:29:00.000Z",
-    "updated": "2026-02-02T07:55:00.000Z",
+    "updated": "2026-03-12T17:55:00.000Z",
     "resolutionDate": "2026-01-27T08:38:00.000Z",
     "status": "Done",
     "resolution": "Done",
     "issueType": "Task",
-    "storyPoints": null,
+    "storyPoints": 2,
     "sprintRaw": "",
-    "sourceFile": "2026-02/IRON SMTool - Closed (Swedbank) 2026-02-27T12_19_53+0100.csv",
-    "sourceRow": 21
+    "sourceFile": "2026-02/IRON SMTool - Closed (Swedbank) 2026-03-21T09_54_53+0100.csv",
+    "sourceRow": 38
   },
   {
     "issueKey": "CORE-10376",
@@ -1619,10 +1619,10 @@
     "status": "Done",
     "resolution": "Fixed",
     "issueType": "Task",
-    "storyPoints": null,
+    "storyPoints": 2,
     "sprintRaw": "26PI1_2-Iron",
-    "sourceFile": "2026-02/IRON SMTool - Closed (Swedbank) 2026-02-27T12_19_53+0100.csv",
-    "sourceRow": 22
+    "sourceFile": "2026-02/IRON SMTool - Closed (Swedbank) 2026-03-21T09_54_53+0100.csv",
+    "sourceRow": 39
   },
   {
     "issueKey": "CORE-10369",
@@ -1632,10 +1632,10 @@
     "status": "Done",
     "resolution": "Fixed",
     "issueType": "Task",
-    "storyPoints": null,
+    "storyPoints": 5,
     "sprintRaw": "26PI1_2-Iron",
-    "sourceFile": "2026-02/IRON SMTool - Closed (Swedbank) 2026-02-27T12_19_53+0100.csv",
-    "sourceRow": 23
+    "sourceFile": "2026-02/IRON SMTool - Closed (Swedbank) 2026-03-21T09_54_53+0100.csv",
+    "sourceRow": 40
   },
   {
     "issueKey": "CORE-10359",
@@ -1647,8 +1647,8 @@
     "issueType": "Task",
     "storyPoints": null,
     "sprintRaw": "",
-    "sourceFile": "2026-02/IRON SMTool - Closed (Swedbank) 2026-02-27T12_19_53+0100.csv",
-    "sourceRow": 24
+    "sourceFile": "2026-02/IRON SMTool - Closed (Swedbank) 2026-03-21T09_54_53+0100.csv",
+    "sourceRow": 41
   },
   {
     "issueKey": "CORE-10358",
@@ -1660,8 +1660,8 @@
     "issueType": "Task",
     "storyPoints": null,
     "sprintRaw": "",
-    "sourceFile": "2026-02/IRON SMTool - Closed (Swedbank) 2026-02-27T12_19_53+0100.csv",
-    "sourceRow": 25
+    "sourceFile": "2026-02/IRON SMTool - Closed (Swedbank) 2026-03-21T09_54_53+0100.csv",
+    "sourceRow": 42
   },
   {
     "issueKey": "CORE-10341",
@@ -1671,10 +1671,10 @@
     "status": "Done",
     "resolution": "Fixed",
     "issueType": "Task",
-    "storyPoints": null,
+    "storyPoints": 4,
     "sprintRaw": "26PI1_2-Iron",
-    "sourceFile": "2026-02/IRON SMTool - Closed (Swedbank) 2026-02-27T12_19_53+0100.csv",
-    "sourceRow": 26
+    "sourceFile": "2026-02/IRON SMTool - Closed (Swedbank) 2026-03-21T09_54_53+0100.csv",
+    "sourceRow": 43
   },
   {
     "issueKey": "CORE-10301",
@@ -1684,23 +1684,23 @@
     "status": "Done",
     "resolution": "Done",
     "issueType": "Task",
-    "storyPoints": null,
+    "storyPoints": 4,
     "sprintRaw": "26PI1_1-Iron,26PI1_2-Iron",
-    "sourceFile": "2026-02/IRON SMTool - Closed (Swedbank) 2026-02-27T12_19_53+0100.csv",
-    "sourceRow": 27
+    "sourceFile": "2026-02/IRON SMTool - Closed (Swedbank) 2026-03-21T09_54_53+0100.csv",
+    "sourceRow": 44
   },
   {
     "issueKey": "CORE-10285",
     "created": "2026-01-05T11:49:00.000Z",
-    "updated": "2026-02-04T12:45:00.000Z",
+    "updated": "2026-03-12T10:07:00.000Z",
     "resolutionDate": "2026-02-04T12:45:00.000Z",
     "status": "Done",
     "resolution": "Done",
     "issueType": "Task",
-    "storyPoints": null,
+    "storyPoints": 3,
     "sprintRaw": "26PI1_1-Iron",
-    "sourceFile": "2026-02/IRON SMTool - Closed (Swedbank) 2026-02-27T12_19_53+0100.csv",
-    "sourceRow": 28
+    "sourceFile": "2026-02/IRON SMTool - Closed (Swedbank) 2026-03-21T09_54_53+0100.csv",
+    "sourceRow": 45
   },
   {
     "issueKey": "CORE-10245",
@@ -1710,10 +1710,10 @@
     "status": "Done",
     "resolution": "Done",
     "issueType": "Task",
-    "storyPoints": null,
+    "storyPoints": 3,
     "sprintRaw": "26PI1_1-Gold",
-    "sourceFile": "2026-02/IRON SMTool - Closed (Swedbank) 2026-02-27T12_19_53+0100.csv",
-    "sourceRow": 29
+    "sourceFile": "2026-02/IRON SMTool - Closed (Swedbank) 2026-03-21T09_54_53+0100.csv",
+    "sourceRow": 47
   },
   {
     "issueKey": "CORE-10221",
@@ -1723,10 +1723,10 @@
     "status": "Done",
     "resolution": "Done",
     "issueType": "Task",
-    "storyPoints": null,
+    "storyPoints": 4,
     "sprintRaw": "26PI1_1-Iron",
-    "sourceFile": "2026-02/IRON SMTool - Closed (Swedbank) 2026-02-27T12_19_53+0100.csv",
-    "sourceRow": 30
+    "sourceFile": "2026-02/IRON SMTool - Closed (Swedbank) 2026-03-21T09_54_53+0100.csv",
+    "sourceRow": 48
   },
   {
     "issueKey": "CORE-10213",
@@ -1736,10 +1736,10 @@
     "status": "Done",
     "resolution": "Fixed",
     "issueType": "Task",
-    "storyPoints": null,
+    "storyPoints": 4,
     "sprintRaw": "26PI1_1-Iron",
-    "sourceFile": "2026-02/IRON SMTool - Closed (Swedbank) 2026-02-27T12_19_53+0100.csv",
-    "sourceRow": 31
+    "sourceFile": "2026-02/IRON SMTool - Closed (Swedbank) 2026-03-21T09_54_53+0100.csv",
+    "sourceRow": 49
   },
   {
     "issueKey": "CORE-10205",
@@ -1749,10 +1749,10 @@
     "status": "Done",
     "resolution": "Done",
     "issueType": "Task",
-    "storyPoints": null,
+    "storyPoints": 3,
     "sprintRaw": "26PI1_1-Iron",
-    "sourceFile": "2026-02/IRON SMTool - Closed (Swedbank) 2026-02-27T12_19_53+0100.csv",
-    "sourceRow": 32
+    "sourceFile": "2026-02/IRON SMTool - Closed (Swedbank) 2026-03-21T09_54_53+0100.csv",
+    "sourceRow": 50
   },
   {
     "issueKey": "CORE-10197",
@@ -1762,10 +1762,10 @@
     "status": "Done",
     "resolution": "Done",
     "issueType": "Task",
-    "storyPoints": null,
+    "storyPoints": 4,
     "sprintRaw": "26PI1_1-Iron",
-    "sourceFile": "2026-02/IRON SMTool - Closed (Swedbank) 2026-02-27T12_19_53+0100.csv",
-    "sourceRow": 33
+    "sourceFile": "2026-02/IRON SMTool - Closed (Swedbank) 2026-03-21T09_54_53+0100.csv",
+    "sourceRow": 51
   },
   {
     "issueKey": "CORE-10189",
@@ -1775,10 +1775,10 @@
     "status": "Done",
     "resolution": "Fixed",
     "issueType": "Task",
-    "storyPoints": null,
+    "storyPoints": 3,
     "sprintRaw": "26PI1_1-Gold",
-    "sourceFile": "2026-02/IRON SMTool - Closed (Swedbank) 2026-02-27T12_19_53+0100.csv",
-    "sourceRow": 34
+    "sourceFile": "2026-02/IRON SMTool - Closed (Swedbank) 2026-03-21T09_54_53+0100.csv",
+    "sourceRow": 52
   },
   {
     "issueKey": "CORE-10181",
@@ -1788,10 +1788,10 @@
     "status": "Done",
     "resolution": "Done",
     "issueType": "Task",
-    "storyPoints": null,
+    "storyPoints": 3,
     "sprintRaw": "26PI1_1-Gold",
-    "sourceFile": "2026-02/IRON SMTool - Closed (Swedbank) 2026-02-27T12_19_53+0100.csv",
-    "sourceRow": 35
+    "sourceFile": "2026-02/IRON SMTool - Closed (Swedbank) 2026-03-21T09_54_53+0100.csv",
+    "sourceRow": 53
   },
   {
     "issueKey": "CORE-10171",
@@ -1801,10 +1801,10 @@
     "status": "Done",
     "resolution": "Done",
     "issueType": "Task",
-    "storyPoints": null,
+    "storyPoints": 3,
     "sprintRaw": "26PI1_1-Iron",
-    "sourceFile": "2026-02/IRON SMTool - Closed (Swedbank) 2026-02-27T12_19_53+0100.csv",
-    "sourceRow": 36
+    "sourceFile": "2026-02/IRON SMTool - Closed (Swedbank) 2026-03-21T09_54_53+0100.csv",
+    "sourceRow": 54
   },
   {
     "issueKey": "CORE-10155",
@@ -1816,8 +1816,8 @@
     "issueType": "Task",
     "storyPoints": null,
     "sprintRaw": "",
-    "sourceFile": "2026-02/IRON SMTool - Closed (Swedbank) 2026-02-27T12_19_53+0100.csv",
-    "sourceRow": 37
+    "sourceFile": "2026-02/IRON SMTool - Closed (Swedbank) 2026-03-21T09_54_53+0100.csv",
+    "sourceRow": 55
   },
   {
     "issueKey": "CORE-10153",
@@ -1829,8 +1829,8 @@
     "issueType": "Task",
     "storyPoints": null,
     "sprintRaw": "",
-    "sourceFile": "2026-02/IRON SMTool - Closed (Swedbank) 2026-02-27T12_19_53+0100.csv",
-    "sourceRow": 38
+    "sourceFile": "2026-02/IRON SMTool - Closed (Swedbank) 2026-03-21T09_54_53+0100.csv",
+    "sourceRow": 56
   },
   {
     "issueKey": "CORE-10128",
@@ -1842,21 +1842,21 @@
     "issueType": "Task",
     "storyPoints": null,
     "sprintRaw": "",
-    "sourceFile": "2026-02/IRON SMTool - Closed (Swedbank) 2026-02-27T12_19_53+0100.csv",
-    "sourceRow": 39
+    "sourceFile": "2026-02/IRON SMTool - Closed (Swedbank) 2026-03-21T09_54_53+0100.csv",
+    "sourceRow": 57
   },
   {
     "issueKey": "CORE-10124",
     "created": "2025-12-11T07:53:00.000Z",
-    "updated": "2026-02-25T05:19:00.000Z",
+    "updated": "2026-03-18T12:38:00.000Z",
     "resolutionDate": "2026-02-25T05:19:00.000Z",
-    "status": "Done",
+    "status": "Open",
     "resolution": "Fixed",
     "issueType": "Task",
     "storyPoints": null,
     "sprintRaw": "",
-    "sourceFile": "2026-02/IRON SMTool - Closed (Swedbank) 2026-02-27T12_19_53+0100.csv",
-    "sourceRow": 40
+    "sourceFile": "2026-02/IRON SMTool - Open (Swedbank) 2026-03-21T09_54_32+0100.csv",
+    "sourceRow": 75
   },
   {
     "issueKey": "CORE-10111",
@@ -1866,10 +1866,10 @@
     "status": "Done",
     "resolution": "Done",
     "issueType": "Story",
-    "storyPoints": null,
+    "storyPoints": 3,
     "sprintRaw": "26PI1_3-Iron",
-    "sourceFile": "2026-02/IRON SMTool - Closed (Swedbank) 2026-02-27T12_19_53+0100.csv",
-    "sourceRow": 41
+    "sourceFile": "2026-02/IRON SMTool - Closed (Swedbank) 2026-03-21T09_54_53+0100.csv",
+    "sourceRow": 61
   },
   {
     "issueKey": "CORE-10082",
@@ -1879,10 +1879,10 @@
     "status": "Done",
     "resolution": "Done",
     "issueType": "Task",
-    "storyPoints": null,
+    "storyPoints": 1,
     "sprintRaw": "",
-    "sourceFile": "2026-02/IRON SMTool - Closed (Swedbank) 2026-02-27T12_19_53+0100.csv",
-    "sourceRow": 42
+    "sourceFile": "2026-02/IRON SMTool - Closed (Swedbank) 2026-03-21T09_54_53+0100.csv",
+    "sourceRow": 62
   },
   {
     "issueKey": "CORE-10009",
@@ -1894,8 +1894,8 @@
     "issueType": "Task",
     "storyPoints": null,
     "sprintRaw": "",
-    "sourceFile": "2026-02/IRON SMTool - Closed (Swedbank) 2026-02-27T12_19_53+0100.csv",
-    "sourceRow": 43
+    "sourceFile": "2026-02/IRON SMTool - Closed (Swedbank) 2026-03-21T09_54_53+0100.csv",
+    "sourceRow": 63
   },
   {
     "issueKey": "CORE-9998",
@@ -1907,8 +1907,8 @@
     "issueType": "Task",
     "storyPoints": null,
     "sprintRaw": "",
-    "sourceFile": "2026-02/IRON SMTool - Closed (Swedbank) 2026-02-27T12_19_53+0100.csv",
-    "sourceRow": 44
+    "sourceFile": "2026-02/IRON SMTool - Closed (Swedbank) 2026-03-21T09_54_53+0100.csv",
+    "sourceRow": 64
   },
   {
     "issueKey": "CORE-9988",
@@ -1920,8 +1920,8 @@
     "issueType": "Task",
     "storyPoints": null,
     "sprintRaw": "",
-    "sourceFile": "2026-02/IRON SMTool - Closed (Swedbank) 2026-02-27T12_19_53+0100.csv",
-    "sourceRow": 45
+    "sourceFile": "2026-02/IRON SMTool - Closed (Swedbank) 2026-03-21T09_54_53+0100.csv",
+    "sourceRow": 65
   },
   {
     "issueKey": "CORE-9971",
@@ -1933,8 +1933,8 @@
     "issueType": "Task",
     "storyPoints": null,
     "sprintRaw": "",
-    "sourceFile": "2026-02/IRON SMTool - Closed (Swedbank) 2026-02-27T12_19_53+0100.csv",
-    "sourceRow": 46
+    "sourceFile": "2026-02/IRON SMTool - Closed (Swedbank) 2026-03-21T09_54_53+0100.csv",
+    "sourceRow": 66
   },
   {
     "issueKey": "CORE-9960",
@@ -1946,8 +1946,8 @@
     "issueType": "Task",
     "storyPoints": null,
     "sprintRaw": "",
-    "sourceFile": "2026-02/IRON SMTool - Closed (Swedbank) 2026-02-27T12_19_53+0100.csv",
-    "sourceRow": 47
+    "sourceFile": "2026-02/IRON SMTool - Closed (Swedbank) 2026-03-21T09_54_53+0100.csv",
+    "sourceRow": 67
   },
   {
     "issueKey": "CORE-9950",
@@ -1959,8 +1959,8 @@
     "issueType": "Task",
     "storyPoints": null,
     "sprintRaw": "",
-    "sourceFile": "2026-02/IRON SMTool - Closed (Swedbank) 2026-02-27T12_19_53+0100.csv",
-    "sourceRow": 48
+    "sourceFile": "2026-02/IRON SMTool - Closed (Swedbank) 2026-03-21T09_54_53+0100.csv",
+    "sourceRow": 68
   },
   {
     "issueKey": "CORE-9949",
@@ -1970,10 +1970,10 @@
     "status": "Done",
     "resolution": "Done",
     "issueType": "Story",
-    "storyPoints": null,
+    "storyPoints": 1,
     "sprintRaw": "26PI1_1-Iron",
-    "sourceFile": "2026-02/IRON SMTool - Closed (Swedbank) 2026-02-27T12_19_53+0100.csv",
-    "sourceRow": 49
+    "sourceFile": "2026-02/IRON SMTool - Closed (Swedbank) 2026-03-21T09_54_53+0100.csv",
+    "sourceRow": 69
   },
   {
     "issueKey": "CORE-9938",
@@ -1985,8 +1985,8 @@
     "issueType": "Task",
     "storyPoints": null,
     "sprintRaw": "",
-    "sourceFile": "2026-02/IRON SMTool - Closed (Swedbank) 2026-02-27T12_19_53+0100.csv",
-    "sourceRow": 50
+    "sourceFile": "2026-02/IRON SMTool - Closed (Swedbank) 2026-03-21T09_54_53+0100.csv",
+    "sourceRow": 70
   },
   {
     "issueKey": "CORE-9937",
@@ -1996,10 +1996,10 @@
     "status": "Done",
     "resolution": "Fixed",
     "issueType": "Task",
-    "storyPoints": null,
+    "storyPoints": 2,
     "sprintRaw": "",
-    "sourceFile": "2026-02/IRON SMTool - Closed (Swedbank) 2026-02-27T12_19_53+0100.csv",
-    "sourceRow": 51
+    "sourceFile": "2026-02/IRON SMTool - Closed (Swedbank) 2026-03-21T09_54_53+0100.csv",
+    "sourceRow": 71
   },
   {
     "issueKey": "CORE-9911",
@@ -2011,8 +2011,8 @@
     "issueType": "Task",
     "storyPoints": null,
     "sprintRaw": "",
-    "sourceFile": "2026-02/IRON SMTool - Closed (Swedbank) 2026-02-27T12_19_53+0100.csv",
-    "sourceRow": 52
+    "sourceFile": "2026-02/IRON SMTool - Closed (Swedbank) 2026-03-21T09_54_53+0100.csv",
+    "sourceRow": 72
   },
   {
     "issueKey": "CORE-9894",
@@ -2024,8 +2024,8 @@
     "issueType": "Task",
     "storyPoints": null,
     "sprintRaw": "",
-    "sourceFile": "2026-02/IRON SMTool - Closed (Swedbank) 2026-02-27T12_19_53+0100.csv",
-    "sourceRow": 53
+    "sourceFile": "2026-02/IRON SMTool - Closed (Swedbank) 2026-03-21T09_54_53+0100.csv",
+    "sourceRow": 73
   },
   {
     "issueKey": "CORE-9891",
@@ -2035,10 +2035,10 @@
     "status": "Done",
     "resolution": "Fixed",
     "issueType": "Story",
-    "storyPoints": null,
+    "storyPoints": 5,
     "sprintRaw": "26PI1_2-Iron",
-    "sourceFile": "2026-02/IRON SMTool - Closed (Swedbank) 2026-02-27T12_19_53+0100.csv",
-    "sourceRow": 54
+    "sourceFile": "2026-02/IRON SMTool - Closed (Swedbank) 2026-03-21T09_54_53+0100.csv",
+    "sourceRow": 74
   },
   {
     "issueKey": "CORE-9890",
@@ -2048,23 +2048,23 @@
     "status": "Done",
     "resolution": "Done",
     "issueType": "Task",
-    "storyPoints": null,
+    "storyPoints": 1,
     "sprintRaw": "26PI1_1-Iron",
-    "sourceFile": "2026-02/IRON SMTool - Closed (Swedbank) 2026-02-27T12_19_53+0100.csv",
-    "sourceRow": 55
+    "sourceFile": "2026-02/IRON SMTool - Closed (Swedbank) 2026-03-21T09_54_53+0100.csv",
+    "sourceRow": 75
   },
   {
     "issueKey": "CORE-9871",
     "created": "2025-11-07T12:35:00.000Z",
-    "updated": "2026-02-12T08:16:00.000Z",
+    "updated": "2026-03-06T12:11:00.000Z",
     "resolutionDate": "2026-02-12T08:16:00.000Z",
     "status": "Done",
     "resolution": "Fixed",
     "issueType": "Task",
-    "storyPoints": null,
+    "storyPoints": 8,
     "sprintRaw": "26PI1_3-Iron",
-    "sourceFile": "2026-02/IRON SMTool - Closed (Swedbank) 2026-02-27T12_19_53+0100.csv",
-    "sourceRow": 56
+    "sourceFile": "2026-02/IRON SMTool - Closed (Swedbank) 2026-03-21T09_54_53+0100.csv",
+    "sourceRow": 76
   },
   {
     "issueKey": "CORE-9860",
@@ -2076,8 +2076,8 @@
     "issueType": "Task",
     "storyPoints": null,
     "sprintRaw": "",
-    "sourceFile": "2026-02/IRON SMTool - Closed (Swedbank) 2026-02-27T12_19_53+0100.csv",
-    "sourceRow": 57
+    "sourceFile": "2026-02/IRON SMTool - Closed (Swedbank) 2026-03-21T09_54_53+0100.csv",
+    "sourceRow": 77
   },
   {
     "issueKey": "CORE-9848",
@@ -2089,8 +2089,8 @@
     "issueType": "Task",
     "storyPoints": null,
     "sprintRaw": "",
-    "sourceFile": "2026-02/IRON SMTool - Closed (Swedbank) 2026-02-27T12_19_53+0100.csv",
-    "sourceRow": 58
+    "sourceFile": "2026-02/IRON SMTool - Closed (Swedbank) 2026-03-21T09_54_53+0100.csv",
+    "sourceRow": 78
   },
   {
     "issueKey": "CORE-9837",
@@ -2102,8 +2102,8 @@
     "issueType": "Task",
     "storyPoints": null,
     "sprintRaw": "",
-    "sourceFile": "2026-02/IRON SMTool - Closed (Swedbank) 2026-02-27T12_19_53+0100.csv",
-    "sourceRow": 59
+    "sourceFile": "2026-02/IRON SMTool - Closed (Swedbank) 2026-03-21T09_54_53+0100.csv",
+    "sourceRow": 79
   },
   {
     "issueKey": "CORE-9827",
@@ -2115,8 +2115,8 @@
     "issueType": "Task",
     "storyPoints": null,
     "sprintRaw": "",
-    "sourceFile": "2026-02/IRON SMTool - Closed (Swedbank) 2026-02-27T12_19_53+0100.csv",
-    "sourceRow": 60
+    "sourceFile": "2026-02/IRON SMTool - Closed (Swedbank) 2026-03-21T09_54_53+0100.csv",
+    "sourceRow": 80
   },
   {
     "issueKey": "CORE-9805",
@@ -2128,8 +2128,8 @@
     "issueType": "Task",
     "storyPoints": null,
     "sprintRaw": "",
-    "sourceFile": "2026-02/IRON SMTool - Closed (Swedbank) 2026-02-27T12_19_53+0100.csv",
-    "sourceRow": 61
+    "sourceFile": "2026-02/IRON SMTool - Closed (Swedbank) 2026-03-21T09_54_53+0100.csv",
+    "sourceRow": 81
   },
   {
     "issueKey": "CORE-9786",
@@ -2139,10 +2139,10 @@
     "status": "Done",
     "resolution": "Fixed",
     "issueType": "Task",
-    "storyPoints": null,
+    "storyPoints": 2,
     "sprintRaw": "26PI1_2-Iron",
-    "sourceFile": "2026-02/IRON SMTool - Closed (Swedbank) 2026-02-27T12_19_53+0100.csv",
-    "sourceRow": 62
+    "sourceFile": "2026-02/IRON SMTool - Closed (Swedbank) 2026-03-21T09_54_53+0100.csv",
+    "sourceRow": 82
   },
   {
     "issueKey": "CORE-9774",
@@ -2154,8 +2154,8 @@
     "issueType": "Task",
     "storyPoints": null,
     "sprintRaw": "",
-    "sourceFile": "2026-02/IRON SMTool - Closed (Swedbank) 2026-02-27T12_19_53+0100.csv",
-    "sourceRow": 63
+    "sourceFile": "2026-02/IRON SMTool - Closed (Swedbank) 2026-03-21T09_54_53+0100.csv",
+    "sourceRow": 83
   },
   {
     "issueKey": "CORE-9744",
@@ -2167,8 +2167,8 @@
     "issueType": "Task",
     "storyPoints": null,
     "sprintRaw": "",
-    "sourceFile": "2026-02/IRON SMTool - Closed (Swedbank) 2026-02-27T12_19_53+0100.csv",
-    "sourceRow": 64
+    "sourceFile": "2026-02/IRON SMTool - Closed (Swedbank) 2026-03-21T09_54_53+0100.csv",
+    "sourceRow": 84
   },
   {
     "issueKey": "CORE-9741",
@@ -2180,8 +2180,8 @@
     "issueType": "Task",
     "storyPoints": null,
     "sprintRaw": "",
-    "sourceFile": "2026-02/IRON SMTool - Closed (Swedbank) 2026-02-27T12_19_53+0100.csv",
-    "sourceRow": 65
+    "sourceFile": "2026-02/IRON SMTool - Closed (Swedbank) 2026-03-21T09_54_53+0100.csv",
+    "sourceRow": 85
   },
   {
     "issueKey": "CORE-9730",
@@ -2193,8 +2193,8 @@
     "issueType": "Task",
     "storyPoints": null,
     "sprintRaw": "",
-    "sourceFile": "2026-02/IRON SMTool - Closed (Swedbank) 2026-02-27T12_19_53+0100.csv",
-    "sourceRow": 66
+    "sourceFile": "2026-02/IRON SMTool - Closed (Swedbank) 2026-03-21T09_54_53+0100.csv",
+    "sourceRow": 86
   },
   {
     "issueKey": "CORE-9720",
@@ -2206,8 +2206,8 @@
     "issueType": "Task",
     "storyPoints": null,
     "sprintRaw": "",
-    "sourceFile": "2026-02/IRON SMTool - Closed (Swedbank) 2026-02-27T12_19_53+0100.csv",
-    "sourceRow": 67
+    "sourceFile": "2026-02/IRON SMTool - Closed (Swedbank) 2026-03-21T09_54_53+0100.csv",
+    "sourceRow": 87
   },
   {
     "issueKey": "CORE-9710",
@@ -2219,34 +2219,34 @@
     "issueType": "Task",
     "storyPoints": null,
     "sprintRaw": "",
-    "sourceFile": "2026-02/IRON SMTool - Closed (Swedbank) 2026-02-27T12_19_53+0100.csv",
-    "sourceRow": 68
+    "sourceFile": "2026-02/IRON SMTool - Closed (Swedbank) 2026-03-21T09_54_53+0100.csv",
+    "sourceRow": 88
   },
   {
     "issueKey": "CORE-9699",
     "created": "2025-10-29T08:18:00.000Z",
-    "updated": "2026-02-10T09:12:00.000Z",
+    "updated": "2026-03-18T12:38:00.000Z",
     "resolutionDate": "2026-02-10T09:12:00.000Z",
     "status": "Done",
     "resolution": "Fixed",
     "issueType": "Task",
     "storyPoints": null,
     "sprintRaw": "",
-    "sourceFile": "2026-02/IRON SMTool - Closed (Swedbank) 2026-02-27T12_19_53+0100.csv",
-    "sourceRow": 69
+    "sourceFile": "2026-02/IRON SMTool - Closed (Swedbank) 2026-03-21T09_54_53+0100.csv",
+    "sourceRow": 89
   },
   {
     "issueKey": "CORE-9655",
     "created": "2025-10-23T06:08:00.000Z",
-    "updated": "2026-02-10T09:11:00.000Z",
+    "updated": "2026-03-18T12:39:00.000Z",
     "resolutionDate": "2026-02-10T09:11:00.000Z",
-    "status": "Done",
+    "status": "Open",
     "resolution": "Fixed",
     "issueType": "Task",
     "storyPoints": null,
     "sprintRaw": "",
-    "sourceFile": "2026-02/IRON SMTool - Closed (Swedbank) 2026-02-27T12_19_53+0100.csv",
-    "sourceRow": 70
+    "sourceFile": "2026-02/IRON SMTool - Open (Swedbank) 2026-03-21T09_54_32+0100.csv",
+    "sourceRow": 85
   },
   {
     "issueKey": "CORE-9594",
@@ -2256,10 +2256,10 @@
     "status": "Done",
     "resolution": "Fixed",
     "issueType": "Task",
-    "storyPoints": null,
+    "storyPoints": 2,
     "sprintRaw": "26PI1_2-Iron",
-    "sourceFile": "2026-02/IRON SMTool - Closed (Swedbank) 2026-02-27T12_19_53+0100.csv",
-    "sourceRow": 71
+    "sourceFile": "2026-02/IRON SMTool - Closed (Swedbank) 2026-03-21T09_54_53+0100.csv",
+    "sourceRow": 90
   },
   {
     "issueKey": "CORE-9593",
@@ -2269,10 +2269,10 @@
     "status": "Done",
     "resolution": "Fixed",
     "issueType": "Task",
-    "storyPoints": null,
+    "storyPoints": 2,
     "sprintRaw": "26PI1_2-Iron",
-    "sourceFile": "2026-02/IRON SMTool - Closed (Swedbank) 2026-02-27T12_19_53+0100.csv",
-    "sourceRow": 72
+    "sourceFile": "2026-02/IRON SMTool - Closed (Swedbank) 2026-03-21T09_54_53+0100.csv",
+    "sourceRow": 91
   },
   {
     "issueKey": "CORE-9546",
@@ -2282,23 +2282,23 @@
     "status": "Done",
     "resolution": "Done",
     "issueType": "Story",
-    "storyPoints": null,
+    "storyPoints": 3,
     "sprintRaw": "26PI1_3-Iron",
-    "sourceFile": "2026-02/IRON SMTool - Closed (Swedbank) 2026-02-27T12_19_53+0100.csv",
-    "sourceRow": 73
+    "sourceFile": "2026-02/IRON SMTool - Closed (Swedbank) 2026-03-21T09_54_53+0100.csv",
+    "sourceRow": 93
   },
   {
     "issueKey": "CORE-9484",
     "created": "2025-10-07T12:41:00.000Z",
-    "updated": "2026-02-25T13:04:00.000Z",
+    "updated": "2026-03-03T06:23:00.000Z",
     "resolutionDate": "2026-02-25T13:04:00.000Z",
     "status": "Done",
     "resolution": "Done",
     "issueType": "Story",
-    "storyPoints": null,
+    "storyPoints": 5,
     "sprintRaw": "26PI1_3-Iron",
-    "sourceFile": "2026-02/IRON SMTool - Closed (Swedbank) 2026-02-27T12_19_53+0100.csv",
-    "sourceRow": 74
+    "sourceFile": "2026-02/IRON SMTool - Closed (Swedbank) 2026-03-21T09_54_53+0100.csv",
+    "sourceRow": 94
   },
   {
     "issueKey": "CORE-9479",
@@ -2308,140 +2308,140 @@
     "status": "Done",
     "resolution": "Done",
     "issueType": "Story",
-    "storyPoints": null,
+    "storyPoints": 2,
     "sprintRaw": "26PI1_1-Iron",
-    "sourceFile": "2026-02/IRON SMTool - Closed (Swedbank) 2026-02-27T12_19_53+0100.csv",
-    "sourceRow": 75
+    "sourceFile": "2026-02/IRON SMTool - Closed (Swedbank) 2026-03-21T09_54_53+0100.csv",
+    "sourceRow": 95
   },
   {
     "issueKey": "CORE-9357",
     "created": "2025-09-09T12:23:00.000Z",
-    "updated": "2026-02-03T12:32:00.000Z",
+    "updated": "2026-03-18T12:40:00.000Z",
     "resolutionDate": "2025-12-15T13:45:00.000Z",
-    "status": "Done",
+    "status": "Open",
     "resolution": "Done",
     "issueType": "Task",
     "storyPoints": null,
     "sprintRaw": "",
-    "sourceFile": "2026-02/IRON SMTool - Closed (Swedbank) 2026-02-27T12_19_53+0100.csv",
-    "sourceRow": 76
+    "sourceFile": "2026-02/IRON SMTool - Open (Swedbank) 2026-03-21T09_54_32+0100.csv",
+    "sourceRow": 104
   },
   {
     "issueKey": "CORE-9356",
     "created": "2025-09-09T12:19:00.000Z",
-    "updated": "2026-02-04T15:10:00.000Z",
+    "updated": "2026-03-18T12:41:00.000Z",
     "resolutionDate": "2026-02-04T15:10:00.000Z",
-    "status": "Done",
+    "status": "Open",
     "resolution": "Fixed",
     "issueType": "Task",
     "storyPoints": null,
     "sprintRaw": "",
-    "sourceFile": "2026-02/IRON SMTool - Closed (Swedbank) 2026-02-27T12_19_53+0100.csv",
-    "sourceRow": 77
+    "sourceFile": "2026-02/IRON SMTool - Open (Swedbank) 2026-03-21T09_54_32+0100.csv",
+    "sourceRow": 105
   },
   {
     "issueKey": "CORE-9355",
     "created": "2025-09-09T12:15:00.000Z",
-    "updated": "2026-02-04T11:57:00.000Z",
+    "updated": "2026-03-18T12:42:00.000Z",
     "resolutionDate": "2026-02-04T11:57:00.000Z",
-    "status": "Done",
+    "status": "Open",
     "resolution": "Fixed",
     "issueType": "Task",
     "storyPoints": null,
     "sprintRaw": "",
-    "sourceFile": "2026-02/IRON SMTool - Closed (Swedbank) 2026-02-27T12_19_53+0100.csv",
-    "sourceRow": 78
+    "sourceFile": "2026-02/IRON SMTool - Open (Swedbank) 2026-03-21T09_54_32+0100.csv",
+    "sourceRow": 106
   },
   {
     "issueKey": "CORE-9354",
     "created": "2025-09-09T11:32:00.000Z",
-    "updated": "2026-02-04T10:32:00.000Z",
+    "updated": "2026-03-18T12:43:00.000Z",
     "resolutionDate": "2026-02-04T10:32:00.000Z",
-    "status": "Done",
+    "status": "Open",
     "resolution": "Fixed",
     "issueType": "Task",
     "storyPoints": null,
     "sprintRaw": "",
-    "sourceFile": "2026-02/IRON SMTool - Closed (Swedbank) 2026-02-27T12_19_53+0100.csv",
-    "sourceRow": 79
+    "sourceFile": "2026-02/IRON SMTool - Open (Swedbank) 2026-03-21T09_54_32+0100.csv",
+    "sourceRow": 107
   },
   {
     "issueKey": "CORE-9351",
     "created": "2025-09-09T10:13:00.000Z",
-    "updated": "2026-02-04T10:31:00.000Z",
+    "updated": "2026-03-18T12:47:00.000Z",
     "resolutionDate": "2026-02-04T10:31:00.000Z",
-    "status": "Done",
+    "status": "Open",
     "resolution": "Fixed",
     "issueType": "Task",
     "storyPoints": null,
     "sprintRaw": "",
-    "sourceFile": "2026-02/IRON SMTool - Closed (Swedbank) 2026-02-27T12_19_53+0100.csv",
-    "sourceRow": 80
+    "sourceFile": "2026-02/IRON SMTool - Open (Swedbank) 2026-03-21T09_54_32+0100.csv",
+    "sourceRow": 109
   },
   {
     "issueKey": "CORE-9350",
     "created": "2025-09-09T09:53:00.000Z",
-    "updated": "2026-02-26T13:33:00.000Z",
+    "updated": "2026-03-18T12:49:00.000Z",
     "resolutionDate": "2026-02-26T13:33:00.000Z",
-    "status": "Done",
+    "status": "Open",
     "resolution": "Fixed",
     "issueType": "Task",
     "storyPoints": null,
     "sprintRaw": "",
-    "sourceFile": "2026-02/IRON SMTool - Closed (Swedbank) 2026-02-27T12_19_53+0100.csv",
-    "sourceRow": 81
+    "sourceFile": "2026-02/IRON SMTool - Open (Swedbank) 2026-03-21T09_54_32+0100.csv",
+    "sourceRow": 110
   },
   {
     "issueKey": "CORE-9348",
     "created": "2025-09-09T09:52:00.000Z",
-    "updated": "2026-02-04T11:55:00.000Z",
+    "updated": "2026-03-18T12:50:00.000Z",
     "resolutionDate": "2026-02-04T11:55:00.000Z",
-    "status": "Done",
+    "status": "Open",
     "resolution": "Fixed",
     "issueType": "Task",
     "storyPoints": null,
     "sprintRaw": "",
-    "sourceFile": "2026-02/IRON SMTool - Closed (Swedbank) 2026-02-27T12_19_53+0100.csv",
-    "sourceRow": 82
+    "sourceFile": "2026-02/IRON SMTool - Open (Swedbank) 2026-03-21T09_54_32+0100.csv",
+    "sourceRow": 111
   },
   {
     "issueKey": "CORE-9347",
     "created": "2025-09-09T09:52:00.000Z",
-    "updated": "2026-02-05T13:44:00.000Z",
+    "updated": "2026-03-18T12:50:00.000Z",
     "resolutionDate": "2026-02-05T13:44:00.000Z",
-    "status": "Done",
+    "status": "Open",
     "resolution": "Fixed",
     "issueType": "Task",
     "storyPoints": null,
     "sprintRaw": "",
-    "sourceFile": "2026-02/IRON SMTool - Closed (Swedbank) 2026-02-27T12_19_53+0100.csv",
-    "sourceRow": 83
+    "sourceFile": "2026-02/IRON SMTool - Open (Swedbank) 2026-03-21T09_54_32+0100.csv",
+    "sourceRow": 112
   },
   {
     "issueKey": "CORE-9346",
     "created": "2025-09-09T09:51:00.000Z",
-    "updated": "2026-02-04T10:09:00.000Z",
+    "updated": "2026-03-18T12:51:00.000Z",
     "resolutionDate": "2026-02-04T10:09:00.000Z",
-    "status": "Done",
+    "status": "Open",
     "resolution": "Fixed",
     "issueType": "Task",
     "storyPoints": null,
     "sprintRaw": "",
-    "sourceFile": "2026-02/IRON SMTool - Closed (Swedbank) 2026-02-27T12_19_53+0100.csv",
-    "sourceRow": 84
+    "sourceFile": "2026-02/IRON SMTool - Open (Swedbank) 2026-03-21T09_54_32+0100.csv",
+    "sourceRow": 113
   },
   {
     "issueKey": "CORE-9344",
     "created": "2025-09-09T09:51:00.000Z",
-    "updated": "2026-02-25T12:08:00.000Z",
+    "updated": "2026-03-18T12:51:00.000Z",
     "resolutionDate": "2026-02-04T14:49:00.000Z",
-    "status": "Done",
+    "status": "Open",
     "resolution": "Fixed",
     "issueType": "Task",
     "storyPoints": null,
     "sprintRaw": "",
-    "sourceFile": "2026-02/IRON SMTool - Closed (Swedbank) 2026-02-27T12_19_53+0100.csv",
-    "sourceRow": 85
+    "sourceFile": "2026-02/IRON SMTool - Open (Swedbank) 2026-03-21T09_54_32+0100.csv",
+    "sourceRow": 115
   },
   {
     "issueKey": "CORE-9315",
@@ -2451,10 +2451,10 @@
     "status": "Done",
     "resolution": "Fixed",
     "issueType": "Task",
-    "storyPoints": null,
+    "storyPoints": 3,
     "sprintRaw": "",
-    "sourceFile": "2026-02/IRON SMTool - Closed (Swedbank) 2026-02-27T12_19_53+0100.csv",
-    "sourceRow": 86
+    "sourceFile": "2026-02/IRON SMTool - Closed (Swedbank) 2026-03-21T09_54_53+0100.csv",
+    "sourceRow": 96
   },
   {
     "issueKey": "CORE-9306",
@@ -2466,8 +2466,8 @@
     "issueType": "Task",
     "storyPoints": null,
     "sprintRaw": "",
-    "sourceFile": "2026-02/IRON SMTool - Closed (Swedbank) 2026-02-27T12_19_53+0100.csv",
-    "sourceRow": 87
+    "sourceFile": "2026-02/IRON SMTool - Closed (Swedbank) 2026-03-21T09_54_53+0100.csv",
+    "sourceRow": 97
   },
   {
     "issueKey": "CORE-9221",
@@ -2477,10 +2477,10 @@
     "status": "Done",
     "resolution": "Fixed",
     "issueType": "Task",
-    "storyPoints": null,
+    "storyPoints": 3,
     "sprintRaw": "26PI1_3-Iron",
-    "sourceFile": "2026-02/IRON SMTool - Closed (Swedbank) 2026-02-27T12_19_53+0100.csv",
-    "sourceRow": 88
+    "sourceFile": "2026-02/IRON SMTool - Closed (Swedbank) 2026-03-21T09_54_53+0100.csv",
+    "sourceRow": 98
   },
   {
     "issueKey": "CORE-9214",
@@ -2490,10 +2490,10 @@
     "status": "Done",
     "resolution": "Fixed",
     "issueType": "Task",
-    "storyPoints": null,
+    "storyPoints": 2,
     "sprintRaw": "",
-    "sourceFile": "2026-02/IRON SMTool - Closed (Swedbank) 2026-02-27T12_19_53+0100.csv",
-    "sourceRow": 89
+    "sourceFile": "2026-02/IRON SMTool - Closed (Swedbank) 2026-03-21T09_54_53+0100.csv",
+    "sourceRow": 99
   },
   {
     "issueKey": "CORE-9213",
@@ -2503,23 +2503,23 @@
     "status": "Done",
     "resolution": "Fixed",
     "issueType": "Task",
-    "storyPoints": null,
+    "storyPoints": 5,
     "sprintRaw": "26PI1_3-Iron",
-    "sourceFile": "2026-02/IRON SMTool - Closed (Swedbank) 2026-02-27T12_19_53+0100.csv",
-    "sourceRow": 90
+    "sourceFile": "2026-02/IRON SMTool - Closed (Swedbank) 2026-03-21T09_54_53+0100.csv",
+    "sourceRow": 100
   },
   {
     "issueKey": "CORE-9208",
     "created": "2025-08-05T12:31:00.000Z",
-    "updated": "2026-01-23T05:26:00.000Z",
+    "updated": "2026-03-03T10:58:00.000Z",
     "resolutionDate": "2026-01-19T07:17:00.000Z",
     "status": "Done",
     "resolution": "Fixed",
     "issueType": "Task",
-    "storyPoints": null,
+    "storyPoints": 13,
     "sprintRaw": "",
-    "sourceFile": "2026-02/IRON SMTool - Closed (Swedbank) 2026-02-27T12_19_53+0100.csv",
-    "sourceRow": 91
+    "sourceFile": "2026-02/IRON SMTool - Closed (Swedbank) 2026-03-21T09_54_53+0100.csv",
+    "sourceRow": 101
   },
   {
     "issueKey": "CORE-9064",
@@ -2529,10 +2529,10 @@
     "status": "Done",
     "resolution": "Fixed",
     "issueType": "Task",
-    "storyPoints": null,
+    "storyPoints": 10,
     "sprintRaw": "25PI3_IO-Gold,25PI4_1-Gold,25PI4_3-Iron",
-    "sourceFile": "2026-02/IRON SMTool - Closed (Swedbank) 2026-02-27T12_19_53+0100.csv",
-    "sourceRow": 92
+    "sourceFile": "2026-02/IRON SMTool - Closed (Swedbank) 2026-03-21T09_54_53+0100.csv",
+    "sourceRow": 102
   },
   {
     "issueKey": "CORE-8929",
@@ -2544,8 +2544,8 @@
     "issueType": "Task",
     "storyPoints": null,
     "sprintRaw": "",
-    "sourceFile": "2026-02/IRON SMTool - Closed (Swedbank) 2026-02-27T12_19_53+0100.csv",
-    "sourceRow": 93
+    "sourceFile": "2026-02/IRON SMTool - Closed (Swedbank) 2026-03-21T09_54_53+0100.csv",
+    "sourceRow": 103
   },
   {
     "issueKey": "CORE-8798",
@@ -2557,8 +2557,8 @@
     "issueType": "Task",
     "storyPoints": null,
     "sprintRaw": "25PI3_3-Gold,25PI3_IO-Gold,25PI4_1-Gold,25PI4_2-Gold",
-    "sourceFile": "2026-02/IRON SMTool - Closed (Swedbank) 2026-02-27T12_19_53+0100.csv",
-    "sourceRow": 94
+    "sourceFile": "2026-02/IRON SMTool - Closed (Swedbank) 2026-03-21T09_54_53+0100.csv",
+    "sourceRow": 104
   },
   {
     "issueKey": "CORE-8445",
@@ -2568,10 +2568,10 @@
     "status": "Done",
     "resolution": "Fixed",
     "issueType": "Task",
-    "storyPoints": null,
+    "storyPoints": 3,
     "sprintRaw": "25PI2_1-Iron,25PI2_2-Iron,25PI2_3-Iron,25PI2_4-Iron,25PI2_5-Iron,25PI3_2-Iron,25PI3_3-Iron,25PI3_IO-Iron,26PI1_3-Iron",
-    "sourceFile": "2026-02/IRON SMTool - Closed (Swedbank) 2026-02-27T12_19_53+0100.csv",
-    "sourceRow": 95
+    "sourceFile": "2026-02/IRON SMTool - Closed (Swedbank) 2026-03-21T09_54_53+0100.csv",
+    "sourceRow": 105
   },
   {
     "issueKey": "CORE-6809",
@@ -2583,7 +2583,891 @@
     "issueType": "Task",
     "storyPoints": null,
     "sprintRaw": "",
-    "sourceFile": "2026-02/IRON SMTool - Closed (Swedbank) 2026-02-27T12_19_53+0100.csv",
-    "sourceRow": 96
+    "sourceFile": "2026-02/IRON SMTool - Closed (Swedbank) 2026-03-21T09_54_53+0100.csv",
+    "sourceRow": 110
+  },
+  {
+    "issueKey": "CORE-10810",
+    "created": "2026-03-19T08:53:00.000Z",
+    "updated": "2026-03-19T08:53:00.000Z",
+    "resolutionDate": "2026-03-19T08:53:00.000Z",
+    "status": "Open",
+    "resolution": "",
+    "issueType": "Task",
+    "storyPoints": null,
+    "sprintRaw": "",
+    "sourceFile": "2026-02/IRON SMTool - Open (Swedbank) 2026-03-21T09_54_32+0100.csv",
+    "sourceRow": 2
+  },
+  {
+    "issueKey": "CORE-10809",
+    "created": "2026-03-19T06:18:00.000Z",
+    "updated": "2026-03-19T06:18:00.000Z",
+    "resolutionDate": "2026-03-19T06:18:00.000Z",
+    "status": "Open",
+    "resolution": "",
+    "issueType": "Task",
+    "storyPoints": null,
+    "sprintRaw": "",
+    "sourceFile": "2026-02/IRON SMTool - Open (Swedbank) 2026-03-21T09_54_32+0100.csv",
+    "sourceRow": 3
+  },
+  {
+    "issueKey": "CORE-10808",
+    "created": "2026-03-18T13:38:00.000Z",
+    "updated": "2026-03-18T13:44:00.000Z",
+    "resolutionDate": "2026-03-18T13:44:00.000Z",
+    "status": "To Do",
+    "resolution": "",
+    "issueType": "Task",
+    "storyPoints": null,
+    "sprintRaw": "",
+    "sourceFile": "2026-02/IRON SMTool - Open (Swedbank) 2026-03-21T09_54_32+0100.csv",
+    "sourceRow": 4
+  },
+  {
+    "issueKey": "CORE-10805",
+    "created": "2026-03-18T09:46:00.000Z",
+    "updated": "2026-03-18T09:46:00.000Z",
+    "resolutionDate": "2026-03-18T09:46:00.000Z",
+    "status": "Open",
+    "resolution": "",
+    "issueType": "Task",
+    "storyPoints": null,
+    "sprintRaw": "",
+    "sourceFile": "2026-02/IRON SMTool - Open (Swedbank) 2026-03-21T09_54_32+0100.csv",
+    "sourceRow": 5
+  },
+  {
+    "issueKey": "CORE-10804",
+    "created": "2026-03-18T07:45:00.000Z",
+    "updated": "2026-03-19T06:35:00.000Z",
+    "resolutionDate": "2026-03-19T06:35:00.000Z",
+    "status": "To Do",
+    "resolution": "",
+    "issueType": "Story",
+    "storyPoints": 8,
+    "sprintRaw": "26PI2_2-Iron",
+    "sourceFile": "2026-02/IRON SMTool - Open (Swedbank) 2026-03-21T09_54_32+0100.csv",
+    "sourceRow": 6
+  },
+  {
+    "issueKey": "CORE-10803",
+    "created": "2026-03-18T07:00:00.000Z",
+    "updated": "2026-03-20T05:54:00.000Z",
+    "resolutionDate": "2026-03-20T05:54:00.000Z",
+    "status": "Development",
+    "resolution": "",
+    "issueType": "Task",
+    "storyPoints": 1,
+    "sprintRaw": "",
+    "sourceFile": "2026-02/IRON SMTool - Open (Swedbank) 2026-03-21T09_54_32+0100.csv",
+    "sourceRow": 7
+  },
+  {
+    "issueKey": "CORE-10786",
+    "created": "2026-03-17T12:50:00.000Z",
+    "updated": "2026-03-18T08:34:00.000Z",
+    "resolutionDate": "2026-03-18T08:34:00.000Z",
+    "status": "Ready for Testing",
+    "resolution": "",
+    "issueType": "Task",
+    "storyPoints": null,
+    "sprintRaw": "26PI2_1-Iron",
+    "sourceFile": "2026-02/IRON SMTool - Open (Swedbank) 2026-03-21T09_54_32+0100.csv",
+    "sourceRow": 8
+  },
+  {
+    "issueKey": "CORE-10785",
+    "created": "2026-03-17T09:34:00.000Z",
+    "updated": "2026-03-17T09:34:00.000Z",
+    "resolutionDate": "2026-03-17T09:34:00.000Z",
+    "status": "Open",
+    "resolution": "",
+    "issueType": "Task",
+    "storyPoints": null,
+    "sprintRaw": "",
+    "sourceFile": "2026-02/IRON SMTool - Open (Swedbank) 2026-03-21T09_54_32+0100.csv",
+    "sourceRow": 9
+  },
+  {
+    "issueKey": "CORE-10776",
+    "created": "2026-03-16T13:24:00.000Z",
+    "updated": "2026-03-17T08:44:00.000Z",
+    "resolutionDate": "2026-03-17T08:44:00.000Z",
+    "status": "Ready for Testing",
+    "resolution": "",
+    "issueType": "Task",
+    "storyPoints": null,
+    "sprintRaw": "",
+    "sourceFile": "2026-02/IRON SMTool - Open (Swedbank) 2026-03-21T09_54_32+0100.csv",
+    "sourceRow": 10
+  },
+  {
+    "issueKey": "CORE-10775",
+    "created": "2026-03-16T09:31:00.000Z",
+    "updated": "2026-03-20T05:55:00.000Z",
+    "resolutionDate": "2026-03-20T05:55:00.000Z",
+    "status": "Analysis",
+    "resolution": "",
+    "issueType": "Task",
+    "storyPoints": null,
+    "sprintRaw": "",
+    "sourceFile": "2026-02/IRON SMTool - Open (Swedbank) 2026-03-21T09_54_32+0100.csv",
+    "sourceRow": 11
+  },
+  {
+    "issueKey": "CORE-10729",
+    "created": "2026-03-13T10:19:00.000Z",
+    "updated": "2026-03-20T06:27:00.000Z",
+    "resolutionDate": "2026-03-20T06:27:00.000Z",
+    "status": "Development",
+    "resolution": "",
+    "issueType": "Task",
+    "storyPoints": 8,
+    "sprintRaw": "26PI2_1-Iron",
+    "sourceFile": "2026-02/IRON SMTool - Open (Swedbank) 2026-03-21T09_54_32+0100.csv",
+    "sourceRow": 12
+  },
+  {
+    "issueKey": "CORE-10726",
+    "created": "2026-03-13T07:59:00.000Z",
+    "updated": "2026-03-19T08:18:00.000Z",
+    "resolutionDate": "2026-03-19T08:18:00.000Z",
+    "status": "To Do",
+    "resolution": "",
+    "issueType": "Task",
+    "storyPoints": 15,
+    "sprintRaw": "",
+    "sourceFile": "2026-02/IRON SMTool - Open (Swedbank) 2026-03-21T09_54_32+0100.csv",
+    "sourceRow": 13
+  },
+  {
+    "issueKey": "CORE-10717",
+    "created": "2026-03-12T11:30:00.000Z",
+    "updated": "2026-03-16T13:21:00.000Z",
+    "resolutionDate": "2026-03-16T13:21:00.000Z",
+    "status": "To Do",
+    "resolution": "",
+    "issueType": "Task",
+    "storyPoints": null,
+    "sprintRaw": "",
+    "sourceFile": "2026-02/IRON SMTool - Open (Swedbank) 2026-03-21T09_54_32+0100.csv",
+    "sourceRow": 14
+  },
+  {
+    "issueKey": "CORE-10708",
+    "created": "2026-03-12T10:07:00.000Z",
+    "updated": "2026-03-19T10:34:00.000Z",
+    "resolutionDate": "2026-03-19T10:34:00.000Z",
+    "status": "To Do",
+    "resolution": "",
+    "issueType": "Task",
+    "storyPoints": 3,
+    "sprintRaw": "",
+    "sourceFile": "2026-02/IRON SMTool - Open (Swedbank) 2026-03-21T09_54_32+0100.csv",
+    "sourceRow": 15
+  },
+  {
+    "issueKey": "CORE-10697",
+    "created": "2026-03-11T13:47:00.000Z",
+    "updated": "2026-03-19T13:48:00.000Z",
+    "resolutionDate": "2026-03-19T13:48:00.000Z",
+    "status": "To Do",
+    "resolution": "",
+    "issueType": "Task",
+    "storyPoints": 2,
+    "sprintRaw": "",
+    "sourceFile": "2026-02/IRON SMTool - Open (Swedbank) 2026-03-21T09_54_32+0100.csv",
+    "sourceRow": 16
+  },
+  {
+    "issueKey": "CORE-10696",
+    "created": "2026-03-11T13:40:00.000Z",
+    "updated": "2026-03-19T13:39:00.000Z",
+    "resolutionDate": "2026-03-19T13:39:00.000Z",
+    "status": "To Do",
+    "resolution": "",
+    "issueType": "Task",
+    "storyPoints": 2,
+    "sprintRaw": "",
+    "sourceFile": "2026-02/IRON SMTool - Open (Swedbank) 2026-03-21T09_54_32+0100.csv",
+    "sourceRow": 17
+  },
+  {
+    "issueKey": "CORE-10695",
+    "created": "2026-03-11T13:26:00.000Z",
+    "updated": "2026-03-19T07:53:00.000Z",
+    "resolutionDate": "2026-03-19T07:53:00.000Z",
+    "status": "To Do",
+    "resolution": "",
+    "issueType": "Task",
+    "storyPoints": 2,
+    "sprintRaw": "",
+    "sourceFile": "2026-02/IRON SMTool - Open (Swedbank) 2026-03-21T09_54_32+0100.csv",
+    "sourceRow": 18
+  },
+  {
+    "issueKey": "CORE-10691",
+    "created": "2026-03-11T08:17:00.000Z",
+    "updated": "2026-03-11T08:22:00.000Z",
+    "resolutionDate": "2026-03-11T08:22:00.000Z",
+    "status": "Open",
+    "resolution": "",
+    "issueType": "Task",
+    "storyPoints": null,
+    "sprintRaw": "",
+    "sourceFile": "2026-02/IRON SMTool - Open (Swedbank) 2026-03-21T09_54_32+0100.csv",
+    "sourceRow": 19
+  },
+  {
+    "issueKey": "CORE-10680",
+    "created": "2026-03-06T12:57:00.000Z",
+    "updated": "2026-03-17T08:06:00.000Z",
+    "resolutionDate": "2026-03-17T08:06:00.000Z",
+    "status": "Refinement",
+    "resolution": "",
+    "issueType": "Task",
+    "storyPoints": null,
+    "sprintRaw": "",
+    "sourceFile": "2026-02/IRON SMTool - Open (Swedbank) 2026-03-21T09_54_32+0100.csv",
+    "sourceRow": 20
+  },
+  {
+    "issueKey": "CORE-10678",
+    "created": "2026-03-06T12:52:00.000Z",
+    "updated": "2026-03-17T08:05:00.000Z",
+    "resolutionDate": "2026-03-17T08:05:00.000Z",
+    "status": "To Do",
+    "resolution": "",
+    "issueType": "Task",
+    "storyPoints": 3,
+    "sprintRaw": "",
+    "sourceFile": "2026-02/IRON SMTool - Open (Swedbank) 2026-03-21T09_54_32+0100.csv",
+    "sourceRow": 21
+  },
+  {
+    "issueKey": "CORE-10672",
+    "created": "2026-03-06T05:52:00.000Z",
+    "updated": "2026-03-17T07:51:00.000Z",
+    "resolutionDate": "2026-03-17T07:51:00.000Z",
+    "status": "To Do",
+    "resolution": "",
+    "issueType": "Task",
+    "storyPoints": 3,
+    "sprintRaw": "",
+    "sourceFile": "2026-02/IRON SMTool - Open (Swedbank) 2026-03-21T09_54_32+0100.csv",
+    "sourceRow": 22
+  },
+  {
+    "issueKey": "CORE-10671",
+    "created": "2026-03-06T05:37:00.000Z",
+    "updated": "2026-03-17T07:51:00.000Z",
+    "resolutionDate": "2026-03-17T07:51:00.000Z",
+    "status": "To Do",
+    "resolution": "",
+    "issueType": "Task",
+    "storyPoints": 3,
+    "sprintRaw": "",
+    "sourceFile": "2026-02/IRON SMTool - Open (Swedbank) 2026-03-21T09_54_32+0100.csv",
+    "sourceRow": 23
+  },
+  {
+    "issueKey": "CORE-10670",
+    "created": "2026-03-06T05:33:00.000Z",
+    "updated": "2026-03-19T13:45:00.000Z",
+    "resolutionDate": "2026-03-19T13:45:00.000Z",
+    "status": "To Do",
+    "resolution": "",
+    "issueType": "Task",
+    "storyPoints": 3,
+    "sprintRaw": "26PI4_5-Iron",
+    "sourceFile": "2026-02/IRON SMTool - Open (Swedbank) 2026-03-21T09_54_32+0100.csv",
+    "sourceRow": 24
+  },
+  {
+    "issueKey": "CORE-10665",
+    "created": "2026-03-05T11:33:00.000Z",
+    "updated": "2026-03-11T11:29:00.000Z",
+    "resolutionDate": "2026-03-11T11:29:00.000Z",
+    "status": "Open",
+    "resolution": "",
+    "issueType": "Bug",
+    "storyPoints": null,
+    "sprintRaw": "",
+    "sourceFile": "2026-02/IRON SMTool - Open (Swedbank) 2026-03-21T09_54_32+0100.csv",
+    "sourceRow": 25
+  },
+  {
+    "issueKey": "CORE-10646",
+    "created": "2026-03-03T10:43:00.000Z",
+    "updated": "2026-03-03T10:44:00.000Z",
+    "resolutionDate": "2026-03-03T10:44:00.000Z",
+    "status": "Open",
+    "resolution": "",
+    "issueType": "Task",
+    "storyPoints": null,
+    "sprintRaw": "",
+    "sourceFile": "2026-02/IRON SMTool - Open (Swedbank) 2026-03-21T09_54_32+0100.csv",
+    "sourceRow": 26
+  },
+  {
+    "issueKey": "CORE-10645",
+    "created": "2026-03-03T10:14:00.000Z",
+    "updated": "2026-03-03T10:43:00.000Z",
+    "resolutionDate": "2026-03-03T10:43:00.000Z",
+    "status": "Open",
+    "resolution": "",
+    "issueType": "Task",
+    "storyPoints": null,
+    "sprintRaw": "",
+    "sourceFile": "2026-02/IRON SMTool - Open (Swedbank) 2026-03-21T09_54_32+0100.csv",
+    "sourceRow": 27
+  },
+  {
+    "issueKey": "CORE-10643",
+    "created": "2026-03-03T07:53:00.000Z",
+    "updated": "2026-03-17T11:14:00.000Z",
+    "resolutionDate": "2026-03-17T11:14:00.000Z",
+    "status": "To Do",
+    "resolution": "",
+    "issueType": "Task",
+    "storyPoints": null,
+    "sprintRaw": "",
+    "sourceFile": "2026-02/IRON SMTool - Open (Swedbank) 2026-03-21T09_54_32+0100.csv",
+    "sourceRow": 28
+  },
+  {
+    "issueKey": "CORE-10619",
+    "created": "2026-02-27T13:17:00.000Z",
+    "updated": "2026-03-12T12:49:00.000Z",
+    "resolutionDate": "2026-03-12T12:49:00.000Z",
+    "status": "Open",
+    "resolution": "",
+    "issueType": "Task",
+    "storyPoints": null,
+    "sprintRaw": "",
+    "sourceFile": "2026-02/IRON SMTool - Open (Swedbank) 2026-03-21T09_54_32+0100.csv",
+    "sourceRow": 29
+  },
+  {
+    "issueKey": "CORE-10618",
+    "created": "2026-02-27T13:11:00.000Z",
+    "updated": "2026-03-20T10:38:00.000Z",
+    "resolutionDate": "2026-03-20T10:38:00.000Z",
+    "status": "Refinement",
+    "resolution": "",
+    "issueType": "Task",
+    "storyPoints": null,
+    "sprintRaw": "",
+    "sourceFile": "2026-02/IRON SMTool - Open (Swedbank) 2026-03-21T09_54_32+0100.csv",
+    "sourceRow": 30
+  },
+  {
+    "issueKey": "CORE-10617",
+    "created": "2026-02-27T13:07:00.000Z",
+    "updated": "2026-03-20T13:39:00.000Z",
+    "resolutionDate": "2026-03-20T13:39:00.000Z",
+    "status": "Open",
+    "resolution": "",
+    "issueType": "Task",
+    "storyPoints": null,
+    "sprintRaw": "",
+    "sourceFile": "2026-02/IRON SMTool - Open (Swedbank) 2026-03-21T09_54_32+0100.csv",
+    "sourceRow": 31
+  },
+  {
+    "issueKey": "CORE-10616",
+    "created": "2026-02-27T13:04:00.000Z",
+    "updated": "2026-03-10T12:56:00.000Z",
+    "resolutionDate": "2026-03-10T12:56:00.000Z",
+    "status": "Analysis",
+    "resolution": "",
+    "issueType": "Task",
+    "storyPoints": null,
+    "sprintRaw": "",
+    "sourceFile": "2026-02/IRON SMTool - Open (Swedbank) 2026-03-21T09_54_32+0100.csv",
+    "sourceRow": 32
+  },
+  {
+    "issueKey": "CORE-10615",
+    "created": "2026-02-27T13:02:00.000Z",
+    "updated": "2026-03-20T13:41:00.000Z",
+    "resolutionDate": "2026-03-20T13:41:00.000Z",
+    "status": "Open",
+    "resolution": "",
+    "issueType": "Task",
+    "storyPoints": null,
+    "sprintRaw": "",
+    "sourceFile": "2026-02/IRON SMTool - Open (Swedbank) 2026-03-21T09_54_32+0100.csv",
+    "sourceRow": 33
+  },
+  {
+    "issueKey": "CORE-10614",
+    "created": "2026-02-27T13:00:00.000Z",
+    "updated": "2026-03-20T10:19:00.000Z",
+    "resolutionDate": "2026-03-20T10:19:00.000Z",
+    "status": "Open",
+    "resolution": "",
+    "issueType": "Task",
+    "storyPoints": null,
+    "sprintRaw": "",
+    "sourceFile": "2026-02/IRON SMTool - Open (Swedbank) 2026-03-21T09_54_32+0100.csv",
+    "sourceRow": 34
+  },
+  {
+    "issueKey": "CORE-10613",
+    "created": "2026-02-27T12:56:00.000Z",
+    "updated": "2026-03-20T08:22:00.000Z",
+    "resolutionDate": "2026-03-20T08:22:00.000Z",
+    "status": "Analysis",
+    "resolution": "",
+    "issueType": "Task",
+    "storyPoints": null,
+    "sprintRaw": "",
+    "sourceFile": "2026-02/IRON SMTool - Open (Swedbank) 2026-03-21T09_54_32+0100.csv",
+    "sourceRow": 35
+  },
+  {
+    "issueKey": "CORE-10578",
+    "created": "2026-02-16T13:41:00.000Z",
+    "updated": "2026-03-19T14:02:00.000Z",
+    "resolutionDate": "2026-03-19T14:02:00.000Z",
+    "status": "To Do",
+    "resolution": "",
+    "issueType": "Task",
+    "storyPoints": 1,
+    "sprintRaw": "26PI1_3-Iron",
+    "sourceFile": "2026-02/IRON SMTool - Open (Swedbank) 2026-03-21T09_54_32+0100.csv",
+    "sourceRow": 38
+  },
+  {
+    "issueKey": "CORE-10577",
+    "created": "2026-02-16T13:16:00.000Z",
+    "updated": "2026-03-19T14:18:00.000Z",
+    "resolutionDate": "2026-03-19T14:18:00.000Z",
+    "status": "To Do",
+    "resolution": "",
+    "issueType": "Task",
+    "storyPoints": 10,
+    "sprintRaw": "26PI3_3-Iron",
+    "sourceFile": "2026-02/IRON SMTool - Open (Swedbank) 2026-03-21T09_54_32+0100.csv",
+    "sourceRow": 39
+  },
+  {
+    "issueKey": "CORE-10576",
+    "created": "2026-02-16T13:15:00.000Z",
+    "updated": "2026-03-19T14:17:00.000Z",
+    "resolutionDate": "2026-03-19T14:17:00.000Z",
+    "status": "To Do",
+    "resolution": "",
+    "issueType": "Task",
+    "storyPoints": 13,
+    "sprintRaw": "26PI3_3-Iron",
+    "sourceFile": "2026-02/IRON SMTool - Open (Swedbank) 2026-03-21T09_54_32+0100.csv",
+    "sourceRow": 40
+  },
+  {
+    "issueKey": "CORE-10574",
+    "created": "2026-02-16T08:55:00.000Z",
+    "updated": "2026-03-17T11:04:00.000Z",
+    "resolutionDate": "2026-03-17T11:04:00.000Z",
+    "status": "To Do",
+    "resolution": "",
+    "issueType": "Story",
+    "storyPoints": 1,
+    "sprintRaw": "26PI2_1-Iron",
+    "sourceFile": "2026-02/IRON SMTool - Open (Swedbank) 2026-03-21T09_54_32+0100.csv",
+    "sourceRow": 42
+  },
+  {
+    "issueKey": "CORE-10573",
+    "created": "2026-02-13T12:33:00.000Z",
+    "updated": "2026-03-18T06:46:00.000Z",
+    "resolutionDate": "2026-03-18T06:46:00.000Z",
+    "status": "To Do",
+    "resolution": "",
+    "issueType": "Task",
+    "storyPoints": 3,
+    "sprintRaw": "",
+    "sourceFile": "2026-02/IRON SMTool - Open (Swedbank) 2026-03-21T09_54_32+0100.csv",
+    "sourceRow": 43
+  },
+  {
+    "issueKey": "CORE-10572",
+    "created": "2026-02-13T12:28:00.000Z",
+    "updated": "2026-03-18T06:46:00.000Z",
+    "resolutionDate": "2026-03-18T06:46:00.000Z",
+    "status": "To Do",
+    "resolution": "",
+    "issueType": "Task",
+    "storyPoints": 3,
+    "sprintRaw": "",
+    "sourceFile": "2026-02/IRON SMTool - Open (Swedbank) 2026-03-21T09_54_32+0100.csv",
+    "sourceRow": 44
+  },
+  {
+    "issueKey": "CORE-10571",
+    "created": "2026-02-13T12:27:00.000Z",
+    "updated": "2026-03-18T06:46:00.000Z",
+    "resolutionDate": "2026-03-18T06:46:00.000Z",
+    "status": "To Do",
+    "resolution": "",
+    "issueType": "Task",
+    "storyPoints": 3,
+    "sprintRaw": "",
+    "sourceFile": "2026-02/IRON SMTool - Open (Swedbank) 2026-03-21T09_54_32+0100.csv",
+    "sourceRow": 45
+  },
+  {
+    "issueKey": "CORE-10570",
+    "created": "2026-02-13T12:25:00.000Z",
+    "updated": "2026-03-18T06:46:00.000Z",
+    "resolutionDate": "2026-03-18T06:46:00.000Z",
+    "status": "To Do",
+    "resolution": "",
+    "issueType": "Task",
+    "storyPoints": 3,
+    "sprintRaw": "",
+    "sourceFile": "2026-02/IRON SMTool - Open (Swedbank) 2026-03-21T09_54_32+0100.csv",
+    "sourceRow": 46
+  },
+  {
+    "issueKey": "CORE-10569",
+    "created": "2026-02-13T12:23:00.000Z",
+    "updated": "2026-03-18T06:46:00.000Z",
+    "resolutionDate": "2026-03-18T06:46:00.000Z",
+    "status": "To Do",
+    "resolution": "",
+    "issueType": "Task",
+    "storyPoints": 3,
+    "sprintRaw": "",
+    "sourceFile": "2026-02/IRON SMTool - Open (Swedbank) 2026-03-21T09_54_32+0100.csv",
+    "sourceRow": 47
+  },
+  {
+    "issueKey": "CORE-10568",
+    "created": "2026-02-13T12:21:00.000Z",
+    "updated": "2026-03-18T06:46:00.000Z",
+    "resolutionDate": "2026-03-18T06:46:00.000Z",
+    "status": "To Do",
+    "resolution": "",
+    "issueType": "Task",
+    "storyPoints": 3,
+    "sprintRaw": "",
+    "sourceFile": "2026-02/IRON SMTool - Open (Swedbank) 2026-03-21T09_54_32+0100.csv",
+    "sourceRow": 48
+  },
+  {
+    "issueKey": "CORE-10567",
+    "created": "2026-02-13T12:20:00.000Z",
+    "updated": "2026-03-18T06:46:00.000Z",
+    "resolutionDate": "2026-03-18T06:46:00.000Z",
+    "status": "To Do",
+    "resolution": "",
+    "issueType": "Task",
+    "storyPoints": 3,
+    "sprintRaw": "",
+    "sourceFile": "2026-02/IRON SMTool - Open (Swedbank) 2026-03-21T09_54_32+0100.csv",
+    "sourceRow": 49
+  },
+  {
+    "issueKey": "CORE-10566",
+    "created": "2026-02-13T12:18:00.000Z",
+    "updated": "2026-03-18T06:46:00.000Z",
+    "resolutionDate": "2026-03-18T06:46:00.000Z",
+    "status": "To Do",
+    "resolution": "",
+    "issueType": "Task",
+    "storyPoints": 3,
+    "sprintRaw": "",
+    "sourceFile": "2026-02/IRON SMTool - Open (Swedbank) 2026-03-21T09_54_32+0100.csv",
+    "sourceRow": 50
+  },
+  {
+    "issueKey": "CORE-10565",
+    "created": "2026-02-13T12:16:00.000Z",
+    "updated": "2026-03-18T06:46:00.000Z",
+    "resolutionDate": "2026-03-18T06:46:00.000Z",
+    "status": "To Do",
+    "resolution": "",
+    "issueType": "Task",
+    "storyPoints": 3,
+    "sprintRaw": "",
+    "sourceFile": "2026-02/IRON SMTool - Open (Swedbank) 2026-03-21T09_54_32+0100.csv",
+    "sourceRow": 51
+  },
+  {
+    "issueKey": "CORE-10564",
+    "created": "2026-02-13T12:15:00.000Z",
+    "updated": "2026-03-18T08:35:00.000Z",
+    "resolutionDate": "2026-03-18T08:35:00.000Z",
+    "status": "Development",
+    "resolution": "",
+    "issueType": "Task",
+    "storyPoints": 3,
+    "sprintRaw": "",
+    "sourceFile": "2026-02/IRON SMTool - Open (Swedbank) 2026-03-21T09_54_32+0100.csv",
+    "sourceRow": 52
+  },
+  {
+    "issueKey": "CORE-10563",
+    "created": "2026-02-13T12:12:00.000Z",
+    "updated": "2026-03-18T06:46:00.000Z",
+    "resolutionDate": "2026-03-18T06:46:00.000Z",
+    "status": "To Do",
+    "resolution": "",
+    "issueType": "Task",
+    "storyPoints": 3,
+    "sprintRaw": "",
+    "sourceFile": "2026-02/IRON SMTool - Open (Swedbank) 2026-03-21T09_54_32+0100.csv",
+    "sourceRow": 53
+  },
+  {
+    "issueKey": "CORE-10562",
+    "created": "2026-02-13T12:08:00.000Z",
+    "updated": "2026-03-17T12:56:00.000Z",
+    "resolutionDate": "2026-03-17T12:56:00.000Z",
+    "status": "To Do",
+    "resolution": "",
+    "issueType": "Task",
+    "storyPoints": null,
+    "sprintRaw": "26PI2_1-Iron",
+    "sourceFile": "2026-02/IRON SMTool - Open (Swedbank) 2026-03-21T09_54_32+0100.csv",
+    "sourceRow": 54
+  },
+  {
+    "issueKey": "CORE-10491",
+    "created": "2026-01-23T07:37:00.000Z",
+    "updated": "2026-03-19T06:58:00.000Z",
+    "resolutionDate": "2026-03-19T06:58:00.000Z",
+    "status": "To Do",
+    "resolution": "",
+    "issueType": "Task",
+    "storyPoints": 1,
+    "sprintRaw": "26PI2_1-Iron",
+    "sourceFile": "2026-02/IRON SMTool - Open (Swedbank) 2026-03-21T09_54_32+0100.csv",
+    "sourceRow": 56
+  },
+  {
+    "issueKey": "CORE-10150",
+    "created": "2025-12-19T09:38:00.000Z",
+    "updated": "2026-03-02T11:55:00.000Z",
+    "resolutionDate": "2026-03-02T11:55:00.000Z",
+    "status": "Refinement",
+    "resolution": "",
+    "issueType": "Story",
+    "storyPoints": 3,
+    "sprintRaw": "",
+    "sourceFile": "2026-02/IRON SMTool - Open (Swedbank) 2026-03-21T09_54_32+0100.csv",
+    "sourceRow": 73
+  },
+  {
+    "issueKey": "CORE-10149",
+    "created": "2025-12-19T09:34:00.000Z",
+    "updated": "2026-03-20T06:12:00.000Z",
+    "resolutionDate": "2026-03-20T06:12:00.000Z",
+    "status": "Refinement",
+    "resolution": "",
+    "issueType": "Story",
+    "storyPoints": 3,
+    "sprintRaw": "",
+    "sourceFile": "2026-02/IRON SMTool - Open (Swedbank) 2026-03-21T09_54_32+0100.csv",
+    "sourceRow": 74
+  },
+  {
+    "issueKey": "CORE-6433",
+    "created": "2023-04-20T05:32:00.000Z",
+    "updated": "2026-03-12T13:42:00.000Z",
+    "resolutionDate": "2026-03-12T13:42:00.000Z",
+    "status": "Refinement",
+    "resolution": "",
+    "issueType": "Task",
+    "storyPoints": null,
+    "sprintRaw": "",
+    "sourceFile": "2026-02/IRON SMTool - Open (Swedbank) 2026-03-21T09_54_32+0100.csv",
+    "sourceRow": 147
+  },
+  {
+    "issueKey": "CORE-10774",
+    "created": "2026-03-16T07:04:00.000Z",
+    "updated": "2026-03-18T04:37:00.000Z",
+    "resolutionDate": "2026-03-18T04:37:00.000Z",
+    "status": "Done",
+    "resolution": "Fixed",
+    "issueType": "Task",
+    "storyPoints": null,
+    "sprintRaw": "",
+    "sourceFile": "2026-02/IRON SMTool - Closed (Swedbank) 2026-03-21T09_54_53+0100.csv",
+    "sourceRow": 2
+  },
+  {
+    "issueKey": "CORE-10773",
+    "created": "2026-03-16T07:03:00.000Z",
+    "updated": "2026-03-18T04:42:00.000Z",
+    "resolutionDate": "2026-03-18T04:42:00.000Z",
+    "status": "Done",
+    "resolution": "Fixed",
+    "issueType": "Task",
+    "storyPoints": null,
+    "sprintRaw": "",
+    "sourceFile": "2026-02/IRON SMTool - Closed (Swedbank) 2026-03-21T09_54_53+0100.csv",
+    "sourceRow": 3
+  },
+  {
+    "issueKey": "CORE-10731",
+    "created": "2026-03-13T10:36:00.000Z",
+    "updated": "2026-03-16T12:17:00.000Z",
+    "resolutionDate": "2026-03-16T12:17:00.000Z",
+    "status": "Done",
+    "resolution": "Done",
+    "issueType": "Task",
+    "storyPoints": null,
+    "sprintRaw": "",
+    "sourceFile": "2026-02/IRON SMTool - Closed (Swedbank) 2026-03-21T09_54_53+0100.csv",
+    "sourceRow": 4
+  },
+  {
+    "issueKey": "CORE-10725",
+    "created": "2026-03-13T07:29:00.000Z",
+    "updated": "2026-03-16T10:51:00.000Z",
+    "resolutionDate": "2026-03-16T06:56:00.000Z",
+    "status": "Done",
+    "resolution": "Fixed",
+    "issueType": "Task",
+    "storyPoints": null,
+    "sprintRaw": "",
+    "sourceFile": "2026-02/IRON SMTool - Closed (Swedbank) 2026-03-21T09_54_53+0100.csv",
+    "sourceRow": 5
+  },
+  {
+    "issueKey": "CORE-10683",
+    "created": "2026-03-09T12:50:00.000Z",
+    "updated": "2026-03-19T08:43:00.000Z",
+    "resolutionDate": "2026-03-19T08:43:00.000Z",
+    "status": "Done",
+    "resolution": "Fixed",
+    "issueType": "Task",
+    "storyPoints": 3,
+    "sprintRaw": "",
+    "sourceFile": "2026-02/IRON SMTool - Closed (Swedbank) 2026-03-21T09_54_53+0100.csv",
+    "sourceRow": 6
+  },
+  {
+    "issueKey": "CORE-10668",
+    "created": "2026-03-05T12:33:00.000Z",
+    "updated": "2026-03-20T11:03:00.000Z",
+    "resolutionDate": "2026-03-20T07:42:00.000Z",
+    "status": "Done",
+    "resolution": "Done",
+    "issueType": "Task",
+    "storyPoints": 1,
+    "sprintRaw": "",
+    "sourceFile": "2026-02/IRON SMTool - Closed (Swedbank) 2026-03-21T09_54_53+0100.csv",
+    "sourceRow": 7
+  },
+  {
+    "issueKey": "CORE-10666",
+    "created": "2026-03-05T11:35:00.000Z",
+    "updated": "2026-03-10T07:40:00.000Z",
+    "resolutionDate": "2026-03-10T07:40:00.000Z",
+    "status": "Done",
+    "resolution": "Done",
+    "issueType": "Task",
+    "storyPoints": null,
+    "sprintRaw": "",
+    "sourceFile": "2026-02/IRON SMTool - Closed (Swedbank) 2026-03-21T09_54_53+0100.csv",
+    "sourceRow": 8
+  },
+  {
+    "issueKey": "CORE-10649",
+    "created": "2026-03-04T06:40:00.000Z",
+    "updated": "2026-03-06T07:59:00.000Z",
+    "resolutionDate": "2026-03-06T07:56:00.000Z",
+    "status": "Done",
+    "resolution": "Done",
+    "issueType": "Task",
+    "storyPoints": null,
+    "sprintRaw": "",
+    "sourceFile": "2026-02/IRON SMTool - Closed (Swedbank) 2026-03-21T09_54_53+0100.csv",
+    "sourceRow": 9
+  },
+  {
+    "issueKey": "CORE-10642",
+    "created": "2026-03-03T07:24:00.000Z",
+    "updated": "2026-03-17T06:45:00.000Z",
+    "resolutionDate": "2026-03-17T06:45:00.000Z",
+    "status": "Done",
+    "resolution": "Fixed",
+    "issueType": "Task",
+    "storyPoints": null,
+    "sprintRaw": "",
+    "sourceFile": "2026-02/IRON SMTool - Closed (Swedbank) 2026-03-21T09_54_53+0100.csv",
+    "sourceRow": 10
+  },
+  {
+    "issueKey": "CORE-10612",
+    "created": "2026-02-27T12:53:00.000Z",
+    "updated": "2026-03-04T04:49:00.000Z",
+    "resolutionDate": "2026-03-04T04:49:00.000Z",
+    "status": "Done",
+    "resolution": "Fixed",
+    "issueType": "Task",
+    "storyPoints": null,
+    "sprintRaw": "",
+    "sourceFile": "2026-02/IRON SMTool - Closed (Swedbank) 2026-03-21T09_54_53+0100.csv",
+    "sourceRow": 11
+  },
+  {
+    "issueKey": "CORE-10610",
+    "created": "2026-02-27T12:07:00.000Z",
+    "updated": "2026-03-03T05:58:00.000Z",
+    "resolutionDate": "2026-03-03T05:58:00.000Z",
+    "status": "Done",
+    "resolution": "Fixed",
+    "issueType": "Task",
+    "storyPoints": null,
+    "sprintRaw": "",
+    "sourceFile": "2026-02/IRON SMTool - Closed (Swedbank) 2026-03-21T09_54_53+0100.csv",
+    "sourceRow": 12
+  },
+  {
+    "issueKey": "CORE-10609",
+    "created": "2026-02-27T11:46:00.000Z",
+    "updated": "2026-03-03T05:10:00.000Z",
+    "resolutionDate": "2026-03-03T05:10:00.000Z",
+    "status": "Done",
+    "resolution": "Fixed",
+    "issueType": "Task",
+    "storyPoints": null,
+    "sprintRaw": "",
+    "sourceFile": "2026-02/IRON SMTool - Closed (Swedbank) 2026-03-21T09_54_53+0100.csv",
+    "sourceRow": 13
+  },
+  {
+    "issueKey": "CORE-10608",
+    "created": "2026-02-27T11:06:00.000Z",
+    "updated": "2026-03-03T05:05:00.000Z",
+    "resolutionDate": "2026-03-03T05:05:00.000Z",
+    "status": "Done",
+    "resolution": "Fixed",
+    "issueType": "Task",
+    "storyPoints": null,
+    "sprintRaw": "",
+    "sourceFile": "2026-02/IRON SMTool - Closed (Swedbank) 2026-03-21T09_54_53+0100.csv",
+    "sourceRow": 14
+  },
+  {
+    "issueKey": "CORE-10606",
+    "created": "2026-02-27T10:54:00.000Z",
+    "updated": "2026-03-03T04:58:00.000Z",
+    "resolutionDate": "2026-03-03T04:58:00.000Z",
+    "status": "Done",
+    "resolution": "Fixed",
+    "issueType": "Task",
+    "storyPoints": null,
+    "sprintRaw": "",
+    "sourceFile": "2026-02/IRON SMTool - Closed (Swedbank) 2026-03-21T09_54_53+0100.csv",
+    "sourceRow": 15
   }
 ]

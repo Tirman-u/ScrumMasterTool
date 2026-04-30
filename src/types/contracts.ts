@@ -31,6 +31,43 @@ export interface VelocityConfig {
 
 export interface BugConfig {
   issueTypes?: string[];
+  defaultStoryPoints?: number;
+}
+
+export interface SprintScopeConfig {
+  statuses?: string[];
+}
+
+export interface WorkflowConfig {
+  backlogStatuses?: string[];
+  activeStatuses?: string[];
+}
+
+export type SafeEntityType =
+  | "team"
+  | "agile-release-train"
+  | "development-value-stream"
+  | "operational-value-stream"
+  | "solution-train"
+  | "portfolio";
+
+export type SafeMetricId =
+  | "business-outcomes"
+  | "flow-time"
+  | "flow-velocity"
+  | "flow-load"
+  | "flow-efficiency"
+  | "flow-predictability"
+  | "flow-distribution"
+  | "art-predictability"
+  | "built-in-quality"
+  | "competency-assessment"
+  | "employee-engagement";
+
+export interface SafeConfig {
+  enabled: boolean;
+  entityType: SafeEntityType;
+  metricIds?: SafeMetricId[];
 }
 
 export interface CsvMapping {
@@ -53,7 +90,10 @@ export interface TeamConfig {
   mapping: CsvMapping;
   velocityConfig?: VelocityConfig;
   bugConfig?: BugConfig;
+  sprintScopeConfig?: SprintScopeConfig;
+  workflowConfig?: WorkflowConfig;
   excludedIssueKeys?: string[];
+  safeConfig?: SafeConfig;
 }
 
 export interface WorkspaceProfileConfig {
@@ -62,11 +102,18 @@ export interface WorkspaceProfileConfig {
   teamIds: string[];
 }
 
+export type MetricScope = "team" | "value-stream" | "art";
+
+export interface WorkspaceMetricConfig {
+  scopeVisibility?: Partial<Record<MetricScope, string[]>>;
+}
+
 export interface WorkspaceConfig {
   version?: number;
   name?: string;
   profiles?: WorkspaceProfileConfig[];
   activeProfileId?: string;
+  metricConfig?: WorkspaceMetricConfig;
 }
 
 export interface ParsedIssue {

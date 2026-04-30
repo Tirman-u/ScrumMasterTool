@@ -7,8 +7,7 @@
       "name": "Workspace 1",
       "teamIds": [
         "BalticWebKanban",
-        "BalticWebScrum",
-        "IbankService"
+        "BalticWebScrum"
       ]
     },
     {
@@ -16,9 +15,92 @@
       "name": "IRON/Gold",
       "teamIds": [
         "Gold",
-        "Iron"
+        "Iron",
+        "payment-vde-program-epic",
+        "payments-baltics-feature"
+      ]
+    },
+    {
+      "id": "payments",
+      "name": "Payments",
+      "teamIds": [
+        "chillpay",
+        "orion",
+        "payment-vde-program-epic",
+        "payments-baltics-feature",
+        "void",
+        "calisto",
+        "smartpay",
+        "solaris",
+        "e-pay",
+        "paylynx"
       ]
     }
   ],
-  "activeProfileId": "iron-gold"
+  "activeProfileId": "payments",
+  "metricConfig": {
+    "scopeVisibility": {
+      "team": [
+        "health-check",
+        "stories-done",
+        "avg-cycle-time",
+        "sle-p85",
+        "velocity",
+        "wip-age-risk",
+        "bug-ratio",
+        "throughput",
+        "sprint-work",
+        "flow-balance",
+        "throughput-stability",
+        "lead-time-by-type",
+        "flow-efficiency",
+        "queue-time",
+        "bottleneck-trend",
+        "wip-heatmap",
+        "aging-wip",
+        "bottleneck",
+        "time-in-status",
+        "data-monitor",
+        "detailed-table",
+        "forecast",
+        "sprint-predictability"
+      ],
+      "value-stream": [
+        "health-check",
+        "stories-done",
+        "avg-cycle-time",
+        "sle-p85",
+        "wip-age-risk",
+        "forecast",
+        "throughput",
+        "flow-balance",
+        "lead-time-by-type",
+        "flow-efficiency",
+        "queue-time",
+        "bottleneck-trend",
+        "wip-heatmap",
+        "bottleneck",
+        "data-monitor"
+      ],
+      "art": [
+        "health-check",
+        "stories-done",
+        "avg-cycle-time",
+        "sle-p85",
+        "velocity",
+        "wip-age-risk",
+        "forecast",
+        "bug-ratio",
+        "throughput",
+        "sprint-predictability",
+        "flow-balance",
+        "throughput-stability",
+        "flow-efficiency",
+        "queue-time",
+        "bottleneck-trend",
+        "bottleneck",
+        "data-monitor"
+      ]
+    }
+  }
 }

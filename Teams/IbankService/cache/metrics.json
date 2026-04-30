@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-02-27T13:30:37.359Z",
+  "generatedAt": "2026-04-29T09:08:46.723Z",
   "teamName": "IbankService",
   "totalImportedRows": 180,
   "uniqueIssues": 161,
@@ -24,28 +24,28 @@
     28.943055555555556,
     98.0423611111111,
     35.08263888888889,
-    19.84722222222222,
-    20.068055555555556,
-    49.94305555555555,
-    135.10972222222222,
-    25.78263888888889,
+    19.846527777777776,
+    3.0027777777777778,
+    34.825694444444444,
+    4.199305555555556,
+    9.865972222222222,
     61.80902777777778,
-    3.1993055555555556,
+    3.1666666666666665,
     30.474305555555556,
-    0.07222222222222222,
-    80.86319444444445,
-    101.07708333333333,
-    102.96180555555556,
-    144.98263888888889,
-    144.98333333333332,
-    144.98333333333332,
-    94.03194444444445,
-    139.16666666666666,
-    144.98333333333332,
-    144.98472222222222,
-    67.99861111111112,
-    5.067361111111111,
-    33.05972222222222,
+    0.0625,
+    47.99722222222221,
+    47.87708333333333,
+    39.91458333333333,
+    115.89999999999999,
+    116.9625,
+    75.87430555555555,
+    80.00625,
+    118.9375,
+    56.10277777777778,
+    61.041666666666664,
+    41.04583333333333,
+    5.011111111111111,
+    33.05763888888889,
     0.17847222222222223,
     0.14722222222222223,
     0.7145833333333333,
@@ -70,80 +70,80 @@
     1.1222222222222222,
     1.1590277777777778,
     64.86875,
-    15.266666666666667,
-    3.042361111111111,
-    6.954166666666667,
-    11.560416666666667,
-    12.876388888888888,
-    45.99861111111111,
+    0.7645833333333333,
+    3.040972222222222,
+    0.0006944444444444445,
+    0.03194444444444444,
+    0.50625,
+    45.99722222222222,
     0,
     75.95416666666667,
-    78.99583333333334,
-    10.82013888888889,
+    14.978472222222221,
+    0.03819444444444445,
     0,
     0.029166666666666667,
-    49.01111111111111,
-    11.036805555555556,
+    3.1236111111111113,
+    0.12986111111111112,
     27.009027777777778,
-    20.535416666666666,
-    19.507638888888888,
-    20.22361111111111,
-    20.73611111111111,
-    85.04444444444445,
-    20.87152777777778,
-    0.8055555555555556,
-    5.022916666666666,
+    11.75763888888889,
+    12.888194444444444,
+    11.215972222222222,
+    11.96875,
+    85.04027777777779,
+    7.889583333333333,
+    0.8034722222222221,
+    2.203472222222222,
     37.50555555555555,
     57.580555555555556,
-    7.645833333333333,
-    37.625,
-    71.4173611111111,
-    91.55069444444445,
-    92.35555555555555,
-    117.56458333333333,
+    2.078472222222222,
+    4.20625,
+    55.775000000000006,
+    20.888194444444444,
+    13.82638888888889,
+    3.0263888888888886,
     2.654861111111111,
     91.88888888888889,
-    9.943055555555556,
-    0.24375,
+    0.6902777777777778,
+    0.027777777777777776,
     27.904166666666665,
     31.030555555555555,
     37.9625,
     127.99305555555556,
-    15.852777777777778,
-    20.8375,
-    20.83888888888889,
-    20.840972222222224,
-    20.845833333333335,
-    20.84861111111111,
-    20.852083333333333,
-    28.863194444444446,
-    91.85,
-    2.0701388888888888,
+    0.041666666666666664,
+    0.8694444444444445,
+    0.8472222222222223,
+    0.8701388888888889,
+    0.8701388888888888,
+    0.8701388888888889,
+    0.8708333333333333,
+    4.033333333333333,
+    68.60902777777778,
+    1.9090277777777778,
     27.488194444444446,
     28.499305555555555,
-    7.008333333333334,
-    28.966666666666665,
-    28.04652777777778,
-    28.113194444444446,
-    29.005555555555556,
+    0.10902777777777778,
+    22.9125,
+    4.886111111111111,
+    1.175,
+    1.9777777777777779,
     8.258333333333333,
-    8.08611111111111,
-    8.098611111111111,
-    8.149305555555555,
-    8.1625,
-    8.23611111111111,
-    8.245833333333334,
-    13.052777777777777,
-    29.00138888888889,
+    0.0798611111111111,
+    1.0173611111111112,
+    2.8868055555555556,
+    2.9097222222222223,
+    2.8881944444444443,
+    2.942361111111111,
+    4.999305555555556,
+    6.875,
     0,
     0,
     0,
     0.6708333333333333,
-    30.488194444444446,
-    9.003472222222221,
-    11.956944444444444,
-    3.873611111111111,
-    35.98125,
+    6.745138888888889,
+    0.40902777777777777,
+    6.9840277777777775,
+    3.84375,
+    6.946527777777778,
     36.019444444444446,
     43.91875,
     5.067361111111111,
@@ -158,8 +158,8 @@
     104.89444444444445,
     105.05347222222223,
     105.08541666666666,
-    4.990277777777778,
-    0.26180555555555557,
+    2.2555555555555555,
+    0.2604166666666667,
     37.02986111111111,
     36.548611111111114,
     37.00486111111111,
@@ -168,7 +168,7 @@
     36.731944444444444,
     36.74166666666667
   ],
-  "avgCycleTimeDays": 35.521967736369916,
+  "avgCycleTimeDays": 25.262590579710135,
   "sle": {
     "percentiles": [
       50,
@@ -178,10 +178,10 @@
     ],
     "rounding": "ceil",
     "values": {
-      "p50": 21,
-      "p70": 37,
-      "p85": 86,
-      "p95": 136
+      "p50": 7,
+      "p70": 36,
+      "p85": 59,
+      "p95": 106
     }
   },
   "scatter": [
@@ -296,31 +296,31 @@
     {
       "issueKey": "IBSET-861",
       "resolutionDate": "2026-01-05T08:08:00.000Z",
-      "cycleTimeDays": 19.84722222222222,
+      "cycleTimeDays": 19.846527777777776,
       "issueType": "Bug"
     },
     {
       "issueKey": "IBSET-859",
       "resolutionDate": "2026-01-05T08:11:00.000Z",
-      "cycleTimeDays": 20.068055555555556,
+      "cycleTimeDays": 3.0027777777777778,
       "issueType": "Bug"
     },
     {
       "issueKey": "IBSET-836",
       "resolutionDate": "2026-01-07T07:55:00.000Z",
-      "cycleTimeDays": 49.94305555555555,
+      "cycleTimeDays": 34.825694444444444,
       "issueType": "Task"
     },
     {
       "issueKey": "IBSET-726",
       "resolutionDate": "2026-01-09T12:57:00.000Z",
-      "cycleTimeDays": 135.10972222222222,
+      "cycleTimeDays": 4.199305555555556,
       "issueType": "Task"
     },
     {
       "issueKey": "IBSET-862",
       "resolutionDate": "2026-01-12T08:02:00.000Z",
-      "cycleTimeDays": 25.78263888888889,
+      "cycleTimeDays": 9.865972222222222,
       "issueType": "Task"
     },
     {
@@ -332,7 +332,7 @@
     {
       "issueKey": "IBSET-875",
       "resolutionDate": "2026-01-12T13:57:00.000Z",
-      "cycleTimeDays": 3.1993055555555556,
+      "cycleTimeDays": 3.1666666666666665,
       "issueType": "Task"
     },
     {
@@ -344,85 +344,85 @@
     {
       "issueKey": "IBSET-884",
       "resolutionDate": "2026-01-19T08:25:00.000Z",
-      "cycleTimeDays": 0.07222222222222222,
+      "cycleTimeDays": 0.0625,
       "issueType": "Task"
     },
     {
       "issueKey": "IBSET-806",
       "resolutionDate": "2026-01-19T09:54:00.000Z",
-      "cycleTimeDays": 80.86319444444445,
+      "cycleTimeDays": 47.99722222222221,
       "issueType": "Task"
     },
     {
       "issueKey": "IBSET-784",
       "resolutionDate": "2026-01-19T09:54:00.000Z",
-      "cycleTimeDays": 101.07708333333333,
+      "cycleTimeDays": 47.87708333333333,
       "issueType": "Task"
     },
     {
       "issueKey": "IBSET-782",
       "resolutionDate": "2026-01-19T09:54:00.000Z",
-      "cycleTimeDays": 102.96180555555556,
+      "cycleTimeDays": 39.91458333333333,
       "issueType": "Task"
     },
     {
       "issueKey": "IBSET-733",
       "resolutionDate": "2026-01-19T09:57:00.000Z",
-      "cycleTimeDays": 144.98263888888889,
+      "cycleTimeDays": 115.89999999999999,
       "issueType": "Task"
     },
     {
       "issueKey": "IBSET-731",
       "resolutionDate": "2026-01-19T09:57:00.000Z",
-      "cycleTimeDays": 144.98333333333332,
+      "cycleTimeDays": 116.9625,
       "issueType": "Task"
     },
     {
       "issueKey": "IBSET-730",
       "resolutionDate": "2026-01-19T09:57:00.000Z",
-      "cycleTimeDays": 144.98333333333332,
+      "cycleTimeDays": 75.87430555555555,
       "issueType": "Task"
     },
     {
       "issueKey": "IBSET-792",
       "resolutionDate": "2026-01-19T09:58:00.000Z",
-      "cycleTimeDays": 94.03194444444445,
+      "cycleTimeDays": 80.00625,
       "issueType": "Task"
     },
     {
       "issueKey": "IBSET-745",
       "resolutionDate": "2026-01-19T09:58:00.000Z",
-      "cycleTimeDays": 139.16666666666666,
+      "cycleTimeDays": 118.9375,
       "issueType": "Task"
     },
     {
       "issueKey": "IBSET-735",
       "resolutionDate": "2026-01-19T09:59:00.000Z",
-      "cycleTimeDays": 144.98333333333332,
+      "cycleTimeDays": 56.10277777777778,
       "issueType": "Task"
     },
     {
       "issueKey": "IBSET-729",
       "resolutionDate": "2026-01-19T09:59:00.000Z",
-      "cycleTimeDays": 144.98472222222222,
+      "cycleTimeDays": 61.041666666666664,
       "issueType": "Task"
     },
     {
       "issueKey": "IBSET-828",
       "resolutionDate": "2026-01-19T10:05:00.000Z",
-      "cycleTimeDays": 67.99861111111112,
+      "cycleTimeDays": 41.04583333333333,
       "issueType": "Task"
     },
     {
       "issueKey": "IBSET-879",
       "resolutionDate": "2026-01-19T10:59:00.000Z",
-      "cycleTimeDays": 5.067361111111111,
+      "cycleTimeDays": 5.011111111111111,
       "issueType": "Task"
     },
     {
       "issueKey": "IBSET-863",
       "resolutionDate": "2026-01-20T10:16:00.000Z",
-      "cycleTimeDays": 33.05972222222222,
+      "cycleTimeDays": 33.05763888888889,
       "issueType": "Task"
     },
     {
@@ -572,37 +572,37 @@
     {
       "issueKey": "IBSET-873",
       "resolutionDate": "2026-01-22T17:57:00.000Z",
-      "cycleTimeDays": 15.266666666666667,
+      "cycleTimeDays": 0.7645833333333333,
       "issueType": "Task"
     },
     {
       "issueKey": "IBSET-914",
       "resolutionDate": "2026-01-23T11:26:00.000Z",
-      "cycleTimeDays": 3.042361111111111,
+      "cycleTimeDays": 3.040972222222222,
       "issueType": "Task"
     },
     {
       "issueKey": "IBSET-904",
       "resolutionDate": "2026-01-27T07:26:00.000Z",
-      "cycleTimeDays": 6.954166666666667,
+      "cycleTimeDays": 0.0006944444444444445,
       "issueType": "Task"
     },
     {
       "issueKey": "IBSET-882",
       "resolutionDate": "2026-01-27T07:27:00.000Z",
-      "cycleTimeDays": 11.560416666666667,
+      "cycleTimeDays": 0.03194444444444444,
       "issueType": "Task"
     },
     {
       "issueKey": "IBSET-880",
       "resolutionDate": "2026-01-27T07:27:00.000Z",
-      "cycleTimeDays": 12.876388888888888,
+      "cycleTimeDays": 0.50625,
       "issueType": "Task"
     },
     {
       "issueKey": "IBSET-853",
       "resolutionDate": "2026-01-27T08:01:00.000Z",
-      "cycleTimeDays": 45.99861111111111,
+      "cycleTimeDays": 45.99722222222222,
       "issueType": "Task"
     },
     {
@@ -620,13 +620,13 @@
     {
       "issueKey": "IBSET-820",
       "resolutionDate": "2026-01-30T08:46:00.000Z",
-      "cycleTimeDays": 78.99583333333334,
+      "cycleTimeDays": 14.978472222222221,
       "issueType": "Task"
     },
     {
       "issueKey": "IBSET-930",
       "resolutionDate": "2026-02-02T13:38:00.000Z",
-      "cycleTimeDays": 10.82013888888889,
+      "cycleTimeDays": 0.03819444444444445,
       "issueType": "Task"
     },
     {
@@ -644,13 +644,13 @@
     {
       "issueKey": "IBSET-866",
       "resolutionDate": "2026-02-05T12:46:00.000Z",
-      "cycleTimeDays": 49.01111111111111,
+      "cycleTimeDays": 3.1236111111111113,
       "issueType": "Task"
     },
     {
       "issueKey": "IBSET-937",
       "resolutionDate": "2026-02-06T12:26:00.000Z",
-      "cycleTimeDays": 11.036805555555556,
+      "cycleTimeDays": 0.12986111111111112,
       "issueType": "Task"
     },
     {
@@ -662,49 +662,49 @@
     {
       "issueKey": "IBSET-887",
       "resolutionDate": "2026-02-09T08:10:00.000Z",
-      "cycleTimeDays": 20.535416666666666,
+      "cycleTimeDays": 11.75763888888889,
       "issueType": "Task"
     },
     {
       "issueKey": "IBSET-929",
       "resolutionDate": "2026-02-09T08:11:00.000Z",
-      "cycleTimeDays": 19.507638888888888,
+      "cycleTimeDays": 12.888194444444444,
       "issueType": "Task"
     },
     {
       "issueKey": "IBSET-896",
       "resolutionDate": "2026-02-09T13:16:00.000Z",
-      "cycleTimeDays": 20.22361111111111,
+      "cycleTimeDays": 11.215972222222222,
       "issueType": "Task"
     },
     {
       "issueKey": "IBSET-891",
       "resolutionDate": "2026-02-09T13:18:00.000Z",
-      "cycleTimeDays": 20.73611111111111,
+      "cycleTimeDays": 11.96875,
       "issueType": "Task"
     },
     {
       "issueKey": "IBSET-832",
       "resolutionDate": "2026-02-10T10:24:00.000Z",
-      "cycleTimeDays": 85.04444444444445,
+      "cycleTimeDays": 85.04027777777779,
       "issueType": "Bug"
     },
     {
       "issueKey": "IBSET-916",
       "resolutionDate": "2026-02-10T10:25:00.000Z",
-      "cycleTimeDays": 20.87152777777778,
+      "cycleTimeDays": 7.889583333333333,
       "issueType": "Task"
     },
     {
       "issueKey": "IBSET-957",
       "resolutionDate": "2026-02-11T06:27:00.000Z",
-      "cycleTimeDays": 0.8055555555555556,
+      "cycleTimeDays": 0.8034722222222221,
       "issueType": "Task"
     },
     {
       "issueKey": "IBSET-949",
       "resolutionDate": "2026-02-11T12:59:00.000Z",
-      "cycleTimeDays": 5.022916666666666,
+      "cycleTimeDays": 2.203472222222222,
       "issueType": "Task"
     },
     {
@@ -722,37 +722,37 @@
     {
       "issueKey": "IBSET-945",
       "resolutionDate": "2026-02-11T22:49:00.000Z",
-      "cycleTimeDays": 7.645833333333333,
+      "cycleTimeDays": 2.078472222222222,
       "issueType": "Task"
     },
     {
       "issueKey": "IBSET-868",
       "resolutionDate": "2026-02-11T22:49:00.000Z",
-      "cycleTimeDays": 37.625,
+      "cycleTimeDays": 4.20625,
       "issueType": "Task"
     },
     {
       "issueKey": "IBSET-849",
       "resolutionDate": "2026-02-11T22:49:00.000Z",
-      "cycleTimeDays": 71.4173611111111,
+      "cycleTimeDays": 55.775000000000006,
       "issueType": "Bug"
     },
     {
       "issueKey": "IBSET-826",
       "resolutionDate": "2026-02-11T22:49:00.000Z",
-      "cycleTimeDays": 91.55069444444445,
+      "cycleTimeDays": 20.888194444444444,
       "issueType": "Task"
     },
     {
       "issueKey": "IBSET-815",
       "resolutionDate": "2026-02-11T22:49:00.000Z",
-      "cycleTimeDays": 92.35555555555555,
+      "cycleTimeDays": 13.82638888888889,
       "issueType": "Task"
     },
     {
       "issueKey": "IBSET-793",
       "resolutionDate": "2026-02-11T22:49:00.000Z",
-      "cycleTimeDays": 117.56458333333333,
+      "cycleTimeDays": 3.0263888888888886,
       "issueType": "Task"
     },
     {
@@ -770,13 +770,13 @@
     {
       "issueKey": "IBSET-942",
       "resolutionDate": "2026-02-12T12:16:00.000Z",
-      "cycleTimeDays": 9.943055555555556,
+      "cycleTimeDays": 0.6902777777777778,
       "issueType": "Task"
     },
     {
       "issueKey": "IBSET-963",
       "resolutionDate": "2026-02-12T18:07:00.000Z",
-      "cycleTimeDays": 0.24375,
+      "cycleTimeDays": 0.027777777777777776,
       "issueType": "Task"
     },
     {
@@ -806,61 +806,61 @@
     {
       "issueKey": "IBSET-941",
       "resolutionDate": "2026-02-13T07:37:00.000Z",
-      "cycleTimeDays": 15.852777777777778,
+      "cycleTimeDays": 0.041666666666666664,
       "issueType": "Bug"
     },
     {
       "issueKey": "IBSET-936",
       "resolutionDate": "2026-02-13T07:37:00.000Z",
-      "cycleTimeDays": 20.8375,
+      "cycleTimeDays": 0.8694444444444445,
       "issueType": "Bug"
     },
     {
       "issueKey": "IBSET-935",
       "resolutionDate": "2026-02-13T07:37:00.000Z",
-      "cycleTimeDays": 20.83888888888889,
+      "cycleTimeDays": 0.8472222222222223,
       "issueType": "Bug"
     },
     {
       "issueKey": "IBSET-934",
       "resolutionDate": "2026-02-13T07:37:00.000Z",
-      "cycleTimeDays": 20.840972222222224,
+      "cycleTimeDays": 0.8701388888888889,
       "issueType": "Bug"
     },
     {
       "issueKey": "IBSET-933",
       "resolutionDate": "2026-02-13T07:37:00.000Z",
-      "cycleTimeDays": 20.845833333333335,
+      "cycleTimeDays": 0.8701388888888888,
       "issueType": "Bug"
     },
     {
       "issueKey": "IBSET-932",
       "resolutionDate": "2026-02-13T07:37:00.000Z",
-      "cycleTimeDays": 20.84861111111111,
+      "cycleTimeDays": 0.8701388888888889,
       "issueType": "Bug"
     },
     {
       "issueKey": "IBSET-931",
       "resolutionDate": "2026-02-13T07:37:00.000Z",
-      "cycleTimeDays": 20.852083333333333,
+      "cycleTimeDays": 0.8708333333333333,
       "issueType": "Bug"
     },
     {
       "issueKey": "IBSET-881",
       "resolutionDate": "2026-02-13T07:37:00.000Z",
-      "cycleTimeDays": 28.863194444444446,
+      "cycleTimeDays": 4.033333333333333,
       "issueType": "Bug"
     },
     {
       "issueKey": "IBSET-831",
       "resolutionDate": "2026-02-13T07:37:00.000Z",
-      "cycleTimeDays": 91.85,
+      "cycleTimeDays": 68.60902777777778,
       "issueType": "Bug"
     },
     {
       "issueKey": "IBSET-961",
       "resolutionDate": "2026-02-13T10:06:00.000Z",
-      "cycleTimeDays": 2.0701388888888888,
+      "cycleTimeDays": 1.9090277777777778,
       "issueType": "Task"
     },
     {
@@ -878,31 +878,31 @@
     {
       "issueKey": "IBSET-952",
       "resolutionDate": "2026-02-17T07:16:00.000Z",
-      "cycleTimeDays": 7.008333333333334,
+      "cycleTimeDays": 0.10902777777777778,
       "issueType": "Bug"
     },
     {
       "issueKey": "IBSET-885",
       "resolutionDate": "2026-02-17T07:16:00.000Z",
-      "cycleTimeDays": 28.966666666666665,
+      "cycleTimeDays": 22.9125,
       "issueType": "Bug"
     },
     {
       "issueKey": "IBSET-898",
       "resolutionDate": "2026-02-17T09:02:00.000Z",
-      "cycleTimeDays": 28.04652777777778,
+      "cycleTimeDays": 4.886111111111111,
       "issueType": "Task"
     },
     {
       "issueKey": "IBSET-910",
       "resolutionDate": "2026-02-17T11:44:00.000Z",
-      "cycleTimeDays": 28.113194444444446,
+      "cycleTimeDays": 1.175,
       "issueType": "Task"
     },
     {
       "issueKey": "IBSET-912",
       "resolutionDate": "2026-02-18T09:27:00.000Z",
-      "cycleTimeDays": 29.005555555555556,
+      "cycleTimeDays": 1.9777777777777779,
       "issueType": "Task"
     },
     {
@@ -914,49 +914,49 @@
     {
       "issueKey": "IBSET-959",
       "resolutionDate": "2026-02-18T13:37:00.000Z",
-      "cycleTimeDays": 8.08611111111111,
+      "cycleTimeDays": 0.0798611111111111,
       "issueType": "Bug"
     },
     {
       "issueKey": "IBSET-958",
       "resolutionDate": "2026-02-18T13:37:00.000Z",
-      "cycleTimeDays": 8.098611111111111,
+      "cycleTimeDays": 1.0173611111111112,
       "issueType": "Bug"
     },
     {
       "issueKey": "IBSET-956",
       "resolutionDate": "2026-02-18T13:37:00.000Z",
-      "cycleTimeDays": 8.149305555555555,
+      "cycleTimeDays": 2.8868055555555556,
       "issueType": "Bug"
     },
     {
       "issueKey": "IBSET-955",
       "resolutionDate": "2026-02-18T13:37:00.000Z",
-      "cycleTimeDays": 8.1625,
+      "cycleTimeDays": 2.9097222222222223,
       "issueType": "Bug"
     },
     {
       "issueKey": "IBSET-954",
       "resolutionDate": "2026-02-18T13:37:00.000Z",
-      "cycleTimeDays": 8.23611111111111,
+      "cycleTimeDays": 2.8881944444444443,
       "issueType": "Bug"
     },
     {
       "issueKey": "IBSET-953",
       "resolutionDate": "2026-02-18T13:37:00.000Z",
-      "cycleTimeDays": 8.245833333333334,
+      "cycleTimeDays": 2.942361111111111,
       "issueType": "Bug"
     },
     {
       "issueKey": "IBSET-948",
       "resolutionDate": "2026-02-18T13:37:00.000Z",
-      "cycleTimeDays": 13.052777777777777,
+      "cycleTimeDays": 4.999305555555556,
       "issueType": "Task"
     },
     {
       "issueKey": "IBSET-917",
       "resolutionDate": "2026-02-18T13:37:00.000Z",
-      "cycleTimeDays": 29.00138888888889,
+      "cycleTimeDays": 6.875,
       "issueType": "Task"
     },
     {
@@ -986,31 +986,31 @@
     {
       "issueKey": "IBSET-918",
       "resolutionDate": "2026-02-20T07:10:00.000Z",
-      "cycleTimeDays": 30.488194444444446,
+      "cycleTimeDays": 6.745138888888889,
       "issueType": "Task"
     },
     {
       "issueKey": "IBSET-962",
       "resolutionDate": "2026-02-20T13:04:00.000Z",
-      "cycleTimeDays": 9.003472222222221,
+      "cycleTimeDays": 0.40902777777777777,
       "issueType": "Task"
     },
     {
       "issueKey": "IBSET-960",
       "resolutionDate": "2026-02-23T07:17:00.000Z",
-      "cycleTimeDays": 11.956944444444444,
+      "cycleTimeDays": 6.9840277777777775,
       "issueType": "Task"
     },
     {
       "issueKey": "IBSET-965",
       "resolutionDate": "2026-02-23T08:08:00.000Z",
-      "cycleTimeDays": 3.873611111111111,
+      "cycleTimeDays": 3.84375,
       "issueType": "Task"
     },
     {
       "issueKey": "IBSET-907",
       "resolutionDate": "2026-02-25T08:11:00.000Z",
-      "cycleTimeDays": 35.98125,
+      "cycleTimeDays": 6.946527777777778,
       "issueType": "Task"
     },
     {
@@ -1100,13 +1100,13 @@
     {
       "issueKey": "IBSET-971",
       "resolutionDate": "2026-02-25T12:50:00.000Z",
-      "cycleTimeDays": 4.990277777777778,
+      "cycleTimeDays": 2.2555555555555555,
       "issueType": "Task"
     },
     {
       "issueKey": "IBSET-974",
       "resolutionDate": "2026-02-25T19:07:00.000Z",
-      "cycleTimeDays": 0.26180555555555557,
+      "cycleTimeDays": 0.2604166666666667,
       "issueType": "Task"
     },
     {
@@ -1153,15 +1153,15 @@
     }
   ],
   "scatterOverlay": {
-    "p50": 21,
-    "p70": 37,
-    "p85": 86,
-    "p95": 136
+    "p50": 7,
+    "p70": 36,
+    "p85": 59,
+    "p95": 106
   },
   "velocityMonthly": [
     {
       "month": "2025-05",
-      "value": 4
+      "value": 8
     },
     {
       "month": "2025-07",
@@ -1181,15 +1181,15 @@
     },
     {
       "month": "2025-12",
-      "value": 2
+      "value": 8
     },
     {
       "month": "2026-01",
-      "value": 55
+      "value": 123
     },
     {
       "month": "2026-02",
-      "value": 88
+      "value": 139.5
     }
   ],
   "doneIssueDetails": [
@@ -1198,7 +1198,7 @@
       "resolutionDate": "2026-02-26T12:14:00.000Z",
       "cycleTimeDays": 1.1631944444444444,
       "issueType": "Task",
-      "storyPoints": null,
+      "storyPoints": 1,
       "sprintCount": 1
     },
     {
@@ -1206,7 +1206,7 @@
       "resolutionDate": "2026-02-25T08:28:00.000Z",
       "cycleTimeDays": 1.98125,
       "issueType": "Task",
-      "storyPoints": null,
+      "storyPoints": 1,
       "sprintCount": 1
     },
     {
@@ -1286,7 +1286,7 @@
       "resolutionDate": "2026-02-25T08:32:00.000Z",
       "cycleTimeDays": 29.040972222222223,
       "issueType": "Task",
-      "storyPoints": null,
+      "storyPoints": 2,
       "sprintCount": 3
     },
     {
@@ -1294,7 +1294,7 @@
       "resolutionDate": "2026-02-25T08:32:00.000Z",
       "cycleTimeDays": 35.5375,
       "issueType": "Task",
-      "storyPoints": null,
+      "storyPoints": 3,
       "sprintCount": 2
     },
     {
@@ -1302,7 +1302,7 @@
       "resolutionDate": "2026-02-17T07:16:00.000Z",
       "cycleTimeDays": 27.488194444444446,
       "issueType": "Task",
-      "storyPoints": null,
+      "storyPoints": 1,
       "sprintCount": 1
     },
     {
@@ -1310,7 +1310,7 @@
       "resolutionDate": "2026-02-25T08:32:00.000Z",
       "cycleTimeDays": 35.543055555555554,
       "issueType": "Task",
-      "storyPoints": null,
+      "storyPoints": 3,
       "sprintCount": 1
     },
     {
@@ -1318,7 +1318,7 @@
       "resolutionDate": "2026-02-25T08:32:00.000Z",
       "cycleTimeDays": 35.54375,
       "issueType": "Task",
-      "storyPoints": null,
+      "storyPoints": 3,
       "sprintCount": 2
     },
     {
@@ -1326,7 +1326,7 @@
       "resolutionDate": "2026-02-26T08:39:00.000Z",
       "cycleTimeDays": 36.548611111111114,
       "issueType": "Task",
-      "storyPoints": null,
+      "storyPoints": 3,
       "sprintCount": 1
     },
     {
@@ -1334,7 +1334,7 @@
       "resolutionDate": "2026-02-26T13:17:00.000Z",
       "cycleTimeDays": 36.74166666666667,
       "issueType": "Task",
-      "storyPoints": null,
+      "storyPoints": 3,
       "sprintCount": 1
     },
     {
@@ -1342,7 +1342,7 @@
       "resolutionDate": "2026-01-20T20:48:00.000Z",
       "cycleTimeDays": 0.05486111111111111,
       "issueType": "Task",
-      "storyPoints": null,
+      "storyPoints": 3,
       "sprintCount": 1
     },
     {
@@ -1350,7 +1350,7 @@
       "resolutionDate": "2026-01-20T20:48:00.000Z",
       "cycleTimeDays": 0.05555555555555555,
       "issueType": "Task",
-      "storyPoints": null,
+      "storyPoints": 3,
       "sprintCount": 1
     },
     {
@@ -1358,7 +1358,7 @@
       "resolutionDate": "2026-02-26T13:02:00.000Z",
       "cycleTimeDays": 36.731944444444444,
       "issueType": "Task",
-      "storyPoints": null,
+      "storyPoints": 3,
       "sprintCount": 2
     },
     {
@@ -1366,7 +1366,7 @@
       "resolutionDate": "2026-02-26T12:47:00.000Z",
       "cycleTimeDays": 36.72222222222222,
       "issueType": "Task",
-      "storyPoints": null,
+      "storyPoints": 3,
       "sprintCount": 2
     },
     {
@@ -1374,7 +1374,7 @@
       "resolutionDate": "2026-01-20T20:16:00.000Z",
       "cycleTimeDays": 0.3875,
       "issueType": "Task",
-      "storyPoints": null,
+      "storyPoints": 2,
       "sprintCount": 1
     },
     {
@@ -1390,7 +1390,7 @@
       "resolutionDate": "2026-01-20T20:44:00.000Z",
       "cycleTimeDays": 0.48333333333333334,
       "issueType": "Task",
-      "storyPoints": null,
+      "storyPoints": 3,
       "sprintCount": 1
     },
     {
@@ -1406,7 +1406,7 @@
       "resolutionDate": "2026-02-26T08:45:00.000Z",
       "cycleTimeDays": 37.00486111111111,
       "issueType": "Task",
-      "storyPoints": null,
+      "storyPoints": 5,
       "sprintCount": 1
     },
     {
@@ -1414,7 +1414,7 @@
       "resolutionDate": "2026-01-21T11:32:00.000Z",
       "cycleTimeDays": 1.1222222222222222,
       "issueType": "Task",
-      "storyPoints": null,
+      "storyPoints": 3,
       "sprintCount": 0
     },
     {
@@ -1422,7 +1422,7 @@
       "resolutionDate": "2026-01-20T20:16:00.000Z",
       "cycleTimeDays": 0.5006944444444444,
       "issueType": "Task",
-      "storyPoints": null,
+      "storyPoints": 1,
       "sprintCount": 1
     },
     {
@@ -1430,7 +1430,7 @@
       "resolutionDate": "2026-01-20T20:42:00.000Z",
       "cycleTimeDays": 0.5291666666666667,
       "issueType": "Task",
-      "storyPoints": null,
+      "storyPoints": 3,
       "sprintCount": 1
     },
     {
@@ -1438,7 +1438,7 @@
       "resolutionDate": "2026-02-25T08:32:00.000Z",
       "cycleTimeDays": 36.025,
       "issueType": "Task",
-      "storyPoints": null,
+      "storyPoints": 3,
       "sprintCount": 2
     },
     {
@@ -1446,7 +1446,7 @@
       "resolutionDate": "2026-02-25T08:23:00.000Z",
       "cycleTimeDays": 36.019444444444446,
       "issueType": "Task",
-      "storyPoints": null,
+      "storyPoints": 5,
       "sprintCount": 2
     },
     {
@@ -1454,7 +1454,7 @@
       "resolutionDate": "2026-01-20T20:44:00.000Z",
       "cycleTimeDays": 0.5347222222222222,
       "issueType": "Task",
-      "storyPoints": null,
+      "storyPoints": 3,
       "sprintCount": 1
     },
     {
@@ -1462,7 +1462,7 @@
       "resolutionDate": "2026-02-26T08:36:00.000Z",
       "cycleTimeDays": 37.02986111111111,
       "issueType": "Task",
-      "storyPoints": null,
+      "storyPoints": 5,
       "sprintCount": 2
     },
     {
@@ -1470,7 +1470,7 @@
       "resolutionDate": "2026-01-20T20:42:00.000Z",
       "cycleTimeDays": 0.5375,
       "issueType": "Task",
-      "storyPoints": null,
+      "storyPoints": 3,
       "sprintCount": 1
     },
     {
@@ -1478,7 +1478,7 @@
       "resolutionDate": "2026-01-21T11:32:00.000Z",
       "cycleTimeDays": 1.1590277777777778,
       "issueType": "Task",
-      "storyPoints": null,
+      "storyPoints": 5,
       "sprintCount": 0
     },
     {
@@ -1486,7 +1486,7 @@
       "resolutionDate": "2026-01-20T20:30:00.000Z",
       "cycleTimeDays": 0.5333333333333333,
       "issueType": "Task",
-      "storyPoints": null,
+      "storyPoints": 5,
       "sprintCount": 1
     },
     {
@@ -1494,7 +1494,7 @@
       "resolutionDate": "2026-01-20T20:20:00.000Z",
       "cycleTimeDays": 1.0340277777777778,
       "issueType": "Task",
-      "storyPoints": null,
+      "storyPoints": 0.5,
       "sprintCount": 1
     },
     {
@@ -1502,7 +1502,7 @@
       "resolutionDate": "2026-01-20T20:19:00.000Z",
       "cycleTimeDays": 1.0354166666666667,
       "issueType": "Task",
-      "storyPoints": null,
+      "storyPoints": 0.5,
       "sprintCount": 1
     },
     {
@@ -1518,7 +1518,7 @@
       "resolutionDate": "2026-02-13T07:37:00.000Z",
       "cycleTimeDays": 27.904166666666665,
       "issueType": "Task",
-      "storyPoints": null,
+      "storyPoints": 0.5,
       "sprintCount": 1
     },
     {
@@ -1542,7 +1542,7 @@
       "resolutionDate": "2026-02-13T07:37:00.000Z",
       "cycleTimeDays": 37.9625,
       "issueType": "Task",
-      "storyPoints": null,
+      "storyPoints": 3,
       "sprintCount": 2
     },
     {
@@ -1574,7 +1574,7 @@
       "resolutionDate": "2026-01-21T11:32:00.000Z",
       "cycleTimeDays": 64.86875,
       "issueType": "Task",
-      "storyPoints": null,
+      "storyPoints": 3,
       "sprintCount": 0
     },
     {
@@ -1590,7 +1590,7 @@
       "resolutionDate": "2026-01-20T20:14:00.000Z",
       "cycleTimeDays": 69.38194444444444,
       "issueType": "Task",
-      "storyPoints": null,
+      "storyPoints": 1,
       "sprintCount": 1
     },
     {
@@ -1598,7 +1598,7 @@
       "resolutionDate": "2026-01-27T08:41:00.000Z",
       "cycleTimeDays": 75.95416666666667,
       "issueType": "Task",
-      "storyPoints": null,
+      "storyPoints": 8,
       "sprintCount": 3
     },
     {
@@ -1606,7 +1606,7 @@
       "resolutionDate": "2026-02-12T06:31:00.000Z",
       "cycleTimeDays": 91.88888888888889,
       "issueType": "Task",
-      "storyPoints": null,
+      "storyPoints": 0.5,
       "sprintCount": 2
     },
     {
@@ -1614,7 +1614,7 @@
       "resolutionDate": "2025-12-17T11:09:00.000Z",
       "cycleTimeDays": 35.08263888888889,
       "issueType": "Task",
-      "storyPoints": null,
+      "storyPoints": 5,
       "sprintCount": 2
     },
     {
@@ -1622,7 +1622,7 @@
       "resolutionDate": "2026-01-20T20:43:00.000Z",
       "cycleTimeDays": 69.48819444444445,
       "issueType": "Task",
-      "storyPoints": null,
+      "storyPoints": 1,
       "sprintCount": 1
     },
     {
@@ -1630,7 +1630,7 @@
       "resolutionDate": "2026-02-25T08:32:00.000Z",
       "cycleTimeDays": 105.05347222222223,
       "issueType": "Task",
-      "storyPoints": null,
+      "storyPoints": 1,
       "sprintCount": 2
     },
     {
@@ -1638,7 +1638,7 @@
       "resolutionDate": "2026-02-25T08:32:00.000Z",
       "cycleTimeDays": 105.08541666666666,
       "issueType": "Task",
-      "storyPoints": null,
+      "storyPoints": 1,
       "sprintCount": 5
     },
     {
@@ -1646,7 +1646,7 @@
       "resolutionDate": "2026-01-12T09:46:00.000Z",
       "cycleTimeDays": 61.80902777777778,
       "issueType": "Task",
-      "storyPoints": null,
+      "storyPoints": 3,
       "sprintCount": 1
     },
     {
@@ -1654,7 +1654,7 @@
       "resolutionDate": "2026-02-13T07:37:00.000Z",
       "cycleTimeDays": 127.99305555555556,
       "issueType": "Task",
-      "storyPoints": null,
+      "storyPoints": 5,
       "sprintCount": 3
     },
     {
@@ -1678,7 +1678,7 @@
       "resolutionDate": "2025-12-09T10:06:00.000Z",
       "cycleTimeDays": 98.0423611111111,
       "issueType": "Task",
-      "storyPoints": null,
+      "storyPoints": 3,
       "sprintCount": 4
     },
     {
@@ -1686,7 +1686,7 @@
       "resolutionDate": "2026-01-20T20:23:00.000Z",
       "cycleTimeDays": 146.41736111111112,
       "issueType": "Task",
-      "storyPoints": null,
+      "storyPoints": 1,
       "sprintCount": 3
     },
     {
@@ -1718,7 +1718,7 @@
       "resolutionDate": "2025-09-02T06:47:00.000Z",
       "cycleTimeDays": 6.971527777777778,
       "issueType": "Task",
-      "storyPoints": null,
+      "storyPoints": 1,
       "sprintCount": 1
     },
     {
@@ -1726,7 +1726,7 @@
       "resolutionDate": "2025-08-26T12:10:00.000Z",
       "cycleTimeDays": 0.2326388888888889,
       "issueType": "Task",
-      "storyPoints": null,
+      "storyPoints": 1,
       "sprintCount": 1
     },
     {
@@ -1766,7 +1766,7 @@
       "resolutionDate": "2025-08-20T21:25:00.000Z",
       "cycleTimeDays": 51.52430555555556,
       "issueType": "Task",
-      "storyPoints": null,
+      "storyPoints": 1,
       "sprintCount": 3
     },
     {
@@ -1774,7 +1774,7 @@
       "resolutionDate": "2025-05-26T07:16:00.000Z",
       "cycleTimeDays": 2.9347222222222222,
       "issueType": "Task",
-      "storyPoints": null,
+      "storyPoints": 1,
       "sprintCount": 1
     },
     {
@@ -1782,7 +1782,7 @@
       "resolutionDate": "2025-07-16T21:55:00.000Z",
       "cycleTimeDays": 63.38333333333333,
       "issueType": "Task",
-      "storyPoints": null,
+      "storyPoints": 1,
       "sprintCount": 1
     },
     {
@@ -1790,7 +1790,7 @@
       "resolutionDate": "2025-05-28T09:58:00.000Z",
       "cycleTimeDays": 15.890277777777778,
       "issueType": "Task",
-      "storyPoints": null,
+      "storyPoints": 1,
       "sprintCount": 2
     },
     {
@@ -1798,7 +1798,7 @@
       "resolutionDate": "2025-05-28T07:21:00.000Z",
       "cycleTimeDays": 43.97847222222222,
       "issueType": "Task",
-      "storyPoints": null,
+      "storyPoints": 3,
       "sprintCount": 4
     },
     {
@@ -1814,29 +1814,29 @@
       "resolutionDate": "2025-05-28T09:58:00.000Z",
       "cycleTimeDays": 58.18263888888889,
       "issueType": "Task",
-      "storyPoints": null,
+      "storyPoints": 3,
       "sprintCount": 2
     },
     {
       "issueKey": "IBSET-974",
       "resolutionDate": "2026-02-25T19:07:00.000Z",
-      "cycleTimeDays": 0.26180555555555557,
+      "cycleTimeDays": 0.2604166666666667,
       "issueType": "Task",
-      "storyPoints": null,
+      "storyPoints": 0.25,
       "sprintCount": 1
     },
     {
       "issueKey": "IBSET-971",
       "resolutionDate": "2026-02-25T12:50:00.000Z",
-      "cycleTimeDays": 4.990277777777778,
+      "cycleTimeDays": 2.2555555555555555,
       "issueType": "Task",
-      "storyPoints": null,
+      "storyPoints": 0.25,
       "sprintCount": 1
     },
     {
       "issueKey": "IBSET-965",
       "resolutionDate": "2026-02-23T08:08:00.000Z",
-      "cycleTimeDays": 3.873611111111111,
+      "cycleTimeDays": 3.84375,
       "issueType": "Task",
       "storyPoints": null,
       "sprintCount": 1
@@ -1844,39 +1844,39 @@
     {
       "issueKey": "IBSET-963",
       "resolutionDate": "2026-02-12T18:07:00.000Z",
-      "cycleTimeDays": 0.24375,
+      "cycleTimeDays": 0.027777777777777776,
       "issueType": "Task",
-      "storyPoints": null,
+      "storyPoints": 0.25,
       "sprintCount": 1
     },
     {
       "issueKey": "IBSET-962",
       "resolutionDate": "2026-02-20T13:04:00.000Z",
-      "cycleTimeDays": 9.003472222222221,
+      "cycleTimeDays": 0.40902777777777777,
       "issueType": "Task",
-      "storyPoints": null,
+      "storyPoints": 0.25,
       "sprintCount": 1
     },
     {
       "issueKey": "IBSET-961",
       "resolutionDate": "2026-02-13T10:06:00.000Z",
-      "cycleTimeDays": 2.0701388888888888,
+      "cycleTimeDays": 1.9090277777777778,
       "issueType": "Task",
-      "storyPoints": null,
+      "storyPoints": 1,
       "sprintCount": 1
     },
     {
       "issueKey": "IBSET-960",
       "resolutionDate": "2026-02-23T07:17:00.000Z",
-      "cycleTimeDays": 11.956944444444444,
+      "cycleTimeDays": 6.9840277777777775,
       "issueType": "Task",
-      "storyPoints": null,
+      "storyPoints": 1,
       "sprintCount": 1
     },
     {
       "issueKey": "IBSET-959",
       "resolutionDate": "2026-02-18T13:37:00.000Z",
-      "cycleTimeDays": 8.08611111111111,
+      "cycleTimeDays": 0.0798611111111111,
       "issueType": "Bug",
       "storyPoints": null,
       "sprintCount": 1
@@ -1884,7 +1884,7 @@
     {
       "issueKey": "IBSET-958",
       "resolutionDate": "2026-02-18T13:37:00.000Z",
-      "cycleTimeDays": 8.098611111111111,
+      "cycleTimeDays": 1.0173611111111112,
       "issueType": "Bug",
       "storyPoints": null,
       "sprintCount": 1
@@ -1892,7 +1892,7 @@
     {
       "issueKey": "IBSET-957",
       "resolutionDate": "2026-02-11T06:27:00.000Z",
-      "cycleTimeDays": 0.8055555555555556,
+      "cycleTimeDays": 0.8034722222222221,
       "issueType": "Task",
       "storyPoints": null,
       "sprintCount": 1
@@ -1900,7 +1900,7 @@
     {
       "issueKey": "IBSET-956",
       "resolutionDate": "2026-02-18T13:37:00.000Z",
-      "cycleTimeDays": 8.149305555555555,
+      "cycleTimeDays": 2.8868055555555556,
       "issueType": "Bug",
       "storyPoints": null,
       "sprintCount": 1
@@ -1908,7 +1908,7 @@
     {
       "issueKey": "IBSET-955",
       "resolutionDate": "2026-02-18T13:37:00.000Z",
-      "cycleTimeDays": 8.1625,
+      "cycleTimeDays": 2.9097222222222223,
       "issueType": "Bug",
       "storyPoints": null,
       "sprintCount": 1
@@ -1916,7 +1916,7 @@
     {
       "issueKey": "IBSET-954",
       "resolutionDate": "2026-02-18T13:37:00.000Z",
-      "cycleTimeDays": 8.23611111111111,
+      "cycleTimeDays": 2.8881944444444443,
       "issueType": "Bug",
       "storyPoints": null,
       "sprintCount": 2
@@ -1924,7 +1924,7 @@
     {
       "issueKey": "IBSET-953",
       "resolutionDate": "2026-02-18T13:37:00.000Z",
-      "cycleTimeDays": 8.245833333333334,
+      "cycleTimeDays": 2.942361111111111,
       "issueType": "Bug",
       "storyPoints": null,
       "sprintCount": 2
@@ -1932,7 +1932,7 @@
     {
       "issueKey": "IBSET-952",
       "resolutionDate": "2026-02-17T07:16:00.000Z",
-      "cycleTimeDays": 7.008333333333334,
+      "cycleTimeDays": 0.10902777777777778,
       "issueType": "Bug",
       "storyPoints": null,
       "sprintCount": 2
@@ -1950,29 +1950,29 @@
       "resolutionDate": "2026-02-11T22:51:00.000Z",
       "cycleTimeDays": 2.654861111111111,
       "issueType": "Task",
-      "storyPoints": null,
+      "storyPoints": 0.25,
       "sprintCount": 1
     },
     {
       "issueKey": "IBSET-949",
       "resolutionDate": "2026-02-11T12:59:00.000Z",
-      "cycleTimeDays": 5.022916666666666,
+      "cycleTimeDays": 2.203472222222222,
       "issueType": "Task",
-      "storyPoints": null,
+      "storyPoints": 0.25,
       "sprintCount": 1
     },
     {
       "issueKey": "IBSET-948",
       "resolutionDate": "2026-02-18T13:37:00.000Z",
-      "cycleTimeDays": 13.052777777777777,
+      "cycleTimeDays": 4.999305555555556,
       "issueType": "Task",
-      "storyPoints": null,
+      "storyPoints": 2,
       "sprintCount": 1
     },
     {
       "issueKey": "IBSET-945",
       "resolutionDate": "2026-02-11T22:49:00.000Z",
-      "cycleTimeDays": 7.645833333333333,
+      "cycleTimeDays": 2.078472222222222,
       "issueType": "Task",
       "storyPoints": null,
       "sprintCount": 1
@@ -1988,15 +1988,15 @@
     {
       "issueKey": "IBSET-942",
       "resolutionDate": "2026-02-12T12:16:00.000Z",
-      "cycleTimeDays": 9.943055555555556,
+      "cycleTimeDays": 0.6902777777777778,
       "issueType": "Task",
-      "storyPoints": null,
+      "storyPoints": 0.25,
       "sprintCount": 1
     },
     {
       "issueKey": "IBSET-941",
       "resolutionDate": "2026-02-13T07:37:00.000Z",
-      "cycleTimeDays": 15.852777777777778,
+      "cycleTimeDays": 0.041666666666666664,
       "issueType": "Bug",
       "storyPoints": null,
       "sprintCount": 0
@@ -2004,15 +2004,15 @@
     {
       "issueKey": "IBSET-937",
       "resolutionDate": "2026-02-06T12:26:00.000Z",
-      "cycleTimeDays": 11.036805555555556,
+      "cycleTimeDays": 0.12986111111111112,
       "issueType": "Task",
-      "storyPoints": null,
+      "storyPoints": 0.25,
       "sprintCount": 1
     },
     {
       "issueKey": "IBSET-936",
       "resolutionDate": "2026-02-13T07:37:00.000Z",
-      "cycleTimeDays": 20.8375,
+      "cycleTimeDays": 0.8694444444444445,
       "issueType": "Bug",
       "storyPoints": null,
       "sprintCount": 1
@@ -2020,7 +2020,7 @@
     {
       "issueKey": "IBSET-935",
       "resolutionDate": "2026-02-13T07:37:00.000Z",
-      "cycleTimeDays": 20.83888888888889,
+      "cycleTimeDays": 0.8472222222222223,
       "issueType": "Bug",
       "storyPoints": null,
       "sprintCount": 2
@@ -2028,7 +2028,7 @@
     {
       "issueKey": "IBSET-934",
       "resolutionDate": "2026-02-13T07:37:00.000Z",
-      "cycleTimeDays": 20.840972222222224,
+      "cycleTimeDays": 0.8701388888888889,
       "issueType": "Bug",
       "storyPoints": null,
       "sprintCount": 1
@@ -2036,7 +2036,7 @@
     {
       "issueKey": "IBSET-933",
       "resolutionDate": "2026-02-13T07:37:00.000Z",
-      "cycleTimeDays": 20.845833333333335,
+      "cycleTimeDays": 0.8701388888888888,
       "issueType": "Bug",
       "storyPoints": null,
       "sprintCount": 1
@@ -2044,7 +2044,7 @@
     {
       "issueKey": "IBSET-932",
       "resolutionDate": "2026-02-13T07:37:00.000Z",
-      "cycleTimeDays": 20.84861111111111,
+      "cycleTimeDays": 0.8701388888888889,
       "issueType": "Bug",
       "storyPoints": null,
       "sprintCount": 1
@@ -2052,7 +2052,7 @@
     {
       "issueKey": "IBSET-931",
       "resolutionDate": "2026-02-13T07:37:00.000Z",
-      "cycleTimeDays": 20.852083333333333,
+      "cycleTimeDays": 0.8708333333333333,
       "issueType": "Bug",
       "storyPoints": null,
       "sprintCount": 1
@@ -2060,65 +2060,65 @@
     {
       "issueKey": "IBSET-930",
       "resolutionDate": "2026-02-02T13:38:00.000Z",
-      "cycleTimeDays": 10.82013888888889,
+      "cycleTimeDays": 0.03819444444444445,
       "issueType": "Task",
-      "storyPoints": null,
+      "storyPoints": 0.25,
       "sprintCount": 1
     },
     {
       "issueKey": "IBSET-929",
       "resolutionDate": "2026-02-09T08:11:00.000Z",
-      "cycleTimeDays": 19.507638888888888,
+      "cycleTimeDays": 12.888194444444444,
       "issueType": "Task",
-      "storyPoints": null,
+      "storyPoints": 3,
       "sprintCount": 1
     },
     {
       "issueKey": "IBSET-918",
       "resolutionDate": "2026-02-20T07:10:00.000Z",
-      "cycleTimeDays": 30.488194444444446,
+      "cycleTimeDays": 6.745138888888889,
       "issueType": "Task",
-      "storyPoints": null,
+      "storyPoints": 3,
       "sprintCount": 1
     },
     {
       "issueKey": "IBSET-917",
       "resolutionDate": "2026-02-18T13:37:00.000Z",
-      "cycleTimeDays": 29.00138888888889,
+      "cycleTimeDays": 6.875,
       "issueType": "Task",
-      "storyPoints": null,
+      "storyPoints": 3,
       "sprintCount": 1
     },
     {
       "issueKey": "IBSET-916",
       "resolutionDate": "2026-02-10T10:25:00.000Z",
-      "cycleTimeDays": 20.87152777777778,
+      "cycleTimeDays": 7.889583333333333,
       "issueType": "Task",
-      "storyPoints": null,
+      "storyPoints": 1,
       "sprintCount": 1
     },
     {
       "issueKey": "IBSET-914",
       "resolutionDate": "2026-01-23T11:26:00.000Z",
-      "cycleTimeDays": 3.042361111111111,
+      "cycleTimeDays": 3.040972222222222,
       "issueType": "Task",
-      "storyPoints": null,
+      "storyPoints": 3,
       "sprintCount": 1
     },
     {
       "issueKey": "IBSET-912",
       "resolutionDate": "2026-02-18T09:27:00.000Z",
-      "cycleTimeDays": 29.005555555555556,
+      "cycleTimeDays": 1.9777777777777779,
       "issueType": "Task",
-      "storyPoints": null,
+      "storyPoints": 3,
       "sprintCount": 1
     },
     {
       "issueKey": "IBSET-910",
       "resolutionDate": "2026-02-17T11:44:00.000Z",
-      "cycleTimeDays": 28.113194444444446,
+      "cycleTimeDays": 1.175,
       "issueType": "Task",
-      "storyPoints": null,
+      "storyPoints": 3,
       "sprintCount": 1
     },
     {
@@ -2132,17 +2132,17 @@
     {
       "issueKey": "IBSET-907",
       "resolutionDate": "2026-02-25T08:11:00.000Z",
-      "cycleTimeDays": 35.98125,
+      "cycleTimeDays": 6.946527777777778,
       "issueType": "Task",
-      "storyPoints": null,
+      "storyPoints": 2,
       "sprintCount": 1
     },
     {
       "issueKey": "IBSET-904",
       "resolutionDate": "2026-01-27T07:26:00.000Z",
-      "cycleTimeDays": 6.954166666666667,
+      "cycleTimeDays": 0.0006944444444444445,
       "issueType": "Task",
-      "storyPoints": null,
+      "storyPoints": 0.25,
       "sprintCount": 1
     },
     {
@@ -2156,25 +2156,25 @@
     {
       "issueKey": "IBSET-898",
       "resolutionDate": "2026-02-17T09:02:00.000Z",
-      "cycleTimeDays": 28.04652777777778,
+      "cycleTimeDays": 4.886111111111111,
       "issueType": "Task",
-      "storyPoints": null,
+      "storyPoints": 0.5,
       "sprintCount": 1
     },
     {
       "issueKey": "IBSET-896",
       "resolutionDate": "2026-02-09T13:16:00.000Z",
-      "cycleTimeDays": 20.22361111111111,
+      "cycleTimeDays": 11.215972222222222,
       "issueType": "Task",
-      "storyPoints": null,
+      "storyPoints": 3,
       "sprintCount": 1
     },
     {
       "issueKey": "IBSET-891",
       "resolutionDate": "2026-02-09T13:18:00.000Z",
-      "cycleTimeDays": 20.73611111111111,
+      "cycleTimeDays": 11.96875,
       "issueType": "Task",
-      "storyPoints": null,
+      "storyPoints": 3,
       "sprintCount": 1
     },
     {
@@ -2188,15 +2188,15 @@
     {
       "issueKey": "IBSET-887",
       "resolutionDate": "2026-02-09T08:10:00.000Z",
-      "cycleTimeDays": 20.535416666666666,
+      "cycleTimeDays": 11.75763888888889,
       "issueType": "Task",
-      "storyPoints": null,
+      "storyPoints": 3,
       "sprintCount": 1
     },
     {
       "issueKey": "IBSET-885",
       "resolutionDate": "2026-02-17T07:16:00.000Z",
-      "cycleTimeDays": 28.966666666666665,
+      "cycleTimeDays": 22.9125,
       "issueType": "Bug",
       "storyPoints": null,
       "sprintCount": 2
@@ -2204,7 +2204,7 @@
     {
       "issueKey": "IBSET-884",
       "resolutionDate": "2026-01-19T08:25:00.000Z",
-      "cycleTimeDays": 0.07222222222222222,
+      "cycleTimeDays": 0.0625,
       "issueType": "Task",
       "storyPoints": null,
       "sprintCount": 1
@@ -2212,15 +2212,15 @@
     {
       "issueKey": "IBSET-882",
       "resolutionDate": "2026-01-27T07:27:00.000Z",
-      "cycleTimeDays": 11.560416666666667,
+      "cycleTimeDays": 0.03194444444444444,
       "issueType": "Task",
-      "storyPoints": null,
+      "storyPoints": 0.25,
       "sprintCount": 1
     },
     {
       "issueKey": "IBSET-881",
       "resolutionDate": "2026-02-13T07:37:00.000Z",
-      "cycleTimeDays": 28.863194444444446,
+      "cycleTimeDays": 4.033333333333333,
       "issueType": "Bug",
       "storyPoints": null,
       "sprintCount": 1
@@ -2228,17 +2228,17 @@
     {
       "issueKey": "IBSET-880",
       "resolutionDate": "2026-01-27T07:27:00.000Z",
-      "cycleTimeDays": 12.876388888888888,
+      "cycleTimeDays": 0.50625,
       "issueType": "Task",
-      "storyPoints": null,
+      "storyPoints": 0.25,
       "sprintCount": 1
     },
     {
       "issueKey": "IBSET-879",
       "resolutionDate": "2026-01-19T10:59:00.000Z",
-      "cycleTimeDays": 5.067361111111111,
+      "cycleTimeDays": 5.011111111111111,
       "issueType": "Task",
-      "storyPoints": null,
+      "storyPoints": 3,
       "sprintCount": 1
     },
     {
@@ -2246,13 +2246,13 @@
       "resolutionDate": "2026-02-09T07:08:00.000Z",
       "cycleTimeDays": 27.009027777777778,
       "issueType": "Task",
-      "storyPoints": null,
+      "storyPoints": 0.25,
       "sprintCount": 1
     },
     {
       "issueKey": "IBSET-875",
       "resolutionDate": "2026-01-12T13:57:00.000Z",
-      "cycleTimeDays": 3.1993055555555556,
+      "cycleTimeDays": 3.1666666666666665,
       "issueType": "Task",
       "storyPoints": null,
       "sprintCount": 1
@@ -2260,47 +2260,47 @@
     {
       "issueKey": "IBSET-873",
       "resolutionDate": "2026-01-22T17:57:00.000Z",
-      "cycleTimeDays": 15.266666666666667,
+      "cycleTimeDays": 0.7645833333333333,
       "issueType": "Task",
-      "storyPoints": null,
+      "storyPoints": 0.25,
       "sprintCount": 1
     },
     {
       "issueKey": "IBSET-868",
       "resolutionDate": "2026-02-11T22:49:00.000Z",
-      "cycleTimeDays": 37.625,
+      "cycleTimeDays": 4.20625,
       "issueType": "Task",
-      "storyPoints": null,
+      "storyPoints": 0.5,
       "sprintCount": 1
     },
     {
       "issueKey": "IBSET-866",
       "resolutionDate": "2026-02-05T12:46:00.000Z",
-      "cycleTimeDays": 49.01111111111111,
+      "cycleTimeDays": 3.1236111111111113,
       "issueType": "Task",
-      "storyPoints": null,
+      "storyPoints": 1,
       "sprintCount": 1
     },
     {
       "issueKey": "IBSET-863",
       "resolutionDate": "2026-01-20T10:16:00.000Z",
-      "cycleTimeDays": 33.05972222222222,
+      "cycleTimeDays": 33.05763888888889,
       "issueType": "Task",
-      "storyPoints": null,
+      "storyPoints": 1,
       "sprintCount": 2
     },
     {
       "issueKey": "IBSET-862",
       "resolutionDate": "2026-01-12T08:02:00.000Z",
-      "cycleTimeDays": 25.78263888888889,
+      "cycleTimeDays": 9.865972222222222,
       "issueType": "Task",
-      "storyPoints": null,
+      "storyPoints": 1,
       "sprintCount": 1
     },
     {
       "issueKey": "IBSET-861",
       "resolutionDate": "2026-01-05T08:08:00.000Z",
-      "cycleTimeDays": 19.84722222222222,
+      "cycleTimeDays": 19.846527777777776,
       "issueType": "Bug",
       "storyPoints": null,
       "sprintCount": 1
@@ -2308,7 +2308,7 @@
     {
       "issueKey": "IBSET-859",
       "resolutionDate": "2026-01-05T08:11:00.000Z",
-      "cycleTimeDays": 20.068055555555556,
+      "cycleTimeDays": 3.0027777777777778,
       "issueType": "Bug",
       "storyPoints": null,
       "sprintCount": 1
@@ -2316,15 +2316,15 @@
     {
       "issueKey": "IBSET-853",
       "resolutionDate": "2026-01-27T08:01:00.000Z",
-      "cycleTimeDays": 45.99861111111111,
+      "cycleTimeDays": 45.99722222222222,
       "issueType": "Task",
-      "storyPoints": null,
+      "storyPoints": 3,
       "sprintCount": 3
     },
     {
       "issueKey": "IBSET-849",
       "resolutionDate": "2026-02-11T22:49:00.000Z",
-      "cycleTimeDays": 71.4173611111111,
+      "cycleTimeDays": 55.775000000000006,
       "issueType": "Bug",
       "storyPoints": null,
       "sprintCount": 3
@@ -2332,15 +2332,15 @@
     {
       "issueKey": "IBSET-836",
       "resolutionDate": "2026-01-07T07:55:00.000Z",
-      "cycleTimeDays": 49.94305555555555,
+      "cycleTimeDays": 34.825694444444444,
       "issueType": "Task",
-      "storyPoints": null,
+      "storyPoints": 3,
       "sprintCount": 3
     },
     {
       "issueKey": "IBSET-832",
       "resolutionDate": "2026-02-10T10:24:00.000Z",
-      "cycleTimeDays": 85.04444444444445,
+      "cycleTimeDays": 85.04027777777779,
       "issueType": "Bug",
       "storyPoints": null,
       "sprintCount": 6
@@ -2348,7 +2348,7 @@
     {
       "issueKey": "IBSET-831",
       "resolutionDate": "2026-02-13T07:37:00.000Z",
-      "cycleTimeDays": 91.85,
+      "cycleTimeDays": 68.60902777777778,
       "issueType": "Bug",
       "storyPoints": null,
       "sprintCount": 5
@@ -2356,129 +2356,129 @@
     {
       "issueKey": "IBSET-828",
       "resolutionDate": "2026-01-19T10:05:00.000Z",
-      "cycleTimeDays": 67.99861111111112,
+      "cycleTimeDays": 41.04583333333333,
       "issueType": "Task",
-      "storyPoints": null,
+      "storyPoints": 3,
       "sprintCount": 1
     },
     {
       "issueKey": "IBSET-826",
       "resolutionDate": "2026-02-11T22:49:00.000Z",
-      "cycleTimeDays": 91.55069444444445,
+      "cycleTimeDays": 20.888194444444444,
       "issueType": "Task",
-      "storyPoints": null,
+      "storyPoints": 5,
       "sprintCount": 1
     },
     {
       "issueKey": "IBSET-820",
       "resolutionDate": "2026-01-30T08:46:00.000Z",
-      "cycleTimeDays": 78.99583333333334,
+      "cycleTimeDays": 14.978472222222221,
       "issueType": "Task",
-      "storyPoints": null,
+      "storyPoints": 3,
       "sprintCount": 3
     },
     {
       "issueKey": "IBSET-815",
       "resolutionDate": "2026-02-11T22:49:00.000Z",
-      "cycleTimeDays": 92.35555555555555,
+      "cycleTimeDays": 13.82638888888889,
       "issueType": "Task",
-      "storyPoints": null,
+      "storyPoints": 5,
       "sprintCount": 1
     },
     {
       "issueKey": "IBSET-806",
       "resolutionDate": "2026-01-19T09:54:00.000Z",
-      "cycleTimeDays": 80.86319444444445,
+      "cycleTimeDays": 47.99722222222221,
       "issueType": "Task",
-      "storyPoints": null,
+      "storyPoints": 2,
       "sprintCount": 1
     },
     {
       "issueKey": "IBSET-793",
       "resolutionDate": "2026-02-11T22:49:00.000Z",
-      "cycleTimeDays": 117.56458333333333,
+      "cycleTimeDays": 3.0263888888888886,
       "issueType": "Task",
-      "storyPoints": null,
+      "storyPoints": 1,
       "sprintCount": 1
     },
     {
       "issueKey": "IBSET-792",
       "resolutionDate": "2026-01-19T09:58:00.000Z",
-      "cycleTimeDays": 94.03194444444445,
+      "cycleTimeDays": 80.00625,
       "issueType": "Task",
-      "storyPoints": null,
+      "storyPoints": 3,
       "sprintCount": 2
     },
     {
       "issueKey": "IBSET-784",
       "resolutionDate": "2026-01-19T09:54:00.000Z",
-      "cycleTimeDays": 101.07708333333333,
+      "cycleTimeDays": 47.87708333333333,
       "issueType": "Task",
-      "storyPoints": null,
+      "storyPoints": 3,
       "sprintCount": 1
     },
     {
       "issueKey": "IBSET-782",
       "resolutionDate": "2026-01-19T09:54:00.000Z",
-      "cycleTimeDays": 102.96180555555556,
+      "cycleTimeDays": 39.91458333333333,
       "issueType": "Task",
-      "storyPoints": null,
+      "storyPoints": 3,
       "sprintCount": 1
     },
     {
       "issueKey": "IBSET-745",
       "resolutionDate": "2026-01-19T09:58:00.000Z",
-      "cycleTimeDays": 139.16666666666666,
+      "cycleTimeDays": 118.9375,
       "issueType": "Task",
-      "storyPoints": null,
+      "storyPoints": 1,
       "sprintCount": 2
     },
     {
       "issueKey": "IBSET-735",
       "resolutionDate": "2026-01-19T09:59:00.000Z",
-      "cycleTimeDays": 144.98333333333332,
+      "cycleTimeDays": 56.10277777777778,
       "issueType": "Task",
-      "storyPoints": null,
+      "storyPoints": 3,
       "sprintCount": 3
     },
     {
       "issueKey": "IBSET-733",
       "resolutionDate": "2026-01-19T09:57:00.000Z",
-      "cycleTimeDays": 144.98263888888889,
+      "cycleTimeDays": 115.89999999999999,
       "issueType": "Task",
-      "storyPoints": null,
+      "storyPoints": 3,
       "sprintCount": 1
     },
     {
       "issueKey": "IBSET-731",
       "resolutionDate": "2026-01-19T09:57:00.000Z",
-      "cycleTimeDays": 144.98333333333332,
+      "cycleTimeDays": 116.9625,
       "issueType": "Task",
-      "storyPoints": null,
+      "storyPoints": 3,
       "sprintCount": 1
     },
     {
       "issueKey": "IBSET-730",
       "resolutionDate": "2026-01-19T09:57:00.000Z",
-      "cycleTimeDays": 144.98333333333332,
+      "cycleTimeDays": 75.87430555555555,
       "issueType": "Task",
-      "storyPoints": null,
+      "storyPoints": 8,
       "sprintCount": 2
     },
     {
       "issueKey": "IBSET-729",
       "resolutionDate": "2026-01-19T09:59:00.000Z",
-      "cycleTimeDays": 144.98472222222222,
+      "cycleTimeDays": 61.041666666666664,
       "issueType": "Task",
-      "storyPoints": null,
+      "storyPoints": 3,
       "sprintCount": 2
     },
     {
       "issueKey": "IBSET-726",
       "resolutionDate": "2026-01-09T12:57:00.000Z",
-      "cycleTimeDays": 135.10972222222222,
+      "cycleTimeDays": 4.199305555555556,
       "issueType": "Task",
-      "storyPoints": null,
+      "storyPoints": 5,
       "sprintCount": 1
     }
   ],

@@ -1,0 +1,997 @@
+[
+  {
+    "period": "2023-12",
+    "columns": [
+      {
+        "name": "Refined",
+        "avgDays": 3.9181666666666666
+      }
+    ]
+  },
+  {
+    "period": "2024-01",
+    "columns": [
+      {
+        "name": "Refined",
+        "avgDays": 32.45902777777778
+      }
+    ]
+  },
+  {
+    "period": "2024-02",
+    "columns": [
+      {
+        "name": "Refined",
+        "avgDays": 50.94916666666666
+      }
+    ]
+  },
+  {
+    "period": "2024-03",
+    "columns": [
+      {
+        "name": "Refined",
+        "avgDays": 34.31027777777778
+      }
+    ]
+  },
+  {
+    "period": "2024-04",
+    "columns": [
+      {
+        "name": "Ready for test",
+        "avgDays": 84.0175
+      },
+      {
+        "name": "Refined",
+        "avgDays": 77.20079166666667
+      }
+    ]
+  },
+  {
+    "period": "2024-07",
+    "columns": [
+      {
+        "name": "Blocked",
+        "avgDays": 11.9125
+      },
+      {
+        "name": "In Testing",
+        "avgDays": 1.195
+      },
+      {
+        "name": "Open",
+        "avgDays": 0.0008333333333333334
+      }
+    ]
+  },
+  {
+    "period": "2024-08",
+    "columns": [
+      {
+        "name": "In Testing",
+        "avgDays": 35.788333333333334
+      },
+      {
+        "name": "Open",
+        "avgDays": 19.243750000000002
+      },
+      {
+        "name": "Reopened",
+        "avgDays": 2.7220833333333334
+      },
+      {
+        "name": "Blocked",
+        "avgDays": 2.1479166666666667
+      },
+      {
+        "name": "In Development",
+        "avgDays": 0.015833333333333335
+      }
+    ]
+  },
+  {
+    "period": "2024-09",
+    "columns": [
+      {
+        "name": "Reopened",
+        "avgDays": 25.49125
+      },
+      {
+        "name": "Ready for Refinement",
+        "avgDays": 21.995555555555555
+      },
+      {
+        "name": "Blocked",
+        "avgDays": 14.29513888888889
+      },
+      {
+        "name": "Waiting for acceptance",
+        "avgDays": 12.5453125
+      },
+      {
+        "name": "In Testing",
+        "avgDays": 11.382592592592594
+      },
+      {
+        "name": "Open",
+        "avgDays": 8.821628787878787
+      },
+      {
+        "name": "Refined",
+        "avgDays": 3.1770833333333335
+      }
+    ]
+  },
+  {
+    "period": "2024-10",
+    "columns": [
+      {
+        "name": "Ready for Refinement",
+        "avgDays": 33.399375
+      },
+      {
+        "name": "In Testing",
+        "avgDays": 8.988125
+      },
+      {
+        "name": "Reopened",
+        "avgDays": 5.563124999999999
+      },
+      {
+        "name": "Open",
+        "avgDays": 4.661458333333334
+      },
+      {
+        "name": "Waiting for acceptance",
+        "avgDays": 3.0620833333333337
+      },
+      {
+        "name": "Blocked",
+        "avgDays": 1.9745833333333334
+      }
+    ]
+  },
+  {
+    "period": "2024-11",
+    "columns": [
+      {
+        "name": "Abandoned",
+        "avgDays": 28.83504629629629
+      },
+      {
+        "name": "Reopened",
+        "avgDays": 25.5062037037037
+      },
+      {
+        "name": "In Testing",
+        "avgDays": 21.948520833333333
+      },
+      {
+        "name": "Blocked",
+        "avgDays": 19.057180555555554
+      },
+      {
+        "name": "Refined",
+        "avgDays": 13.722291666666667
+      },
+      {
+        "name": "Waiting for acceptance",
+        "avgDays": 10.705326086956523
+      },
+      {
+        "name": "Ready for Refinement",
+        "avgDays": 9.950808823529414
+      },
+      {
+        "name": "Investigation",
+        "avgDays": 8.059722222222222
+      },
+      {
+        "name": "Open",
+        "avgDays": 3.7768010752688173
+      }
+    ]
+  },
+  {
+    "period": "2024-12",
+    "columns": [
+      {
+        "name": "Reopened",
+        "avgDays": 29.61825
+      },
+      {
+        "name": "Blocked",
+        "avgDays": 18.65401960784314
+      },
+      {
+        "name": "In Testing",
+        "avgDays": 13.089208333333332
+      },
+      {
+        "name": "Open",
+        "avgDays": 9.918773148148148
+      },
+      {
+        "name": "Ready for Refinement",
+        "avgDays": 7.330982142857143
+      },
+      {
+        "name": "Waiting for acceptance",
+        "avgDays": 6.955937500000001
+      },
+      {
+        "name": "Investigation",
+        "avgDays": 6.745
+      },
+      {
+        "name": "Abandoned",
+        "avgDays": 3.37890625
+      },
+      {
+        "name": "Refined",
+        "avgDays": 3.1779166666666665
+      },
+      {
+        "name": "Ready for test",
+        "avgDays": 0.9041666666666667
+      },
+      {
+        "name": "In Development",
+        "avgDays": 0.01958333333333333
+      }
+    ]
+  },
+  {
+    "period": "2025-01",
+    "columns": [
+      {
+        "name": "Open",
+        "avgDays": 19.857666666666667
+      },
+      {
+        "name": "Waiting for acceptance",
+        "avgDays": 18.404791666666668
+      },
+      {
+        "name": "Blocked",
+        "avgDays": 13.717395833333335
+      },
+      {
+        "name": "Ready for Refinement",
+        "avgDays": 8.411249999999999
+      },
+      {
+        "name": "Ready for test",
+        "avgDays": 6.557361111111111
+      },
+      {
+        "name": "In Development",
+        "avgDays": 6.300833333333332
+      },
+      {
+        "name": "Reopened",
+        "avgDays": 4.602083333333334
+      },
+      {
+        "name": "Refined",
+        "avgDays": 3.926805555555555
+      },
+      {
+        "name": "Abandoned",
+        "avgDays": 3.3269444444444445
+      },
+      {
+        "name": "In Testing",
+        "avgDays": 2.430059523809524
+      },
+      {
+        "name": "Investigation",
+        "avgDays": 1.7175
+      }
+    ]
+  },
+  {
+    "period": "2025-02",
+    "columns": [
+      {
+        "name": "Waiting for acceptance",
+        "avgDays": 43.25833333333333
+      },
+      {
+        "name": "Blocked",
+        "avgDays": 38.98684523809525
+      },
+      {
+        "name": "Open",
+        "avgDays": 18.695352564102564
+      },
+      {
+        "name": "Ready for test",
+        "avgDays": 17.408472222222223
+      },
+      {
+        "name": "In Testing",
+        "avgDays": 13.249625
+      },
+      {
+        "name": "Ready for Refinement",
+        "avgDays": 12.162916666666666
+      },
+      {
+        "name": "Refined",
+        "avgDays": 9.582552083333333
+      },
+      {
+        "name": "Abandoned",
+        "avgDays": 4.742916666666667
+      },
+      {
+        "name": "In Development",
+        "avgDays": 4.030972222222221
+      },
+      {
+        "name": "Investigation",
+        "avgDays": 0.9729166666666668
+      }
+    ]
+  },
+  {
+    "period": "2025-03",
+    "columns": [
+      {
+        "name": "Abandoned",
+        "avgDays": 68.02499999999999
+      },
+      {
+        "name": "Reopened",
+        "avgDays": 48.270583333333335
+      },
+      {
+        "name": "Waiting for acceptance",
+        "avgDays": 46.483981481481486
+      },
+      {
+        "name": "Blocked",
+        "avgDays": 36.68136904761905
+      },
+      {
+        "name": "In Development",
+        "avgDays": 10.022261904761905
+      },
+      {
+        "name": "Open",
+        "avgDays": 8.672450980392156
+      },
+      {
+        "name": "Ready for test",
+        "avgDays": 7.719444444444445
+      },
+      {
+        "name": "In Testing",
+        "avgDays": 7.178333333333334
+      },
+      {
+        "name": "Investigation",
+        "avgDays": 6.403333333333333
+      },
+      {
+        "name": "Refined",
+        "avgDays": 2.484047619047619
+      },
+      {
+        "name": "Ready for Refinement",
+        "avgDays": 1.6588194444444444
+      }
+    ]
+  },
+  {
+    "period": "2025-04",
+    "columns": [
+      {
+        "name": "In Testing",
+        "avgDays": 45.67559523809524
+      },
+      {
+        "name": "Reopened",
+        "avgDays": 25.524416666666664
+      },
+      {
+        "name": "Abandoned",
+        "avgDays": 24.21972222222222
+      },
+      {
+        "name": "Open",
+        "avgDays": 23.07683823529412
+      },
+      {
+        "name": "Investigation",
+        "avgDays": 17.375
+      },
+      {
+        "name": "Ready for test",
+        "avgDays": 12.904861111111112
+      },
+      {
+        "name": "In Development",
+        "avgDays": 12.447196969696972
+      },
+      {
+        "name": "Waiting for acceptance",
+        "avgDays": 12.268928571428571
+      },
+      {
+        "name": "Blocked",
+        "avgDays": 9.998020833333333
+      },
+      {
+        "name": "Refined",
+        "avgDays": 3.122777777777778
+      },
+      {
+        "name": "Ready for Refinement",
+        "avgDays": 3.013875
+      }
+    ]
+  },
+  {
+    "period": "2025-05",
+    "columns": [
+      {
+        "name": "Waiting for acceptance",
+        "avgDays": 108.56680555555556
+      },
+      {
+        "name": "Blocked",
+        "avgDays": 35.52909722222223
+      },
+      {
+        "name": "Refined",
+        "avgDays": 27.099759615384617
+      },
+      {
+        "name": "Ready for test",
+        "avgDays": 22.599242424242426
+      },
+      {
+        "name": "In Testing",
+        "avgDays": 11.624134615384614
+      },
+      {
+        "name": "Investigation",
+        "avgDays": 10.853511904761904
+      },
+      {
+        "name": "Open",
+        "avgDays": 8.044629629629629
+      },
+      {
+        "name": "In Development",
+        "avgDays": 6.885657051282051
+      },
+      {
+        "name": "Ready for Refinement",
+        "avgDays": 5.357430555555556
+      },
+      {
+        "name": "Reopened",
+        "avgDays": 2.088611111111111
+      }
+    ]
+  },
+  {
+    "period": "2025-06",
+    "columns": [
+      {
+        "name": "Waiting for acceptance",
+        "avgDays": 113.22102083333337
+      },
+      {
+        "name": "Abandoned",
+        "avgDays": 53.196250000000006
+      },
+      {
+        "name": "Open",
+        "avgDays": 25.882511574074073
+      },
+      {
+        "name": "Blocked",
+        "avgDays": 15.3521875
+      },
+      {
+        "name": "Reopened",
+        "avgDays": 13.223201754385963
+      },
+      {
+        "name": "Investigation",
+        "avgDays": 12.114749999999999
+      },
+      {
+        "name": "Ready for Refinement",
+        "avgDays": 7.193040123456789
+      },
+      {
+        "name": "In Testing",
+        "avgDays": 7.122391975308641
+      },
+      {
+        "name": "In Development",
+        "avgDays": 6.618184523809524
+      },
+      {
+        "name": "Ready for test",
+        "avgDays": 5.010416666666667
+      },
+      {
+        "name": "Refined",
+        "avgDays": 3.23675
+      }
+    ]
+  },
+  {
+    "period": "2025-07",
+    "columns": [
+      {
+        "name": "Reopened",
+        "avgDays": 42.21925
+      },
+      {
+        "name": "Investigation",
+        "avgDays": 41.41339285714286
+      },
+      {
+        "name": "In Testing",
+        "avgDays": 41.334523809523816
+      },
+      {
+        "name": "Blocked",
+        "avgDays": 38.57775
+      },
+      {
+        "name": "Ready for test",
+        "avgDays": 30.577666666666666
+      },
+      {
+        "name": "Ready for Refinement",
+        "avgDays": 22.220312499999995
+      },
+      {
+        "name": "Open",
+        "avgDays": 21.651583333333335
+      },
+      {
+        "name": "Abandoned",
+        "avgDays": 19.784583333333334
+      },
+      {
+        "name": "Waiting for acceptance",
+        "avgDays": 11.039305555555558
+      },
+      {
+        "name": "In Development",
+        "avgDays": 5.17577380952381
+      },
+      {
+        "name": "Refined",
+        "avgDays": 4.095454545454545
+      }
+    ]
+  },
+  {
+    "period": "2025-08",
+    "columns": [
+      {
+        "name": "Abandoned",
+        "avgDays": 83.04194444444444
+      },
+      {
+        "name": "Investigation",
+        "avgDays": 77.5125
+      },
+      {
+        "name": "Waiting for acceptance",
+        "avgDays": 51.91833333333333
+      },
+      {
+        "name": "Reopened",
+        "avgDays": 43.12902777777777
+      },
+      {
+        "name": "Blocked",
+        "avgDays": 38.618472222222216
+      },
+      {
+        "name": "In Testing",
+        "avgDays": 34.26541666666667
+      },
+      {
+        "name": "Open",
+        "avgDays": 28.955367647058818
+      },
+      {
+        "name": "In Development",
+        "avgDays": 18.929375
+      },
+      {
+        "name": "Ready for Refinement",
+        "avgDays": 12.69715909090909
+      },
+      {
+        "name": "Refined",
+        "avgDays": 6.5095833333333335
+      },
+      {
+        "name": "Ready for test",
+        "avgDays": 2.7422222222222223
+      }
+    ]
+  },
+  {
+    "period": "2025-09",
+    "columns": [
+      {
+        "name": "Reopened",
+        "avgDays": 107.99552083333333
+      },
+      {
+        "name": "Blocked",
+        "avgDays": 67.79229166666667
+      },
+      {
+        "name": "Investigation",
+        "avgDays": 52.08149999999999
+      },
+      {
+        "name": "Waiting for acceptance",
+        "avgDays": 30.949305555555554
+      },
+      {
+        "name": "In Testing",
+        "avgDays": 21.000194444444443
+      },
+      {
+        "name": "Open",
+        "avgDays": 14.762607142857146
+      },
+      {
+        "name": "Ready for test",
+        "avgDays": 14.50931818181818
+      },
+      {
+        "name": "In Development",
+        "avgDays": 8.047166666666667
+      },
+      {
+        "name": "Refined",
+        "avgDays": 6.814947916666668
+      },
+      {
+        "name": "Ready for Refinement",
+        "avgDays": 6.049510869565217
+      },
+      {
+        "name": "Abandoned",
+        "avgDays": 0.6875
+      }
+    ]
+  },
+  {
+    "period": "2025-10",
+    "columns": [
+      {
+        "name": "Reopened",
+        "avgDays": 55.32208333333333
+      },
+      {
+        "name": "Investigation",
+        "avgDays": 26.606736111111115
+      },
+      {
+        "name": "Blocked",
+        "avgDays": 23.092916666666664
+      },
+      {
+        "name": "Ready for test",
+        "avgDays": 19.30219696969697
+      },
+      {
+        "name": "Ready for Refinement",
+        "avgDays": 18.021087962962962
+      },
+      {
+        "name": "Open",
+        "avgDays": 15.586354166666666
+      },
+      {
+        "name": "In Testing",
+        "avgDays": 12.611805555555556
+      },
+      {
+        "name": "In Development",
+        "avgDays": 8.14111111111111
+      },
+      {
+        "name": "Refined",
+        "avgDays": 7.5316666666666645
+      },
+      {
+        "name": "Waiting for acceptance",
+        "avgDays": 5.7804166666666665
+      }
+    ]
+  },
+  {
+    "period": "2025-11",
+    "columns": [
+      {
+        "name": "Reopened",
+        "avgDays": 88.0026388888889
+      },
+      {
+        "name": "Blocked",
+        "avgDays": 31.15083333333334
+      },
+      {
+        "name": "Ready for test",
+        "avgDays": 22.709055555555555
+      },
+      {
+        "name": "Investigation",
+        "avgDays": 19.019393939393936
+      },
+      {
+        "name": "Waiting for acceptance",
+        "avgDays": 16.749128787878785
+      },
+      {
+        "name": "Refined",
+        "avgDays": 13.195833333333331
+      },
+      {
+        "name": "Ready for Refinement",
+        "avgDays": 10.533048245614035
+      },
+      {
+        "name": "Open",
+        "avgDays": 9.824473039215684
+      },
+      {
+        "name": "In Development",
+        "avgDays": 7.021400462962962
+      },
+      {
+        "name": "Abandoned",
+        "avgDays": 2.970833333333333
+      },
+      {
+        "name": "In Testing",
+        "avgDays": 1.2898039215686272
+      }
+    ]
+  },
+  {
+    "period": "2025-12",
+    "columns": [
+      {
+        "name": "Reopened",
+        "avgDays": 88.318125
+      },
+      {
+        "name": "Investigation",
+        "avgDays": 46.71641666666667
+      },
+      {
+        "name": "Abandoned",
+        "avgDays": 42.940625000000004
+      },
+      {
+        "name": "Ready for test",
+        "avgDays": 40.41628472222222
+      },
+      {
+        "name": "Blocked",
+        "avgDays": 38.559375
+      },
+      {
+        "name": "Waiting for acceptance",
+        "avgDays": 20.209821428571423
+      },
+      {
+        "name": "In Development",
+        "avgDays": 12.534507575757576
+      },
+      {
+        "name": "Refined",
+        "avgDays": 12.193847222222223
+      },
+      {
+        "name": "In Testing",
+        "avgDays": 7.911354166666667
+      },
+      {
+        "name": "Open",
+        "avgDays": 6.409901515151515
+      },
+      {
+        "name": "Ready for Refinement",
+        "avgDays": 3.4621450617283944
+      }
+    ]
+  },
+  {
+    "period": "2026-01",
+    "columns": [
+      {
+        "name": "Reopened",
+        "avgDays": 147.2611111111111
+      },
+      {
+        "name": "Investigation",
+        "avgDays": 30.546651234567904
+      },
+      {
+        "name": "Ready for test",
+        "avgDays": 24.666775
+      },
+      {
+        "name": "Open",
+        "avgDays": 19.30017405063291
+      },
+      {
+        "name": "Waiting for acceptance",
+        "avgDays": 19.188333333333333
+      },
+      {
+        "name": "In Testing",
+        "avgDays": 12.408203125
+      },
+      {
+        "name": "In Development",
+        "avgDays": 9.431015325670497
+      },
+      {
+        "name": "Ready for Refinement",
+        "avgDays": 6.166535947712416
+      },
+      {
+        "name": "Refined",
+        "avgDays": 4.651527777777777
+      },
+      {
+        "name": "Blocked",
+        "avgDays": 1.1341666666666665
+      }
+    ]
+  },
+  {
+    "period": "2026-02",
+    "columns": [
+      {
+        "name": "Reopened",
+        "avgDays": 343.8595833333333
+      },
+      {
+        "name": "Investigation",
+        "avgDays": 50.071666666666665
+      },
+      {
+        "name": "Blocked",
+        "avgDays": 38.6825
+      },
+      {
+        "name": "Ready for test",
+        "avgDays": 30.015069444444446
+      },
+      {
+        "name": "In Testing",
+        "avgDays": 21.192878787878787
+      },
+      {
+        "name": "Refined",
+        "avgDays": 18.60486111111111
+      },
+      {
+        "name": "In Development",
+        "avgDays": 11.627876016260165
+      },
+      {
+        "name": "Ready for Refinement",
+        "avgDays": 5.137526041666667
+      },
+      {
+        "name": "Open",
+        "avgDays": 2.7181586021505377
+      }
+    ]
+  },
+  {
+    "period": "2026-03",
+    "columns": [
+      {
+        "name": "Waiting for acceptance",
+        "avgDays": 187.02625
+      },
+      {
+        "name": "Reopened",
+        "avgDays": 132.69083333333333
+      },
+      {
+        "name": "Ready for test",
+        "avgDays": 44.01576923076922
+      },
+      {
+        "name": "Investigation",
+        "avgDays": 28.059285714285718
+      },
+      {
+        "name": "Open",
+        "avgDays": 15.951525000000002
+      },
+      {
+        "name": "In Testing",
+        "avgDays": 11.298786231884057
+      },
+      {
+        "name": "Refined",
+        "avgDays": 10.181545698924731
+      },
+      {
+        "name": "Blocked",
+        "avgDays": 10.159583333333332
+      },
+      {
+        "name": "In Development",
+        "avgDays": 9.299755291005294
+      },
+      {
+        "name": "Ready for Refinement",
+        "avgDays": 5.631780303030304
+      }
+    ]
+  },
+  {
+    "period": "2026-04",
+    "columns": [
+      {
+        "name": "Waiting for acceptance",
+        "avgDays": 188.21395833333332
+      },
+      {
+        "name": "Open",
+        "avgDays": 57.972154947916664
+      },
+      {
+        "name": "Investigation",
+        "avgDays": 49.5932738095238
+      },
+      {
+        "name": "Reopened",
+        "avgDays": 36.0728125
+      },
+      {
+        "name": "In Testing",
+        "avgDays": 27.470416666666665
+      },
+      {
+        "name": "Ready for test",
+        "avgDays": 19.169623015873018
+      },
+      {
+        "name": "In Development",
+        "avgDays": 9.52625
+      },
+      {
+        "name": "Ready for Refinement",
+        "avgDays": 9.407291666666666
+      },
+      {
+        "name": "Refined",
+        "avgDays": 7.722440476190475
+      },
+      {
+        "name": "Blocked",
+        "avgDays": 5.019583333333333
+      }
+    ]
+  }
+]

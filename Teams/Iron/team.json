@@ -50,8 +50,11 @@
     "flowStatuses": []
   },
   "excludedIssueKeys": [
+    "CORE-6283",
     "CORE-6809",
-    "CORE-8445"
+    "CORE-8339",
+    "CORE-8342",
+    "CORE-8343"
   ],
   "jiraQuery": {
     "defaultQueryId": "default",
@@ -62,6 +65,34 @@
         "jql": "project = YOURPROJECT ORDER BY updated DESC",
         "note": "Edit this query per team scope."
       }
+    ]
+  },
+  "sprintScopeConfig": {
+    "statuses": [
+      "Refinement",
+      "Development",
+      "Code review",
+      "On Hold",
+      "Testing",
+      "Analysis",
+      "Ready for Testing",
+      "Business acceptance test"
+    ]
+  },
+  "workflowConfig": {
+    "backlogStatuses": [
+      "Open",
+      "To Do"
+    ],
+    "activeStatuses": [
+      "Refinement",
+      "Development",
+      "Code review",
+      "On Hold",
+      "Testing",
+      "Analysis",
+      "Ready for Testing",
+      "Business acceptance test"
     ]
   }
 }

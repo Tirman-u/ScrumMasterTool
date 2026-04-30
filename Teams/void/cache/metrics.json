@@ -1,0 +1,459 @@
+{
+  "generatedAt": "2026-04-29T09:08:47.440Z",
+  "teamName": "VOID",
+  "totalImportedRows": 79,
+  "uniqueIssues": 79,
+  "doneIssues": 27,
+  "cycleTimeCount": 27,
+  "cycleTimeDays": [
+    44.98666666666667,
+    44.97916666666667,
+    45.02708333333333,
+    35.1075,
+    4.94375,
+    4.963333333333333,
+    5.011666666666667,
+    5.040416666666667,
+    5.75125,
+    5.848750000000001,
+    5.845833333333333,
+    0.8812500000000001,
+    71.995,
+    57.95166666666667,
+    22.171666666666667,
+    19.059166666666666,
+    13.822499999999998,
+    31.10083333333333,
+    262.94374999999997,
+    55.15624999999999,
+    77.89833333333331,
+    335.99875,
+    17.055416666666666,
+    2.9729166666666664,
+    15.283333333333335,
+    17.015,
+    17.01458333333333
+  ],
+  "avgCycleTimeDays": 45.40095679012346,
+  "sle": {
+    "percentiles": [
+      50,
+      70,
+      85,
+      95
+    ],
+    "rounding": "ceil",
+    "values": {
+      "p50": 25,
+      "p70": 62,
+      "p85": 199,
+      "p95": 304
+    }
+  },
+  "scatter": [
+    {
+      "issueKey": "VOID-44",
+      "resolutionDate": "2026-02-13T12:08:00.000Z",
+      "cycleTimeDays": 44.98666666666667,
+      "issueType": "Sub-task"
+    },
+    {
+      "issueKey": "VOID-38",
+      "resolutionDate": "2026-02-13T12:09:00.000Z",
+      "cycleTimeDays": 44.97916666666667,
+      "issueType": "Sub-task"
+    },
+    {
+      "issueKey": "VOID-37",
+      "resolutionDate": "2026-02-13T12:13:00.000Z",
+      "cycleTimeDays": 45.02708333333333,
+      "issueType": "Sub-task"
+    },
+    {
+      "issueKey": "VOID-40",
+      "resolutionDate": "2026-02-13T12:33:00.000Z",
+      "cycleTimeDays": 35.1075,
+      "issueType": "Sub-task"
+    },
+    {
+      "issueKey": "VOID-46",
+      "resolutionDate": "2026-03-02T11:46:00.000Z",
+      "cycleTimeDays": 4.94375,
+      "issueType": "Sub-task"
+    },
+    {
+      "issueKey": "VOID-33",
+      "resolutionDate": "2026-03-02T12:22:00.000Z",
+      "cycleTimeDays": 4.963333333333333,
+      "issueType": "Sub-task"
+    },
+    {
+      "issueKey": "VOID-31",
+      "resolutionDate": "2026-03-02T12:57:00.000Z",
+      "cycleTimeDays": 5.011666666666667,
+      "issueType": "Sub-task"
+    },
+    {
+      "issueKey": "VOID-45",
+      "resolutionDate": "2026-03-02T13:32:00.000Z",
+      "cycleTimeDays": 5.040416666666667,
+      "issueType": "Sub-task"
+    },
+    {
+      "issueKey": "VOID-32",
+      "resolutionDate": "2026-03-03T07:02:00.000Z",
+      "cycleTimeDays": 5.75125,
+      "issueType": "Sub-task"
+    },
+    {
+      "issueKey": "VOID-29",
+      "resolutionDate": "2026-03-03T08:16:00.000Z",
+      "cycleTimeDays": 5.848750000000001,
+      "issueType": "Sub-task"
+    },
+    {
+      "issueKey": "VOID-30",
+      "resolutionDate": "2026-03-03T08:40:00.000Z",
+      "cycleTimeDays": 5.845833333333333,
+      "issueType": "Sub-task"
+    },
+    {
+      "issueKey": "VOID-47",
+      "resolutionDate": "2026-03-03T09:00:00.000Z",
+      "cycleTimeDays": 0.8812500000000001,
+      "issueType": "Sub-task"
+    },
+    {
+      "issueKey": "VOID-43",
+      "resolutionDate": "2026-03-04T11:59:00.000Z",
+      "cycleTimeDays": 71.995,
+      "issueType": "Sub-task"
+    },
+    {
+      "issueKey": "VOID-39",
+      "resolutionDate": "2026-03-04T12:23:00.000Z",
+      "cycleTimeDays": 57.95166666666667,
+      "issueType": "Sub-task"
+    },
+    {
+      "issueKey": "VOID-41",
+      "resolutionDate": "2026-03-04T12:39:00.000Z",
+      "cycleTimeDays": 22.171666666666667,
+      "issueType": "Sub-task"
+    },
+    {
+      "issueKey": "VOID-42",
+      "resolutionDate": "2026-03-04T13:35:00.000Z",
+      "cycleTimeDays": 19.059166666666666,
+      "issueType": "Sub-task"
+    },
+    {
+      "issueKey": "VOID-34",
+      "resolutionDate": "2026-03-16T08:04:00.000Z",
+      "cycleTimeDays": 13.822499999999998,
+      "issueType": "Sub-task"
+    },
+    {
+      "issueKey": "VOID-81",
+      "resolutionDate": "2026-04-29T04:47:00.000Z",
+      "cycleTimeDays": 31.10083333333333,
+      "issueType": "Story"
+    },
+    {
+      "issueKey": "VOID-6",
+      "resolutionDate": "2026-04-29T04:49:00.000Z",
+      "cycleTimeDays": 262.94374999999997,
+      "issueType": "Story"
+    },
+    {
+      "issueKey": "VOID-54",
+      "resolutionDate": "2026-04-29T04:49:00.000Z",
+      "cycleTimeDays": 55.15624999999999,
+      "issueType": "Story"
+    },
+    {
+      "issueKey": "VOID-53",
+      "resolutionDate": "2026-04-29T04:49:00.000Z",
+      "cycleTimeDays": 77.89833333333331,
+      "issueType": "Bug"
+    },
+    {
+      "issueKey": "VOID-18",
+      "resolutionDate": "2026-04-29T04:49:00.000Z",
+      "cycleTimeDays": 335.99875,
+      "issueType": "Story"
+    },
+    {
+      "issueKey": "VOID-68",
+      "resolutionDate": "2026-04-29T04:49:00.000Z",
+      "cycleTimeDays": 17.055416666666666,
+      "issueType": "Story"
+    },
+    {
+      "issueKey": "VOID-74",
+      "resolutionDate": "2026-04-29T04:49:00.000Z",
+      "cycleTimeDays": 2.9729166666666664,
+      "issueType": "Story"
+    },
+    {
+      "issueKey": "VOID-3",
+      "resolutionDate": "2026-04-29T04:50:00.000Z",
+      "cycleTimeDays": 15.283333333333335,
+      "issueType": "Story"
+    },
+    {
+      "issueKey": "VOID-4",
+      "resolutionDate": "2026-04-29T04:50:00.000Z",
+      "cycleTimeDays": 17.015,
+      "issueType": "Story"
+    },
+    {
+      "issueKey": "VOID-5",
+      "resolutionDate": "2026-04-29T04:50:00.000Z",
+      "cycleTimeDays": 17.01458333333333,
+      "issueType": "Story"
+    }
+  ],
+  "scatterOverlay": {
+    "p50": 25,
+    "p70": 62,
+    "p85": 199,
+    "p95": 304
+  },
+  "velocityMonthly": [
+    {
+      "month": "2026-02",
+      "value": 4
+    },
+    {
+      "month": "2026-03",
+      "value": 13
+    },
+    {
+      "month": "2026-04",
+      "value": 22
+    }
+  ],
+  "doneIssueDetails": [
+    {
+      "issueKey": "VOID-3",
+      "resolutionDate": "2026-04-29T04:50:00.000Z",
+      "cycleTimeDays": 15.283333333333335,
+      "issueType": "Story",
+      "storyPoints": 4,
+      "sprintCount": 1
+    },
+    {
+      "issueKey": "VOID-4",
+      "resolutionDate": "2026-04-29T04:50:00.000Z",
+      "cycleTimeDays": 17.015,
+      "issueType": "Story",
+      "storyPoints": 4,
+      "sprintCount": 1
+    },
+    {
+      "issueKey": "VOID-5",
+      "resolutionDate": "2026-04-29T04:50:00.000Z",
+      "cycleTimeDays": 17.01458333333333,
+      "issueType": "Story",
+      "storyPoints": 4,
+      "sprintCount": 1
+    },
+    {
+      "issueKey": "VOID-6",
+      "resolutionDate": "2026-04-29T04:49:00.000Z",
+      "cycleTimeDays": 262.94374999999997,
+      "issueType": "Story",
+      "storyPoints": 3,
+      "sprintCount": 2
+    },
+    {
+      "issueKey": "VOID-54",
+      "resolutionDate": "2026-04-29T04:49:00.000Z",
+      "cycleTimeDays": 55.15624999999999,
+      "issueType": "Story",
+      "storyPoints": 1,
+      "sprintCount": 2
+    },
+    {
+      "issueKey": "VOID-53",
+      "resolutionDate": "2026-04-29T04:49:00.000Z",
+      "cycleTimeDays": 77.89833333333331,
+      "issueType": "Bug",
+      "storyPoints": 1,
+      "sprintCount": 1
+    },
+    {
+      "issueKey": "VOID-18",
+      "resolutionDate": "2026-04-29T04:49:00.000Z",
+      "cycleTimeDays": 335.99875,
+      "issueType": "Story",
+      "storyPoints": 2,
+      "sprintCount": 1
+    },
+    {
+      "issueKey": "VOID-43",
+      "resolutionDate": "2026-03-04T11:59:00.000Z",
+      "cycleTimeDays": 71.995,
+      "issueType": "Sub-task",
+      "storyPoints": null,
+      "sprintCount": 3
+    },
+    {
+      "issueKey": "VOID-37",
+      "resolutionDate": "2026-02-13T12:13:00.000Z",
+      "cycleTimeDays": 45.02708333333333,
+      "issueType": "Sub-task",
+      "storyPoints": null,
+      "sprintCount": 3
+    },
+    {
+      "issueKey": "VOID-44",
+      "resolutionDate": "2026-02-13T12:08:00.000Z",
+      "cycleTimeDays": 44.98666666666667,
+      "issueType": "Sub-task",
+      "storyPoints": null,
+      "sprintCount": 3
+    },
+    {
+      "issueKey": "VOID-38",
+      "resolutionDate": "2026-02-13T12:09:00.000Z",
+      "cycleTimeDays": 44.97916666666667,
+      "issueType": "Sub-task",
+      "storyPoints": null,
+      "sprintCount": 3
+    },
+    {
+      "issueKey": "VOID-39",
+      "resolutionDate": "2026-03-04T12:23:00.000Z",
+      "cycleTimeDays": 57.95166666666667,
+      "issueType": "Sub-task",
+      "storyPoints": null,
+      "sprintCount": 3
+    },
+    {
+      "issueKey": "VOID-40",
+      "resolutionDate": "2026-02-13T12:33:00.000Z",
+      "cycleTimeDays": 35.1075,
+      "issueType": "Sub-task",
+      "storyPoints": null,
+      "sprintCount": 3
+    },
+    {
+      "issueKey": "VOID-41",
+      "resolutionDate": "2026-03-04T12:39:00.000Z",
+      "cycleTimeDays": 22.171666666666667,
+      "issueType": "Sub-task",
+      "storyPoints": null,
+      "sprintCount": 3
+    },
+    {
+      "issueKey": "VOID-42",
+      "resolutionDate": "2026-03-04T13:35:00.000Z",
+      "cycleTimeDays": 19.059166666666666,
+      "issueType": "Sub-task",
+      "storyPoints": null,
+      "sprintCount": 3
+    },
+    {
+      "issueKey": "VOID-45",
+      "resolutionDate": "2026-03-02T13:32:00.000Z",
+      "cycleTimeDays": 5.040416666666667,
+      "issueType": "Sub-task",
+      "storyPoints": null,
+      "sprintCount": 3
+    },
+    {
+      "issueKey": "VOID-46",
+      "resolutionDate": "2026-03-02T11:46:00.000Z",
+      "cycleTimeDays": 4.94375,
+      "issueType": "Sub-task",
+      "storyPoints": null,
+      "sprintCount": 3
+    },
+    {
+      "issueKey": "VOID-47",
+      "resolutionDate": "2026-03-03T09:00:00.000Z",
+      "cycleTimeDays": 0.8812500000000001,
+      "issueType": "Sub-task",
+      "storyPoints": null,
+      "sprintCount": 3
+    },
+    {
+      "issueKey": "VOID-29",
+      "resolutionDate": "2026-03-03T08:16:00.000Z",
+      "cycleTimeDays": 5.848750000000001,
+      "issueType": "Sub-task",
+      "storyPoints": null,
+      "sprintCount": 4
+    },
+    {
+      "issueKey": "VOID-30",
+      "resolutionDate": "2026-03-03T08:40:00.000Z",
+      "cycleTimeDays": 5.845833333333333,
+      "issueType": "Sub-task",
+      "storyPoints": null,
+      "sprintCount": 4
+    },
+    {
+      "issueKey": "VOID-31",
+      "resolutionDate": "2026-03-02T12:57:00.000Z",
+      "cycleTimeDays": 5.011666666666667,
+      "issueType": "Sub-task",
+      "storyPoints": null,
+      "sprintCount": 4
+    },
+    {
+      "issueKey": "VOID-32",
+      "resolutionDate": "2026-03-03T07:02:00.000Z",
+      "cycleTimeDays": 5.75125,
+      "issueType": "Sub-task",
+      "storyPoints": null,
+      "sprintCount": 4
+    },
+    {
+      "issueKey": "VOID-33",
+      "resolutionDate": "2026-03-02T12:22:00.000Z",
+      "cycleTimeDays": 4.963333333333333,
+      "issueType": "Sub-task",
+      "storyPoints": null,
+      "sprintCount": 4
+    },
+    {
+      "issueKey": "VOID-34",
+      "resolutionDate": "2026-03-16T08:04:00.000Z",
+      "cycleTimeDays": 13.822499999999998,
+      "issueType": "Sub-task",
+      "storyPoints": null,
+      "sprintCount": 4
+    },
+    {
+      "issueKey": "VOID-81",
+      "resolutionDate": "2026-04-29T04:47:00.000Z",
+      "cycleTimeDays": 31.10083333333333,
+      "issueType": "Story",
+      "storyPoints": 2,
+      "sprintCount": 1
+    },
+    {
+      "issueKey": "VOID-68",
+      "resolutionDate": "2026-04-29T04:49:00.000Z",
+      "cycleTimeDays": 17.055416666666666,
+      "issueType": "Story",
+      "storyPoints": 0,
+      "sprintCount": 1
+    },
+    {
+      "issueKey": "VOID-74",
+      "resolutionDate": "2026-04-29T04:49:00.000Z",
+      "cycleTimeDays": 2.9729166666666664,
+      "issueType": "Story",
+      "storyPoints": 1,
+      "sprintCount": 1
+    }
+  ],
+  "multiSprint": {
+    "count": 19,
+    "percentage": 70.37037037037037
+  }
+}

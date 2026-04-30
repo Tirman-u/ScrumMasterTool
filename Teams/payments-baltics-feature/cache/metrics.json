@@ -1,0 +1,2630 @@
+{
+  "generatedAt": "2026-04-29T09:08:47.116Z",
+  "teamName": "Payments Baltics Feature",
+  "totalImportedRows": 408,
+  "uniqueIssues": 408,
+  "doneIssues": 168,
+  "cycleTimeCount": 168,
+  "cycleTimeDays": [
+    76.02291666666666,
+    146.91875,
+    149.92708333333334,
+    225.82569444444445,
+    250.9625,
+    171.0625,
+    250.06041666666667,
+    190.95,
+    164.94583333333333,
+    255.99583333333334,
+    91.14166666666667,
+    609.9673611111111,
+    206.99305555555554,
+    211.9298611111111,
+    35.861111111111114,
+    213.10972222222222,
+    108.125,
+    42.96875,
+    402.00625,
+    626.1895833333333,
+    211.9986111111111,
+    64.11111111111111,
+    121.10694444444445,
+    135.14930555555554,
+    72.92430555555555,
+    712.2208333333333,
+    340.9923611111111,
+    290.13055555555553,
+    223.6965277777778,
+    155.225,
+    279.06180555555557,
+    397.06319444444443,
+    115.99444444444444,
+    396.99861111111113,
+    589.2756944444444,
+    306.03194444444443,
+    40.97222222222222,
+    424.9798611111111,
+    195.07291666666666,
+    313.0138888888889,
+    431.1625,
+    309.04583333333335,
+    301.7736111111111,
+    320.7361111111111,
+    416.9847222222222,
+    222.79791666666668,
+    70.75416666666666,
+    228.22847222222222,
+    228.99444444444444,
+    64.69375,
+    344.96944444444443,
+    168.06319444444443,
+    39.88472222222222,
+    215.26944444444445,
+    187.63611111111112,
+    233.97430555555556,
+    387.96527777777777,
+    249.78680555555556,
+    501.0527777777778,
+    146.95763888888888,
+    273.09375,
+    277.95208333333335,
+    24.06875,
+    297.06388888888887,
+    308.81458333333336,
+    299.9840277777778,
+    434.8013888888889,
+    171.17013888888889,
+    905.9381944444444,
+    342.91527777777776,
+    178.97708333333333,
+    330.92847222222224,
+    227.01597222222222,
+    179.9298611111111,
+    325.09513888888887,
+    190.8451388888889,
+    106.0125,
+    309.8798611111111,
+    369.9423611111111,
+    163.87569444444443,
+    182.75208333333333,
+    42.96458333333333,
+    256.67083333333335,
+    329.44166666666666,
+    383.88055555555553,
+    14.685416666666667,
+    134.03333333333333,
+    139.79305555555555,
+    210.13611111111112,
+    30.802083333333332,
+    15.977083333333333,
+    154.10555555555555,
+    412.9895833333333,
+    226.7138888888889,
+    416.95694444444445,
+    138.09305555555557,
+    656.125,
+    14.92361111111111,
+    425.9763888888889,
+    862.8888888888889,
+    266.11875,
+    291.93888888888887,
+    167.15625,
+    255.03402777777777,
+    54.31388888888889,
+    566.9743055555556,
+    445.18402777777777,
+    40.91597222222222,
+    451.04583333333335,
+    219.9013888888889,
+    301.39444444444445,
+    476.24375,
+    209.86458333333334,
+    202.375,
+    313.86319444444445,
+    16.72361111111111,
+    100.80208333333333,
+    221.07777777777778,
+    483.21805555555557,
+    118.0826388888889,
+    493.95416666666665,
+    445.06805555555553,
+    256.0513888888889,
+    649.0111111111111,
+    97.62777777777778,
+    269.80902777777777,
+    176.10694444444445,
+    511.19930555555555,
+    26.747916666666665,
+    123.29930555555555,
+    339.81805555555553,
+    194.66736111111112,
+    21.653472222222224,
+    22.30902777777778,
+    108.95069444444445,
+    105.125,
+    134.22708333333333,
+    162.1263888888889,
+    412.02986111111113,
+    305.00347222222223,
+    536.2118055555555,
+    104.17777777777778,
+    344.89722222222224,
+    524.9722222222222,
+    366.83125,
+    148.09652777777777,
+    129.90902777777777,
+    36.34791666666667,
+    36.232638888888886,
+    127.01597222222222,
+    546.1569444444444,
+    206.95277777777778,
+    1.0638888888888889,
+    68.78263888888888,
+    310.9625,
+    75.01319444444445,
+    144.95555555555555,
+    60.94166666666667,
+    782.09375,
+    803.9763888888889,
+    709.9430555555556,
+    551.9708333333333,
+    41.513194444444444,
+    202.94583333333333,
+    42.24652777777778,
+    154.93194444444444,
+    43.328472222222224,
+    158.74652777777777
+  ],
+  "avgCycleTimeDays": 255.7985780423282,
+  "sle": {
+    "percentiles": [
+      50,
+      70,
+      85,
+      95
+    ],
+    "rounding": "ceil",
+    "values": {
+      "p50": 218,
+      "p70": 311,
+      "p85": 431,
+      "p95": 621
+    }
+  },
+  "scatter": [
+    {
+      "issueKey": "VDE19-110",
+      "resolutionDate": "2024-11-04T06:14:00.000Z",
+      "cycleTimeDays": 76.02291666666666,
+      "issueType": "Epic"
+    },
+    {
+      "issueKey": "VDE19-89",
+      "resolutionDate": "2024-11-06T10:36:00.000Z",
+      "cycleTimeDays": 146.91875,
+      "issueType": "Epic"
+    },
+    {
+      "issueKey": "VDE19-121",
+      "resolutionDate": "2024-11-07T07:11:00.000Z",
+      "cycleTimeDays": 149.92708333333334,
+      "issueType": "Epic"
+    },
+    {
+      "issueKey": "VDE19-127",
+      "resolutionDate": "2024-11-07T07:11:00.000Z",
+      "cycleTimeDays": 225.82569444444445,
+      "issueType": "Epic"
+    },
+    {
+      "issueKey": "VDE19-157",
+      "resolutionDate": "2024-11-07T07:12:00.000Z",
+      "cycleTimeDays": 250.9625,
+      "issueType": "Epic"
+    },
+    {
+      "issueKey": "VDE19-122",
+      "resolutionDate": "2024-11-07T08:57:00.000Z",
+      "cycleTimeDays": 171.0625,
+      "issueType": "Epic"
+    },
+    {
+      "issueKey": "VDE19-92",
+      "resolutionDate": "2024-11-11T13:27:00.000Z",
+      "cycleTimeDays": 250.06041666666667,
+      "issueType": "Epic"
+    },
+    {
+      "issueKey": "VDE19-174",
+      "resolutionDate": "2024-11-27T06:22:00.000Z",
+      "cycleTimeDays": 190.95,
+      "issueType": "Epic"
+    },
+    {
+      "issueKey": "VDE19-52",
+      "resolutionDate": "2024-12-02T06:45:00.000Z",
+      "cycleTimeDays": 164.94583333333333,
+      "issueType": "Epic"
+    },
+    {
+      "issueKey": "VDE19-161",
+      "resolutionDate": "2024-12-02T13:32:00.000Z",
+      "cycleTimeDays": 255.99583333333334,
+      "issueType": "Epic"
+    },
+    {
+      "issueKey": "VDE19-58",
+      "resolutionDate": "2024-12-05T08:25:00.000Z",
+      "cycleTimeDays": 91.14166666666667,
+      "issueType": "Epic"
+    },
+    {
+      "issueKey": "VDE19-81",
+      "resolutionDate": "2024-12-12T06:17:00.000Z",
+      "cycleTimeDays": 609.9673611111111,
+      "issueType": "Epic"
+    },
+    {
+      "issueKey": "VDE19-79",
+      "resolutionDate": "2024-12-16T09:01:00.000Z",
+      "cycleTimeDays": 206.99305555555554,
+      "issueType": "Epic"
+    },
+    {
+      "issueKey": "VDE19-167",
+      "resolutionDate": "2024-12-18T08:54:00.000Z",
+      "cycleTimeDays": 211.9298611111111,
+      "issueType": "Epic"
+    },
+    {
+      "issueKey": "VDE19-220",
+      "resolutionDate": "2024-12-19T06:21:00.000Z",
+      "cycleTimeDays": 35.861111111111114,
+      "issueType": "Epic"
+    },
+    {
+      "issueKey": "VDE19-129",
+      "resolutionDate": "2024-12-19T09:51:00.000Z",
+      "cycleTimeDays": 213.10972222222222,
+      "issueType": "Epic"
+    },
+    {
+      "issueKey": "VDE19-165",
+      "resolutionDate": "2024-12-19T13:40:00.000Z",
+      "cycleTimeDays": 108.125,
+      "issueType": "Epic"
+    },
+    {
+      "issueKey": "VDE19-207",
+      "resolutionDate": "2024-12-20T07:30:00.000Z",
+      "cycleTimeDays": 42.96875,
+      "issueType": "Epic"
+    },
+    {
+      "issueKey": "VDE19-46",
+      "resolutionDate": "2024-12-27T11:43:00.000Z",
+      "cycleTimeDays": 402.00625,
+      "issueType": "Epic"
+    },
+    {
+      "issueKey": "VDE19-181",
+      "resolutionDate": "2025-01-09T09:24:00.000Z",
+      "cycleTimeDays": 626.1895833333333,
+      "issueType": "Epic"
+    },
+    {
+      "issueKey": "VDE19-91",
+      "resolutionDate": "2025-01-15T06:47:00.000Z",
+      "cycleTimeDays": 211.9986111111111,
+      "issueType": "Epic"
+    },
+    {
+      "issueKey": "VDE19-222",
+      "resolutionDate": "2025-01-23T10:09:00.000Z",
+      "cycleTimeDays": 64.11111111111111,
+      "issueType": "Epic"
+    },
+    {
+      "issueKey": "VDE19-51",
+      "resolutionDate": "2025-01-23T10:11:00.000Z",
+      "cycleTimeDays": 121.10694444444445,
+      "issueType": "Epic"
+    },
+    {
+      "issueKey": "VDE19-177",
+      "resolutionDate": "2025-01-23T10:12:00.000Z",
+      "cycleTimeDays": 135.14930555555554,
+      "issueType": "Epic"
+    },
+    {
+      "issueKey": "VDE19-266",
+      "resolutionDate": "2025-02-10T06:33:00.000Z",
+      "cycleTimeDays": 72.92430555555555,
+      "issueType": "Epic"
+    },
+    {
+      "issueKey": "VDE19-224",
+      "resolutionDate": "2025-02-12T13:05:00.000Z",
+      "cycleTimeDays": 712.2208333333333,
+      "issueType": "Epic"
+    },
+    {
+      "issueKey": "VDE19-128",
+      "resolutionDate": "2025-02-19T07:06:00.000Z",
+      "cycleTimeDays": 340.9923611111111,
+      "issueType": "Epic"
+    },
+    {
+      "issueKey": "VDE19-67",
+      "resolutionDate": "2025-02-21T10:38:00.000Z",
+      "cycleTimeDays": 290.13055555555553,
+      "issueType": "Epic"
+    },
+    {
+      "issueKey": "VDE19-57",
+      "resolutionDate": "2025-02-25T05:37:00.000Z",
+      "cycleTimeDays": 223.6965277777778,
+      "issueType": "Epic"
+    },
+    {
+      "issueKey": "VDE19-124",
+      "resolutionDate": "2025-02-27T10:42:00.000Z",
+      "cycleTimeDays": 155.225,
+      "issueType": "Epic"
+    },
+    {
+      "issueKey": "VDE19-107",
+      "resolutionDate": "2025-02-27T12:08:00.000Z",
+      "cycleTimeDays": 279.06180555555557,
+      "issueType": "Epic"
+    },
+    {
+      "issueKey": "VDE19-126",
+      "resolutionDate": "2025-03-05T09:43:00.000Z",
+      "cycleTimeDays": 397.06319444444443,
+      "issueType": "Epic"
+    },
+    {
+      "issueKey": "VDE19-219",
+      "resolutionDate": "2025-03-07T07:32:00.000Z",
+      "cycleTimeDays": 115.99444444444444,
+      "issueType": "Epic"
+    },
+    {
+      "issueKey": "VDE19-159",
+      "resolutionDate": "2025-03-11T07:36:00.000Z",
+      "cycleTimeDays": 396.99861111111113,
+      "issueType": "Epic"
+    },
+    {
+      "issueKey": "VDE19-101",
+      "resolutionDate": "2025-03-20T13:02:00.000Z",
+      "cycleTimeDays": 589.2756944444444,
+      "issueType": "Epic"
+    },
+    {
+      "issueKey": "VDE19-90",
+      "resolutionDate": "2025-03-25T08:02:00.000Z",
+      "cycleTimeDays": 306.03194444444443,
+      "issueType": "Epic"
+    },
+    {
+      "issueKey": "VDE19-288",
+      "resolutionDate": "2025-03-26T09:59:00.000Z",
+      "cycleTimeDays": 40.97222222222222,
+      "issueType": "Epic"
+    },
+    {
+      "issueKey": "VDE19-42",
+      "resolutionDate": "2025-04-02T07:41:00.000Z",
+      "cycleTimeDays": 424.9798611111111,
+      "issueType": "Epic"
+    },
+    {
+      "issueKey": "VDE19-38",
+      "resolutionDate": "2025-04-03T08:43:00.000Z",
+      "cycleTimeDays": 195.07291666666666,
+      "issueType": "Epic"
+    },
+    {
+      "issueKey": "VDE19-151",
+      "resolutionDate": "2025-04-07T07:36:00.000Z",
+      "cycleTimeDays": 313.0138888888889,
+      "issueType": "Epic"
+    },
+    {
+      "issueKey": "VDE19-108",
+      "resolutionDate": "2025-04-08T12:08:00.000Z",
+      "cycleTimeDays": 431.1625,
+      "issueType": "Epic"
+    },
+    {
+      "issueKey": "VDE19-45",
+      "resolutionDate": "2025-04-08T12:09:00.000Z",
+      "cycleTimeDays": 309.04583333333335,
+      "issueType": "Epic"
+    },
+    {
+      "issueKey": "VDE19-114",
+      "resolutionDate": "2025-04-10T04:20:00.000Z",
+      "cycleTimeDays": 301.7736111111111,
+      "issueType": "Epic"
+    },
+    {
+      "issueKey": "VDE19-171",
+      "resolutionDate": "2025-04-10T04:22:00.000Z",
+      "cycleTimeDays": 320.7361111111111,
+      "issueType": "Epic"
+    },
+    {
+      "issueKey": "VDE19-97",
+      "resolutionDate": "2025-04-15T08:02:00.000Z",
+      "cycleTimeDays": 416.9847222222222,
+      "issueType": "Epic"
+    },
+    {
+      "issueKey": "VDE19-166",
+      "resolutionDate": "2025-04-22T06:27:00.000Z",
+      "cycleTimeDays": 222.79791666666668,
+      "issueType": "Epic"
+    },
+    {
+      "issueKey": "VDE19-289",
+      "resolutionDate": "2025-04-29T06:20:00.000Z",
+      "cycleTimeDays": 70.75416666666666,
+      "issueType": "Epic"
+    },
+    {
+      "issueKey": "VDE19-63",
+      "resolutionDate": "2025-05-06T12:18:00.000Z",
+      "cycleTimeDays": 228.22847222222222,
+      "issueType": "Epic"
+    },
+    {
+      "issueKey": "VDE19-78",
+      "resolutionDate": "2025-05-07T07:20:00.000Z",
+      "cycleTimeDays": 228.99444444444444,
+      "issueType": "Epic"
+    },
+    {
+      "issueKey": "VDE19-298",
+      "resolutionDate": "2025-05-08T05:08:00.000Z",
+      "cycleTimeDays": 64.69375,
+      "issueType": "Epic"
+    },
+    {
+      "issueKey": "VDE19-96",
+      "resolutionDate": "2025-05-21T12:21:00.000Z",
+      "cycleTimeDays": 344.96944444444443,
+      "issueType": "Epic"
+    },
+    {
+      "issueKey": "VDE19-245",
+      "resolutionDate": "2025-05-29T12:12:00.000Z",
+      "cycleTimeDays": 168.06319444444443,
+      "issueType": "Epic"
+    },
+    {
+      "issueKey": "VDE19-320",
+      "resolutionDate": "2025-06-03T04:53:00.000Z",
+      "cycleTimeDays": 39.88472222222222,
+      "issueType": "Epic"
+    },
+    {
+      "issueKey": "VDE19-215",
+      "resolutionDate": "2025-06-11T13:29:00.000Z",
+      "cycleTimeDays": 215.26944444444445,
+      "issueType": "Epic"
+    },
+    {
+      "issueKey": "VDE19-241",
+      "resolutionDate": "2025-06-12T04:22:00.000Z",
+      "cycleTimeDays": 187.63611111111112,
+      "issueType": "Epic"
+    },
+    {
+      "issueKey": "VDE19-198",
+      "resolutionDate": "2025-06-12T09:38:00.000Z",
+      "cycleTimeDays": 233.97430555555556,
+      "issueType": "Epic"
+    },
+    {
+      "issueKey": "VDE19-178",
+      "resolutionDate": "2025-06-12T09:41:00.000Z",
+      "cycleTimeDays": 387.96527777777777,
+      "issueType": "Epic"
+    },
+    {
+      "issueKey": "VDE19-73",
+      "resolutionDate": "2025-06-16T05:58:00.000Z",
+      "cycleTimeDays": 249.78680555555556,
+      "issueType": "Epic"
+    },
+    {
+      "issueKey": "VDE19-175",
+      "resolutionDate": "2025-06-17T09:32:00.000Z",
+      "cycleTimeDays": 501.0527777777778,
+      "issueType": "Epic"
+    },
+    {
+      "issueKey": "VDE19-279",
+      "resolutionDate": "2025-06-19T05:38:00.000Z",
+      "cycleTimeDays": 146.95763888888888,
+      "issueType": "Epic"
+    },
+    {
+      "issueKey": "VDE19-47",
+      "resolutionDate": "2025-06-20T09:35:00.000Z",
+      "cycleTimeDays": 273.09375,
+      "issueType": "Epic"
+    },
+    {
+      "issueKey": "VDE19-172",
+      "resolutionDate": "2025-06-25T06:45:00.000Z",
+      "cycleTimeDays": 277.95208333333335,
+      "issueType": "Epic"
+    },
+    {
+      "issueKey": "VDE19-345",
+      "resolutionDate": "2025-07-10T06:57:00.000Z",
+      "cycleTimeDays": 24.06875,
+      "issueType": "Epic"
+    },
+    {
+      "issueKey": "VDE19-156",
+      "resolutionDate": "2025-07-17T06:37:00.000Z",
+      "cycleTimeDays": 297.06388888888887,
+      "issueType": "Epic"
+    },
+    {
+      "issueKey": "VDE19-150",
+      "resolutionDate": "2025-07-17T06:38:00.000Z",
+      "cycleTimeDays": 308.81458333333336,
+      "issueType": "Epic"
+    },
+    {
+      "issueKey": "VDE19-133",
+      "resolutionDate": "2025-07-17T07:27:00.000Z",
+      "cycleTimeDays": 299.9840277777778,
+      "issueType": "Epic"
+    },
+    {
+      "issueKey": "VDE19-113",
+      "resolutionDate": "2025-07-29T05:51:00.000Z",
+      "cycleTimeDays": 434.8013888888889,
+      "issueType": "Epic"
+    },
+    {
+      "issueKey": "VDE19-294",
+      "resolutionDate": "2025-08-21T09:49:00.000Z",
+      "cycleTimeDays": 171.17013888888889,
+      "issueType": "Epic"
+    },
+    {
+      "issueKey": "VDE19-138",
+      "resolutionDate": "2025-08-25T05:44:00.000Z",
+      "cycleTimeDays": 905.9381944444444,
+      "issueType": "Epic"
+    },
+    {
+      "issueKey": "VDE19-74",
+      "resolutionDate": "2025-08-29T05:08:00.000Z",
+      "cycleTimeDays": 342.91527777777776,
+      "issueType": "Epic"
+    },
+    {
+      "issueKey": "VDE19-293",
+      "resolutionDate": "2025-08-29T05:09:00.000Z",
+      "cycleTimeDays": 178.97708333333333,
+      "issueType": "Epic"
+    },
+    {
+      "issueKey": "VDE19-104",
+      "resolutionDate": "2025-09-04T04:51:00.000Z",
+      "cycleTimeDays": 330.92847222222224,
+      "issueType": "Epic"
+    },
+    {
+      "issueKey": "VDE19-272",
+      "resolutionDate": "2025-09-04T08:04:00.000Z",
+      "cycleTimeDays": 227.01597222222222,
+      "issueType": "Epic"
+    },
+    {
+      "issueKey": "VDE19-328",
+      "resolutionDate": "2025-09-08T10:24:00.000Z",
+      "cycleTimeDays": 179.9298611111111,
+      "issueType": "Epic"
+    },
+    {
+      "issueKey": "VDE19-197",
+      "resolutionDate": "2025-09-11T09:50:00.000Z",
+      "cycleTimeDays": 325.09513888888887,
+      "issueType": "Epic"
+    },
+    {
+      "issueKey": "VDE19-302",
+      "resolutionDate": "2025-09-17T05:04:00.000Z",
+      "cycleTimeDays": 190.8451388888889,
+      "issueType": "Epic"
+    },
+    {
+      "issueKey": "VDE19-339",
+      "resolutionDate": "2025-09-19T05:56:00.000Z",
+      "cycleTimeDays": 106.0125,
+      "issueType": "Epic"
+    },
+    {
+      "issueKey": "VDE19-221",
+      "resolutionDate": "2025-09-19T10:03:00.000Z",
+      "cycleTimeDays": 309.8798611111111,
+      "issueType": "Epic"
+    },
+    {
+      "issueKey": "VDE19-116",
+      "resolutionDate": "2025-09-25T06:26:00.000Z",
+      "cycleTimeDays": 369.9423611111111,
+      "issueType": "Epic"
+    },
+    {
+      "issueKey": "VDE19-319",
+      "resolutionDate": "2025-09-25T06:27:00.000Z",
+      "cycleTimeDays": 163.87569444444443,
+      "issueType": "Epic"
+    },
+    {
+      "issueKey": "VDE19-313",
+      "resolutionDate": "2025-09-25T06:46:00.000Z",
+      "cycleTimeDays": 182.75208333333333,
+      "issueType": "Epic"
+    },
+    {
+      "issueKey": "VDE19-371",
+      "resolutionDate": "2025-10-01T06:22:00.000Z",
+      "cycleTimeDays": 42.96458333333333,
+      "issueType": "Epic"
+    },
+    {
+      "issueKey": "VDE19-274",
+      "resolutionDate": "2025-10-06T05:29:00.000Z",
+      "cycleTimeDays": 256.67083333333335,
+      "issueType": "Epic"
+    },
+    {
+      "issueKey": "VDE19-217",
+      "resolutionDate": "2025-10-06T07:09:00.000Z",
+      "cycleTimeDays": 329.44166666666666,
+      "issueType": "Epic"
+    },
+    {
+      "issueKey": "VDE19-70",
+      "resolutionDate": "2025-10-09T04:59:00.000Z",
+      "cycleTimeDays": 383.88055555555553,
+      "issueType": "Epic"
+    },
+    {
+      "issueKey": "VDE19-452",
+      "resolutionDate": "2025-10-09T05:33:00.000Z",
+      "cycleTimeDays": 14.685416666666667,
+      "issueType": "Epic"
+    },
+    {
+      "issueKey": "VDE19-343",
+      "resolutionDate": "2025-10-22T09:47:00.000Z",
+      "cycleTimeDays": 134.03333333333333,
+      "issueType": "Epic"
+    },
+    {
+      "issueKey": "VDE19-340",
+      "resolutionDate": "2025-10-23T06:20:00.000Z",
+      "cycleTimeDays": 139.79305555555555,
+      "issueType": "Epic"
+    },
+    {
+      "issueKey": "VDE19-316",
+      "resolutionDate": "2025-10-29T08:23:00.000Z",
+      "cycleTimeDays": 210.13611111111112,
+      "issueType": "Epic"
+    },
+    {
+      "issueKey": "VDE19-497",
+      "resolutionDate": "2025-10-31T08:26:00.000Z",
+      "cycleTimeDays": 30.802083333333332,
+      "issueType": "Epic"
+    },
+    {
+      "issueKey": "VDE19-449",
+      "resolutionDate": "2025-11-05T08:39:00.000Z",
+      "cycleTimeDays": 15.977083333333333,
+      "issueType": "Epic"
+    },
+    {
+      "issueKey": "VDE19-398",
+      "resolutionDate": "2025-11-05T11:27:00.000Z",
+      "cycleTimeDays": 154.10555555555555,
+      "issueType": "Epic"
+    },
+    {
+      "issueKey": "VDE19-41",
+      "resolutionDate": "2025-11-07T06:52:00.000Z",
+      "cycleTimeDays": 412.9895833333333,
+      "issueType": "Epic"
+    },
+    {
+      "issueKey": "VDE19-312",
+      "resolutionDate": "2025-11-08T05:49:00.000Z",
+      "cycleTimeDays": 226.7138888888889,
+      "issueType": "Epic"
+    },
+    {
+      "issueKey": "VDE19-117",
+      "resolutionDate": "2025-11-11T11:06:00.000Z",
+      "cycleTimeDays": 416.95694444444445,
+      "issueType": "Epic"
+    },
+    {
+      "issueKey": "VDE19-354",
+      "resolutionDate": "2025-11-11T11:41:00.000Z",
+      "cycleTimeDays": 138.09305555555557,
+      "issueType": "Epic"
+    },
+    {
+      "issueKey": "VDE19-142",
+      "resolutionDate": "2025-11-19T11:13:00.000Z",
+      "cycleTimeDays": 656.125,
+      "issueType": "Epic"
+    },
+    {
+      "issueKey": "VDE19-491",
+      "resolutionDate": "2025-11-20T06:32:00.000Z",
+      "cycleTimeDays": 14.92361111111111,
+      "issueType": "Epic"
+    },
+    {
+      "issueKey": "VDE19-132",
+      "resolutionDate": "2025-11-20T07:24:00.000Z",
+      "cycleTimeDays": 425.9763888888889,
+      "issueType": "Epic"
+    },
+    {
+      "issueKey": "VDE19-103",
+      "resolutionDate": "2025-11-20T10:02:00.000Z",
+      "cycleTimeDays": 862.8888888888889,
+      "issueType": "Epic"
+    },
+    {
+      "issueKey": "VDE19-295",
+      "resolutionDate": "2025-11-24T08:45:00.000Z",
+      "cycleTimeDays": 266.11875,
+      "issueType": "Epic"
+    },
+    {
+      "issueKey": "VDE19-285",
+      "resolutionDate": "2025-11-24T09:05:00.000Z",
+      "cycleTimeDays": 291.93888888888887,
+      "issueType": "Epic"
+    },
+    {
+      "issueKey": "VDE19-342",
+      "resolutionDate": "2025-11-24T09:06:00.000Z",
+      "cycleTimeDays": 167.15625,
+      "issueType": "Epic"
+    },
+    {
+      "issueKey": "VDE19-304",
+      "resolutionDate": "2025-11-24T09:07:00.000Z",
+      "cycleTimeDays": 255.03402777777777,
+      "issueType": "Epic"
+    },
+    {
+      "issueKey": "VDE19-448",
+      "resolutionDate": "2025-12-03T15:03:00.000Z",
+      "cycleTimeDays": 54.31388888888889,
+      "issueType": "Epic"
+    },
+    {
+      "issueKey": "VDE19-131",
+      "resolutionDate": "2025-12-09T07:53:00.000Z",
+      "cycleTimeDays": 566.9743055555556,
+      "issueType": "Epic"
+    },
+    {
+      "issueKey": "VDE19-66",
+      "resolutionDate": "2025-12-09T11:52:00.000Z",
+      "cycleTimeDays": 445.18402777777777,
+      "issueType": "Epic"
+    },
+    {
+      "issueKey": "VDE19-447",
+      "resolutionDate": "2025-12-11T11:01:00.000Z",
+      "cycleTimeDays": 40.91597222222222,
+      "issueType": "Epic"
+    },
+    {
+      "issueKey": "VDE19-86",
+      "resolutionDate": "2025-12-15T08:48:00.000Z",
+      "cycleTimeDays": 451.04583333333335,
+      "issueType": "Epic"
+    },
+    {
+      "issueKey": "VDE19-322",
+      "resolutionDate": "2025-12-15T08:54:00.000Z",
+      "cycleTimeDays": 219.9013888888889,
+      "issueType": "Epic"
+    },
+    {
+      "issueKey": "VDE19-301",
+      "resolutionDate": "2026-01-05T17:32:00.000Z",
+      "cycleTimeDays": 301.39444444444445,
+      "issueType": "Epic"
+    },
+    {
+      "issueKey": "VDE19-153",
+      "resolutionDate": "2026-01-09T13:14:00.000Z",
+      "cycleTimeDays": 476.24375,
+      "issueType": "Epic"
+    },
+    {
+      "issueKey": "VDE19-346",
+      "resolutionDate": "2026-01-12T07:32:00.000Z",
+      "cycleTimeDays": 209.86458333333334,
+      "issueType": "Epic"
+    },
+    {
+      "issueKey": "VDE19-351",
+      "resolutionDate": "2026-01-13T14:06:00.000Z",
+      "cycleTimeDays": 202.375,
+      "issueType": "Epic"
+    },
+    {
+      "issueKey": "VDE19-300",
+      "resolutionDate": "2026-01-15T06:00:00.000Z",
+      "cycleTimeDays": 313.86319444444445,
+      "issueType": "Epic"
+    },
+    {
+      "issueKey": "VDE19-439",
+      "resolutionDate": "2026-01-15T06:09:00.000Z",
+      "cycleTimeDays": 16.72361111111111,
+      "issueType": "Epic"
+    },
+    {
+      "issueKey": "VDE19-409",
+      "resolutionDate": "2026-01-15T06:11:00.000Z",
+      "cycleTimeDays": 100.80208333333333,
+      "issueType": "Epic"
+    },
+    {
+      "issueKey": "VDE19-341",
+      "resolutionDate": "2026-01-16T12:34:00.000Z",
+      "cycleTimeDays": 221.07777777777778,
+      "issueType": "Epic"
+    },
+    {
+      "issueKey": "VDE19-168",
+      "resolutionDate": "2026-01-16T12:35:00.000Z",
+      "cycleTimeDays": 483.21805555555557,
+      "issueType": "Epic"
+    },
+    {
+      "issueKey": "VDE19-403",
+      "resolutionDate": "2026-01-20T07:21:00.000Z",
+      "cycleTimeDays": 118.0826388888889,
+      "issueType": "Epic"
+    },
+    {
+      "issueKey": "VDE19-148",
+      "resolutionDate": "2026-01-27T06:20:00.000Z",
+      "cycleTimeDays": 493.95416666666665,
+      "issueType": "Epic"
+    },
+    {
+      "issueKey": "VDE19-213",
+      "resolutionDate": "2026-01-27T08:39:00.000Z",
+      "cycleTimeDays": 445.06805555555553,
+      "issueType": "Epic"
+    },
+    {
+      "issueKey": "VDE19-330",
+      "resolutionDate": "2026-01-27T10:28:00.000Z",
+      "cycleTimeDays": 256.0513888888889,
+      "issueType": "Epic"
+    },
+    {
+      "issueKey": "VDE19-95",
+      "resolutionDate": "2026-01-28T11:21:00.000Z",
+      "cycleTimeDays": 649.0111111111111,
+      "issueType": "Epic"
+    },
+    {
+      "issueKey": "VDE19-453",
+      "resolutionDate": "2026-01-29T10:18:00.000Z",
+      "cycleTimeDays": 97.62777777777778,
+      "issueType": "Epic"
+    },
+    {
+      "issueKey": "VDE19-321",
+      "resolutionDate": "2026-02-03T06:39:00.000Z",
+      "cycleTimeDays": 269.80902777777777,
+      "issueType": "Epic"
+    },
+    {
+      "issueKey": "VDE19-377",
+      "resolutionDate": "2026-02-13T09:30:00.000Z",
+      "cycleTimeDays": 176.10694444444445,
+      "issueType": "Epic"
+    },
+    {
+      "issueKey": "VDE19-145",
+      "resolutionDate": "2026-02-13T12:18:00.000Z",
+      "cycleTimeDays": 511.19930555555555,
+      "issueType": "Epic"
+    },
+    {
+      "issueKey": "VDE19-489",
+      "resolutionDate": "2026-02-17T13:24:00.000Z",
+      "cycleTimeDays": 26.747916666666665,
+      "issueType": "Epic"
+    },
+    {
+      "issueKey": "VDE19-446",
+      "resolutionDate": "2026-02-17T13:25:00.000Z",
+      "cycleTimeDays": 123.29930555555555,
+      "issueType": "Epic"
+    },
+    {
+      "issueKey": "VDE19-308",
+      "resolutionDate": "2026-02-20T06:56:00.000Z",
+      "cycleTimeDays": 339.81805555555553,
+      "issueType": "Epic"
+    },
+    {
+      "issueKey": "VDE19-375",
+      "resolutionDate": "2026-03-02T05:20:00.000Z",
+      "cycleTimeDays": 194.66736111111112,
+      "issueType": "Epic"
+    },
+    {
+      "issueKey": "VDE19-514",
+      "resolutionDate": "2026-03-06T09:11:00.000Z",
+      "cycleTimeDays": 21.653472222222224,
+      "issueType": "Epic"
+    },
+    {
+      "issueKey": "VDE19-509",
+      "resolutionDate": "2026-03-06T09:11:00.000Z",
+      "cycleTimeDays": 22.30902777777778,
+      "issueType": "Epic"
+    },
+    {
+      "issueKey": "VDE19-454",
+      "resolutionDate": "2026-03-06T09:12:00.000Z",
+      "cycleTimeDays": 108.95069444444445,
+      "issueType": "Epic"
+    },
+    {
+      "issueKey": "VDE19-490",
+      "resolutionDate": "2026-03-06T09:12:00.000Z",
+      "cycleTimeDays": 105.125,
+      "issueType": "Epic"
+    },
+    {
+      "issueKey": "VDE19-507",
+      "resolutionDate": "2026-03-06T10:56:00.000Z",
+      "cycleTimeDays": 134.22708333333333,
+      "issueType": "Epic"
+    },
+    {
+      "issueKey": "VDE19-445",
+      "resolutionDate": "2026-03-06T10:56:00.000Z",
+      "cycleTimeDays": 162.1263888888889,
+      "issueType": "Epic"
+    },
+    {
+      "issueKey": "VDE19-273",
+      "resolutionDate": "2026-03-10T12:09:00.000Z",
+      "cycleTimeDays": 412.02986111111113,
+      "issueType": "Epic"
+    },
+    {
+      "issueKey": "VDE19-324",
+      "resolutionDate": "2026-03-10T12:17:00.000Z",
+      "cycleTimeDays": 305.00347222222223,
+      "issueType": "Epic"
+    },
+    {
+      "issueKey": "VDE19-39",
+      "resolutionDate": "2026-03-10T12:19:00.000Z",
+      "cycleTimeDays": 536.2118055555555,
+      "issueType": "Epic"
+    },
+    {
+      "issueKey": "VDE19-434",
+      "resolutionDate": "2026-03-10T12:20:00.000Z",
+      "cycleTimeDays": 104.17777777777778,
+      "issueType": "Epic"
+    },
+    {
+      "issueKey": "VDE19-315",
+      "resolutionDate": "2026-03-11T06:47:00.000Z",
+      "cycleTimeDays": 344.89722222222224,
+      "issueType": "Epic"
+    },
+    {
+      "issueKey": "VDE19-43",
+      "resolutionDate": "2026-03-12T05:33:00.000Z",
+      "cycleTimeDays": 524.9722222222222,
+      "issueType": "Epic"
+    },
+    {
+      "issueKey": "VDE19-307",
+      "resolutionDate": "2026-03-19T07:10:00.000Z",
+      "cycleTimeDays": 366.83125,
+      "issueType": "Epic"
+    },
+    {
+      "issueKey": "VDE19-451",
+      "resolutionDate": "2026-03-20T07:54:00.000Z",
+      "cycleTimeDays": 148.09652777777777,
+      "issueType": "Epic"
+    },
+    {
+      "issueKey": "VDE19-450",
+      "resolutionDate": "2026-03-20T07:54:00.000Z",
+      "cycleTimeDays": 129.90902777777777,
+      "issueType": "Epic"
+    },
+    {
+      "issueKey": "VDE19-520",
+      "resolutionDate": "2026-03-20T07:55:00.000Z",
+      "cycleTimeDays": 36.34791666666667,
+      "issueType": "Epic"
+    },
+    {
+      "issueKey": "VDE19-511",
+      "resolutionDate": "2026-03-20T07:55:00.000Z",
+      "cycleTimeDays": 36.232638888888886,
+      "issueType": "Epic"
+    },
+    {
+      "issueKey": "VDE19-518",
+      "resolutionDate": "2026-03-20T07:56:00.000Z",
+      "cycleTimeDays": 127.01597222222222,
+      "issueType": "Epic"
+    },
+    {
+      "issueKey": "VDE19-125",
+      "resolutionDate": "2026-03-20T11:19:00.000Z",
+      "cycleTimeDays": 546.1569444444444,
+      "issueType": "Epic"
+    },
+    {
+      "issueKey": "VDE19-395",
+      "resolutionDate": "2026-03-20T11:39:00.000Z",
+      "cycleTimeDays": 206.95277777777778,
+      "issueType": "Epic"
+    },
+    {
+      "issueKey": "VDE19-529",
+      "resolutionDate": "2026-03-20T13:16:00.000Z",
+      "cycleTimeDays": 1.0638888888888889,
+      "issueType": "Epic"
+    },
+    {
+      "issueKey": "VDE19-463",
+      "resolutionDate": "2026-03-23T06:07:00.000Z",
+      "cycleTimeDays": 68.78263888888888,
+      "issueType": "Epic"
+    },
+    {
+      "issueKey": "VDE19-329",
+      "resolutionDate": "2026-03-23T06:10:00.000Z",
+      "cycleTimeDays": 310.9625,
+      "issueType": "Epic"
+    },
+    {
+      "issueKey": "VDE19-486",
+      "resolutionDate": "2026-03-23T13:26:00.000Z",
+      "cycleTimeDays": 75.01319444444445,
+      "issueType": "Epic"
+    },
+    {
+      "issueKey": "VDE19-423",
+      "resolutionDate": "2026-03-25T06:46:00.000Z",
+      "cycleTimeDays": 144.95555555555555,
+      "issueType": "Epic"
+    },
+    {
+      "issueKey": "VDE19-481",
+      "resolutionDate": "2026-03-25T08:01:00.000Z",
+      "cycleTimeDays": 60.94166666666667,
+      "issueType": "Epic"
+    },
+    {
+      "issueKey": "VDE19-68",
+      "resolutionDate": "2026-03-25T08:02:00.000Z",
+      "cycleTimeDays": 782.09375,
+      "issueType": "Epic"
+    },
+    {
+      "issueKey": "VDE19-93",
+      "resolutionDate": "2026-03-25T08:05:00.000Z",
+      "cycleTimeDays": 803.9763888888889,
+      "issueType": "Epic"
+    },
+    {
+      "issueKey": "VDE19-146",
+      "resolutionDate": "2026-03-26T05:40:00.000Z",
+      "cycleTimeDays": 709.9430555555556,
+      "issueType": "Epic"
+    },
+    {
+      "issueKey": "VDE19-77",
+      "resolutionDate": "2026-03-26T06:23:00.000Z",
+      "cycleTimeDays": 551.9708333333333,
+      "issueType": "Epic"
+    },
+    {
+      "issueKey": "VDE19-515",
+      "resolutionDate": "2026-03-26T06:29:00.000Z",
+      "cycleTimeDays": 41.513194444444444,
+      "issueType": "Epic"
+    },
+    {
+      "issueKey": "VDE19-399",
+      "resolutionDate": "2026-03-26T06:30:00.000Z",
+      "cycleTimeDays": 202.94583333333333,
+      "issueType": "Epic"
+    },
+    {
+      "issueKey": "VDE19-508",
+      "resolutionDate": "2026-03-26T06:42:00.000Z",
+      "cycleTimeDays": 42.24652777777778,
+      "issueType": "Epic"
+    },
+    {
+      "issueKey": "VDE19-485",
+      "resolutionDate": "2026-03-27T09:56:00.000Z",
+      "cycleTimeDays": 154.93194444444444,
+      "issueType": "Epic"
+    },
+    {
+      "issueKey": "VDE19-510",
+      "resolutionDate": "2026-03-27T09:57:00.000Z",
+      "cycleTimeDays": 43.328472222222224,
+      "issueType": "Epic"
+    },
+    {
+      "issueKey": "VDE19-484",
+      "resolutionDate": "2026-03-30T07:00:00.000Z",
+      "cycleTimeDays": 158.74652777777777,
+      "issueType": "Epic"
+    }
+  ],
+  "scatterOverlay": {
+    "p50": 218,
+    "p70": 311,
+    "p85": 431,
+    "p95": 621
+  },
+  "velocityMonthly": [
+    {
+      "month": "2024-11",
+      "value": 8
+    },
+    {
+      "month": "2024-12",
+      "value": 11
+    },
+    {
+      "month": "2025-01",
+      "value": 5
+    },
+    {
+      "month": "2025-02",
+      "value": 7
+    },
+    {
+      "month": "2025-03",
+      "value": 6
+    },
+    {
+      "month": "2025-04",
+      "value": 10
+    },
+    {
+      "month": "2025-05",
+      "value": 5
+    },
+    {
+      "month": "2025-06",
+      "value": 10
+    },
+    {
+      "month": "2025-07",
+      "value": 5
+    },
+    {
+      "month": "2025-08",
+      "value": 4
+    },
+    {
+      "month": "2025-09",
+      "value": 10
+    },
+    {
+      "month": "2025-10",
+      "value": 17
+    },
+    {
+      "month": "2025-11",
+      "value": 14
+    },
+    {
+      "month": "2025-12",
+      "value": 6
+    },
+    {
+      "month": "2026-01",
+      "value": 15
+    },
+    {
+      "month": "2026-02",
+      "value": 6
+    },
+    {
+      "month": "2026-03",
+      "value": 40
+    }
+  ],
+  "doneIssueDetails": [
+    {
+      "issueKey": "VDE19-145",
+      "resolutionDate": "2026-02-13T12:18:00.000Z",
+      "cycleTimeDays": 511.19930555555555,
+      "issueType": "Epic",
+      "storyPoints": null,
+      "sprintCount": 0
+    },
+    {
+      "issueKey": "VDE19-77",
+      "resolutionDate": "2026-03-26T06:23:00.000Z",
+      "cycleTimeDays": 551.9708333333333,
+      "issueType": "Epic",
+      "storyPoints": null,
+      "sprintCount": 0
+    },
+    {
+      "issueKey": "VDE19-148",
+      "resolutionDate": "2026-01-27T06:20:00.000Z",
+      "cycleTimeDays": 493.95416666666665,
+      "issueType": "Epic",
+      "storyPoints": null,
+      "sprintCount": 0
+    },
+    {
+      "issueKey": "VDE19-47",
+      "resolutionDate": "2025-06-20T09:35:00.000Z",
+      "cycleTimeDays": 273.09375,
+      "issueType": "Epic",
+      "storyPoints": null,
+      "sprintCount": 0
+    },
+    {
+      "issueKey": "VDE19-172",
+      "resolutionDate": "2025-06-25T06:45:00.000Z",
+      "cycleTimeDays": 277.95208333333335,
+      "issueType": "Epic",
+      "storyPoints": null,
+      "sprintCount": 0
+    },
+    {
+      "issueKey": "VDE19-151",
+      "resolutionDate": "2025-04-07T07:36:00.000Z",
+      "cycleTimeDays": 313.0138888888889,
+      "issueType": "Epic",
+      "storyPoints": null,
+      "sprintCount": 0
+    },
+    {
+      "issueKey": "VDE19-289",
+      "resolutionDate": "2025-04-29T06:20:00.000Z",
+      "cycleTimeDays": 70.75416666666666,
+      "issueType": "Epic",
+      "storyPoints": null,
+      "sprintCount": 0
+    },
+    {
+      "issueKey": "VDE19-197",
+      "resolutionDate": "2025-09-11T09:50:00.000Z",
+      "cycleTimeDays": 325.09513888888887,
+      "issueType": "Epic",
+      "storyPoints": null,
+      "sprintCount": 0
+    },
+    {
+      "issueKey": "VDE19-217",
+      "resolutionDate": "2025-10-06T07:09:00.000Z",
+      "cycleTimeDays": 329.44166666666666,
+      "issueType": "Epic",
+      "storyPoints": null,
+      "sprintCount": 0
+    },
+    {
+      "issueKey": "VDE19-175",
+      "resolutionDate": "2025-06-17T09:32:00.000Z",
+      "cycleTimeDays": 501.0527777777778,
+      "issueType": "Epic",
+      "storyPoints": null,
+      "sprintCount": 0
+    },
+    {
+      "issueKey": "VDE19-138",
+      "resolutionDate": "2025-08-25T05:44:00.000Z",
+      "cycleTimeDays": 905.9381944444444,
+      "issueType": "Epic",
+      "storyPoints": null,
+      "sprintCount": 0
+    },
+    {
+      "issueKey": "VDE19-113",
+      "resolutionDate": "2025-07-29T05:51:00.000Z",
+      "cycleTimeDays": 434.8013888888889,
+      "issueType": "Epic",
+      "storyPoints": null,
+      "sprintCount": 0
+    },
+    {
+      "issueKey": "VDE19-221",
+      "resolutionDate": "2025-09-19T10:03:00.000Z",
+      "cycleTimeDays": 309.8798611111111,
+      "issueType": "Epic",
+      "storyPoints": null,
+      "sprintCount": 0
+    },
+    {
+      "issueKey": "VDE19-66",
+      "resolutionDate": "2025-12-09T11:52:00.000Z",
+      "cycleTimeDays": 445.18402777777777,
+      "issueType": "Epic",
+      "storyPoints": null,
+      "sprintCount": 0
+    },
+    {
+      "issueKey": "VDE19-107",
+      "resolutionDate": "2025-02-27T12:08:00.000Z",
+      "cycleTimeDays": 279.06180555555557,
+      "issueType": "Epic",
+      "storyPoints": null,
+      "sprintCount": 0
+    },
+    {
+      "issueKey": "VDE19-97",
+      "resolutionDate": "2025-04-15T08:02:00.000Z",
+      "cycleTimeDays": 416.9847222222222,
+      "issueType": "Epic",
+      "storyPoints": null,
+      "sprintCount": 0
+    },
+    {
+      "issueKey": "VDE19-57",
+      "resolutionDate": "2025-02-25T05:37:00.000Z",
+      "cycleTimeDays": 223.6965277777778,
+      "issueType": "Epic",
+      "storyPoints": null,
+      "sprintCount": 0
+    },
+    {
+      "issueKey": "VDE19-128",
+      "resolutionDate": "2025-02-19T07:06:00.000Z",
+      "cycleTimeDays": 340.9923611111111,
+      "issueType": "Epic",
+      "storyPoints": null,
+      "sprintCount": 0
+    },
+    {
+      "issueKey": "VDE19-63",
+      "resolutionDate": "2025-05-06T12:18:00.000Z",
+      "cycleTimeDays": 228.22847222222222,
+      "issueType": "Epic",
+      "storyPoints": null,
+      "sprintCount": 0
+    },
+    {
+      "issueKey": "VDE19-279",
+      "resolutionDate": "2025-06-19T05:38:00.000Z",
+      "cycleTimeDays": 146.95763888888888,
+      "issueType": "Epic",
+      "storyPoints": null,
+      "sprintCount": 0
+    },
+    {
+      "issueKey": "VDE19-78",
+      "resolutionDate": "2025-05-07T07:20:00.000Z",
+      "cycleTimeDays": 228.99444444444444,
+      "issueType": "Epic",
+      "storyPoints": null,
+      "sprintCount": 0
+    },
+    {
+      "issueKey": "VDE19-124",
+      "resolutionDate": "2025-02-27T10:42:00.000Z",
+      "cycleTimeDays": 155.225,
+      "issueType": "Epic",
+      "storyPoints": null,
+      "sprintCount": 0
+    },
+    {
+      "issueKey": "VDE19-224",
+      "resolutionDate": "2025-02-12T13:05:00.000Z",
+      "cycleTimeDays": 712.2208333333333,
+      "issueType": "Epic",
+      "storyPoints": null,
+      "sprintCount": 0
+    },
+    {
+      "issueKey": "VDE19-288",
+      "resolutionDate": "2025-03-26T09:59:00.000Z",
+      "cycleTimeDays": 40.97222222222222,
+      "issueType": "Epic",
+      "storyPoints": null,
+      "sprintCount": 0
+    },
+    {
+      "issueKey": "VDE19-171",
+      "resolutionDate": "2025-04-10T04:22:00.000Z",
+      "cycleTimeDays": 320.7361111111111,
+      "issueType": "Epic",
+      "storyPoints": null,
+      "sprintCount": 0
+    },
+    {
+      "issueKey": "VDE19-126",
+      "resolutionDate": "2025-03-05T09:43:00.000Z",
+      "cycleTimeDays": 397.06319444444443,
+      "issueType": "Epic",
+      "storyPoints": null,
+      "sprintCount": 0
+    },
+    {
+      "issueKey": "VDE19-90",
+      "resolutionDate": "2025-03-25T08:02:00.000Z",
+      "cycleTimeDays": 306.03194444444443,
+      "issueType": "Epic",
+      "storyPoints": null,
+      "sprintCount": 0
+    },
+    {
+      "issueKey": "VDE19-42",
+      "resolutionDate": "2025-04-02T07:41:00.000Z",
+      "cycleTimeDays": 424.9798611111111,
+      "issueType": "Epic",
+      "storyPoints": null,
+      "sprintCount": 0
+    },
+    {
+      "issueKey": "VDE19-45",
+      "resolutionDate": "2025-04-08T12:09:00.000Z",
+      "cycleTimeDays": 309.04583333333335,
+      "issueType": "Epic",
+      "storyPoints": null,
+      "sprintCount": 0
+    },
+    {
+      "issueKey": "VDE19-108",
+      "resolutionDate": "2025-04-08T12:08:00.000Z",
+      "cycleTimeDays": 431.1625,
+      "issueType": "Epic",
+      "storyPoints": null,
+      "sprintCount": 0
+    },
+    {
+      "issueKey": "VDE19-219",
+      "resolutionDate": "2025-03-07T07:32:00.000Z",
+      "cycleTimeDays": 115.99444444444444,
+      "issueType": "Epic",
+      "storyPoints": null,
+      "sprintCount": 0
+    },
+    {
+      "issueKey": "VDE19-114",
+      "resolutionDate": "2025-04-10T04:20:00.000Z",
+      "cycleTimeDays": 301.7736111111111,
+      "issueType": "Epic",
+      "storyPoints": null,
+      "sprintCount": 0
+    },
+    {
+      "issueKey": "VDE19-266",
+      "resolutionDate": "2025-02-10T06:33:00.000Z",
+      "cycleTimeDays": 72.92430555555555,
+      "issueType": "Epic",
+      "storyPoints": null,
+      "sprintCount": 0
+    },
+    {
+      "issueKey": "VDE19-274",
+      "resolutionDate": "2025-10-06T05:29:00.000Z",
+      "cycleTimeDays": 256.67083333333335,
+      "issueType": "Epic",
+      "storyPoints": null,
+      "sprintCount": 0
+    },
+    {
+      "issueKey": "VDE19-174",
+      "resolutionDate": "2024-11-27T06:22:00.000Z",
+      "cycleTimeDays": 190.95,
+      "issueType": "Epic",
+      "storyPoints": null,
+      "sprintCount": 0
+    },
+    {
+      "issueKey": "VDE19-122",
+      "resolutionDate": "2024-11-07T08:57:00.000Z",
+      "cycleTimeDays": 171.0625,
+      "issueType": "Epic",
+      "storyPoints": null,
+      "sprintCount": 0
+    },
+    {
+      "issueKey": "VDE19-129",
+      "resolutionDate": "2024-12-19T09:51:00.000Z",
+      "cycleTimeDays": 213.10972222222222,
+      "issueType": "Epic",
+      "storyPoints": null,
+      "sprintCount": 0
+    },
+    {
+      "issueKey": "VDE19-167",
+      "resolutionDate": "2024-12-18T08:54:00.000Z",
+      "cycleTimeDays": 211.9298611111111,
+      "issueType": "Epic",
+      "storyPoints": null,
+      "sprintCount": 0
+    },
+    {
+      "issueKey": "VDE19-121",
+      "resolutionDate": "2024-11-07T07:11:00.000Z",
+      "cycleTimeDays": 149.92708333333334,
+      "issueType": "Epic",
+      "storyPoints": null,
+      "sprintCount": 0
+    },
+    {
+      "issueKey": "VDE19-89",
+      "resolutionDate": "2024-11-06T10:36:00.000Z",
+      "cycleTimeDays": 146.91875,
+      "issueType": "Epic",
+      "storyPoints": null,
+      "sprintCount": 0
+    },
+    {
+      "issueKey": "VDE19-91",
+      "resolutionDate": "2025-01-15T06:47:00.000Z",
+      "cycleTimeDays": 211.9986111111111,
+      "issueType": "Epic",
+      "storyPoints": null,
+      "sprintCount": 0
+    },
+    {
+      "issueKey": "VDE19-161",
+      "resolutionDate": "2024-12-02T13:32:00.000Z",
+      "cycleTimeDays": 255.99583333333334,
+      "issueType": "Epic",
+      "storyPoints": null,
+      "sprintCount": 0
+    },
+    {
+      "issueKey": "VDE19-159",
+      "resolutionDate": "2025-03-11T07:36:00.000Z",
+      "cycleTimeDays": 396.99861111111113,
+      "issueType": "Epic",
+      "storyPoints": null,
+      "sprintCount": 0
+    },
+    {
+      "issueKey": "VDE19-92",
+      "resolutionDate": "2024-11-11T13:27:00.000Z",
+      "cycleTimeDays": 250.06041666666667,
+      "issueType": "Epic",
+      "storyPoints": null,
+      "sprintCount": 0
+    },
+    {
+      "issueKey": "VDE19-157",
+      "resolutionDate": "2024-11-07T07:12:00.000Z",
+      "cycleTimeDays": 250.9625,
+      "issueType": "Epic",
+      "storyPoints": null,
+      "sprintCount": 0
+    },
+    {
+      "issueKey": "VDE19-165",
+      "resolutionDate": "2024-12-19T13:40:00.000Z",
+      "cycleTimeDays": 108.125,
+      "issueType": "Epic",
+      "storyPoints": null,
+      "sprintCount": 0
+    },
+    {
+      "issueKey": "VDE19-79",
+      "resolutionDate": "2024-12-16T09:01:00.000Z",
+      "cycleTimeDays": 206.99305555555554,
+      "issueType": "Epic",
+      "storyPoints": null,
+      "sprintCount": 0
+    },
+    {
+      "issueKey": "VDE19-52",
+      "resolutionDate": "2024-12-02T06:45:00.000Z",
+      "cycleTimeDays": 164.94583333333333,
+      "issueType": "Epic",
+      "storyPoints": null,
+      "sprintCount": 0
+    },
+    {
+      "issueKey": "VDE19-101",
+      "resolutionDate": "2025-03-20T13:02:00.000Z",
+      "cycleTimeDays": 589.2756944444444,
+      "issueType": "Epic",
+      "storyPoints": null,
+      "sprintCount": 0
+    },
+    {
+      "issueKey": "VDE19-181",
+      "resolutionDate": "2025-01-09T09:24:00.000Z",
+      "cycleTimeDays": 626.1895833333333,
+      "issueType": "Epic",
+      "storyPoints": null,
+      "sprintCount": 0
+    },
+    {
+      "issueKey": "VDE19-81",
+      "resolutionDate": "2024-12-12T06:17:00.000Z",
+      "cycleTimeDays": 609.9673611111111,
+      "issueType": "Epic",
+      "storyPoints": null,
+      "sprintCount": 0
+    },
+    {
+      "issueKey": "VDE19-110",
+      "resolutionDate": "2024-11-04T06:14:00.000Z",
+      "cycleTimeDays": 76.02291666666666,
+      "issueType": "Epic",
+      "storyPoints": null,
+      "sprintCount": 0
+    },
+    {
+      "issueKey": "VDE19-127",
+      "resolutionDate": "2024-11-07T07:11:00.000Z",
+      "cycleTimeDays": 225.82569444444445,
+      "issueType": "Epic",
+      "storyPoints": null,
+      "sprintCount": 0
+    },
+    {
+      "issueKey": "VDE19-67",
+      "resolutionDate": "2025-02-21T10:38:00.000Z",
+      "cycleTimeDays": 290.13055555555553,
+      "issueType": "Epic",
+      "storyPoints": null,
+      "sprintCount": 0
+    },
+    {
+      "issueKey": "VDE19-38",
+      "resolutionDate": "2025-04-03T08:43:00.000Z",
+      "cycleTimeDays": 195.07291666666666,
+      "issueType": "Epic",
+      "storyPoints": null,
+      "sprintCount": 0
+    },
+    {
+      "issueKey": "VDE19-58",
+      "resolutionDate": "2024-12-05T08:25:00.000Z",
+      "cycleTimeDays": 91.14166666666667,
+      "issueType": "Epic",
+      "storyPoints": null,
+      "sprintCount": 0
+    },
+    {
+      "issueKey": "VDE19-220",
+      "resolutionDate": "2024-12-19T06:21:00.000Z",
+      "cycleTimeDays": 35.861111111111114,
+      "issueType": "Epic",
+      "storyPoints": null,
+      "sprintCount": 0
+    },
+    {
+      "issueKey": "VDE19-222",
+      "resolutionDate": "2025-01-23T10:09:00.000Z",
+      "cycleTimeDays": 64.11111111111111,
+      "issueType": "Epic",
+      "storyPoints": null,
+      "sprintCount": 0
+    },
+    {
+      "issueKey": "VDE19-207",
+      "resolutionDate": "2024-12-20T07:30:00.000Z",
+      "cycleTimeDays": 42.96875,
+      "issueType": "Epic",
+      "storyPoints": null,
+      "sprintCount": 0
+    },
+    {
+      "issueKey": "VDE19-177",
+      "resolutionDate": "2025-01-23T10:12:00.000Z",
+      "cycleTimeDays": 135.14930555555554,
+      "issueType": "Epic",
+      "storyPoints": null,
+      "sprintCount": 0
+    },
+    {
+      "issueKey": "VDE19-51",
+      "resolutionDate": "2025-01-23T10:11:00.000Z",
+      "cycleTimeDays": 121.10694444444445,
+      "issueType": "Epic",
+      "storyPoints": null,
+      "sprintCount": 0
+    },
+    {
+      "issueKey": "VDE19-46",
+      "resolutionDate": "2024-12-27T11:43:00.000Z",
+      "cycleTimeDays": 402.00625,
+      "issueType": "Epic",
+      "storyPoints": null,
+      "sprintCount": 0
+    },
+    {
+      "issueKey": "VDE19-320",
+      "resolutionDate": "2025-06-03T04:53:00.000Z",
+      "cycleTimeDays": 39.88472222222222,
+      "issueType": "Epic",
+      "storyPoints": null,
+      "sprintCount": 0
+    },
+    {
+      "issueKey": "VDE19-125",
+      "resolutionDate": "2026-03-20T11:19:00.000Z",
+      "cycleTimeDays": 546.1569444444444,
+      "issueType": "Epic",
+      "storyPoints": null,
+      "sprintCount": 0
+    },
+    {
+      "issueKey": "VDE19-39",
+      "resolutionDate": "2026-03-10T12:19:00.000Z",
+      "cycleTimeDays": 536.2118055555555,
+      "issueType": "Epic",
+      "storyPoints": null,
+      "sprintCount": 0
+    },
+    {
+      "issueKey": "VDE19-298",
+      "resolutionDate": "2025-05-08T05:08:00.000Z",
+      "cycleTimeDays": 64.69375,
+      "issueType": "Epic",
+      "storyPoints": null,
+      "sprintCount": 0
+    },
+    {
+      "issueKey": "VDE19-245",
+      "resolutionDate": "2025-05-29T12:12:00.000Z",
+      "cycleTimeDays": 168.06319444444443,
+      "issueType": "Epic",
+      "storyPoints": null,
+      "sprintCount": 0
+    },
+    {
+      "issueKey": "VDE19-73",
+      "resolutionDate": "2025-06-16T05:58:00.000Z",
+      "cycleTimeDays": 249.78680555555556,
+      "issueType": "Epic",
+      "storyPoints": null,
+      "sprintCount": 0
+    },
+    {
+      "issueKey": "VDE19-241",
+      "resolutionDate": "2025-06-12T04:22:00.000Z",
+      "cycleTimeDays": 187.63611111111112,
+      "issueType": "Epic",
+      "storyPoints": null,
+      "sprintCount": 0
+    },
+    {
+      "issueKey": "VDE19-294",
+      "resolutionDate": "2025-08-21T09:49:00.000Z",
+      "cycleTimeDays": 171.17013888888889,
+      "issueType": "Epic",
+      "storyPoints": null,
+      "sprintCount": 0
+    },
+    {
+      "issueKey": "VDE19-133",
+      "resolutionDate": "2025-07-17T07:27:00.000Z",
+      "cycleTimeDays": 299.9840277777778,
+      "issueType": "Epic",
+      "storyPoints": null,
+      "sprintCount": 0
+    },
+    {
+      "issueKey": "VDE19-198",
+      "resolutionDate": "2025-06-12T09:38:00.000Z",
+      "cycleTimeDays": 233.97430555555556,
+      "issueType": "Epic",
+      "storyPoints": null,
+      "sprintCount": 0
+    },
+    {
+      "issueKey": "VDE19-215",
+      "resolutionDate": "2025-06-11T13:29:00.000Z",
+      "cycleTimeDays": 215.26944444444445,
+      "issueType": "Epic",
+      "storyPoints": null,
+      "sprintCount": 0
+    },
+    {
+      "issueKey": "VDE19-96",
+      "resolutionDate": "2025-05-21T12:21:00.000Z",
+      "cycleTimeDays": 344.96944444444443,
+      "issueType": "Epic",
+      "storyPoints": null,
+      "sprintCount": 0
+    },
+    {
+      "issueKey": "VDE19-178",
+      "resolutionDate": "2025-06-12T09:41:00.000Z",
+      "cycleTimeDays": 387.96527777777777,
+      "issueType": "Epic",
+      "storyPoints": null,
+      "sprintCount": 0
+    },
+    {
+      "issueKey": "VDE19-272",
+      "resolutionDate": "2025-09-04T08:04:00.000Z",
+      "cycleTimeDays": 227.01597222222222,
+      "issueType": "Epic",
+      "storyPoints": null,
+      "sprintCount": 0
+    },
+    {
+      "issueKey": "VDE19-74",
+      "resolutionDate": "2025-08-29T05:08:00.000Z",
+      "cycleTimeDays": 342.91527777777776,
+      "issueType": "Epic",
+      "storyPoints": null,
+      "sprintCount": 0
+    },
+    {
+      "issueKey": "VDE19-293",
+      "resolutionDate": "2025-08-29T05:09:00.000Z",
+      "cycleTimeDays": 178.97708333333333,
+      "issueType": "Epic",
+      "storyPoints": null,
+      "sprintCount": 0
+    },
+    {
+      "issueKey": "VDE19-104",
+      "resolutionDate": "2025-09-04T04:51:00.000Z",
+      "cycleTimeDays": 330.92847222222224,
+      "issueType": "Epic",
+      "storyPoints": null,
+      "sprintCount": 0
+    },
+    {
+      "issueKey": "VDE19-153",
+      "resolutionDate": "2026-01-09T13:14:00.000Z",
+      "cycleTimeDays": 476.24375,
+      "issueType": "Epic",
+      "storyPoints": null,
+      "sprintCount": 0
+    },
+    {
+      "issueKey": "VDE19-86",
+      "resolutionDate": "2025-12-15T08:48:00.000Z",
+      "cycleTimeDays": 451.04583333333335,
+      "issueType": "Epic",
+      "storyPoints": null,
+      "sprintCount": 0
+    },
+    {
+      "issueKey": "VDE19-300",
+      "resolutionDate": "2026-01-15T06:00:00.000Z",
+      "cycleTimeDays": 313.86319444444445,
+      "issueType": "Epic",
+      "storyPoints": null,
+      "sprintCount": 0
+    },
+    {
+      "issueKey": "VDE19-41",
+      "resolutionDate": "2025-11-07T06:52:00.000Z",
+      "cycleTimeDays": 412.9895833333333,
+      "issueType": "Epic",
+      "storyPoints": null,
+      "sprintCount": 0
+    },
+    {
+      "issueKey": "VDE19-168",
+      "resolutionDate": "2026-01-16T12:35:00.000Z",
+      "cycleTimeDays": 483.21805555555557,
+      "issueType": "Epic",
+      "storyPoints": null,
+      "sprintCount": 0
+    },
+    {
+      "issueKey": "VDE19-295",
+      "resolutionDate": "2025-11-24T08:45:00.000Z",
+      "cycleTimeDays": 266.11875,
+      "issueType": "Epic",
+      "storyPoints": null,
+      "sprintCount": 0
+    },
+    {
+      "issueKey": "VDE19-213",
+      "resolutionDate": "2026-01-27T08:39:00.000Z",
+      "cycleTimeDays": 445.06805555555553,
+      "issueType": "Epic",
+      "storyPoints": null,
+      "sprintCount": 0
+    },
+    {
+      "issueKey": "VDE19-142",
+      "resolutionDate": "2025-11-19T11:13:00.000Z",
+      "cycleTimeDays": 656.125,
+      "issueType": "Epic",
+      "storyPoints": null,
+      "sprintCount": 0
+    },
+    {
+      "issueKey": "VDE19-343",
+      "resolutionDate": "2025-10-22T09:47:00.000Z",
+      "cycleTimeDays": 134.03333333333333,
+      "issueType": "Epic",
+      "storyPoints": null,
+      "sprintCount": 0
+    },
+    {
+      "issueKey": "VDE19-315",
+      "resolutionDate": "2026-03-11T06:47:00.000Z",
+      "cycleTimeDays": 344.89722222222224,
+      "issueType": "Epic",
+      "storyPoints": null,
+      "sprintCount": 0
+    },
+    {
+      "issueKey": "VDE19-313",
+      "resolutionDate": "2025-09-25T06:46:00.000Z",
+      "cycleTimeDays": 182.75208333333333,
+      "issueType": "Epic",
+      "storyPoints": null,
+      "sprintCount": 0
+    },
+    {
+      "issueKey": "VDE19-345",
+      "resolutionDate": "2025-07-10T06:57:00.000Z",
+      "cycleTimeDays": 24.06875,
+      "issueType": "Epic",
+      "storyPoints": null,
+      "sprintCount": 0
+    },
+    {
+      "issueKey": "VDE19-328",
+      "resolutionDate": "2025-09-08T10:24:00.000Z",
+      "cycleTimeDays": 179.9298611111111,
+      "issueType": "Epic",
+      "storyPoints": null,
+      "sprintCount": 1
+    },
+    {
+      "issueKey": "VDE19-319",
+      "resolutionDate": "2025-09-25T06:27:00.000Z",
+      "cycleTimeDays": 163.87569444444443,
+      "issueType": "Epic",
+      "storyPoints": null,
+      "sprintCount": 0
+    },
+    {
+      "issueKey": "VDE19-312",
+      "resolutionDate": "2025-11-08T05:49:00.000Z",
+      "cycleTimeDays": 226.7138888888889,
+      "issueType": "Epic",
+      "storyPoints": null,
+      "sprintCount": 0
+    },
+    {
+      "issueKey": "VDE19-116",
+      "resolutionDate": "2025-09-25T06:26:00.000Z",
+      "cycleTimeDays": 369.9423611111111,
+      "issueType": "Epic",
+      "storyPoints": null,
+      "sprintCount": 0
+    },
+    {
+      "issueKey": "VDE19-339",
+      "resolutionDate": "2025-09-19T05:56:00.000Z",
+      "cycleTimeDays": 106.0125,
+      "issueType": "Epic",
+      "storyPoints": null,
+      "sprintCount": 0
+    },
+    {
+      "issueKey": "VDE19-302",
+      "resolutionDate": "2025-09-17T05:04:00.000Z",
+      "cycleTimeDays": 190.8451388888889,
+      "issueType": "Epic",
+      "storyPoints": null,
+      "sprintCount": 0
+    },
+    {
+      "issueKey": "VDE19-340",
+      "resolutionDate": "2025-10-23T06:20:00.000Z",
+      "cycleTimeDays": 139.79305555555555,
+      "issueType": "Epic",
+      "storyPoints": null,
+      "sprintCount": 0
+    },
+    {
+      "issueKey": "VDE19-117",
+      "resolutionDate": "2025-11-11T11:06:00.000Z",
+      "cycleTimeDays": 416.95694444444445,
+      "issueType": "Epic",
+      "storyPoints": null,
+      "sprintCount": 0
+    },
+    {
+      "issueKey": "VDE19-304",
+      "resolutionDate": "2025-11-24T09:07:00.000Z",
+      "cycleTimeDays": 255.03402777777777,
+      "issueType": "Epic",
+      "storyPoints": null,
+      "sprintCount": 0
+    },
+    {
+      "issueKey": "VDE19-285",
+      "resolutionDate": "2025-11-24T09:05:00.000Z",
+      "cycleTimeDays": 291.93888888888887,
+      "issueType": "Epic",
+      "storyPoints": null,
+      "sprintCount": 0
+    },
+    {
+      "issueKey": "VDE19-346",
+      "resolutionDate": "2026-01-12T07:32:00.000Z",
+      "cycleTimeDays": 209.86458333333334,
+      "issueType": "Epic",
+      "storyPoints": null,
+      "sprintCount": 0
+    },
+    {
+      "issueKey": "VDE19-351",
+      "resolutionDate": "2026-01-13T14:06:00.000Z",
+      "cycleTimeDays": 202.375,
+      "issueType": "Epic",
+      "storyPoints": null,
+      "sprintCount": 0
+    },
+    {
+      "issueKey": "VDE19-330",
+      "resolutionDate": "2026-01-27T10:28:00.000Z",
+      "cycleTimeDays": 256.0513888888889,
+      "issueType": "Epic",
+      "storyPoints": null,
+      "sprintCount": 0
+    },
+    {
+      "issueKey": "VDE19-103",
+      "resolutionDate": "2025-11-20T10:02:00.000Z",
+      "cycleTimeDays": 862.8888888888889,
+      "issueType": "Epic",
+      "storyPoints": null,
+      "sprintCount": 0
+    },
+    {
+      "issueKey": "VDE19-403",
+      "resolutionDate": "2026-01-20T07:21:00.000Z",
+      "cycleTimeDays": 118.0826388888889,
+      "issueType": "Epic",
+      "storyPoints": null,
+      "sprintCount": 0
+    },
+    {
+      "issueKey": "VDE19-377",
+      "resolutionDate": "2026-02-13T09:30:00.000Z",
+      "cycleTimeDays": 176.10694444444445,
+      "issueType": "Epic",
+      "storyPoints": null,
+      "sprintCount": 0
+    },
+    {
+      "issueKey": "VDE19-307",
+      "resolutionDate": "2026-03-19T07:10:00.000Z",
+      "cycleTimeDays": 366.83125,
+      "issueType": "Epic",
+      "storyPoints": null,
+      "sprintCount": 0
+    },
+    {
+      "issueKey": "VDE19-329",
+      "resolutionDate": "2026-03-23T06:10:00.000Z",
+      "cycleTimeDays": 310.9625,
+      "issueType": "Epic",
+      "storyPoints": null,
+      "sprintCount": 0
+    },
+    {
+      "issueKey": "VDE19-70",
+      "resolutionDate": "2025-10-09T04:59:00.000Z",
+      "cycleTimeDays": 383.88055555555553,
+      "issueType": "Epic",
+      "storyPoints": null,
+      "sprintCount": 0
+    },
+    {
+      "issueKey": "VDE19-132",
+      "resolutionDate": "2025-11-20T07:24:00.000Z",
+      "cycleTimeDays": 425.9763888888889,
+      "issueType": "Epic",
+      "storyPoints": null,
+      "sprintCount": 0
+    },
+    {
+      "issueKey": "VDE19-342",
+      "resolutionDate": "2025-11-24T09:06:00.000Z",
+      "cycleTimeDays": 167.15625,
+      "issueType": "Epic",
+      "storyPoints": null,
+      "sprintCount": 0
+    },
+    {
+      "issueKey": "VDE19-371",
+      "resolutionDate": "2025-10-01T06:22:00.000Z",
+      "cycleTimeDays": 42.96458333333333,
+      "issueType": "Epic",
+      "storyPoints": null,
+      "sprintCount": 0
+    },
+    {
+      "issueKey": "VDE19-354",
+      "resolutionDate": "2025-11-11T11:41:00.000Z",
+      "cycleTimeDays": 138.09305555555557,
+      "issueType": "Epic",
+      "storyPoints": null,
+      "sprintCount": 0
+    },
+    {
+      "issueKey": "VDE19-316",
+      "resolutionDate": "2025-10-29T08:23:00.000Z",
+      "cycleTimeDays": 210.13611111111112,
+      "issueType": "Epic",
+      "storyPoints": null,
+      "sprintCount": 0
+    },
+    {
+      "issueKey": "VDE19-301",
+      "resolutionDate": "2026-01-05T17:32:00.000Z",
+      "cycleTimeDays": 301.39444444444445,
+      "issueType": "Epic",
+      "storyPoints": null,
+      "sprintCount": 0
+    },
+    {
+      "issueKey": "VDE19-308",
+      "resolutionDate": "2026-02-20T06:56:00.000Z",
+      "cycleTimeDays": 339.81805555555553,
+      "issueType": "Epic",
+      "storyPoints": null,
+      "sprintCount": 0
+    },
+    {
+      "issueKey": "VDE19-131",
+      "resolutionDate": "2025-12-09T07:53:00.000Z",
+      "cycleTimeDays": 566.9743055555556,
+      "issueType": "Epic",
+      "storyPoints": null,
+      "sprintCount": 0
+    },
+    {
+      "issueKey": "VDE19-395",
+      "resolutionDate": "2026-03-20T11:39:00.000Z",
+      "cycleTimeDays": 206.95277777777778,
+      "issueType": "Epic",
+      "storyPoints": null,
+      "sprintCount": 0
+    },
+    {
+      "issueKey": "VDE19-399",
+      "resolutionDate": "2026-03-26T06:30:00.000Z",
+      "cycleTimeDays": 202.94583333333333,
+      "issueType": "Epic",
+      "storyPoints": null,
+      "sprintCount": 0
+    },
+    {
+      "issueKey": "VDE19-448",
+      "resolutionDate": "2025-12-03T15:03:00.000Z",
+      "cycleTimeDays": 54.31388888888889,
+      "issueType": "Epic",
+      "storyPoints": null,
+      "sprintCount": 0
+    },
+    {
+      "issueKey": "VDE19-454",
+      "resolutionDate": "2026-03-06T09:12:00.000Z",
+      "cycleTimeDays": 108.95069444444445,
+      "issueType": "Epic",
+      "storyPoints": null,
+      "sprintCount": 0
+    },
+    {
+      "issueKey": "VDE19-273",
+      "resolutionDate": "2026-03-10T12:09:00.000Z",
+      "cycleTimeDays": 412.02986111111113,
+      "issueType": "Epic",
+      "storyPoints": null,
+      "sprintCount": 0
+    },
+    {
+      "issueKey": "VDE19-324",
+      "resolutionDate": "2026-03-10T12:17:00.000Z",
+      "cycleTimeDays": 305.00347222222223,
+      "issueType": "Epic",
+      "storyPoints": null,
+      "sprintCount": 0
+    },
+    {
+      "issueKey": "VDE19-43",
+      "resolutionDate": "2026-03-12T05:33:00.000Z",
+      "cycleTimeDays": 524.9722222222222,
+      "issueType": "Epic",
+      "storyPoints": null,
+      "sprintCount": 0
+    },
+    {
+      "issueKey": "VDE19-375",
+      "resolutionDate": "2026-03-02T05:20:00.000Z",
+      "cycleTimeDays": 194.66736111111112,
+      "issueType": "Epic",
+      "storyPoints": null,
+      "sprintCount": 0
+    },
+    {
+      "issueKey": "VDE19-322",
+      "resolutionDate": "2025-12-15T08:54:00.000Z",
+      "cycleTimeDays": 219.9013888888889,
+      "issueType": "Epic",
+      "storyPoints": null,
+      "sprintCount": 0
+    },
+    {
+      "issueKey": "VDE19-321",
+      "resolutionDate": "2026-02-03T06:39:00.000Z",
+      "cycleTimeDays": 269.80902777777777,
+      "issueType": "Epic",
+      "storyPoints": null,
+      "sprintCount": 0
+    },
+    {
+      "issueKey": "VDE19-341",
+      "resolutionDate": "2026-01-16T12:34:00.000Z",
+      "cycleTimeDays": 221.07777777777778,
+      "issueType": "Epic",
+      "storyPoints": null,
+      "sprintCount": 0
+    },
+    {
+      "issueKey": "VDE19-409",
+      "resolutionDate": "2026-01-15T06:11:00.000Z",
+      "cycleTimeDays": 100.80208333333333,
+      "issueType": "Epic",
+      "storyPoints": null,
+      "sprintCount": 0
+    },
+    {
+      "issueKey": "VDE19-486",
+      "resolutionDate": "2026-03-23T13:26:00.000Z",
+      "cycleTimeDays": 75.01319444444445,
+      "issueType": "Epic",
+      "storyPoints": null,
+      "sprintCount": 0
+    },
+    {
+      "issueKey": "VDE19-514",
+      "resolutionDate": "2026-03-06T09:11:00.000Z",
+      "cycleTimeDays": 21.653472222222224,
+      "issueType": "Epic",
+      "storyPoints": null,
+      "sprintCount": 0
+    },
+    {
+      "issueKey": "VDE19-515",
+      "resolutionDate": "2026-03-26T06:29:00.000Z",
+      "cycleTimeDays": 41.513194444444444,
+      "issueType": "Epic",
+      "storyPoints": null,
+      "sprintCount": 0
+    },
+    {
+      "issueKey": "VDE19-520",
+      "resolutionDate": "2026-03-20T07:55:00.000Z",
+      "cycleTimeDays": 36.34791666666667,
+      "issueType": "Epic",
+      "storyPoints": null,
+      "sprintCount": 0
+    },
+    {
+      "issueKey": "VDE19-511",
+      "resolutionDate": "2026-03-20T07:55:00.000Z",
+      "cycleTimeDays": 36.232638888888886,
+      "issueType": "Epic",
+      "storyPoints": null,
+      "sprintCount": 0
+    },
+    {
+      "issueKey": "VDE19-508",
+      "resolutionDate": "2026-03-26T06:42:00.000Z",
+      "cycleTimeDays": 42.24652777777778,
+      "issueType": "Epic",
+      "storyPoints": null,
+      "sprintCount": 0
+    },
+    {
+      "issueKey": "VDE19-510",
+      "resolutionDate": "2026-03-27T09:57:00.000Z",
+      "cycleTimeDays": 43.328472222222224,
+      "issueType": "Epic",
+      "storyPoints": null,
+      "sprintCount": 0
+    },
+    {
+      "issueKey": "VDE19-489",
+      "resolutionDate": "2026-02-17T13:24:00.000Z",
+      "cycleTimeDays": 26.747916666666665,
+      "issueType": "Epic",
+      "storyPoints": null,
+      "sprintCount": 0
+    },
+    {
+      "issueKey": "VDE19-507",
+      "resolutionDate": "2026-03-06T10:56:00.000Z",
+      "cycleTimeDays": 134.22708333333333,
+      "issueType": "Epic",
+      "storyPoints": null,
+      "sprintCount": 0
+    },
+    {
+      "issueKey": "VDE19-451",
+      "resolutionDate": "2026-03-20T07:54:00.000Z",
+      "cycleTimeDays": 148.09652777777777,
+      "issueType": "Epic",
+      "storyPoints": null,
+      "sprintCount": 0
+    },
+    {
+      "issueKey": "VDE19-446",
+      "resolutionDate": "2026-02-17T13:25:00.000Z",
+      "cycleTimeDays": 123.29930555555555,
+      "issueType": "Epic",
+      "storyPoints": null,
+      "sprintCount": 0
+    },
+    {
+      "issueKey": "VDE19-445",
+      "resolutionDate": "2026-03-06T10:56:00.000Z",
+      "cycleTimeDays": 162.1263888888889,
+      "issueType": "Epic",
+      "storyPoints": null,
+      "sprintCount": 3
+    },
+    {
+      "issueKey": "VDE19-452",
+      "resolutionDate": "2025-10-09T05:33:00.000Z",
+      "cycleTimeDays": 14.685416666666667,
+      "issueType": "Epic",
+      "storyPoints": 9,
+      "sprintCount": 0
+    },
+    {
+      "issueKey": "VDE19-450",
+      "resolutionDate": "2026-03-20T07:54:00.000Z",
+      "cycleTimeDays": 129.90902777777777,
+      "issueType": "Epic",
+      "storyPoints": 3,
+      "sprintCount": 0
+    },
+    {
+      "issueKey": "VDE19-491",
+      "resolutionDate": "2025-11-20T06:32:00.000Z",
+      "cycleTimeDays": 14.92361111111111,
+      "issueType": "Epic",
+      "storyPoints": null,
+      "sprintCount": 0
+    },
+    {
+      "issueKey": "VDE19-447",
+      "resolutionDate": "2025-12-11T11:01:00.000Z",
+      "cycleTimeDays": 40.91597222222222,
+      "issueType": "Epic",
+      "storyPoints": null,
+      "sprintCount": 0
+    },
+    {
+      "issueKey": "VDE19-453",
+      "resolutionDate": "2026-01-29T10:18:00.000Z",
+      "cycleTimeDays": 97.62777777777778,
+      "issueType": "Epic",
+      "storyPoints": null,
+      "sprintCount": 0
+    },
+    {
+      "issueKey": "VDE19-449",
+      "resolutionDate": "2025-11-05T08:39:00.000Z",
+      "cycleTimeDays": 15.977083333333333,
+      "issueType": "Epic",
+      "storyPoints": null,
+      "sprintCount": 0
+    },
+    {
+      "issueKey": "VDE19-497",
+      "resolutionDate": "2025-10-31T08:26:00.000Z",
+      "cycleTimeDays": 30.802083333333332,
+      "issueType": "Epic",
+      "storyPoints": null,
+      "sprintCount": 0
+    },
+    {
+      "issueKey": "VDE19-485",
+      "resolutionDate": "2026-03-27T09:56:00.000Z",
+      "cycleTimeDays": 154.93194444444444,
+      "issueType": "Epic",
+      "storyPoints": 2,
+      "sprintCount": 0
+    },
+    {
+      "issueKey": "VDE19-518",
+      "resolutionDate": "2026-03-20T07:56:00.000Z",
+      "cycleTimeDays": 127.01597222222222,
+      "issueType": "Epic",
+      "storyPoints": null,
+      "sprintCount": 0
+    },
+    {
+      "issueKey": "VDE19-490",
+      "resolutionDate": "2026-03-06T09:12:00.000Z",
+      "cycleTimeDays": 105.125,
+      "issueType": "Epic",
+      "storyPoints": null,
+      "sprintCount": 0
+    },
+    {
+      "issueKey": "VDE19-509",
+      "resolutionDate": "2026-03-06T09:11:00.000Z",
+      "cycleTimeDays": 22.30902777777778,
+      "issueType": "Epic",
+      "storyPoints": null,
+      "sprintCount": 0
+    },
+    {
+      "issueKey": "VDE19-484",
+      "resolutionDate": "2026-03-30T07:00:00.000Z",
+      "cycleTimeDays": 158.74652777777777,
+      "issueType": "Epic",
+      "storyPoints": null,
+      "sprintCount": 0
+    },
+    {
+      "issueKey": "VDE19-434",
+      "resolutionDate": "2026-03-10T12:20:00.000Z",
+      "cycleTimeDays": 104.17777777777778,
+      "issueType": "Epic",
+      "storyPoints": null,
+      "sprintCount": 0
+    },
+    {
+      "issueKey": "VDE19-146",
+      "resolutionDate": "2026-03-26T05:40:00.000Z",
+      "cycleTimeDays": 709.9430555555556,
+      "issueType": "Epic",
+      "storyPoints": null,
+      "sprintCount": 1
+    },
+    {
+      "issueKey": "VDE19-95",
+      "resolutionDate": "2026-01-28T11:21:00.000Z",
+      "cycleTimeDays": 649.0111111111111,
+      "issueType": "Epic",
+      "storyPoints": null,
+      "sprintCount": 0
+    },
+    {
+      "issueKey": "VDE19-423",
+      "resolutionDate": "2026-03-25T06:46:00.000Z",
+      "cycleTimeDays": 144.95555555555555,
+      "issueType": "Epic",
+      "storyPoints": null,
+      "sprintCount": 0
+    },
+    {
+      "issueKey": "VDE19-463",
+      "resolutionDate": "2026-03-23T06:07:00.000Z",
+      "cycleTimeDays": 68.78263888888888,
+      "issueType": "Epic",
+      "storyPoints": null,
+      "sprintCount": 0
+    },
+    {
+      "issueKey": "VDE19-481",
+      "resolutionDate": "2026-03-25T08:01:00.000Z",
+      "cycleTimeDays": 60.94166666666667,
+      "issueType": "Epic",
+      "storyPoints": null,
+      "sprintCount": 0
+    },
+    {
+      "issueKey": "VDE19-68",
+      "resolutionDate": "2026-03-25T08:02:00.000Z",
+      "cycleTimeDays": 782.09375,
+      "issueType": "Epic",
+      "storyPoints": null,
+      "sprintCount": 0
+    },
+    {
+      "issueKey": "VDE19-93",
+      "resolutionDate": "2026-03-25T08:05:00.000Z",
+      "cycleTimeDays": 803.9763888888889,
+      "issueType": "Epic",
+      "storyPoints": null,
+      "sprintCount": 0
+    },
+    {
+      "issueKey": "VDE19-166",
+      "resolutionDate": "2025-04-22T06:27:00.000Z",
+      "cycleTimeDays": 222.79791666666668,
+      "issueType": "Epic",
+      "storyPoints": null,
+      "sprintCount": 0
+    },
+    {
+      "issueKey": "VDE19-150",
+      "resolutionDate": "2025-07-17T06:38:00.000Z",
+      "cycleTimeDays": 308.81458333333336,
+      "issueType": "Epic",
+      "storyPoints": null,
+      "sprintCount": 0
+    },
+    {
+      "issueKey": "VDE19-398",
+      "resolutionDate": "2025-11-05T11:27:00.000Z",
+      "cycleTimeDays": 154.10555555555555,
+      "issueType": "Epic",
+      "storyPoints": null,
+      "sprintCount": 0
+    },
+    {
+      "issueKey": "VDE19-529",
+      "resolutionDate": "2026-03-20T13:16:00.000Z",
+      "cycleTimeDays": 1.0638888888888889,
+      "issueType": "Epic",
+      "storyPoints": null,
+      "sprintCount": 0
+    },
+    {
+      "issueKey": "VDE19-156",
+      "resolutionDate": "2025-07-17T06:37:00.000Z",
+      "cycleTimeDays": 297.06388888888887,
+      "issueType": "Epic",
+      "storyPoints": null,
+      "sprintCount": 0
+    },
+    {
+      "issueKey": "VDE19-439",
+      "resolutionDate": "2026-01-15T06:09:00.000Z",
+      "cycleTimeDays": 16.72361111111111,
+      "issueType": "Epic",
+      "storyPoints": null,
+      "sprintCount": 0
+    }
+  ],
+  "multiSprint": {
+    "count": 1,
+    "percentage": 0.5952380952380952
+  }
+}

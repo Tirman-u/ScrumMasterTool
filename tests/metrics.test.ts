@@ -93,6 +93,35 @@ describe("buildMetrics", () => {
     expect(metrics.sle.values.p85).toBe(14);
   });
 
+  it("uses bug default story points when bug items are unestimated", () => {
+    const configWithBugDefault: TeamConfig = {
+      ...TEAM_CONFIG,
+      bugConfig: {
+        issueTypes: ["Bug"],
+        defaultStoryPoints: 2,
+      },
+    };
+
+    const doneBugWithoutEstimate = issue({
+      issueKey: "ABC-3",
+      issueType: "Bug",
+      storyPoints: null,
+      resolutionDate: new Date("2026-01-12T00:00:00.000Z"),
+    });
+    const doneTaskWithoutEstimate = issue({
+      issueKey: "ABC-4",
+      issueType: "Task",
+      storyPoints: null,
+      resolutionDate: new Date("2026-01-13T00:00:00.000Z"),
+    });
+
+    const metrics = buildMetrics(configWithBugDefault, 2, [doneBugWithoutEstimate, doneTaskWithoutEstimate]);
+
+    expect(metrics.velocityMonthly).toEqual([{ month: "2026-01", value: 3 }]);
+    expect(metrics.doneIssueDetails.find((item) => item.issueKey === "ABC-3")?.storyPoints).toBe(2);
+    expect(metrics.doneIssueDetails.find((item) => item.issueKey === "ABC-4")?.storyPoints).toBeNull();
+  });
+
   it("filters out excluded issue keys from all metrics", () => {
     const configWithExclusions: TeamConfig = {
       ...TEAM_CONFIG,
@@ -109,6 +138,43 @@ describe("buildMetrics", () => {
     expect(metrics.scatter.map((item) => item.issueKey)).toEqual(["ABC-1"]);
     expect(metrics.velocityMonthly).toEqual([{ month: "2026-01", value: 3 }]);
   });
+
+  it("uses active Time in Status durations for cycle time when workflow statuses are configured", () => {
+    const config: TeamConfig = {
+      ...TEAM_CONFIG,
+      workflowConfig: {
+        backlogStatuses: ["Backlog", "Ready"],
+        activeStatuses: ["In Progress", "Review"],
+      },
+      sprintScopeConfig: {
+        statuses: ["In Progress", "Review"],
+      },
+    };
+    const doneIssue = issue({
+      issueKey: "ABC-9",
+      created: new Date("2026-01-01T00:00:00.000Z"),
+      resolutionDate: new Date("2026-01-20T00:00:00.000Z"),
+    });
+
+    const metrics = buildMetrics(config, 1, [doneIssue], {
+      timeInStatusIssueRows: [
+        {
+          issueKey: "ABC-9",
+          durations: [
+            { status: "Backlog", days: 10 },
+            { status: "Ready", days: 2 },
+            { status: "In Progress", days: 4 },
+            { status: "Review", days: 1 },
+            { status: "Done", days: 3 },
+          ],
+        },
+      ],
+    });
+
+    expect(metrics.avgCycleTimeDays).toBe(5);
+    expect(metrics.scatter[0].cycleTimeDays).toBe(5);
+  });
+
   it("finds issues that were in 2+ sprints", () => {
     const oneSprint = issue({ issueKey: "ABC-1", sprintRaw: "Sprint A" });
     const twoSprintPlain = issue({ issueKey: "ABC-2", sprintRaw: "Sprint A,Sprint B" });

@@ -1,0 +1,138 @@
+{
+  "teamName": "Paylynx",
+  "doneConfig": {
+    "useStatusCategoryDone": false,
+    "doneStatuses": [
+      "Done",
+      "Closed",
+      "Resolved",
+      "Canceled",
+      "Cancelled"
+    ]
+  },
+  "sleConfig": {
+    "percentiles": [
+      50,
+      70,
+      85,
+      95
+    ],
+    "rounding": "ceil",
+    "issueTypes": [
+      "Task",
+      "Bug",
+      "Story"
+    ]
+  },
+  "cycleTimeConfig": {
+    "endDateSource": "resolvedOrUpdated"
+  },
+  "mapping": {
+    "key": "Issue key",
+    "created": "Created",
+    "resolutionDate": "Resolved",
+    "updated": "Updated",
+    "status": "Status",
+    "resolution": "Resolution",
+    "storyPoints": "Story points",
+    "sprint": "Sprint",
+    "issueType": "Issue Type"
+  },
+  "velocityConfig": {
+    "mode": "sprint-story-points",
+    "sprintStartDate": "2026-01-01",
+    "sprintLengthWeeks": 2
+  },
+  "bugConfig": {
+    "issueTypes": [
+      "Bug"
+    ]
+  },
+  "sprintScopeConfig": {
+    "statuses": [
+      "NEW!",
+      "In Progress",
+      "Ready for Refinement",
+      "Waiting for Answer",
+      "Code review",
+      "Ready for Testing",
+      "In Testing",
+      "Investigation"
+    ]
+  },
+  "workflowConfig": {
+    "backlogStatuses": [
+      "Open",
+      "Pending"
+    ],
+    "activeStatuses": [
+      "NEW!",
+      "In Progress",
+      "Ready for Refinement",
+      "Waiting for Answer",
+      "Code review",
+      "Ready for Testing",
+      "In Testing",
+      "Investigation"
+    ]
+  },
+  "bottleneckConfig": {
+    "flowStatuses": []
+  },
+  "excludedIssueKeys": [
+    "PAYLYNX-103",
+    "PAYLYNX-238",
+    "PAYLYNX-246",
+    "PAYLYNX-744",
+    "PAYLYNX-80",
+    "PAYLYNX-93",
+    "PAYLYNX-943"
+  ],
+  "safeConfig": {
+    "enabled": false,
+    "entityType": "team",
+    "metricIds": [
+      "flow-time",
+      "flow-velocity",
+      "flow-load",
+      "flow-efficiency",
+      "flow-predictability",
+      "flow-distribution",
+      "built-in-quality",
+      "competency-assessment"
+    ]
+  },
+  "jiraQuery": {
+    "defaultQueryId": "default",
+    "queries": [
+      {
+        "id": "default",
+        "name": "Issues CSV Query",
+        "jql": "project = YOURPROJECT ORDER BY updated DESC",
+        "note": "Edit this query per team scope."
+      }
+    ],
+    "issueQuery": {
+      "defaultQueryId": "default",
+      "queries": [
+        {
+          "id": "default",
+          "name": "Issues CSV Query",
+          "jql": "project = YOURPROJECT ORDER BY updated DESC",
+          "note": "Edit this query per team scope."
+        }
+      ]
+    },
+    "timeInStatusQuery": {
+      "defaultQueryId": "time-in-status-default",
+      "queries": [
+        {
+          "id": "time-in-status-default",
+          "name": "Time in Status Query",
+          "jql": "project = YOURPROJECT ORDER BY updated DESC",
+          "note": "Use the same team scope/window as your Issues CSV query."
+        }
+      ]
+    }
+  }
+}

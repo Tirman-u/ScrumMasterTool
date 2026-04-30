@@ -1,0 +1,412 @@
+{
+  "generatedAt": "2026-04-29T09:08:47.078Z",
+  "teamName": "Payment VDE Program Epic",
+  "totalImportedRows": 42,
+  "uniqueIssues": 42,
+  "doneIssues": 22,
+  "cycleTimeCount": 22,
+  "cycleTimeDays": [
+    387.90625,
+    273.18402777777777,
+    778.9111111111112,
+    0.19027777777777777,
+    717.8604166666667,
+    769.0069444444445,
+    535.1527777777778,
+    279.7298611111111,
+    0.8743055555555556,
+    586.9868055555555,
+    586.9861111111111,
+    586.9902777777778,
+    475.3534722222222,
+    365.0236111111111,
+    735.8354166666667,
+    813.7784722222223,
+    979.1944444444445,
+    708.1340277777778,
+    774.0840277777778,
+    750.0361111111112,
+    893.8243055555556,
+    251.24444444444444
+  ],
+  "avgCycleTimeDays": 556.83125,
+  "sle": {
+    "percentiles": [
+      50,
+      70,
+      85,
+      95
+    ],
+    "rounding": "ceil",
+    "values": {
+      "p50": 587,
+      "p70": 746,
+      "p85": 779,
+      "p95": 890
+    }
+  },
+  "scatter": [
+    {
+      "issueKey": "VDE19-6",
+      "resolutionDate": "2024-11-18T08:47:00.000Z",
+      "cycleTimeDays": 387.90625,
+      "issueType": "Program Epic"
+    },
+    {
+      "issueKey": "VDE19-2",
+      "resolutionDate": "2024-11-25T12:52:00.000Z",
+      "cycleTimeDays": 273.18402777777777,
+      "issueType": "Program Epic"
+    },
+    {
+      "issueKey": "VDE19-11",
+      "resolutionDate": "2025-01-09T10:05:00.000Z",
+      "cycleTimeDays": 778.9111111111112,
+      "issueType": "Program Epic"
+    },
+    {
+      "issueKey": "VDE19-282",
+      "resolutionDate": "2025-01-29T12:22:00.000Z",
+      "cycleTimeDays": 0.19027777777777777,
+      "issueType": "Program Epic"
+    },
+    {
+      "issueKey": "VDE19-28",
+      "resolutionDate": "2025-02-21T10:52:00.000Z",
+      "cycleTimeDays": 717.8604166666667,
+      "issueType": "Program Epic"
+    },
+    {
+      "issueKey": "VDE19-7",
+      "resolutionDate": "2025-04-16T07:22:00.000Z",
+      "cycleTimeDays": 769.0069444444445,
+      "issueType": "Program Epic"
+    },
+    {
+      "issueKey": "VDE19-15",
+      "resolutionDate": "2025-04-24T13:40:00.000Z",
+      "cycleTimeDays": 535.1527777777778,
+      "issueType": "Program Epic"
+    },
+    {
+      "issueKey": "VDE19-13",
+      "resolutionDate": "2025-06-25T06:46:00.000Z",
+      "cycleTimeDays": 279.7298611111111,
+      "issueType": "Program Epic"
+    },
+    {
+      "issueKey": "VDE19-412",
+      "resolutionDate": "2025-10-10T05:15:00.000Z",
+      "cycleTimeDays": 0.8743055555555556,
+      "issueType": "Program Epic"
+    },
+    {
+      "issueKey": "VDE19-19",
+      "resolutionDate": "2025-12-16T04:55:00.000Z",
+      "cycleTimeDays": 586.9868055555555,
+      "issueType": "Program Epic"
+    },
+    {
+      "issueKey": "VDE19-20",
+      "resolutionDate": "2025-12-16T04:55:00.000Z",
+      "cycleTimeDays": 586.9861111111111,
+      "issueType": "Program Epic"
+    },
+    {
+      "issueKey": "VDE19-26",
+      "resolutionDate": "2025-12-16T04:56:00.000Z",
+      "cycleTimeDays": 586.9902777777778,
+      "issueType": "Program Epic"
+    },
+    {
+      "issueKey": "VDE19-14",
+      "resolutionDate": "2026-01-05T17:33:00.000Z",
+      "cycleTimeDays": 475.3534722222222,
+      "issueType": "Program Epic"
+    },
+    {
+      "issueKey": "VDE19-270",
+      "resolutionDate": "2026-01-14T10:19:00.000Z",
+      "cycleTimeDays": 365.0236111111111,
+      "issueType": "Program Epic"
+    },
+    {
+      "issueKey": "VDE19-37",
+      "resolutionDate": "2026-01-28T08:47:00.000Z",
+      "cycleTimeDays": 735.8354166666667,
+      "issueType": "Program Epic"
+    },
+    {
+      "issueKey": "VDE19-18",
+      "resolutionDate": "2026-01-28T08:47:00.000Z",
+      "cycleTimeDays": 813.7784722222223,
+      "issueType": "Program Epic"
+    },
+    {
+      "issueKey": "VDE19-36",
+      "resolutionDate": "2026-02-02T14:48:00.000Z",
+      "cycleTimeDays": 979.1944444444445,
+      "issueType": "Program Epic"
+    },
+    {
+      "issueKey": "VDE19-9",
+      "resolutionDate": "2026-02-05T09:45:00.000Z",
+      "cycleTimeDays": 708.1340277777778,
+      "issueType": "Program Epic"
+    },
+    {
+      "issueKey": "VDE19-3",
+      "resolutionDate": "2026-03-20T08:43:00.000Z",
+      "cycleTimeDays": 774.0840277777778,
+      "issueType": "Program Epic"
+    },
+    {
+      "issueKey": "VDE19-4",
+      "resolutionDate": "2026-03-25T07:23:00.000Z",
+      "cycleTimeDays": 750.0361111111112,
+      "issueType": "Program Epic"
+    },
+    {
+      "issueKey": "VDE19-27",
+      "resolutionDate": "2026-03-25T07:52:00.000Z",
+      "cycleTimeDays": 893.8243055555556,
+      "issueType": "Program Epic"
+    },
+    {
+      "issueKey": "VDE19-360",
+      "resolutionDate": "2026-03-25T12:46:00.000Z",
+      "cycleTimeDays": 251.24444444444444,
+      "issueType": "Program Epic"
+    }
+  ],
+  "scatterOverlay": {
+    "p50": 587,
+    "p70": 746,
+    "p85": 779,
+    "p95": 890
+  },
+  "velocityMonthly": [
+    {
+      "month": "2024-11",
+      "value": 2
+    },
+    {
+      "month": "2025-01",
+      "value": 2
+    },
+    {
+      "month": "2025-02",
+      "value": 1
+    },
+    {
+      "month": "2025-04",
+      "value": 2
+    },
+    {
+      "month": "2025-06",
+      "value": 1
+    },
+    {
+      "month": "2025-10",
+      "value": 1
+    },
+    {
+      "month": "2025-12",
+      "value": 3
+    },
+    {
+      "month": "2026-01",
+      "value": 4
+    },
+    {
+      "month": "2026-02",
+      "value": 2
+    },
+    {
+      "month": "2026-03",
+      "value": 4
+    }
+  ],
+  "doneIssueDetails": [
+    {
+      "issueKey": "VDE19-412",
+      "resolutionDate": "2025-10-10T05:15:00.000Z",
+      "cycleTimeDays": 0.8743055555555556,
+      "issueType": "Program Epic",
+      "storyPoints": null,
+      "sprintCount": 0
+    },
+    {
+      "issueKey": "VDE19-14",
+      "resolutionDate": "2026-01-05T17:33:00.000Z",
+      "cycleTimeDays": 475.3534722222222,
+      "issueType": "Program Epic",
+      "storyPoints": null,
+      "sprintCount": 0
+    },
+    {
+      "issueKey": "VDE19-3",
+      "resolutionDate": "2026-03-20T08:43:00.000Z",
+      "cycleTimeDays": 774.0840277777778,
+      "issueType": "Program Epic",
+      "storyPoints": null,
+      "sprintCount": 0
+    },
+    {
+      "issueKey": "VDE19-4",
+      "resolutionDate": "2026-03-25T07:23:00.000Z",
+      "cycleTimeDays": 750.0361111111112,
+      "issueType": "Program Epic",
+      "storyPoints": null,
+      "sprintCount": 0
+    },
+    {
+      "issueKey": "VDE19-27",
+      "resolutionDate": "2026-03-25T07:52:00.000Z",
+      "cycleTimeDays": 893.8243055555556,
+      "issueType": "Program Epic",
+      "storyPoints": null,
+      "sprintCount": 0
+    },
+    {
+      "issueKey": "VDE19-9",
+      "resolutionDate": "2026-02-05T09:45:00.000Z",
+      "cycleTimeDays": 708.1340277777778,
+      "issueType": "Program Epic",
+      "storyPoints": null,
+      "sprintCount": 0
+    },
+    {
+      "issueKey": "VDE19-270",
+      "resolutionDate": "2026-01-14T10:19:00.000Z",
+      "cycleTimeDays": 365.0236111111111,
+      "issueType": "Program Epic",
+      "storyPoints": null,
+      "sprintCount": 0
+    },
+    {
+      "issueKey": "VDE19-15",
+      "resolutionDate": "2025-04-24T13:40:00.000Z",
+      "cycleTimeDays": 535.1527777777778,
+      "issueType": "Program Epic",
+      "storyPoints": null,
+      "sprintCount": 0
+    },
+    {
+      "issueKey": "VDE19-19",
+      "resolutionDate": "2025-12-16T04:55:00.000Z",
+      "cycleTimeDays": 586.9868055555555,
+      "issueType": "Program Epic",
+      "storyPoints": null,
+      "sprintCount": 0
+    },
+    {
+      "issueKey": "VDE19-26",
+      "resolutionDate": "2025-12-16T04:56:00.000Z",
+      "cycleTimeDays": 586.9902777777778,
+      "issueType": "Program Epic",
+      "storyPoints": null,
+      "sprintCount": 0
+    },
+    {
+      "issueKey": "VDE19-20",
+      "resolutionDate": "2025-12-16T04:55:00.000Z",
+      "cycleTimeDays": 586.9861111111111,
+      "issueType": "Program Epic",
+      "storyPoints": null,
+      "sprintCount": 0
+    },
+    {
+      "issueKey": "VDE19-37",
+      "resolutionDate": "2026-01-28T08:47:00.000Z",
+      "cycleTimeDays": 735.8354166666667,
+      "issueType": "Program Epic",
+      "storyPoints": null,
+      "sprintCount": 0
+    },
+    {
+      "issueKey": "VDE19-2",
+      "resolutionDate": "2024-11-25T12:52:00.000Z",
+      "cycleTimeDays": 273.18402777777777,
+      "issueType": "Program Epic",
+      "storyPoints": null,
+      "sprintCount": 0
+    },
+    {
+      "issueKey": "VDE19-18",
+      "resolutionDate": "2026-01-28T08:47:00.000Z",
+      "cycleTimeDays": 813.7784722222223,
+      "issueType": "Program Epic",
+      "storyPoints": null,
+      "sprintCount": 0
+    },
+    {
+      "issueKey": "VDE19-6",
+      "resolutionDate": "2024-11-18T08:47:00.000Z",
+      "cycleTimeDays": 387.90625,
+      "issueType": "Program Epic",
+      "storyPoints": null,
+      "sprintCount": 0
+    },
+    {
+      "issueKey": "VDE19-360",
+      "resolutionDate": "2026-03-25T12:46:00.000Z",
+      "cycleTimeDays": 251.24444444444444,
+      "issueType": "Program Epic",
+      "storyPoints": null,
+      "sprintCount": 0
+    },
+    {
+      "issueKey": "VDE19-282",
+      "resolutionDate": "2025-01-29T12:22:00.000Z",
+      "cycleTimeDays": 0.19027777777777777,
+      "issueType": "Program Epic",
+      "storyPoints": null,
+      "sprintCount": 0
+    },
+    {
+      "issueKey": "VDE19-13",
+      "resolutionDate": "2025-06-25T06:46:00.000Z",
+      "cycleTimeDays": 279.7298611111111,
+      "issueType": "Program Epic",
+      "storyPoints": null,
+      "sprintCount": 0
+    },
+    {
+      "issueKey": "VDE19-36",
+      "resolutionDate": "2026-02-02T14:48:00.000Z",
+      "cycleTimeDays": 979.1944444444445,
+      "issueType": "Program Epic",
+      "storyPoints": null,
+      "sprintCount": 0
+    },
+    {
+      "issueKey": "VDE19-28",
+      "resolutionDate": "2025-02-21T10:52:00.000Z",
+      "cycleTimeDays": 717.8604166666667,
+      "issueType": "Program Epic",
+      "storyPoints": null,
+      "sprintCount": 0
+    },
+    {
+      "issueKey": "VDE19-11",
+      "resolutionDate": "2025-01-09T10:05:00.000Z",
+      "cycleTimeDays": 778.9111111111112,
+      "issueType": "Program Epic",
+      "storyPoints": null,
+      "sprintCount": 0
+    },
+    {
+      "issueKey": "VDE19-7",
+      "resolutionDate": "2025-04-16T07:22:00.000Z",
+      "cycleTimeDays": 769.0069444444445,
+      "issueType": "Program Epic",
+      "storyPoints": null,
+      "sprintCount": 0
+    }
+  ],
+  "multiSprint": {
+    "count": 0,
+    "percentage": 0
+  }
+}

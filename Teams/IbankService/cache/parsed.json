@@ -7,7 +7,7 @@
     "status": "In Progress",
     "resolution": "",
     "issueType": "Task",
-    "storyPoints": null,
+    "storyPoints": 1,
     "sprintRaw": "IBSET PI1:2026 Iteration3",
     "sourceFile": "Ibset Scrum Tool Open Export (Swedbank) 2026-02-26T15_54_58+0100.csv",
     "sourceRow": 2
@@ -20,7 +20,7 @@
     "status": "Backlog",
     "resolution": "",
     "issueType": "Task",
-    "storyPoints": null,
+    "storyPoints": 1,
     "sprintRaw": "IBSET PI1:2026 Iteration3",
     "sourceFile": "Ibset Scrum Tool Open Export (Swedbank) 2026-02-26T15_54_58+0100.csv",
     "sourceRow": 3
@@ -150,7 +150,7 @@
     "status": "In Progress",
     "resolution": "",
     "issueType": "Task",
-    "storyPoints": null,
+    "storyPoints": 2,
     "sprintRaw": "IBSET PI1:2026 Iteration1,IBSET PI1:2026 Iteration2,IBSET PI1:2026 Iteration3",
     "sourceFile": "Ibset Scrum Tool Open Export (Swedbank) 2026-02-26T15_54_58+0100.csv",
     "sourceRow": 13
@@ -163,7 +163,7 @@
     "status": "Backlog",
     "resolution": "",
     "issueType": "Task",
-    "storyPoints": null,
+    "storyPoints": 3,
     "sprintRaw": "IBSET PI1:2026 Iteration2,IBSET PI1:2026 Iteration3",
     "sourceFile": "Ibset Scrum Tool Open Export (Swedbank) 2026-02-26T15_54_58+0100.csv",
     "sourceRow": 14
@@ -176,7 +176,7 @@
     "status": "Ready for Release",
     "resolution": "",
     "issueType": "Task",
-    "storyPoints": null,
+    "storyPoints": 1,
     "sprintRaw": "IBSET PI1:2026 Iteration2",
     "sourceFile": "Ibset Scrum Tool Open Export (Swedbank) 2026-02-26T15_54_58+0100.csv",
     "sourceRow": 15
@@ -189,7 +189,7 @@
     "status": "Backlog",
     "resolution": "",
     "issueType": "Task",
-    "storyPoints": null,
+    "storyPoints": 3,
     "sprintRaw": "IBSET PI1:2026 Iteration3",
     "sourceFile": "Ibset Scrum Tool Open Export (Swedbank) 2026-02-26T15_54_58+0100.csv",
     "sourceRow": 16
@@ -202,7 +202,7 @@
     "status": "In Progress",
     "resolution": "",
     "issueType": "Task",
-    "storyPoints": null,
+    "storyPoints": 3,
     "sprintRaw": "IBSET PI1:2026 Iteration2,IBSET PI1:2026 Iteration3",
     "sourceFile": "Ibset Scrum Tool Open Export (Swedbank) 2026-02-26T15_54_58+0100.csv",
     "sourceRow": 17
@@ -215,7 +215,7 @@
     "status": "Backlog",
     "resolution": "",
     "issueType": "Task",
-    "storyPoints": null,
+    "storyPoints": 3,
     "sprintRaw": "IBSET PI1:2026 Iteration3",
     "sourceFile": "Ibset Scrum Tool Open Export (Swedbank) 2026-02-26T15_54_58+0100.csv",
     "sourceRow": 18
@@ -228,7 +228,7 @@
     "status": "In Progress",
     "resolution": "",
     "issueType": "Task",
-    "storyPoints": null,
+    "storyPoints": 3,
     "sprintRaw": "IBSET PI1:2026 Iteration3",
     "sourceFile": "Ibset Scrum Tool Open Export (Swedbank) 2026-02-26T15_54_58+0100.csv",
     "sourceRow": 19
@@ -241,7 +241,7 @@
     "status": "Backlog",
     "resolution": "",
     "issueType": "Task",
-    "storyPoints": null,
+    "storyPoints": 3,
     "sprintRaw": "IBSET PI1:2026 Iteration4",
     "sourceFile": "Ibset Scrum Tool Open Export (Swedbank) 2026-02-26T15_54_58+0100.csv",
     "sourceRow": 20
@@ -254,7 +254,7 @@
     "status": "Backlog",
     "resolution": "",
     "issueType": "Task",
-    "storyPoints": null,
+    "storyPoints": 3,
     "sprintRaw": "IBSET PI1:2026 Iteration4",
     "sourceFile": "Ibset Scrum Tool Open Export (Swedbank) 2026-02-26T15_54_58+0100.csv",
     "sourceRow": 21
@@ -267,7 +267,7 @@
     "status": "Code review",
     "resolution": "",
     "issueType": "Task",
-    "storyPoints": null,
+    "storyPoints": 3,
     "sprintRaw": "IBSET PI1:2026 Iteration2,IBSET PI1:2026 Iteration3",
     "sourceFile": "Ibset Scrum Tool Open Export (Swedbank) 2026-02-26T15_54_58+0100.csv",
     "sourceRow": 22
@@ -280,7 +280,7 @@
     "status": "Acceptance test",
     "resolution": "",
     "issueType": "Task",
-    "storyPoints": null,
+    "storyPoints": 3,
     "sprintRaw": "IBSET PI1:2026 Iteration2,IBSET PI1:2026 Iteration3",
     "sourceFile": "Ibset Scrum Tool Open Export (Swedbank) 2026-02-26T15_54_58+0100.csv",
     "sourceRow": 23
@@ -293,7 +293,7 @@
     "status": "Backlog",
     "resolution": "",
     "issueType": "Task",
-    "storyPoints": null,
+    "storyPoints": 2,
     "sprintRaw": "IBSET PI1:2026 IP Iteration",
     "sourceFile": "Ibset Scrum Tool Open Export (Swedbank) 2026-02-26T15_54_58+0100.csv",
     "sourceRow": 24
@@ -319,7 +319,7 @@
     "status": "Backlog",
     "resolution": "",
     "issueType": "Task",
-    "storyPoints": null,
+    "storyPoints": 3,
     "sprintRaw": "IBSET PI1:2026 Iteration4",
     "sourceFile": "Ibset Scrum Tool Open Export (Swedbank) 2026-02-26T15_54_58+0100.csv",
     "sourceRow": 26
@@ -345,7 +345,7 @@
     "status": "Backlog",
     "resolution": "",
     "issueType": "Task",
-    "storyPoints": null,
+    "storyPoints": 5,
     "sprintRaw": "IBSET PI1:2026 Iteration4",
     "sourceFile": "Ibset Scrum Tool Open Export (Swedbank) 2026-02-26T15_54_58+0100.csv",
     "sourceRow": 28
@@ -358,7 +358,7 @@
     "status": "Backlog",
     "resolution": "",
     "issueType": "Task",
-    "storyPoints": null,
+    "storyPoints": 3,
     "sprintRaw": "",
     "sourceFile": "Ibset Scrum Tool Open Export (Swedbank) 2026-02-26T15_54_58+0100.csv",
     "sourceRow": 29
@@ -371,7 +371,7 @@
     "status": "Backlog",
     "resolution": "",
     "issueType": "Task",
-    "storyPoints": null,
+    "storyPoints": 1,
     "sprintRaw": "IBSET PI1:2026 IP Iteration",
     "sourceFile": "Ibset Scrum Tool Open Export (Swedbank) 2026-02-26T15_54_58+0100.csv",
     "sourceRow": 30
@@ -384,7 +384,7 @@
     "status": "Backlog",
     "resolution": "",
     "issueType": "Task",
-    "storyPoints": null,
+    "storyPoints": 3,
     "sprintRaw": "IBSET PI1:2026 Iteration4",
     "sourceFile": "Ibset Scrum Tool Open Export (Swedbank) 2026-02-26T15_54_58+0100.csv",
     "sourceRow": 31
@@ -397,7 +397,7 @@
     "status": "In Progress",
     "resolution": "",
     "issueType": "Task",
-    "storyPoints": null,
+    "storyPoints": 3,
     "sprintRaw": "IBSET PI1:2026 Iteration2,IBSET PI1:2026 Iteration3",
     "sourceFile": "Ibset Scrum Tool Open Export (Swedbank) 2026-02-26T15_54_58+0100.csv",
     "sourceRow": 32
@@ -410,7 +410,7 @@
     "status": "Ready for Release",
     "resolution": "",
     "issueType": "Task",
-    "storyPoints": null,
+    "storyPoints": 5,
     "sprintRaw": "IBSET PI1:2026 Iteration1,IBSET PI1:2026 Iteration2",
     "sourceFile": "Ibset Scrum Tool Open Export (Swedbank) 2026-02-26T15_54_58+0100.csv",
     "sourceRow": 33
@@ -423,7 +423,7 @@
     "status": "Backlog",
     "resolution": "",
     "issueType": "Task",
-    "storyPoints": null,
+    "storyPoints": 3,
     "sprintRaw": "IBSET PI1:2026 Iteration3",
     "sourceFile": "Ibset Scrum Tool Open Export (Swedbank) 2026-02-26T15_54_58+0100.csv",
     "sourceRow": 34
@@ -436,7 +436,7 @@
     "status": "Code review",
     "resolution": "",
     "issueType": "Task",
-    "storyPoints": null,
+    "storyPoints": 5,
     "sprintRaw": "IBSET PI1:2026 Iteration2,IBSET PI1:2026 Iteration3",
     "sourceFile": "Ibset Scrum Tool Open Export (Swedbank) 2026-02-26T15_54_58+0100.csv",
     "sourceRow": 35
@@ -449,7 +449,7 @@
     "status": "Backlog",
     "resolution": "",
     "issueType": "Task",
-    "storyPoints": null,
+    "storyPoints": 3,
     "sprintRaw": "IBSET PI1:2026 Iteration3",
     "sourceFile": "Ibset Scrum Tool Open Export (Swedbank) 2026-02-26T15_54_58+0100.csv",
     "sourceRow": 36
@@ -462,7 +462,7 @@
     "status": "Backlog",
     "resolution": "",
     "issueType": "Task",
-    "storyPoints": null,
+    "storyPoints": 5,
     "sprintRaw": "",
     "sourceFile": "Ibset Scrum Tool Open Export (Swedbank) 2026-02-26T15_54_58+0100.csv",
     "sourceRow": 37
@@ -475,7 +475,7 @@
     "status": "Backlog",
     "resolution": "",
     "issueType": "Task",
-    "storyPoints": null,
+    "storyPoints": 5,
     "sprintRaw": "IBSET PI1:2026 Iteration3",
     "sourceFile": "Ibset Scrum Tool Open Export (Swedbank) 2026-02-26T15_54_58+0100.csv",
     "sourceRow": 38
@@ -488,7 +488,7 @@
     "status": "Backlog",
     "resolution": "",
     "issueType": "Task",
-    "storyPoints": null,
+    "storyPoints": 0.5,
     "sprintRaw": "IBSET PI1:2026 IP Iteration",
     "sourceFile": "Ibset Scrum Tool Open Export (Swedbank) 2026-02-26T15_54_58+0100.csv",
     "sourceRow": 39
@@ -501,7 +501,7 @@
     "status": "Backlog",
     "resolution": "",
     "issueType": "Task",
-    "storyPoints": null,
+    "storyPoints": 0.5,
     "sprintRaw": "IBSET PI1:2026 IP Iteration",
     "sourceFile": "Ibset Scrum Tool Open Export (Swedbank) 2026-02-26T15_54_58+0100.csv",
     "sourceRow": 40
@@ -527,7 +527,7 @@
     "status": "Ready for Release",
     "resolution": "",
     "issueType": "Task",
-    "storyPoints": null,
+    "storyPoints": 0.5,
     "sprintRaw": "IBSET PI1:2026 Iteration1",
     "sourceFile": "Ibset Scrum Tool Open Export (Swedbank) 2026-02-26T15_54_58+0100.csv",
     "sourceRow": 42
@@ -566,7 +566,7 @@
     "status": "Ready for Release",
     "resolution": "",
     "issueType": "Task",
-    "storyPoints": null,
+    "storyPoints": 3,
     "sprintRaw": "IBSET PI5:2025 Iteration 3&4,IBSET PI5:2025 IP Iteration",
     "sourceFile": "Ibset Scrum Tool Open Export (Swedbank) 2026-02-26T15_54_58+0100.csv",
     "sourceRow": 45
@@ -618,7 +618,7 @@
     "status": "Backlog",
     "resolution": "",
     "issueType": "Task",
-    "storyPoints": null,
+    "storyPoints": 3,
     "sprintRaw": "",
     "sourceFile": "Ibset Scrum Tool Open Export (Swedbank) 2026-02-26T15_54_58+0100.csv",
     "sourceRow": 49
@@ -644,7 +644,7 @@
     "status": "Backlog",
     "resolution": "",
     "issueType": "Task",
-    "storyPoints": null,
+    "storyPoints": 1,
     "sprintRaw": "IBSET PI1:2026 IP Iteration",
     "sourceFile": "Ibset Scrum Tool Open Export (Swedbank) 2026-02-26T15_54_58+0100.csv",
     "sourceRow": 51
@@ -657,7 +657,7 @@
     "status": "Backlog",
     "resolution": "",
     "issueType": "Task",
-    "storyPoints": null,
+    "storyPoints": 8,
     "sprintRaw": "IBSET PI5:2025 Iteration 3&4,IBSET PI5:2025 IP Iteration,IBSET PI1:2026 IP Iteration",
     "sourceFile": "Ibset Scrum Tool Open Export (Swedbank) 2026-02-26T15_54_58+0100.csv",
     "sourceRow": 52
@@ -670,7 +670,7 @@
     "status": "To Do",
     "resolution": "",
     "issueType": "Task",
-    "storyPoints": null,
+    "storyPoints": 0.5,
     "sprintRaw": "IBSET PI5:2025 Iteration 1,IBSET PI5:2025 Iteration 2",
     "sourceFile": "Ibset Scrum Tool Open Export (Swedbank) 2026-02-26T15_54_58+0100.csv",
     "sourceRow": 53
@@ -683,7 +683,7 @@
     "status": "Ready for Release",
     "resolution": "",
     "issueType": "Task",
-    "storyPoints": null,
+    "storyPoints": 5,
     "sprintRaw": "IBSET PI5:2025 Iteration 2,IBSET PI5:2025 Iteration 3&4",
     "sourceFile": "Ibset Scrum Tool Open Export (Swedbank) 2026-02-26T15_54_58+0100.csv",
     "sourceRow": 54
@@ -696,7 +696,7 @@
     "status": "Backlog",
     "resolution": "",
     "issueType": "Task",
-    "storyPoints": null,
+    "storyPoints": 1,
     "sprintRaw": "IBSET PI1:2026 Iteration3",
     "sourceFile": "Ibset Scrum Tool Open Export (Swedbank) 2026-02-26T15_54_58+0100.csv",
     "sourceRow": 55
@@ -709,7 +709,7 @@
     "status": "In Progress",
     "resolution": "",
     "issueType": "Task",
-    "storyPoints": null,
+    "storyPoints": 1,
     "sprintRaw": "IBSET PI1:2026 Iteration2,IBSET PI1:2026 Iteration3",
     "sourceFile": "Ibset Scrum Tool Open Export (Swedbank) 2026-02-26T15_54_58+0100.csv",
     "sourceRow": 56
@@ -722,7 +722,7 @@
     "status": "On Hold",
     "resolution": "",
     "issueType": "Task",
-    "storyPoints": null,
+    "storyPoints": 1,
     "sprintRaw": "IBSET PI5:2025 Iteration 3&4,IBSET PI5:2025 IP Iteration,IBSET PI1:2026 Iteration1,IBSET PI1:2026 Iteration2,IBSET PI1:2026 Iteration3",
     "sourceFile": "Ibset Scrum Tool Open Export (Swedbank) 2026-02-26T15_54_58+0100.csv",
     "sourceRow": 57
@@ -735,7 +735,7 @@
     "status": "Ready for Release",
     "resolution": "",
     "issueType": "Task",
-    "storyPoints": null,
+    "storyPoints": 3,
     "sprintRaw": "IBSET PI5:2025 Iteration 3&4",
     "sourceFile": "Ibset Scrum Tool Open Export (Swedbank) 2026-02-26T15_54_58+0100.csv",
     "sourceRow": 58
@@ -748,7 +748,7 @@
     "status": "Ready for Release",
     "resolution": "",
     "issueType": "Task",
-    "storyPoints": null,
+    "storyPoints": 5,
     "sprintRaw": "IBSET PI5:2025 Iteration 3&4,IBSET PI5:2025 IP Iteration,IBSET PI1:2026 Iteration1",
     "sourceFile": "Ibset Scrum Tool Open Export (Swedbank) 2026-02-26T15_54_58+0100.csv",
     "sourceRow": 59
@@ -787,7 +787,7 @@
     "status": "On Hold",
     "resolution": "",
     "issueType": "Task",
-    "storyPoints": null,
+    "storyPoints": 3,
     "sprintRaw": "IBSET PI4:2025 Iteration 3,IBSET PI4:2025 Iteration 4,IBSET PI1:2026 Iteration2,IBSET PI1:2026 Iteration3",
     "sourceFile": "Ibset Scrum Tool Open Export (Swedbank) 2026-02-26T15_54_58+0100.csv",
     "sourceRow": 62
@@ -800,7 +800,7 @@
     "status": "Ready for Release",
     "resolution": "",
     "issueType": "Task",
-    "storyPoints": null,
+    "storyPoints": 3,
     "sprintRaw": "IBSET PI4:2025 Iteration 4,IBSET PI4:2025 IP Iteration,IBSET PI5:2025 Iteration 1,IBSET PI5:2025 Iteration 2",
     "sourceFile": "Ibset Scrum Tool Open Export (Swedbank) 2026-02-26T15_54_58+0100.csv",
     "sourceRow": 63
@@ -813,7 +813,7 @@
     "status": "Backlog",
     "resolution": "",
     "issueType": "Task",
-    "storyPoints": null,
+    "storyPoints": 1,
     "sprintRaw": "IBSET PI4:2025 Iteration 1,IBSET PI4:2025 Iteration 2,IBSET PI1:2026 IP Iteration",
     "sourceFile": "Ibset Scrum Tool Open Export (Swedbank) 2026-02-26T15_54_58+0100.csv",
     "sourceRow": 64
@@ -865,7 +865,7 @@
     "status": "Ready for Release",
     "resolution": "",
     "issueType": "Task",
-    "storyPoints": null,
+    "storyPoints": 1,
     "sprintRaw": "IBSET PI3:2025 IP Iteration",
     "sourceFile": "Ibset Scrum Tool Open Export (Swedbank) 2026-02-26T15_54_58+0100.csv",
     "sourceRow": 68
@@ -878,7 +878,7 @@
     "status": "Ready for Release",
     "resolution": "",
     "issueType": "Task",
-    "storyPoints": null,
+    "storyPoints": 1,
     "sprintRaw": "IBSET PI3:2025 IP Iteration",
     "sourceFile": "Ibset Scrum Tool Open Export (Swedbank) 2026-02-26T15_54_58+0100.csv",
     "sourceRow": 69
@@ -943,7 +943,7 @@
     "status": "Ready for Release",
     "resolution": "",
     "issueType": "Task",
-    "storyPoints": null,
+    "storyPoints": 1,
     "sprintRaw": "IBSET PI3:2025 Iteration 1,IBSET PI3:2025 Iteration 2,IBSET PI3:2025 Iteration 3",
     "sourceFile": "Ibset Scrum Tool Open Export (Swedbank) 2026-02-26T15_54_58+0100.csv",
     "sourceRow": 74
@@ -956,7 +956,7 @@
     "status": "Ready for Release",
     "resolution": "",
     "issueType": "Task",
-    "storyPoints": null,
+    "storyPoints": 1,
     "sprintRaw": "IBSET PI2:2025 Sp4",
     "sourceFile": "Ibset Scrum Tool Open Export (Swedbank) 2026-02-26T15_54_58+0100.csv",
     "sourceRow": 75
@@ -969,7 +969,7 @@
     "status": "Ready for Release",
     "resolution": "",
     "issueType": "Task",
-    "storyPoints": null,
+    "storyPoints": 1,
     "sprintRaw": "IBSET PI2:2025 Sp4",
     "sourceFile": "Ibset Scrum Tool Open Export (Swedbank) 2026-02-26T15_54_58+0100.csv",
     "sourceRow": 76
@@ -982,7 +982,7 @@
     "status": "Ready for Release",
     "resolution": "",
     "issueType": "Task",
-    "storyPoints": null,
+    "storyPoints": 1,
     "sprintRaw": "IBSET PI2:2025 Sp2,IBSET PI2:2025 Sp3",
     "sourceFile": "Ibset Scrum Tool Open Export (Swedbank) 2026-02-26T15_54_58+0100.csv",
     "sourceRow": 77
@@ -995,7 +995,7 @@
     "status": "Ready for Release",
     "resolution": "",
     "issueType": "Task",
-    "storyPoints": null,
+    "storyPoints": 3,
     "sprintRaw": "IBSET PI2:2025 Sp1,IBSET PI2:2025 Sp2,IBSET PI2:2025 Sp3,IBSET PI2:2025 Sp4",
     "sourceFile": "Ibset Scrum Tool Open Export (Swedbank) 2026-02-26T15_54_58+0100.csv",
     "sourceRow": 78
@@ -1021,7 +1021,7 @@
     "status": "Ready for Release",
     "resolution": "",
     "issueType": "Task",
-    "storyPoints": null,
+    "storyPoints": 3,
     "sprintRaw": "IBSET PI2:2025 Sp2,IBSET PI2:2025 Sp3",
     "sourceFile": "Ibset Scrum Tool Open Export (Swedbank) 2026-02-26T15_54_58+0100.csv",
     "sourceRow": 80
@@ -1034,7 +1034,7 @@
     "status": "Backlog",
     "resolution": "",
     "issueType": "Task",
-    "storyPoints": null,
+    "storyPoints": 2,
     "sprintRaw": "",
     "sourceFile": "Ibset Scrum Tool Open Export (Swedbank) 2026-02-26T15_54_58+0100.csv",
     "sourceRow": 81
@@ -1047,7 +1047,7 @@
     "status": "Backlog",
     "resolution": "",
     "issueType": "Task",
-    "storyPoints": null,
+    "storyPoints": 2,
     "sprintRaw": "",
     "sourceFile": "Ibset Scrum Tool Open Export (Swedbank) 2026-02-26T15_54_58+0100.csv",
     "sourceRow": 82
@@ -1060,7 +1060,7 @@
     "status": "Backlog",
     "resolution": "",
     "issueType": "Task",
-    "storyPoints": null,
+    "storyPoints": 2,
     "sprintRaw": "",
     "sourceFile": "Ibset Scrum Tool Open Export (Swedbank) 2026-02-26T15_54_58+0100.csv",
     "sourceRow": 83
@@ -1073,7 +1073,7 @@
     "status": "On Hold",
     "resolution": "",
     "issueType": "Task",
-    "storyPoints": null,
+    "storyPoints": 1,
     "sprintRaw": "IBSET-19,IBSET-20,IBSET-21,IBSET-22,IBSET PI2:2025 Sp1,IBSET PI1:2026 Iteration2,IBSET PI1:2026 Iteration3",
     "sourceFile": "Ibset Scrum Tool Open Export (Swedbank) 2026-02-26T15_54_58+0100.csv",
     "sourceRow": 84
@@ -1086,7 +1086,7 @@
     "status": "Done",
     "resolution": "",
     "issueType": "Task",
-    "storyPoints": null,
+    "storyPoints": 0.25,
     "sprintRaw": "IBSET PI1:2026 Iteration3",
     "sourceFile": "Ibset Scrum Tool DONE export (Swedbank) 2026-02-26T15_55_13+0100.csv",
     "sourceRow": 2
@@ -1099,7 +1099,7 @@
     "status": "Done",
     "resolution": "",
     "issueType": "Task",
-    "storyPoints": null,
+    "storyPoints": 0.25,
     "sprintRaw": "IBSET PI1:2026 Iteration2",
     "sourceFile": "Ibset Scrum Tool DONE export (Swedbank) 2026-02-26T15_55_13+0100.csv",
     "sourceRow": 3
@@ -1125,7 +1125,7 @@
     "status": "Done",
     "resolution": "",
     "issueType": "Task",
-    "storyPoints": null,
+    "storyPoints": 0.25,
     "sprintRaw": "IBSET PI1:2026 Iteration2",
     "sourceFile": "Ibset Scrum Tool DONE export (Swedbank) 2026-02-26T15_55_13+0100.csv",
     "sourceRow": 5
@@ -1138,7 +1138,7 @@
     "status": "Done",
     "resolution": "",
     "issueType": "Task",
-    "storyPoints": null,
+    "storyPoints": 0.25,
     "sprintRaw": "IBSET PI1:2026 Iteration2",
     "sourceFile": "Ibset Scrum Tool DONE export (Swedbank) 2026-02-26T15_55_13+0100.csv",
     "sourceRow": 6
@@ -1151,7 +1151,7 @@
     "status": "Done",
     "resolution": "",
     "issueType": "Task",
-    "storyPoints": null,
+    "storyPoints": 1,
     "sprintRaw": "IBSET PI1:2026 Iteration2",
     "sourceFile": "Ibset Scrum Tool DONE export (Swedbank) 2026-02-26T15_55_13+0100.csv",
     "sourceRow": 7
@@ -1164,7 +1164,7 @@
     "status": "Done",
     "resolution": "",
     "issueType": "Task",
-    "storyPoints": null,
+    "storyPoints": 1,
     "sprintRaw": "IBSET PI1:2026 Iteration2",
     "sourceFile": "Ibset Scrum Tool DONE export (Swedbank) 2026-02-26T15_55_13+0100.csv",
     "sourceRow": 8
@@ -1294,7 +1294,7 @@
     "status": "Done",
     "resolution": "",
     "issueType": "Task",
-    "storyPoints": null,
+    "storyPoints": 0.25,
     "sprintRaw": "IBSET PI1:2026 Iteration2",
     "sourceFile": "Ibset Scrum Tool DONE export (Swedbank) 2026-02-26T15_55_13+0100.csv",
     "sourceRow": 18
@@ -1307,7 +1307,7 @@
     "status": "Done",
     "resolution": "",
     "issueType": "Task",
-    "storyPoints": null,
+    "storyPoints": 0.25,
     "sprintRaw": "IBSET PI1:2026 Iteration1",
     "sourceFile": "Ibset Scrum Tool DONE export (Swedbank) 2026-02-26T15_55_13+0100.csv",
     "sourceRow": 19
@@ -1320,7 +1320,7 @@
     "status": "Done",
     "resolution": "",
     "issueType": "Task",
-    "storyPoints": null,
+    "storyPoints": 2,
     "sprintRaw": "IBSET PI1:2026 Iteration2",
     "sourceFile": "Ibset Scrum Tool DONE export (Swedbank) 2026-02-26T15_55_13+0100.csv",
     "sourceRow": 20
@@ -1359,7 +1359,7 @@
     "status": "Done",
     "resolution": "",
     "issueType": "Task",
-    "storyPoints": null,
+    "storyPoints": 0.25,
     "sprintRaw": "IBSET PI1:2026 Iteration1",
     "sourceFile": "Ibset Scrum Tool DONE export (Swedbank) 2026-02-26T15_55_13+0100.csv",
     "sourceRow": 23
@@ -1385,7 +1385,7 @@
     "status": "Done",
     "resolution": "",
     "issueType": "Task",
-    "storyPoints": null,
+    "storyPoints": 0.25,
     "sprintRaw": "IBSET PI5:2025 IP Iteration",
     "sourceFile": "Ibset Scrum Tool DONE export (Swedbank) 2026-02-26T15_55_13+0100.csv",
     "sourceRow": 25
@@ -1476,7 +1476,7 @@
     "status": "Done",
     "resolution": "",
     "issueType": "Task",
-    "storyPoints": null,
+    "storyPoints": 0.25,
     "sprintRaw": "IBSET PI5:2025 IP Iteration",
     "sourceFile": "Ibset Scrum Tool DONE export (Swedbank) 2026-02-26T15_55_13+0100.csv",
     "sourceRow": 32
@@ -1489,7 +1489,7 @@
     "status": "Done",
     "resolution": "",
     "issueType": "Task",
-    "storyPoints": null,
+    "storyPoints": 3,
     "sprintRaw": "IBSET PI1:2026 Iteration1",
     "sourceFile": "Ibset Scrum Tool DONE export (Swedbank) 2026-02-26T15_55_13+0100.csv",
     "sourceRow": 33
@@ -1502,7 +1502,7 @@
     "status": "Done",
     "resolution": "",
     "issueType": "Task",
-    "storyPoints": null,
+    "storyPoints": 3,
     "sprintRaw": "IBSET PI1:2026 Iteration2",
     "sourceFile": "Ibset Scrum Tool DONE export (Swedbank) 2026-02-26T15_55_13+0100.csv",
     "sourceRow": 34
@@ -1515,7 +1515,7 @@
     "status": "Done",
     "resolution": "",
     "issueType": "Task",
-    "storyPoints": null,
+    "storyPoints": 3,
     "sprintRaw": "IBSET PI1:2026 Iteration2",
     "sourceFile": "Ibset Scrum Tool DONE export (Swedbank) 2026-02-26T15_55_13+0100.csv",
     "sourceRow": 35
@@ -1528,7 +1528,7 @@
     "status": "Done",
     "resolution": "",
     "issueType": "Task",
-    "storyPoints": null,
+    "storyPoints": 1,
     "sprintRaw": "IBSET PI1:2026 Iteration1",
     "sourceFile": "Ibset Scrum Tool DONE export (Swedbank) 2026-02-26T15_55_13+0100.csv",
     "sourceRow": 36
@@ -1541,7 +1541,7 @@
     "status": "Done",
     "resolution": "",
     "issueType": "Task",
-    "storyPoints": null,
+    "storyPoints": 3,
     "sprintRaw": "IBSET PI5:2025 IP Iteration",
     "sourceFile": "Ibset Scrum Tool DONE export (Swedbank) 2026-02-26T15_55_13+0100.csv",
     "sourceRow": 37
@@ -1554,7 +1554,7 @@
     "status": "Done",
     "resolution": "",
     "issueType": "Task",
-    "storyPoints": null,
+    "storyPoints": 3,
     "sprintRaw": "IBSET PI1:2026 Iteration2",
     "sourceFile": "Ibset Scrum Tool DONE export (Swedbank) 2026-02-26T15_55_13+0100.csv",
     "sourceRow": 38
@@ -1567,7 +1567,7 @@
     "status": "Done",
     "resolution": "",
     "issueType": "Task",
-    "storyPoints": null,
+    "storyPoints": 3,
     "sprintRaw": "IBSET PI1:2026 Iteration2",
     "sourceFile": "Ibset Scrum Tool DONE export (Swedbank) 2026-02-26T15_55_13+0100.csv",
     "sourceRow": 39
@@ -1593,7 +1593,7 @@
     "status": "Done",
     "resolution": "",
     "issueType": "Task",
-    "storyPoints": null,
+    "storyPoints": 2,
     "sprintRaw": "IBSET PI1:2026 Iteration2",
     "sourceFile": "Ibset Scrum Tool DONE export (Swedbank) 2026-02-26T15_55_13+0100.csv",
     "sourceRow": 41
@@ -1606,7 +1606,7 @@
     "status": "Done",
     "resolution": "",
     "issueType": "Task",
-    "storyPoints": null,
+    "storyPoints": 0.25,
     "sprintRaw": "IBSET PI5:2025 IP Iteration",
     "sourceFile": "Ibset Scrum Tool DONE export (Swedbank) 2026-02-26T15_55_13+0100.csv",
     "sourceRow": 42
@@ -1632,7 +1632,7 @@
     "status": "Done",
     "resolution": "",
     "issueType": "Task",
-    "storyPoints": null,
+    "storyPoints": 0.5,
     "sprintRaw": "IBSET PI1:2026 Iteration2",
     "sourceFile": "Ibset Scrum Tool DONE export (Swedbank) 2026-02-26T15_55_13+0100.csv",
     "sourceRow": 44
@@ -1645,7 +1645,7 @@
     "status": "Done",
     "resolution": "",
     "issueType": "Task",
-    "storyPoints": null,
+    "storyPoints": 3,
     "sprintRaw": "IBSET PI1:2026 Iteration1",
     "sourceFile": "Ibset Scrum Tool DONE export (Swedbank) 2026-02-26T15_55_13+0100.csv",
     "sourceRow": 45
@@ -1658,7 +1658,7 @@
     "status": "Done",
     "resolution": "",
     "issueType": "Task",
-    "storyPoints": null,
+    "storyPoints": 3,
     "sprintRaw": "IBSET PI1:2026 Iteration1",
     "sourceFile": "Ibset Scrum Tool DONE export (Swedbank) 2026-02-26T15_55_13+0100.csv",
     "sourceRow": 46
@@ -1684,7 +1684,7 @@
     "status": "Done",
     "resolution": "",
     "issueType": "Task",
-    "storyPoints": null,
+    "storyPoints": 3,
     "sprintRaw": "IBSET PI1:2026 Iteration1",
     "sourceFile": "Ibset Scrum Tool DONE export (Swedbank) 2026-02-26T15_55_13+0100.csv",
     "sourceRow": 48
@@ -1723,7 +1723,7 @@
     "status": "Done",
     "resolution": "",
     "issueType": "Task",
-    "storyPoints": null,
+    "storyPoints": 0.25,
     "sprintRaw": "IBSET PI5:2025 IP Iteration",
     "sourceFile": "Ibset Scrum Tool DONE export (Swedbank) 2026-02-26T15_55_13+0100.csv",
     "sourceRow": 51
@@ -1749,7 +1749,7 @@
     "status": "Done",
     "resolution": "",
     "issueType": "Task",
-    "storyPoints": null,
+    "storyPoints": 0.25,
     "sprintRaw": "IBSET PI5:2025 IP Iteration",
     "sourceFile": "Ibset Scrum Tool DONE export (Swedbank) 2026-02-26T15_55_13+0100.csv",
     "sourceRow": 53
@@ -1762,7 +1762,7 @@
     "status": "Done",
     "resolution": "",
     "issueType": "Task",
-    "storyPoints": null,
+    "storyPoints": 3,
     "sprintRaw": "IBSET PI5:2025 IP Iteration",
     "sourceFile": "Ibset Scrum Tool DONE export (Swedbank) 2026-02-26T15_55_13+0100.csv",
     "sourceRow": 54
@@ -1775,7 +1775,7 @@
     "status": "Done",
     "resolution": "",
     "issueType": "Task",
-    "storyPoints": null,
+    "storyPoints": 0.25,
     "sprintRaw": "IBSET PI5:2025 IP Iteration",
     "sourceFile": "Ibset Scrum Tool DONE export (Swedbank) 2026-02-26T15_55_13+0100.csv",
     "sourceRow": 55
@@ -1801,7 +1801,7 @@
     "status": "Done",
     "resolution": "",
     "issueType": "Task",
-    "storyPoints": null,
+    "storyPoints": 0.25,
     "sprintRaw": "IBSET PI5:2025 Iteration 3&4",
     "sourceFile": "Ibset Scrum Tool DONE export (Swedbank) 2026-02-26T15_55_13+0100.csv",
     "sourceRow": 57
@@ -1814,7 +1814,7 @@
     "status": "Done",
     "resolution": "",
     "issueType": "Task",
-    "storyPoints": null,
+    "storyPoints": 0.5,
     "sprintRaw": "IBSET PI5:2025 Iteration 3&4",
     "sourceFile": "Ibset Scrum Tool DONE export (Swedbank) 2026-02-26T15_55_13+0100.csv",
     "sourceRow": 58
@@ -1827,7 +1827,7 @@
     "status": "Done",
     "resolution": "",
     "issueType": "Task",
-    "storyPoints": null,
+    "storyPoints": 1,
     "sprintRaw": "IBSET PI1:2026 Iteration1",
     "sourceFile": "Ibset Scrum Tool DONE export (Swedbank) 2026-02-26T15_55_13+0100.csv",
     "sourceRow": 59
@@ -1840,7 +1840,7 @@
     "status": "Done",
     "resolution": "",
     "issueType": "Task",
-    "storyPoints": null,
+    "storyPoints": 1,
     "sprintRaw": "IBSET PI5:2025 Iteration 3&4,IBSET PI5:2025 IP Iteration",
     "sourceFile": "Ibset Scrum Tool DONE export (Swedbank) 2026-02-26T15_55_13+0100.csv",
     "sourceRow": 60
@@ -1853,7 +1853,7 @@
     "status": "Done",
     "resolution": "",
     "issueType": "Task",
-    "storyPoints": null,
+    "storyPoints": 1,
     "sprintRaw": "IBSET PI5:2025 Iteration 3&4",
     "sourceFile": "Ibset Scrum Tool DONE export (Swedbank) 2026-02-26T15_55_13+0100.csv",
     "sourceRow": 61
@@ -1892,7 +1892,7 @@
     "status": "Done",
     "resolution": "",
     "issueType": "Task",
-    "storyPoints": null,
+    "storyPoints": 3,
     "sprintRaw": "IBSET PI5:2025 Iteration 2,IBSET PI5:2025 Iteration 3&4,IBSET PI5:2025 IP Iteration",
     "sourceFile": "Ibset Scrum Tool DONE export (Swedbank) 2026-02-26T15_55_13+0100.csv",
     "sourceRow": 64
@@ -1918,7 +1918,7 @@
     "status": "Done",
     "resolution": "",
     "issueType": "Task",
-    "storyPoints": null,
+    "storyPoints": 3,
     "sprintRaw": "IBSET PI5:2025 Iteration 1,IBSET PI5:2025 Iteration 2,IBSET PI5:2025 Iteration 3&4",
     "sourceFile": "Ibset Scrum Tool DONE export (Swedbank) 2026-02-26T15_55_13+0100.csv",
     "sourceRow": 66
@@ -1957,7 +1957,7 @@
     "status": "Done",
     "resolution": "",
     "issueType": "Task",
-    "storyPoints": null,
+    "storyPoints": 3,
     "sprintRaw": "IBSET PI5:2025 Iteration 2",
     "sourceFile": "Ibset Scrum Tool DONE export (Swedbank) 2026-02-26T15_55_13+0100.csv",
     "sourceRow": 69
@@ -1970,7 +1970,7 @@
     "status": "Done",
     "resolution": "",
     "issueType": "Task",
-    "storyPoints": null,
+    "storyPoints": 5,
     "sprintRaw": "IBSET PI5:2025 Iteration 3&4",
     "sourceFile": "Ibset Scrum Tool DONE export (Swedbank) 2026-02-26T15_55_13+0100.csv",
     "sourceRow": 70
@@ -1983,7 +1983,7 @@
     "status": "Done",
     "resolution": "",
     "issueType": "Task",
-    "storyPoints": null,
+    "storyPoints": 3,
     "sprintRaw": "IBSET PI5:2025 Iteration 3&4,IBSET PI5:2025 IP Iteration,IBSET PI1:2026 Iteration1",
     "sourceFile": "Ibset Scrum Tool DONE export (Swedbank) 2026-02-26T15_55_13+0100.csv",
     "sourceRow": 71
@@ -1996,7 +1996,7 @@
     "status": "Done",
     "resolution": "",
     "issueType": "Task",
-    "storyPoints": null,
+    "storyPoints": 5,
     "sprintRaw": "IBSET PI5:2025 Iteration 3&4",
     "sourceFile": "Ibset Scrum Tool DONE export (Swedbank) 2026-02-26T15_55_13+0100.csv",
     "sourceRow": 72
@@ -2009,7 +2009,7 @@
     "status": "Done",
     "resolution": "",
     "issueType": "Task",
-    "storyPoints": null,
+    "storyPoints": 2,
     "sprintRaw": "IBSET PI5:2025 Iteration 2",
     "sourceFile": "Ibset Scrum Tool DONE export (Swedbank) 2026-02-26T15_55_13+0100.csv",
     "sourceRow": 73
@@ -2022,7 +2022,7 @@
     "status": "Done",
     "resolution": "",
     "issueType": "Task",
-    "storyPoints": null,
+    "storyPoints": 1,
     "sprintRaw": "IBSET PI5:2025 Iteration 3&4",
     "sourceFile": "Ibset Scrum Tool DONE export (Swedbank) 2026-02-26T15_55_13+0100.csv",
     "sourceRow": 74
@@ -2035,7 +2035,7 @@
     "status": "Done",
     "resolution": "",
     "issueType": "Task",
-    "storyPoints": null,
+    "storyPoints": 3,
     "sprintRaw": "IBSET PI4:2025 Iteration 4,IBSET PI4:2025 IP Iteration",
     "sourceFile": "Ibset Scrum Tool DONE export (Swedbank) 2026-02-26T15_55_13+0100.csv",
     "sourceRow": 75
@@ -2048,7 +2048,7 @@
     "status": "Done",
     "resolution": "",
     "issueType": "Task",
-    "storyPoints": null,
+    "storyPoints": 3,
     "sprintRaw": "IBSET PI5:2025 Iteration 2",
     "sourceFile": "Ibset Scrum Tool DONE export (Swedbank) 2026-02-26T15_55_13+0100.csv",
     "sourceRow": 76
@@ -2061,7 +2061,7 @@
     "status": "Done",
     "resolution": "",
     "issueType": "Task",
-    "storyPoints": null,
+    "storyPoints": 3,
     "sprintRaw": "IBSET PI5:2025 Iteration 2",
     "sourceFile": "Ibset Scrum Tool DONE export (Swedbank) 2026-02-26T15_55_13+0100.csv",
     "sourceRow": 77
@@ -2074,7 +2074,7 @@
     "status": "Done",
     "resolution": "",
     "issueType": "Task",
-    "storyPoints": null,
+    "storyPoints": 1,
     "sprintRaw": "IBSET PI4:2025 Iteration 1,IBSET PI4:2025 Iteration 2",
     "sourceFile": "Ibset Scrum Tool DONE export (Swedbank) 2026-02-26T15_55_13+0100.csv",
     "sourceRow": 78
@@ -2087,7 +2087,7 @@
     "status": "Done",
     "resolution": "",
     "issueType": "Task",
-    "storyPoints": null,
+    "storyPoints": 3,
     "sprintRaw": "IBSET PI4:2025 IP Iteration,IBSET PI5:2025 Iteration 1,IBSET PI5:2025 Iteration 2",
     "sourceFile": "Ibset Scrum Tool DONE export (Swedbank) 2026-02-26T15_55_13+0100.csv",
     "sourceRow": 79
@@ -2100,7 +2100,7 @@
     "status": "Done",
     "resolution": "",
     "issueType": "Task",
-    "storyPoints": null,
+    "storyPoints": 3,
     "sprintRaw": "IBSET PI4:2025 Iteration 2",
     "sourceFile": "Ibset Scrum Tool DONE export (Swedbank) 2026-02-26T15_55_13+0100.csv",
     "sourceRow": 80
@@ -2113,7 +2113,7 @@
     "status": "Done",
     "resolution": "",
     "issueType": "Task",
-    "storyPoints": null,
+    "storyPoints": 3,
     "sprintRaw": "IBSET PI4:2025 Iteration 2",
     "sourceFile": "Ibset Scrum Tool DONE export (Swedbank) 2026-02-26T15_55_13+0100.csv",
     "sourceRow": 81
@@ -2126,7 +2126,7 @@
     "status": "Done",
     "resolution": "",
     "issueType": "Task",
-    "storyPoints": null,
+    "storyPoints": 8,
     "sprintRaw": "IBSET PI4:2025 IP Iteration,IBSET PI5:2025 Iteration 1",
     "sourceFile": "Ibset Scrum Tool DONE export (Swedbank) 2026-02-26T15_55_13+0100.csv",
     "sourceRow": 82
@@ -2139,7 +2139,7 @@
     "status": "Done",
     "resolution": "",
     "issueType": "Task",
-    "storyPoints": null,
+    "storyPoints": 3,
     "sprintRaw": "IBSET PI4:2025 IP Iteration,IBSET PI5:2025 Iteration 1",
     "sourceFile": "Ibset Scrum Tool DONE export (Swedbank) 2026-02-26T15_55_13+0100.csv",
     "sourceRow": 83
@@ -2152,7 +2152,7 @@
     "status": "Done",
     "resolution": "",
     "issueType": "Task",
-    "storyPoints": null,
+    "storyPoints": 5,
     "sprintRaw": "IBSET PI5:2025 Iteration 3&4",
     "sourceFile": "Ibset Scrum Tool DONE export (Swedbank) 2026-02-26T15_55_13+0100.csv",
     "sourceRow": 84
@@ -2165,7 +2165,7 @@
     "status": "Done",
     "resolution": "",
     "issueType": "Task",
-    "storyPoints": null,
+    "storyPoints": 8,
     "sprintRaw": "IBSET PI5:2025 Iteration 2,IBSET PI5:2025 Iteration 3&4,IBSET PI5:2025 IP Iteration,IBSET PI1:2026 Iteration1",
     "sourceFile": "Ibset Scrum Tool DONE export (Swedbank) 2026-02-26T15_55_13+0100.csv",
     "sourceRow": 85
@@ -2178,7 +2178,7 @@
     "status": "Done",
     "resolution": "",
     "issueType": "Task",
-    "storyPoints": null,
+    "storyPoints": 5,
     "sprintRaw": "IBSET PI5:2025 Iteration 3&4,IBSET PI5:2025 IP Iteration,IBSET PI1:2026 Iteration1",
     "sourceFile": "Ibset Scrum Tool DONE export (Swedbank) 2026-02-26T15_55_13+0100.csv",
     "sourceRow": 86
@@ -2191,7 +2191,7 @@
     "status": "Canceled",
     "resolution": "",
     "issueType": "Task",
-    "storyPoints": null,
+    "storyPoints": 13,
     "sprintRaw": "IBSET PI3:2025 Iteration 3",
     "sourceFile": "Ibset Scrum Tool DONE export (Swedbank) 2026-02-26T15_55_13+0100.csv",
     "sourceRow": 87
@@ -2204,7 +2204,7 @@
     "status": "Canceled",
     "resolution": "",
     "issueType": "Task",
-    "storyPoints": null,
+    "storyPoints": 2,
     "sprintRaw": "",
     "sourceFile": "Ibset Scrum Tool DONE export (Swedbank) 2026-02-26T15_55_13+0100.csv",
     "sourceRow": 88
@@ -2217,7 +2217,7 @@
     "status": "Canceled",
     "resolution": "",
     "issueType": "Task",
-    "storyPoints": null,
+    "storyPoints": 2,
     "sprintRaw": "",
     "sourceFile": "Ibset Scrum Tool DONE export (Swedbank) 2026-02-26T15_55_13+0100.csv",
     "sourceRow": 89
@@ -2230,7 +2230,7 @@
     "status": "Canceled",
     "resolution": "",
     "issueType": "Task",
-    "storyPoints": null,
+    "storyPoints": 3,
     "sprintRaw": "IBSET PI3:2025 Iteration 3",
     "sourceFile": "Ibset Scrum Tool DONE export (Swedbank) 2026-02-26T15_55_13+0100.csv",
     "sourceRow": 90
@@ -2243,7 +2243,7 @@
     "status": "Canceled",
     "resolution": "",
     "issueType": "Task",
-    "storyPoints": null,
+    "storyPoints": 8,
     "sprintRaw": "",
     "sourceFile": "Ibset Scrum Tool DONE export (Swedbank) 2026-02-26T15_55_13+0100.csv",
     "sourceRow": 91
@@ -2256,7 +2256,7 @@
     "status": "Canceled",
     "resolution": "",
     "issueType": "Task",
-    "storyPoints": null,
+    "storyPoints": 3,
     "sprintRaw": "",
     "sourceFile": "Ibset Scrum Tool DONE export (Swedbank) 2026-02-26T15_55_13+0100.csv",
     "sourceRow": 92
@@ -2269,7 +2269,7 @@
     "status": "Canceled",
     "resolution": "",
     "issueType": "Story",
-    "storyPoints": null,
+    "storyPoints": 8,
     "sprintRaw": "IBSET PI2:2025 Sp1,IBSET PI2:2025 Sp4,IBSET PI2:2025 IP Iteration,IBSET PI3:2025 Iteration 1",
     "sourceFile": "Ibset Scrum Tool DONE export (Swedbank) 2026-02-26T15_55_13+0100.csv",
     "sourceRow": 93
@@ -2282,7 +2282,7 @@
     "status": "Canceled",
     "resolution": "",
     "issueType": "Task",
-    "storyPoints": null,
+    "storyPoints": 1,
     "sprintRaw": "",
     "sourceFile": "Ibset Scrum Tool DONE export (Swedbank) 2026-02-26T15_55_13+0100.csv",
     "sourceRow": 94
@@ -2295,7 +2295,7 @@
     "status": "Canceled",
     "resolution": "",
     "issueType": "Task",
-    "storyPoints": null,
+    "storyPoints": 1,
     "sprintRaw": "",
     "sourceFile": "Ibset Scrum Tool DONE export (Swedbank) 2026-02-26T15_55_13+0100.csv",
     "sourceRow": 95
@@ -2308,7 +2308,7 @@
     "status": "Canceled",
     "resolution": "",
     "issueType": "Task",
-    "storyPoints": null,
+    "storyPoints": 0.5,
     "sprintRaw": "",
     "sourceFile": "Ibset Scrum Tool DONE export (Swedbank) 2026-02-26T15_55_13+0100.csv",
     "sourceRow": 96
@@ -2321,7 +2321,7 @@
     "status": "Canceled",
     "resolution": "",
     "issueType": "Task",
-    "storyPoints": null,
+    "storyPoints": 2,
     "sprintRaw": "",
     "sourceFile": "Ibset Scrum Tool DONE export (Swedbank) 2026-02-26T15_55_13+0100.csv",
     "sourceRow": 97
@@ -2334,7 +2334,7 @@
     "status": "Canceled",
     "resolution": "",
     "issueType": "Task",
-    "storyPoints": null,
+    "storyPoints": 2,
     "sprintRaw": "",
     "sourceFile": "Ibset Scrum Tool DONE export (Swedbank) 2026-02-26T15_55_13+0100.csv",
     "sourceRow": 98

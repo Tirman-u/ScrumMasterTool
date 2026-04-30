@@ -51,9 +51,7 @@
   },
   "excludedIssueKeys": [
     "CORE-8137",
-    "CORE-8798",
-    "CORE-9064",
-    "CORE-9069"
+    "CORE-8798"
   ],
   "jiraQuery": {
     "defaultQueryId": "default",
@@ -64,6 +62,34 @@
         "jql": "project = YOURPROJECT ORDER BY updated DESC",
         "note": "Edit this query per team scope."
       }
+    ]
+  },
+  "sprintScopeConfig": {
+    "statuses": [
+      "Development",
+      "On Hold",
+      "Testing",
+      "Refinement",
+      "Analysis",
+      "Ready for Testing",
+      "Business acceptance test",
+      "Code review"
+    ]
+  },
+  "workflowConfig": {
+    "backlogStatuses": [
+      "Open",
+      "To Do"
+    ],
+    "activeStatuses": [
+      "Development",
+      "On Hold",
+      "Testing",
+      "Refinement",
+      "Analysis",
+      "Ready for Testing",
+      "Business acceptance test",
+      "Code review"
     ]
   }
 }

@@ -1,0 +1,38 @@
+{
+  "generatedAt": "2026-04-29T09:08:46.595Z",
+  "teamName": "E-Pay",
+  "totalImportedRows": 0,
+  "uniqueIssues": 0,
+  "doneIssues": 0,
+  "cycleTimeCount": 0,
+  "cycleTimeDays": [],
+  "avgCycleTimeDays": null,
+  "sle": {
+    "percentiles": [
+      50,
+      70,
+      85,
+      95
+    ],
+    "rounding": "ceil",
+    "values": {
+      "p50": null,
+      "p70": null,
+      "p85": null,
+      "p95": null
+    }
+  },
+  "scatter": [],
+  "scatterOverlay": {
+    "p50": null,
+    "p70": null,
+    "p85": null,
+    "p95": null
+  },
+  "velocityMonthly": [],
+  "doneIssueDetails": [],
+  "multiSprint": {
+    "count": 0,
+    "percentage": 0
+  }
+}

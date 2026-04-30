@@ -1,0 +1,831 @@
+[
+  {
+    "period": "2024-08",
+    "columns": [
+      {
+        "name": "Open",
+        "avgDays": 256.8471759259259
+      },
+      {
+        "name": "Waiting for Answer",
+        "avgDays": 25.84583333333333
+      },
+      {
+        "name": "Code review",
+        "avgDays": 4.388630952380952
+      },
+      {
+        "name": "Investigation",
+        "avgDays": 4.087569444444444
+      },
+      {
+        "name": "Ready for Testing",
+        "avgDays": 1.6668981481481482
+      },
+      {
+        "name": "Pending",
+        "avgDays": 0.8990530303030302
+      },
+      {
+        "name": "NEW!",
+        "avgDays": 0.719970238095238
+      },
+      {
+        "name": "In Testing",
+        "avgDays": 0.7148749999999999
+      }
+    ]
+  },
+  {
+    "period": "2024-09",
+    "columns": [
+      {
+        "name": "In Progress",
+        "avgDays": 315.71488095238095
+      },
+      {
+        "name": "Open",
+        "avgDays": 48.15422619047619
+      },
+      {
+        "name": "Waiting for Answer",
+        "avgDays": 12.962291666666667
+      },
+      {
+        "name": "Code review",
+        "avgDays": 3.316571969696969
+      },
+      {
+        "name": "Pending",
+        "avgDays": 1.6843333333333335
+      },
+      {
+        "name": "Ready for Testing",
+        "avgDays": 1.2344362745098039
+      },
+      {
+        "name": "In Testing",
+        "avgDays": 0.4573697916666668
+      },
+      {
+        "name": "Investigation",
+        "avgDays": 0.1708333333333333
+      },
+      {
+        "name": "NEW!",
+        "avgDays": 0.09833333333333333
+      }
+    ]
+  },
+  {
+    "period": "2024-10",
+    "columns": [
+      {
+        "name": "Open",
+        "avgDays": 25.83517543859649
+      },
+      {
+        "name": "Waiting for Answer",
+        "avgDays": 19.797916666666666
+      },
+      {
+        "name": "Code review",
+        "avgDays": 5.399880952380952
+      },
+      {
+        "name": "NEW!",
+        "avgDays": 2.6651041666666666
+      },
+      {
+        "name": "Ready for Testing",
+        "avgDays": 2.4263333333333335
+      },
+      {
+        "name": "Pending",
+        "avgDays": 2.2086858974358967
+      },
+      {
+        "name": "In Testing",
+        "avgDays": 1.816597222222222
+      }
+    ]
+  },
+  {
+    "period": "2024-11",
+    "columns": [
+      {
+        "name": "In Progress",
+        "avgDays": 73.98958333333334
+      },
+      {
+        "name": "Open",
+        "avgDays": 57.00833333333333
+      },
+      {
+        "name": "Waiting for Answer",
+        "avgDays": 8.641041666666666
+      },
+      {
+        "name": "Investigation",
+        "avgDays": 3.8213020833333333
+      },
+      {
+        "name": "Code review",
+        "avgDays": 3.5038541666666663
+      },
+      {
+        "name": "Pending",
+        "avgDays": 2.1548214285714287
+      },
+      {
+        "name": "Ready for Testing",
+        "avgDays": 1.9251715686274509
+      },
+      {
+        "name": "NEW!",
+        "avgDays": 1.6880681818181815
+      },
+      {
+        "name": "In Testing",
+        "avgDays": 1.175300925925926
+      }
+    ]
+  },
+  {
+    "period": "2024-12",
+    "columns": [
+      {
+        "name": "Open",
+        "avgDays": 73.57863425925926
+      },
+      {
+        "name": "Waiting for Answer",
+        "avgDays": 25.84583333333333
+      },
+      {
+        "name": "Code review",
+        "avgDays": 4.919250000000001
+      },
+      {
+        "name": "Pending",
+        "avgDays": 3.804128787878788
+      },
+      {
+        "name": "Ready for Testing",
+        "avgDays": 2.75325
+      },
+      {
+        "name": "NEW!",
+        "avgDays": 2.2003703703703703
+      },
+      {
+        "name": "Investigation",
+        "avgDays": 1.056736111111111
+      },
+      {
+        "name": "In Testing",
+        "avgDays": 0.28111111111111114
+      }
+    ]
+  },
+  {
+    "period": "2025-01",
+    "columns": [
+      {
+        "name": "Open",
+        "avgDays": 102.10650568181818
+      },
+      {
+        "name": "Waiting for Answer",
+        "avgDays": 22.62875
+      },
+      {
+        "name": "Code review",
+        "avgDays": 5.273020833333333
+      },
+      {
+        "name": "Ready for Testing",
+        "avgDays": 1.685719696969697
+      },
+      {
+        "name": "Pending",
+        "avgDays": 1.6143672839506176
+      },
+      {
+        "name": "Investigation",
+        "avgDays": 1.2285912698412698
+      },
+      {
+        "name": "In Testing",
+        "avgDays": 0.5676136363636363
+      },
+      {
+        "name": "NEW!",
+        "avgDays": 0.5265441176470587
+      }
+    ]
+  },
+  {
+    "period": "2025-02",
+    "columns": [
+      {
+        "name": "Open",
+        "avgDays": 41.06839506172839
+      },
+      {
+        "name": "Waiting for Answer",
+        "avgDays": 21.013333333333332
+      },
+      {
+        "name": "Code review",
+        "avgDays": 3.528684210526315
+      },
+      {
+        "name": "Pending",
+        "avgDays": 1.4601923076923078
+      },
+      {
+        "name": "Investigation",
+        "avgDays": 1.1752916666666668
+      },
+      {
+        "name": "In Testing",
+        "avgDays": 1.011815476190476
+      },
+      {
+        "name": "Ready for Testing",
+        "avgDays": 1.0069871794871794
+      },
+      {
+        "name": "NEW!",
+        "avgDays": 0.359981884057971
+      }
+    ]
+  },
+  {
+    "period": "2025-03",
+    "columns": [
+      {
+        "name": "Open",
+        "avgDays": 44.897789351851856
+      },
+      {
+        "name": "Code review",
+        "avgDays": 4.572557471264368
+      },
+      {
+        "name": "NEW!",
+        "avgDays": 2.952458333333334
+      },
+      {
+        "name": "Ready for Testing",
+        "avgDays": 1.3628442028985508
+      },
+      {
+        "name": "Pending",
+        "avgDays": 1.1750219298245614
+      },
+      {
+        "name": "In Testing",
+        "avgDays": 0.9418650793650795
+      },
+      {
+        "name": "Investigation",
+        "avgDays": 0.9384469696969696
+      }
+    ]
+  },
+  {
+    "period": "2025-04",
+    "columns": [
+      {
+        "name": "Open",
+        "avgDays": 180.6717375886525
+      },
+      {
+        "name": "Waiting for Answer",
+        "avgDays": 20.609513888888888
+      },
+      {
+        "name": "Code review",
+        "avgDays": 7.213419540229885
+      },
+      {
+        "name": "Ready for Testing",
+        "avgDays": 2.488240740740741
+      },
+      {
+        "name": "Pending",
+        "avgDays": 2.1285
+      },
+      {
+        "name": "Investigation",
+        "avgDays": 1.0196212121212123
+      },
+      {
+        "name": "In Testing",
+        "avgDays": 0.5496929824561402
+      },
+      {
+        "name": "NEW!",
+        "avgDays": 0.3541304347826087
+      }
+    ]
+  },
+  {
+    "period": "2025-05",
+    "columns": [
+      {
+        "name": "Open",
+        "avgDays": 69.48656914893617
+      },
+      {
+        "name": "Code review",
+        "avgDays": 16.287443181818183
+      },
+      {
+        "name": "Waiting for Answer",
+        "avgDays": 10.308101851851852
+      },
+      {
+        "name": "Pending",
+        "avgDays": 3.233482142857144
+      },
+      {
+        "name": "Investigation",
+        "avgDays": 3.0685000000000002
+      },
+      {
+        "name": "Ready for Testing",
+        "avgDays": 2.223112745098039
+      },
+      {
+        "name": "In Progress",
+        "avgDays": 2.091666666666667
+      },
+      {
+        "name": "NEW!",
+        "avgDays": 0.9857738095238094
+      },
+      {
+        "name": "In Testing",
+        "avgDays": 0.7528935185185185
+      }
+    ]
+  },
+  {
+    "period": "2025-06",
+    "columns": [
+      {
+        "name": "Ready for Refinement",
+        "avgDays": 28.27208333333333
+      },
+      {
+        "name": "Open",
+        "avgDays": 26.2580625
+      },
+      {
+        "name": "Waiting for Answer",
+        "avgDays": 15.932638888888889
+      },
+      {
+        "name": "Pending",
+        "avgDays": 3.671388888888888
+      },
+      {
+        "name": "Code review",
+        "avgDays": 3.0834104938271603
+      },
+      {
+        "name": "NEW!",
+        "avgDays": 2.907638888888889
+      },
+      {
+        "name": "Investigation",
+        "avgDays": 2.6714583333333333
+      },
+      {
+        "name": "In Progress",
+        "avgDays": 2.39860119047619
+      },
+      {
+        "name": "In Testing",
+        "avgDays": 1.9683506944444442
+      },
+      {
+        "name": "Ready for Testing",
+        "avgDays": 1.316203703703704
+      }
+    ]
+  },
+  {
+    "period": "2025-07",
+    "columns": [
+      {
+        "name": "Open",
+        "avgDays": 151.67858585858585
+      },
+      {
+        "name": "Waiting for Answer",
+        "avgDays": 33.969981884057965
+      },
+      {
+        "name": "Pending",
+        "avgDays": 13.973630952380955
+      },
+      {
+        "name": "Investigation",
+        "avgDays": 11.212847222222221
+      },
+      {
+        "name": "Code review",
+        "avgDays": 5.775416666666667
+      },
+      {
+        "name": "In Progress",
+        "avgDays": 2.5144583333333332
+      },
+      {
+        "name": "Ready for Testing",
+        "avgDays": 1.2693849206349208
+      },
+      {
+        "name": "In Testing",
+        "avgDays": 0.8673541666666666
+      },
+      {
+        "name": "NEW!",
+        "avgDays": 0.7647095959595961
+      }
+    ]
+  },
+  {
+    "period": "2025-08",
+    "columns": [
+      {
+        "name": "Open",
+        "avgDays": 144.64627314814817
+      },
+      {
+        "name": "Waiting for Answer",
+        "avgDays": 9.606990740740743
+      },
+      {
+        "name": "Code review",
+        "avgDays": 3.9096875
+      },
+      {
+        "name": "In Progress",
+        "avgDays": 3.6682500000000005
+      },
+      {
+        "name": "Pending",
+        "avgDays": 3.203888888888889
+      },
+      {
+        "name": "In Testing",
+        "avgDays": 2.5608854166666664
+      },
+      {
+        "name": "Ready for Testing",
+        "avgDays": 2.2279924242424247
+      },
+      {
+        "name": "Investigation",
+        "avgDays": 1.604464285714286
+      },
+      {
+        "name": "NEW!",
+        "avgDays": 0.4580482456140351
+      }
+    ]
+  },
+  {
+    "period": "2025-09",
+    "columns": [
+      {
+        "name": "Open",
+        "avgDays": 200.47600198412698
+      },
+      {
+        "name": "Waiting for Answer",
+        "avgDays": 15.108532608695654
+      },
+      {
+        "name": "In Progress",
+        "avgDays": 6.561388888888889
+      },
+      {
+        "name": "Pending",
+        "avgDays": 4.7872023809523805
+      },
+      {
+        "name": "Code review",
+        "avgDays": 3.7788596491228077
+      },
+      {
+        "name": "Ready for Testing",
+        "avgDays": 2.179805555555555
+      },
+      {
+        "name": "In Testing",
+        "avgDays": 1.5314322916666667
+      },
+      {
+        "name": "NEW!",
+        "avgDays": 1.181358024691358
+      },
+      {
+        "name": "Investigation",
+        "avgDays": 1.0996527777777776
+      }
+    ]
+  },
+  {
+    "period": "2025-10",
+    "columns": [
+      {
+        "name": "Open",
+        "avgDays": 88.1635546875
+      },
+      {
+        "name": "Waiting for Answer",
+        "avgDays": 13.607916666666668
+      },
+      {
+        "name": "Investigation",
+        "avgDays": 6.59236111111111
+      },
+      {
+        "name": "In Progress",
+        "avgDays": 6.153894230769231
+      },
+      {
+        "name": "Pending",
+        "avgDays": 4.824583333333334
+      },
+      {
+        "name": "Code review",
+        "avgDays": 3.3302916666666667
+      },
+      {
+        "name": "In Testing",
+        "avgDays": 2.2025219298245617
+      },
+      {
+        "name": "Ready for Testing",
+        "avgDays": 1.2408114035087718
+      },
+      {
+        "name": "NEW!",
+        "avgDays": 0.45910714285714294
+      }
+    ]
+  },
+  {
+    "period": "2025-11",
+    "columns": [
+      {
+        "name": "Open",
+        "avgDays": 110.1683764367816
+      },
+      {
+        "name": "Investigation",
+        "avgDays": 12.849270833333335
+      },
+      {
+        "name": "Waiting for Answer",
+        "avgDays": 10.83607142857143
+      },
+      {
+        "name": "In Progress",
+        "avgDays": 9.531344696969695
+      },
+      {
+        "name": "In Testing",
+        "avgDays": 2.9133823529411766
+      },
+      {
+        "name": "Code review",
+        "avgDays": 2.2949007936507932
+      },
+      {
+        "name": "NEW!",
+        "avgDays": 2.155178571428571
+      },
+      {
+        "name": "Ready for Testing",
+        "avgDays": 1.8061805555555555
+      },
+      {
+        "name": "Pending",
+        "avgDays": 1.1163888888888887
+      }
+    ]
+  },
+  {
+    "period": "2025-12",
+    "columns": [
+      {
+        "name": "Open",
+        "avgDays": 157.46730555555553
+      },
+      {
+        "name": "Waiting for Answer",
+        "avgDays": 21.04997222222222
+      },
+      {
+        "name": "Pending",
+        "avgDays": 10.342291666666668
+      },
+      {
+        "name": "In Progress",
+        "avgDays": 5.846287878787879
+      },
+      {
+        "name": "In Testing",
+        "avgDays": 3.380527777777778
+      },
+      {
+        "name": "Code review",
+        "avgDays": 2.576348039215686
+      },
+      {
+        "name": "NEW!",
+        "avgDays": 0.9299739583333333
+      },
+      {
+        "name": "Ready for Testing",
+        "avgDays": 0.6187009803921567
+      },
+      {
+        "name": "Investigation",
+        "avgDays": 0.4958333333333333
+      }
+    ]
+  },
+  {
+    "period": "2026-01",
+    "columns": [
+      {
+        "name": "Open",
+        "avgDays": 39.72308333333333
+      },
+      {
+        "name": "In Progress",
+        "avgDays": 29.215670289855073
+      },
+      {
+        "name": "Code review",
+        "avgDays": 4.839543650793651
+      },
+      {
+        "name": "Waiting for Answer",
+        "avgDays": 4.239015151515152
+      },
+      {
+        "name": "NEW!",
+        "avgDays": 2.728363095238095
+      },
+      {
+        "name": "Investigation",
+        "avgDays": 2.4855208333333336
+      },
+      {
+        "name": "Ready for Testing",
+        "avgDays": 2.180916666666667
+      },
+      {
+        "name": "In Testing",
+        "avgDays": 1.716796875
+      },
+      {
+        "name": "Pending",
+        "avgDays": 0.8872916666666666
+      }
+    ]
+  },
+  {
+    "period": "2026-02",
+    "columns": [
+      {
+        "name": "Open",
+        "avgDays": 48.54051767676768
+      },
+      {
+        "name": "Waiting for Answer",
+        "avgDays": 19.969455128205126
+      },
+      {
+        "name": "Pending",
+        "avgDays": 12.952916666666667
+      },
+      {
+        "name": "Investigation",
+        "avgDays": 5.059375
+      },
+      {
+        "name": "In Progress",
+        "avgDays": 4.33515
+      },
+      {
+        "name": "Code review",
+        "avgDays": 3.2099122807017544
+      },
+      {
+        "name": "Ready for Testing",
+        "avgDays": 1.3878472222222222
+      },
+      {
+        "name": "NEW!",
+        "avgDays": 1.2752083333333335
+      },
+      {
+        "name": "In Testing",
+        "avgDays": 0.5602777777777777
+      }
+    ]
+  },
+  {
+    "period": "2026-03",
+    "columns": [
+      {
+        "name": "Open",
+        "avgDays": 146.46618333333333
+      },
+      {
+        "name": "Waiting for Answer",
+        "avgDays": 16.267125
+      },
+      {
+        "name": "Pending",
+        "avgDays": 8.157166666666665
+      },
+      {
+        "name": "In Progress",
+        "avgDays": 7.5033558558558555
+      },
+      {
+        "name": "Investigation",
+        "avgDays": 6.331704545454546
+      },
+      {
+        "name": "Code review",
+        "avgDays": 4.085503472222222
+      },
+      {
+        "name": "NEW!",
+        "avgDays": 1.8332954545454547
+      },
+      {
+        "name": "Ready for Testing",
+        "avgDays": 1.4330333333333332
+      },
+      {
+        "name": "In Testing",
+        "avgDays": 1.142222222222222
+      }
+    ]
+  },
+  {
+    "period": "2026-04",
+    "columns": [
+      {
+        "name": "Open",
+        "avgDays": 59.02205952380954
+      },
+      {
+        "name": "Pending",
+        "avgDays": 8.3121875
+      },
+      {
+        "name": "Waiting for Answer",
+        "avgDays": 8.050208333333334
+      },
+      {
+        "name": "In Progress",
+        "avgDays": 5.2284375
+      },
+      {
+        "name": "Ready for Testing",
+        "avgDays": 3.816055555555556
+      },
+      {
+        "name": "Code review",
+        "avgDays": 3.4826111111111113
+      },
+      {
+        "name": "In Testing",
+        "avgDays": 2.774166666666666
+      },
+      {
+        "name": "Investigation",
+        "avgDays": 1.15890625
+      },
+      {
+        "name": "NEW!",
+        "avgDays": 0.4863257575757575
+      }
+    ]
+  }
+]

@@ -5,7 +5,8 @@
     "doneStatuses": [
       "AC Test",
       "Done",
-      "canceled"
+      "canceled",
+      "Cancelled"
     ]
   },
   "sleConfig": {
@@ -15,7 +16,12 @@
       85,
       95
     ],
-    "rounding": "ceil"
+    "rounding": "ceil",
+    "issueTypes": [
+      "Task",
+      "Bug",
+      "Story"
+    ]
   },
   "mapping": {
     "key": "Issue key",
@@ -29,7 +35,7 @@
     "issueType": "Issue Type"
   },
   "cycleTimeConfig": {
-    "endDateSource": "updatedOnly"
+    "endDateSource": "resolvedOrUpdated"
   },
   "excludedIssueKeys": [
     "BWEBDEV-368",
@@ -74,6 +80,7 @@
     "BWEBDEV-7185",
     "BWEBDEV-7190",
     "BWEBDEV-7203",
+    "BWEBDEV-7207",
     "BWEBDEV-7219",
     "BWEBDEV-7225",
     "BWEBDEV-7256",
@@ -94,7 +101,7 @@
     "BWEBDEV-7940"
   ],
   "velocityConfig": {
-    "mode": "weekly"
+    "mode": "weekly-ticket-count"
   },
   "bottleneckConfig": {
     "flowStatuses": [
@@ -124,6 +131,42 @@
         "jql": "project = \"Baltic Web Development\" AND Topic in (\"E-Mails & Bank messages\", \"Feedback Widgets\", \"Marketing Campaign\", \"Offers & Banners\", \"PDF-s\", \"Small iBank changes (updating few labels/pictures)\") AND status in (\"AC Test\" ,\"Done\") and status changed DURING (startOfYear(), endOfYear())",
         "note": "Edit this query for the team scope."
       }
+    ]
+  },
+  "safeConfig": {
+    "enabled": false,
+    "entityType": "team",
+    "metricIds": [
+      "flow-time",
+      "flow-velocity",
+      "flow-load",
+      "flow-efficiency",
+      "flow-predictability",
+      "flow-distribution",
+      "built-in-quality",
+      "competency-assessment"
+    ]
+  },
+  "sprintScopeConfig": {
+    "statuses": [
+      "In Progress",
+      "Code Review",
+      "Test",
+      "Acceptance",
+      "Delivery"
+    ]
+  },
+  "workflowConfig": {
+    "backlogStatuses": [
+      "Backlog",
+      "To Do"
+    ],
+    "activeStatuses": [
+      "In Progress",
+      "Code Review",
+      "Test",
+      "Acceptance",
+      "Delivery"
     ]
   }
 }

@@ -9,6 +9,7 @@ import {
   type ImportBucket,
   type ImportFileInfo,
   type BottleneckEntry,
+  type MetricScope,
   type ParsedIssue,
   type TeamConfig,
   type TeamMetrics,
@@ -28,6 +29,18 @@ interface ImportScanResult {
   buckets: ImportBucket[];
 }
 
+interface ResolvedCsvMapping {
+  key: string;
+  created: string;
+  resolutionDate: string;
+  updated: string;
+  status: string;
+  resolution: string;
+  storyPoints?: string;
+  sprint?: string;
+  issueType?: string;
+}
+
 const WORKSPACE_DB_NAME = "sm-tool";
 const WORKSPACE_DB_VERSION = 1;
 const WORKSPACE_STORE = "settings";
@@ -36,6 +49,7 @@ const WORKSPACE_LIST_KEY = "workspace-handle-list-v1";
 const MAX_REMEMBERED_WORKSPACES = 12;
 const TEAM_PROGRESS_HISTORY_FILE = "progress-history.json";
 const TEAM_PROGRESS_HISTORY_LIMIT = 120;
+const METRIC_SCOPES: MetricScope[] = ["team", "value-stream", "art"];
 
 interface RememberedWorkspaceRecord {
   id: string;
@@ -368,6 +382,32 @@ export async function importCsvFiles(
   }
 }
 
+export interface CsvImportContent {
+  name: string;
+  text: string;
+}
+
+export async function importCsvContents(
+  team: TeamRuntime,
+  files: CsvImportContent[],
+  importBucket: string | null,
+): Promise<void> {
+  const importsDir = await team.teamHandle.getDirectoryHandle("imports", { create: true });
+  const destinationDir = importBucket
+    ? await ensureNestedDirectories(importsDir, sanitizeImportBucket(importBucket))
+    : importsDir;
+  const existingFileNames = await collectExistingFileNames(destinationDir);
+
+  for (const file of files) {
+    const destinationName = buildUniqueImportFileName(existingFileNames, sanitizeFileName(file.name));
+    existingFileNames.add(destinationName.toLowerCase());
+    const destinationHandle = await destinationDir.getFileHandle(destinationName, { create: true });
+    const writable = await destinationHandle.createWritable();
+    await writable.write(file.text);
+    await writable.close();
+  }
+}
+
 export async function analyzeTeam(team: TeamRuntime): Promise<TeamMetrics> {
   const importsDir = await team.teamHandle.getDirectoryHandle("imports", { create: true });
   const cacheDir = await team.teamHandle.getDirectoryHandle("cache", { create: true });
@@ -420,9 +460,10 @@ export async function analyzeTeam(team: TeamRuntime): Promise<TeamMetrics> {
       continue;
     }
 
+    const resolvedMapping = resolveCsvMapping(team.config, parsed.headers, parsed.rows);
     let fileIssueRows = 0;
     parsed.rows.forEach((row, index) => {
-      const issue = mapRowToIssue(row, csvFile.relativePath, index + 2, team.config);
+      const issue = mapRowToIssue(row, csvFile.relativePath, index + 2, team.config, resolvedMapping);
       if (issue) {
         issues.push(issue);
         fileIssueRows += 1;
@@ -432,7 +473,9 @@ export async function analyzeTeam(team: TeamRuntime): Promise<TeamMetrics> {
   }
 
   const deduped = dedupeIssuesByLatestUpdate(issues);
-  const metrics = buildMetrics(team.config, totalRows, deduped);
+  const metrics = buildMetrics(team.config, totalRows, deduped, {
+    timeInStatusIssueRows,
+  });
   const doneIssuePeriodByKey = new Map<string, string>();
   deduped.forEach((issue) => {
     if (!isDone(issue, team.config)) {
@@ -560,13 +603,112 @@ function inferFallbackPeriod(relativePath: string, lastModified: number): string
   return monthKeyFromDate(new Date(lastModified));
 }
 
+function resolveCsvMapping(
+  config: TeamConfig,
+  headers: string[],
+  rows: Array<Record<string, string>>,
+): ResolvedCsvMapping {
+  const mapping = config.mapping;
+
+  return {
+    key: resolveExactHeader(headers, mapping.key) ?? mapping.key,
+    created: resolveExactHeader(headers, mapping.created) ?? mapping.created,
+    resolutionDate: resolveExactHeader(headers, mapping.resolutionDate) ?? mapping.resolutionDate,
+    updated: resolveExactHeader(headers, mapping.updated) ?? mapping.updated,
+    status: resolveExactHeader(headers, mapping.status) ?? mapping.status,
+    resolution: resolveExactHeader(headers, mapping.resolution) ?? mapping.resolution,
+    issueType:
+      resolveExactHeader(headers, mapping.issueType) ??
+      resolveHeaderFromCandidates(headers, rows, {
+        match: (header) => {
+          const normalized = normalizeHeaderToken(header);
+          return normalized === "issuetype" || normalized.endsWith("issuetype");
+        },
+        sampleScore: () => 0,
+      }) ??
+      mapping.issueType,
+    storyPoints:
+      resolveExactHeader(headers, mapping.storyPoints) ??
+      resolveHeaderFromCandidates(headers, rows, {
+        match: (header) => {
+          const normalized = normalizeHeaderToken(header);
+          return normalized.includes("story") && normalized.includes("point");
+        },
+        sampleScore: (header, sampleRows) =>
+          sampleRows.reduce((count, row) => count + (parseNumber(row[header]) !== null ? 1 : 0), 0),
+      }) ??
+      undefined,
+    sprint:
+      resolveExactHeader(headers, mapping.sprint) ??
+      resolveHeaderFromCandidates(headers, rows, {
+        match: (header) => normalizeHeaderToken(header).includes("sprint"),
+        sampleScore: (header, sampleRows) =>
+          sampleRows.reduce((count, row) => count + ((row[header] ?? "").trim().length > 0 ? 1 : 0), 0),
+      }) ??
+      undefined,
+  };
+}
+
+function resolveExactHeader(headers: string[], preferred: string | undefined): string | undefined {
+  const normalizedPreferred = normalizeHeaderToken(preferred);
+  if (!normalizedPreferred) {
+    return undefined;
+  }
+
+  return headers.find((header) => normalizeHeaderToken(header) === normalizedPreferred);
+}
+
+function resolveHeaderFromCandidates(
+  headers: string[],
+  rows: Array<Record<string, string>>,
+  options: {
+    match: (header: string) => boolean;
+    sampleScore: (header: string, sampleRows: Array<Record<string, string>>) => number;
+  },
+): string | undefined {
+  const sampleRows = rows.slice(0, 50);
+
+  const scored = headers
+    .filter((header) => options.match(header))
+    .map((header) => {
+      const normalized = normalizeHeaderToken(header);
+      const baseScore =
+        normalized === "sprint" || normalized === "storypoints" || normalized === "storypointestimate"
+          ? 200
+          : normalized.includes("customfield")
+            ? 140
+            : 120;
+
+      return {
+        header,
+        score: baseScore + options.sampleScore(header, sampleRows),
+      };
+    })
+    .sort((left, right) => {
+      if (right.score !== left.score) {
+        return right.score - left.score;
+      }
+
+      return left.header.localeCompare(right.header);
+    });
+
+  return scored[0]?.header;
+}
+
+function normalizeHeaderToken(value: string | undefined): string {
+  return (value ?? "")
+    .trim()
+    .toLowerCase()
+    .replace(/[^a-z0-9]+/g, "");
+}
+
 function mapRowToIssue(
   row: Record<string, string>,
   sourceFile: string,
   sourceRow: number,
   config: TeamConfig,
+  mapping: ResolvedCsvMapping,
 ): ParsedIssue | null {
-  const mapping = config.mapping;
   const issueKey = (row[mapping.key] ?? "").trim();
   if (!issueKey) {
     return null;
@@ -824,8 +966,12 @@ function normalizeTeamProgressSnapshot(value: Record<string, unknown>): TeamProg
     capturedAt,
     importSignature,
     metrics: {
+      doneCount: toNonNegativeIntegerOrNull(metrics.doneCount),
       avgCycleTimeDays: toNullableNumber(metrics.avgCycleTimeDays),
+      sleP50Days: toNullableNumber(metrics.sleP50Days),
+      sleP70Days: toNullableNumber(metrics.sleP70Days),
       sleP85Days: toNullableNumber(metrics.sleP85Days),
+      sleP95Days: toNullableNumber(metrics.sleP95Days),
       multiSprintPct: toNullableNumber(metrics.multiSprintPct),
       velocityLatest: toNullableNumber(metrics.velocityLatest),
       doneBugRatioPct: toNullableNumber(metrics.doneBugRatioPct),
@@ -1152,25 +1298,69 @@ function buildDefaultTeamConfig(teamName: string, description?: string): TeamCon
       issueType: "Issue Type",
     },
     velocityConfig: {
-      mode: "monthly-ticket-count",
+      mode: "weekly-ticket-count",
     },
     bugConfig: {
       issueTypes: ["Bug"],
+      defaultStoryPoints: undefined,
+    },
+    sprintScopeConfig: {
+      statuses: [],
+    },
+    workflowConfig: {
+      backlogStatuses: [],
+      activeStatuses: [],
     },
     bottleneckConfig: {
       flowStatuses: [],
     },
     excludedIssueKeys: [],
+    safeConfig: {
+      enabled: false,
+      entityType: "team",
+      metricIds: [
+        "flow-time",
+        "flow-velocity",
+        "flow-load",
+        "flow-efficiency",
+        "flow-predictability",
+        "flow-distribution",
+        "built-in-quality",
+        "competency-assessment",
+      ],
+    },
     jiraQuery: {
       defaultQueryId: "default",
       queries: [
         {
           id: "default",
-          name: "Team Import Query",
+          name: "Issues CSV Query",
           jql: "project = YOURPROJECT ORDER BY updated DESC",
           note: "Edit this query per team scope.",
         },
       ],
+      issueQuery: {
+        defaultQueryId: "default",
+        queries: [
+          {
+            id: "default",
+            name: "Issues CSV Query",
+            jql: "project = YOURPROJECT ORDER BY updated DESC",
+            note: "Edit this query per team scope.",
+          },
+        ],
+      },
+      timeInStatusQuery: {
+        defaultQueryId: "time-in-status-default",
+        queries: [
+          {
+            id: "time-in-status-default",
+            name: "Time in Status Query",
+            jql: "project = YOURPROJECT ORDER BY updated DESC",
+            note: "Use the same team scope/window as your Issues CSV query.",
+          },
+        ],
+      },
     },
   };
 }
@@ -1247,7 +1437,39 @@ function normalizeWorkspaceConfig(
     name: typeof raw?.name === "string" && raw.name.trim().length > 0 ? raw.name.trim() : fallbackName,
     profiles,
     activeProfileId,
+    metricConfig: normalizeWorkspaceMetricConfig(raw?.metricConfig),
   };
+}
+
+function normalizeWorkspaceMetricConfig(raw: unknown): WorkspaceConfig["metricConfig"] {
+  if (!raw || typeof raw !== "object") {
+    return { scopeVisibility: {} };
+  }
+
+  const source = raw as Record<string, unknown>;
+  const rawScopeVisibility =
+    source.scopeVisibility && typeof source.scopeVisibility === "object"
+      ? (source.scopeVisibility as Record<string, unknown>)
+      : {};
+  const scopeVisibility: NonNullable<WorkspaceConfig["metricConfig"]>["scopeVisibility"] = {};
+
+  METRIC_SCOPES.forEach((scope) => {
+    const values = rawScopeVisibility[scope];
+    if (!Array.isArray(values)) {
+      return;
+    }
+
+    scopeVisibility[scope] = Array.from(
+      new Set(
+        values
+          .filter((item): item is string => typeof item === "string")
+          .map((item) => item.trim())
+          .filter((item) => item.length > 0),
+      ),
+    );
+  });
+
+  return { scopeVisibility };
 }
 
 function normalizeWorkspaceProfileConfig(value: unknown): WorkspaceProfileConfig | null {

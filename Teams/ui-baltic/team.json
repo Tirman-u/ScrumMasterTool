@@ -1,0 +1,99 @@
+{
+  "teamName": "UI Baltic",
+  "doneConfig": {
+    "useStatusCategoryDone": true,
+    "doneStatuses": [
+      "Done",
+      "Closed",
+      "Resolved"
+    ]
+  },
+  "sleConfig": {
+    "percentiles": [
+      50,
+      70,
+      85,
+      95
+    ],
+    "rounding": "ceil",
+    "issueTypes": [
+      "Task",
+      "Bug",
+      "Story"
+    ]
+  },
+  "cycleTimeConfig": {
+    "endDateSource": "resolvedOrUpdated"
+  },
+  "mapping": {
+    "key": "Issue key",
+    "created": "Created",
+    "resolutionDate": "Resolved",
+    "updated": "Updated",
+    "status": "Status",
+    "resolution": "Resolution",
+    "storyPoints": "Story points",
+    "sprint": "Sprint",
+    "issueType": "Issue Type"
+  },
+  "velocityConfig": {
+    "mode": "sprint-story-points",
+    "sprintStartDate": "2026-01-06",
+    "sprintLengthWeeks": 2
+  },
+  "bugConfig": {
+    "issueTypes": [
+      "Bug"
+    ]
+  },
+  "bottleneckConfig": {
+    "flowStatuses": []
+  },
+  "excludedIssueKeys": [
+    "GUI-2928",
+    "GUI-2977",
+    "GUI-2978",
+    "GUI-3059",
+    "GUI-3082",
+    "GUI-3111",
+    "GUI-3218",
+    "GUI-3232",
+    "GUI-3233",
+    "GUI-3382",
+    "GUI-3387",
+    "GUI-3392",
+    "GUI-3410",
+    "GUI-3436",
+    "GUI-3443",
+    "GUI-3458",
+    "GUI-3459",
+    "GUI-3469",
+    "GUI-3470",
+    "GUI-3490",
+    "GUI-3502",
+    "GUI-3513",
+    "GUI-3536",
+    "GUI-3585",
+    "GUI-3622",
+    "GUI-3626",
+    "GUI-3630",
+    "GUI-3633",
+    "GUI-3634",
+    "GUI-3638",
+    "GUI-3640",
+    "GUI-3646",
+    "GUI-3649",
+    "GUI-3685"
+  ],
+  "jiraQuery": {
+    "defaultQueryId": "default",
+    "queries": [
+      {
+        "id": "default",
+        "name": "Team Import Query",
+        "jql": "project = YOURPROJECT ORDER BY updated DESC",
+        "note": "Edit this query per team scope."
+      }
+    ]
+  }
+}

@@ -1,0 +1,28 @@
+- generic [ref=e3]:
+  - complementary [ref=e4]:
+    - generic [ref=e5]:
+      - img [ref=e7]
+      - generic [ref=e8]:
+        - generic [ref=e9]: Scrum Master Tool
+        - generic [ref=e10]: Offline Analytics
+    - navigation [ref=e11]:
+      - button "⚙ Workspace Setup" [ref=e12] [cursor=pointer]:
+        - generic [ref=e13]: ⚙
+        - text: Workspace Setup
+      - button "◫ Dashboard" [ref=e14] [cursor=pointer]:
+        - generic [ref=e15]: ◫
+        - text: Dashboard
+      - button "☷ Metrics Setup" [ref=e16] [cursor=pointer]:
+        - generic [ref=e17]: ☷
+        - text: Metrics Setup
+      - button "⇪ Import Data" [ref=e18] [cursor=pointer]:
+        - generic [ref=e19]: ⇪
+        - text: Import Data
+    - generic [ref=e20]:
+      - button "Choose Workspace" [ref=e21] [cursor=pointer]
+      - generic [ref=e22]: Version 1.0.0 · Offline Mode
+  - main [ref=e23]:
+    - generic [ref=e24]:
+      - heading "Workspace required" [level=2] [ref=e25]
+      - paragraph [ref=e26]: Select your root folder to load teams and imports.
+      - button "Choose Workspace" [ref=e27] [cursor=pointer]

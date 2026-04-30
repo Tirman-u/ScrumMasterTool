@@ -1,0 +1,162 @@
+Issue key,Issue id,Created,Resolved,Status,Priority,Due Date,Updated,Sprint,Sprint,Sprint,Sprint,Sprint,Sprint,Custom field (Story Points)
+GUI-4218,3171964,16.03.2026 16:31,,In Code Review,Major,,17.03.2026 07:50,Web App & UI PI1 Sprint 4,,,,,,3.0
+GUI-4214,3170272,16.03.2026 07:09,,Ready for Deploy,Minor,,17.03.2026 07:38,Web App & UI PI1 Sprint 4,,,,,,0.5
+GUI-4212,3169617,13.03.2026 12:39,,Acceptance Testing,Minor,,13.03.2026 12:59,Web App & UI PI1 Sprint 4,,,,,,0.5
+GUI-4211,3168040,12.03.2026 20:35,,Done,Minor,,13.03.2026 13:01,Web App & UI PI1 Sprint 4,,,,,,1.0
+GUI-4209,3166077,12.03.2026 08:02,,Done,Major,,16.03.2026 08:19,Web App & UI PI1 Sprint 4,,,,,,2.0
+GUI-4208,3166070,12.03.2026 07:52,,Done,Major,,12.03.2026 13:47,Web App & UI PI1 Sprint 4,,,,,,2.0
+GUI-4206,3164903,11.03.2026 15:16,,Canceled,Minor,,12.03.2026 09:12,,,,,,,0.5
+GUI-4203,3163603,11.03.2026 08:55,,Done,Minor,,16.03.2026 08:19,Web App & UI PI1 Sprint 4,,,,,,1.0
+GUI-4202,3163251,10.03.2026 19:33,,In Progress,Minor,,12.03.2026 15:33,Web App & UI PI1 Sprint 4,,,,,,5.0
+GUI-4200,3162741,10.03.2026 14:24,,Done,Minor,,16.03.2026 08:19,Web App & UI PI1 Sprint 4,,,,,,1.0
+GUI-4198,3162700,10.03.2026 13:52,,Done,Minor,,17.03.2026 07:28,Web App & UI PI1 Sprint 4,,,,,,0.0
+GUI-4195,3161137,09.03.2026 14:14,,Canceled,Minor,,09.03.2026 23:46,,,,,,,
+GUI-4194,3160791,09.03.2026 13:26,,Done,Major,,16.03.2026 08:19,Web App & UI PI1 Sprint 3,,,,,,2.0
+GUI-4193,3160619,09.03.2026 11:02,,Done,Minor,,16.03.2026 08:19,Web App & UI PI1 Sprint 3,Web App & UI PI1 Sprint 4,,,,,1.0
+GUI-4192,3160534,09.03.2026 10:28,,Done,Minor,,16.03.2026 08:19,Web App & UI PI1 Sprint 3,,,,,,1.0
+GUI-4191,3158953,06.03.2026 13:24,,Done,Minor,,17.03.2026 07:28,Web App & UI PI1 Sprint 3,,,,,,
+GUI-4190,3158952,06.03.2026 13:24,,Canceled,Minor,,06.03.2026 13:27,,,,,,,
+GUI-4188,3158652,06.03.2026 10:35,,Done,Minor,,17.03.2026 07:28,Web App & UI PI1 Sprint 3,,,,,,0.5
+GUI-4187,3158573,06.03.2026 10:30,,Done,Minor,,17.03.2026 07:28,Web App & UI PI1 Sprint 3,,,,,,1.0
+GUI-4186,3158633,06.03.2026 10:21,,Done,Minor,,17.03.2026 07:28,Web App & UI PI1 Sprint 3,,,,,,0.5
+GUI-4182,3157332,05.03.2026 12:31,,Done,Minor,,17.03.2026 07:28,Web App & UI PI1 Sprint 3,,,,,,1.0
+GUI-4180,3154703,04.03.2026 07:04,,Done,Minor,,17.03.2026 07:28,Web App & UI PI1 Sprint 3,,,,,,1.0
+GUI-4179,3153328,03.03.2026 09:57,,Done,Minor,,17.03.2026 07:28,Web App & UI PI1 Sprint 3,,,,,,2.0
+GUI-4178,3152926,03.03.2026 07:57,,Done,Minor,,16.03.2026 08:19,Web App & UI PI1 Sprint 4,,,,,,0.5
+GUI-4177,3152887,03.03.2026 07:56,,Done,Minor,,17.03.2026 07:28,Web App & UI PI1 Sprint 3,,,,,,1.0
+GUI-4176,3152441,02.03.2026 14:23,,Done,Minor,,17.03.2026 07:28,Web App & UI PI1 Sprint 3,,,,,,2.0
+GUI-4175,3152308,02.03.2026 13:36,,Done,Minor,,17.03.2026 07:28,Web App & UI PI1 Sprint 3,,,,,,2.0
+GUI-4173,3151352,02.03.2026 08:30,,Done,Minor,,17.03.2026 07:28,Web App & UI PI1 Sprint 3,,,,,,1.0
+GUI-4172,3150628,27.02.2026 13:40,,Done,Minor,,17.03.2026 07:28,Web App & UI PI1 Sprint 3,,,,,,0.5
+GUI-4171,3150373,27.02.2026 11:45,,Done,Minor,,17.03.2026 07:28,Web App & UI PI1 Sprint 3,,,,,,0.5
+GUI-4170,3150322,27.02.2026 10:11,,Done,Minor,,17.03.2026 07:28,Web App & UI PI1 Sprint 3,,,,,,1.0
+GUI-4169,3149674,27.02.2026 08:07,,Done,Minor,,27.02.2026 14:44,Web App & UI PI1 Sprint 3,,,,,,0.5
+GUI-4166,3147655,26.02.2026 08:24,,Done,Minor,,17.03.2026 07:28,Web App & UI PI1 Sprint 3,,,,,,0.5
+GUI-4165,3147346,25.02.2026 15:43,,Done,Minor,,17.03.2026 07:28,Web App & UI PI1 Sprint 3,,,,,,1.0
+GUI-4163,3146620,25.02.2026 12:02,,Acceptance Testing,Minor,,10.03.2026 12:45,Web App & UI PI1 Sprint 3,Web App & UI PI1 Sprint 4,,,,,2.0
+GUI-4161,3146617,25.02.2026 12:01,,Done,Minor,,10.03.2026 19:33,Web App & UI PI1 Sprint 3,Web App & UI PI1 Sprint 4,,,,,5.0
+GUI-4160,3146270,25.02.2026 10:45,,Done,Minor,,17.03.2026 07:28,Web App & UI PI1 Sprint 3,,,,,,0.5
+GUI-4159,3146210,25.02.2026 10:02,,Done,Minor,,17.03.2026 07:28,Web App & UI PI1 Sprint 3,,,,,,1.0
+GUI-4158,3143587,23.02.2026 12:40,,Done,Minor,,11.03.2026 17:00,Web App & UI PI1 Sprint 2,Web App & UI PI1 Sprint 3,Web App & UI PI1 Sprint 4,,,,3.0
+GUI-4157,3141399,20.02.2026 12:24,,In Progress,Minor,,13.03.2026 09:55,Web App & UI PI1 Sprint 4,,,,,,3.0
+GUI-4156,3141378,20.02.2026 12:13,,Done,Minor,,17.03.2026 07:28,Web App & UI PI1 Sprint 2,Web App & UI PI1 Sprint 3,,,,,3.0
+GUI-4154,3141074,20.02.2026 10:06,,Done,Minor,,20.02.2026 15:34,Web App & UI PI1 Sprint 2,,,,,,1.0
+GUI-4152,3140436,19.02.2026 15:06,,Done,Minor,,17.03.2026 07:28,Web App & UI PI1 Sprint 2,,,,,,0.5
+GUI-4151,3139893,19.02.2026 11:45,,Open,Minor,,10.03.2026 10:29,,,,,,,
+GUI-4149,3138837,18.02.2026 14:16,,Done,Minor,,17.03.2026 07:28,Web App & UI PI1 Sprint 3,,,,,,2.0
+GUI-4146,3138096,18.02.2026 10:44,,Done,Minor,,17.03.2026 07:28,Web App & UI PI1 Sprint 2,,,,,,2.0
+GUI-4145,3138315,18.02.2026 10:36,,Done,Minor,,17.03.2026 07:28,Web App & UI PI1 Sprint 2,Web App & UI PI1 Sprint 3,,,,,2.0
+GUI-4141,3134388,13.02.2026 16:26,,Done,Minor,,17.03.2026 07:28,Web App & UI PI1 Sprint 3,,,,,,1.0
+GUI-4139,3134319,13.02.2026 15:27,,Done,Minor,,17.03.2026 07:28,Web App & UI PI1 Sprint 2,,,,,,1.0
+GUI-4135,3132662,13.02.2026 08:14,,Done,Minor,,17.03.2026 07:28,Web App & UI PI1 Sprint 2,,,,,,2.0
+GUI-4130,3131327,12.02.2026 10:48,,Done,Minor,,17.03.2026 07:28,Web App & UI PI1 Sprint 2,,,,,,2.0
+GUI-4126,3127880,10.02.2026 14:50,,Done,Minor,,13.03.2026 10:26,Web App & UI PI1 Sprint 2,,,,,,0.5
+GUI-4125,3127811,10.02.2026 13:51,,Done,Minor,,11.02.2026 10:00,Web App & UI PI1 Sprint 2,,,,,,0.5
+GUI-4124,3127580,10.02.2026 13:35,,Open,Minor,,09.03.2026 12:47,,,,,,,
+GUI-4123,3127160,10.02.2026 10:29,,Done,Minor,,17.03.2026 07:28,Web App & UI PI1 Sprint 2,,,,,,3.0
+GUI-4114,3120766,04.02.2026 11:51,,Done,Minor,,06.02.2026 10:12,Web App & UI PI1 Sprint 1,,,,,,0.5
+GUI-4111,3118338,02.02.2026 17:08,,Done,Minor,,17.03.2026 07:28,Web App & UI PI1 Sprint 1,,,,,,0.5
+GUI-4106,3114359,29.01.2026 14:45,,Done,Minor,,17.03.2026 07:28,Web App & UI PI1 Sprint 1,,,,,,1.0
+GUI-4102,3113266,29.01.2026 09:24,,Done,Minor,,17.03.2026 07:28,Web App & UI PI1 Sprint 1,,,,,,1.0
+GUI-4099,3113073,29.01.2026 08:32,,Done,Critical,,13.03.2026 10:26,Web App & UI PI1 Sprint 1,,,,,,1.0
+GUI-4090,3101330,27.01.2026 09:13,,Done,Minor,,05.02.2026 11:01,Web App & UI PI1 Sprint 1,,,,,,2.0
+GUI-4088,3098105,26.01.2026 12:57,,Done,Minor,,13.03.2026 10:26,Web App & UI PI1 Sprint 1,,,,,,2.0
+GUI-4087,3097655,26.01.2026 12:22,,Done,Minor,,13.03.2026 10:26,Web App & UI PI1 Sprint 1,,,,,,1.0
+GUI-4086,3096814,26.01.2026 10:12,,Done,Minor,,17.03.2026 07:28,Web App & UI PI1 Sprint 1,Web App & UI PI1 Sprint 2,,,,,3.0
+GUI-4085,3096571,26.01.2026 09:57,,Done,Minor,,10.02.2026 10:12,Web App & UI PI1 Sprint 1,,,,,,2.0
+GUI-4084,3096203,26.01.2026 07:06,,Done,Minor,,13.03.2026 10:26,Web App & UI PI5 Sprint 5,,,,,,0.5
+GUI-4082,3093565,23.01.2026 10:28,,Done,Minor,,13.03.2026 10:26,Web App & UI PI5 Sprint 5,,,,,,1.0
+GUI-4078,3091846,22.01.2026 11:55,,Done,Minor,,23.01.2026 08:59,Web App & UI PI5 Sprint 5,,,,,,1.0
+GUI-4076,3089994,21.01.2026 15:07,,Done,Minor,,17.03.2026 07:28,Web App & UI PI1 Sprint 2,,,,,,2.0
+GUI-4071,3087048,20.01.2026 12:23,,Done,Minor,,17.03.2026 07:28,Web App & UI PI1 Sprint 1,Web App & UI PI1 Sprint 2,Web App & UI PI1 Sprint 3,,,,5.0
+GUI-4070,3087047,20.01.2026 12:23,,Done,Minor,,05.03.2026 14:48,Web App & UI PI1 Sprint 3,,,,,,
+GUI-4069,3087045,20.01.2026 12:22,,Done,Minor,,17.03.2026 07:28,Web App & UI PI1 Sprint 2,,,,,,5.0
+GUI-4068,3087044,20.01.2026 12:22,,Done,Minor,,17.03.2026 07:28,Web App & UI PI1 Sprint 1,Web App & UI PI1 Sprint 2,,,,,5.0
+GUI-4066,3086909,20.01.2026 10:48,,Done,Minor,,13.03.2026 10:26,Web App & UI PI5 Sprint 5,,,,,,0.5
+GUI-4065,3086698,20.01.2026 10:43,,Done,Minor,,13.03.2026 10:26,Web App & UI PI5 Sprint 5,,,,,,0.5
+GUI-4062,3085763,19.01.2026 15:39,,Done,Minor,,17.03.2026 07:28,Web App & UI PI1 Sprint 1,Web App & UI PI1 Sprint 2,Web App & UI PI1 Sprint 3,,,,8.0
+GUI-4059,3085255,19.01.2026 13:20,,In Progress,Minor,,16.03.2026 08:19,Web App & UI PI1 Sprint 4,,,,,,5.0
+GUI-4058,3084722,19.01.2026 09:59,,Done,Minor,,13.03.2026 10:26,Web App & UI PI5 Sprint 5,,,,,,0.5
+GUI-4056,3080372,15.01.2026 08:24,,Done,Minor,,16.03.2026 08:19,Web App & UI PI1 Sprint 1,Web App & UI PI1 Sprint 2,Web App & UI PI1 Sprint 3,Web App & UI PI1 Sprint 4,,,8.0
+GUI-4055,3078510,14.01.2026 09:08,,Done,Critical,,13.03.2026 10:26,Web App & UI PI5 Sprint 5,,,,,,2.0
+GUI-4053,3076129,12.01.2026 15:25,,Done,Minor,,13.03.2026 10:26,Web App & UI PI5 Sprint 3-4,,,,,,0.5
+GUI-4052,3075654,12.01.2026 13:46,,Done,Minor,,17.03.2026 07:28,Web App & UI PI1 Sprint 1,,,,,,8.0
+GUI-4051,3075165,12.01.2026 10:58,,Done,Minor,,13.03.2026 10:26,Web App & UI PI5 Sprint 5,,,,,,3.0
+GUI-4049,3074883,12.01.2026 10:01,,Done,Minor,,17.03.2026 07:28,Web App & UI PI1 Sprint 2,Web App & UI PI1 Sprint 3,,,,,5.0
+GUI-4048,3074625,12.01.2026 08:33,,Canceled,Minor,,13.03.2026 10:26,Web App & UI PI5 Sprint 5,,,,,,1.0
+GUI-4047,3073987,09.01.2026 15:40,,Done,Minor,,13.03.2026 10:26,Web App & UI PI5 Sprint 5,,,,,,2.0
+GUI-4043,3073709,09.01.2026 12:09,,Canceled,Minor,,09.03.2026 23:46,,,,,,,
+GUI-4038,3070707,07.01.2026 13:48,,In Progress,Minor,,13.03.2026 15:16,Web App & UI PI1 Sprint 4,,,,,,8.0
+GUI-4035,3069364,06.01.2026 12:04,,In Code Review,Minor,,13.03.2026 14:59,Web App & UI PI1 Sprint 3,Web App & UI PI1 Sprint 4,,,,,5.0
+GUI-4034,3069190,06.01.2026 10:46,,Done,Minor,,06.01.2026 11:38,Web App & UI PI5 Sprint 3-4,,,,,,1.0
+GUI-4026,3069070,05.01.2026 16:05,,Done,Minor,,13.03.2026 10:26,Web App & UI PI5 Sprint 3-4,,,,,,2.0
+GUI-4013,3068142,02.01.2026 15:56,,Done,Minor,,12.02.2026 00:48,Web App & UI PI5 Sprint 3-4,,,,,,0.5
+GUI-4008,3067961,02.01.2026 10:49,,Done,Minor,,12.02.2026 00:48,Web App & UI PI5 Sprint 3-4,,,,,,1.0
+GUI-4007,3067639,31.12.2025 11:14,,In Code Review,Minor,,13.03.2026 09:55,Web App & UI PI1 Sprint 4,,,,,,2.0
+GUI-4004,3066080,29.12.2025 10:00,,Done,Minor,,12.02.2026 00:48,Web App & UI PI5 Sprint 3-4,,,,,,1.0
+GUI-3975,3051779,09.12.2025 09:50,,Canceled,Minor,,08.01.2026 11:21,,,,,,,
+GUI-3972,3049406,05.12.2025 17:41,,Done,Minor,,17.03.2026 07:28,Web App & UI PI1 Sprint 3,,,,,,3.0
+GUI-3971,3049405,05.12.2025 17:17,,Done,Minor,,13.03.2026 10:26,Web App & UI PI5 Sprint 3-4,,,,,,1.0
+GUI-3966,3047199,04.12.2025 13:19,,Done,Major,,12.02.2026 00:48,Web App & UI PI5 Sprint 2,Web App & UI PI5 Sprint 3-4,,,,,1.0
+GUI-3934,3023587,18.11.2025 11:59,,In Code Review,Minor,,16.03.2026 15:16,Web App & UI PI1 Sprint 4,,,,,,5.0
+GUI-3931,3022871,18.11.2025 10:17,,Done,Minor,,17.03.2026 07:28,Web App & UI PI1 Sprint 2,,,,,,3.0
+GUI-3928,3018723,14.11.2025 13:09,,Open,Major,,19.01.2026 13:10,,,,,,,
+GUI-3922,3013361,13.11.2025 07:55,,Done,Minor,,04.02.2026 19:36,Web App & UI PI5 Sprint 3-4,Web App & UI PI5 Sprint 5,,,,,8.0
+GUI-3921,3013360,13.11.2025 07:54,,Done,Minor,,12.02.2026 10:03,Web App & UI PI5 Sprint 1,Web App & UI PI5 Sprint 2,Web App & UI PI5 Sprint 3-4,Web App & UI PI5 Sprint 5,Web App & UI PI1 Sprint 1,Web App & UI PI1 Sprint 2,5.0
+GUI-3920,3013359,13.11.2025 07:53,,Done,Minor,,13.01.2026 10:12,Web App & UI PI5 Sprint 3-4,,,,,,5.0
+GUI-3919,3013358,13.11.2025 07:53,,Canceled,Minor,,20.01.2026 14:25,,,,,,,3.0
+GUI-3916,3008282,11.11.2025 14:49,,Done,Minor,,13.03.2026 10:26,Web App & UI PI5 Sprint 5,,,,,,2.0
+GUI-3913,3008271,11.11.2025 14:45,,Done,Minor,,17.03.2026 07:28,Web App & UI PI5 Sprint 5,Web App & UI PI1 Sprint 1,,,,,5.0
+GUI-3912,3008266,11.11.2025 14:45,,Done,Minor,,13.03.2026 10:26,Web App & UI PI5 Sprint 2,Web App & UI PI5 Sprint 3-4,,,,,8.0
+GUI-3909,3008248,11.11.2025 14:39,,Done,Minor,,13.03.2026 10:26,Web App & UI PI5 Sprint 5,,,,,,3.0
+GUI-3902,3003434,07.11.2025 15:03,,Canceled,Minor,,22.01.2026 12:01,,,,,,,2.0
+GUI-3901,3002596,07.11.2025 13:09,,Done,Minor,,16.03.2026 08:26,Web App & UI PI5 Sprint 3-4,,,,,,
+GUI-3896,3000960,06.11.2025 12:34,,Done,Minor,,05.01.2026 10:12,Web App & UI PI5 Sprint 3-4,,,,,,5.0
+GUI-3869,2986036,27.10.2025 13:23,,In Code Review,Minor,,13.03.2026 16:13,Web App & UI PI1 Sprint 4,,,,,,5.0
+GUI-3867,2985417,27.10.2025 09:58,,Open,Minor,,17.03.2026 07:28,,,,,,,5.0
+GUI-3863,2984160,24.10.2025 12:43,,In Progress,Minor,,13.03.2026 11:19,Web App & UI PI1 Sprint 3,Web App & UI PI1 Sprint 4,,,,,5.0
+GUI-3843,2975673,17.10.2025 18:55,,Done,Minor,,13.03.2026 10:25,Web App & UI PI5 Sprint 3-4,Web App & UI PI5 Sprint 5,,,,,5.0
+GUI-3811,2962996,08.10.2025 16:36,,Done,Minor,,12.01.2026 10:22,Web App & UI PI5 Sprint 3-4,,,,,,2.0
+GUI-3807,2961210,07.10.2025 14:55,,Done,Minor,,12.02.2026 00:48,Web App & UI PI5 Sprint 3-4,,,,,,
+GUI-3806,2961003,07.10.2025 14:28,,Done,Minor,,16.03.2026 08:19,Web App & UI PI1 Sprint 3,Web App & UI PI1 Sprint 4,,,,,3.0
+GUI-3797,2958709,06.10.2025 11:40,,Done,Minor,,10.03.2026 13:55,Web App & UI PI1 Sprint 3,Web App & UI PI1 Sprint 4,,,,,5.0
+GUI-3788,2954028,01.10.2025 10:52,,Done,Minor,,17.03.2026 07:28,Web App & UI PI5 Sprint 5,Web App & UI PI1 Sprint 1,,,,,2.0
+GUI-3784,2952833,30.09.2025 14:41,,Canceled,Minor,,09.03.2026 23:46,,,,,,,
+GUI-3782,2952822,30.09.2025 14:25,,Canceled,Minor,,06.01.2026 11:39,,,,,,,
+GUI-3777,2952125,30.09.2025 10:47,,Canceled,Minor,,10.03.2026 14:03,,,,,,,
+GUI-3774,2950567,29.09.2025 14:17,,Done,Minor,,13.03.2026 10:25,Web App & UI PI5 Sprint 5,,,,,,2.0
+GUI-3771,2947613,25.09.2025 14:16,,Done,Minor,,17.03.2026 07:28,Web App & UI PI1 Sprint 1,,,,,,3.0
+GUI-3770,2947198,25.09.2025 13:51,,Done,Minor,,10.02.2026 10:12,Web App & UI PI1 Sprint 1,,,,,,0.5
+GUI-3763,2945422,24.09.2025 14:40,,Done,Minor,,13.03.2026 10:25,Web App & UI PI5 Sprint 3-4,,,,,,0.5
+GUI-3759,2942849,23.09.2025 11:49,,Done,Minor,,12.02.2026 00:48,Web App & UI PI5 Sprint 3-4,,,,,,
+GUI-3752,2939921,19.09.2025 09:33,,Canceled,Minor,,07.01.2026 13:57,,,,,,,
+GUI-3734,2928583,10.09.2025 12:24,,Done,Minor,,23.02.2026 09:24,Web App & UI PI1 Sprint 2,,,,,,2.0
+GUI-3726,2913533,05.09.2025 12:39,,Done,Minor,,17.03.2026 07:28,Web App & UI PI1 Sprint 1,,,,,,2.0
+GUI-3721,2909369,03.09.2025 15:16,,Done,Minor,,17.03.2026 07:28,Web App & UI PI1 Sprint 1,Web App & UI PI1 Sprint 2,,,,,2.0
+GUI-3708,2903340,29.08.2025 14:16,,Done,Minor,,12.02.2026 00:48,Web App & UI PI5 Sprint 3-4,,,,,,1.0
+GUI-3685,2888621,18.08.2025 15:09,,Done,Minor,,17.03.2026 07:28,Web App & UI PI5 Sprint 5,Web App & UI PI1 Sprint 1,,,,,3.0
+GUI-3657,2880440,08.08.2025 14:59,,Canceled,Minor,,07.01.2026 13:26,,,,,,,1.0
+GUI-3649,2879716,07.08.2025 14:35,,Done,Minor,,06.03.2026 13:08,Web App & UI PI5 Sprint 5,Web App & UI PI1 Sprint 1,,,,,5.0
+GUI-3638,2877856,05.08.2025 14:10,,Acceptance Testing,Minor,,13.03.2026 14:22,Web App & UI PI1 Sprint 3,Web App & UI PI1 Sprint 4,,,,,8.0
+GUI-3634,2877844,05.08.2025 13:46,,Done,Minor,,13.03.2026 10:25,Web App & UI PI5 Sprint 3-4,Web App & UI PI5 Sprint 5,,,,,5.0
+GUI-3633,2877842,05.08.2025 13:43,,Done,Minor,,13.03.2026 10:25,Web App & UI PI5 Sprint 2,Web App & UI PI5 Sprint 3-4,,,,,3.0
+GUI-3630,2877816,05.08.2025 13:00,,Done,Minor,,17.03.2026 07:28,Web App & UI PI5 Sprint 3-4,Web App & UI PI5 Sprint 5,Web App & UI PI1 Sprint 1,,,,3.0
+GUI-3629,2877814,05.08.2025 12:57,,Done,Minor,,12.01.2026 09:18,Web App & UI PI5 Sprint 3-4,,,,,,3.0
+GUI-3626,2877805,05.08.2025 12:47,,Done,Minor,,17.03.2026 07:28,Web App & UI PI1 Sprint 1,Web App & UI PI1 Sprint 2,,,,,5.0
+GUI-3622,2877497,05.08.2025 12:30,,Done,Minor,,17.03.2026 07:28,Web App & UI PI1 Sprint 2,Web App & UI PI1 Sprint 3,Web App & UI PI1 Sprint 4,,,,3.0
+GUI-3614,2875774,01.08.2025 11:18,,Canceled,Minor,,04.02.2026 15:58,,,,,,,2.0
+GUI-3595,2873702,29.07.2025 14:09,,Canceled,Minor,,14.01.2026 15:23,,,,,,,
+GUI-3536,2847358,26.06.2025 10:20,,Done,Minor,,12.02.2026 00:48,Web App & UI PI5 Sprint 3-4,,,,,,2.0
+GUI-3490,2809148,30.05.2025 11:21,,Canceled,Minor,,09.02.2026 14:07,,,,,,,
+GUI-3470,2795683,20.05.2025 15:49,,In Code Review,Minor,,13.03.2026 13:46,Web App & UI PI1 Sprint 4,,,,,,3.0
+GUI-3469,2795671,20.05.2025 15:44,,Done,Minor,,13.03.2026 10:25,Web App & UI PI5 Sprint 3-4,,,,,,3.0
+GUI-3443,2789726,15.05.2025 12:39,,Done,Minor,,13.03.2026 10:25,Web App & UI PI5 Sprint 5,,,,,,1.0
+GUI-3392,2761555,17.04.2025 07:39,,In Progress,Minor,,13.03.2026 13:02,Web App & UI PI1 Sprint 4,,,,,,5.0
+GUI-3387,2758888,15.04.2025 09:34,,Done,Minor,,12.02.2026 00:48,Web App & UI PI5 Sprint 3-4,,,,,,1.0
+GUI-3382,2756101,11.04.2025 15:31,,Done,Minor,,16.03.2026 08:19,Web App & UI PI1 Sprint 3,,,,,,2.0
+GUI-3233,2660164,03.02.2025 16:07,,Canceled,Minor,,06.03.2026 15:25,,,,,,,
+GUI-3218,2644601,27.01.2025 21:07,,Canceled,Minor,,16.03.2026 14:33,,,,,,,
+GUI-3082,2536054,29.10.2024 14:42,,Done,Minor,,12.02.2026 09:53,Web App & UI PI1 Sprint 1,Web App & UI PI1 Sprint 2,,,,,2.0
+GUI-3059,2517518,15.10.2024 12:16,,Done,Minor,,13.03.2026 10:25,Web App & UI PI5 Sprint 5,,,,,,1.0
+GUI-2977,2434532,14.08.2024 13:36,,Canceled,Minor,,07.01.2026 12:57,,,,,,,
+GUI-2928,2372549,04.06.2024 13:28,,Done,Minor,,17.03.2026 07:28,Web App & UI PI1 Sprint 1,Web App & UI PI1 Sprint 2,,,,,5.0

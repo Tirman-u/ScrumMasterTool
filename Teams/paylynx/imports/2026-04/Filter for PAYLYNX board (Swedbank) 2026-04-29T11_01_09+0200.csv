@@ -1,0 +1,1415 @@
+Issue key,Issue id,Created,Resolved,Status,Priority,Due Date,Updated,Sprint,Sprint,Sprint,Sprint,Sprint,Sprint,Sprint,Sprint,Sprint,Sprint,Sprint,Sprint,Sprint,Sprint,Sprint,Sprint,Sprint,Sprint,Sprint,Sprint,Sprint,Sprint,Sprint,Sprint,Sprint,Sprint,Custom field (Story Points),Issue Type,Resolution
+PAYLYNX-774,2795402,20.05.2025 13:41,,Done,Major,,03.06.2025 11:54,PI:5:2:3 Flying high,,,,,,,,,,,,,,,,,,,,,,,,,,1.0,Bug,
+PAYLYNX-743,2778694,07.05.2025 07:26,16.07.2025 10:03,Canceled,Major,,16.07.2025 10:03,,,,,,,,,,,,,,,,,,,,,,,,,,,2.0,Task,Won't Do
+PAYLYNX-805,2812186,03.06.2025 11:56,17.11.2025 13:57,Canceled,Major,,17.11.2025 13:57,,,,,,,,,,,,,,,,,,,,,,,,,,,2.0,Spike,Won't Do
+PAYLYNX-809,2813198,04.06.2025 07:17,,Done,Major,,16.06.2025 13:16,,,,,,,,,,,,,,,,,,,,,,,,,,,,Service Request,Won't Do
+PAYLYNX-741,2778692,07.05.2025 07:25,16.07.2025 09:41,Done,Major,,30.12.2025 11:37,Y25:PI3:S2 Sandy,,,,,,,,,,,,,,,,,,,,,,,,,,2.0,Task,Done
+PAYLYNX-812,2813766,04.06.2025 10:50,13.06.2025 08:39,Done,Major,,13.06.2025 08:39,PI:5:2:4 Free fall,,,,,,,,,,,,,,,,,,,,,,,,,,2.0,Task,Done
+PAYLYNX-831,2825116,12.06.2025 15:01,,Done,Major,,17.06.2025 19:10,PI:5:2:4 Free fall,,,,,,,,,,,,,,,,,,,,,,,,,,0.0,Bug,
+PAYLYNX-984,2916949,08.09.2025 10:59,08.09.2025 11:04,Canceled,Major,,08.09.2025 11:05,,,,,,,,,,,,,,,,,,,,,,,,,,,,Task,Won't Do
+PAYLYNX-1173,3079690,14.01.2026 15:11,,Open,Major,,07.04.2026 12:53,Y26:PI2:S5 planning,,,,,,,,,,,,,,,,,,,,,,,,,,2.0,Task,
+PAYLYNX-1213,3113010,28.01.2026 20:38,,Open,Major,,07.04.2026 13:41,Y26:PI2:S5 planning,,,,,,,,,,,,,,,,,,,,,,,,,,2.0,Task,
+PAYLYNX-1241,3120039,03.02.2026 20:40,11.03.2026 09:07,Canceled,Major,,19.03.2026 12:56,,,,,,,,,,,,,,,,,,,,,,,,,,,3.0,Task,Won't Do
+PAYLYNX-1236,3117803,02.02.2026 13:48,,Open,Major,,07.04.2026 12:57,Y26:PI2:S3 planning,,,,,,,,,,,,,,,,,,,,,,,,,,2.0,Task,
+PAYLYNX-1246,3122550,05.02.2026 10:52,,Open,Major,,07.04.2026 13:05,Y26:PI2:S3 planning,,,,,,,,,,,,,,,,,,,,,,,,,,3.0,Task,
+PAYLYNX-1311,3153964,03.03.2026 14:09,,Open,Major,,07.04.2026 13:33,Y26:PI2:S3 planning,,,,,,,,,,,,,,,,,,,,,,,,,,3.0,Task,
+PAYLYNX-1350,3180405,23.03.2026 09:51,,Open,Major,,20.04.2026 12:55,PI:2:2026 Refined tasks,,,,,,,,,,,,,,,,,,,,,,,,,,2.0,Task,
+PAYLYNX-1382,3201463,02.04.2026 09:51,,Open,Major,,20.04.2026 12:55,PI:2:2026 Refined tasks,,,,,,,,,,,,,,,,,,,,,,,,,,2.0,Task,
+PAYLYNX-1094,3020228,17.11.2025 10:12,,Open,Major,,07.04.2026 13:15,Y26:PI2:S4 planning,,,,,,,,,,,,,,,,,,,,,,,,,,3.0,Task,
+PAYLYNX-1379,3193970,30.03.2026 21:11,,Open,Major,,07.04.2026 13:47,Y26:PI2:S4 planning,,,,,,,,,,,,,,,,,,,,,,,,,,2.0,Task,
+PAYLYNX-1376,3193965,30.03.2026 20:58,,Open,Major,,07.04.2026 13:47,Y26:PI2:S4 planning,,,,,,,,,,,,,,,,,,,,,,,,,,3.0,Task,
+PAYLYNX-803,2812007,03.06.2025 09:37,,Open,Major,,31.03.2026 10:45,PI:2:2026 Refined tasks,,,,,,,,,,,,,,,,,,,,,,,,,,3.0,Spike,
+PAYLYNX-550,2675754,14.02.2025 11:33,,Open,Major,,24.03.2026 14:52,PI:2:2026 Refined tasks,,,,,,,,,,,,,,,,,,,,,,,,,,3.0,Task,
+PAYLYNX-1068,2995632,04.11.2025 09:33,,Open,Major,,27.03.2026 17:26,PI:2:2026 Refined tasks,,,,,,,,,,,,,,,,,,,,,,,,,,3.0,Task,
+PAYLYNX-66,1536918,11.04.2022 11:11,,Open,Major,,21.04.2026 16:27,PI:2:2026 Refined tasks,,,,,,,,,,,,,,,,,,,,,,,,,,2.0,Task,
+PAYLYNX-1190,3088120,20.01.2026 16:09,26.01.2026 13:58,Canceled,Major,,05.02.2026 10:38,,,,,,,,,,,,,,,,,,,,,,,,,,,,Task,Won't Do
+PAYLYNX-366,2577481,25.11.2024 10:40,,Open,Major,,07.04.2026 14:15,Y26:PI2:S5 planning,,,,,,,,,,,,,,,,,,,,,,,,,,3.0,Task,
+PAYLYNX-1124,3047845,04.12.2025 14:58,20.01.2026 10:11,Canceled,Major,,02.02.2026 14:29,,,,,,,,,,,,,,,,,,,,,,,,,,,,Task,Won't Do
+PAYLYNX-1140,3056610,12.12.2025 13:08,02.02.2026 13:13,Done,Major,,02.02.2026 13:21,Y26:PI:1:S1 Power boost,,,,,,,,,,,,,,,,,,,,,,,,,,0.0,Task,Done
+PAYLYNX-1076,2998323,05.11.2025 11:49,10.12.2025 09:43,Canceled,Major,,08.01.2026 16:39,,,,,,,,,,,,,,,,,,,,,,,,,,,,Task,Won't Do
+PAYLYNX-1085,3015392,13.11.2025 12:40,29.12.2025 10:56,Canceled,Major,,29.12.2025 12:32,,,,,,,,,,,,,,,,,,,,,,,,,,,,Task,Won't Do
+PAYLYNX-919,2876164,01.08.2025 18:05,,Canceled,Major,,05.11.2025 09:43,,,,,,,,,,,,,,,,,,,,,,,,,,,0.0,Production bug,Won't Do
+PAYLYNX-1039,2972629,15.10.2025 16:19,,Open,Major,,24.03.2026 14:55,For Refinement,,,,,,,,,,,,,,,,,,,,,,,,,,,Task,
+PAYLYNX-1033,2969580,14.10.2025 11:36,,Open,Major,,31.03.2026 10:48,For Refinement,,,,,,,,,,,,,,,,,,,,,,,,,,,Spike,
+PAYLYNX-704,2762570,18.04.2025 08:28,,Open,Major,,10.02.2026 10:21,For Refinement,,,,,,,,,,,,,,,,,,,,,,,,,,,Task,
+PAYLYNX-25,2244199,15.02.2024 10:38,,Open,Major,,31.03.2026 10:49,For Refinement,,,,,,,,,,,,,,,,,,,,,,,,,,,Story,
+PAYLYNX-1109,3034574,24.11.2025 14:23,,Open,Major,,19.03.2026 16:13,For Refinement,,,,,,,,,,,,,,,,,,,,,,,,,,,Task,
+PAYLYNX-132,2427448,05.08.2024 14:36,,Open,Major,,02.04.2026 10:04,For Refinement,,,,,,,,,,,,,,,,,,,,,,,,,,,Task,
+PAYLYNX-16,1822495,25.01.2023 12:34,,Open,Major,,21.11.2025 11:09,Sprint 204 MAD_sAPIsfaction,Sprint 205: APOfying,For Refinement,,,,,,,,,,,,,,,,,,,,,,,,,Task,
+PAYLYNX-1040,2972633,15.10.2025 16:26,05.11.2025 10:52,Canceled,Major,,25.11.2025 08:12,,,,,,,,,,,,,,,,,,,,,,,,,,,2.0,Task,Won't Do
+PAYLYNX-247,2515139,14.10.2024 08:45,,Canceled,Major,,11.09.2025 10:11,,,,,,,,,,,,,,,,,,,,,,,,,,,,Bug,Won't Do
+PAYLYNX-351,2570373,19.11.2024 16:57,,Canceled,Major,,16.09.2025 13:01,,,,,,,,,,,,,,,,,,,,,,,,,,,,Bug,Won't Do
+PAYLYNX-754,2782427,09.05.2025 07:30,16.09.2025 13:02,Done,Major,,16.09.2025 13:02,,,,,,,,,,,,,,,,,,,,,,,,,,,0.0,Bug,Done
+PAYLYNX-864,2848394,27.06.2025 07:55,,Canceled,Major,,16.09.2025 13:04,,,,,,,,,,,,,,,,,,,,,,,,,,,,Bug,Won't Do
+PAYLYNX-873,2853060,02.07.2025 07:46,16.09.2025 13:05,Done,Major,,16.09.2025 13:05,,,,,,,,,,,,,,,,,,,,,,,,,,,0.0,Bug,Done
+PAYLYNX-897,2870111,22.07.2025 13:37,,Canceled,Major,,11.09.2025 10:12,,,,,,,,,,,,,,,,,,,,,,,,,,,,Bug,Won't Do
+PAYLYNX-955,2892761,21.08.2025 14:26,,Canceled,Major,,11.09.2025 10:13,,,,,,,,,,,,,,,,,,,,,,,,,,,,Bug,Won't Do
+PAYLYNX-801,2811461,03.06.2025 07:39,10.12.2025 13:30,Canceled,Major,,10.12.2025 13:31,,,,,,,,,,,,,,,,,,,,,,,,,,,,Task,Won't Do
+PAYLYNX-381,2585102,02.12.2024 13:28,,Canceled,Major,,16.07.2025 10:13,PI24:5 SAFEst start,PI:24:5:2 - Cracked safe,,,,,,,,,,,,,,,,,,,,,,,,,,Bug,Won't Do
+PAYLYNX-804,2812222,03.06.2025 10:32,,Open,Major,,01.04.2026 13:51,PI:3:2026 Refined candidates,,,,,,,,,,,,,,,,,,,,,,,,,,3.0,Task,
+PAYLYNX-981,2908337,03.09.2025 10:25,,Open,Major,,01.04.2026 13:50,PI:3:2026 Refined candidates,,,,,,,,,,,,,,,,,,,,,,,,,,5.0,Task,
+PAYLYNX-20,2049640,06.09.2023 09:52,,Canceled,Major,,22.04.2026 10:01,PI:25:2:1 Using protection,PI:5:2:2 NoPain NoGain,PI:5:2:3 Flying high,PI:5:2:4 Free fall,Y25:PI3:S1 Igniting flames,Y25:PI3:S3 Partially Hot,Y25:PI3:S4 IncidentFree,Y25:PI3:S5 ReFoundation,Y25:PI3:S6 orange pressure,Y25:PI4:S1 EnjoyTheOrange,Y25:PI4:S2 Just Partying,Y25:PI4:S3 Green Ambition,Y25:PI4:S4 Out of the closet,Y25:PI4:S5 by the book,Y25:PI5:S1 Cold in all places,Y25:PI5:S2 TidyHome for guests,Y25:PI3:S2 Sandy,Y25:PI:5:S3/4 Anna's delivery,Y25:PI:5:S5 1st gentle touch,Y26:PI:1:S1 Power boost,Y26:PI:1:S2 Freedom Sprint,Y26:PI:1:S3 first E-flood,Y26:PI:1:S4 e-blood,Y26:PI:1:S5 kinkFest,Y26:PI2:S1 no spillovers,Y26:PI2:S2 testing the waters,3.0,Story,Won't Do
+PAYLYNX-337,2562703,18.11.2024 10:42,15.01.2025 14:46,Done,Major,,23.04.2025 14:56,,,,,,,,,,,,,,,,,,,,,,,,,,,3.0,Story,Done
+PAYLYNX-355,2570491,20.11.2024 07:38,21.11.2024 15:05,Done,Major,,21.11.2024 15:05,PI24:5 SAFEst start,,,,,,,,,,,,,,,,,,,,,,,,,,1.0,Task,Done
+PAYLYNX-116,2418201,17.07.2024 08:22,,Canceled,Major,,07.08.2024 10:14,,,,,,,,,,,,,,,,,,,,,,,,,,,,Task,
+PAYLYNX-114,2346222,13.05.2024 08:19,,Canceled,Major,,21.05.2025 10:44,Sprint 237 Found In Riga,Sprint 238 Onyx is the Limit,Sprint 239 Pushing Limits,PI:25:2:1 Using protection,PI:5:2:2 NoPain NoGain,,,,,,,,,,,,,,,,,,,,,,,Bug,Won't Do
+PAYLYNX-68,898699,30.07.2020 14:51,25.06.2025 10:57,Canceled,Major,,11.07.2025 17:33,,,,,,,,,,,,,,,,,,,,,,,,,,,3.0,Spike,Won't Do
+PAYLYNX-92,2375669,06.06.2024 13:56,,Canceled,Major,,28.04.2025 09:44,,,,,,,,,,,,,,,,,,,,,,,,,,,,Bug,Won't Do
+PAYLYNX-374,2580332,27.11.2024 10:06,11.12.2024 08:25,Done,Major,,09.01.2025 16:48,PI:24:5:2 - Cracked safe,,,,,,,,,,,,,,,,,,,,,,,,,,1.0,Task,Done
+PAYLYNX-388,2594418,10.12.2024 09:27,,Canceled,Major,,11.12.2024 09:43,,,,,,,,,,,,,,,,,,,,,,,,,,,,Task,Won't Do
+PAYLYNX-96,2415923,14.07.2024 22:08,,Open,Major,,09.01.2025 16:45,For Refinement,,,,,,,,,,,,,,,,,,,,,,,,,,,Task,
+PAYLYNX-101,2417987,16.07.2024 16:37,,Open,Major,,21.11.2025 11:09,For Refinement,,,,,,,,,,,,,,,,,,,,,,,,,,,Task,
+PAYLYNX-196,2490570,20.09.2024 15:26,,Canceled,Major,,12.03.2025 13:32,,,,,,,,,,,,,,,,,,,,,,,,,,,,Spike,Won't Do
+PAYLYNX-249,2516091,14.10.2024 14:09,23.10.2024 09:56,Done,Major,,23.10.2024 09:56,Sprint 6 - on the beach,,,,,,,,,,,,,,,,,,,,,,,,,,1.0,Spike,Done
+PAYLYNX-139,2427705,05.08.2024 16:13,,Canceled,Major,,16.10.2024 10:50,,,,,,,,,,,,,,,,,,,,,,,,,,,,Task,Won't Do
+PAYLYNX-294,2552902,11.11.2024 12:14,,Canceled,Major,,19.02.2025 07:54,,,,,,,,,,,,,,,,,,,,,,,,,,,,Story,Won't Do
+PAYLYNX-295,2552908,11.11.2024 12:17,,Canceled,Major,,19.02.2025 07:54,,,,,,,,,,,,,,,,,,,,,,,,,,,,Story,Won't Do
+PAYLYNX-296,2552923,11.11.2024 12:29,,Canceled,Major,,19.02.2025 07:55,,,,,,,,,,,,,,,,,,,,,,,,,,,,Story,Won't Do
+PAYLYNX-298,2552939,11.11.2024 12:48,,Canceled,Major,,19.02.2025 07:55,,,,,,,,,,,,,,,,,,,,,,,,,,,,Story,Won't Do
+PAYLYNX-432,2614831,08.01.2025 08:25,10.02.2025 07:50,Done,Major,,02.04.2025 16:04,PI:2024:5:5 blood transfusion,PI:25:1:1 Fresh meat,,,,,,,,,,,,,,,,,,,,,,,,,2.0,Task,Done
+PAYLYNX-431,2614562,07.01.2025 17:02,03.02.2025 08:23,Done,Major,,02.04.2025 16:04,PI:25:1:1 Fresh meat,,,,,,,,,,,,,,,,,,,,,,,,,,1.0,Task,Done
+PAYLYNX-426,2614410,07.01.2025 14:34,07.02.2025 15:16,Done,Major,,02.04.2025 16:04,PI:2024:5:5 blood transfusion,PI:25:1:1 Fresh meat,,,,,,,,,,,,,,,,,,,,,,,,,1.0,Task,Done
+PAYLYNX-428,2614470,07.01.2025 15:24,29.01.2025 08:03,Done,Major,,02.04.2025 16:04,PI:2024:5:5 blood transfusion,,,,,,,,,,,,,,,,,,,,,,,,,,2.0,Task,Done
+PAYLYNX-456,2623882,15.01.2025 10:47,29.01.2025 08:48,Done,Major,,29.01.2025 08:48,PI:2024:5:5 blood transfusion,,,,,,,,,,,,,,,,,,,,,,,,,,2.0,Task,Done
+PAYLYNX-54,2175951,15.12.2023 09:13,11.02.2025 14:58,Done,Major,,11.02.2025 14:58,Sprint 230 Certified Curves,Sprint 231 Loving IT,Sprint 232 Release the CRaken,Sprint 233 Switcher00,Sprint 234 BreakEggsMakeOmlet,Sprint 235: Sweet dreams,Sprint 236 Limited Edition,Sprint 237 Found In Riga,Sprint 238 Onyx is the Limit,PI:2024:5:5 blood transfusion,PI:25:1:1 Fresh meat,,,,,,,,,,,,,,,,1.0,Task,Done
+PAYLYNX-331,2562416,18.11.2024 09:58,29.01.2025 09:32,Done,Major,,29.01.2025 09:32,PI:2024:5:5 blood transfusion,,,,,,,,,,,,,,,,,,,,,,,,,,1.0,Task,Done
+PAYLYNX-379,2584501,02.12.2024 09:54,29.01.2025 09:32,Done,Major,,29.01.2025 09:32,PI:2024:5:5 blood transfusion,,,,,,,,,,,,,,,,,,,,,,,,,,1.0,Task,Done
+PAYLYNX-446,2619916,13.01.2025 08:13,29.01.2025 09:38,Done,Major,,29.01.2025 09:38,PI:2024:5:5 blood transfusion,PI:25:1:1 Fresh meat,,,,,,,,,,,,,,,,,,,,,,,,,2.0,Story,Done
+PAYLYNX-330,2562401,18.11.2024 09:51,,Canceled,Major,,21.05.2025 10:44,PI:25:1:2  Polishing Bones,PI:2024:5:5 blood transfusion,PI:25:1:3 Toothless & fakeTan,PI:1:25:6 Watching us,PI:2025:1:4 cure for ageing,PI:25:2:1 Using protection,PI:5:2:2 NoPain NoGain,PI:25:1:1 Fresh meat,PI:1:25 Sprint5 Just in Time,,,,,,,,,,,,,,,,,,,Story,Won't Do
+PAYLYNX-483,2632427,21.01.2025 11:28,26.01.2025 11:20,Done,Major,,26.01.2025 11:20,PI:2024:5:5 blood transfusion,,,,,,,,,,,,,,,,,,,,,,,,,,2.0,Task,Done
+PAYLYNX-317,2560299,15.11.2024 12:49,03.02.2025 07:58,Done,Major,,03.02.2025 07:58,PI:25:1:1 Fresh meat,,,,,,,,,,,,,,,,,,,,,,,,,,2.0,Task,Done
+PAYLYNX-415,2610343,27.12.2024 14:06,07.02.2025 09:26,Done,Major,,02.04.2025 16:04,PI:25:1:1 Fresh meat,,,,,,,,,,,,,,,,,,,,,,,,,,1.0,Task,Done
+PAYLYNX-481,2630508,20.01.2025 13:18,12.02.2025 10:36,Done,Major,,02.04.2025 13:57,PI:25:1:1 Fresh meat,,,,,,,,,,,,,,,,,,,,,,,,,,2.0,Task,Done
+PAYLYNX-502,2641665,27.01.2025 10:14,04.02.2025 15:27,Done,Major,,04.02.2025 15:27,PI:25:1:1 Fresh meat,,,,,,,,,,,,,,,,,,,,,,,,,,2.0,Task,Done
+PAYLYNX-473,2630220,20.01.2025 11:41,13.02.2025 14:07,Done,Major,,13.02.2025 14:07,PI:25:1:2  Polishing Bones,PI:25:1:1 Fresh meat,,,,,,,,,,,,,,,,,,,,,,,,,0.0,Task,Done
+PAYLYNX-471,2629582,20.01.2025 09:31,,Canceled,Major,,21.01.2025 08:40,,,,,,,,,,,,,,,,,,,,,,,,,,,,Task,Won't Do
+PAYLYNX-534,2670618,11.02.2025 13:32,21.02.2025 08:34,Done,Major,,21.02.2025 08:34,PI:25:1:2  Polishing Bones,,,,,,,,,,,,,,,,,,,,,,,,,,1.0,Task,Done
+PAYLYNX-549,2675324,14.02.2025 08:13,12.03.2025 10:30,Done,Major,,07.04.2025 12:35,PI:25:1:2  Polishing Bones,PI:25:1:3 Toothless & fakeTan,PI:2025:1:4 cure for ageing,,,,,,,,,,,,,,,,,,,,,,,,0.0,Production bug,Done
+PAYLYNX-339,2563044,18.11.2024 12:10,17.02.2025 15:30,Done,Major,,17.02.2025 15:30,PI:25:1:2  Polishing Bones,,,,,,,,,,,,,,,,,,,,,,,,,,1.0,Task,Done
+PAYLYNX-478,2630229,20.01.2025 11:53,26.02.2025 08:50,Done,Major,,13.03.2025 10:16,PI:25:1:2  Polishing Bones,,,,,,,,,,,,,,,,,,,,,,,,,,2.0,Task,Done
+PAYLYNX-475,2630226,20.01.2025 11:47,09.04.2025 09:20,Done,Major,,09.04.2025 09:20,PI:25:1:2  Polishing Bones,PI:25:1:3 Toothless & fakeTan,PI:2025:1:4 cure for ageing,PI:1:25 Sprint5 Just in Time,,,,,,,,,,,,,,,,,,,,,,,0.0,Task,Done
+PAYLYNX-476,2630227,20.01.2025 11:49,12.02.2025 13:57,Done,Major,,13.03.2025 10:16,PI:25:1:2  Polishing Bones,,,,,,,,,,,,,,,,,,,,,,,,,,0.0,Task,Done
+PAYLYNX-480,2630288,20.01.2025 13:10,09.04.2025 09:19,Done,Major,,09.04.2025 09:19,PI:25:1:2  Polishing Bones,PI:25:1:3 Toothless & fakeTan,PI:2025:1:4 cure for ageing,PI:1:25 Sprint5 Just in Time,,,,,,,,,,,,,,,,,,,,,,,0.0,Task,Done
+PAYLYNX-410,2607555,19.12.2024 13:40,28.02.2025 09:18,Done,Major,,02.04.2025 16:04,PI:25:1:2  Polishing Bones,PI:25:1:3 Toothless & fakeTan,,,,,,,,,,,,,,,,,,,,,,,,,3.0,Task,Done
+PAYLYNX-318,2560802,15.11.2024 12:51,12.03.2025 10:22,Done,Major,,12.03.2025 10:22,PI:25:1:3 Toothless & fakeTan,,,,,,,,,,,,,,,,,,,,,,,,,,0.0,Task,Done
+PAYLYNX-498,2641183,27.01.2025 07:59,,Canceled,Major,,19.02.2025 07:56,,,,,,,,,,,,,,,,,,,,,,,,,,,3.0,Spike,Won't Do
+PAYLYNX-497,2638073,24.01.2025 08:21,19.03.2025 08:47,Done,Major,,20.03.2025 15:53,PI:2025:1:4 cure for ageing,,,,,,,,,,,,,,,,,,,,,,,,,,1.0,Task,Done
+PAYLYNX-468,2629566,20.01.2025 09:20,11.03.2025 09:05,Canceled,Major,,12.03.2025 11:05,,,,,,,,,,,,,,,,,,,,,,,,,,,3.0,Story,Won't Do
+PAYLYNX-319,2560808,15.11.2024 13:08,,Canceled,Major,,19.02.2025 07:55,,,,,,,,,,,,,,,,,,,,,,,,,,,,Story,Won't Do
+PAYLYNX-314,2560201,15.11.2024 09:56,,Canceled,Major,,26.02.2025 13:56,,,,,,,,,,,,,,,,,,,,,,,,,,,3.0,Story,Won't Do
+PAYLYNX-345,2565015,19.11.2024 08:02,,Canceled,Major,,22.11.2024 10:51,,,,,,,,,,,,,,,,,,,,,,,,,,,,Service Request,Won't Do
+PAYLYNX-352,2570667,20.11.2024 07:01,,Canceled,Major,,26.02.2025 13:56,,,,,,,,,,,,,,,,,,,,,,,,,,,1.0,Task,Won't Do
+PAYLYNX-354,2570670,20.11.2024 07:17,,Canceled,Major,,06.03.2025 12:58,,,,,,,,,,,,,,,,,,,,,,,,,,,1.0,Task,Won't Do
+PAYLYNX-375,2580384,27.11.2024 12:38,13.01.2025 13:14,Done,Major,,14.01.2025 15:45,PI:24:5:2 - Cracked safe,PI:24:5:3:4,,,,,,,,,,,,,,,,,,,,,,,,,1.0,Task,Done
+PAYLYNX-453,2621698,14.01.2025 08:23,21.01.2025 13:56,Done,Major,,21.01.2025 13:56,PI:2024:5:5 blood transfusion,,,,,,,,,,,,,,,,,,,,,,,,,,1.0,Task,Done
+PAYLYNX-470,2629572,20.01.2025 09:24,,Canceled,Major,,21.01.2025 11:33,,,,,,,,,,,,,,,,,,,,,,,,,,,,Task,Won't Do
+PAYLYNX-474,2630221,20.01.2025 11:44,,Canceled,Major,,20.01.2025 12:36,,,,,,,,,,,,,,,,,,,,,,,,,,,,Task,Won't Do
+PAYLYNX-477,2630228,20.01.2025 11:51,,Canceled,Major,,20.01.2025 12:44,,,,,,,,,,,,,,,,,,,,,,,,,,,,Task,Won't Do
+PAYLYNX-503,2652316,29.01.2025 09:55,12.03.2025 10:24,Done,Major,,12.03.2025 10:24,PI:25:1:2  Polishing Bones,PI:25:1:3 Toothless & fakeTan,PI:25:1:1 Fresh meat,,,,,,,,,,,,,,,,,,,,,,,,1.0,Task,Done
+PAYLYNX-537,2671744,12.02.2025 10:52,26.02.2025 10:09,Done,Major,,26.02.2025 10:09,PI:25:1:2  Polishing Bones,,,,,,,,,,,,,,,,,,,,,,,,,,0.0,Task,Done
+PAYLYNX-465,2629557,20.01.2025 09:17,19.02.2025 08:04,Done,Major,,19.02.2025 08:05,,,,,,,,,,,,,,,,,,,,,,,,,,,3.0,Story,Done
+PAYLYNX-467,2629565,20.01.2025 09:19,05.03.2025 09:37,Done,Major,,09.04.2026 09:25,,,,,,,,,,,,,,,,,,,,,,,,,,,3.0,Story,Done
+PAYLYNX-500,2641194,27.01.2025 08:04,,Canceled,Major,,15.04.2025 10:04,,,,,,,,,,,,,,,,,,,,,,,,,,,3.0,Spike,Won't Do
+PAYLYNX-303,2555500,12.11.2024 15:44,,Canceled,Major,,15.04.2025 10:05,,,,,,,,,,,,,,,,,,,,,,,,,,,3.0,Spike,Won't Do
+PAYLYNX-570,2688531,26.02.2025 15:47,17.04.2025 12:14,Done,Major,,17.04.2025 12:14,PI:1:25:6 Watching us,PI:1:25 Sprint5 Just in Time,,,,,,,,,,,,,,,,,,,,,,,,,1.0,Task,Done
+PAYLYNX-559,2679875,19.02.2025 09:58,06.05.2025 18:51,Done,Major,,06.05.2025 18:51,PI:1:25:6 Watching us,PI:25:2:1 Using protection,PI:1:25 Sprint5 Just in Time,,,,,,,,,,,,,,,,,,,,,,,,3.0,Task,Done
+PAYLYNX-641,2723265,26.03.2025 10:40,,Done,Major,,31.03.2025 13:39,PI:1:25 Sprint5 Just in Time,,,,,,,,,,,,,,,,,,,,,,,,,,1.0,Bug,
+PAYLYNX-606,2704743,12.03.2025 11:03,25.03.2025 15:16,Done,Major,,25.03.2025 15:16,PI:2025:1:4 cure for ageing,,,,,,,,,,,,,,,,,,,,,,,,,,2.0,Task,Done
+PAYLYNX-619,2711844,17.03.2025 15:33,21.08.2025 12:26,Canceled,Major,,02.10.2025 14:00,,,,,,,,,,,,,,,,,,,,,,,,,,,,Task,Won't Do
+PAYLYNX-23,2148308,24.11.2023 12:43,,Open,Major,,25.04.2025 15:53,"MBBL: improve, techdebt, ideas",,,,,,,,,,,,,,,,,,,,,,,,,,3.0,Task,
+PAYLYNX-28,1192733,30.04.2021 15:23,,Open,Major,,25.04.2025 15:53,"MBBL: improve, techdebt, ideas",,,,,,,,,,,,,,,,,,,,,,,,,,3.0,Spike,
+PAYLYNX-5,827532,11.05.2020 16:27,16.09.2025 12:23,Canceled,Major,,16.09.2025 12:23,,,,,,,,,,,,,,,,,,,,,,,,,,,3.0,Spike,Won't Do
+PAYLYNX-53,725740,03.02.2020 15:26,,Open,Major,,11.07.2025 17:33,"MBBL: improve, techdebt, ideas",,,,,,,,,,,,,,,,,,,,,,,,,,3.0,Spike,
+PAYLYNX-18,2090253,05.10.2023 09:02,31.03.2026 10:39,Canceled,Major,,31.03.2026 10:39,,,,,,,,,,,,,,,,,,,,,,,,,,,,Task,Won't Do
+PAYLYNX-49,2288794,26.03.2024 13:50,,Open,Major,,30.04.2025 12:30,"MBBL: improve, techdebt, ideas",,,,,,,,,,,,,,,,,,,,,,,,,,3.0,Task,
+PAYLYNX-33,2266739,06.03.2024 08:40,,Open,Major,,25.04.2025 16:00,"MBBL: improve, techdebt, ideas",,,,,,,,,,,,,,,,,,,,,,,,,,5.0,Task,
+PAYLYNX-34,2282088,20.03.2024 10:36,,Open,Major,,25.04.2025 16:00,"MBBL: improve, techdebt, ideas",,,,,,,,,,,,,,,,,,,,,,,,,,1.0,Task,
+PAYLYNX-724,2773222,29.04.2025 15:32,,Done,Major,,02.05.2025 11:41,,,,,,,,,,,,,,,,,,,,,,,,,,,,Service Request,
+PAYLYNX-17,2103911,18.10.2023 08:06,,Open,Minor,,02.04.2026 10:34,For Refinement,,,,,,,,,,,,,,,,,,,,,,,,,,,Task,
+PAYLYNX-246,2513666,11.10.2024 07:56,16.09.2025 14:12,Done,Critical,,16.09.2025 14:12,,,,,,,,,,,,,,,,,,,,,,,,,,,,Service Request,Fixed
+PAYLYNX-852,2842969,20.06.2025 12:24,,Open,Major,,01.04.2026 13:52,For Refinement,,,,,,,,,,,,,,,,,,,,,,,,,,,Task,
+PAYLYNX-21,540752,27.05.2019 16:12,,Canceled,Major,,23.08.2024 08:25,,,,,,,,,,,,,,,,,,,,,,,,,,,,Story,Won't Do
+PAYLYNX-15,1549793,26.04.2022 14:46,,Canceled,Major,,28.04.2025 09:47,Sprint 186 Togetherness,,,,,,,,,,,,,,,,,,,,,,,,,,0.0,Task,Won't Do
+PAYLYNX-36,2005322,07.07.2023 09:46,,Open,Major,,11.07.2025 17:33,"MBBL: improve, techdebt, ideas",,,,,,,,,,,,,,,,,,,,,,,,,,3.0,Task,
+PAYLYNX-60,615285,19.09.2019 11:30,,Canceled,Major,,28.04.2025 10:01,,,,,,,,,,,,,,,,,,,,,,,,,,,3.0,Task,Won't Do
+PAYLYNX-72,1695966,23.09.2022 13:13,,Canceled,Major,,28.04.2025 10:08,,,,,,,,,,,,,,,,,,,,,,,,,,,3.0,Task,Won't Do
+PAYLYNX-71,1293054,19.08.2021 15:32,,Canceled,Major,,28.04.2025 10:14,,,,,,,,,,,,,,,,,,,,,,,,,,,3.0,Task,Won't Do
+PAYLYNX-75,1480728,18.02.2022 13:57,,Canceled,Major,,28.04.2025 10:15,,,,,,,,,,,,,,,,,,,,,,,,,,,2.0,Task,Won't Do
+PAYLYNX-52,1461906,02.02.2022 09:10,,Canceled,Major,,28.04.2025 10:18,,,,,,,,,,,,,,,,,,,,,,,,,,,3.0,Task,Won't Do
+PAYLYNX-93,1864270,01.03.2023 12:39,,Canceled,Major,,22.04.2026 10:01,Y25:PI4:S3 Green Ambition,Y25:PI4:S4 Out of the closet,Y25:PI4:S5 by the book,Y25:PI5:S1 Cold in all places,Y25:PI5:S2 TidyHome for guests,Y25:PI:5:S3/4 Anna's delivery,Y25:PI:5:S5 1st gentle touch,Y26:PI:1:S1 Power boost,Y26:PI:1:S2 Freedom Sprint,Y26:PI:1:S3 first E-flood,Y26:PI:1:S4 e-blood,Y26:PI:1:S5 kinkFest,Y26:PI2:S1 no spillovers,Y26:PI2:S2 testing the waters,,,,,,,,,,,,,3.0,Task,
+PAYLYNX-97,1963587,29.05.2023 14:27,,Canceled,Major,,13.11.2024 09:51,,,,,,,,,,,,,,,,,,,,,,,,,,,3.0,Task,Won't Do
+PAYLYNX-103,1841124,08.02.2023 10:52,08.10.2025 17:03,Done,Major,,08.10.2025 17:04,,,,,,,,,,,,,,,,,,,,,,,,,,,5.0,Story,Fixed
+PAYLYNX-106,2334506,29.04.2024 12:09,,Canceled,Major,,13.11.2024 09:51,,,,,,,,,,,,,,,,,,,,,,,,,,,3.0,Spike,Won't Do
+PAYLYNX-121,2095082,09.10.2023 16:45,,Canceled,Major,,13.11.2024 09:53,,,,,,,,,,,,,,,,,,,,,,,,,,,3.0,Spike,Won't Do
+PAYLYNX-120,1723359,19.10.2022 10:31,,Pending,Major,,16.09.2025 12:34,Sprint 201 Mergeable'n'Fun,Sprint 202 MerryXmas&HappyNY!,Sprint 203 Powerful sWitches,Sprint 204 MAD_sAPIsfaction,Sprint 205: APOfying,Sprint 206 Status: Hyperjump,Sprint 207 Bachelor Party,Sprint M1 Honeymoon,Sprint 208 Vegas Experience,Sprint 209 Full_Pool,Sprint 210 Space Smoothie,Sprint 211 exp-mental,Sprint 212 Diamonds,Sprint 213 Cocktail party,Sprint 214 The Hottestness,Sprint 215 Testing for Dummies,Sprint 216 Testing is caring,Sprint 217 Exceptional Shift,Sprint 218 Recovery Season,Sprint 219 New Space-travelers,Sprint 220 UnderTheMicroscope,Sprint 221 PieHole,Sprint 222 Smoke & Mirrors,Sprint 223 Evolution,Sprint 224 Trial & Error,"MBBL: improve, techdebt, ideas",0.0,Spike,
+PAYLYNX-6,1787904,14.12.2022 16:12,,Open,Major,,16.09.2025 12:53,"MBBL: improve, techdebt, ideas",,,,,,,,,,,,,,,,,,,,,,,,,,3.0,Task,
+PAYLYNX-55,1237411,08.06.2021 10:41,16.09.2025 12:05,Canceled,Major,,16.09.2025 12:05,,,,,,,,,,,,,,,,,,,,,,,,,,,3.0,Task,Won't Do
+PAYLYNX-37,1609468,20.06.2022 12:17,,Open,Major,,16.09.2025 12:53,"MBBL: improve, techdebt, ideas",,,,,,,,,,,,,,,,,,,,,,,,,,2.0,Task,
+PAYLYNX-40,2277767,15.03.2024 12:08,,Open,Major,,25.04.2025 16:00,"MBBL: improve, techdebt, ideas",,,,,,,,,,,,,,,,,,,,,,,,,,3.0,Task,
+PAYLYNX-38,2269862,08.03.2024 15:31,,Open,Major,,25.04.2025 16:00,"MBBL: improve, techdebt, ideas",,,,,,,,,,,,,,,,,,,,,,,,,,3.0,Task,
+PAYLYNX-31,1907914,07.04.2023 11:27,,Open,Major,,20.08.2025 11:43,"MBBL: improve, techdebt, ideas",,,,,,,,,,,,,,,,,,,,,,,,,,3.0,Spike,
+PAYLYNX-67,622851,27.09.2019 14:33,,Open,Major,,20.08.2025 11:43,"MBBL: improve, techdebt, ideas",,,,,,,,,,,,,,,,,,,,,,,,,,5.0,Task,
+PAYLYNX-78,1343541,06.10.2021 13:26,,Open,Major,,20.08.2025 11:43,"MBBL: improve, techdebt, ideas",,,,,,,,,,,,,,,,,,,,,,,,,,3.0,Spike,
+PAYLYNX-110,919891,28.08.2020 13:33,,Open,Major,,21.04.2026 11:03,"MBBL: improve, techdebt, ideas",,,,,,,,,,,,,,,,,,,,,,,,,,3.0,Spike,
+PAYLYNX-100,1301148,29.08.2021 14:58,,Open,Major,,20.08.2025 11:43,"MBBL: improve, techdebt, ideas",,,,,,,,,,,,,,,,,,,,,,,,,,3.0,Task,
+PAYLYNX-76,1266391,05.07.2021 13:49,,Open,Major,,20.08.2025 11:43,"MBBL: improve, techdebt, ideas",,,,,,,,,,,,,,,,,,,,,,,,,,3.0,Task,
+PAYLYNX-109,2190119,09.01.2024 09:16,,Open,Major,,20.08.2025 11:43,"MBBL: improve, techdebt, ideas",,,,,,,,,,,,,,,,,,,,,,,,,,3.0,Spike,
+PAYLYNX-937,2882468,12.08.2025 12:40,,Open,Major,,02.10.2025 14:00,"MBBL: improve, techdebt, ideas",,,,,,,,,,,,,,,,,,,,,,,,,,1.0,Task,
+PAYLYNX-82,2018826,02.08.2023 15:02,23.08.2024 08:39,Cancelled,Major,,05.09.2024 10:30,,,,,,,,,,,,,,,,,,,,,,,,,,,,Epic,Won't Do
+PAYLYNX-85,1956006,22.05.2023 10:43,23.08.2024 08:28,Cancelled,Major,,26.09.2024 16:11,,,,,,,,,,,,,,,,,,,,,,,,,,,,Epic,Won't Do
+PAYLYNX-86,1955624,22.05.2023 08:58,26.09.2024 14:32,Cancelled,Major,,26.09.2024 16:13,,,,,,,,,,,,,,,,,,,,,,,,,,,,Epic,Won't Do
+PAYLYNX-89,2023337,10.08.2023 09:34,26.09.2024 14:32,Cancelled,Major,,26.09.2024 16:13,,,,,,,,,,,,,,,,,,,,,,,,,,,,Epic,Won't Do
+PAYLYNX-84,2079159,25.09.2023 12:03,25.09.2024 11:04,Cancelled,Major,,06.11.2024 16:07,,,,,,,,,,,,,,,,,,,,,,,,,,,,Epic,Won't Do
+PAYLYNX-88,1907483,06.04.2023 14:08,26.09.2024 07:45,Cancelled,Major,,26.09.2024 07:45,,,,,,,,,,,,,,,,,,,,,,,,,,,,Epic,Won't Do
+PAYLYNX-83,2182534,22.12.2023 14:02,26.09.2024 14:32,Cancelled,Major,,26.09.2024 16:13,,,,,,,,,,,,,,,,,,,,,,,,,,,,Epic,Won't Do
+PAYLYNX-80,2181101,21.12.2023 10:24,19.12.2025 08:36,Done,Major,,26.01.2026 07:44,,,,,,,,,,,,,,,,,,,,,,,,,,,,Epic,Done
+PAYLYNX-90,2173266,13.12.2023 13:26,26.09.2024 14:34,Cancelled,Major,,26.09.2024 14:34,,,,,,,,,,,,,,,,,,,,,,,,,,,,Epic,Won't Do
+PAYLYNX-81,2245058,15.02.2024 12:58,25.09.2024 13:18,Cancelled,Major,,20.11.2024 16:38,,,,,,,,,,,,,,,,,,,,,,,,,,,,Epic,Won't Do
+PAYLYNX-179,2458285,04.09.2024 10:03,10.12.2025 10:38,Canceled,Major,,10.12.2025 10:38,,,,,,,,,,,,,,,,,,,,,,,,,,,,Spike,Won't Do
+PAYLYNX-180,2458291,04.09.2024 10:11,,Open,Major,,01.10.2024 07:35,For Refinement,,,,,,,,,,,,,,,,,,,,,,,,,,,Spike,
+PAYLYNX-7,2080958,26.09.2023 15:08,,Open,Major,,31.03.2026 11:00,For Refinement,,,,,,,,,,,,,,,,,,,,,,,,,,,Task,
+PAYLYNX-584,2694260,04.03.2025 11:40,,Open,Major,,31.03.2026 11:02,For Refinement,,,,,,,,,,,,,,,,,,,,,,,,,,3.0,Task,
+PAYLYNX-720,2770779,28.04.2025 11:35,,Open,Major,,31.03.2026 11:02,For Refinement,,,,,,,,,,,,,,,,,,,,,,,,,,,Task,
+PAYLYNX-111,2420128,19.07.2024 14:05,,Canceled,Major,,06.11.2024 10:03,,,,,,,,,,,,,,,,,,,,,,,,,,,3.0,Story,Won't Do
+PAYLYNX-64,2321494,22.04.2024 09:36,,Canceled,Major,,14.05.2025 16:05,,,,,,,,,,,,,,,,,,,,,,,,,,,,Task,Won't Do
+PAYLYNX-41,2186730,04.01.2024 09:53,,Canceled,Major,,27.09.2024 15:25,,,,,,,,,,,,,,,,,,,,,,,,,,,,Story,Won't Do
+PAYLYNX-241,2511152,09.10.2024 15:19,,Canceled,Major,,14.05.2025 16:10,,,,,,,,,,,,,,,,,,,,,,,,,,,,Task,Won't Do
+PAYLYNX-45,2034231,22.08.2023 15:46,18.08.2025 11:47,Canceled,Major,,18.08.2025 11:47,,,,,,,,,,,,,,,,,,,,,,,,,,,3.0,Task,Won't Do
+PAYLYNX-11,1611464,22.06.2022 08:52,,Canceled,Major,,23.08.2024 08:39,For Refinement,,,,,,,,,,,,,,,,,,,,,,,,,,,Task,Won't Do
+PAYLYNX-8,1611466,22.06.2022 08:53,,Canceled,Major,,23.08.2024 08:39,For Refinement,,,,,,,,,,,,,,,,,,,,,,,,,,,Task,Won't Do
+PAYLYNX-10,1611467,22.06.2022 08:53,,Canceled,Major,,23.08.2024 08:39,For Refinement,,,,,,,,,,,,,,,,,,,,,,,,,,,Task,Won't Do
+PAYLYNX-29,1530301,06.04.2022 07:56,,Canceled,Major,,17.12.2024 16:18,,,,,,,,,,,,,,,,,,,,,,,,,,,,Spike,Won't Do
+PAYLYNX-62,1501015,14.03.2022 08:10,,Open,Minor,,02.04.2026 11:13,For Refinement,,,,,,,,,,,,,,,,,,,,,,,,,,,Spike,
+PAYLYNX-58,1356534,18.10.2021 10:54,10.12.2025 10:40,Canceled,Major,,10.12.2025 10:40,,,,,,,,,,,,,,,,,,,,,,,,,,,,Task,Won't Do
+PAYLYNX-12,2187296,04.01.2024 15:29,,Canceled,Major,,19.06.2025 16:26,Sprint 228 Wishful GrafanaMama,,,,,,,,,,,,,,,,,,,,,,,,,,,Task,Won't Do
+PAYLYNX-19,2245604,15.02.2024 16:57,,Open,Major,,06.11.2024 15:55,For Refinement,,,,,,,,,,,,,,,,,,,,,,,,,,,Task,
+PAYLYNX-22,2245392,15.02.2024 16:46,,Open,Major,,31.03.2026 10:59,For Refinement,,,,,,,,,,,,,,,,,,,,,,,,,,,Task,
+PAYLYNX-26,2245370,15.02.2024 16:20,,Open,Major,,06.11.2024 15:55,For Refinement,,,,,,,,,,,,,,,,,,,,,,,,,,,Task,
+PAYLYNX-264,2532190,25.10.2024 12:57,,Open,Major,,31.03.2026 11:04,For Refinement,,,,,,,,,,,,,,,,,,,,,,,,,,,Task,
+PAYLYNX-163,2441059,21.08.2024 10:57,,Open,Major,,31.03.2026 11:04,For Refinement,,,,,,,,,,,,,,,,,,,,,,,,,,,Task,
+PAYLYNX-65,1469041,08.02.2022 14:02,,Open,Major,,16.09.2025 12:27,For Refinement,,,,,,,,,,,,,,,,,,,,,,,,,,,Task,
+PAYLYNX-30,2258799,28.02.2024 11:47,,Canceled,Major,,17.12.2024 16:20,,,,,,,,,,,,,,,,,,,,,,,,,,,,Spike,Won't Do
+PAYLYNX-56,1153451,29.03.2021 16:08,,Open,Major,,10.12.2025 10:48,For Refinement,,,,,,,,,,,,,,,,,,,,,,,,,,,Task,
+PAYLYNX-32,1886732,20.03.2023 16:58,,Open,Major,,26.09.2024 16:13,For Refinement,,,,,,,,,,,,,,,,,,,,,,,,,,,Spike,
+PAYLYNX-14,1385198,12.11.2021 14:07,31.03.2026 11:00,Canceled,Major,,31.03.2026 11:00,,,,,,,,,,,,,,,,,,,,,,,,,,,,Task,Won't Do
+PAYLYNX-39,901061,05.08.2020 09:58,31.03.2026 10:54,Canceled,Major,,31.03.2026 10:55,,,,,,,,,,,,,,,,,,,,,,,,,,,,Task,Won't Do
+PAYLYNX-70,201736,27.09.2017 14:14,,Canceled,Major,,21.01.2025 12:18,,,,,,,,,,,,,,,,,,,,,,,,,,,,Bug,Won't Do
+PAYLYNX-61,1660802,24.08.2022 10:43,,Open,Major,,10.12.2025 10:50,For Refinement,,,,,,,,,,,,,,,,,,,,,,,,,,,Task,
+PAYLYNX-94,1340941,04.10.2021 14:12,10.07.2025 10:18,Done,Major,,11.07.2025 17:33,Y25:PI3:S2 Sandy,,,,,,,,,,,,,,,,,,,,,,,,,,3.0,Task,Done
+PAYLYNX-108,1558480,05.05.2022 10:39,25.06.2025 10:57,Canceled,Major,,11.07.2025 17:33,,,,,,,,,,,,,,,,,,,,,,,,,,,,Spike,Won't Do
+PAYLYNX-59,1237243,08.06.2021 08:59,,Open,Major,,10.12.2025 10:52,For Refinement,,,,,,,,,,,,,,,,,,,,,,,,,,,Task,
+PAYLYNX-57,2392714,19.06.2024 16:31,10.12.2025 10:56,Canceled,Major,,10.12.2025 10:56,,,,,,,,,,,,,,,,,,,,,,,,,,,,Task,Won't Do
+PAYLYNX-77,1059045,08.01.2021 16:53,,Open,Major,,15.04.2026 08:09,For Refinement,,,,,,,,,,,,,,,,,,,,,,,,,,,Task,
+PAYLYNX-73,1391248,18.11.2021 10:27,,Open,Major,,28.04.2025 16:01,For Refinement,,,,,,,,,,,,,,,,,,,,,,,,,,,Task,
+PAYLYNX-69,991719,02.11.2020 15:32,,Open,Major,,01.04.2026 13:45,PI:3:2026 Refined candidates,,,,,,,,,,,,,,,,,,,,,,,,,,3.0,Spike,
+PAYLYNX-46,1879632,14.03.2023 15:32,,Open,Major,,01.04.2026 13:49,PI:3:2026 Refined candidates,,,,,,,,,,,,,,,,,,,,,,,,,,3.0,Task,
+PAYLYNX-79,1127012,08.03.2021 10:05,,Open,Major,,01.04.2026 13:48,PI:3:2026 Refined candidates,,,,,,,,,,,,,,,,,,,,,,,,,,2.0,Task,
+PAYLYNX-1037,2971123,15.10.2025 09:17,,Open,Major,,02.04.2026 11:13,PI:3:2026 Refined candidates,,,,,,,,,,,,,,,,,,,,,,,,,,3.0,Task,
+PAYLYNX-663,2732722,02.04.2025 07:56,,Open,Major,,01.04.2026 13:46,PI:3:2026 Refined candidates,,,,,,,,,,,,,,,,,,,,,,,,,,2.0,Task,
+PAYLYNX-814,2814937,04.06.2025 15:53,,Open,Major,,07.04.2026 14:22,Y26:PI2:S3 planning,,,,,,,,,,,,,,,,,,,,,,,,,,3.0,Task,
+PAYLYNX-74,997384,05.11.2020 13:05,,Open,Major,,10.12.2025 13:11,For Refinement,,,,,,,,,,,,,,,,,,,,,,,,,,,Task,
+PAYLYNX-98,1439495,14.01.2022 10:41,,Open,Major,,10.12.2025 13:14,For Refinement,,,,,,,,,,,,,,,,,,,,,,,,,,,Task,
+PAYLYNX-99,2287974,25.03.2024 18:03,,Open,Major,,21.11.2025 11:22,For Refinement,,,,,,,,,,,,,,,,,,,,,,,,,,,Task,
+PAYLYNX-115,2180643,20.12.2023 17:43,,Open,Major,,27.09.2024 07:32,For Refinement,,,,,,,,,,,,,,,,,,,,,,,,,,,Task,
+PAYLYNX-118,2096057,10.10.2023 14:03,10.12.2025 13:18,Canceled,Major,,10.12.2025 13:18,,,,,,,,,,,,,,,,,,,,,,,,,,,,Task,Won't Do
+PAYLYNX-117,1864369,01.03.2023 14:33,,Canceled,Major,,10.12.2025 13:20,Sprint 207 Bachelor Party,Sprint M1 Honeymoon,Sprint 208 Vegas Experience,Sprint 209 Full_Pool,Sprint 210 Space Smoothie,Sprint 211 exp-mental,Sprint 212 Diamonds,Sprint 213 Cocktail party,Sprint 214 The Hottestness,Sprint 215 Testing for Dummies,Sprint 216 Testing is caring,Sprint 217 Exceptional Shift,Sprint 218 Recovery Season,Sprint 219 New Space-travelers,Sprint 220 UnderTheMicroscope,Sprint 221 PieHole,Sprint 222 Smoke & Mirrors,Sprint 223 Evolution,Sprint 224 Trial & Error,,,,,,,,,Bug,Won't Do
+PAYLYNX-1223,2334318,29.04.2024 12:17,,Open,Major,,06.02.2026 09:11,E-Invoice transfered,,,,,,,,,,,,,,,,,,,,,,,,,,,Story,
+PAYLYNX-1216,2335355,30.04.2024 08:37,,Open,Major,,06.02.2026 09:11,E-Invoice transfered,,,,,,,,,,,,,,,,,,,,,,,,,,,Story,
+PAYLYNX-1221,2344959,10.05.2024 11:16,,Open,Major,,24.02.2026 14:20,E-Invoice transfered,,,,,,,,,,,,,,,,,,,,,,,,,,,Story,
+PAYLYNX-1215,2542214,04.11.2024 15:10,,Open,Major,,24.02.2026 14:23,E-Invoice transfered,,,,,,,,,,,,,,,,,,,,,,,,,,,Story,
+PAYLYNX-1217,2542031,04.11.2024 14:21,,Open,Major,,24.02.2026 14:23,E-Invoice transfered,,,,,,,,,,,,,,,,,,,,,,,,,,,Story,
+PAYLYNX-1218,2369478,31.05.2024 12:51,,Open,Major,,24.02.2026 14:23,E-Invoice transfered,,,,,,,,,,,,,,,,,,,,,,,,,,,Story,
+PAYLYNX-1219,2344961,10.05.2024 11:17,,Open,Major,,24.02.2026 14:23,E-Invoice transfered,,,,,,,,,,,,,,,,,,,,,,,,,,,Story,
+PAYLYNX-1226,2355342,20.05.2024 11:18,,Open,Major,,24.02.2026 14:23,E-Invoice transfered,,,,,,,,,,,,,,,,,,,,,,,,,,,Story,
+PAYLYNX-1220,2355343,20.05.2024 11:18,,Open,Major,,09.03.2026 15:56,E-Invoice transfered,,,,,,,,,,,,,,,,,,,,,,,,,,,Story,
+PAYLYNX-1224,2369485,31.05.2024 13:10,,Open,Major,,24.02.2026 14:23,E-Invoice transfered,,,,,,,,,,,,,,,,,,,,,,,,,,,Story,
+PAYLYNX-1222,2369286,31.05.2024 10:49,,Open,Major,,24.02.2026 14:25,E-Invoice transfered,,,,,,,,,,,,,,,,,,,,,,,,,,,Story,
+PAYLYNX-1225,2369277,31.05.2024 10:44,,Open,Major,,24.02.2026 14:25,E-Invoice transfered,,,,,,,,,,,,,,,,,,,,,,,,,,,Story,
+PAYLYNX-1064,2338468,03.05.2024 12:32,10.12.2025 13:25,Canceled,Major,,10.12.2025 13:25,,,,,,,,,,,,,,,,,,,,,,,,,,,,Spike,Won't Do
+PAYLYNX-124,2363039,27.05.2024 09:38,06.08.2024 15:46,Done,Major,,06.08.2024 15:46,Sprint 238 Onyx is the Limit,Sprint 239 Pushing Limits,Sprint 240 Know Your Limits,Sprint 1 - Firstborn,Sprint 241 Bitter Sweets,Sprint 242 Radical acceptance,,,,,,,,,,,,,,,,,,,,,1.0,Story,Done
+PAYLYNX-123,2386004,17.06.2024 11:08,16.08.2024 13:54,Done,Major,,16.08.2024 13:54,Sprint 239 Pushing Limits,Sprint 240 Know Your Limits,Sprint 1 - Firstborn,Sprint 241 Bitter Sweets,Sprint 242 Radical acceptance,Sprint 2 - Keeping head high,,,,,,,,,,,,,,,,,,,,,1.0,Story,Done
+PAYLYNX-154,2432933,13.08.2024 11:01,27.08.2024 13:25,Done,Major,,27.08.2024 13:25,Sprint 2 - Keeping head high,,,,,,,,,,,,,,,,,,,,,,,,,,3.0,Spike,Done
+PAYLYNX-158,2433845,14.08.2024 09:22,19.08.2024 08:55,Done,Major,,21.08.2024 10:56,Sprint 2 - Keeping head high,,,,,,,,,,,,,,,,,,,,,,,,,,1.0,Task,Done
+PAYLYNX-155,2433133,13.08.2024 13:53,28.08.2024 09:55,Done,Major,,28.08.2024 10:24,Sprint 2 - Keeping head high,,,,,,,,,,,,,,,,,,,,,,,,,,1.0,Task,Done
+PAYLYNX-107,2394731,21.06.2024 10:21,09.10.2024 07:45,Done,Major,,09.10.2024 07:45,Sprint 2 - Keeping head high,Sprint 3 crawling faster,Sprint 4 Out of shitty diapers,Sprint 5 Octoberswitch,,,,,,,,,,,,,,,,,,,,,,,1.0,Spike,Done
+PAYLYNX-181,2458639,04.09.2024 11:02,06.09.2024 15:45,Done,Major,,09.09.2024 14:35,Sprint 3 crawling faster,,,,,,,,,,,,,,,,,,,,,,,,,,1.0,Task,Done
+PAYLYNX-125,2417109,15.07.2024 15:24,01.08.2024 13:03,Done,Major,,01.08.2024 13:03,Sprint 1 - Firstborn,Sprint 241 Bitter Sweets,Sprint 242 Radical acceptance,,,,,,,,,,,,,,,,,,,,,,,,0.0,Story,Done
+PAYLYNX-126,2421639,24.07.2024 09:46,,Canceled,Major,,11.08.2024 21:50,Sprint 1 - Firstborn,Sprint 242 Radical acceptance,,,,,,,,,,,,,,,,,,,,,,,,,1.0,Story,
+PAYLYNX-50,2013206,24.07.2023 15:42,05.08.2024 14:18,Done,Major,,09.01.2025 16:48,Sprint 1 - Firstborn,,,,,,,,,,,,,,,,,,,,,,,,,,1.0,Spike,Done
+PAYLYNX-102,2390024,18.06.2024 15:15,09.08.2024 16:29,Done,Major,,29.10.2024 15:51,Sprint 1 - Firstborn,,,,,,,,,,,,,,,,,,,,,,,,,,2.0,Task,Done
+PAYLYNX-91,2411781,08.07.2024 15:22,14.08.2024 20:58,Done,Major,,17.09.2025 15:31,Sprint 1 - Firstborn,,,,,,,,,,,,,,,,,,,,,,,,,,1.0,Task,Done
+PAYLYNX-1,2379466,11.06.2024 11:46,,Canceled,,,14.05.2025 16:18,,,,,,,,,,,,,,,,,,,,,,,,,,,,Task,Won't Do
+PAYLYNX-430,2614499,07.01.2025 16:14,,Canceled,Major,,02.04.2025 16:04,,,,,,,,,,,,,,,,,,,,,,,,,,,,Task,Won't Do
+PAYLYNX-128,2425573,01.08.2024 09:37,02.08.2024 09:31,Done,Major,,02.08.2024 09:31,Sprint 1 - Firstborn,,,,,,,,,,,,,,,,,,,,,,,,,,1.0,Task,Done
+PAYLYNX-129,2426802,02.08.2024 11:52,,Canceled,Major,,02.08.2024 11:54,,,,,,,,,,,,,,,,,,,,,,,,,,,,Service Request,
+PAYLYNX-130,2426806,02.08.2024 12:02,,Canceled,Major,,02.08.2024 12:03,,,,,,,,,,,,,,,,,,,,,,,,,,,,Service Request,
+PAYLYNX-131,2427438,05.08.2024 14:14,,Canceled,Major,,05.08.2024 14:46,Sprint 1 - Firstborn,,,,,,,,,,,,,,,,,,,,,,,,,,0.0,Release Testing Task,
+PAYLYNX-133,2427473,05.08.2024 15:20,,Canceled,Major,,05.08.2024 15:20,,,,,,,,,,,,,,,,,,,,,,,,,,,,Service Request,
+PAYLYNX-135,2427496,05.08.2024 15:51,,Canceled,Major,,06.08.2024 13:00,,,,,,,,,,,,,,,,,,,,,,,,,,,,Service Request,
+PAYLYNX-136,2427497,05.08.2024 15:52,,Canceled,Major,,06.08.2024 13:01,,,,,,,,,,,,,,,,,,,,,,,,,,,,Service Request,
+PAYLYNX-137,2427702,05.08.2024 16:00,,Canceled,Major,,05.08.2024 16:01,,,,,,,,,,,,,,,,,,,,,,,,,,,,Service Request,
+PAYLYNX-138,2427703,05.08.2024 16:05,,Canceled,Major,,06.08.2024 13:01,,,,,,,,,,,,,,,,,,,,,,,,,,,,Service Request,
+PAYLYNX-140,2427714,05.08.2024 16:56,09.08.2024 16:14,Done,Major,,09.08.2024 16:14,Sprint 1 - Firstborn,,,,,,,,,,,,,,,,,,,,,,,,,,2.0,Task,Done
+PAYLYNX-142,2428246,06.08.2024 14:10,,Done,Major,,06.08.2024 15:32,Sprint 1 - Firstborn,,,,,,,,,,,,,,,,,,,,,,,,,,1.0,Bug,
+PAYLYNX-141,2427979,06.08.2024 11:56,,Canceled,Major,,06.08.2024 13:01,,,,,,,,,,,,,,,,,,,,,,,,,,,,Service Request,
+PAYLYNX-143,2428385,06.08.2024 15:28,14.08.2024 09:19,Done,Major,,14.08.2024 09:19,Sprint 1 - Firstborn,,,,,,,,,,,,,,,,,,,,,,,,,,1.0,Task,Done
+PAYLYNX-147,2429329,07.08.2024 17:11,13.08.2024 13:15,Done,Major,,13.08.2024 13:15,Sprint 1 - Firstborn,,,,,,,,,,,,,,,,,,,,,,,,,,1.0,Production bug,Done
+PAYLYNX-144,2428906,07.08.2024 12:54,,NEW!,Major,,10.04.2025 16:03,,,,,,,,,,,,,,,,,,,,,,,,,,,,Service Request,
+PAYLYNX-813,2814075,04.06.2025 11:00,14.07.2025 10:36,Done,Major,,14.07.2025 10:36,,,,,,,,,,,,,,,,,,,,,,,,,,,,Service Request,Fixed
+PAYLYNX-145,2428961,07.08.2024 14:15,08.08.2024 12:47,Done,Major,,08.08.2024 15:30,Sprint 1 - Firstborn,,,,,,,,,,,,,,,,,,,,,,,,,,0.0,Service Request,Done
+PAYLYNX-146,2428974,07.08.2024 14:43,22.08.2024 14:20,Done,Major,,22.08.2024 14:20,Sprint 2 - Keeping head high,,,,,,,,,,,,,,,,,,,,,,,,,,1.0,Service Request,Done
+PAYLYNX-148,2429642,08.08.2024 11:00,08.08.2024 11:31,Done,Major,,08.08.2024 11:31,Sprint 1 - Firstborn,,,,,,,,,,,,,,,,,,,,,,,,,,0.0,Task,Done
+PAYLYNX-151,2430079,08.08.2024 19:29,14.08.2024 09:16,Done,Major,,14.08.2024 09:16,Sprint 1 - Firstborn,,,,,,,,,,,,,,,,,,,,,,,,,,1.0,Production bug,Done
+PAYLYNX-152,2430080,08.08.2024 19:35,13.08.2024 15:11,Done,Major,,13.08.2024 15:11,Sprint 1 - Firstborn,,,,,,,,,,,,,,,,,,,,,,,,,,1.0,Bug,Done
+PAYLYNX-153,2430090,08.08.2024 22:29,12.08.2024 09:35,Done,Major,,12.08.2024 09:35,Sprint 1 - Firstborn,,,,,,,,,,,,,,,,,,,,,,,,,,1.0,Bug,Done
+PAYLYNX-149,2429980,08.08.2024 15:55,14.08.2024 12:18,Done,Critical,,14.08.2024 12:18,Sprint 2 - Keeping head high,,,,,,,,,,,,,,,,,,,,,,,,,,0.0,Service Request,Done
+PAYLYNX-150,2430072,08.08.2024 17:47,,Canceled,Major,,08.08.2024 17:48,,,,,,,,,,,,,,,,,,,,,,,,,,,,Service Request,
+PAYLYNX-156,2433412,13.08.2024 15:20,22.08.2024 13:34,Done,Major,,23.08.2024 08:48,Sprint 2 - Keeping head high,,,,,,,,,,,,,,,,,,,,,,,,,,1.0,Service Request,Done
+PAYLYNX-159,2436763,16.08.2024 08:50,22.08.2024 13:35,Done,Major,,22.08.2024 13:35,Sprint 2 - Keeping head high,,,,,,,,,,,,,,,,,,,,,,,,,,1.0,Service Request,Done
+PAYLYNX-160,2439245,19.08.2024 15:58,,Canceled,Minor,,06.09.2024 15:56,Sprint 2 - Keeping head high,,,,,,,,,,,,,,,,,,,,,,,,,,,Production bug,Won't Do
+PAYLYNX-161,2439898,20.08.2024 13:50,22.08.2024 13:35,Done,Major,,22.08.2024 13:35,Sprint 2 - Keeping head high,,,,,,,,,,,,,,,,,,,,,,,,,,0.0,Service Request,Done
+PAYLYNX-164,2440995,21.08.2024 11:03,,Canceled,Major,,21.08.2024 11:03,Sprint 2 - Keeping head high,,,,,,,,,,,,,,,,,,,,,,,,,,0.0,Release Testing Task,Won't Do
+PAYLYNX-105,2043511,31.08.2023 10:15,22.08.2024 16:18,Done,Major,,22.08.2024 16:18,Sprint 2 - Keeping head high,,,,,,,,,,,,,,,,,,,,,,,,,,1.0,Spike,Done
+PAYLYNX-167,2442823,22.08.2024 12:39,27.08.2024 14:27,Done,Major,,27.08.2024 14:27,Sprint 2 - Keeping head high,,,,,,,,,,,,,,,,,,,,,,,,,,1.0,Task,Done
+PAYLYNX-166,2442074,22.08.2024 09:26,22.08.2024 13:03,Done,Major,,22.08.2024 13:31,Sprint 2 - Keeping head high,,,,,,,,,,,,,,,,,,,,,,,,,,0.0,Service Request,Done
+PAYLYNX-169,2445612,26.08.2024 10:48,28.08.2024 09:37,Done,Major,,30.08.2024 12:28,Sprint 2 - Keeping head high,,,,,,,,,,,,,,,,,,,,,,,,,,1.0,Story,Done
+PAYLYNX-170,2446882,27.08.2024 08:34,27.08.2024 15:14,Done,Major,,27.08.2024 15:14,Sprint 2 - Keeping head high,,,,,,,,,,,,,,,,,,,,,,,,,,0.0,Bug,Done
+PAYLYNX-172,2448647,28.08.2024 09:54,11.09.2024 10:02,Done,Major,,11.09.2024 10:02,Sprint 3 crawling faster,,,,,,,,,,,,,,,,,,,,,,,,,,1.0,Task,Done
+PAYLYNX-171,2447733,27.08.2024 13:28,06.09.2024 14:19,Done,Major,,06.09.2024 14:19,Sprint 3 crawling faster,,,,,,,,,,,,,,,,,,,,,,,,,,2.0,Task,Done
+PAYLYNX-104,2227680,07.02.2024 09:19,11.09.2024 10:01,Done,Major,,07.11.2024 15:30,Sprint 3 crawling faster,,,,,,,,,,,,,,,,,,,,,,,,,,3.0,Task,Done
+PAYLYNX-162,2440672,21.08.2024 09:36,04.09.2024 15:22,Done,Major,,04.09.2024 15:24,Sprint 3 crawling faster,,,,,,,,,,,,,,,,,,,,,,,,,,3.0,Task,Done
+PAYLYNX-174,2449925,28.08.2024 21:57,29.08.2024 12:36,Done,Major,,06.09.2024 13:57,Sprint 3 crawling faster,,,,,,,,,,,,,,,,,,,,,,,,,,0.0,Task,Done
+PAYLYNX-112,2360919,23.05.2024 12:47,06.09.2024 13:57,Done,Major,,06.09.2024 15:34,Sprint 3 crawling faster,,,,,,,,,,,,,,,,,,,,,,,,,,2.0,Task,Done
+PAYLYNX-175,2452903,30.08.2024 13:24,03.09.2024 10:13,Done,Major,,06.09.2024 13:58,Sprint 3 crawling faster,,,,,,,,,,,,,,,,,,,,,,,,,,0.0,Release Testing Task,Done
+PAYLYNX-168,2444761,25.08.2024 21:51,05.09.2024 10:10,Done,Major,,06.09.2024 13:58,Sprint 3 crawling faster,,,,,,,,,,,,,,,,,,,,,,,,,,1.0,Task,Done
+PAYLYNX-176,2456171,03.09.2024 09:41,,Canceled,Major,,14.05.2025 16:25,,,,,,,,,,,,,,,,,,,,,,,,,,,,Task,Won't Do
+PAYLYNX-177,2458088,04.09.2024 08:20,,Canceled,Major,,14.05.2025 16:26,,,,,,,,,,,,,,,,,,,,,,,,,,,,Task,Won't Do
+PAYLYNX-182,2458297,04.09.2024 10:21,04.09.2024 15:53,Done,Major,,04.09.2024 15:53,Sprint 3 crawling faster,,,,,,,,,,,,,,,,,,,,,,,,,,0.0,Bug,Done
+PAYLYNX-183,2460634,05.09.2024 10:45,09.09.2024 08:38,Done,Major,,09.09.2024 08:38,Sprint 3 crawling faster,,,,,,,,,,,,,,,,,,,,,,,,,,1.0,Task,Done
+PAYLYNX-184,2460647,05.09.2024 10:54,,Done,Major,,16.09.2024 12:50,Sprint 3 crawling faster,Sprint 4 Out of shitty diapers,,,,,,,,,,,,,,,,,,,,,,,,,1.0,Bug,
+PAYLYNX-185,2463433,06.09.2024 14:24,09.09.2024 15:50,Done,Major,,09.09.2024 15:50,Sprint 3 crawling faster,,,,,,,,,,,,,,,,,,,,,,,,,,1.0,Bug,Done
+PAYLYNX-157,2433431,13.08.2024 15:54,20.09.2024 12:28,Done,Major,,09.01.2025 16:48,Sprint 3 crawling faster,Sprint 4 Out of shitty diapers,,,,,,,,,,,,,,,,,,,,,,,,,1.0,Task,Done
+PAYLYNX-188,2475943,11.09.2024 10:15,24.09.2024 11:56,Done,Major,,07.11.2024 15:30,Sprint 4 Out of shitty diapers,,,,,,,,,,,,,,,,,,,,,,,,,,3.0,Task,Done
+PAYLYNX-187,2474743,10.09.2024 16:00,25.09.2024 10:02,Done,Major,,27.09.2024 15:57,Sprint 4 Out of shitty diapers,,,,,,,,,,,,,,,,,,,,,,,,,,2.0,Task,Done
+PAYLYNX-113,1986193,20.06.2023 10:34,27.09.2024 08:01,Done,Major,,27.09.2024 08:01,Sprint 4 Out of shitty diapers,Sprint 5 Octoberswitch,,,,,,,,,,,,,,,,,,,,,,,,,1.0,Bug,Done
+PAYLYNX-178,2458261,04.09.2024 09:28,24.09.2024 13:12,Done,Major,,09.01.2025 16:48,Sprint 4 Out of shitty diapers,,,,,,,,,,,,,,,,,,,,,,,,,,3.0,Task,Done
+PAYLYNX-189,2478344,11.09.2024 15:36,11.09.2024 17:32,Done,Major,,11.09.2024 17:33,Sprint 4 Out of shitty diapers,,,,,,,,,,,,,,,,,,,,,,,,,,1.0,Production bug,Done
+PAYLYNX-191,2485004,16.09.2024 18:14,,Canceled,Major,,16.10.2024 10:25,Sprint 4 Out of shitty diapers,Sprint 5 Octoberswitch,,,,,,,,,,,,,,,,,,,,,,,,,,Bug,Won't Do
+PAYLYNX-9,2355487,20.05.2024 12:06,23.09.2024 13:49,Done,Major,,23.09.2024 13:49,Sprint 4 Out of shitty diapers,,,,,,,,,,,,,,,,,,,,,,,,,,3.0,Task,Done
+PAYLYNX-192,2485308,17.09.2024 09:18,25.09.2024 10:03,Done,Major,,25.09.2024 10:03,Sprint 4 Out of shitty diapers,,,,,,,,,,,,,,,,,,,,,,,,,,1.0,Task,Done
+PAYLYNX-24,2355488,20.05.2024 12:08,24.09.2024 19:53,Done,Major,,24.09.2024 19:53,Sprint 4 Out of shitty diapers,,,,,,,,,,,,,,,,,,,,,,,,,,1.0,Task,Done
+PAYLYNX-193,2487298,18.09.2024 11:27,20.09.2024 09:07,Done,Major,,20.09.2024 09:07,Sprint 4 Out of shitty diapers,,,,,,,,,,,,,,,,,,,,,,,,,,1.0,Bug,Done
+PAYLYNX-194,2488841,19.09.2024 11:49,23.09.2024 09:51,Done,Major,,23.09.2024 09:51,Sprint 4 Out of shitty diapers,,,,,,,,,,,,,,,,,,,,,,,,,,1.0,Bug,Done
+PAYLYNX-195,2489803,20.09.2024 09:28,21.09.2024 22:07,Done,Major,,21.09.2024 22:07,Sprint 4 Out of shitty diapers,,,,,,,,,,,,,,,,,,,,,,,,,,1.0,Bug,Done
+PAYLYNX-197,2490672,22.09.2024 02:26,24.09.2024 19:53,Done,Major,,24.09.2024 19:53,Sprint 4 Out of shitty diapers,,,,,,,,,,,,,,,,,,,,,,,,,,2.0,Spike,Done
+PAYLYNX-198,2491106,23.09.2024 09:44,,Done,Major,,24.09.2024 18:21,Sprint 4 Out of shitty diapers,,,,,,,,,,,,,,,,,,,,,,,,,,1.0,Bug,
+PAYLYNX-199,2491492,23.09.2024 13:52,23.09.2024 13:52,Done,Major,,23.09.2024 13:52,Sprint 4 Out of shitty diapers,,,,,,,,,,,,,,,,,,,,,,,,,,0.0,Release Testing Task,Done
+PAYLYNX-206,2492828,24.09.2024 11:02,24.09.2024 14:23,Done,Major,,24.09.2024 14:23,Sprint 4 Out of shitty diapers,,,,,,,,,,,,,,,,,,,,,,,,,,0.0,Task,Done
+PAYLYNX-203,2492949,24.09.2024 12:10,,Done,Major,,07.10.2024 08:32,Sprint 4 Out of shitty diapers,Sprint 5 Octoberswitch,,,,,,,,,,,,,,,,,,,,,,,,,1.0,Production bug,
+PAYLYNX-186,2466678,09.09.2024 13:38,09.10.2024 09:05,Done,Major,,09.10.2024 09:05,Sprint 5 Octoberswitch,,,,,,,,,,,,,,,,,,,,,,,,,,2.0,Spike,Done
+PAYLYNX-214,2494225,25.09.2024 10:01,30.09.2024 14:21,Done,Major,,30.09.2024 14:21,Sprint 5 Octoberswitch,,,,,,,,,,,,,,,,,,,,,,,,,,1.0,Task,Done
+PAYLYNX-63,2289287,26.03.2024 15:39,09.10.2024 09:11,Done,Major,,29.10.2024 15:51,Sprint 5 Octoberswitch,,,,,,,,,,,,,,,,,,,,,,,,,,2.0,Task,Done
+PAYLYNX-213,2493785,25.09.2024 08:07,08.11.2024 09:20,Done,Major,,08.11.2024 09:20,Sprint 8 - Crossroads,,,,,,,,,,,,,,,,,,,,,,,,,,0.0,Service Request,Done
+PAYLYNX-207,2493786,25.09.2024 08:09,,Canceled,Major,,14.05.2025 16:41,,,,,,,,,,,,,,,,,,,,,,,,,,,,Task,Won't Do
+PAYLYNX-235,2505653,04.10.2024 08:29,,Canceled,Major,,16.10.2024 10:48,,,,,,,,,,,,,,,,,,,,,,,,,,,,Task,Won't Do
+PAYLYNX-217,2495171,25.09.2024 15:01,26.09.2024 08:43,Done,Trivial,,26.09.2024 08:43,Sprint 5 Octoberswitch,,,,,,,,,,,,,,,,,,,,,,,,,,0.0,Bug,Done
+PAYLYNX-218,2496060,26.09.2024 10:33,27.09.2024 07:57,Done,Major,,11.11.2024 10:29,Sprint 5 Octoberswitch,,,,,,,,,,,,,,,,,,,,,,,,,,1.0,Bug,Done
+PAYLYNX-220,2497457,27.09.2024 09:16,07.10.2024 10:50,Done,Major,,07.10.2024 10:50,Sprint 5 Octoberswitch,,,,,,,,,,,,,,,,,,,,,,,,,,1.0,Bug,Done
+PAYLYNX-219,2497508,27.09.2024 08:40,,Canceled,Major,,14.05.2025 16:40,,,,,,,,,,,,,,,,,,,,,,,,,,,,Task,Won't Do
+PAYLYNX-221,2499307,30.09.2024 09:07,30.09.2024 09:59,Done,Major,,30.09.2024 09:59,Sprint 5 Octoberswitch,,,,,,,,,,,,,,,,,,,,,,,,,,0.0,Production bug,Done
+PAYLYNX-223,2499673,30.09.2024 12:39,01.10.2024 07:09,Done,Trivial,,01.10.2024 07:09,Sprint 5 Octoberswitch,,,,,,,,,,,,,,,,,,,,,,,,,,0.0,Task,Done
+PAYLYNX-224,2499695,30.09.2024 13:17,30.09.2024 14:58,Done,Major,,01.10.2024 11:06,Sprint 5 Octoberswitch,,,,,,,,,,,,,,,,,,,,,,,,,,1.0,Service Request,Done
+PAYLYNX-225,2502570,02.10.2024 12:06,,Canceled,Major,,14.05.2025 16:22,,,,,,,,,,,,,,,,,,,,,,,,,,,,Task,Won't Do
+PAYLYNX-228,2502689,02.10.2024 13:10,07.10.2024 09:34,Done,Major,,07.10.2024 09:34,Sprint 5 Octoberswitch,,,,,,,,,,,,,,,,,,,,,,,,,,0.0,Service Request,Done
+PAYLYNX-226,2503028,02.10.2024 14:02,07.10.2024 08:32,Done,Major,,07.10.2024 08:32,Sprint 5 Octoberswitch,,,,,,,,,,,,,,,,,,,,,,,,,,0.0,Task,Done
+PAYLYNX-227,2503059,02.10.2024 14:38,07.10.2024 07:48,Done,Major,,07.10.2024 07:48,Sprint 5 Octoberswitch,,,,,,,,,,,,,,,,,,,,,,,,,,1.0,Bug,Done
+PAYLYNX-229,2503211,02.10.2024 15:37,09.10.2024 08:34,Done,Major,,16.10.2024 14:18,Sprint 5 Octoberswitch,,,,,,,,,,,,,,,,,,,,,,,,,,1.0,Bug,Done
+PAYLYNX-230,2503395,03.10.2024 08:03,,Canceled,Critical,,14.05.2025 16:21,,,,,,,,,,,,,,,,,,,,,,,,,,,,Task,Won't Do
+PAYLYNX-231,2503956,03.10.2024 10:33,23.10.2024 08:07,Done,Major,,23.10.2024 08:07,Sprint 5 Octoberswitch,Sprint 6 - on the beach,,,,,,,,,,,,,,,,,,,,,,,,,3.0,Spike,Done
+PAYLYNX-204,2493200,24.09.2024 13:32,23.10.2024 09:23,Done,Major,,23.10.2024 09:23,Sprint 6 - on the beach,,,,,,,,,,,,,,,,,,,,,,,,,,1.0,Task,Done
+PAYLYNX-237,2507675,07.10.2024 11:54,06.11.2024 14:00,Done,Major,,06.11.2024 14:00,Sprint 6 - on the beach,Sprint 7 Living Resurrection,Sprint 8 - Crossroads,,,,,,,,,,,,,,,,,,,,,,,,0.0,Task,Done
+PAYLYNX-122,2424177,30.07.2024 10:02,16.10.2024 10:07,Done,Major,,17.10.2024 15:23,Sprint 6 - on the beach,,,,,,,,,,,,,,,,,,,,,,,,,,2.0,Task,Done
+PAYLYNX-222,2499841,30.09.2024 11:55,17.10.2024 14:10,Done,Major,,17.10.2024 14:10,Sprint 6 - on the beach,,,,,,,,,,,,,,,,,,,,,,,,,,1.0,Task,Done
+PAYLYNX-240,2510244,09.10.2024 09:39,10.10.2024 11:05,Done,Major,,06.11.2024 16:06,Sprint 6 - on the beach,,,,,,,,,,,,,,,,,,,,,,,,,,1.0,Task,Done
+PAYLYNX-42,2244136,15.02.2024 10:02,22.10.2024 14:24,Done,Major,,08.01.2026 16:32,Sprint 6 - on the beach,,,,,,,,,,,,,,,,,,,,,,,,,,2.0,Task,Done
+PAYLYNX-232,2504056,03.10.2024 11:06,11.09.2025 11:18,Done,Critical,,11.09.2025 11:18,,,,,,,,,,,,,,,,,,,,,,,,,,,,Service Request,Fixed
+PAYLYNX-233,2504443,03.10.2024 13:34,03.10.2024 14:40,Done,Critical,,03.10.2024 14:40,Sprint 5 Octoberswitch,,,,,,,,,,,,,,,,,,,,,,,,,,0.0,Service Request,Done
+PAYLYNX-234,2504849,03.10.2024 15:52,09.10.2024 08:36,Done,Critical,,09.10.2024 08:36,Sprint 5 Octoberswitch,,,,,,,,,,,,,,,,,,,,,,,,,,0.0,Service Request,Done
+PAYLYNX-236,2507086,07.10.2024 09:28,18.12.2024 09:03,Done,Major,,18.12.2024 09:03,PI:24:5:2 - Cracked safe,,,,,,,,,,,,,,,,,,,,,,,,,,0.0,Service Request,Done
+PAYLYNX-238,2508816,08.10.2024 09:50,11.09.2025 11:17,Done,Critical,,11.09.2025 11:17,,,,,,,,,,,,,,,,,,,,,,,,,,,,Service Request,Fixed
+PAYLYNX-243,2512228,10.10.2024 10:00,,Done,Critical,,16.10.2024 14:28,Sprint 6 - on the beach,,,,,,,,,,,,,,,,,,,,,,,,,,1.0,Bug,
+PAYLYNX-244,2513046,10.10.2024 12:55,,Canceled,Critical,,26.03.2025 13:22,,,,,,,,,,,,,,,,,,,,,,,,,,,,Task,Won't Do
+PAYLYNX-245,2513056,10.10.2024 13:06,,Canceled,Critical,,26.03.2025 13:24,,,,,,,,,,,,,,,,,,,,,,,,,,,,Task,Won't Do
+PAYLYNX-248,2516142,14.10.2024 13:13,,Done,Major,,23.10.2024 09:55,Sprint 6 - on the beach,,,,,,,,,,,,,,,,,,,,,,,,,,1.0,Bug,
+PAYLYNX-239,2509852,09.10.2024 07:28,17.11.2025 14:19,Canceled,Major,,17.11.2025 14:19,,,,,,,,,,,,,,,,,,,,,,,,,,,,Spike,Won't Do
+PAYLYNX-251,2518605,16.10.2024 09:59,05.11.2024 09:01,Done,Major,,05.11.2024 09:01,Sprint 6 - on the beach,Sprint 7 Living Resurrection,,,,,,,,,,,,,,,,,,,,,,,,,1.0,Task,Done
+PAYLYNX-255,2519376,16.10.2024 16:29,12.11.2024 08:42,Done,Major,,12.11.2024 08:42,Sprint 6 - on the beach,Sprint 7 Living Resurrection,Sprint 8 - Crossroads,,,,,,,,,,,,,,,,,,,,,,,,1.0,Production bug,Done
+PAYLYNX-257,2527629,23.10.2024 09:52,,Done,Major,,28.10.2024 21:23,Sprint 6 - on the beach,Sprint 7 Living Resurrection,,,,,,,,,,,,,,,,,,,,,,,,,0.0,Bug,
+PAYLYNX-259,2527478,23.10.2024 10:05,18.11.2024 16:02,Done,Major,,21.01.2025 12:18,Sprint 7 Living Resurrection,Sprint 8 - Crossroads,,,,,,,,,,,,,,,,,,,,,,,,,2.0,Task,Done
+PAYLYNX-242,2511553,10.10.2024 08:09,25.10.2024 09:01,Done,Major,,25.10.2024 09:01,Sprint 7 Living Resurrection,,,,,,,,,,,,,,,,,,,,,,,,,,1.0,Task,Done
+PAYLYNX-258,2527649,23.10.2024 10:03,06.11.2024 09:46,Done,Major,,06.11.2024 09:46,Sprint 7 Living Resurrection,,,,,,,,,,,,,,,,,,,,,,,,,,1.0,Spike,Done
+PAYLYNX-256,2525057,22.10.2024 07:33,23.10.2024 14:03,Done,Major,,23.10.2024 14:03,Sprint 7 Living Resurrection,,,,,,,,,,,,,,,,,,,,,,,,,,1.0,Task,Done
+PAYLYNX-260,2527689,23.10.2024 10:26,04.12.2024 09:19,Done,Major,,04.12.2024 09:19,Sprint 7 Living Resurrection,Sprint 8 - Crossroads,PI24:5 SAFEst start,,,,,,,,,,,,,,,,,,,,,,,,1.0,Task,Done
+PAYLYNX-353,2570668,20.11.2024 07:04,,Canceled,Major,,02.12.2024 09:33,,,,,,,,,,,,,,,,,,,,,,,,,,,1.0,Task,Won't Do
+PAYLYNX-253,2519274,16.10.2024 15:04,08.11.2024 09:19,Done,Critical,,08.11.2024 09:19,Sprint 8 - Crossroads,,,,,,,,,,,,,,,,,,,,,,,,,,1.0,Service Request,Done
+PAYLYNX-262,2529529,24.10.2024 09:36,,Done,Major,,14.11.2024 15:38,Sprint 7 Living Resurrection,Sprint 8 - Crossroads,,,,,,,,,,,,,,,,,,,,,,,,,0.0,Bug,
+PAYLYNX-265,2534474,28.10.2024 15:43,15.11.2024 10:41,Done,Critical,,15.11.2024 10:41,Sprint 8 - Crossroads,,,,,,,,,,,,,,,,,,,,,,,,,,0.0,Service Request,Done
+PAYLYNX-268,2535396,29.10.2024 11:54,31.10.2024 15:46,Done,Major,,31.10.2024 15:46,Sprint 7 Living Resurrection,,,,,,,,,,,,,,,,,,,,,,,,,,1.0,Story,Done
+PAYLYNX-309,2556775,13.11.2024 14:07,,Done,Major,,04.12.2024 12:52,Sprint 8 - Crossroads,PI24:5 SAFEst start,PI:24:5:2 - Cracked safe,,,,,,,,,,,,,,,,,,,,,,,,2.0,Bug,
+PAYLYNX-274,2539485,31.10.2024 14:40,,Done,Major,,06.11.2024 14:00,Sprint 7 Living Resurrection,Sprint 8 - Crossroads,,,,,,,,,,,,,,,,,,,,,,,,,,Bug,
+PAYLYNX-276,2540719,01.11.2024 13:45,11.11.2024 08:09,Done,Major,,11.11.2024 08:09,Sprint 7 Living Resurrection,Sprint 8 - Crossroads,,,,,,,,,,,,,,,,,,,,,,,,,3.0,Bug,Done
+PAYLYNX-280,2544660,06.11.2024 07:56,19.11.2024 09:01,Done,Major,,19.11.2024 09:01,Sprint 8 - Crossroads,,,,,,,,,,,,,,,,,,,,,,,,,,2.0,Task,Done
+PAYLYNX-208,2493869,25.09.2024 08:16,20.11.2024 08:11,Done,Major,,20.11.2024 08:11,Sprint 8 - Crossroads,,,,,,,,,,,,,,,,,,,,,,,,,,1.0,Task,Done
+PAYLYNX-281,2544847,06.11.2024 09:34,26.11.2024 09:12,Done,Major,,26.11.2024 09:12,Sprint 8 - Crossroads,PI24:5 SAFEst start,,,,,,,,,,,,,,,,,,,,,,,,,0.0,Task,Done
+PAYLYNX-27,1625438,13.07.2022 12:56,19.11.2024 09:06,Done,Major,,09.01.2025 16:48,Sprint 8 - Crossroads,,,,,,,,,,,,,,,,,,,,,,,,,,3.0,Spike,Done
+PAYLYNX-282,2545815,06.11.2024 13:54,08.11.2024 15:11,Done,Major,,08.11.2024 15:11,Sprint 8 - Crossroads,,,,,,,,,,,,,,,,,,,,,,,,,,1.0,Bug,Done
+PAYLYNX-283,2547812,07.11.2024 10:50,07.11.2024 21:32,Done,Major,,07.11.2024 21:32,Sprint 8 - Crossroads,,,,,,,,,,,,,,,,,,,,,,,,,,1.0,Bug,Done
+PAYLYNX-271,2537387,30.10.2024 14:17,15.11.2024 10:42,Done,Major,,15.11.2024 10:42,Sprint 8 - Crossroads,,,,,,,,,,,,,,,,,,,,,,,,,,0.0,Service Request,Done
+PAYLYNX-272,2538725,31.10.2024 09:19,15.11.2024 10:40,Done,Major,,15.11.2024 10:40,Sprint 7 Living Resurrection,Sprint 8 - Crossroads,,,,,,,,,,,,,,,,,,,,,,,,,0.0,Service Request,Done
+PAYLYNX-275,2539934,01.11.2024 08:50,,Canceled,Major,,01.11.2024 13:20,,,,,,,,,,,,,,,,,,,,,,,,,,,,Service Request,Won't Do
+PAYLYNX-277,2540916,04.11.2024 07:53,06.11.2024 08:01,Done,Major,,06.11.2024 16:05,Sprint 7 Living Resurrection,,,,,,,,,,,,,,,,,,,,,,,,,,1.0,Task,Done
+PAYLYNX-327,2562097,18.11.2024 09:50,,Canceled,Major,,20.01.2025 09:29,,,,,,,,,,,,,,,,,,,,,,,,,,,3.0,Story,Won't Do
+PAYLYNX-469,2629568,20.01.2025 09:20,,Canceled,Major,,20.03.2025 13:42,,,,,,,,,,,,,,,,,,,,,,,,,,,3.0,Story,Won't Do
+PAYLYNX-640,2722432,25.03.2025 16:16,03.06.2025 14:45,Done,Major,,03.06.2025 14:45,PI:1:25:6 Watching us,PI:25:2:1 Using protection,PI:5:2:2 NoPain NoGain,PI:5:2:3 Flying high,PI:1:25 Sprint5 Just in Time,,,,,,,,,,,,,,,,,,,,,,3.0,Bug,Done
+PAYLYNX-284,2547937,07.11.2024 11:09,11.11.2024 10:26,Done,Critical,,11.11.2024 10:26,Sprint 8 - Crossroads,,,,,,,,,,,,,,,,,,,,,,,,,,0.0,Service Request,Done
+PAYLYNX-285,2547866,07.11.2024 11:28,11.11.2024 08:43,Done,Major,,11.11.2024 08:43,Sprint 8 - Crossroads,,,,,,,,,,,,,,,,,,,,,,,,,,1.0,Production bug,Done
+PAYLYNX-286,2549136,08.11.2024 08:22,29.11.2024 12:55,Done,Major,,29.11.2024 12:55,Sprint 8 - Crossroads,PI24:5 SAFEst start,,,,,,,,,,,,,,,,,,,,,,,,,1.0,Production bug,Done
+PAYLYNX-287,2549688,08.11.2024 11:12,11.11.2024 10:25,Done,Major,,11.11.2024 10:25,Sprint 8 - Crossroads,,,,,,,,,,,,,,,,,,,,,,,,,,1.0,Service Request,Done
+PAYLYNX-288,2550144,08.11.2024 13:03,11.11.2024 08:10,Done,Major,,11.11.2024 08:10,Sprint 8 - Crossroads,,,,,,,,,,,,,,,,,,,,,,,,,,1.0,Task,Done
+PAYLYNX-290,2551582,10.11.2024 04:11,02.12.2024 07:38,Done,Major,,02.12.2024 07:38,Sprint 8 - Crossroads,PI24:5 SAFEst start,,,,,,,,,,,,,,,,,,,,,,,,,1.0,Bug,Done
+PAYLYNX-291,2551584,10.11.2024 05:21,02.01.2025 09:12,Done,Major,,02.01.2025 09:18,Sprint 8 - Crossroads,PI24:5 SAFEst start,PI:24:5:2 - Cracked safe,PI:24:5:3:4,,,,,,,,,,,,,,,,,,,,,,,0.0,Bug,Done
+PAYLYNX-289,2550154,08.11.2024 13:18,,Canceled,Major,,08.11.2024 14:45,,,,,,,,,,,,,,,,,,,,,,,,,,,1.0,Task,Won't Do
+PAYLYNX-292,2552154,11.11.2024 08:45,15.11.2024 11:17,Done,Major,,15.11.2024 11:17,Sprint 8 - Crossroads,,,,,,,,,,,,,,,,,,,,,,,,,,2.0,Production bug,Done
+PAYLYNX-293,2552417,11.11.2024 09:57,12.11.2024 13:22,Done,Major,,12.11.2024 13:22,Sprint 8 - Crossroads,,,,,,,,,,,,,,,,,,,,,,,,,,0.0,Task,Done
+PAYLYNX-299,2552958,11.11.2024 13:08,18.12.2024 09:02,Done,Critical,,18.12.2024 09:02,PI:24:5:2 - Cracked safe,,,,,,,,,,,,,,,,,,,,,,,,,,0.0,Service Request,Done
+PAYLYNX-300,2553768,11.11.2024 17:16,13.11.2024 16:27,Done,Major,,13.11.2024 16:27,Sprint 8 - Crossroads,,,,,,,,,,,,,,,,,,,,,,,,,,1.0,Task,Done
+PAYLYNX-301,2554175,12.11.2024 10:12,,Done,Major,,19.11.2024 08:51,Sprint 8 - Crossroads,,,,,,,,,,,,,,,,,,,,,,,,,,1.0,Bug,
+PAYLYNX-302,2554977,12.11.2024 13:31,14.11.2024 08:23,Done,Critical,,14.11.2024 08:23,Sprint 8 - Crossroads,,,,,,,,,,,,,,,,,,,,,,,,,,0.0,Service Request,Done
+PAYLYNX-305,2555503,12.11.2024 15:45,21.11.2024 12:21,Done,Major,,21.11.2024 12:21,PI24:5 SAFEst start,,,,,,,,,,,,,,,,,,,,,,,,,,1.0,Service Request,Done
+PAYLYNX-308,2556717,13.11.2024 13:10,14.05.2025 16:44,Done,Major,,14.05.2025 16:44,,,,,,,,,,,,,,,,,,,,,,,,,,,0.0,Task,Done
+PAYLYNX-310,2558837,14.11.2024 14:26,15.11.2024 08:08,Done,Major,,15.11.2024 08:08,Sprint 8 - Crossroads,,,,,,,,,,,,,,,,,,,,,,,,,,0.0,Service Request,Done
+PAYLYNX-335,2562514,18.11.2024 10:12,20.11.2024 09:07,Done,Major,,20.11.2024 09:08,Sprint 8 - Crossroads,,,,,,,,,,,,,,,,,,,,,,,,,,1.0,Task,Done
+PAYLYNX-338,2562888,18.11.2024 11:41,19.11.2024 08:51,Done,Major,,19.11.2024 08:51,Sprint 8 - Crossroads,,,,,,,,,,,,,,,,,,,,,,,,,,0.0,Task,Done
+PAYLYNX-311,2559940,15.11.2024 08:44,,Canceled,Major,,15.11.2024 11:54,,,,,,,,,,,,,,,,,,,,,,,,,,,,Task,Won't Do
+PAYLYNX-313,2559976,15.11.2024 09:29,18.11.2024 13:10,Done,Major,,18.11.2024 13:10,Sprint 8 - Crossroads,,,,,,,,,,,,,,,,,,,,,,,,,,1.0,Service Request,Done
+PAYLYNX-323,2561290,15.11.2024 16:00,24.03.2025 21:55,Done,Major,,17.02.2026 14:34,PI:2025:1:4 cure for ageing,,,,,,,,,,,,,,,,,,,,,,,,,,2.0,Task,Done
+PAYLYNX-322,2561256,15.11.2024 15:36,,Canceled,Major,,12.03.2025 11:13,,,,,,,,,,,,,,,,,,,,,,,,,,,5.0,Task,Won't Do
+PAYLYNX-326,2561751,18.11.2024 08:28,18.11.2024 15:17,Done,Major,,18.11.2024 15:17,Sprint 8 - Crossroads,,,,,,,,,,,,,,,,,,,,,,,,,,1.0,Service Request,Done
+PAYLYNX-343,2564223,18.11.2024 15:48,,Done,Major,,19.11.2024 19:38,Sprint 8 - Crossroads,,,,,,,,,,,,,,,,,,,,,,,,,,1.0,Production bug,
+PAYLYNX-333,2562420,18.11.2024 10:00,08.01.2025 07:52,Done,Major,,09.01.2025 16:48,PI:24:5:2 - Cracked safe,PI:24:5:3:4,,,,,,,,,,,,,,,,,,,,,,,,,3.0,Spike,Done
+PAYLYNX-315,2560294,15.11.2024 12:41,18.12.2024 10:03,Done,Major,,18.12.2024 10:03,PI:24:5:2 - Cracked safe,PI:24:5:3:4,,,,,,,,,,,,,,,,,,,,,,,,,3.0,Task,Done
+PAYLYNX-312,2559898,15.11.2024 09:19,,Canceled,Major,,21.01.2025 08:41,,,,,,,,,,,,,,,,,,,,,,,,,,,3.0,Story,Won't Do
+PAYLYNX-445,2619908,13.01.2025 08:09,,Canceled,Major,,15.01.2025 14:45,,,,,,,,,,,,,,,,,,,,,,,,,,,0.0,Spike,Won't Do
+PAYLYNX-336,2562447,18.11.2024 10:17,,Canceled,Major,,21.01.2025 08:41,,,,,,,,,,,,,,,,,,,,,,,,,,,3.0,Task,Won't Do
+PAYLYNX-329,2562099,18.11.2024 09:51,,Canceled,Major,,21.01.2025 08:41,,,,,,,,,,,,,,,,,,,,,,,,,,,5.0,Story,Won't Do
+PAYLYNX-342,2563313,18.11.2024 13:09,18.12.2024 08:41,Done,Major,,18.12.2024 08:41,PI:24:5:2 - Cracked safe,,,,,,,,,,,,,,,,,,,,,,,,,,1.0,Service Request,Done
+PAYLYNX-347,2565227,19.11.2024 08:54,09.12.2024 09:34,Done,Minor,,09.12.2024 09:34,Sprint 8 - Crossroads,PI24:5 SAFEst start,PI:24:5:2 - Cracked safe,,,,,,,,,,,,,,,,,,,,,,,,0.0,Bug,Done
+PAYLYNX-346,2565213,19.11.2024 08:42,04.12.2024 08:05,Done,Major,,04.12.2024 08:05,PI24:5 SAFEst start,,,,,,,,,,,,,,,,,,,,,,,,,,1.0,Story,Done
+PAYLYNX-261,2527802,23.10.2024 10:37,04.12.2024 09:19,Done,Major,,04.12.2024 09:19,PI24:5 SAFEst start,,,,,,,,,,,,,,,,,,,,,,,,,,1.0,Task,Done
+PAYLYNX-266,2534952,29.10.2024 07:36,04.12.2024 09:28,Done,Major,,09.01.2025 16:48,PI24:5 SAFEst start,,,,,,,,,,,,,,,,,,,,,,,,,,3.0,Spike,Done
+PAYLYNX-332,2562418,18.11.2024 09:59,03.12.2024 08:27,Done,Major,,03.12.2024 08:27,PI24:5 SAFEst start,,,,,,,,,,,,,,,,,,,,,,,,,,3.0,Spike,Done
+PAYLYNX-344,2565000,19.11.2024 07:38,04.12.2024 10:01,Done,Major,,04.12.2024 10:01,PI24:5 SAFEst start,,,,,,,,,,,,,,,,,,,,,,,,,,1.0,Task,Done
+PAYLYNX-356,2573244,20.11.2024 15:56,27.11.2024 07:56,Done,Major,,27.11.2024 07:56,PI24:5 SAFEst start,,,,,,,,,,,,,,,,,,,,,,,,,,0.0,Task,Done
+PAYLYNX-348,2566961,19.11.2024 11:17,19.11.2024 11:21,Done,Major,,19.11.2024 11:23,Sprint 8 - Crossroads,,,,,,,,,,,,,,,,,,,,,,,,,,0.0,Service Request,Done
+PAYLYNX-349,2567705,19.11.2024 12:30,19.11.2024 13:05,Done,Major,,19.11.2024 13:05,Sprint 8 - Crossroads,,,,,,,,,,,,,,,,,,,,,,,,,,0.0,Service Request,Done
+PAYLYNX-350,2570182,19.11.2024 16:05,22.11.2024 14:53,Done,Major,,27.11.2024 10:53,PI24:5 SAFEst start,,,,,,,,,,,,,,,,,,,,,,,,,,1.0,Service Request,Done
+PAYLYNX-363,2577071,25.11.2024 08:51,26.11.2024 08:44,Done,Major,,26.11.2024 08:44,PI24:5 SAFEst start,,,,,,,,,,,,,,,,,,,,,,,,,,0.0,Bug,Done
+PAYLYNX-357,2576195,22.11.2024 10:46,25.11.2024 14:16,Done,Major,,25.11.2024 14:16,PI24:5 SAFEst start,,,,,,,,,,,,,,,,,,,,,,,,,,1.0,Service Request,Done
+PAYLYNX-358,2576436,22.11.2024 11:52,25.11.2024 11:14,Done,Major,,25.11.2024 11:14,PI24:5 SAFEst start,,,,,,,,,,,,,,,,,,,,,,,,,,0.0,Service Request,Done
+PAYLYNX-359,2576694,22.11.2024 14:46,,Canceled,Major,,22.11.2024 14:46,,,,,,,,,,,,,,,,,,,,,,,,,,,,Task,Won't Do
+PAYLYNX-360,2576784,22.11.2024 15:52,27.11.2024 12:05,Done,Major,,27.11.2024 12:05,PI24:5 SAFEst start,,,,,,,,,,,,,,,,,,,,,,,,,,0.0,Service Request,Done
+PAYLYNX-361,2576796,22.11.2024 16:05,25.11.2024 11:35,Done,Major,,13.12.2024 09:16,PI24:5 SAFEst start,,,,,,,,,,,,,,,,,,,,,,,,,,0.0,Service Request,Done
+PAYLYNX-364,2577092,25.11.2024 09:04,27.11.2024 12:50,Done,Major,,02.12.2024 09:32,PI24:5 SAFEst start,,,,,,,,,,,,,,,,,,,,,,,,,,1.0,Task,Done
+PAYLYNX-365,2577325,25.11.2024 09:38,12.12.2024 09:12,Done,Major,,12.12.2024 09:12,PI24:5 SAFEst start,PI:24:5:2 - Cracked safe,,,,,,,,,,,,,,,,,,,,,,,,,0.0,Test,Done
+PAYLYNX-367,2578703,25.11.2024 17:34,26.11.2024 15:47,Done,Major,,26.11.2024 15:47,PI24:5 SAFEst start,,,,,,,,,,,,,,,,,,,,,,,,,,0.0,Task,Done
+PAYLYNX-328,2562098,18.11.2024 09:50,,Canceled,Major,,12.03.2025 13:36,,,,,,,,,,,,,,,,,,,,,,,,,,,3.0,Story,Won't Do
+PAYLYNX-368,2578628,26.11.2024 07:51,27.11.2024 13:29,Done,Critical,,27.11.2024 13:29,PI24:5 SAFEst start,,,,,,,,,,,,,,,,,,,,,,,,,,0.0,Service Request,Done
+PAYLYNX-369,2578724,26.11.2024 08:04,18.12.2024 08:43,Done,Major,,18.12.2024 08:43,PI:24:5:2 - Cracked safe,,,,,,,,,,,,,,,,,,,,,,,,,,1.0,Service Request,Done
+PAYLYNX-370,2579266,26.11.2024 13:05,26.11.2024 13:59,Done,Major,,26.11.2024 13:59,PI24:5 SAFEst start,,,,,,,,,,,,,,,,,,,,,,,,,,0.0,Service Request,Done
+PAYLYNX-377,2583363,29.11.2024 14:08,18.12.2024 08:41,Done,Major,,18.12.2024 08:41,PI:24:5:2 - Cracked safe,,,,,,,,,,,,,,,,,,,,,,,,,,0.0,Service Request,Done
+PAYLYNX-378,2583926,02.12.2024 08:00,18.12.2024 09:04,Done,Major,,18.12.2024 09:04,PI:24:5:2 - Cracked safe,,,,,,,,,,,,,,,,,,,,,,,,,,0.0,Service Request,Done
+PAYLYNX-380,2584913,02.12.2024 13:00,06.01.2025 08:41,Done,Major,,06.01.2025 08:41,PI:24:5:3:4,,,,,,,,,,,,,,,,,,,,,,,,,,0.0,Service Request,Done
+PAYLYNX-405,2605302,18.12.2024 09:45,03.01.2025 11:11,Done,Major,,03.01.2025 11:11,PI:24:5:3:4,,,,,,,,,,,,,,,,,,,,,,,,,,0.0,Task,Done
+PAYLYNX-321,2561254,15.11.2024 15:34,13.12.2024 08:08,Done,Major,,09.01.2025 16:48,PI:24:5:2 - Cracked safe,,,,,,,,,,,,,,,,,,,,,,,,,,3.0,Task,Done
+PAYLYNX-382,2588373,04.12.2024 14:13,,Canceled,Major,,11.12.2024 10:42,,,,,,,,,,,,,,,,,,,,,,,,,,,,Bug,Won't Do
+PAYLYNX-383,2591079,06.12.2024 08:42,09.12.2024 09:37,Done,Major,,09.12.2024 09:37,PI:24:5:2 - Cracked safe,,,,,,,,,,,,,,,,,,,,,,,,,,1.0,Bug,Done
+PAYLYNX-384,2592427,09.12.2024 08:21,09.12.2024 08:38,Done,Major,,09.12.2024 08:38,PI:24:5:2 - Cracked safe,,,,,,,,,,,,,,,,,,,,,,,,,,0.0,Service Request,Done
+PAYLYNX-385,2592890,09.12.2024 10:34,,Done,Major,,11.12.2024 12:35,PI:24:5:2 - Cracked safe,,,,,,,,,,,,,,,,,,,,,,,,,,,Bug,
+PAYLYNX-389,2594351,10.12.2024 09:35,12.12.2024 09:12,Done,Major,,12.12.2024 09:12,PI:24:5:2 - Cracked safe,,,,,,,,,,,,,,,,,,,,,,,,,,0.0,Task,Done
+PAYLYNX-392,2596052,11.12.2024 10:26,,Done,Major,,12.12.2024 08:02,PI:24:5:2 - Cracked safe,,,,,,,,,,,,,,,,,,,,,,,,,,0.0,Bug,
+PAYLYNX-386,2593333,09.12.2024 13:14,18.12.2024 09:03,Done,Major,,18.12.2024 09:03,PI:24:5:2 - Cracked safe,,,,,,,,,,,,,,,,,,,,,,,,,,0.0,Service Request,Done
+PAYLYNX-387,2593604,09.12.2024 14:17,08.01.2025 08:07,Done,Major,,08.01.2025 08:07,PI:24:5:3:4,,,,,,,,,,,,,,,,,,,,,,,,,,0.0,Service Request,Done
+PAYLYNX-390,2595593,11.12.2024 09:17,11.12.2024 11:54,Done,Critical,,11.12.2024 11:54,PI:24:5:2 - Cracked safe,,,,,,,,,,,,,,,,,,,,,,,,,,0.0,Service Request,Done
+PAYLYNX-393,2596382,11.12.2024 13:05,11.12.2024 15:02,Done,Major,,11.12.2024 15:02,PI:24:5:2 - Cracked safe,,,,,,,,,,,,,,,,,,,,,,,,,,0.0,Service Request,Done
+PAYLYNX-394,2596933,11.12.2024 15:57,13.12.2024 18:35,Done,Critical,,17.12.2024 13:38,PI:24:5:2 - Cracked safe,,,,,,,,,,,,,,,,,,,,,,,,,,1.0,Service Request,Done
+PAYLYNX-395,2597256,12.12.2024 08:27,12.12.2024 09:05,Done,Major,,12.12.2024 09:05,PI:24:5:2 - Cracked safe,,,,,,,,,,,,,,,,,,,,,,,,,,0.0,Task,Done
+PAYLYNX-396,2597900,12.12.2024 12:33,14.01.2025 08:44,Done,Major,,14.01.2025 08:44,PI:24:5:2 - Cracked safe,PI:24:5:3:4,,,,,,,,,,,,,,,,,,,,,,,,,0.0,Production bug,Done
+PAYLYNX-397,2597907,12.12.2024 12:40,10.01.2025 08:43,Done,Major,,10.01.2025 08:43,PI:24:5:2 - Cracked safe,PI:24:5:3:4,,,,,,,,,,,,,,,,,,,,,,,,,2.0,Production bug,Done
+PAYLYNX-334,2562422,18.11.2024 10:01,15.01.2025 09:38,Done,Major,,24.09.2025 08:58,PI:24:5:3:4,,,,,,,,,,,,,,,,,,,,,,,,,,2.0,Spike,Done
+PAYLYNX-316,2560297,15.11.2024 12:45,15.01.2025 08:09,Done,Major,,15.01.2025 08:09,PI:24:5:3:4,,,,,,,,,,,,,,,,,,,,,,,,,,4.0,Task,Done
+PAYLYNX-403,2596874,11.12.2024 16:43,14.01.2025 10:58,Done,Major,,14.01.2025 10:58,PI:24:5:3:4,,,,,,,,,,,,,,,,,,,,,,,,,,0.0,Task,Done
+PAYLYNX-412,2608700,20.12.2024 12:38,,Done,Major,,20.12.2024 14:42,PI:24:5:3:4,,,,,,,,,,,,,,,,,,,,,,,,,,1.0,Production bug,
+PAYLYNX-413,2610153,27.12.2024 12:24,02.01.2025 09:18,Done,Major,,02.01.2025 09:18,PI:24:5:3:4,,,,,,,,,,,,,,,,,,,,,,,,,,1.0,Bug,Done
+PAYLYNX-398,2598452,13.12.2024 08:33,13.12.2024 14:43,Done,Major,,13.12.2024 14:43,PI:24:5:2 - Cracked safe,,,,,,,,,,,,,,,,,,,,,,,,,,0.0,Service Request,Done
+PAYLYNX-399,2598863,13.12.2024 11:33,13.12.2024 18:23,Done,Major,,13.12.2024 18:23,PI:24:5:2 - Cracked safe,,,,,,,,,,,,,,,,,,,,,,,,,,0.0,Service Request,Done
+PAYLYNX-400,2600773,16.12.2024 12:56,18.12.2024 08:42,Done,Major,,18.12.2024 08:42,PI:24:5:2 - Cracked safe,,,,,,,,,,,,,,,,,,,,,,,,,,0.0,Service Request,Done
+PAYLYNX-401,2601489,16.12.2024 15:22,27.12.2024 16:50,Done,Major,,27.12.2024 16:50,PI:24:5:3:4,,,,,,,,,,,,,,,,,,,,,,,,,,1.0,Service Request,Done
+PAYLYNX-404,2603437,17.12.2024 13:15,27.12.2024 16:28,Done,Major,,27.12.2024 16:28,PI:24:5:3:4,,,,,,,,,,,,,,,,,,,,,,,,,,1.0,Service Request,Done
+PAYLYNX-406,2606299,18.12.2024 16:01,07.01.2025 09:13,Done,Major,,07.01.2025 09:13,PI:24:5:3:4,,,,,,,,,,,,,,,,,,,,,,,,,,1.0,Service Request,Done
+PAYLYNX-409,2606543,19.12.2024 07:41,27.12.2024 16:49,Done,Major,,27.12.2024 16:49,PI:24:5:3:4,,,,,,,,,,,,,,,,,,,,,,,,,,0.0,Service Request,Done
+PAYLYNX-417,2610744,30.12.2024 14:27,09.01.2025 14:01,Done,Major,,09.01.2025 14:01,PI:24:5:3:4,,,,,,,,,,,,,,,,,,,,,,,,,,2.0,Bug,Done
+PAYLYNX-418,2611342,02.01.2025 09:50,03.01.2025 11:14,Done,Major,,03.01.2025 11:14,PI:24:5:3:4,,,,,,,,,,,,,,,,,,,,,,,,,,1.0,Production bug,Done
+PAYLYNX-407,2606693,19.12.2024 09:30,,Canceled,Major,,14.05.2025 16:38,,,,,,,,,,,,,,,,,,,,,,,,,,,,Task,Won't Do
+PAYLYNX-408,2607046,19.12.2024 10:04,13.01.2025 10:56,Done,Major,,13.01.2025 10:56,PI:24:5:3:4,,,,,,,,,,,,,,,,,,,,,,,,,,1.0,Service Request,Done
+PAYLYNX-411,2608340,20.12.2024 11:17,13.01.2025 10:55,Done,Major,,13.01.2025 10:55,PI:24:5:3:4,,,,,,,,,,,,,,,,,,,,,,,,,,0.0,Service Request,Done
+PAYLYNX-416,2610198,27.12.2024 15:16,09.04.2025 09:20,Done,Major,,09.04.2025 09:21,PI:25:1:2  Polishing Bones,PI:25:1:3 Toothless & fakeTan,PI:2025:1:4 cure for ageing,PI:25:1:1 Fresh meat,PI:1:25 Sprint5 Just in Time,,,,,,,,,,,,,,,,,,,,,,2.0,Task,Done
+PAYLYNX-419,2612185,03.01.2025 12:07,22.01.2025 12:33,Done,Major,,22.01.2025 12:33,PI:2024:5:5 blood transfusion,,,,,,,,,,,,,,,,,,,,,,,,,,0.0,Service Request,Done
+PAYLYNX-420,2612199,03.01.2025 12:45,07.01.2025 15:14,Done,Major,,07.01.2025 15:14,PI:24:5:3:4,,,,,,,,,,,,,,,,,,,,,,,,,,0.0,Service Request,Done
+PAYLYNX-421,2612579,06.01.2025 08:23,,Done,Major,,13.01.2025 11:22,PI:24:5:3:4,,,,,,,,,,,,,,,,,,,,,,,,,,1.0,Production bug,
+PAYLYNX-362,2576869,22.11.2024 16:07,10.01.2025 17:33,Done,Major,,10.01.2025 17:33,PI:24:5:3:4,,,,,,,,,,,,,,,,,,,,,,,,,,2.0,Task,Done
+PAYLYNX-422,2612761,06.01.2025 11:47,13.01.2025 10:56,Done,Major,,13.01.2025 10:56,PI:24:5:3:4,,,,,,,,,,,,,,,,,,,,,,,,,,0.0,Service Request,Done
+PAYLYNX-423,2613702,07.01.2025 11:00,13.01.2025 10:57,Done,Critical,,13.01.2025 10:57,PI:24:5:3:4,,,,,,,,,,,,,,,,,,,,,,,,,,1.0,Service Request,Done
+PAYLYNX-424,2613640,07.01.2025 11:01,07.01.2025 12:16,Done,Minor,,07.01.2025 12:16,PI:24:5:3:4,,,,,,,,,,,,,,,,,,,,,,,,,,0.0,Task,Done
+PAYLYNX-442,2618487,10.01.2025 12:59,,Done,Major,,15.01.2025 14:26,PI:2024:5:5 blood transfusion,PI:24:5:3:4,,,,,,,,,,,,,,,,,,,,,,,,,0.0,Production bug,
+PAYLYNX-444,2619053,10.01.2025 15:14,14.01.2025 14:58,Done,Major,,14.01.2025 14:58,PI:24:5:3:4,,,,,,,,,,,,,,,,,,,,,,,,,,1.0,Production bug,Done
+PAYLYNX-425,2614044,07.01.2025 13:50,13.01.2025 10:55,Done,Major,,13.01.2025 10:55,PI:24:5:3:4,,,,,,,,,,,,,,,,,,,,,,,,,,0.0,Service Request,Done
+PAYLYNX-429,2614540,07.01.2025 16:11,13.01.2025 10:54,Done,Major,,13.01.2025 10:54,PI:24:5:3:4,,,,,,,,,,,,,,,,,,,,,,,,,,0.0,Service Request,Done
+PAYLYNX-433,2615194,08.01.2025 11:11,,Canceled,Major,,08.01.2025 13:55,,,,,,,,,,,,,,,,,,,,,,,,,,,,Service Request,Won't Do
+PAYLYNX-434,2615416,08.01.2025 12:02,13.01.2025 10:53,Done,Major,,13.01.2025 10:53,PI:24:5:3:4,,,,,,,,,,,,,,,,,,,,,,,,,,0.0,Service Request,Done
+PAYLYNX-435,2615622,08.01.2025 13:24,13.01.2025 10:53,Done,Major,,13.01.2025 10:53,PI:24:5:3:4,,,,,,,,,,,,,,,,,,,,,,,,,,0.0,Service Request,Done
+PAYLYNX-436,2615659,08.01.2025 13:56,13.01.2025 10:58,Done,Major,,13.01.2025 10:58,PI:24:5:3:4,,,,,,,,,,,,,,,,,,,,,,,,,,1.0,Service Request,Done
+PAYLYNX-437,2615880,08.01.2025 15:54,14.01.2025 10:25,Done,Major,,14.01.2025 10:25,PI:24:5:3:4,,,,,,,,,,,,,,,,,,,,,,,,,,0.0,Service Request,Done
+PAYLYNX-438,2616177,09.01.2025 08:32,13.01.2025 10:52,Done,Major,,13.01.2025 10:52,PI:24:5:3:4,,,,,,,,,,,,,,,,,,,,,,,,,,1.0,Service Request,Done
+PAYLYNX-439,2616538,09.01.2025 09:45,13.01.2025 10:58,Done,Major,,13.01.2025 10:58,PI:24:5:3:4,,,,,,,,,,,,,,,,,,,,,,,,,,1.0,Service Request,Done
+PAYLYNX-440,2617077,09.01.2025 13:18,13.01.2025 10:51,Done,Major,,13.01.2025 10:51,PI:24:5:3:4,,,,,,,,,,,,,,,,,,,,,,,,,,0.0,Service Request,Done
+PAYLYNX-441,2618159,10.01.2025 10:19,13.01.2025 10:51,Done,Major,,13.01.2025 10:51,PI:24:5:3:4,,,,,,,,,,,,,,,,,,,,,,,,,,0.0,Service Request,Done
+PAYLYNX-447,2620136,13.01.2025 09:01,14.01.2025 13:59,Done,Major,,14.01.2025 13:59,PI:24:5:3:4,,,,,,,,,,,,,,,,,,,,,,,,,,1.0,Task,Done
+PAYLYNX-448,2619992,13.01.2025 09:55,14.01.2025 15:18,Done,Major,,14.01.2025 15:18,PI:24:5:3:4,,,,,,,,,,,,,,,,,,,,,,,,,,1.0,Production bug,Done
+PAYLYNX-449,2620476,13.01.2025 10:59,14.01.2025 15:33,Done,Major,,14.01.2025 15:33,PI:24:5:3:4,,,,,,,,,,,,,,,,,,,,,,,,,,0.0,Production bug,Done
+PAYLYNX-450,2621076,13.01.2025 14:46,23.01.2025 17:05,Done,Major,,23.01.2025 17:05,PI:2024:5:5 blood transfusion,,,,,,,,,,,,,,,,,,,,,,,,,,1.0,Service Request,Done
+PAYLYNX-451,2621093,13.01.2025 15:08,,Canceled,Major,,14.01.2025 09:15,,,,,,,,,,,,,,,,,,,,,,,,,,,,Service Request,Won't Do
+PAYLYNX-452,2621247,13.01.2025 15:11,14.01.2025 09:20,Done,Major,,14.01.2025 09:20,PI:24:5:3:4,,,,,,,,,,,,,,,,,,,,,,,,,,0.0,Service Request,Done
+PAYLYNX-455,2623920,15.01.2025 10:37,,Canceled,Major,,15.01.2025 13:50,,,,,,,,,,,,,,,,,,,,,,,,,,,,Service Request,Won't Do
+PAYLYNX-457,2624156,15.01.2025 12:12,,Done,Major,,17.01.2025 08:00,PI:2024:5:5 blood transfusion,,,,,,,,,,,,,,,,,,,,,,,,,,,Bug,
+PAYLYNX-458,2624544,15.01.2025 14:19,21.01.2025 12:38,Done,Major,,21.01.2025 12:38,PI:2024:5:5 blood transfusion,,,,,,,,,,,,,,,,,,,,,,,,,,1.0,Bug,Done
+PAYLYNX-459,2624703,15.01.2025 14:58,17.01.2025 08:42,Done,Major,,17.01.2025 08:42,PI:2024:5:5 blood transfusion,,,,,,,,,,,,,,,,,,,,,,,,,,0.0,Bug,Done
+PAYLYNX-460,2626465,16.01.2025 11:40,17.01.2025 09:44,Done,Major,,17.01.2025 09:44,PI:2024:5:5 blood transfusion,,,,,,,,,,,,,,,,,,,,,,,,,,0.0,Service Request,Done
+PAYLYNX-462,2628552,17.01.2025 14:59,20.01.2025 16:27,Done,Major,,20.01.2025 16:27,PI:2024:5:5 blood transfusion,,,,,,,,,,,,,,,,,,,,,,,,,,0.0,Production bug,Done
+PAYLYNX-463,2628553,17.01.2025 15:00,22.01.2025 14:00,Done,Major,,22.01.2025 14:00,PI:2024:5:5 blood transfusion,,,,,,,,,,,,,,,,,,,,,,,,,,0.0,Production bug,Done
+PAYLYNX-461,2628435,17.01.2025 14:11,17.01.2025 15:40,Done,Major,,17.01.2025 15:40,PI:2024:5:5 blood transfusion,,,,,,,,,,,,,,,,,,,,,,,,,,0.0,Service Request,Done
+PAYLYNX-464,2628994,20.01.2025 08:20,03.02.2025 14:11,Done,Major,,05.02.2025 15:52,PI:2024:5:5 blood transfusion,,,,,,,,,,,,,,,,,,,,,,,,,,0.0,Service Request,Done
+PAYLYNX-472,2629861,20.01.2025 10:32,23.01.2025 10:30,Done,Major,,23.01.2025 10:30,PI:2024:5:5 blood transfusion,,,,,,,,,,,,,,,,,,,,,,,,,,0.0,Service Request,Done
+PAYLYNX-479,2630320,20.01.2025 12:30,20.01.2025 12:39,Done,Major,,20.01.2025 12:39,PI:2024:5:5 blood transfusion,,,,,,,,,,,,,,,,,,,,,,,,,,0.0,Service Request,Done
+PAYLYNX-482,2630564,20.01.2025 13:58,24.01.2025 14:04,Done,Major,,24.01.2025 15:37,PI:2024:5:5 blood transfusion,,,,,,,,,,,,,,,,,,,,,,,,,,0.0,Service Request,Done
+PAYLYNX-485,2632750,21.01.2025 12:38,22.01.2025 15:16,Done,Major,,22.01.2025 15:16,PI:2024:5:5 blood transfusion,,,,,,,,,,,,,,,,,,,,,,,,,,0.0,Bug,Done
+PAYLYNX-486,2633523,21.01.2025 14:33,22.01.2025 09:59,Done,Major,,22.01.2025 09:59,PI:2024:5:5 blood transfusion,,,,,,,,,,,,,,,,,,,,,,,,,,0.0,Service Request,Done
+PAYLYNX-487,2633688,21.01.2025 15:24,,Done,Critical,,22.01.2025 15:18,PI:2024:5:5 blood transfusion,,,,,,,,,,,,,,,,,,,,,,,,,,0.0,Production bug,
+PAYLYNX-488,2634225,22.01.2025 08:37,22.01.2025 12:29,Done,Major,,22.01.2025 12:29,PI:2024:5:5 blood transfusion,,,,,,,,,,,,,,,,,,,,,,,,,,0.0,Service Request,Done
+PAYLYNX-489,2634545,22.01.2025 10:00,22.01.2025 10:57,Done,Major,,22.01.2025 10:57,PI:2024:5:5 blood transfusion,,,,,,,,,,,,,,,,,,,,,,,,,,0.0,Service Request,Done
+PAYLYNX-490,2634810,22.01.2025 10:42,22.01.2025 11:06,Done,Major,,22.01.2025 11:06,PI:2024:5:5 blood transfusion,,,,,,,,,,,,,,,,,,,,,,,,,,0.0,Service Request,Done
+PAYLYNX-491,2635209,22.01.2025 12:43,22.01.2025 13:21,Done,Major,,22.01.2025 13:21,PI:2024:5:5 blood transfusion,,,,,,,,,,,,,,,,,,,,,,,,,,0.0,Service Request,Done
+PAYLYNX-492,2635286,22.01.2025 14:20,23.01.2025 08:12,Done,Major,,23.01.2025 08:12,PI:2024:5:5 blood transfusion,,,,,,,,,,,,,,,,,,,,,,,,,,0.0,Production bug,Done
+PAYLYNX-493,2635867,22.01.2025 15:19,29.01.2025 07:58,Done,Major,,29.01.2025 07:58,PI:2024:5:5 blood transfusion,,,,,,,,,,,,,,,,,,,,,,,,,,0.0,Bug,Done
+PAYLYNX-501,2641361,27.01.2025 09:24,29.01.2025 09:33,Done,Major,,29.01.2025 09:33,PI:2024:5:5 blood transfusion,,,,,,,,,,,,,,,,,,,,,,,,,,1.0,Bug,Done
+PAYLYNX-494,2636012,22.01.2025 15:53,10.02.2025 09:23,Done,Major,,10.02.2025 09:23,PI:25:1:1 Fresh meat,,,,,,,,,,,,,,,,,,,,,,,,,,0.0,Service Request,Done
+PAYLYNX-496,2637673,23.01.2025 14:59,03.02.2025 08:44,Done,Major,,05.02.2025 15:53,,,,,,,,,,,,,,,,,,,,,,,,,,,0.0,Service Request,Done
+PAYLYNX-504,2654959,30.01.2025 08:02,03.02.2025 08:32,Done,Major,,03.02.2025 08:32,PI:25:1:1 Fresh meat,,,,,,,,,,,,,,,,,,,,,,,,,,0.0,Production bug,Done
+PAYLYNX-505,2655651,30.01.2025 10:39,,Done,Major,,03.02.2025 10:41,,,,,,,,,,,,,,,,,,,,,,,,,,,0.0,Service Request,
+PAYLYNX-506,2655874,30.01.2025 11:18,05.02.2025 12:59,Done,Major,,07.02.2025 09:45,PI:25:1:1 Fresh meat,,,,,,,,,,,,,,,,,,,,,,,,,,1.0,Task,Done
+PAYLYNX-507,2656279,30.01.2025 13:54,14.02.2025 13:35,Done,Major,,04.03.2025 15:02,PI:25:1:2  Polishing Bones,,,,,,,,,,,,,,,,,,,,,,,,,,1.0,Task,Done
+PAYLYNX-509,2658387,03.02.2025 08:40,06.02.2025 14:20,Done,Major,,06.02.2025 14:20,PI:25:1:1 Fresh meat,,,,,,,,,,,,,,,,,,,,,,,,,,1.0,Production bug,Done
+PAYLYNX-513,2660856,04.02.2025 11:10,05.02.2025 12:59,Done,Major,,05.02.2025 12:59,PI:25:1:1 Fresh meat,,,,,,,,,,,,,,,,,,,,,,,,,,1.0,Production bug,Done
+PAYLYNX-517,2663108,05.02.2025 12:28,07.02.2025 08:53,Done,Major,,07.02.2025 09:03,PI:25:1:1 Fresh meat,,,,,,,,,,,,,,,,,,,,,,,,,,0.0,Task,Done
+PAYLYNX-510,2659259,03.02.2025 10:39,,Done,Major,,03.02.2025 10:42,,,,,,,,,,,,,,,,,,,,,,,,,,,,Service Request,
+PAYLYNX-511,2659759,03.02.2025 14:20,,Done,Major,,03.02.2025 14:43,,,,,,,,,,,,,,,,,,,,,,,,,,,,Service Request,
+PAYLYNX-512,2659931,03.02.2025 14:29,,Done,Major,,03.02.2025 14:39,,,,,,,,,,,,,,,,,,,,,,,,,,,,Service Request,
+PAYLYNX-514,2661252,04.02.2025 13:27,,Canceled,Major,,04.02.2025 22:45,,,,,,,,,,,,,,,,,,,,,,,,,,,,Service Request,Won't Do
+PAYLYNX-466,2629560,20.01.2025 09:18,,Canceled,Major,,27.02.2025 09:47,,,,,,,,,,,,,,,,,,,,,,,,,,,3.0,Story,Won't Do
+PAYLYNX-307,2556089,13.11.2024 10:40,,Canceled,Major,,02.04.2025 16:04,,,,,,,,,,,,,,,,,,,,,,,,,,,,Task,Won't Do
+PAYLYNX-270,2537001,30.10.2024 10:16,13.06.2025 16:15,Canceled,Major,,13.08.2025 08:59,,,,,,,,,,,,,,,,,,,,,,,,,,,3.0,Spike,Won't Do
+PAYLYNX-269,2536798,30.10.2024 10:10,,Canceled,Major,,26.09.2025 07:48,,,,,,,,,,,,,,,,,,,,,,,,,,,3.0,Task,Won't Do
+PAYLYNX-518,2663593,05.02.2025 15:52,,Done,Major,,05.02.2025 15:52,,,,,,,,,,,,,,,,,,,,,,,,,,,,Service Request,
+PAYLYNX-519,2664322,06.02.2025 09:43,,Done,Major,,06.02.2025 12:29,,,,,,,,,,,,,,,,,,,,,,,,,,,,Service Request,
+PAYLYNX-520,2665336,06.02.2025 15:35,,Done,Major,,03.03.2025 10:17,,,,,,,,,,,,,,,,,,,,,,,,,,,,Service Request,
+PAYLYNX-521,2665678,07.02.2025 08:46,26.02.2025 10:07,Done,Major,,26.02.2025 10:07,PI:25:1:2  Polishing Bones,PI:25:1:1 Fresh meat,,,,,,,,,,,,,,,,,,,,,,,,,2.0,Task,Done
+PAYLYNX-522,2665969,07.02.2025 10:59,26.02.2025 09:14,Done,Major,,26.02.2025 10:53,PI:25:1:2  Polishing Bones,PI:25:1:1 Fresh meat,,,,,,,,,,,,,,,,,,,,,,,,,2.0,Task,Done
+PAYLYNX-523,2665982,07.02.2025 11:27,13.02.2025 12:15,Done,Major,,13.03.2025 10:16,PI:25:1:2  Polishing Bones,PI:25:1:1 Fresh meat,,,,,,,,,,,,,,,,,,,,,,,,,0.0,Task,Done
+PAYLYNX-524,2665985,07.02.2025 11:29,14.02.2025 11:14,Done,Major,,13.03.2025 10:16,PI:25:1:2  Polishing Bones,PI:25:1:1 Fresh meat,,,,,,,,,,,,,,,,,,,,,,,,,0.0,Task,Done
+PAYLYNX-525,2667697,10.02.2025 10:53,11.02.2025 07:33,Done,Major,,11.02.2025 07:33,PI:25:1:1 Fresh meat,,,,,,,,,,,,,,,,,,,,,,,,,,0.0,Service Request,Done
+PAYLYNX-526,2667872,10.02.2025 11:04,,Done,Major,,11.02.2025 12:45,PI:25:1:1 Fresh meat,,,,,,,,,,,,,,,,,,,,,,,,,,1.0,Service Request,
+PAYLYNX-527,2668188,10.02.2025 12:53,12.02.2025 12:09,Done,Major,,12.02.2025 14:16,,,,,,,,,,,,,,,,,,,,,,,,,,,0.0,Service Request,Done
+PAYLYNX-528,2668353,10.02.2025 14:14,11.02.2025 08:03,Done,Major,,11.02.2025 08:03,PI:25:1:1 Fresh meat,,,,,,,,,,,,,,,,,,,,,,,,,,0.0,Service Request,Done
+PAYLYNX-552,2678682,18.02.2025 10:42,,Done,Major,,10.03.2025 10:12,,,,,,,,,,,,,,,,,,,,,,,,,,,,Service Request,
+PAYLYNX-529,2669705,11.02.2025 08:20,21.07.2025 09:02,Done,Major,,21.07.2025 09:02,,,,,,,,,,,,,,,,,,,,,,,,,,,,Service Request,Fixed
+PAYLYNX-530,2670354,11.02.2025 11:45,11.02.2025 12:22,Done,Major,,11.02.2025 12:22,PI:25:1:1 Fresh meat,,,,,,,,,,,,,,,,,,,,,,,,,,0.0,Service Request,Done
+PAYLYNX-531,2670467,11.02.2025 12:16,,Canceled,Major,,11.02.2025 12:29,,,,,,,,,,,,,,,,,,,,,,,,,,,,Task,Won't Do
+PAYLYNX-532,2670377,11.02.2025 12:29,11.02.2025 12:35,Done,Major,,11.02.2025 12:35,PI:25:1:1 Fresh meat,,,,,,,,,,,,,,,,,,,,,,,,,,0.0,Service Request,Done
+PAYLYNX-533,2670381,11.02.2025 12:31,,Done,Major,,14.02.2025 08:07,,,,,,,,,,,,,,,,,,,,,,,,,,,,Service Request,
+PAYLYNX-535,2670532,11.02.2025 13:45,11.02.2025 14:22,Done,Major,,11.02.2025 14:22,PI:25:1:1 Fresh meat,,,,,,,,,,,,,,,,,,,,,,,,,,0.0,Service Request,Done
+PAYLYNX-536,2670579,11.02.2025 14:44,,Done,Major,,13.02.2025 08:53,PI:25:1:2  Polishing Bones,PI:25:1:1 Fresh meat,,,,,,,,,,,,,,,,,,,,,,,,,0.0,Bug,
+PAYLYNX-538,2671854,12.02.2025 11:47,12.02.2025 12:44,Done,Major,,12.02.2025 12:44,PI:25:1:2  Polishing Bones,,,,,,,,,,,,,,,,,,,,,,,,,,0.0,Service Request,Fixed
+PAYLYNX-539,2672382,12.02.2025 15:35,14.02.2025 13:36,Done,Major,,14.02.2025 13:36,PI:25:1:2  Polishing Bones,,,,,,,,,,,,,,,,,,,,,,,,,,0.0,Task,Done
+PAYLYNX-540,2672625,12.02.2025 15:43,14.02.2025 08:51,Done,Major,,14.02.2025 08:51,PI:25:1:2  Polishing Bones,,,,,,,,,,,,,,,,,,,,,,,,,,0.0,Task,Done
+PAYLYNX-541,2674106,13.02.2025 11:24,13.02.2025 12:11,Done,Major,,13.02.2025 12:11,PI:25:1:2  Polishing Bones,,,,,,,,,,,,,,,,,,,,,,,,,,0.0,Task,Done
+PAYLYNX-542,2674243,13.02.2025 12:59,14.02.2025 09:41,Done,Major,,14.02.2025 10:48,PI:25:1:2  Polishing Bones,,,,,,,,,,,,,,,,,,,,,,,,,,1.0,Task,Done
+PAYLYNX-555,2679533,18.02.2025 18:03,,Done,Major,,03.03.2025 10:43,PI:25:1:2  Polishing Bones,PI:25:1:3 Toothless & fakeTan,,,,,,,,,,,,,,,,,,,,,,,,,1.0,Production bug,
+PAYLYNX-556,2679537,18.02.2025 18:37,19.02.2025 08:38,Done,Major,,19.02.2025 08:38,PI:25:1:2  Polishing Bones,,,,,,,,,,,,,,,,,,,,,,,,,,0.0,Production bug,Done
+PAYLYNX-543,2674542,13.02.2025 13:36,,Done,Major,,13.02.2025 15:44,,,,,,,,,,,,,,,,,,,,,,,,,,,,Service Request,
+PAYLYNX-544,2674398,13.02.2025 14:11,,Done,Major,,13.02.2025 14:12,,,,,,,,,,,,,,,,,,,,,,,,,,,,Service Request,
+PAYLYNX-545,2674704,13.02.2025 14:16,,Done,Major,,13.02.2025 14:18,,,,,,,,,,,,,,,,,,,,,,,,,,,,Service Request,
+PAYLYNX-546,2674714,13.02.2025 14:18,,Done,Major,,13.02.2025 14:21,,,,,,,,,,,,,,,,,,,,,,,,,,,,Service Request,
+PAYLYNX-547,2674719,13.02.2025 14:20,,Done,Major,,13.02.2025 14:20,,,,,,,,,,,,,,,,,,,,,,,,,,,,Service Request,
+PAYLYNX-548,2674726,13.02.2025 14:24,,Done,Major,,13.02.2025 14:24,,,,,,,,,,,,,,,,,,,,,,,,,,,,Service Request,
+PAYLYNX-551,2676812,17.02.2025 08:08,,Done,Major,,17.02.2025 15:30,,,,,,,,,,,,,,,,,,,,,,,,,,,,Service Request,
+PAYLYNX-553,2678684,18.02.2025 10:46,,Done,Major,,10.03.2025 10:12,,,,,,,,,,,,,,,,,,,,,,,,,,,,Service Request,
+PAYLYNX-554,2679029,18.02.2025 12:42,,Done,Major,,04.03.2025 11:11,,,,,,,,,,,,,,,,,,,,,,,,,,,,Service Request,
+PAYLYNX-561,2680391,19.02.2025 13:44,,Done,Major,,04.03.2025 11:02,,,,,,,,,,,,,,,,,,,,,,,,,,,,Service Request,
+PAYLYNX-562,2682045,20.02.2025 12:36,05.03.2025 14:28,Done,Major,,28.01.2026 11:45,PI:25:1:2  Polishing Bones,PI:25:1:3 Toothless & fakeTan,,,,,,,,,,,,,,,,,,,,,,,,,2.0,Task,Done
+PAYLYNX-566,2686125,25.02.2025 12:18,27.02.2025 10:22,Done,Major,,27.02.2025 10:22,PI:25:1:2  Polishing Bones,PI:25:1:3 Toothless & fakeTan,,,,,,,,,,,,,,,,,,,,,,,,,1.0,Production bug,Done
+PAYLYNX-563,2682403,20.02.2025 15:02,,Canceled,Major,,20.02.2025 15:32,,,,,,,,,,,,,,,,,,,,,,,,,,,,Service Request,Won't Do
+PAYLYNX-564,2683156,21.02.2025 10:37,,Done,Major,,10.03.2025 10:12,,,,,,,,,,,,,,,,,,,,,,,,,,,,Service Request,
+PAYLYNX-567,2687735,26.02.2025 10:29,04.03.2025 08:37,Done,Major,,02.04.2025 16:04,PI:25:1:3 Toothless & fakeTan,,,,,,,,,,,,,,,,,,,,,,,,,,1.0,Task,Done
+PAYLYNX-557,2679554,19.02.2025 07:35,07.03.2025 07:52,Done,Major,,07.03.2025 07:52,PI:25:1:3 Toothless & fakeTan,,,,,,,,,,,,,,,,,,,,,,,,,,1.0,Task,Done
+PAYLYNX-558,2679864,19.02.2025 09:49,25.03.2025 16:17,Done,Major,,21.04.2025 09:15,PI:25:1:3 Toothless & fakeTan,PI:2025:1:4 cure for ageing,,,,,,,,,,,,,,,,,,,,,,,,,1.0,Task,Done
+PAYLYNX-516,2662704,05.02.2025 10:48,12.03.2025 10:21,Done,Major,,04.02.2026 16:24,PI:25:1:3 Toothless & fakeTan,,,,,,,,,,,,,,,,,,,,,,,,,,2.0,Task,Done
+PAYLYNX-320,2561246,15.11.2024 15:23,06.03.2025 13:08,Done,Major,,21.04.2025 09:15,PI:25:1:3 Toothless & fakeTan,,,,,,,,,,,,,,,,,,,,,,,,,,2.0,Task,Done
+PAYLYNX-568,2688515,26.02.2025 15:19,28.02.2025 09:18,Done,Major,,28.02.2025 09:18,PI:25:1:3 Toothless & fakeTan,,,,,,,,,,,,,,,,,,,,,,,,,,1.0,Task,Done
+PAYLYNX-571,2689499,27.02.2025 10:40,28.02.2025 08:49,Done,Major,,28.02.2025 08:49,PI:25:1:3 Toothless & fakeTan,,,,,,,,,,,,,,,,,,,,,,,,,,0.0,Production bug,Done
+PAYLYNX-572,2689955,27.02.2025 12:11,,Done,Major,,28.02.2025 08:37,,,,,,,,,,,,,,,,,,,,,,,,,,,,Service Request,
+PAYLYNX-573,2690768,28.02.2025 07:41,,Canceled,Major,,03.03.2025 10:21,,,,,,,,,,,,,,,,,,,,,,,,,,,,Service Request,Won't Do
+PAYLYNX-575,2691447,28.02.2025 12:58,02.03.2025 21:36,Done,Major,,02.03.2025 21:36,PI:25:1:2  Polishing Bones,PI:25:1:3 Toothless & fakeTan,,,,,,,,,,,,,,,,,,,,,,,,,0.0,Production bug,Done
+PAYLYNX-576,2691448,28.02.2025 12:59,25.03.2025 08:07,Done,Major,,25.03.2025 08:07,PI:25:1:3 Toothless & fakeTan,PI:2025:1:4 cure for ageing,,,,,,,,,,,,,,,,,,,,,,,,,1.0,Production bug,Done
+PAYLYNX-577,2692305,03.03.2025 08:59,24.03.2025 14:44,Done,Major,,24.03.2025 14:44,PI:25:1:3 Toothless & fakeTan,PI:2025:1:4 cure for ageing,,,,,,,,,,,,,,,,,,,,,,,,,1.0,Production bug,Done
+PAYLYNX-578,2692630,03.03.2025 11:02,,Done,Major,,03.03.2025 12:06,,,,,,,,,,,,,,,,,,,,,,,,,,,,Service Request,
+PAYLYNX-582,2693528,03.03.2025 17:43,11.04.2025 13:10,Done,Major,,11.04.2025 13:10,PI:25:1:3 Toothless & fakeTan,PI:1:25:6 Watching us,PI:2025:1:4 cure for ageing,PI:1:25 Sprint5 Just in Time,,,,,,,,,,,,,,,,,,,,,,,1.0,Production bug,Done
+PAYLYNX-580,2693065,03.03.2025 14:14,,Done,Major,,04.03.2025 07:43,,,,,,,,,,,,,,,,,,,,,,,,,,,,Service Request,
+PAYLYNX-595,2697274,06.03.2025 10:37,,Open,Major,,02.04.2025 16:04,For Refinement,,,,,,,,,,,,,,,,,,,,,,,,,,,Task,
+PAYLYNX-596,2699261,07.03.2025 12:31,,Canceled,Major,,16.04.2025 13:53,,,,,,,,,,,,,,,,,,,,,,,,,,,,Spike,Won't Do
+PAYLYNX-585,2694748,04.03.2025 14:34,,Done,Major,,07.03.2025 07:08,PI:25:1:3 Toothless & fakeTan,,,,,,,,,,,,,,,,,,,,,,,,,,,Production bug,
+PAYLYNX-589,2695961,05.03.2025 12:40,11.03.2025 06:35,Done,Major,,11.03.2025 06:35,PI:25:1:3 Toothless & fakeTan,,,,,,,,,,,,,,,,,,,,,,,,,,3.0,Task,Done
+PAYLYNX-586,2695718,05.03.2025 10:43,23.07.2025 10:46,Done,Major,,23.07.2025 11:59,PI:1:25:6 Watching us,PI:2025:1:4 cure for ageing,PI:25:2:1 Using protection,PI:5:2:2 NoPain NoGain,PI:5:2:3 Flying high,PI:5:2:4 Free fall,Y25:PI3:S1 Igniting flames,Y25:PI3:S3 Partially Hot,PI:1:25 Sprint5 Just in Time,Y25:PI3:S2 Sandy,,,,,,,,,,,,,,,,,0.0,Task,Done
+PAYLYNX-694,2757181,14.04.2025 10:31,14.04.2025 13:28,Done,Major,,14.04.2025 13:28,PI:1:25:6 Watching us,,,,,,,,,,,,,,,,,,,,,,,,,,1.0,Task,Done
+PAYLYNX-634,2717771,21.03.2025 11:17,14.04.2025 11:46,Done,Major,,14.04.2025 11:46,PI:1:25:6 Watching us,PI:1:25 Sprint5 Just in Time,,,,,,,,,,,,,,,,,,,,,,,,,1.0,Task,Done
+PAYLYNX-574,2691419,28.02.2025 12:09,09.04.2025 12:18,Done,Major,,09.04.2025 12:18,PI:1:25:6 Watching us,PI:1:25 Sprint5 Just in Time,,,,,,,,,,,,,,,,,,,,,,,,,0.0,Task,Done
+PAYLYNX-645,2726270,27.03.2025 14:01,02.04.2025 12:41,Done,Major,,02.04.2025 12:41,PI:1:25 Sprint5 Just in Time,,,,,,,,,,,,,,,,,,,,,,,,,,1.0,Task,Done
+PAYLYNX-587,2695729,05.03.2025 10:52,,Canceled,Major,,02.04.2025 09:52,,,,,,,,,,,,,,,,,,,,,,,,,,,2.0,Task,Won't Do
+PAYLYNX-588,2695695,05.03.2025 11:05,,Done,Major,,06.03.2025 08:13,,,,,,,,,,,,,,,,,,,,,,,,,,,,Service Request,
+PAYLYNX-590,2696146,05.03.2025 13:13,,Canceled,Major,,05.03.2025 13:22,,,,,,,,,,,,,,,,,,,,,,,,,,,,Service Request,Won't Do
+PAYLYNX-591,2696860,06.03.2025 07:59,24.03.2025 08:21,Done,Major,,24.03.2025 08:21,PI:25:1:3 Toothless & fakeTan,PI:2025:1:4 cure for ageing,,,,,,,,,,,,,,,,,,,,,,,,,0.0,Task,Done
+PAYLYNX-579,2692726,03.03.2025 11:30,13.03.2025 16:00,Done,Major,,13.03.2025 16:00,PI:25:1:3 Toothless & fakeTan,PI:2025:1:4 cure for ageing,,,,,,,,,,,,,,,,,,,,,,,,,2.0,Task,Done
+PAYLYNX-597,2699516,07.03.2025 14:38,,Done,Major,,17.03.2025 09:37,,,,,,,,,,,,,,,,,,,,,,,,,,,,Service Request,
+PAYLYNX-598,2699708,07.03.2025 15:38,,Canceled,Major,,07.03.2025 15:49,,,,,,,,,,,,,,,,,,,,,,,,,,,,Service Request,Won't Do
+PAYLYNX-599,2699719,07.03.2025 15:49,10.03.2025 10:40,Done,Major,,10.03.2025 11:57,PI:25:1:3 Toothless & fakeTan,,,,,,,,,,,,,,,,,,,,,,,,,,,Service Request,Fixed
+PAYLYNX-600,2701049,10.03.2025 08:19,,Canceled,Major,,07.04.2025 12:50,,,,,,,,,,,,,,,,,,,,,,,,,,,,Task,Won't Do
+PAYLYNX-306,2556088,13.11.2024 10:40,,Canceled,Major,,31.03.2025 10:06,,,,,,,,,,,,,,,,,,,,,,,,,,,3.0,Task,Won't Do
+PAYLYNX-601,2701453,10.03.2025 08:50,26.03.2025 09:45,Done,Major,,26.03.2025 09:45,PI:2025:1:4 cure for ageing,,,,,,,,,,,,,,,,,,,,,,,,,,3.0,Task,Done
+PAYLYNX-325,2561295,15.11.2024 16:16,,Canceled,Major,,21.04.2025 09:15,,,,,,,,,,,,,,,,,,,,,,,,,,,2.0,Task,Won't Do
+PAYLYNX-324,2561294,15.11.2024 16:04,21.03.2025 10:09,Done,Major,,21.03.2025 10:10,PI:2025:1:4 cure for ageing,,,,,,,,,,,,,,,,,,,,,,,,,,2.0,Task,Done
+PAYLYNX-279,2541896,04.11.2024 13:19,19.03.2025 07:49,Done,Major,,19.03.2025 07:49,PI:2025:1:4 cure for ageing,,,,,,,,,,,,,,,,,,,,,,,,,,2.0,Task,Done
+PAYLYNX-602,2701473,10.03.2025 09:16,,Done,Major,,26.03.2025 13:29,,,,,,,,,,,,,,,,,,,,,,,,,,,,Service Request,
+PAYLYNX-605,2702554,10.03.2025 15:52,11.03.2025 15:05,Done,Trivial,,11.03.2025 15:05,PI:25:1:3 Toothless & fakeTan,,,,,,,,,,,,,,,,,,,,,,,,,,0.5,Bug,Done
+PAYLYNX-607,2704792,12.03.2025 12:23,17.03.2025 08:07,Done,Major,,17.03.2025 08:07,PI:2025:1:4 cure for ageing,,,,,,,,,,,,,,,,,,,,,,,,,,0.0,Task,Done
+PAYLYNX-608,2705989,13.03.2025 08:37,13.03.2025 13:29,Done,Critical,,13.03.2025 13:29,PI:2025:1:4 cure for ageing,,,,,,,,,,,,,,,,,,,,,,,,,,0.0,Bug,Done
+PAYLYNX-609,2706993,13.03.2025 11:36,18.03.2025 10:38,Done,Major,,18.03.2025 10:38,PI:2025:1:4 cure for ageing,,,,,,,,,,,,,,,,,,,,,,,,,,1.0,Production bug,Done
+PAYLYNX-612,2707994,13.03.2025 23:36,19.03.2025 13:03,Done,Major,,19.03.2025 13:03,PI:2025:1:4 cure for ageing,,,,,,,,,,,,,,,,,,,,,,,,,,1.0,Production bug,Done
+PAYLYNX-613,2709132,14.03.2025 14:32,18.03.2025 08:45,Done,Major,,18.03.2025 08:45,PI:2025:1:4 cure for ageing,,,,,,,,,,,,,,,,,,,,,,,,,,0.0,Bug,Done
+PAYLYNX-614,2709552,14.03.2025 21:56,25.03.2025 15:16,Done,Major,,25.03.2025 15:16,PI:2025:1:4 cure for ageing,,,,,,,,,,,,,,,,,,,,,,,,,,0.0,Production bug,Done
+PAYLYNX-615,2710598,17.03.2025 09:16,,Done,Major,,17.03.2025 15:14,PI:2025:1:4 cure for ageing,,,,,,,,,,,,,,,,,,,,,,,,,,,Bug,
+PAYLYNX-617,2711581,17.03.2025 14:37,26.03.2025 08:32,Done,Major,,26.03.2025 08:32,PI:2025:1:4 cure for ageing,,,,,,,,,,,,,,,,,,,,,,,,,,1.0,Bug,Done
+PAYLYNX-618,2711589,17.03.2025 14:46,25.03.2025 01:44,Done,Major,,25.03.2025 01:44,PI:2025:1:4 cure for ageing,,,,,,,,,,,,,,,,,,,,,,,,,,1.0,Bug,Done
+PAYLYNX-630,2715304,19.03.2025 15:43,20.03.2025 08:17,Done,Major,,20.03.2025 08:17,PI:2025:1:4 cure for ageing,,,,,,,,,,,,,,,,,,,,,,,,,,0.0,Bug,Done
+PAYLYNX-610,2707712,13.03.2025 14:37,,Done,Major,,26.03.2025 13:26,,,,,,,,,,,,,,,,,,,,,,,,,,,,Service Request,
+PAYLYNX-616,2711607,17.03.2025 14:34,24.03.2025 08:53,Done,Major,,23.05.2025 09:37,,,,,,,,,,,,,,,,,,,,,,,,,,,1.0,Task,Done
+PAYLYNX-1056,2984790,25.10.2025 20:06,31.03.2026 16:17,Canceled,Major,,31.03.2026 16:18,,,,,,,,,,,,,,,,,,,,,,,,,,,,Task,Won't Do
+PAYLYNX-1087,3018495,14.11.2025 12:32,,Open,Major,,01.04.2026 14:54,PI:2:2026 Refined tasks,,,,,,,,,,,,,,,,,,,,,,,,,,3.0,Spike,
+PAYLYNX-341,2562972,18.11.2024 12:42,,Canceled,Major,,17.11.2025 10:37,Sprint 8 - Crossroads,PI24:5 SAFEst start,PI:24:5:2 - Cracked safe,,,,,,,,,,,,,,,,,,,,,,,,0.0,Production bug,Won't Do
+PAYLYNX-1089,3018931,14.11.2025 14:13,03.12.2025 10:09,Canceled,Major,,08.01.2026 16:38,,,,,,,,,,,,,,,,,,,,,,,,,,,1.0,Task,Won't Do
+PAYLYNX-1106,3030596,20.11.2025 11:31,16.12.2025 10:41,Done,Major,,08.01.2026 16:38,Y25:PI5:S2 TidyHome for guests,,,,,,,,,,,,,,,,,,,,,,,,,,2.0,Task,Done
+PAYLYNX-1090,3018945,14.11.2025 14:19,29.12.2025 08:57,Done,Major,,24.03.2026 09:18,Y25:PI5:S2 TidyHome for guests,Y25:PI:5:S3/4 Anna's delivery,,,,,,,,,,,,,,,,,,,,,,,,,3.0,Spike,Done
+PAYLYNX-987,2917410,08.09.2025 12:22,,Open,Major,,24.03.2026 16:16,PI:2:2026 Refined tasks,,,,,,,,,,,,,,,,,,,,,,,,,,2.0,Task,
+PAYLYNX-744,2778695,07.05.2025 07:27,15.01.2026 13:48,Canceled,Major,,15.01.2026 13:52,,,,,,,,,,,,,,,,,,,,,,,,,,,2.0,Task,Won't Do
+PAYLYNX-1002,2937321,17.09.2025 13:20,,Open,Major,,24.03.2026 15:48,PI:2:2026 Refined tasks,,,,,,,,,,,,,,,,,,,,,,,,,,3.0,Task,
+PAYLYNX-948,2888545,18.08.2025 14:28,,Open,Major,,31.03.2026 10:42,PI:3:2026 Refined candidates,,,,,,,,,,,,,,,,,,,,,,,,,,3.0,Task,
+PAYLYNX-1110,3035685,25.11.2025 13:46,,Open,Major,,31.03.2026 10:44,PI:3:2026 Refined candidates,,,,,,,,,,,,,,,,,,,,,,,,,,2.0,Task,
+PAYLYNX-949,2888552,18.08.2025 14:39,,Open,Major,,31.03.2026 10:44,PI:3:2026 Refined candidates,,,,,,,,,,,,,,,,,,,,,,,,,,3.0,Task,
+PAYLYNX-373,2580231,27.11.2024 08:40,,Open,Major,,31.03.2026 10:43,PI:3:2026 Refined candidates,,,,,,,,,,,,,,,,,,,,,,,,,,3.0,Spike,
+PAYLYNX-376,2580696,27.11.2024 13:52,,Open,Major,,31.03.2026 10:43,PI:3:2026 Refined candidates,,,,,,,,,,,,,,,,,,,,,,,,,,3.0,Task,
+PAYLYNX-372,2580227,27.11.2024 08:31,,Open,Major,,31.03.2026 10:43,PI:3:2026 Refined candidates,,,,,,,,,,,,,,,,,,,,,,,,,,3.0,Task,
+PAYLYNX-371,2580220,27.11.2024 08:21,,Open,Major,,31.03.2026 10:43,PI:3:2026 Refined candidates,,,,,,,,,,,,,,,,,,,,,,,,,,3.0,Task,
+PAYLYNX-252,2518495,16.10.2024 10:44,,Open,Major,,25.03.2026 08:04,PI:2:2026 Refined tasks,,,,,,,,,,,,,,,,,,,,,,,,,,3.0,Task,
+PAYLYNX-625,2713935,19.03.2025 09:14,,Done,Major,,24.03.2025 12:02,,,,,,,,,,,,,,,,,,,,,,,,,,,,Service Request,
+PAYLYNX-626,2714214,19.03.2025 10:21,21.07.2025 09:01,Done,Major,,21.07.2025 09:01,,,,,,,,,,,,,,,,,,,,,,,,,,,,Service Request,Fixed
+PAYLYNX-668,2733431,02.04.2025 10:58,,Canceled,Major,,19.05.2025 15:50,,,,,,,,,,,,,,,,,,,,,,,,,,,2.0,Task,Won't Do
+PAYLYNX-592,2697033,06.03.2025 09:06,,Canceled,Major,,09.04.2025 10:12,,,,,,,,,,,,,,,,,,,,,,,,,,,,Spike,Won't Do
+PAYLYNX-629,2715178,19.03.2025 15:17,,Done,Major,,24.03.2025 10:23,,,,,,,,,,,,,,,,,,,,,,,,,,,,Service Request,
+PAYLYNX-631,2715224,19.03.2025 16:01,,Done,Major,,19.03.2025 18:37,,,,,,,,,,,,,,,,,,,,,,,,,,,,Service Request,
+PAYLYNX-632,2716034,20.03.2025 09:57,,Done,Major,,21.05.2025 15:11,,,,,,,,,,,,,,,,,,,,,,,,,,,,Service Request,
+PAYLYNX-633,2717179,21.03.2025 08:28,,Done,Major,,21.03.2025 11:49,,,,,,,,,,,,,,,,,,,,,,,,,,,,Service Request,
+PAYLYNX-635,2718260,21.03.2025 15:19,,Done,Major,,25.03.2025 13:35,,,,,,,,,,,,,,,,,,,,,,,,,,,,Service Request,
+PAYLYNX-637,2721419,25.03.2025 10:12,,Done,Major,,26.03.2025 13:28,,,,,,,,,,,,,,,,,,,,,,,,,,,,Service Request,
+PAYLYNX-697,2757969,14.04.2025 14:04,13.06.2025 12:15,Canceled,Major,,13.06.2025 12:15,,,,,,,,,,,,,,,,,,,,,,,,,,,2.0,Task,Won't Do
+PAYLYNX-642,2725048,27.03.2025 08:36,,Done,Major,,10.04.2025 12:25,,,,,,,,,,,,,,,,,,,,,,,,,,,,Service Request,
+PAYLYNX-643,2725242,27.03.2025 09:21,,Done,Major,,10.04.2025 12:26,,,,,,,,,,,,,,,,,,,,,,,,,,,,Service Request,
+PAYLYNX-646,2726353,27.03.2025 14:03,,Done,Major,,31.03.2025 14:02,PI:1:25 Sprint5 Just in Time,,,,,,,,,,,,,,,,,,,,,,,,,,0.0,Bug,
+PAYLYNX-647,2727639,28.03.2025 10:39,,Done,Major,,10.04.2025 12:30,,,,,,,,,,,,,,,,,,,,,,,,,,,,Service Request,
+PAYLYNX-648,2728235,28.03.2025 15:29,,Done,Major,,01.04.2025 12:09,PI:1:25 Sprint5 Just in Time,,,,,,,,,,,,,,,,,,,,,,,,,,0.0,Bug,
+PAYLYNX-657,2729019,31.03.2025 09:57,,Canceled,Major,,07.05.2025 10:16,,,,,,,,,,,,,,,,,,,,,,,,,,,2.0,Task,Won't Do
+PAYLYNX-658,2729246,31.03.2025 10:35,10.04.2025 10:15,Done,Major,,10.04.2025 11:03,PI:1:25:6 Watching us,PI:1:25 Sprint5 Just in Time,,,,,,,,,,,,,,,,,,,,,,,,,1.0,Task,Done
+PAYLYNX-499,2641187,27.01.2025 08:00,,Canceled,Major,,25.04.2025 16:06,,,,,,,,,,,,,,,,,,,,,,,,,,,2.0,Spike,Won't Do
+PAYLYNX-644,2726111,27.03.2025 12:07,23.04.2025 10:07,Done,Major,,23.04.2025 10:07,PI:1:25:6 Watching us,,,,,,,,,,,,,,,,,,,,,,,,,,2.0,Task,Done
+PAYLYNX-683,2750828,09.04.2025 10:05,23.04.2025 09:50,Done,Major,,23.04.2025 09:50,PI:1:25:6 Watching us,,,,,,,,,,,,,,,,,,,,,,,,,,2.0,Task,Done
+PAYLYNX-611,2707829,13.03.2025 15:30,23.04.2025 09:50,Done,Major,,23.04.2025 09:50,PI:1:25:6 Watching us,,,,,,,,,,,,,,,,,,,,,,,,,,2.0,Task,Done
+PAYLYNX-659,2729247,31.03.2025 10:35,,Canceled,Major,,31.03.2025 10:36,,,,,,,,,,,,,,,,,,,,,,,,,,,1.0,Task,Won't Do
+PAYLYNX-660,2731755,01.04.2025 13:41,,Done,Major,,10.04.2025 07:37,,,,,,,,,,,,,,,,,,,,,,,,,,,,Service Request,
+PAYLYNX-661,2732258,01.04.2025 15:58,,Done,Major,,03.04.2025 08:33,,,,,,,,,,,,,,,,,,,,,,,,,,,,Service Request,
+PAYLYNX-692,2754128,10.04.2025 12:39,09.07.2025 12:21,Done,Major,,09.07.2025 12:21,Y25:PI3:S1 Igniting flames,Y25:PI3:S2 Sandy,,,,,,,,,,,,,,,,,,,,,,,,,2.0,Task,Done
+PAYLYNX-690,2754107,10.04.2025 12:25,23.09.2025 22:25,Done,Major,,23.09.2025 22:25,Y25:PI3:S3 Partially Hot,Y25:PI3:S4 IncidentFree,Y25:PI3:S5 ReFoundation,Y25:PI3:S6 orange pressure,Y25:PI4:S1 EnjoyTheOrange,,,,,,,,,,,,,,,,,,,,,,1.0,Task,Done
+PAYLYNX-664,2732852,02.04.2025 09:36,02.04.2025 15:38,Done,Major,,02.04.2025 15:39,PI:1:25 Sprint5 Just in Time,,,,,,,,,,,,,,,,,,,,,,,,,,0.0,Task,Done
+PAYLYNX-669,2735794,03.04.2025 13:59,,Done,Major,,10.04.2025 07:37,,,,,,,,,,,,,,,,,,,,,,,,,,,,Service Request,
+PAYLYNX-670,2737564,04.04.2025 12:47,,Done,Major,,10.04.2025 07:37,,,,,,,,,,,,,,,,,,,,,,,,,,,,Service Request,
+PAYLYNX-671,2737742,04.04.2025 13:11,,Done,Major,,10.04.2025 07:58,,,,,,,,,,,,,,,,,,,,,,,,,,,,Service Request,
+PAYLYNX-672,2739891,07.04.2025 08:56,,Done,Major,,07.04.2025 10:05,,,,,,,,,,,,,,,,,,,,,,,,,,,,Service Request,
+PAYLYNX-673,2740528,07.04.2025 09:22,,Done,Major,,07.04.2025 10:25,,,,,,,,,,,,,,,,,,,,,,,,,,,,Service Request,
+PAYLYNX-674,2741134,07.04.2025 11:01,,Done,Major,,10.04.2025 12:37,,,,,,,,,,,,,,,,,,,,,,,,,,,,Service Request,
+PAYLYNX-676,2742407,07.04.2025 14:26,,Done,Major,,07.04.2025 15:28,,,,,,,,,,,,,,,,,,,,,,,,,,,,Service Request,
+PAYLYNX-677,2742476,07.04.2025 15:08,,Done,Major,,07.04.2025 15:27,,,,,,,,,,,,,,,,,,,,,,,,,,,,Service Request,
+PAYLYNX-678,2743191,07.04.2025 16:05,,Done,Major,,11.04.2025 10:07,,,,,,,,,,,,,,,,,,,,,,,,,,,,Service Request,
+PAYLYNX-679,2747005,08.04.2025 12:50,,Done,Major,,10.04.2025 13:10,,,,,,,,,,,,,,,,,,,,,,,,,,,,Service Request,
+PAYLYNX-680,2747632,08.04.2025 13:26,,Done,Major,,08.04.2025 15:01,,,,,,,,,,,,,,,,,,,,,,,,,,,,Service Request,
+PAYLYNX-681,2748721,08.04.2025 14:32,,Done,Major,,09.04.2025 07:34,,,,,,,,,,,,,,,,,,,,,,,,,,,,Service Request,
+PAYLYNX-682,2750602,09.04.2025 09:25,,Done,Major,,10.04.2025 10:42,,,,,,,,,,,,,,,,,,,,,,,,,,,,Service Request,
+PAYLYNX-684,2751915,09.04.2025 12:16,,Done,Major,,10.04.2025 12:18,,,,,,,,,,,,,,,,,,,,,,,,,,,,Service Request,
+PAYLYNX-685,2752708,09.04.2025 15:13,10.04.2025 14:43,Done,Major,,10.04.2025 14:43,PI:1:25:6 Watching us,,,,,,,,,,,,,,,,,,,,,,,,,,1.0,Task,Done
+PAYLYNX-686,2754012,10.04.2025 11:49,23.04.2025 10:06,Done,Major,,23.04.2025 10:06,PI:1:25:6 Watching us,,,,,,,,,,,,,,,,,,,,,,,,,,1.0,Task,Done
+PAYLYNX-693,2755165,11.04.2025 09:39,11.04.2025 14:39,Done,Major,,11.04.2025 14:39,PI:1:25:6 Watching us,,,,,,,,,,,,,,,,,,,,,,,,,,1.0,Task,Done
+PAYLYNX-700,2758334,14.04.2025 16:10,15.04.2025 06:44,Done,Major,,15.04.2025 06:44,PI:1:25:6 Watching us,,,,,,,,,,,,,,,,,,,,,,,,,,1.0,Production bug,Done
+PAYLYNX-638,2721391,25.03.2025 11:14,22.04.2025 08:50,Done,Major,,12.05.2025 15:29,PI:1:25:6 Watching us,,,,,,,,,,,,,,,,,,,,,,,,,,2.0,Task,Done
+PAYLYNX-695,2757779,14.04.2025 12:31,,Done,Major,,15.04.2025 08:52,,,,,,,,,,,,,,,,,,,,,,,,,,,,Service Request,
+PAYLYNX-702,2760226,16.04.2025 08:45,25.04.2025 09:47,Done,Major,,05.05.2025 10:55,PI:1:25:6 Watching us,PI:25:2:1 Using protection,,,,,,,,,,,,,,,,,,,,,,,,,0.0,Task,Done
+PAYLYNX-701,2758861,15.04.2025 09:12,06.05.2025 21:49,Done,Major,,08.01.2026 16:32,PI:25:2:1 Using protection,,,,,,,,,,,,,,,,,,,,,,,,,,3.0,Task,Done
+PAYLYNX-710,2765265,23.04.2025 09:00,05.05.2025 07:30,Done,Major,,05.05.2025 07:30,PI:25:2:1 Using protection,,,,,,,,,,,,,,,,,,,,,,,,,,1.0,Task,Done
+PAYLYNX-627,2714168,19.03.2025 10:25,06.05.2025 21:49,Done,Major,,06.05.2025 21:49,PI:25:2:1 Using protection,,,,,,,,,,,,,,,,,,,,,,,,,,1.0,Task,Done
+PAYLYNX-687,2753791,10.04.2025 12:08,15.05.2025 10:21,Done,Major,,15.05.2025 10:23,PI:25:2:1 Using protection,PI:5:2:2 NoPain NoGain,,,,,,,,,,,,,,,,,,,,,,,,,0.0,Task,Done
+PAYLYNX-649,2728815,31.03.2025 08:26,07.05.2025 09:46,Done,Major,,07.05.2025 09:46,PI:25:2:1 Using protection,,,,,,,,,,,,,,,,,,,,,,,,,,1.0,Task,Done
+PAYLYNX-340,2563056,18.11.2024 12:33,16.05.2025 09:59,Done,Major,,16.05.2025 09:59,PI:2025:1:4 cure for ageing,PI:25:2:1 Using protection,PI:5:2:2 NoPain NoGain,PI:1:25 Sprint5 Just in Time,,,,,,,,,,,,,,,,,,,,,,,1.0,Task,Done
+PAYLYNX-653,2728838,31.03.2025 08:59,07.05.2025 09:36,Done,Major,,07.05.2025 09:36,PI:25:2:1 Using protection,,,,,,,,,,,,,,,,,,,,,,,,,,3.0,Task,Done
+PAYLYNX-508,2657974,31.01.2025 14:49,06.05.2025 23:44,Done,Major,,07.05.2025 08:12,PI:25:2:1 Using protection,,,,,,,,,,,,,,,,,,,,,,,,,,3.0,Task,Done
+PAYLYNX-712,2766546,23.04.2025 14:46,25.04.2025 15:23,Done,Major,,25.04.2025 15:23,PI:25:2:1 Using protection,,,,,,,,,,,,,,,,,,,,,,,,,,0.0,Bug,Done
+PAYLYNX-713,2766767,23.04.2025 17:27,25.04.2025 12:19,Done,Major,,25.04.2025 12:19,PI:25:2:1 Using protection,,,,,,,,,,,,,,,,,,,,,,,,,,0.0,Bug,Done
+PAYLYNX-715,2768632,24.04.2025 16:08,,Done,Major,,28.04.2025 08:56,PI:25:2:1 Using protection,,,,,,,,,,,,,,,,,,,,,,,,,,0.0,Bug,
+PAYLYNX-703,2761528,16.04.2025 17:24,,Done,Major,,19.05.2025 15:00,,,,,,,,,,,,,,,,,,,,,,,,,,,,Service Request,
+PAYLYNX-707,2763857,22.04.2025 09:48,,Done,Major,,06.05.2025 07:46,,,,,,,,,,,,,,,,,,,,,,,,,,,,Service Request,
+PAYLYNX-708,2764461,22.04.2025 14:16,,Done,Major,,22.04.2025 15:12,,,,,,,,,,,,,,,,,,,,,,,,,,,,Service Request,
+PAYLYNX-709,2764477,22.04.2025 14:26,,Done,Major,,15.05.2025 10:47,,,,,,,,,,,,,,,,,,,,,,,,,,,,Service Request,
+PAYLYNX-711,2765343,23.04.2025 09:19,,Done,Major,,23.04.2025 11:12,,,,,,,,,,,,,,,,,,,,,,,,,,,,Service Request,
+PAYLYNX-714,2768058,24.04.2025 13:43,,Canceled,Major,,25.04.2025 15:16,,,,,,,,,,,,,,,,,,,,,,,,,,,,Service Request,Won't Do
+PAYLYNX-716,2768759,25.04.2025 08:19,29.04.2025 10:21,Done,Major,,29.04.2025 10:21,PI:25:2:1 Using protection,,,,,,,,,,,,,,,,,,,,,,,,,,0.0,Bug,Done
+PAYLYNX-717,2769934,25.04.2025 15:41,,Done,Major,,06.05.2025 07:48,,,,,,,,,,,,,,,,,,,,,,,,,,,,Service Request,
+PAYLYNX-719,2770904,28.04.2025 10:34,,Done,Major,,28.04.2025 14:37,,,,,,,,,,,,,,,,,,,,,,,,,,,,Service Request,
+PAYLYNX-721,2771101,28.04.2025 12:12,,Canceled,Major,,11.09.2025 11:16,,,,,,,,,,,,,,,,,,,,,,,,,,,,Service Request,Won't Do
+PAYLYNX-722,2772060,29.04.2025 08:35,,Done,Major,,30.04.2025 09:52,,,,,,,,,,,,,,,,,,,,,,,,,,,,Service Request,
+PAYLYNX-723,2772367,29.04.2025 10:33,12.05.2025 09:19,Done,Major,,12.05.2025 09:19,PI:25:2:1 Using protection,PI:5:2:2 NoPain NoGain,,,,,,,,,,,,,,,,,,,,,,,,,1.0,Task,Done
+PAYLYNX-725,2773225,29.04.2025 15:36,,Done,Major,,14.05.2025 12:11,,,,,,,,,,,,,,,,,,,,,,,,,,,,Service Request,
+PAYLYNX-726,2773247,29.04.2025 16:11,,Done,Major,,03.06.2025 11:20,,,,,,,,,,,,,,,,,,,,,,,,,,,,Service Request,
+PAYLYNX-727,2774113,30.04.2025 11:57,,Done,Major,,08.05.2025 07:31,PI:25:2:1 Using protection,,,,,,,,,,,,,,,,,,,,,,,,,,,Production bug,
+PAYLYNX-728,2774483,30.04.2025 22:52,13.05.2025 14:54,Done,Major,,13.05.2025 14:54,PI:25:2:1 Using protection,PI:5:2:2 NoPain NoGain,,,,,,,,,,,,,,,,,,,,,,,,,1.0,Bug,Done
+PAYLYNX-729,2774484,30.04.2025 22:52,,Canceled,Major,,30.04.2025 22:52,,,,,,,,,,,,,,,,,,,,,,,,,,,,Bug,Won't Do
+PAYLYNX-730,2774650,02.05.2025 07:46,20.05.2025 15:08,Done,Major,,20.05.2025 15:08,PI:25:2:1 Using protection,PI:5:2:2 NoPain NoGain,,,,,,,,,,,,,,,,,,,,,,,,,1.0,Production bug,Done
+PAYLYNX-758,2784292,12.05.2025 09:37,13.05.2025 09:22,Done,Major,,08.01.2026 16:33,PI:5:2:2 NoPain NoGain,,,,,,,,,,,,,,,,,,,,,,,,,,0.0,Bug,Done
+PAYLYNX-735,2777537,06.05.2025 09:41,06.05.2025 18:50,Done,Major,,06.05.2025 18:50,PI:25:2:1 Using protection,,,,,,,,,,,,,,,,,,,,,,,,,,1.0,Bug,Done
+PAYLYNX-737,2778659,06.05.2025 23:46,13.05.2025 13:51,Done,Major,,13.05.2025 13:51,PI:25:2:1 Using protection,PI:5:2:2 NoPain NoGain,,,,,,,,,,,,,,,,,,,,,,,,,0.0,Bug,Done
+PAYLYNX-738,2778660,06.05.2025 23:53,12.05.2025 16:54,Done,Major,,12.05.2025 16:54,PI:25:2:1 Using protection,PI:5:2:2 NoPain NoGain,,,,,,,,,,,,,,,,,,,,,,,,,1.0,Bug,Done
+PAYLYNX-731,2775880,05.05.2025 08:39,,Done,Major,,14.07.2025 11:31,,,,,,,,,,,,,,,,,,,,,,,,,,,,Service Request,
+PAYLYNX-732,2776826,05.05.2025 14:22,,Done,Major,,15.05.2025 09:30,,,,,,,,,,,,,,,,,,,,,,,,,,,,Service Request,
+PAYLYNX-733,2776829,05.05.2025 14:22,,Done,Major,,15.05.2025 09:30,,,,,,,,,,,,,,,,,,,,,,,,,,,,Service Request,
+PAYLYNX-734,2777237,06.05.2025 08:34,,Done,Major,,15.05.2025 09:31,,,,,,,,,,,,,,,,,,,,,,,,,,,,Service Request,
+PAYLYNX-736,2777788,06.05.2025 11:56,,Done,Major,,14.07.2025 11:31,,,,,,,,,,,,,,,,,,,,,,,,,,,,Service Request,
+PAYLYNX-746,2778833,07.05.2025 08:30,,Done,Major,,15.05.2025 09:32,,,,,,,,,,,,,,,,,,,,,,,,,,,,Service Request,
+PAYLYNX-747,2778951,07.05.2025 08:49,,Done,Major,,12.05.2025 10:27,PI:25:2:1 Using protection,PI:5:2:2 NoPain NoGain,,,,,,,,,,,,,,,,,,,,,,,,,,Bug,
+PAYLYNX-696,2757967,14.04.2025 13:58,14.05.2025 15:43,Done,Major,,14.05.2025 15:43,PI:5:2:2 NoPain NoGain,,,,,,,,,,,,,,,,,,,,,,,,,,2.0,Task,Done
+PAYLYNX-650,2728816,31.03.2025 08:30,18.06.2025 10:02,Done,Major,,18.06.2025 10:02,PI:5:2:2 NoPain NoGain,PI:5:2:3 Flying high,PI:5:2:4 Free fall,,,,,,,,,,,,,,,,,,,,,,,,3.0,Task,Done
+PAYLYNX-603,2701633,10.03.2025 09:46,05.06.2025 09:02,Done,Major,,13.06.2025 16:03,PI:5:2:3 Flying high,PI:5:2:4 Free fall,,,,,,,,,,,,,,,,,,,,,,,,,1.0,Task,Done
+PAYLYNX-759,2784515,12.05.2025 10:03,03.06.2025 09:47,Done,Major,,03.06.2025 09:47,PI:5:2:3 Flying high,,,,,,,,,,,,,,,,,,,,,,,,,,2.0,Task,Done
+PAYLYNX-656,2729012,31.03.2025 09:47,04.06.2025 10:21,Done,Major,,04.06.2025 10:21,PI:5:2:3 Flying high,,,,,,,,,,,,,,,,,,,,,,,,,,1.0,Task,Done
+PAYLYNX-495,2637631,23.01.2025 14:26,30.05.2025 08:19,Done,Major,,16.06.2025 13:18,PI:5:2:3 Flying high,,,,,,,,,,,,,,,,,,,,,,,,,,3.0,Task,Done
+PAYLYNX-762,2786126,13.05.2025 09:53,27.05.2025 13:24,Done,Major,,02.06.2025 14:41,PI:5:2:3 Flying high,,,,,,,,,,,,,,,,,,,,,,,,,,1.0,Task,Done
+PAYLYNX-565,2683376,21.02.2025 12:53,30.05.2025 09:37,Done,Major,,30.05.2025 09:37,PI:5:2:3 Flying high,,,,,,,,,,,,,,,,,,,,,,,,,,2.0,Task,Done
+PAYLYNX-764,2787100,13.05.2025 15:17,17.06.2025 16:07,Done,Major,,17.06.2025 16:07,PI:5:2:3 Flying high,PI:5:2:4 Free fall,,,,,,,,,,,,,,,,,,,,,,,,,2.0,Task,Done
+PAYLYNX-688,2753795,10.04.2025 12:16,25.07.2025 16:51,Done,Major,,25.07.2025 16:51,PI:5:2:3 Flying high,PI:5:2:4 Free fall,Y25:PI3:S1 Igniting flames,Y25:PI3:S3 Partially Hot,Y25:PI3:S2 Sandy,,,,,,,,,,,,,,,,,,,,,,1.0,Task,Done
+PAYLYNX-778,2796612,21.05.2025 10:53,,Done,Major,,22.05.2025 09:47,PI:5:2:3 Flying high,,,,,,,,,,,,,,,,,,,,,,,,,,,Bug,
+PAYLYNX-484,2632747,21.01.2025 12:34,14.05.2025 11:56,Done,Major,,14.05.2025 13:03,PI:5:2:2 NoPain NoGain,,,,,,,,,,,,,,,,,,,,,,,,,,1.0,Task,Done
+PAYLYNX-705,2763040,21.04.2025 09:11,21.05.2025 07:46,Done,Major,,21.05.2025 07:46,PI:5:2:2 NoPain NoGain,PI:1:25 Sprint5 Just in Time,,,,,,,,,,,,,,,,,,,,,,,,,3.0,Task,Done
+PAYLYNX-706,2763041,21.04.2025 09:15,15.05.2025 09:47,Done,Major,,15.05.2025 09:47,PI:5:2:2 NoPain NoGain,PI:1:25 Sprint5 Just in Time,,,,,,,,,,,,,,,,,,,,,,,,,3.0,Spike,Done
+PAYLYNX-748,2779321,07.05.2025 10:24,21.05.2025 09:44,Done,Major,,21.05.2025 09:44,PI:5:2:2 NoPain NoGain,,,,,,,,,,,,,,,,,,,,,,,,,,2.0,Task,Done
+PAYLYNX-750,2779636,07.05.2025 12:49,14.05.2025 08:31,Done,Major,,14.05.2025 08:31,PI:5:2:2 NoPain NoGain,,,,,,,,,,,,,,,,,,,,,,,,,,0.0,Bug,Done
+PAYLYNX-749,2779391,07.05.2025 12:24,,Canceled,Major,,07.05.2025 12:24,,,,,,,,,,,,,,,,,,,,,,,,,,,,Task,Won't Do
+PAYLYNX-753,2781735,08.05.2025 12:13,14.07.2025 10:48,Done,Major,,14.07.2025 10:48,,,,,,,,,,,,,,,,,,,,,,,,,,,,Service Request,Fixed
+PAYLYNX-755,2782744,09.05.2025 10:17,,Done,Major,,14.07.2025 10:50,,,,,,,,,,,,,,,,,,,,,,,,,,,,Service Request,
+PAYLYNX-756,2783230,09.05.2025 14:23,,Done,Major,,15.05.2025 09:35,,,,,,,,,,,,,,,,,,,,,,,,,,,,Service Request,
+PAYLYNX-761,2785597,13.05.2025 07:41,,Canceled,Major,,11.09.2025 09:57,,,,,,,,,,,,,,,,,,,,,,,,,,,,Bug,Won't Do
+PAYLYNX-763,2786740,13.05.2025 13:45,,Done,Major,,19.05.2025 10:07,,,,,,,,,,,,,,,,,,,,,,,,,,,,Service Request,
+PAYLYNX-765,2787619,14.05.2025 09:38,,Done,Major,,05.06.2025 11:10,,,,,,,,,,,,,,,,,,,,,,,,,,,,Service Request,
+PAYLYNX-766,2788159,14.05.2025 12:32,15.05.2025 09:49,Done,Major,,15.05.2025 09:49,PI:5:2:2 NoPain NoGain,,,,,,,,,,,,,,,,,,,,,,,,,,0.0,Bug,Done
+PAYLYNX-768,2790133,15.05.2025 15:07,,Done,Major,,19.05.2025 12:12,,,,,,,,,,,,,,,,,,,,,,,,,,,,Service Request,
+PAYLYNX-769,2790815,16.05.2025 09:55,28.05.2025 09:37,Canceled,Major,,02.06.2025 14:41,,,,,,,,,,,,,,,,,,,,,,,,,,,,Task,Won't Do
+PAYLYNX-773,2794913,20.05.2025 10:08,,Done,Major,,14.07.2025 11:30,,,,,,,,,,,,,,,,,,,,,,,,,,,,Service Request,
+PAYLYNX-775,2795490,20.05.2025 15:14,,Done,Major,,18.06.2025 13:18,,,,,,,,,,,,,,,,,,,,,,,,,,,,Service Request,
+PAYLYNX-776,2795700,20.05.2025 15:24,20.05.2025 16:17,Done,Major,,20.05.2025 16:17,PI:5:2:2 NoPain NoGain,,,,,,,,,,,,,,,,,,,,,,,,,,0.0,Bug,Done
+PAYLYNX-777,2796523,21.05.2025 10:38,22.05.2025 09:45,Done,Major,,22.05.2025 09:45,PI:5:2:3 Flying high,,,,,,,,,,,,,,,,,,,,,,,,,,0.0,Bug,Done
+PAYLYNX-788,2808004,28.05.2025 20:40,03.06.2025 12:01,Done,Major,,03.06.2025 12:01,PI:5:2:3 Flying high,,,,,,,,,,,,,,,,,,,,,,,,,,0.0,Bug,Done
+PAYLYNX-779,2797266,21.05.2025 14:31,,Done,Major,,16.06.2025 11:55,,,,,,,,,,,,,,,,,,,,,,,,,,,,Service Request,
+PAYLYNX-780,2799273,22.05.2025 11:57,,Done,Major,,22.05.2025 12:08,,,,,,,,,,,,,,,,,,,,,,,,,,,,Service Request,
+PAYLYNX-781,2800299,23.05.2025 09:23,,Done,Major,,28.05.2025 08:28,,,,,,,,,,,,,,,,,,,,,,,,,,,,Service Request,
+PAYLYNX-782,2800563,23.05.2025 10:04,,Done,Major,,23.05.2025 10:17,,,,,,,,,,,,,,,,,,,,,,,,,,,,Service Request,
+PAYLYNX-783,2800583,23.05.2025 10:23,,Done,Major,,23.05.2025 13:11,,,,,,,,,,,,,,,,,,,,,,,,,,,,Service Request,
+PAYLYNX-785,2805652,27.05.2025 12:07,,Done,Major,,27.05.2025 13:20,,,,,,,,,,,,,,,,,,,,,,,,,,,,Service Request,
+PAYLYNX-786,2806700,28.05.2025 07:54,,Done,Major,,29.05.2025 11:11,,,,,,,,,,,,,,,,,,,,,,,,,,,,Service Request,
+PAYLYNX-789,2807886,29.05.2025 09:54,14.07.2025 10:35,Done,Major,,14.07.2025 10:35,,,,,,,,,,,,,,,,,,,,,,,,,,,,Service Request,Fixed
+PAYLYNX-790,2808109,29.05.2025 11:16,,Done,Major,,30.05.2025 13:42,,,,,,,,,,,,,,,,,,,,,,,,,,,,Service Request,
+PAYLYNX-791,2808112,29.05.2025 11:31,30.05.2025 08:34,Done,Major,,30.05.2025 08:34,PI:5:2:3 Flying high,,,,,,,,,,,,,,,,,,,,,,,,,,0.0,Task,Done
+PAYLYNX-792,2808720,30.05.2025 08:37,,Done,Major,,14.07.2025 10:19,,,,,,,,,,,,,,,,,,,,,,,,,,,,Service Request,
+PAYLYNX-793,2809272,30.05.2025 14:29,03.06.2025 13:56,Done,Minor,,03.06.2025 14:45,PI:5:2:3 Flying high,,,,,,,,,,,,,,,,,,,,,,,,,,1.0,Production bug,Done
+PAYLYNX-794,2810112,02.06.2025 07:47,,Done,Major,,02.06.2025 09:53,,,,,,,,,,,,,,,,,,,,,,,,,,,,Service Request,
+PAYLYNX-795,2809969,02.06.2025 09:14,,Done,Major,,17.06.2025 17:30,PI:5:2:3 Flying high,PI:5:2:4 Free fall,,,,,,,,,,,,,,,,,,,,,,,,,1.0,Bug,
+PAYLYNX-810,2813731,04.06.2025 10:21,30.07.2025 09:04,Done,Major,,30.07.2025 09:04,PI:5:2:4 Free fall,Y25:PI3:S1 Igniting flames,Y25:PI3:S3 Partially Hot,Y25:PI3:S2 Sandy,,,,,,,,,,,,,,,,,,,,,,,0.0,Task,Done
+PAYLYNX-699,2758198,14.04.2025 16:02,17.06.2025 09:04,Done,Major,,17.06.2025 09:04,PI:5:2:4 Free fall,,,,,,,,,,,,,,,,,,,,,,,,,,3.0,Task,Done
+PAYLYNX-583,2694222,04.03.2025 10:54,26.06.2025 14:06,Done,Major,,14.07.2025 13:42,PI:5:2:4 Free fall,Y25:PI3:S1 Igniting flames,,,,,,,,,,,,,,,,,,,,,,,,,2.0,Task,Done
+PAYLYNX-651,2728819,31.03.2025 08:33,25.06.2025 09:16,Done,Major,,25.06.2025 09:16,PI:5:2:3 Flying high,PI:5:2:4 Free fall,Y25:PI3:S1 Igniting flames,,,,,,,,,,,,,,,,,,,,,,,,0.0,Task,Done
+PAYLYNX-691,2754118,10.04.2025 12:30,23.09.2025 22:26,Done,Major,,23.09.2025 22:26,PI:5:2:4 Free fall,Y25:PI3:S1 Igniting flames,Y25:PI3:S3 Partially Hot,Y25:PI3:S4 IncidentFree,Y25:PI3:S5 ReFoundation,Y25:PI3:S6 orange pressure,Y25:PI4:S1 EnjoyTheOrange,Y25:PI3:S2 Sandy,,,,,,,,,,,,,,,,,,,2.0,Task,Done
+PAYLYNX-760,2785451,12.05.2025 15:28,06.06.2025 16:28,Done,Major,,21.07.2025 14:33,PI:5:2:4 Free fall,,,,,,,,,,,,,,,,,,,,,,,,,,2.0,Task,Done
+PAYLYNX-689,2753796,10.04.2025 12:19,25.07.2025 16:51,Done,Major,,25.07.2025 16:51,PI:5:2:4 Free fall,Y25:PI3:S1 Igniting flames,Y25:PI3:S3 Partially Hot,Y25:PI3:S2 Sandy,,,,,,,,,,,,,,,,,,,,,,,1.0,Task,Done
+PAYLYNX-784,2801327,23.05.2025 15:19,20.06.2025 09:01,Done,Major,,26.06.2025 08:30,PI:5:2:4 Free fall,Y25:PI3:S1 Igniting flames,,,,,,,,,,,,,,,,,,,,,,,,,0.0,Task,Done
+PAYLYNX-787,2807208,28.05.2025 10:29,20.06.2025 09:02,Done,Major,,20.06.2025 09:02,PI:5:2:4 Free fall,Y25:PI3:S1 Igniting flames,,,,,,,,,,,,,,,,,,,,,,,,,0.0,Task,Done
+PAYLYNX-796,2810163,02.06.2025 09:14,,Done,Major,,03.06.2025 18:37,PI:5:2:3 Flying high,,,,,,,,,,,,,,,,,,,,,,,,,,1.0,Bug,
+PAYLYNX-797,2809977,02.06.2025 09:19,,Canceled,Major,,02.06.2025 14:42,,,,,,,,,,,,,,,,,,,,,,,,,,,,Test,Won't Do
+PAYLYNX-798,2810773,02.06.2025 12:50,02.06.2025 15:23,Done,Major,,02.06.2025 15:23,PI:5:2:3 Flying high,,,,,,,,,,,,,,,,,,,,,,,,,,0.0,Task,Done
+PAYLYNX-799,2810846,02.06.2025 12:51,,Done,Major,,14.07.2025 10:51,,,,,,,,,,,,,,,,,,,,,,,,,,,,Service Request,
+PAYLYNX-800,2810847,02.06.2025 12:52,,Done,Major,,02.06.2025 13:00,,,,,,,,,,,,,,,,,,,,,,,,,,,,Service Request,
+PAYLYNX-802,2811805,03.06.2025 08:59,,Done,Major,,14.07.2025 10:52,,,,,,,,,,,,,,,,,,,,,,,,,,,,Service Request,
+PAYLYNX-806,2812675,03.06.2025 13:58,,Done,Major,,14.07.2025 10:52,,,,,,,,,,,,,,,,,,,,,,,,,,,,Service Request,
+PAYLYNX-807,2812682,03.06.2025 14:11,,Done,Major,,04.06.2025 08:31,,,,,,,,,,,,,,,,,,,,,,,,,,,,Service Request,
+PAYLYNX-808,2812866,03.06.2025 15:04,,Done,Major,,14.07.2025 11:30,,,,,,,,,,,,,,,,,,,,,,,,,,,,Service Request,
+PAYLYNX-811,2813887,04.06.2025 10:41,,Done,Major,,14.07.2025 10:52,,,,,,,,,,,,,,,,,,,,,,,,,,,,Service Request,
+PAYLYNX-816,2816380,05.06.2025 12:13,,Done,Major,,14.07.2025 10:53,,,,,,,,,,,,,,,,,,,,,,,,,,,,Service Request,
+PAYLYNX-817,2816527,05.06.2025 12:16,,Done,Major,,14.07.2025 11:30,,,,,,,,,,,,,,,,,,,,,,,,,,,,Service Request,
+PAYLYNX-818,2817828,06.06.2025 15:54,18.07.2025 08:37,Done,Major,,18.07.2025 08:37,,,,,,,,,,,,,,,,,,,,,,,,,,,,Service Request,Fixed
+PAYLYNX-821,2820730,10.06.2025 11:49,,Done,Major,,12.06.2025 14:28,,,,,,,,,,,,,,,,,,,,,,,,,,,,Service Request,
+PAYLYNX-822,2821283,10.06.2025 15:53,21.07.2025 08:34,Done,Major,,21.07.2025 08:34,,,,,,,,,,,,,,,,,,,,,,,,,,,,Service Request,Fixed
+PAYLYNX-823,2821920,11.06.2025 09:05,,Done,Major,,11.06.2025 16:09,,,,,,,,,,,,,,,,,,,,,,,,,,,,Service Request,
+PAYLYNX-824,2822946,11.06.2025 15:28,,Done,Major,,12.06.2025 08:32,,,,,,,,,,,,,,,,,,,,,,,,,,,,Service Request,
+PAYLYNX-825,2823570,12.06.2025 08:36,,Done,Major,,12.06.2025 10:46,,,,,,,,,,,,,,,,,,,,,,,,,,,,Service Request,
+PAYLYNX-826,2823880,12.06.2025 10:19,,Done,Major,,17.06.2025 19:41,PI:5:2:4 Free fall,,,,,,,,,,,,,,,,,,,,,,,,,,2.0,Bug,
+PAYLYNX-828,2824500,12.06.2025 12:48,,Done,Major,,25.06.2025 11:22,PI:5:2:4 Free fall,Y25:PI3:S1 Igniting flames,,,,,,,,,,,,,,,,,,,,,,,,,0.0,Production bug,
+PAYLYNX-830,2824906,12.06.2025 14:46,27.06.2025 15:41,Done,Major,,27.06.2025 15:41,PI:5:2:4 Free fall,Y25:PI3:S1 Igniting flames,,,,,,,,,,,,,,,,,,,,,,,,,1.0,Production bug,Done
+PAYLYNX-832,2824991,12.06.2025 15:29,17.06.2025 09:04,Done,Major,,17.06.2025 09:04,PI:5:2:4 Free fall,,,,,,,,,,,,,,,,,,,,,,,,,,1.0,Production bug,Done
+PAYLYNX-836,2827083,13.06.2025 13:50,27.06.2025 10:50,Done,Major,,27.06.2025 10:50,PI:5:2:4 Free fall,Y25:PI3:S1 Igniting flames,,,,,,,,,,,,,,,,,,,,,,,,,1.0,Production bug,Done
+PAYLYNX-838,2828365,16.06.2025 08:54,16.06.2025 15:11,Done,Major,,16.06.2025 15:11,PI:5:2:4 Free fall,,,,,,,,,,,,,,,,,,,,,,,,,,1.0,Production bug,Done
+PAYLYNX-839,2828373,16.06.2025 08:56,17.06.2025 15:18,Done,Major,,18.06.2025 09:52,PI:5:2:4 Free fall,,,,,,,,,,,,,,,,,,,,,,,,,,1.0,Production bug,Done
+PAYLYNX-842,2829801,16.06.2025 12:53,,Done,Major,,17.06.2025 20:10,PI:5:2:4 Free fall,,,,,,,,,,,,,,,,,,,,,,,,,,1.0,Production bug,
+PAYLYNX-829,2824527,12.06.2025 13:19,26.06.2025 08:30,Done,Major,,26.06.2025 08:30,PI:5:2:4 Free fall,Y25:PI3:S1 Igniting flames,,,,,,,,,,,,,,,,,,,,,,,,,0.0,Production bug,Done
+PAYLYNX-843,2834267,17.06.2025 11:32,,Done,Major,,18.06.2025 09:55,PI:5:2:4 Free fall,,,,,,,,,,,,,,,,,,,,,,,,,,1.0,Production bug,
+PAYLYNX-844,2834507,17.06.2025 11:36,20.06.2025 20:38,Done,Major,,20.06.2025 20:38,PI:5:2:4 Free fall,Y25:PI3:S1 Igniting flames,,,,,,,,,,,,,,,,,,,,,,,,,2.0,Bug,Done
+PAYLYNX-845,2835779,17.06.2025 13:55,19.06.2025 09:43,Done,Major,,19.06.2025 09:43,PI:5:2:4 Free fall,Y25:PI3:S1 Igniting flames,,,,,,,,,,,,,,,,,,,,,,,,,1.0,Production bug,Done
+PAYLYNX-848,2837641,17.06.2025 19:42,19.06.2025 08:29,Done,Major,,19.06.2025 08:29,PI:5:2:4 Free fall,Y25:PI3:S1 Igniting flames,,,,,,,,,,,,,,,,,,,,,,,,,0.0,Task,Done
+PAYLYNX-834,2827008,13.06.2025 12:20,02.07.2025 09:02,Done,Major,,11.07.2025 14:26,Y25:PI3:S1 Igniting flames,,,,,,,,,,,,,,,,,,,,,,,,,,1.0,Task,Done
+PAYLYNX-718,2770581,28.04.2025 10:07,16.07.2025 08:42,Done,Major,,16.07.2025 08:42,Y25:PI3:S1 Igniting flames,Y25:PI3:S2 Sandy,,,,,,,,,,,,,,,,,,,,,,,,,1.0,Spike,Done
+PAYLYNX-820,2819870,10.06.2025 08:46,01.07.2025 12:35,Done,Major,,11.07.2025 17:33,Y25:PI3:S1 Igniting flames,,,,,,,,,,,,,,,,,,,,,,,,,,1.0,Task,Done
+PAYLYNX-840,2828847,16.06.2025 10:21,27.06.2025 10:40,Done,Major,,27.06.2025 10:40,Y25:PI3:S1 Igniting flames,,,,,,,,,,,,,,,,,,,,,,,,,,1.0,Task,Done
+PAYLYNX-771,2792748,19.05.2025 09:50,25.07.2025 09:05,Done,Major,,25.07.2025 09:06,Y25:PI3:S1 Igniting flames,Y25:PI3:S3 Partially Hot,Y25:PI3:S2 Sandy,,,,,,,,,,,,,,,,,,,,,,,,0.0,Task,Done
+PAYLYNX-739,2778690,07.05.2025 07:23,01.07.2025 14:36,Done,Major,,01.07.2025 14:36,Y25:PI3:S1 Igniting flames,,,,,,,,,,,,,,,,,,,,,,,,,,1.0,Task,Done
+PAYLYNX-827,2824341,12.06.2025 12:10,,Done,Major,,12.06.2025 13:01,,,,,,,,,,,,,,,,,,,,,,,,,,,,Service Request,
+PAYLYNX-837,2827165,13.06.2025 14:58,,Done,Major,,13.06.2025 15:13,,,,,,,,,,,,,,,,,,,,,,,,,,,,Service Request,
+PAYLYNX-846,2836141,17.06.2025 14:00,,Done,Major,,14.07.2025 11:19,,,,,,,,,,,,,,,,,,,,,,,,,,,,Service Request,
+PAYLYNX-847,2837588,17.06.2025 16:13,,Done,Major,,14.07.2025 11:22,,,,,,,,,,,,,,,,,,,,,,,,,,,,Service Request,
+PAYLYNX-849,2842568,19.06.2025 16:17,26.06.2025 13:49,Done,Major,,26.06.2025 13:49,Y25:PI3:S1 Igniting flames,,,,,,,,,,,,,,,,,,,,,,,,,,1.0,Bug,Done
+PAYLYNX-853,2843098,20.06.2025 20:37,26.06.2025 12:53,Done,Major,,26.06.2025 12:53,Y25:PI3:S1 Igniting flames,,,,,,,,,,,,,,,,,,,,,,,,,,1.0,Bug,Done
+PAYLYNX-860,2846082,25.06.2025 13:46,26.06.2025 09:19,Done,Major,,26.06.2025 09:19,Y25:PI3:S1 Igniting flames,,,,,,,,,,,,,,,,,,,,,,,,,,0.0,Bug,Done
+PAYLYNX-861,2847019,25.06.2025 16:44,30.06.2025 13:39,Done,Major,,30.06.2025 13:39,Y25:PI3:S1 Igniting flames,,,,,,,,,,,,,,,,,,,,,,,,,,0.0,Bug,Done
+PAYLYNX-871,2852184,01.07.2025 12:38,07.07.2025 15:07,Done,Major,,07.07.2025 15:07,Y25:PI3:S1 Igniting flames,Y25:PI3:S2 Sandy,,,,,,,,,,,,,,,,,,,,,,,,,1.0,Bug,Done
+PAYLYNX-667,2733428,02.04.2025 10:53,14.07.2025 11:03,Done,Major,,26.09.2025 07:48,Y25:PI3:S2 Sandy,,,,,,,,,,,,,,,,,,,,,,,,,,2.0,Task,Done
+PAYLYNX-862,2847368,26.06.2025 10:32,16.07.2025 12:48,Done,Major,,16.07.2025 12:48,Y25:PI3:S3 Partially Hot,Y25:PI3:S2 Sandy,,,,,,,,,,,,,,,,,,,,,,,,,0.0,Task,Done
+PAYLYNX-857,2845925,25.06.2025 11:26,10.07.2025 10:15,Done,Major,,10.07.2025 10:15,Y25:PI3:S2 Sandy,,,,,,,,,,,,,,,,,,,,,,,,,,1.0,Task,Done
+PAYLYNX-858,2845929,25.06.2025 11:26,16.07.2025 09:08,Done,Major,,16.07.2025 09:08,Y25:PI3:S2 Sandy,,,,,,,,,,,,,,,,,,,,,,,,,,1.0,Task,Done
+PAYLYNX-874,2853583,02.07.2025 13:38,09.07.2025 11:08,Done,Major,,09.07.2025 11:08,Y25:PI3:S2 Sandy,,,,,,,,,,,,,,,,,,,,,,,,,,1.0,Bug,Done
+PAYLYNX-877,2853988,02.07.2025 23:30,07.07.2025 14:02,Done,Major,,07.07.2025 14:02,Y25:PI3:S2 Sandy,,,,,,,,,,,,,,,,,,,,,,,,,,1.0,Production bug,Done
+PAYLYNX-855,2845923,25.06.2025 11:22,22.07.2025 13:12,Done,Major,,22.07.2025 13:12,Y25:PI3:S3 Partially Hot,Y25:PI3:S2 Sandy,,,,,,,,,,,,,,,,,,,,,,,,,3.0,Task,Done
+PAYLYNX-883,2861484,09.07.2025 08:48,14.07.2025 14:35,Done,Major,,14.07.2025 14:35,Y25:PI3:S2 Sandy,,,,,,,,,,,,,,,,,,,,,,,,,,0.0,Bug,Done
+PAYLYNX-854,2845369,25.06.2025 08:37,,Done,Major,,25.06.2025 11:13,,,,,,,,,,,,,,,,,,,,,,,,,,,,Service Request,
+PAYLYNX-859,2845953,25.06.2025 12:22,,Done,Major,,25.06.2025 14:10,,,,,,,,,,,,,,,,,,,,,,,,,,,,Service Request,
+PAYLYNX-863,2847371,26.06.2025 10:35,,Canceled,Major,,27.06.2025 09:04,,,,,,,,,,,,,,,,,,,,,,,,,,,,Service Request,Won't Do
+PAYLYNX-865,2848696,27.06.2025 09:31,,Done,Major,,27.06.2025 10:30,,,,,,,,,,,,,,,,,,,,,,,,,,,,Service Request,
+PAYLYNX-866,2849115,27.06.2025 10:44,,Done,Major,,27.06.2025 12:26,,,,,,,,,,,,,,,,,,,,,,,,,,,,Service Request,
+PAYLYNX-867,2849956,27.06.2025 14:09,,Done,Major,,27.06.2025 14:19,,,,,,,,,,,,,,,,,,,,,,,,,,,,Service Request,
+PAYLYNX-868,2850311,27.06.2025 15:42,,Done,Major,,30.06.2025 10:54,,,,,,,,,,,,,,,,,,,,,,,,,,,,Service Request,
+PAYLYNX-869,2851221,30.06.2025 13:10,,Done,Major,,30.06.2025 15:52,,,,,,,,,,,,,,,,,,,,,,,,,,,,Service Request,
+PAYLYNX-870,2851938,01.07.2025 09:04,,Done,Major,,01.07.2025 10:23,,,,,,,,,,,,,,,,,,,,,,,,,,,,Service Request,
+PAYLYNX-872,2852544,01.07.2025 14:31,,Done,Major,,01.07.2025 16:01,,,,,,,,,,,,,,,,,,,,,,,,,,,,Service Request,
+PAYLYNX-875,2853849,02.07.2025 14:48,,Done,Major,,02.07.2025 14:55,,,,,,,,,,,,,,,,,,,,,,,,,,,,Service Request,
+PAYLYNX-878,2855060,03.07.2025 12:47,,Done,Major,,30.07.2025 08:28,,,,,,,,,,,,,,,,,,,,,,,,,,,,Service Request,
+PAYLYNX-879,2855678,03.07.2025 15:54,,Canceled,Major,,11.09.2025 09:07,,,,,,,,,,,,,,,,,,,,,,,,,,,,Bug,Won't Do
+PAYLYNX-880,2856004,03.07.2025 15:59,,Canceled,Major,,11.09.2025 09:08,,,,,,,,,,,,,,,,,,,,,,,,,,,,Bug,Won't Do
+PAYLYNX-881,2856009,03.07.2025 16:04,,Done,Major,,03.07.2025 16:41,,,,,,,,,,,,,,,,,,,,,,,,,,,,Service Request,
+PAYLYNX-882,2859332,07.07.2025 13:18,,Done,Major,,15.07.2025 16:40,,,,,,,,,,,,,,,,,,,,,,,,,,,,Service Request,
+PAYLYNX-884,2861808,09.07.2025 12:21,14.07.2025 16:06,Done,Minor,,14.07.2025 16:06,Y25:PI3:S2 Sandy,,,,,,,,,,,,,,,,,,,,,,,,,,1.0,Bug,Done
+PAYLYNX-886,2863958,11.07.2025 14:59,,Done,Major,,14.07.2025 10:38,,,,,,,,,,,,,,,,,,,,,,,,,,,,Service Request,
+PAYLYNX-887,2863853,11.07.2025 17:27,11.07.2025 17:29,Canceled,Major,,11.07.2025 17:31,,,,,,,,,,,,,,,,,,,,,,,,,,,3.0,Task,Won't Do
+PAYLYNX-888,2863854,11.07.2025 17:27,11.07.2025 17:29,Canceled,Major,,11.07.2025 17:31,,,,,,,,,,,,,,,,,,,,,,,,,,,3.0,Task,Won't Do
+PAYLYNX-890,2865074,14.07.2025 10:36,,Done,Major,,17.07.2025 08:07,Y25:PI3:S3 Partially Hot,Y25:PI3:S2 Sandy,,,,,,,,,,,,,,,,,,,,,,,,,1.0,Bug,
+PAYLYNX-856,2845924,25.06.2025 11:25,25.07.2025 14:13,Done,Major,,25.07.2025 14:13,Y25:PI3:S3 Partially Hot,,,,,,,,,,,,,,,,,,,,,,,,,,3.0,Task,Done
+PAYLYNX-751,2780084,07.05.2025 16:42,24.09.2025 09:02,Done,Major,,17.11.2025 14:18,Y25:PI3:S3 Partially Hot,Y25:PI3:S4 IncidentFree,Y25:PI3:S5 ReFoundation,Y25:PI3:S6 orange pressure,Y25:PI4:S1 EnjoyTheOrange,,,,,,,,,,,,,,,,,,,,,,2.0,Task,Done
+PAYLYNX-740,2778691,07.05.2025 07:24,30.07.2025 08:44,Done,Major,,21.08.2025 08:55,Y25:PI3:S3 Partially Hot,,,,,,,,,,,,,,,,,,,,,,,,,,1.0,Task,Done
+PAYLYNX-666,2733089,02.04.2025 10:29,24.07.2025 11:28,Done,Major,,26.09.2025 07:48,Y25:PI3:S3 Partially Hot,,,,,,,,,,,,,,,,,,,,,,,,,,2.0,Task,Done
+PAYLYNX-628,2714436,19.03.2025 11:02,30.07.2025 08:54,Done,Major,,29.10.2025 10:32,Y25:PI3:S3 Partially Hot,,,,,,,,,,,,,,,,,,,,,,,,,,2.0,Spike,Done
+PAYLYNX-896,2869678,22.07.2025 09:18,24.07.2025 11:37,Done,Major,,24.07.2025 11:37,Y25:PI3:S3 Partially Hot,,,,,,,,,,,,,,,,,,,,,,,,,,1.0,Production bug,Done
+PAYLYNX-899,2871104,23.07.2025 16:21,,Done,Major,,08.09.2025 12:41,Y25:PI3:S3 Partially Hot,Y25:PI3:S4 IncidentFree,Y25:PI3:S5 ReFoundation,Y25:PI3:S6 orange pressure,,,,,,,,,,,,,,,,,,,,,,,1.0,Production bug,
+PAYLYNX-891,2865543,14.07.2025 15:00,,Done,Major,,17.07.2025 14:15,,,,,,,,,,,,,,,,,,,,,,,,,,,,Service Request,
+PAYLYNX-297,2552927,11.11.2024 12:34,08.09.2025 13:06,Canceled,Major,,02.10.2025 14:00,,,,,,,,,,,,,,,,,,,,,,,,,,,3.0,Story,Won't Do
+PAYLYNX-654,2728880,31.03.2025 09:26,08.09.2025 13:22,Canceled,Major,,08.09.2025 13:22,,,,,,,,,,,,,,,,,,,,,,,,,,,2.0,Task,Won't Do
+PAYLYNX-900,2871190,24.07.2025 09:52,24.07.2025 14:52,Done,Major,,24.07.2025 14:52,Y25:PI3:S3 Partially Hot,,,,,,,,,,,,,,,,,,,,,,,,,,0.0,Bug,Done
+PAYLYNX-893,2868137,17.07.2025 14:13,24.07.2025 15:02,Done,Major,,24.07.2025 15:02,Y25:PI3:S3 Partially Hot,,,,,,,,,,,,,,,,,,,,,,,,,,1.0,Production bug,Done
+PAYLYNX-903,2871885,25.07.2025 10:02,,Done,Major,,25.07.2025 14:41,Y25:PI3:S3 Partially Hot,,,,,,,,,,,,,,,,,,,,,,,,,,0.0,Bug,
+PAYLYNX-841,2828893,16.06.2025 10:44,28.07.2025 12:39,Done,Major,,05.08.2025 08:29,Y25:PI3:S3 Partially Hot,,,,,,,,,,,,,,,,,,,,,,,,,,1.0,Task,Done
+PAYLYNX-901,2871523,24.07.2025 10:23,,Done,Major,,25.07.2025 15:14,,,,,,,,,,,,,,,,,,,,,,,,,,,,Service Request,
+PAYLYNX-902,2871802,24.07.2025 14:56,,Done,Major,,25.07.2025 09:08,,,,,,,,,,,,,,,,,,,,,,,,,,,,Service Request,
+PAYLYNX-904,2872101,25.07.2025 10:38,07.10.2025 17:43,Done,Major,,07.10.2025 17:43,Y25:PI3:S3 Partially Hot,Y25:PI3:S4 IncidentFree,Y25:PI3:S5 ReFoundation,Y25:PI3:S6 orange pressure,Y25:PI4:S1 EnjoyTheOrange,Y25:PI4:S2 Just Partying,,,,,,,,,,,,,,,,,,,,,0.0,Task,Done
+PAYLYNX-892,2866725,16.07.2025 09:13,05.08.2025 08:39,Done,Major,,05.08.2025 08:39,Y25:PI3:S4 IncidentFree,,,,,,,,,,,,,,,,,,,,,,,,,,0.0,Task,Done
+PAYLYNX-391,2595792,11.12.2024 09:28,12.08.2025 16:03,Done,Major,,13.08.2025 12:04,Y25:PI3:S4 IncidentFree,,,,,,,,,,,,,,,,,,,,,,,,,,2.0,Task,Done
+PAYLYNX-767,2788088,14.05.2025 13:03,31.07.2025 10:18,Done,Major,,31.07.2025 10:18,Y25:PI3:S4 IncidentFree,,,,,,,,,,,,,,,,,,,,,,,,,,1.0,Task,Done
+PAYLYNX-698,2758197,14.04.2025 15:53,27.08.2025 09:51,Done,Major,,27.08.2025 09:51,Y25:PI3:S4 IncidentFree,Y25:PI3:S5 ReFoundation,,,,,,,,,,,,,,,,,,,,,,,,,2.0,Task,Done
+PAYLYNX-47,2187899,05.01.2024 12:52,25.08.2025 11:10,Done,Major,,25.08.2025 11:10,Y25:PI3:S4 IncidentFree,Y25:PI3:S5 ReFoundation,,,,,,,,,,,,,,,,,,,,,,,,,2.0,Task,Done
+PAYLYNX-593,2697208,06.03.2025 09:45,05.08.2025 08:56,Done,Major,,19.11.2025 10:28,Y25:PI3:S4 IncidentFree,,,,,,,,,,,,,,,,,,,,,,,,,,2.0,Spike,Done
+PAYLYNX-913,2875562,31.07.2025 23:28,25.08.2025 14:41,Done,Major,,26.08.2025 15:51,Y25:PI3:S4 IncidentFree,Y25:PI3:S5 ReFoundation,,,,,,,,,,,,,,,,,,,,,,,,,2.0,Bug,Done
+PAYLYNX-905,2873010,28.07.2025 15:29,,Canceled,Major,,30.07.2025 08:25,,,,,,,,,,,,,,,,,,,,,,,,,,,,Service Request,Won't Do
+PAYLYNX-906,2873134,29.07.2025 08:31,,Done,Major,,30.07.2025 08:31,,,,,,,,,,,,,,,,,,,,,,,,,,,,Service Request,
+PAYLYNX-907,2873167,29.07.2025 09:34,11.09.2025 09:49,Done,Major,,11.09.2025 09:49,,,,,,,,,,,,,,,,,,,,,,,,,,,,Service Request,Fixed
+PAYLYNX-908,2873515,29.07.2025 11:29,,Done,Major,,01.08.2025 14:37,,,,,,,,,,,,,,,,,,,,,,,,,,,,Service Request,
+PAYLYNX-909,2874889,31.07.2025 09:28,,Done,Major,,04.08.2025 10:30,,,,,,,,,,,,,,,,,,,,,,,,,,,,Service Request,
+PAYLYNX-914,2875825,01.08.2025 09:26,11.09.2025 09:52,Done,Major,,11.09.2025 09:52,,,,,,,,,,,,,,,,,,,,,,,,,,,,Service Request,Fixed
+PAYLYNX-915,2875889,01.08.2025 12:01,13.08.2025 09:01,Done,Major,,13.08.2025 09:01,Y25:PI3:S4 IncidentFree,,,,,,,,,,,,,,,,,,,,,,,,,,1.0,Bug,Done
+PAYLYNX-917,2876252,01.08.2025 16:57,12.08.2025 08:34,Done,Major,,12.08.2025 08:34,Y25:PI3:S4 IncidentFree,,,,,,,,,,,,,,,,,,,,,,,,,,2.0,Task,Done
+PAYLYNX-916,2876146,01.08.2025 15:10,11.09.2025 09:53,Done,Major,,11.09.2025 09:53,,,,,,,,,,,,,,,,,,,,,,,,,,,,Service Request,Fixed
+PAYLYNX-921,2876776,04.08.2025 13:47,,Done,Major,,05.08.2025 12:34,,,,,,,,,,,,,,,,,,,,,,,,,,,,Service Request,
+PAYLYNX-922,2877756,05.08.2025 13:10,,Done,Major,,05.08.2025 15:26,,,,,,,,,,,,,,,,,,,,,,,,,,,,Service Request,
+PAYLYNX-923,2878329,06.08.2025 09:05,,Done,Major,,07.08.2025 10:37,,,,,,,,,,,,,,,,,,,,,,,,,,,,Service Request,
+PAYLYNX-924,2878353,06.08.2025 09:24,,Done,Major,,07.08.2025 11:40,,,,,,,,,,,,,,,,,,,,,,,,,,,,Service Request,
+PAYLYNX-925,2878460,06.08.2025 11:31,,Done,Major,,07.08.2025 12:35,,,,,,,,,,,,,,,,,,,,,,,,,,,,Service Request,
+PAYLYNX-926,2878743,06.08.2025 13:51,,Done,Major,,08.08.2025 13:10,,,,,,,,,,,,,,,,,,,,,,,,,,,,Service Request,
+PAYLYNX-927,2878805,06.08.2025 13:54,14.08.2025 09:21,Done,Major,,14.08.2025 09:21,,,,,,,,,,,,,,,,,,,,,,,,,,,,Service Request,Fixed
+PAYLYNX-928,2879264,07.08.2025 10:44,12.08.2025 13:11,Done,Major,,12.08.2025 13:11,Y25:PI3:S4 IncidentFree,,,,,,,,,,,,,,,,,,,,,,,,,,0.0,Bug,Done
+PAYLYNX-929,2879457,07.08.2025 13:29,,Done,Major,,11.08.2025 07:34,,,,,,,,,,,,,,,,,,,,,,,,,,,,Service Request,
+PAYLYNX-930,2880734,11.08.2025 08:10,,Done,Major,,12.08.2025 07:10,,,,,,,,,,,,,,,,,,,,,,,,,,,,Service Request,
+PAYLYNX-931,2881117,11.08.2025 08:48,21.08.2025 12:45,Done,Major,,21.08.2025 12:45,Y25:PI3:S4 IncidentFree,Y25:PI3:S5 ReFoundation,,,,,,,,,,,,,,,,,,,,,,,,,0.0,Bug,Done
+PAYLYNX-43,2188144,05.01.2024 14:27,22.08.2025 08:36,Done,Major,,22.08.2025 08:36,Y25:PI3:S5 ReFoundation,,,,,,,,,,,,,,,,,,,,,,,,,,2.0,Task,Done
+PAYLYNX-35,2187853,05.01.2024 11:01,27.08.2025 08:51,Done,Major,,17.11.2025 07:03,Y25:PI3:S5 ReFoundation,,,,,,,,,,,,,,,,,,,,,,,,,,1.0,Task,Done
+PAYLYNX-850,2842570,19.06.2025 16:32,25.08.2025 14:05,Done,Major,,25.08.2025 14:31,Y25:PI3:S5 ReFoundation,,,,,,,,,,,,,,,,,,,,,,,,,,1.0,Task,Done
+PAYLYNX-939,2883399,13.08.2025 09:36,14.08.2025 16:56,Done,Major,,14.08.2025 16:56,Y25:PI3:S5 ReFoundation,,,,,,,,,,,,,,,,,,,,,,,,,,1.0,Task,Done
+PAYLYNX-912,2875530,31.07.2025 14:58,27.08.2025 09:52,Done,Major,,27.08.2025 09:52,Y25:PI3:S5 ReFoundation,,,,,,,,,,,,,,,,,,,,,,,,,,2.0,Task,Done
+PAYLYNX-947,2888442,18.08.2025 14:00,22.08.2025 12:20,Done,Major,,22.08.2025 12:20,Y25:PI3:S5 ReFoundation,,,,,,,,,,,,,,,,,,,,,,,,,,1.0,Task,Done
+PAYLYNX-934,2881375,11.08.2025 12:18,,Done,Major,,18.08.2025 08:02,,,,,,,,,,,,,,,,,,,,,,,,,,,,Service Request,
+PAYLYNX-885,2862602,10.07.2025 09:47,05.11.2025 09:42,Canceled,Major,,05.11.2025 09:42,,,,,,,,,,,,,,,,,,,,,,,,,,,3.0,Spike,Won't Do
+PAYLYNX-936,2882290,12.08.2025 10:36,,Done,Major,,12.08.2025 11:35,,,,,,,,,,,,,,,,,,,,,,,,,,,,Service Request,
+PAYLYNX-938,2883164,13.08.2025 08:46,11.09.2025 09:48,Done,Major,,11.09.2025 09:48,,,,,,,,,,,,,,,,,,,,,,,,,,,,Service Request,Fixed
+PAYLYNX-940,2883909,13.08.2025 11:53,,Done,Major,,13.08.2025 13:50,,,,,,,,,,,,,,,,,,,,,,,,,,,,Service Request,
+PAYLYNX-941,2885852,14.08.2025 12:13,11.09.2025 10:01,Done,Major,,11.09.2025 10:01,,,,,,,,,,,,,,,,,,,,,,,,,,,,Service Request,Fixed
+PAYLYNX-942,2885874,14.08.2025 12:32,11.09.2025 09:48,Done,Major,,11.09.2025 09:48,,,,,,,,,,,,,,,,,,,,,,,,,,,,Service Request,Fixed
+PAYLYNX-950,2888797,19.08.2025 08:46,,Done,Major,,22.08.2025 11:40,,,,,,,,,,,,,,,,,,,,,,,,,,,,Service Request,
+PAYLYNX-951,2889183,19.08.2025 09:51,,Done,Major,,19.08.2025 10:08,,,,,,,,,,,,,,,,,,,,,,,,,,,,Service Request,
+PAYLYNX-952,2889438,19.08.2025 11:51,,Done,Major,,19.08.2025 13:02,,,,,,,,,,,,,,,,,,,,,,,,,,,,Service Request,
+PAYLYNX-953,2889456,19.08.2025 12:36,,Done,Major,,25.08.2025 09:46,,,,,,,,,,,,,,,,,,,,,,,,,,,,Service Request,
+PAYLYNX-954,2891888,21.08.2025 10:30,,Done,Major,,22.08.2025 11:47,,,,,,,,,,,,,,,,,,,,,,,,,,,,Service Request,
+PAYLYNX-956,2892785,21.08.2025 14:43,22.08.2025 12:15,Done,Major,,22.08.2025 12:15,Y25:PI3:S5 ReFoundation,,,,,,,,,,,,,,,,,,,,,,,,,,0.0,Bug,Done
+PAYLYNX-957,2893030,21.08.2025 15:40,22.08.2025 13:42,Done,Major,,22.08.2025 13:42,Y25:PI3:S5 ReFoundation,,,,,,,,,,,,,,,,,,,,,,,,,,1.0,Bug,Done
+PAYLYNX-958,2893433,22.08.2025 08:36,,Done,Major,,01.09.2025 13:02,,,,,,,,,,,,,,,,,,,,,,,,,,,,Service Request,
+PAYLYNX-960,2893552,22.08.2025 09:29,04.09.2025 13:46,Done,Major,,04.09.2025 13:46,Y25:PI3:S5 ReFoundation,Y25:PI3:S6 orange pressure,,,,,,,,,,,,,,,,,,,,,,,,,1.0,Bug,Done
+PAYLYNX-932,2881358,11.08.2025 11:34,01.10.2025 08:33,Done,Major,,02.10.2025 14:00,Y25:PI4:S2 Just Partying,,,,,,,,,,,,,,,,,,,,,,,,,,1.0,Task,Done
+PAYLYNX-971,2903934,01.09.2025 09:10,08.10.2025 08:36,Done,Major,,08.10.2025 08:36,Y25:PI4:S2 Just Partying,,,,,,,,,,,,,,,,,,,,,,,,,,3.0,Task,Done
+PAYLYNX-427,2614436,07.01.2025 14:42,08.10.2025 08:31,Done,Major,,08.10.2025 08:31,Y25:PI4:S2 Just Partying,,,,,,,,,,,,,,,,,,,,,,,,,,1.0,Task,Done
+PAYLYNX-972,2903936,01.09.2025 09:12,26.09.2025 09:49,Done,Major,,02.10.2025 14:00,Y25:PI4:S2 Just Partying,,,,,,,,,,,,,,,,,,,,,,,,,,2.0,Task,Done
+PAYLYNX-962,2894698,22.08.2025 15:57,30.09.2025 07:58,Done,Major,,30.09.2025 07:58,Y25:PI3:S5 ReFoundation,Y25:PI3:S6 orange pressure,Y25:PI4:S1 EnjoyTheOrange,Y25:PI4:S2 Just Partying,,,,,,,,,,,,,,,,,,,,,,,1.0,Bug,Done
+PAYLYNX-963,2894928,22.08.2025 17:56,,Done,Critical,,11.09.2025 13:54,Y25:PI3:S5 ReFoundation,Y25:PI3:S6 orange pressure,Y25:PI4:S1 EnjoyTheOrange,,,,,,,,,,,,,,,,,,,,,,,,,Bug,
+PAYLYNX-965,2897290,26.08.2025 11:28,28.08.2025 23:19,Done,Major,,28.08.2025 23:19,Y25:PI3:S5 ReFoundation,Y25:PI3:S6 orange pressure,,,,,,,,,,,,,,,,,,,,,,,,,0.0,Production bug,Done
+PAYLYNX-966,2899007,27.08.2025 10:01,18.09.2025 11:36,Done,Major,,18.09.2025 11:36,Y25:PI3:S6 orange pressure,Y25:PI4:S1 EnjoyTheOrange,,,,,,,,,,,,,,,,,,,,,,,,,2.0,Task,Done
+PAYLYNX-964,2897266,26.08.2025 11:09,19.09.2025 08:49,Done,Major,,19.09.2025 08:49,Y25:PI3:S6 orange pressure,Y25:PI4:S1 EnjoyTheOrange,,,,,,,,,,,,,,,,,,,,,,,,,1.0,Task,Done
+PAYLYNX-604,2701991,10.03.2025 13:11,09.09.2025 10:44,Done,Major,,09.09.2025 10:44,Y25:PI3:S6 orange pressure,,,,,,,,,,,,,,,,,,,,,,,,,,2.0,Task,Done
+PAYLYNX-652,2728820,31.03.2025 08:34,05.09.2025 12:36,Done,Major,,05.09.2025 12:36,Y25:PI3:S6 orange pressure,,,,,,,,,,,,,,,,,,,,,,,,,,2.0,Task,Done
+PAYLYNX-752,2780090,07.05.2025 16:49,04.09.2025 08:23,Done,Major,,24.09.2025 08:58,Y25:PI3:S6 orange pressure,,,,,,,,,,,,,,,,,,,,,,,,,,2.0,Task,Done
+PAYLYNX-833,2825837,13.06.2025 08:32,17.11.2025 07:46,Done,Major,,17.11.2025 07:46,Y25:PI3:S6 orange pressure,Y25:PI4:S1 EnjoyTheOrange,Y25:PI4:S2 Just Partying,Y25:PI4:S3 Green Ambition,Y25:PI4:S4 Out of the closet,Y25:PI4:S5 by the book,,,,,,,,,,,,,,,,,,,,,1.0,Task,Done
+PAYLYNX-967,2901133,28.08.2025 10:39,11.09.2025 09:09,Done,Major,,11.09.2025 09:09,,,,,,,,,,,,,,,,,,,,,,,,,,,,Service Request,Fixed
+PAYLYNX-969,2902194,28.08.2025 22:38,02.09.2025 09:15,Done,Major,,02.09.2025 09:15,Y25:PI3:S6 orange pressure,,,,,,,,,,,,,,,,,,,,,,,,,,1.0,Production bug,Done
+PAYLYNX-970,2902375,29.08.2025 10:00,,Done,Major,,29.08.2025 10:47,,,,,,,,,,,,,,,,,,,,,,,,,,,,Service Request,
+PAYLYNX-974,2904848,01.09.2025 13:40,,Done,Major,,24.09.2025 09:30,Y25:PI3:S6 orange pressure,Y25:PI4:S1 EnjoyTheOrange,,,,,,,,,,,,,,,,,,,,,,,,,1.0,Bug,
+PAYLYNX-985,2916973,08.09.2025 11:22,08.09.2025 13:30,Done,Major,,08.09.2025 13:30,Y25:PI3:S6 orange pressure,,,,,,,,,,,,,,,,,,,,,,,,,,0.0,Production bug,Done
+PAYLYNX-989,2919918,09.09.2025 00:19,26.09.2025 07:46,Done,Major,,26.09.2025 07:46,Y25:PI3:S6 orange pressure,Y25:PI4:S1 EnjoyTheOrange,Y25:PI4:S2 Just Partying,,,,,,,,,,,,,,,,,,,,,,,,2.0,Task,Done
+PAYLYNX-581,2693225,03.03.2025 15:14,17.09.2025 14:07,Done,Major,,17.09.2025 14:07,Y25:PI4:S1 EnjoyTheOrange,,,,,,,,,,,,,,,,,,,,,,,,,,3.0,Task,Done
+PAYLYNX-665,2733078,02.04.2025 10:20,08.10.2025 08:35,Done,Major,,08.10.2025 08:35,Y25:PI4:S1 EnjoyTheOrange,Y25:PI4:S2 Just Partying,,,,,,,,,,,,,,,,,,,,,,,,,1.0,Task,Done
+PAYLYNX-911,2875443,31.07.2025 14:33,28.10.2025 14:24,Done,Major,,28.10.2025 14:24,Y25:PI4:S1 EnjoyTheOrange,Y25:PI4:S2 Just Partying,Y25:PI4:S3 Green Ambition,Y25:PI4:S4 Out of the closet,,,,,,,,,,,,,,,,,,,,,,,1.0,Task,Done
+PAYLYNX-959,2893440,22.08.2025 08:51,30.09.2025 09:58,Done,Major,,02.10.2025 14:00,Y25:PI4:S1 EnjoyTheOrange,Y25:PI4:S2 Just Partying,,,,,,,,,,,,,,,,,,,,,,,,,1.0,Task,Done
+PAYLYNX-979,2908312,03.09.2025 09:49,15.09.2025 15:47,Done,Major,,02.10.2025 14:00,Y25:PI4:S1 EnjoyTheOrange,,,,,,,,,,,,,,,,,,,,,,,,,,1.0,Task,Done
+PAYLYNX-976,2906273,02.09.2025 11:07,11.09.2025 09:54,Done,Major,,11.09.2025 09:54,,,,,,,,,,,,,,,,,,,,,,,,,,,,Service Request,Fixed
+PAYLYNX-977,2906507,02.09.2025 11:38,,Done,Major,,16.09.2025 13:08,,,,,,,,,,,,,,,,,,,,,,,,,,,,Service Request,
+PAYLYNX-978,2906833,02.09.2025 13:01,,Done,Major,,16.09.2025 13:07,,,,,,,,,,,,,,,,,,,,,,,,,,,,Service Request,
+PAYLYNX-414,2610340,27.12.2024 13:54,,Open,Major,,24.03.2026 12:23,PI:2:2026 Refined tasks,,,,,,,,,,,,,,,,,,,,,,,,,,3.0,Task,
+PAYLYNX-250,2517663,15.10.2024 15:10,,Open,Major,,31.03.2026 10:44,PI:2:2026 Refined tasks,,,,,,,,,,,,,,,,,,,,,,,,,,3.0,Task,
+PAYLYNX-95,2367403,29.05.2024 16:30,,Open,Major,,25.03.2026 12:13,PI:2:2026 Refined tasks,,,,,,,,,,,,,,,,,,,,,,,,,,1.0,Task,
+PAYLYNX-13,1666175,30.08.2022 12:55,16.09.2025 12:15,Canceled,Major,,16.09.2025 12:15,,,,,,,,,,,,,,,,,,,,,,,,,,,,Task,Won't Do
+PAYLYNX-982,2909301,03.09.2025 13:56,,Done,Major,,16.09.2025 13:07,,,,,,,,,,,,,,,,,,,,,,,,,,,,Service Request,
+PAYLYNX-983,2913034,05.09.2025 09:25,11.09.2025 09:59,Done,Major,,11.09.2025 09:59,,,,,,,,,,,,,,,,,,,,,,,,,,,,Service Request,Fixed
+PAYLYNX-986,2916786,08.09.2025 11:49,,Done,Major,,10.09.2025 15:01,,,,,,,,,,,,,,,,,,,,,,,,,,,,Service Request,
+PAYLYNX-988,2918913,08.09.2025 15:07,,Done,Major,,08.09.2025 16:02,,,,,,,,,,,,,,,,,,,,,,,,,,,,Service Request,
+PAYLYNX-990,2923489,09.09.2025 13:36,,Canceled,Major,,12.09.2025 12:26,,,,,,,,,,,,,,,,,,,,,,,,,,,,Service Request,Won't Do
+PAYLYNX-991,2925251,09.09.2025 15:05,,Done,Major,,10.09.2025 13:39,,,,,,,,,,,,,,,,,,,,,,,,,,,,Service Request,
+PAYLYNX-992,2928275,10.09.2025 11:37,11.09.2025 14:02,Done,Major,,11.09.2025 14:02,Y25:PI4:S1 EnjoyTheOrange,,,,,,,,,,,,,,,,,,,,,,,,,,1.0,Task,Done
+PAYLYNX-993,2929636,10.09.2025 15:58,,Done,Major,,15.09.2025 14:46,,,,,,,,,,,,,,,,,,,,,,,,,,,,Service Request,
+PAYLYNX-994,2929843,11.09.2025 09:14,,Done,Major,,19.09.2025 08:23,,,,,,,,,,,,,,,,,,,,,,,,,,,,Service Request,
+PAYLYNX-995,2931866,12.09.2025 09:14,,Done,Major,,12.09.2025 13:50,,,,,,,,,,,,,,,,,,,,,,,,,,,,Service Request,
+PAYLYNX-996,2931868,12.09.2025 09:25,,Done,Major,,22.09.2025 08:46,Y25:PI4:S1 EnjoyTheOrange,,,,,,,,,,,,,,,,,,,,,,,,,,1.0,Production bug,
+PAYLYNX-997,2932181,12.09.2025 10:36,17.09.2025 14:14,Done,Major,,17.09.2025 14:14,Y25:PI4:S1 EnjoyTheOrange,,,,,,,,,,,,,,,,,,,,,,,,,,1.0,Task,Done
+PAYLYNX-980,2908322,03.09.2025 09:59,17.09.2025 14:44,Done,Major,,02.10.2025 14:00,Y25:PI4:S1 EnjoyTheOrange,,,,,,,,,,,,,,,,,,,,,,,,,,3.0,Task,Done
+PAYLYNX-1001,2936640,17.09.2025 08:51,,Done,Major,,02.10.2025 12:45,Y25:PI4:S1 EnjoyTheOrange,Y25:PI4:S2 Just Partying,,,,,,,,,,,,,,,,,,,,,,,,,1.0,Production bug,
+PAYLYNX-1006,2938452,18.09.2025 11:09,08.10.2025 08:31,Done,Major,,08.10.2025 08:31,Y25:PI4:S1 EnjoyTheOrange,Y25:PI4:S2 Just Partying,,,,,,,,,,,,,,,,,,,,,,,,,1.0,Production bug,Done
+PAYLYNX-998,2934087,15.09.2025 12:25,,Done,Major,,18.09.2025 09:49,,,,,,,,,,,,,,,,,,,,,,,,,,,,Service Request,
+PAYLYNX-999,2934836,15.09.2025 14:36,,Done,Major,,19.09.2025 13:42,,,,,,,,,,,,,,,,,,,,,,,,,,,,Service Request,
+PAYLYNX-1000,2936059,16.09.2025 15:11,,Done,Major,,18.09.2025 07:46,,,,,,,,,,,,,,,,,,,,,,,,,,,,Service Request,
+PAYLYNX-1004,2937271,17.09.2025 14:17,,Open,Major,,10.12.2025 13:23,"MBBL: improve, techdebt, ideas",,,,,,,,,,,,,,,,,,,,,,,,,,,Production bug,
+PAYLYNX-1320,3156938,05.03.2026 10:22,,Open,Major,,01.04.2026 16:37,"MBBL: improve, techdebt, ideas",,,,,,,,,,,,,,,,,,,,,,,,,,2.0,Task,
+PAYLYNX-1293,3142099,20.02.2026 16:02,,Open,Major,,25.03.2026 08:20,"MBBL: improve, techdebt, ideas",,,,,,,,,,,,,,,,,,,,,,,,,,3.0,Task,
+PAYLYNX-1272,3132822,13.02.2026 08:25,,Open,Major,,25.03.2026 08:22,"MBBL: improve, techdebt, ideas",,,,,,,,,,,,,,,,,,,,,,,,,,3.0,Task,
+PAYLYNX-515,2662478,05.02.2025 10:35,,Open,Major,,25.03.2026 08:26,"MBBL: improve, techdebt, ideas",,,,,,,,,,,,,,,,,,,,,,,,,,3.0,Spike,
+PAYLYNX-1005,2937570,17.09.2025 14:18,,Done,Major,,19.09.2025 13:41,,,,,,,,,,,,,,,,,,,,,,,,,,,,Service Request,
+PAYLYNX-1007,2939796,19.09.2025 11:39,26.09.2025 14:34,Canceled,Major,,26.09.2025 14:34,,,,,,,,,,,,,,,,,,,,,,,,,,,,Task,Won't Do
+PAYLYNX-1008,2941209,22.09.2025 09:44,,Done,Major,,09.10.2025 07:29,,,,,,,,,,,,,,,,,,,,,,,,,,,,Service Request,
+PAYLYNX-1009,2943691,24.09.2025 08:30,,Done,Major,,24.09.2025 08:43,,,,,,,,,,,,,,,,,,,,,,,,,,,,Service Request,
+PAYLYNX-1011,2946531,25.09.2025 09:53,,Done,Major,,25.09.2025 11:22,,,,,,,,,,,,,,,,,,,,,,,,,,,,Service Request,
+PAYLYNX-1012,2948117,26.09.2025 07:48,14.10.2025 11:22,Done,Major,,14.10.2025 13:39,Y25:PI4:S2 Just Partying,Y25:PI4:S3 Green Ambition,,,,,,,,,,,,,,,,,,,,,,,,,1.0,Task,Done
+PAYLYNX-1013,2948249,26.09.2025 09:33,02.10.2025 16:11,Done,Major,,25.11.2025 08:12,Y25:PI4:S2 Just Partying,,,,,,,,,,,,,,,,,,,,,,,,,,3.0,Task,Done
+PAYLYNX-1014,2949633,29.09.2025 09:05,09.10.2025 08:58,Done,Major,,09.10.2025 08:58,Y25:PI4:S2 Just Partying,Y25:PI4:S3 Green Ambition,,,,,,,,,,,,,,,,,,,,,,,,,0.0,Task,Done
+PAYLYNX-1015,2949636,29.09.2025 09:10,17.10.2025 16:33,Done,Major,,17.10.2025 16:33,Y25:PI4:S2 Just Partying,Y25:PI4:S3 Green Ambition,,,,,,,,,,,,,,,,,,,,,,,,,2.0,Bug,Done
+PAYLYNX-1016,2949638,29.09.2025 09:11,13.11.2025 13:27,Done,Major,,13.11.2025 13:27,Y25:PI4:S2 Just Partying,Y25:PI4:S3 Green Ambition,Y25:PI4:S4 Out of the closet,Y25:PI4:S5 by the book,,,,,,,,,,,,,,,,,,,,,,,0.0,Bug,Done
+PAYLYNX-1025,2956698,03.10.2025 12:06,15.10.2025 14:00,Done,Major,,15.10.2025 14:00,Y25:PI4:S3 Green Ambition,,,,,,,,,,,,,,,,,,,,,,,,,,2.0,Task,Done
+PAYLYNX-1028,2960064,07.10.2025 09:29,29.10.2025 22:21,Done,Major,,29.10.2025 22:21,Y25:PI4:S3 Green Ambition,Y25:PI4:S4 Out of the closet,,,,,,,,,,,,,,,,,,,,,,,,,1.0,Task,Done
+PAYLYNX-944,2888204,18.08.2025 11:37,16.10.2025 11:35,Done,Major,,16.10.2025 11:35,Y25:PI4:S3 Green Ambition,,,,,,,,,,,,,,,,,,,,,,,,,,3.0,Task,Done
+PAYLYNX-815,2814964,04.06.2025 16:45,22.10.2025 09:35,Done,Major,,27.10.2025 08:33,Y25:PI4:S3 Green Ambition,,,,,,,,,,,,,,,,,,,,,,,,,,3.0,Spike,Done
+PAYLYNX-1010,2944077,24.09.2025 08:58,29.12.2025 10:47,Done,Major,,24.03.2026 09:18,Y25:PI4:S3 Green Ambition,Y25:PI4:S4 Out of the closet,Y25:PI4:S5 by the book,Y25:PI5:S1 Cold in all places,Y25:PI5:S2 TidyHome for guests,Y25:PI:5:S3/4 Anna's delivery,,,,,,,,,,,,,,,,,,,,,1.0,Task,Done
+PAYLYNX-770,2792744,19.05.2025 09:48,29.10.2025 15:53,Done,Minor,,29.10.2025 15:53,Y25:PI4:S3 Green Ambition,Y25:PI4:S4 Out of the closet,,,,,,,,,,,,,,,,,,,,,,,,,1.0,Test,Done
+PAYLYNX-48,2187344,04.01.2024 14:12,22.10.2025 08:28,Done,Major,,22.10.2025 08:28,Y25:PI4:S3 Green Ambition,,,,,,,,,,,,,,,,,,,,,,,,,,3.0,Task,Done
+PAYLYNX-1031,2963901,09.10.2025 09:26,21.10.2025 17:41,Done,Major,,21.10.2025 17:41,Y25:PI4:S3 Green Ambition,,,,,,,,,,,,,,,,,,,,,,,,,,2.0,Task,Done
+PAYLYNX-1035,2971012,14.10.2025 21:46,05.11.2025 11:55,Done,Major,,05.11.2025 11:55,Y25:PI4:S3 Green Ambition,Y25:PI4:S4 Out of the closet,Y25:PI4:S5 by the book,,,,,,,,,,,,,,,,,,,,,,,,1.0,Bug,Done
+PAYLYNX-1045,2975384,17.10.2025 15:35,,Done,Major,,22.10.2025 11:24,Y25:PI4:S3 Green Ambition,Y25:PI4:S4 Out of the closet,,,,,,,,,,,,,,,,,,,,,,,,,,Bug,
+PAYLYNX-1046,2975548,17.10.2025 16:36,30.10.2025 19:39,Done,Major,,30.10.2025 19:39,Y25:PI4:S3 Green Ambition,Y25:PI4:S4 Out of the closet,,,,,,,,,,,,,,,,,,,,,,,,,1.0,Bug,Done
+PAYLYNX-1026,2957241,03.10.2025 13:09,29.10.2025 14:37,Done,Major,,25.11.2025 08:12,Y25:PI4:S4 Out of the closet,,,,,,,,,,,,,,,,,,,,,,,,,,2.0,Task,Done
+PAYLYNX-1021,2955738,02.10.2025 13:04,29.10.2025 22:20,Done,Major,,29.10.2025 22:20,Y25:PI4:S4 Out of the closet,,,,,,,,,,,,,,,,,,,,,,,,,,1.0,Task,Done
+PAYLYNX-1022,2955745,02.10.2025 13:15,29.10.2025 22:20,Done,Major,,29.10.2025 22:20,Y25:PI4:S4 Out of the closet,,,,,,,,,,,,,,,,,,,,,,,,,,1.0,Task,Done
+PAYLYNX-1034,2969798,14.10.2025 13:39,27.10.2025 11:13,Done,Critical,,25.11.2025 08:12,Y25:PI4:S4 Out of the closet,,,,,,,,,,,,,,,,,,,,,,,,,,3.0,Task,Done
+PAYLYNX-945,2888205,18.08.2025 11:42,04.11.2025 08:49,Done,Major,,25.11.2025 13:46,Y25:PI4:S4 Out of the closet,,,,,,,,,,,,,,,,,,,,,,,,,,3.0,Task,Done
+PAYLYNX-44,2187390,04.01.2024 15:50,03.11.2025 08:22,Done,Major,,03.11.2025 08:22,Y25:PI4:S4 Out of the closet,,,,,,,,,,,,,,,,,,,,,,,,,,2.0,Task,Done
+PAYLYNX-1030,2963079,08.10.2025 17:24,29.10.2025 15:49,Done,Major,,25.11.2025 08:12,Y25:PI4:S4 Out of the closet,,,,,,,,,,,,,,,,,,,,,,,,,,3.0,Task,Done
+PAYLYNX-1067,2995721,04.11.2025 09:21,05.11.2025 09:08,Done,Major,,05.11.2025 09:08,Y25:PI4:S4 Out of the closet,,,,,,,,,,,,,,,,,,,,,,,,,,0.0,Task,Done
+PAYLYNX-1069,2996306,04.11.2025 12:29,04.11.2025 14:30,Done,Major,,04.11.2025 14:30,Y25:PI4:S4 Out of the closet,,,,,,,,,,,,,,,,,,,,,,,,,,1.0,Production bug,Done
+PAYLYNX-1071,2996553,04.11.2025 14:14,04.11.2025 15:03,Done,Major,,04.11.2025 15:03,Y25:PI4:S4 Out of the closet,,,,,,,,,,,,,,,,,,,,,,,,,,1.0,Production bug,Done
+PAYLYNX-1072,2996889,04.11.2025 16:07,02.12.2025 15:49,Done,Major,,02.12.2025 15:49,Y25:PI4:S4 Out of the closet,Y25:PI4:S5 by the book,Y25:PI5:S1 Cold in all places,,,,,,,,,,,,,,,,,,,,,,,,1.0,Production bug,Done
+PAYLYNX-946,2888206,18.08.2025 11:45,14.11.2025 07:36,Done,Major,,14.11.2025 07:40,Y25:PI4:S5 by the book,,,,,,,,,,,,,,,,,,,,,,,,,,1.0,Task,Done
+PAYLYNX-898,2870710,23.07.2025 09:56,26.11.2025 13:55,Done,Major,,26.11.2025 13:55,Y25:PI4:S5 by the book,Y25:PI5:S1 Cold in all places,,,,,,,,,,,,,,,,,,,,,,,,,2.0,Task,Done
+PAYLYNX-1048,2979245,22.10.2025 08:55,26.11.2025 09:39,Done,Major,,26.11.2025 09:39,Y25:PI4:S5 by the book,Y25:PI5:S1 Cold in all places,,,,,,,,,,,,,,,,,,,,,,,,,2.0,Task,Done
+PAYLYNX-935,2881867,11.08.2025 16:26,13.11.2025 11:23,Done,Major,,13.11.2025 11:23,Y25:PI4:S5 by the book,,,,,,,,,,,,,,,,,,,,,,,,,,3.0,Task,Done
+PAYLYNX-933,2881374,11.08.2025 12:09,30.11.2025 23:35,Done,Major,,30.11.2025 23:35,Y25:PI4:S5 by the book,Y25:PI5:S1 Cold in all places,,,,,,,,,,,,,,,,,,,,,,,,,2.0,Task,Done
+PAYLYNX-973,2903992,01.09.2025 09:55,01.12.2025 12:13,Done,Major,,01.12.2025 12:13,Y25:PI4:S5 by the book,Y25:PI5:S1 Cold in all places,,,,,,,,,,,,,,,,,,,,,,,,,1.0,Task,Done
+PAYLYNX-1084,3014580,13.11.2025 10:41,13.11.2025 15:35,Done,Major,,13.11.2025 15:35,Y25:PI4:S5 by the book,,,,,,,,,,,,,,,,,,,,,,,,,,0.0,Production bug,Done
+PAYLYNX-1074,2997669,05.11.2025 09:55,19.11.2025 10:06,Done,Major,,19.11.2025 10:17,Y25:PI4:S5 by the book,,,,,,,,,,,,,,,,,,,,,,,,,,5.0,Task,Done
+PAYLYNX-1017,2950433,29.09.2025 12:11,07.10.2025 12:36,Done,Minor,,07.10.2025 12:36,Y25:PI4:S2 Just Partying,,,,,,,,,,,,,,,,,,,,,,,,,,1.0,Production bug,Done
+PAYLYNX-1024,2957004,03.10.2025 10:55,06.10.2025 10:42,Done,Major,,06.10.2025 10:42,Y25:PI4:S2 Just Partying,,,,,,,,,,,,,,,,,,,,,,,,,,0.0,Task,Done
+PAYLYNX-1019,2953099,01.10.2025 08:16,,Done,Major,,06.10.2025 12:34,,,,,,,,,,,,,,,,,,,,,,,,,,,,Service Request,
+PAYLYNX-1020,2953938,01.10.2025 09:05,,Done,Major,,24.10.2025 09:58,,,,,,,,,,,,,,,,,,,,,,,,,,,,Service Request,
+PAYLYNX-1027,2958064,06.10.2025 10:07,06.10.2025 12:01,Done,Major,,06.10.2025 13:42,Y25:PI4:S2 Just Partying,,,,,,,,,,,,,,,,,,,,,,,,,,0.0,Bug,Done
+PAYLYNX-1029,2962303,08.10.2025 11:56,,Done,Major,,10.10.2025 15:25,,,,,,,,,,,,,,,,,,,,,,,,,,,,Service Request,
+PAYLYNX-1032,2964656,09.10.2025 10:32,,Done,Major,,24.10.2025 09:52,,,,,,,,,,,,,,,,,,,,,,,,,,,,Service Request,
+PAYLYNX-1036,2970871,15.10.2025 08:33,15.10.2025 09:07,Canceled,Major,,15.10.2025 09:07,,,,,,,,,,,,,,,,,,,,,,,,,,,,Task,Won't Do
+PAYLYNX-1038,2972186,15.10.2025 15:36,,Done,Major,,17.10.2025 11:12,,,,,,,,,,,,,,,,,,,,,,,,,,,,Service Request,
+PAYLYNX-1041,2973762,16.10.2025 15:13,,Done,Major,,14.11.2025 10:06,,,,,,,,,,,,,,,,,,,,,,,,,,,,Service Request,
+PAYLYNX-1044,2975285,17.10.2025 15:27,,Done,Major,,22.10.2025 11:40,,,,,,,,,,,,,,,,,,,,,,,,,,,,Service Request,
+PAYLYNX-1047,2979409,22.10.2025 08:28,,Done,Minor,,22.10.2025 08:52,Y25:PI4:S3 Green Ambition,,,,,,,,,,,,,,,,,,,,,,,,,,,Bug,
+PAYLYNX-1050,2980636,22.10.2025 15:29,,Done,Major,,29.12.2025 08:30,,,,,,,,,,,,,,,,,,,,,,,,,,,,Service Request,
+PAYLYNX-1051,2981001,22.10.2025 17:49,,Open,Major,,29.10.2025 16:09,For Refinement,,,,,,,,,,,,,,,,,,,,,,,,,,,Task,
+PAYLYNX-1052,2981002,22.10.2025 17:58,,Open,Major,,29.10.2025 10:42,For Refinement,,,,,,,,,,,,,,,,,,,,,,,,,,,Task,
+PAYLYNX-1053,2981963,23.10.2025 10:29,,Open,Major,,23.10.2025 10:49,For Refinement,,,,,,,,,,,,,,,,,,,,,,,,,,,Task,
+PAYLYNX-1054,2982306,23.10.2025 10:49,,Open,Major,,29.10.2025 10:44,For Refinement,,,,,,,,,,,,,,,,,,,,,,,,,,,Task,
+PAYLYNX-1055,2984248,24.10.2025 12:26,,Done,Major,,29.12.2025 08:30,,,,,,,,,,,,,,,,,,,,,,,,,,,,Service Request,
+PAYLYNX-443,2618489,10.01.2025 13:08,,In Progress,Major,,27.03.2026 09:09,Premium Bugs,,,,,,,,,,,,,,,,,,,,,,,,,,3.0,Production bug,
+PAYLYNX-918,2876253,01.08.2025 16:59,,In Progress,Major,,27.03.2026 09:09,Y25:PI3:S4 IncidentFree,Y25:PI3:S5 ReFoundation,Y25:PI3:S6 orange pressure,Y25:PI4:S1 EnjoyTheOrange,Y25:PI4:S2 Just Partying,Y25:PI4:S3 Green Ambition,Y25:PI4:S4 Out of the closet,Premium Bugs,,,,,,,,,,,,,,,,,,,0.0,Production bug,
+PAYLYNX-968,2901833,28.08.2025 14:24,,In Progress,Major,,27.03.2026 09:09,Y25:PI3:S6 orange pressure,Y25:PI4:S1 EnjoyTheOrange,Premium Bugs,,,,,,,,,,,,,,,,,,,,,,,,0.0,Production bug,
+PAYLYNX-1371,3174990,18.03.2026 14:31,18.03.2026 14:31,Open,Minor,,07.04.2026 15:13,Premium Bugs,,,,,,,,,,,,,,,,,,,,,,,,,,,Bug,
+PAYLYNX-1358,3161972,10.03.2026 10:26,,In Progress,Major,,27.03.2026 09:06,Premium Bugs,,,,,,,,,,,,,,,,,,,,,,,,,,,Bug,
+PAYLYNX-1359,3171391,16.03.2026 13:28,16.03.2026 13:28,Open,Major,,27.03.2026 09:07,Premium Bugs,,,,,,,,,,,,,,,,,,,,,,,,,,,Bug,
+PAYLYNX-1356,3142600,23.02.2026 08:14,,Open,Major,,27.03.2026 09:07,Premium Bugs,,,,,,,,,,,,,,,,,,,,,,,,,,,Bug,
+PAYLYNX-1370,3143431,23.02.2026 12:08,,Open,Major,,27.03.2026 09:07,Premium Bugs,,,,,,,,,,,,,,,,,,,,,,,,,,,Bug,
+PAYLYNX-190,2485003,16.09.2024 18:10,,Pending,Major,,27.03.2026 09:08,Sprint 4 Out of shitty diapers,Sprint 5 Octoberswitch,Sprint 6 - on the beach,Sprint 7 Living Resurrection,Premium Bugs,,,,,,,,,,,,,,,,,,,,,,,Bug,
+PAYLYNX-273,2539430,31.10.2024 13:45,,Open,Major,,27.03.2026 09:08,Sprint 7 Living Resurrection,Sprint 8 - Crossroads,PI24:5 SAFEst start,PI:24:5:2 - Cracked safe,Premium Bugs,,,,,,,,,,,,,,,,,,,,,,0.0,Bug,
+PAYLYNX-1247,3122696,05.02.2026 12:36,,Open,Major,,27.03.2026 09:08,Y26:PI:1:S1 Power boost,Y26:PI:1:S2 Freedom Sprint,Premium Bugs,,,,,,,,,,,,,,,,,,,,,,,,,Bug,
+PAYLYNX-454,2623366,15.01.2025 08:14,,Open,Minor,,07.04.2026 15:13,Premium Bugs,,,,,,,,,,,,,,,,,,,,,,,,,,,Bug,
+PAYLYNX-1303,3151136,28.02.2026 22:48,,Open,Minor,,02.04.2026 15:30,Premium Bugs,,,,,,,,,,,,,,,,,,,,,,,,,,,Production bug,
+PAYLYNX-1066,2992401,31.10.2025 08:10,,Done,Major,,14.11.2025 15:26,,,,,,,,,,,,,,,,,,,,,,,,,,,,Service Request,
+PAYLYNX-1070,2996601,04.11.2025 14:03,,Done,Major,,14.11.2025 15:26,,,,,,,,,,,,,,,,,,,,,,,,,,,,Service Request,
+PAYLYNX-1073,2997641,05.11.2025 09:41,,Done,Major,,18.11.2025 10:04,,,,,,,,,,,,,,,,,,,,,,,,,,,,Service Request,
+PAYLYNX-1093,3019912,17.11.2025 08:43,26.11.2025 09:34,Done,Major,,26.11.2025 09:34,Y25:PI5:S1 Cold in all places,,,,,,,,,,,,,,,,,,,,,,,,,,1.0,Task,Done
+PAYLYNX-1077,2999156,05.11.2025 15:51,02.12.2025 10:49,Done,Critical,,02.12.2025 10:49,Y25:PI4:S5 by the book,Y25:PI5:S1 Cold in all places,,,,,,,,,,,,,,,,,,,,,,,,,2.0,Production bug,Done
+PAYLYNX-1078,3003053,07.11.2025 13:46,,Done,Major,,28.11.2025 10:16,,,,,,,,,,,,,,,,,,,,,,,,,,,,Service Request,
+PAYLYNX-1079,3004332,10.11.2025 08:40,,Open,Major,,01.04.2026 13:56,PI:2:2026 Refined tasks,,,,,,,,,,,,,,,,,,,,,,,,,,2.0,Task,
+PAYLYNX-889,2863855,11.07.2025 17:27,,Open,Major,,24.03.2026 16:17,PI:2:2026 Refined tasks,,,,,,,,,,,,,,,,,,,,,,,,,,3.0,Task,
+PAYLYNX-835,2827067,13.06.2025 13:22,,Open,Major,,01.04.2026 13:55,PI:3:2026 Refined candidates,,,,,,,,,,,,,,,,,,,,,,,,,,3.0,Task,
+PAYLYNX-819,2819847,10.06.2025 07:56,,Open,Major,,01.04.2026 13:56,PI:3:2026 Refined candidates,,,,,,,,,,,,,,,,,,,,,,,,,,3.0,Task,
+PAYLYNX-675,2741529,07.04.2025 12:35,,Open,Major,,24.03.2026 16:23,PI:2:2026 Refined tasks,,,,,,,,,,,,,,,,,,,,,,,,,,3.0,Task,
+PAYLYNX-757,2783515,09.05.2025 16:03,,Open,Major,,31.03.2026 10:46,PI:2:2026 Refined tasks,,,,,,,,,,,,,,,,,,,,,,,,,,3.0,Task,
+PAYLYNX-1080,3004334,10.11.2025 08:41,29.12.2025 08:41,Done,Major,,29.12.2025 08:41,Y25:PI5:S2 TidyHome for guests,Y25:PI:5:S3/4 Anna's delivery,,,,,,,,,,,,,,,,,,,,,,,,,1.0,Task,Done
+PAYLYNX-1081,3004686,10.11.2025 10:25,20.11.2025 20:54,Done,Critical,,27.11.2025 11:59,Y25:PI4:S5 by the book,Y25:PI5:S1 Cold in all places,,,,,,,,,,,,,,,,,,,,,,,,,1.0,Bug,Done
+PAYLYNX-1092,3019756,17.11.2025 07:02,03.12.2025 08:06,Done,Major,,03.12.2025 11:51,Y25:PI4:S5 by the book,Y25:PI5:S1 Cold in all places,,,,,,,,,,,,,,,,,,,,,,,,,1.0,Bug,Done
+PAYLYNX-1100,3022407,18.11.2025 08:13,,Done,Major,,19.11.2025 10:17,Y25:PI4:S5 by the book,,,,,,,,,,,,,,,,,,,,,,,,,,0.0,Bug,
+PAYLYNX-1103,3026812,19.11.2025 10:13,19.11.2025 13:13,Done,Major,,19.11.2025 13:13,Y25:PI4:S5 by the book,Y25:PI5:S1 Cold in all places,,,,,,,,,,,,,,,,,,,,,,,,,0.0,Production bug,Done
+PAYLYNX-1049,2979257,22.10.2025 09:08,17.12.2025 10:04,Done,Major,,17.12.2025 10:04,Y25:PI5:S1 Cold in all places,Y25:PI5:S2 TidyHome for guests,,,,,,,,,,,,,,,,,,,,,,,,,2.0,Task,Fixed
+PAYLYNX-1042,2974410,17.10.2025 09:45,03.12.2025 08:49,Done,Major,,03.12.2025 08:49,Y25:PI5:S1 Cold in all places,,,,,,,,,,,,,,,,,,,,,,,,,,2.0,Task,Done
+PAYLYNX-1057,2984791,25.10.2025 20:21,15.12.2025 14:04,Done,Major,,29.12.2025 10:47,Y25:PI5:S1 Cold in all places,Y25:PI5:S2 TidyHome for guests,,,,,,,,,,,,,,,,,,,,,,,,,2.0,Task,Done
+PAYLYNX-1082,3006674,11.11.2025 08:19,,Done,Major,,11.11.2025 10:02,,,,,,,,,,,,,,,,,,,,,,,,,,,,Service Request,
+PAYLYNX-1083,3012060,12.11.2025 14:23,,Done,Major,,18.11.2025 14:47,,,,,,,,,,,,,,,,,,,,,,,,,,,,Service Request,
+PAYLYNX-1088,3018792,14.11.2025 13:55,,Done,Major,,26.11.2025 09:49,,,,,,,,,,,,,,,,,,,,,,,,,,,,Service Request,
+PAYLYNX-1086,3018261,14.11.2025 11:01,,Done,Major,,26.11.2025 09:49,,,,,,,,,,,,,,,,,,,,,,,,,,,,Service Request,
+PAYLYNX-1091,3019434,16.11.2025 14:10,,Canceled,Major,,17.11.2025 07:07,,,,,,,,,,,,,,,,,,,,,,,,,,,,Bug,Won't Do
+PAYLYNX-1096,3020557,17.11.2025 10:54,,Done,Major,,17.11.2025 12:53,,,,,,,,,,,,,,,,,,,,,,,,,,,,Service Request,
+PAYLYNX-1098,3021301,17.11.2025 14:15,,Done,Major,,17.11.2025 15:31,,,,,,,,,,,,,,,,,,,,,,,,,,,,Service Request,
+PAYLYNX-1099,3021715,17.11.2025 15:50,09.12.2025 13:15,Done,Major,,09.12.2025 13:15,,,,,,,,,,,,,,,,,,,,,,,,,,,,Service Request,Fixed
+PAYLYNX-1101,3022762,18.11.2025 09:54,18.11.2025 12:19,Done,Major,,18.11.2025 12:19,,,,,,,,,,,,,,,,,,,,,,,,,,,0.0,Task,Done
+PAYLYNX-1102,3025993,19.11.2025 06:00,,Done,Major,,19.11.2025 15:27,,,,,,,,,,,,,,,,,,,,,,,,,,,,Service Request,
+PAYLYNX-1105,3030260,20.11.2025 10:21,,Done,Major,,22.12.2025 08:37,Y25:PI5:S1 Cold in all places,Y25:PI5:S2 TidyHome for guests,Y25:PI:5:S3/4 Anna's delivery,,,,,,,,,,,,,,,,,,,,,,,,,Bug,
+PAYLYNX-1058,2984792,25.10.2025 20:27,15.12.2025 14:04,Done,Major,,15.12.2025 14:04,Y25:PI5:S2 TidyHome for guests,,,,,,,,,,,,,,,,,,,,,,,,,,1.0,Task,Done
+PAYLYNX-620,2711855,17.03.2025 15:39,19.12.2025 12:50,Done,Major,,19.12.2025 12:50,Y25:PI5:S2 TidyHome for guests,Y25:PI:5:S3/4 Anna's delivery,,,,,,,,,,,,,,,,,,,,,,,,,0.0,Task,Done
+PAYLYNX-1104,3026862,19.11.2025 10:28,17.12.2025 08:08,Done,Major,,17.12.2025 08:08,Y25:PI5:S2 TidyHome for guests,,,,,,,,,,,,,,,,,,,,,,,,,,3.0,Task,Done
+PAYLYNX-1111,3036594,26.11.2025 08:58,27.11.2025 13:29,Done,Major,,03.12.2025 10:44,Y25:PI5:S1 Cold in all places,,,,,,,,,,,,,,,,,,,,,,,,,,1.0,Task,Done
+PAYLYNX-1107,3030901,20.11.2025 11:50,,Done,Major,,24.11.2025 07:47,,,,,,,,,,,,,,,,,,,,,,,,,,,,Service Request,
+PAYLYNX-1108,3031844,21.11.2025 06:55,,Done,Major,,26.11.2025 10:02,,,,,,,,,,,,,,,,,,,,,,,,,,,,Service Request,
+PAYLYNX-1230,3037190,26.11.2025 13:09,,Ready for Refinement,Minor,,30.01.2026 13:41,,,,,,,,,,,,,,,,,,,,,,,,,,,3.0,Story,
+PAYLYNX-1229,3037495,26.11.2025 14:41,,Ready for Refinement,Major,,30.01.2026 13:42,,,,,,,,,,,,,,,,,,,,,,,,,,,,Story,
+PAYLYNX-1228,3037497,26.11.2025 14:43,,Ready for Refinement,Major,,30.01.2026 13:42,,,,,,,,,,,,,,,,,,,,,,,,,,,,Story,
+PAYLYNX-1227,3037802,26.11.2025 14:51,,Ready for Refinement,Major,,30.01.2026 13:42,,,,,,,,,,,,,,,,,,,,,,,,,,,,Story,
+PAYLYNX-1112,3038760,27.11.2025 11:59,01.12.2025 13:39,Done,Critical,,01.12.2025 13:39,Y25:PI5:S1 Cold in all places,,,,,,,,,,,,,,,,,,,,,,,,,,0.0,Production bug,Done
+PAYLYNX-1114,3040889,01.12.2025 09:08,,Done,Major,,03.12.2025 08:42,Y25:PI5:S1 Cold in all places,,,,,,,,,,,,,,,,,,,,,,,,,,1.0,Production bug,
+PAYLYNX-1115,3040890,01.12.2025 09:08,03.12.2025 08:07,Done,Major,,03.12.2025 08:07,Y25:PI5:S1 Cold in all places,,,,,,,,,,,,,,,,,,,,,,,,,,1.0,Production bug,Done
+PAYLYNX-1116,3041593,01.12.2025 11:57,02.12.2025 12:46,Done,Major,,02.12.2025 12:46,Y25:PI5:S1 Cold in all places,,,,,,,,,,,,,,,,,,,,,,,,,,0.0,Production bug,Done
+PAYLYNX-1113,3038796,27.11.2025 13:07,,Done,Major,,02.12.2025 12:27,,,,,,,,,,,,,,,,,,,,,,,,,,,,Service Request,
+PAYLYNX-1117,3042012,01.12.2025 12:43,,Done,Major,,05.12.2025 09:56,,,,,,,,,,,,,,,,,,,,,,,,,,,,Service Request,
+PAYLYNX-1231,3042019,01.12.2025 12:51,,Ready for Refinement,Major,,30.01.2026 13:41,,,,,,,,,,,,,,,,,,,,,,,,,,,3.0,Story,
+PAYLYNX-1118,3043180,02.12.2025 10:50,,Done,Major,,29.12.2025 08:30,,,,,,,,,,,,,,,,,,,,,,,,,,,,Service Request,
+PAYLYNX-1119,3044799,03.12.2025 10:53,24.12.2025 20:53,Done,Major,,24.12.2025 20:53,Y25:PI5:S2 TidyHome for guests,Y25:PI:5:S3/4 Anna's delivery,,,,,,,,,,,,,,,,,,,,,,,,,1.0,Task,Done
+PAYLYNX-1125,3048219,05.12.2025 08:15,05.12.2025 14:16,Done,Major,,05.12.2025 14:16,Y25:PI5:S2 TidyHome for guests,,,,,,,,,,,,,,,,,,,,,,,,,,0.0,Bug,Done
+PAYLYNX-1120,3045218,03.12.2025 13:26,,Done,Major,,29.12.2025 08:31,,,,,,,,,,,,,,,,,,,,,,,,,,,,Service Request,
+PAYLYNX-1121,3045272,03.12.2025 14:00,10.12.2025 13:21,Done,Major,,10.12.2025 13:21,,,,,,,,,,,,,,,,,,,,,,,,,,,0.0,Bug,Fixed
+PAYLYNX-1122,3047347,04.12.2025 12:14,,Done,Major,,29.12.2025 08:30,,,,,,,,,,,,,,,,,,,,,,,,,,,,Service Request,
+PAYLYNX-1123,3047808,04.12.2025 14:30,,Done,Major,,29.12.2025 08:29,,,,,,,,,,,,,,,,,,,,,,,,,,,,Service Request,
+PAYLYNX-1126,3048610,05.12.2025 10:02,09.12.2025 08:22,Done,Major,,09.12.2025 08:22,,,,,,,,,,,,,,,,,,,,,,,,,,,,Service Request,Fixed
+PAYLYNX-1127,3049958,08.12.2025 08:53,,Done,Major,,08.12.2025 09:53,,,,,,,,,,,,,,,,,,,,,,,,,,,,Service Request,
+PAYLYNX-1128,3050759,08.12.2025 12:45,09.12.2025 08:18,Done,Major,,09.12.2025 08:18,,,,,,,,,,,,,,,,,,,,,,,,,,,,Service Request,Fixed
+PAYLYNX-1129,3050686,08.12.2025 12:59,,Done,Major,,08.12.2025 13:52,,,,,,,,,,,,,,,,,,,,,,,,,,,,Service Request,
+PAYLYNX-1130,3051569,09.12.2025 09:20,,Done,Major,,09.12.2025 10:05,,,,,,,,,,,,,,,,,,,,,,,,,,,,Service Request,
+PAYLYNX-1137,3056605,12.12.2025 13:03,02.01.2026 11:09,Canceled,Major,,02.01.2026 11:09,,,,,,,,,,,,,,,,,,,,,,,,,,,,Task,Won't Do
+PAYLYNX-1141,3057070,15.12.2025 06:51,,Done,Major,,17.12.2025 09:41,Y25:PI5:S2 TidyHome for guests,,,,,,,,,,,,,,,,,,,,,,,,,,0.0,Bug,
+PAYLYNX-1142,3056971,15.12.2025 08:30,,Done,Major,,06.01.2026 09:57,Y25:PI5:S2 TidyHome for guests,Y25:PI:5:S3/4 Anna's delivery,,,,,,,,,,,,,,,,,,,,,,,,,,Bug,
+PAYLYNX-1143,3057828,15.12.2025 12:22,16.12.2025 10:25,Done,Major,,16.12.2025 10:25,Y25:PI5:S2 TidyHome for guests,,,,,,,,,,,,,,,,,,,,,,,,,,0.0,Production bug,Done
+PAYLYNX-1144,3058372,15.12.2025 17:41,02.01.2026 13:36,Done,Major,,02.01.2026 13:36,Y25:PI5:S2 TidyHome for guests,Y25:PI:5:S3/4 Anna's delivery,,,,,,,,,,,,,,,,,,,,,,,,,1.0,Production bug,Done
+PAYLYNX-1145,3059370,16.12.2025 12:59,17.12.2025 04:55,Done,Major,,17.12.2025 04:55,Y25:PI5:S2 TidyHome for guests,,,,,,,,,,,,,,,,,,,,,,,,,,1.0,Production bug,Done
+PAYLYNX-1146,3060038,17.12.2025 04:57,29.12.2025 10:00,Done,Major,,29.12.2025 10:00,Y25:PI5:S2 TidyHome for guests,Y25:PI:5:S3/4 Anna's delivery,,,,,,,,,,,,,,,,,,,,,,,,,1.0,Production bug,Done
+PAYLYNX-621,2711864,17.03.2025 15:49,15.01.2026 18:47,Done,Major,,28.01.2026 12:12,Y25:PI:5:S3/4 Anna's delivery,Y25:PI:5:S5 1st gentle touch,,,,,,,,,,,,,,,,,,,,,,,,,1.0,Task,Done
+PAYLYNX-1315,3155227,04.03.2026 10:23,,Open,Major,,01.04.2026 14:09,PI:2:2026 Refined tasks,,,,,,,,,,,,,,,,,,,,,,,,,,3.0,Spike,
+PAYLYNX-1095,3020235,17.11.2025 10:16,14.01.2026 09:13,Done,Major,,24.03.2026 09:18,Y25:PI:5:S3/4 Anna's delivery,,,,,,,,,,,,,,,,,,,,,,,,,,2.0,Task,Done
+PAYLYNX-910,2875227,31.07.2025 10:50,07.01.2026 07:53,Done,Major,,14.01.2026 09:18,Y25:PI3:S6 orange pressure,Y25:PI:5:S3/4 Anna's delivery,,,,,,,,,,,,,,,,,,,,,,,,,3.0,Task,Done
+PAYLYNX-1060,2984794,25.10.2025 20:41,09.01.2026 14:51,Done,Major,,09.01.2026 14:51,Y25:PI:5:S3/4 Anna's delivery,,,,,,,,,,,,,,,,,,,,,,,,,,3.0,Task,Done
+PAYLYNX-1131,3054125,10.12.2025 15:01,14.01.2026 09:15,Done,Major,,14.01.2026 09:15,Y25:PI:5:S3/4 Anna's delivery,,,,,,,,,,,,,,,,,,,,,,,,,,1.0,Task,Done
+PAYLYNX-1148,3062887,18.12.2025 13:23,19.12.2025 10:21,Done,Major,,19.12.2025 10:21,Y25:PI:5:S3/4 Anna's delivery,,,,,,,,,,,,,,,,,,,,,,,,,,1.0,Task,Done
+PAYLYNX-1147,3061326,17.12.2025 14:36,,Done,Major,,29.12.2025 08:30,,,,,,,,,,,,,,,,,,,,,,,,,,,,Service Request,
+PAYLYNX-1149,3064575,19.12.2025 15:55,,Done,Major,,29.12.2025 08:29,,,,,,,,,,,,,,,,,,,,,,,,,,,,Service Request,
+PAYLYNX-1150,3065271,22.12.2025 14:08,,Done,Major,,22.01.2026 12:44,,,,,,,,,,,,,,,,,,,,,,,,,,,,Service Request,
+PAYLYNX-1151,3065700,22.12.2025 16:04,,Done,Major,,09.01.2026 12:25,,,,,,,,,,,,,,,,,,,,,,,,,,,,Service Request,
+PAYLYNX-1065,2990371,29.10.2025 16:15,14.01.2026 08:20,Done,Major,,14.01.2026 09:48,Y25:PI:5:S3/4 Anna's delivery,,,,,,,,,,,,,,,,,,,,,,,,,,2.0,Task,Done
+PAYLYNX-1153,3067325,30.12.2025 12:13,,Done,Major,,30.12.2025 12:58,,,,,,,,,,,,,,,,,,,,,,,,,,,,Service Request,
+PAYLYNX-1154,3067371,30.12.2025 14:31,07.01.2026 10:54,Done,Major,,14.01.2026 09:49,Y25:PI:5:S3/4 Anna's delivery,,,,,,,,,,,,,,,,,,,,,,,,,,0.0,Task,Done
+PAYLYNX-1155,3067712,02.01.2026 08:43,02.01.2026 12:07,Done,Major,,14.01.2026 09:50,Y25:PI:5:S3/4 Anna's delivery,,,,,,,,,,,,,,,,,,,,,,,,,,0.0,Task,Done
+PAYLYNX-1157,3068015,02.01.2026 13:31,,Done,Major,,06.01.2026 10:09,Y25:PI:5:S3/4 Anna's delivery,,,,,,,,,,,,,,,,,,,,,,,,,,1.0,Bug,
+PAYLYNX-1159,3068738,05.01.2026 12:58,,Done,Major,,06.01.2026 13:09,,,,,,,,,,,,,,,,,,,,,,,,,,,,Service Request,
+PAYLYNX-1160,3070156,07.01.2026 10:08,,Open,Major,,24.03.2026 14:57,PI:2:2026 Refined tasks,,,,,,,,,,,,,,,,,,,,,,,,,,1.0,Task,
+PAYLYNX-655,2728895,31.03.2025 09:35,,Open,Major,,31.03.2026 10:47,PI:2:2026 Refined tasks,,,,,,,,,,,,,,,,,,,,,,,,,,3.0,Task,
+PAYLYNX-1161,3070192,07.01.2026 11:07,,Done,Major,,19.01.2026 07:52,Y25:PI:5:S3/4 Anna's delivery,Y25:PI:5:S5 1st gentle touch,,,,,,,,,,,,,,,,,,,,,,,,,0.0,Production bug,
+PAYLYNX-1163,3072973,09.01.2026 08:28,13.01.2026 10:33,Done,Major,,13.01.2026 10:33,Y25:PI:5:S3/4 Anna's delivery,,,,,,,,,,,,,,,,,,,,,,,,,,0.0,Production bug,Done
+PAYLYNX-1164,3073810,09.01.2026 14:00,,Done,Major,,12.01.2026 14:23,,,,,,,,,,,,,,,,,,,,,,,,,,,,Service Request,
+PAYLYNX-1165,3075383,12.01.2026 12:30,,Done,Major,,19.01.2026 09:47,,,,,,,,,,,,,,,,,,,,,,,,,,,,Service Request,
+PAYLYNX-1166,3077016,13.01.2026 10:58,,Done,Major,,22.01.2026 14:11,,,,,,,,,,,,,,,,,,,,,,,,,,,,Service Request,
+PAYLYNX-1167,3077114,13.01.2026 11:21,27.01.2026 14:53,Done,Major,,27.01.2026 14:53,Y25:PI:5:S3/4 Anna's delivery,Y25:PI:5:S5 1st gentle touch,,,,,,,,,,,,,,,,,,,,,,,,,1.0,Bug,Done
+PAYLYNX-1062,2984796,25.10.2025 20:45,06.02.2026 13:49,Done,Major,,05.03.2026 12:42,Y25:PI:5:S5 1st gentle touch,Y26:PI:1:S1 Power boost,,,,,,,,,,,,,,,,,,,,,,,,,1.0,Task,Done
+PAYLYNX-1181,3082993,16.01.2026 10:41,,Done,Major,,20.01.2026 08:50,Y25:PI:5:S5 1st gentle touch,,,,,,,,,,,,,,,,,,,,,,,,,,1.0,Production bug,
+PAYLYNX-1097,3021236,17.11.2025 13:49,25.01.2026 10:32,Canceled,Major,,25.01.2026 10:32,,,,,,,,,,,,,,,,,,,,,,,,,,,1.0,Task,Won't Do
+PAYLYNX-1152,3066723,29.12.2025 12:29,25.01.2026 10:31,Done,Major,,05.02.2026 10:38,Y25:PI:5:S5 1st gentle touch,,,,,,,,,,,,,,,,,,,,,,,,,,3.0,Task,Done
+PAYLYNX-1169,3078464,14.01.2026 09:17,28.01.2026 09:16,Done,Major,,28.01.2026 09:16,Y25:PI:5:S5 1st gentle touch,,,,,,,,,,,,,,,,,,,,,,,,,,1.0,Task,Done
+PAYLYNX-1170,3078771,14.01.2026 10:22,28.01.2026 09:11,Done,Major,,28.01.2026 14:12,Y25:PI:5:S5 1st gentle touch,,,,,,,,,,,,,,,,,,,,,,,,,,2.0,Task,Done
+PAYLYNX-1168,3077254,13.01.2026 13:16,14.01.2026 09:07,Done,Major,,14.01.2026 09:07,Y25:PI:5:S3/4 Anna's delivery,,,,,,,,,,,,,,,,,,,,,,,,,,0.0,Task,Done
+PAYLYNX-1171,3079618,14.01.2026 14:02,,Done,Major,,25.01.2026 09:57,,,,,,,,,,,,,,,,,,,,,,,,,,,,Service Request,
+PAYLYNX-1172,3079791,14.01.2026 15:02,19.01.2026 07:51,Done,Major,,19.01.2026 07:51,Y25:PI:5:S5 1st gentle touch,,,,,,,,,,,,,,,,,,,,,,,,,,0.0,Bug,Done
+PAYLYNX-1179,3082814,15.01.2026 22:03,20.01.2026 08:47,Done,Major,,20.01.2026 08:47,Y25:PI:5:S5 1st gentle touch,,,,,,,,,,,,,,,,,,,,,,,,,,0.0,Bug,Done
+PAYLYNX-1174,3079958,14.01.2026 15:52,,Canceled,Major,,15.01.2026 09:52,,,,,,,,,,,,,,,,,,,,,,,,,,,0.0,Bug,Won't Do
+PAYLYNX-1176,3081664,15.01.2026 12:30,,Done,Major,,22.01.2026 13:45,,,,,,,,,,,,,,,,,,,,,,,,,,,,Service Request,
+PAYLYNX-662,2732496,02.04.2025 06:41,,Open,Major,,24.03.2026 12:21,PI:2:2026 Refined tasks,,,,,,,,,,,,,,,,,,,,,,,,,,3.0,Spike,
+PAYLYNX-1132,3054159,10.12.2025 15:35,,Open,Major,,25.03.2026 12:14,PI:2:2026 Refined tasks,,,,,,,,,,,,,,,,,,,,,,,,,,2.0,Task,
+PAYLYNX-1182,3083424,16.01.2026 12:29,,Done,Major,,22.01.2026 13:45,,,,,,,,,,,,,,,,,,,,,,,,,,,,Service Request,
+PAYLYNX-1204,3098273,26.01.2026 13:31,06.02.2026 09:30,Canceled,Major,,06.02.2026 09:30,,,,,,,,,,,,,,,,,,,,,,,,,,,8.0,Task,Won't Do
+PAYLYNX-1205,3098274,26.01.2026 13:33,24.02.2026 14:15,Canceled,Major,,24.02.2026 14:15,,,,,,,,,,,,,,,,,,,,,,,,,,,6.0,Task,Won't Do
+PAYLYNX-1298,3146275,25.02.2026 10:50,23.03.2026 14:50,Done,Major,,23.03.2026 14:52,Y26:PI:1:S3 first E-flood,Y26:PI:1:S4 e-blood,,,,,,,,,,,,,,,,,,,,,,,,,0.0,Task,Done
+PAYLYNX-1417,3221726,14.04.2026 14:36,,Canceled,Major,,15.04.2026 14:03,,,,,,,,,,,,,,,,,,,,,,,,,,,,Test,Won't Do
+PAYLYNX-1450,3239565,29.04.2026 09:49,,Open,Major,,29.04.2026 09:49,,,,,,,,,,,,,,,,,,,,,,,,,,,,Task,
+PAYLYNX-1438,3233178,23.04.2026 14:36,,Open,Major,,23.04.2026 14:36,,,,,,,,,,,,,,,,,,,,,,,,,,,,Spike,
+PAYLYNX-1362,3182588,24.03.2026 09:57,,Open,Major,,24.03.2026 09:57,,,,,,,,,,,,,,,,,,,,,,,,,,,,Task,
+PAYLYNX-1420,3223139,15.04.2026 12:58,20.04.2026 11:01,Done,Minor,,20.04.2026 14:40,Y26:PI2:S1 no spillovers,,,,,,,,,,,,,,,,,,,,,,,,,,0.0,Task,Done
+PAYLYNX-1183,3083600,16.01.2026 12:49,,Open,Major,,16.01.2026 12:49,,,,,,,,,,,,,,,,,,,,,,,,,,,,Task,
+PAYLYNX-1184,3083783,16.01.2026 15:35,,Done,Major,,22.01.2026 13:45,,,,,,,,,,,,,,,,,,,,,,,,,,,,Service Request,
+PAYLYNX-1185,3084509,19.01.2026 08:29,,Done,Major,,11.02.2026 15:01,Y25:PI:5:S5 1st gentle touch,Y26:PI:1:S1 Power boost,Y26:PI:1:S2 Freedom Sprint,,,,,,,,,,,,,,,,,,,,,,,,1.0,Bug,
+PAYLYNX-1186,3084515,19.01.2026 08:35,,Done,Major,,28.01.2026 09:55,Y25:PI:5:S5 1st gentle touch,,,,,,,,,,,,,,,,,,,,,,,,,,0.0,Bug,
+PAYLYNX-1187,3085219,19.01.2026 12:51,,Done,Major,,28.01.2026 09:18,Y25:PI:5:S5 1st gentle touch,,,,,,,,,,,,,,,,,,,,,,,,,,1.0,Bug,
+PAYLYNX-1193,3092353,22.01.2026 14:50,04.02.2026 20:18,Done,Major,,04.02.2026 20:18,Y25:PI:5:S5 1st gentle touch,Y26:PI:1:S1 Power boost,,,,,,,,,,,,,,,,,,,,,,,,,1.0,Bug,Done
+PAYLYNX-1195,3093103,22.01.2026 23:14,,Done,Major,,28.01.2026 08:26,Y25:PI:5:S5 1st gentle touch,,,,,,,,,,,,,,,,,,,,,,,,,,1.0,Bug,
+PAYLYNX-1197,3093237,23.01.2026 08:55,,Done,Major,,23.01.2026 18:01,Y25:PI:5:S5 1st gentle touch,,,,,,,,,,,,,,,,,,,,,,,,,,0.0,Bug,
+PAYLYNX-1202,3097717,26.01.2026 12:12,04.02.2026 20:15,Done,Major,,04.02.2026 20:15,Y25:PI:5:S5 1st gentle touch,Y26:PI:1:S1 Power boost,,,,,,,,,,,,,,,,,,,,,,,,,0.0,Bug,Done
+PAYLYNX-1162,3072774,08.01.2026 16:32,03.02.2026 19:54,Done,Major,,05.02.2026 10:38,Y26:PI:1:S1 Power boost,,,,,,,,,,,,,,,,,,,,,,,,,,2.0,Task,Done
+PAYLYNX-1211,3109216,28.01.2026 09:27,09.02.2026 09:34,Done,Major,,09.02.2026 09:34,Y25:PI:5:S5 1st gentle touch,Y26:PI:1:S1 Power boost,,,,,,,,,,,,,,,,,,,,,,,,,0.0,Bug,Done
+PAYLYNX-1210,3108785,28.01.2026 09:13,06.02.2026 13:59,Done,Major,,06.02.2026 13:59,Y26:PI:1:S1 Power boost,,,,,,,,,,,,,,,,,,,,,,,,,,1.0,Task,Done
+PAYLYNX-1201,3097500,26.01.2026 11:17,03.02.2026 14:13,Done,Major,,11.02.2026 09:45,Y26:PI:1:S1 Power boost,,,,,,,,,,,,,,,,,,,,,,,,,,3.0,Task,Done
+PAYLYNX-1194,3092734,22.01.2026 16:07,09.02.2026 13:42,Done,Major,,09.02.2026 14:49,Y26:PI:1:S1 Power boost,,,,,,,,,,,,,,,,,,,,,,,,,,1.0,Task,Done
+PAYLYNX-1059,2984793,25.10.2025 20:34,13.02.2026 14:21,Done,Major,,07.03.2026 19:31,Y26:PI:1:S1 Power boost,Y26:PI:1:S2 Freedom Sprint,,,,,,,,,,,,,,,,,,,,,,,,,1.0,Task,Done
+PAYLYNX-1138,3056607,12.12.2025 13:04,18.02.2026 11:09,Done,Major,,18.03.2026 14:55,Y26:PI:1:S1 Power boost,Y26:PI:1:S2 Freedom Sprint,,,,,,,,,,,,,,,,,,,,,,,,,2.0,Spike,Done
+PAYLYNX-636,2720815,25.03.2025 07:35,24.02.2026 14:10,Done,Major,,24.02.2026 14:10,Y26:PI:1:S1 Power boost,Y26:PI:1:S2 Freedom Sprint,,,,,,,,,,,,,,,,,,,,,,,,,1.0,Task,Done
+PAYLYNX-1177,3081937,15.01.2026 13:21,09.02.2026 10:34,Done,Major,,11.02.2026 14:09,Y26:PI:1:S1 Power boost,,,,,,,,,,,,,,,,,,,,,,,,,,3.0,Task,Done
+PAYLYNX-51,2268183,07.03.2024 10:31,17.02.2026 10:09,Done,Major,,17.02.2026 13:38,Y26:PI:1:S1 Power boost,Y26:PI:1:S2 Freedom Sprint,,,,,,,,,,,,,,,,,,,,,,,,,1.0,Task,Done
+PAYLYNX-1233,3115725,30.01.2026 11:17,,Done,Major,,04.02.2026 13:46,Y26:PI:1:S1 Power boost,,,,,,,,,,,,,,,,,,,,,,,,,,1.0,Production bug,
+PAYLYNX-1188,3085505,19.01.2026 13:59,,Open,Major,,20.01.2026 16:08,,,,,,,,,,,,,,,,,,,,,,,,,,,,Story,
+PAYLYNX-1189,3086850,20.01.2026 10:51,,Done,Major,,22.01.2026 13:45,,,,,,,,,,,,,,,,,,,,,,,,,,,,Service Request,
+PAYLYNX-1191,3090262,21.01.2026 16:04,,Done,Major,,22.01.2026 13:45,,,,,,,,,,,,,,,,,,,,,,,,,,,,Service Request,
+PAYLYNX-1196,3093071,23.01.2026 08:41,,Done,Major,,25.01.2026 10:02,,,,,,,,,,,,,,,,,,,,,,,,,,,,Service Request,
+PAYLYNX-1198,3093483,23.01.2026 10:56,,Done,Major,,25.01.2026 10:03,,,,,,,,,,,,,,,,,,,,,,,,,,,,Service Request,
+PAYLYNX-1199,3094027,23.01.2026 11:40,,Done,Major,,17.02.2026 18:07,,,,,,,,,,,,,,,,,,,,,,,,,,,,Service Request,
+PAYLYNX-1200,3096804,26.01.2026 10:08,,Done,Major,,26.02.2026 09:12,,,,,,,,,,,,,,,,,,,,,,,,,,,,Service Request,
+PAYLYNX-1133,3056290,12.12.2025 12:51,05.03.2026 12:51,Canceled,Major,,05.03.2026 12:52,,,,,,,,,,,,,,,,,,,,,,,,,,,3.0,Task,Won't Do
+PAYLYNX-1206,3098277,26.01.2026 13:33,09.03.2026 13:18,Canceled,Major,,09.03.2026 13:18,,,,,,,,,,,,,,,,,,,,,,,,,,,9.0,Task,Won't Do
+PAYLYNX-1280,3138780,18.02.2026 14:21,23.03.2026 13:07,Canceled,Major,,23.03.2026 13:07,,,,,,,,,,,,,,,,,,,,,,,,,,,1.0,Task,Won't Do
+PAYLYNX-1135,3056601,12.12.2025 13:00,05.03.2026 12:44,Done,Major,,05.03.2026 12:44,Y26:PI:1:S3 first E-flood,,,,,,,,,,,,,,,,,,,,,,,,,,1.0,Task,Done
+PAYLYNX-1207,3098278,26.01.2026 13:34,23.03.2026 13:10,Canceled,Major,,23.03.2026 13:10,,,,,,,,,,,,,,,,,,,,,,,,,,,9.0,Task,Won't Do
+PAYLYNX-1208,3106359,27.01.2026 14:07,,Done,Major,,26.02.2026 10:18,,,,,,,,,,,,,,,,,,,,,,,,,,,,Service Request,
+PAYLYNX-1209,3107268,27.01.2026 15:01,,Done,Major,,26.02.2026 10:18,,,,,,,,,,,,,,,,,,,,,,,,,,,,Service Request,
+PAYLYNX-1212,3111582,28.01.2026 14:09,,Done,Major,,26.02.2026 10:19,,,,,,,,,,,,,,,,,,,,,,,,,,,,Service Request,
+PAYLYNX-1214,3113011,28.01.2026 21:16,,Open,Major,,07.04.2026 13:23,PI:2:2026 Refined tasks,,,,,,,,,,,,,,,,,,,,,,,,,,,Task,
+PAYLYNX-1253,3123529,05.02.2026 18:40,02.04.2026 15:42,Canceled,Major,,02.04.2026 15:42,,,,,,,,,,,,,,,,,,,,,,,,,,,,Task,Won't Do
+PAYLYNX-1312,3154700,04.03.2026 06:47,02.04.2026 15:32,Canceled,Minor,,02.04.2026 15:33,,,,,,,,,,,,,,,,,,,,,,,,,,,,Story,Won't Do
+PAYLYNX-1265,3128823,11.02.2026 09:51,,Open,Major,,30.03.2026 19:27,,,,,,,,,,,,,,,,,,,,,,,,,,,,Task,
+PAYLYNX-1352,3180413,23.03.2026 09:56,,Open,Major,,25.03.2026 08:24,,,,,,,,,,,,,,,,,,,,,,,,,,,0.0,Task,
+PAYLYNX-1276,3137920,18.02.2026 09:04,,Open,Major,,25.03.2026 08:22,,,,,,,,,,,,,,,,,,,,,,,,,,,,Spike,
+PAYLYNX-1302,3150523,27.02.2026 12:25,25.03.2026 08:25,Canceled,Major,,25.03.2026 08:25,,,,,,,,,,,,,,,,,,,,,,,,,,,,Task,Won't Do
+PAYLYNX-1232,3115706,30.01.2026 10:53,,Waiting for Answer,Major,,30.01.2026 12:50,,,,,,,,,,,,,,,,,,,,,,,,,,,,Service Request,
+PAYLYNX-1234,3116069,30.01.2026 14:18,,Code review,Major,,29.04.2026 08:16,Y26:PI2:S2 testing the waters,,,,,,,,,,,,,,,,,,,,,,,,,,3.0,Task,
+PAYLYNX-1235,3116625,31.01.2026 16:44,,Done,Major,,26.02.2026 10:19,,,,,,,,,,,,,,,,,,,,,,,,,,,,Service Request,
+PAYLYNX-1237,3117739,02.02.2026 13:49,,Done,Major,,26.02.2026 10:21,,,,,,,,,,,,,,,,,,,,,,,,,,,,Service Request,
+PAYLYNX-1238,3119765,03.02.2026 15:51,,Done,Major,,26.02.2026 10:19,,,,,,,,,,,,,,,,,,,,,,,,,,,,Service Request,
+PAYLYNX-1243,3120852,04.02.2026 13:16,04.02.2026 14:16,Done,Minor,,10.02.2026 16:09,Y26:PI:1:S1 Power boost,,,,,,,,,,,,,,,,,,,,,,,,,,0.0,Task,Done
+PAYLYNX-1245,3121495,04.02.2026 16:54,,Done,Major,,26.02.2026 10:21,,,,,,,,,,,,,,,,,,,,,,,,,,,,Service Request,
+PAYLYNX-1248,3122902,05.02.2026 12:43,06.02.2026 15:39,Done,Major,,10.02.2026 16:09,Y26:PI:1:S1 Power boost,,,,,,,,,,,,,,,,,,,,,,,,,,1.0,Task,Done
+PAYLYNX-1249,3123078,05.02.2026 14:32,06.02.2026 15:36,Done,Major,,06.02.2026 15:36,Y26:PI:1:S1 Power boost,,,,,,,,,,,,,,,,,,,,,,,,,,1.0,Bug,Done
+PAYLYNX-1250,3123318,05.02.2026 15:10,11.02.2026 09:50,Done,Major,,25.02.2026 09:24,Y26:PI:1:S1 Power boost,,,,,,,,,,,,,,,,,,,,,,,,,,3.0,Task,Done
+PAYLYNX-1254,3124427,06.02.2026 13:51,09.02.2026 13:59,Done,Major,,09.02.2026 14:03,Y26:PI:1:S1 Power boost,,,,,,,,,,,,,,,,,,,,,,,,,,1.0,Bug,Done
+PAYLYNX-1255,3125538,09.02.2026 09:51,11.02.2026 08:59,Done,Major,,11.02.2026 08:59,Y26:PI:1:S1 Power boost,,,,,,,,,,,,,,,,,,,,,,,,,,1.0,Task,Done
+PAYLYNX-1256,3125721,09.02.2026 10:12,,Done,Major,,26.02.2026 10:21,,,,,,,,,,,,,,,,,,,,,,,,,,,,Service Request,
+PAYLYNX-1257,3126530,09.02.2026 15:46,,Done,Major,,24.03.2026 11:42,,,,,,,,,,,,,,,,,,,,,,,,,,,,Service Request,
+PAYLYNX-1261,3127829,10.02.2026 14:08,,Done,Major,,13.02.2026 11:20,Y26:PI:1:S1 Power boost,Y26:PI:1:S2 Freedom Sprint,,,,,,,,,,,,,,,,,,,,,,,,,1.0,Bug,
+PAYLYNX-1061,2984795,25.10.2025 20:43,09.03.2026 11:07,Done,Major,,09.03.2026 11:07,Y26:PI:1:S2 Freedom Sprint,Y26:PI:1:S3 first E-flood,,,,,,,,,,,,,,,,,,,,,,,,,1.0,Task,Done
+PAYLYNX-742,2778693,07.05.2025 07:26,20.02.2026 16:16,Done,Major,,20.02.2026 16:16,Y25:PI:5:S3/4 Anna's delivery,Y26:PI:1:S2 Freedom Sprint,,,,,,,,,,,,,,,,,,,,,,,,,1.0,Task,Done
+PAYLYNX-1251,3123527,05.02.2026 18:24,25.02.2026 08:36,Done,Major,,25.02.2026 08:36,Y26:PI:1:S2 Freedom Sprint,,,,,,,,,,,,,,,,,,,,,,,,,,3.0,Task,Done
+PAYLYNX-1239,3120037,03.02.2026 20:22,25.02.2026 10:13,Done,Major,,19.03.2026 12:56,Y26:PI:1:S2 Freedom Sprint,,,,,,,,,,,,,,,,,,,,,,,,,,3.0,Task,Done
+PAYLYNX-1258,3126645,09.02.2026 17:35,25.02.2026 08:49,Done,Major,,21.04.2026 09:24,Y26:PI:1:S2 Freedom Sprint,,,,,,,,,,,,,,,,,,,,,,,,,,3.0,Task,Done
+PAYLYNX-1252,3123528,05.02.2026 18:33,,Done,Major,,20.02.2026 11:30,Y26:PI:1:S2 Freedom Sprint,,,,,,,,,,,,,,,,,,,,,,,,,,1.0,Production bug,
+PAYLYNX-1260,3127178,10.02.2026 10:55,,Done,Major,,13.03.2026 14:44,,,,,,,,,,,,,,,,,,,,,,,,,,,,Service Request,
+PAYLYNX-1264,3128696,11.02.2026 09:44,,Open,Major,,11.02.2026 09:44,For Refinement,,,,,,,,,,,,,,,,,,,,,,,,,,,Task,
+PAYLYNX-1266,3128799,11.02.2026 10:24,13.02.2026 12:39,Done,Major,,13.02.2026 12:39,Y26:PI:1:S2 Freedom Sprint,,,,,,,,,,,,,,,,,,,,,,,,,,2.0,Task,Done
+PAYLYNX-639,2721910,25.03.2025 13:41,25.02.2026 09:02,Done,Major,,03.03.2026 12:56,Y26:PI:1:S2 Freedom Sprint,,,,,,,,,,,,,,,,,,,,,,,,,,2.0,Task,Done
+PAYLYNX-1268,3129199,11.02.2026 12:26,16.03.2026 09:20,Done,Major,,16.03.2026 09:20,Y26:PI:1:S2 Freedom Sprint,Y26:PI:1:S3 first E-flood,Y26:PI:1:S4 e-blood,,,,,,,,,,,,,,,,,,,,,,,,2.0,Production bug,Done
+PAYLYNX-1259,3127092,10.02.2026 10:21,02.03.2026 14:55,Done,Major,,24.03.2026 14:41,Y26:PI:1:S3 first E-flood,,,,,,,,,,,,,,,,,,,,,,,,,,2.0,Task,Done
+PAYLYNX-1296,3145951,25.02.2026 09:24,07.03.2026 18:01,Done,Major,,07.03.2026 18:01,Y26:PI:1:S3 first E-flood,,,,,,,,,,,,,,,,,,,,,,,,,,1.0,Task,Done
+PAYLYNX-975,2906225,02.09.2025 10:21,02.03.2026 14:14,Done,Major,,02.03.2026 14:14,Y26:PI:1:S3 first E-flood,,,,,,,,,,,,,,,,,,,,,,,,,,1.0,Task,Done
+PAYLYNX-1139,3056609,12.12.2025 13:07,09.03.2026 08:40,Done,Major,,09.03.2026 08:40,Y26:PI:1:S3 first E-flood,,,,,,,,,,,,,,,,,,,,,,,,,,1.0,Task,Done
+PAYLYNX-402,2588558,04.12.2024 15:45,05.03.2026 10:19,Done,Major,,05.03.2026 10:19,Y26:PI:1:S3 first E-flood,,,,,,,,,,,,,,,,,,,,,,,,,,1.0,Task,Done
+PAYLYNX-1263,3128587,11.02.2026 09:19,09.03.2026 17:44,Done,Major,,09.03.2026 17:44,Y26:PI:1:S3 first E-flood,,,,,,,,,,,,,,,,,,,,,,,,,,1.0,Task,Done
+PAYLYNX-1284,3141244,20.02.2026 09:56,23.03.2026 14:28,Done,Major,,23.03.2026 14:28,Y26:PI:1:S3 first E-flood,Y26:PI:1:S4 e-blood,,,,,,,,,,,,,,,,,,,,,,,,,2.0,Task,Done
+PAYLYNX-1262,3127982,10.02.2026 15:01,10.03.2026 08:37,Done,Major,,19.03.2026 08:55,Y26:PI:1:S3 first E-flood,,,,,,,,,,,,,,,,,,,,,,,,,,1.0,Task,Done
+PAYLYNX-1287,3141487,20.02.2026 11:18,16.03.2026 14:58,Done,Major,,16.03.2026 14:58,Y26:PI:1:S3 first E-flood,Y26:PI:1:S4 e-blood,,,,,,,,,,,,,,,,,,,,,,,,,1.0,Task,Done
+PAYLYNX-1242,3120608,04.02.2026 10:31,04.03.2026 08:18,Done,Major,,04.03.2026 08:18,Y26:PI:1:S3 first E-flood,,,,,,,,,,,,,,,,,,,,,,,,,,1.0,Task,Done
+PAYLYNX-1295,3145809,25.02.2026 08:18,,In Progress,Major,,29.04.2026 10:06,Y26:PI:1:S3 first E-flood,Y26:PI:1:S4 e-blood,Y26:PI:1:S5 kinkFest,Y26:PI2:S1 no spillovers,Y26:PI2:S2 testing the waters,,,,,,,,,,,,,,,,,,,,,,1.0,Task,
+PAYLYNX-1388,3208719,07.04.2026 13:12,,In Progress,Major,,29.04.2026 08:39,Y26:PI2:S2 testing the waters,,,,,,,,,,,,,,,,,,,,,,,,,,1.0,Task,
+PAYLYNX-1300,3148616,26.02.2026 11:25,,Ready for Testing,Major,,29.04.2026 08:55,Y26:PI:1:S3 first E-flood,Y26:PI:1:S4 e-blood,Y26:PI:1:S5 kinkFest,Y26:PI2:S1 no spillovers,Y26:PI2:S2 testing the waters,,,,,,,,,,,,,,,,,,,,,,0.0,Task,
+PAYLYNX-1271,3130686,12.02.2026 09:17,,Done,Major,,12.02.2026 11:27,Y26:PI:1:S2 Freedom Sprint,,,,,,,,,,,,,,,,,,,,,,,,,,0.0,Production bug,
+PAYLYNX-1274,3134533,15.02.2026 12:24,25.02.2026 08:45,Done,Major,,25.02.2026 08:45,Y26:PI:1:S2 Freedom Sprint,,,,,,,,,,,,,,,,,,,,,,,,,,2.0,Task,Done
+PAYLYNX-1267,3129262,11.02.2026 11:48,,Done,Major,,24.03.2026 11:53,,,,,,,,,,,,,,,,,,,,,,,,,,,,Service Request,
+PAYLYNX-1269,3130476,12.02.2026 08:29,,Done,Major,,25.02.2026 13:29,,,,,,,,,,,,,,,,,,,,,,,,,,,,Service Request,
+PAYLYNX-1270,3130708,12.02.2026 08:52,,Done,Major,,25.02.2026 13:29,,,,,,,,,,,,,,,,,,,,,,,,,,,,Service Request,
+PAYLYNX-1273,3132672,13.02.2026 08:39,,Done,Major,,24.03.2026 11:43,,,,,,,,,,,,,,,,,,,,,,,,,,,,Service Request,
+PAYLYNX-1275,3137826,17.02.2026 16:40,,Done,Major,,24.03.2026 16:12,,,,,,,,,,,,,,,,,,,,,,,,,,,,Service Request,
+PAYLYNX-1277,3138287,18.02.2026 10:56,19.02.2026 14:08,Done,Major,,19.02.2026 14:08,Y26:PI:1:S2 Freedom Sprint,,,,,,,,,,,,,,,,,,,,,,,,,,1.0,Production bug,Done
+PAYLYNX-1283,3140548,19.02.2026 16:07,23.02.2026 08:38,Done,Major,,23.02.2026 08:38,Y26:PI:1:S2 Freedom Sprint,,,,,,,,,,,,,,,,,,,,,,,,,,0.0,Bug,Done
+PAYLYNX-1278,3138514,18.02.2026 11:54,,Done,Major,,25.02.2026 13:26,,,,,,,,,,,,,,,,,,,,,,,,,,,,Service Request,
+PAYLYNX-1279,3138515,18.02.2026 11:57,,Done,Major,,25.02.2026 13:26,,,,,,,,,,,,,,,,,,,,,,,,,,,,Service Request,
+PAYLYNX-1288,3142077,20.02.2026 15:27,09.03.2026 16:48,Done,Major,,19.03.2026 12:56,Y26:PI:1:S3 first E-flood,,,,,,,,,,,,,,,,,,,,,,,,,,3.0,Task,Done
+PAYLYNX-1289,3142079,20.02.2026 15:32,20.03.2026 08:43,Done,Major,,20.03.2026 08:43,Y26:PI:1:S3 first E-flood,Y26:PI:1:S4 e-blood,,,,,,,,,,,,,,,,,,,,,,,,,1.0,Task,Done
+PAYLYNX-1281,3139444,19.02.2026 09:10,,Done,Major,,26.02.2026 10:20,,,,,,,,,,,,,,,,,,,,,,,,,,,,Service Request,
+PAYLYNX-1282,3140111,19.02.2026 12:08,,Done,Major,,13.03.2026 14:45,,,,,,,,,,,,,,,,,,,,,,,,,,,,Service Request,
+PAYLYNX-1203,3098254,26.01.2026 13:27,09.03.2026 13:21,Canceled,Major,,09.03.2026 13:21,,,,,,,,,,,,,,,,,,,,,,,,,,,1.0,Task,Won't Do
+PAYLYNX-1292,3142096,20.02.2026 15:56,,Open,Major,,25.03.2026 08:21,For Refinement,,,,,,,,,,,,,,,,,,,,,,,,,,,Task,
+PAYLYNX-1294,3145202,24.02.2026 13:51,,Done,Major,,24.03.2026 11:53,,,,,,,,,,,,,,,,,,,,,,,,,,,,Service Request,
+PAYLYNX-1297,3145994,25.02.2026 09:44,,Done,Major,,26.02.2026 09:11,,,,,,,,,,,,,,,,,,,,,,,,,,,,Service Request,
+PAYLYNX-1299,3146556,25.02.2026 12:26,02.04.2026 16:07,Canceled,Major,,02.04.2026 16:08,,,,,,,,,,,,,,,,,,,,,,,,,,,3.0,Spike,Won't Do
+PAYLYNX-1301,3149168,26.02.2026 15:28,27.02.2026 08:46,Done,Major,,02.03.2026 10:37,Y26:PI:1:S3 first E-flood,,,,,,,,,,,,,,,,,,,,,,,,,,0.0,Task,Done
+PAYLYNX-1305,3151836,02.03.2026 10:54,06.03.2026 08:46,Done,Major,,06.03.2026 08:46,Y26:PI:1:S3 first E-flood,,,,,,,,,,,,,,,,,,,,,,,,,,1.0,Bug,Done
+PAYLYNX-1347,3180006,23.03.2026 07:06,,Open,Major,,01.04.2026 10:35,PI:2:2026 Refined tasks,,,,,,,,,,,,,,,,,,,,,,,,,,2.0,Task,
+PAYLYNX-1304,3151250,02.03.2026 07:45,,Done,Major,,24.03.2026 11:54,,,,,,,,,,,,,,,,,,,,,,,,,,,,Service Request,
+PAYLYNX-1306,3152672,02.03.2026 18:44,23.03.2026 14:50,Done,Major,,20.04.2026 14:40,Y26:PI:1:S3 first E-flood,Y26:PI:1:S4 e-blood,Y26:PI:1:S5 kinkFest,Y26:PI2:S1 no spillovers,,,,,,,,,,,,,,,,,,,,,,,0.0,Task,Done
+PAYLYNX-1307,3152680,03.03.2026 00:03,05.03.2026 08:52,Done,Major,,05.03.2026 08:52,Y26:PI:1:S3 first E-flood,,,,,,,,,,,,,,,,,,,,,,,,,,1.0,Bug,Done
+PAYLYNX-1317,3156113,04.03.2026 15:01,10.03.2026 13:30,Done,Major,,10.03.2026 13:30,Y26:PI:1:S3 first E-flood,Y26:PI:1:S4 e-blood,,,,,,,,,,,,,,,,,,,,,,,,,1.0,Bug,Done
+PAYLYNX-1314,3155224,04.03.2026 10:20,,Done,Major,,13.03.2026 14:47,,,,,,,,,,,,,,,,,,,,,,,,,,,,Service Request,
+PAYLYNX-1316,3155553,04.03.2026 12:55,,Done,Major,,13.03.2026 14:44,,,,,,,,,,,,,,,,,,,,,,,,,,,,Service Request,
+PAYLYNX-1318,3155953,04.03.2026 15:17,,Done,Major,,13.03.2026 14:47,,,,,,,,,,,,,,,,,,,,,,,,,,,,Service Request,
+PAYLYNX-1319,3156771,05.03.2026 09:56,,Done,Major,,13.03.2026 14:45,,,,,,,,,,,,,,,,,,,,,,,,,,,,Service Request,
+PAYLYNX-1310,3153957,03.03.2026 14:02,,Open,Major,,20.04.2026 13:08,Y26:PI2:S2 planning,,,,,,,,,,,,,,,,,,,,,,,,,,3.0,Task,
+PAYLYNX-1240,3120038,03.02.2026 20:25,,Open,Major,,20.04.2026 13:07,Y26:PI2:S2 planning,,,,,,,,,,,,,,,,,,,,,,,,,,3.0,Task,
+PAYLYNX-745,2778696,07.05.2025 07:28,03.04.2026 10:20,Done,Major,,03.04.2026 10:20,Y26:PI:1:S5 kinkFest,,,,,,,,,,,,,,,,,,,,,,,,,,0.0,Task,Done
+PAYLYNX-1322,3161615,09.03.2026 17:35,21.04.2026 11:14,Done,Major,,21.04.2026 11:14,Y26:PI:1:S3 first E-flood,Y26:PI:1:S4 e-blood,Y26:PI:1:S5 kinkFest,Y26:PI2:S1 no spillovers,,,,,,,,,,,,,,,,,,,,,,,0.0,Task,Done
+PAYLYNX-1063,2988143,28.10.2025 15:06,01.04.2026 16:08,Done,Major,,06.04.2026 08:07,Y26:PI:1:S4 e-blood,Y26:PI:1:S5 kinkFest,,,,,,,,,,,,,,,,,,,,,,,,,1.0,Task,Done
+PAYLYNX-1309,3153927,03.03.2026 13:29,25.03.2026 09:19,Done,Major,,25.03.2026 09:19,Y26:PI:1:S4 e-blood,,,,,,,,,,,,,,,,,,,,,,,,,,3.0,Task,Done
+PAYLYNX-1285,3141458,20.02.2026 10:49,24.03.2026 07:44,Done,Major,,24.03.2026 15:03,Y26:PI:1:S4 e-blood,,,,,,,,,,,,,,,,,,,,,,,,,,3.0,Task,Done
+PAYLYNX-1134,3056296,12.12.2025 12:58,16.03.2026 13:55,Canceled,Major,,16.03.2026 13:55,,,,,,,,,,,,,,,,,,,,,,,,,,,3.0,Task,Won't Do
+PAYLYNX-1321,3160931,09.03.2026 13:30,23.03.2026 14:46,Done,Major,,23.03.2026 14:48,Y26:PI:1:S4 e-blood,,,,,,,,,,,,,,,,,,,,,,,,,,1.0,Task,Done
+PAYLYNX-622,2711868,17.03.2025 15:57,26.03.2026 11:40,Done,Major,,26.03.2026 11:40,Y26:PI:1:S4 e-blood,Y26:PI:1:S5 kinkFest,,,,,,,,,,,,,,,,,,,,,,,,,0.0,Task,Done
+PAYLYNX-1323,3162617,10.03.2026 13:30,,Done,Major,,19.03.2026 18:09,Y26:PI:1:S4 e-blood,,,,,,,,,,,,,,,,,,,,,,,,,,2.0,Bug,
+PAYLYNX-1324,3162680,10.03.2026 14:31,,Done,Major,,18.03.2026 09:44,Y26:PI:1:S4 e-blood,PI:2026:1 Sprint 3,,,,,,,,,,,,,,,,,,,,,,,,,,Bug,
+PAYLYNX-1327,3166440,12.03.2026 09:38,19.03.2026 13:05,Done,Major,,23.03.2026 12:20,Y26:PI:1:S4 e-blood,,,,,,,,,,,,,,,,,,,,,,,,,,1.0,Task,Done
+PAYLYNX-1330,3167939,12.03.2026 16:08,16.03.2026 10:18,Done,Major,,16.03.2026 10:18,Y26:PI:1:S4 e-blood,,,,,,,,,,,,,,,,,,,,,,,,,,0.0,Bug,Done
+PAYLYNX-1334,3170454,16.03.2026 09:14,20.03.2026 19:40,Done,Major,,20.03.2026 19:40,Y26:PI:1:S4 e-blood,,,,,,,,,,,,,,,,,,,,,,,,,,1.0,Production bug,Done
+PAYLYNX-1326,3166430,12.03.2026 09:32,,Done,Major,,24.03.2026 11:46,,,,,,,,,,,,,,,,,,,,,,,,,,,,Service Request,
+PAYLYNX-1328,3167197,12.03.2026 12:26,,Done,Major,,24.03.2026 11:55,,,,,,,,,,,,,,,,,,,,,,,,,,,,Service Request,
+PAYLYNX-1329,3167554,12.03.2026 14:21,,Done,Major,,24.03.2026 11:56,,,,,,,,,,,,,,,,,,,,,,,,,,,,Service Request,
+PAYLYNX-1331,3167688,12.03.2026 16:08,,Done,Major,,17.03.2026 06:52,,,,,,,,,,,,,,,,,,,,,,,,,,,,Service Request,
+PAYLYNX-1332,3169153,13.03.2026 13:24,,Done,Major,,24.03.2026 11:54,,,,,,,,,,,,,,,,,,,,,,,,,,,,Service Request,
+PAYLYNX-1333,3170192,16.03.2026 07:45,,Done,Major,,17.03.2026 06:53,,,,,,,,,,,,,,,,,,,,,,,,,,,,Service Request,
+PAYLYNX-1335,3170702,16.03.2026 09:44,,Done,Major,,16.03.2026 15:10,,,,,,,,,,,,,,,,,,,,,,,,,,,,Service Request,
+PAYLYNX-1325,3163265,11.03.2026 07:27,,Done,Major,,31.03.2026 16:00,,,,,,,,,,,,,,,,,,,,,,,,,,,,Service Request,
+PAYLYNX-1336,3171059,16.03.2026 12:29,,Done,Major,,24.03.2026 11:54,,,,,,,,,,,,,,,,,,,,,,,,,,,,Service Request,
+PAYLYNX-1340,3171846,16.03.2026 14:51,,Waiting for Answer,Major,,20.03.2026 09:33,,,,,,,,,,,,,,,,,,,,,,,,,,,,Service Request,
+PAYLYNX-1341,3172628,17.03.2026 09:41,,Waiting for Answer,Major,,24.03.2026 07:38,,,,,,,,,,,,,,,,,,,,,,,,,,,,Service Request,
+PAYLYNX-1342,3172785,17.03.2026 10:42,19.03.2026 12:42,Done,Major,,24.03.2026 08:05,Y26:PI:1:S4 e-blood,,,,,,,,,,,,,,,,,,,,,,,,,,1.0,Task,Done
+PAYLYNX-1345,3174707,18.03.2026 12:26,23.03.2026 21:05,Done,Major,,23.03.2026 21:05,Y26:PI:1:S4 e-blood,,,,,,,,,,,,,,,,,,,,,,,,,,0.0,Bug,Done
+PAYLYNX-1346,3178756,20.03.2026 14:07,,Done,Major,,24.03.2026 15:43,Y26:PI:1:S4 e-blood,,,,,,,,,,,,,,,,,,,,,,,,,,1.0,Bug,
+PAYLYNX-1343,3173058,17.03.2026 11:31,,Done,Major,,27.03.2026 15:33,,,,,,,,,,,,,,,,,,,,,,,,,,,,Service Request,
+PAYLYNX-1365,3184171,24.03.2026 14:48,,Open,Major,,25.03.2026 08:27,PI:2:2026 Refined tasks,,,,,,,,,,,,,,,,,,,,,,,,,,2.0,Task,
+PAYLYNX-943,2885979,14.08.2025 13:30,31.03.2026 12:39,Canceled,Major,,31.03.2026 12:40,,,,,,,,,,,,,,,,,,,,,,,,,,,0.0,Task,Won't Do
+PAYLYNX-1357,3181664,23.03.2026 14:51,07.04.2026 08:59,Done,Major,,07.04.2026 08:59,Y26:PI:1:S3 first E-flood,Y26:PI:1:S4 e-blood,Y26:PI:1:S5 kinkFest,,,,,,,,,,,,,,,,,,,,,,,,0.0,Task,Done
+PAYLYNX-1366,3184348,24.03.2026 15:45,,Done,Major,,25.03.2026 07:00,Y26:PI:1:S4 e-blood,,,,,,,,,,,,,,,,,,,,,,,,,,0.0,Bug,
+PAYLYNX-1367,3184756,24.03.2026 20:40,06.04.2026 15:13,Done,Major,,06.04.2026 15:13,Y26:PI:1:S4 e-blood,Y26:PI:1:S5 kinkFest,,,,,,,,,,,,,,,,,,,,,,,,,2.0,Production bug,Done
+PAYLYNX-1361,3182180,24.03.2026 08:05,25.03.2026 14:05,Done,Major,,25.03.2026 14:05,Y26:PI:1:S5 kinkFest,,,,,,,,,,,,,,,,,,,,,,,,,,1.0,Task,Done
+PAYLYNX-1354,3181090,23.03.2026 12:20,02.04.2026 13:02,Done,Major,,02.04.2026 13:02,Y26:PI:1:S5 kinkFest,,,,,,,,,,,,,,,,,,,,,,,,,,1.0,Task,Done
+PAYLYNX-1353,3181084,23.03.2026 12:15,03.04.2026 15:32,Done,Major,,07.04.2026 13:11,Y26:PI:1:S5 kinkFest,,,,,,,,,,,,,,,,,,,,,,,,,,1.0,Task,Done
+PAYLYNX-1313,3154702,04.03.2026 07:03,,Pending,Major,,22.04.2026 10:01,Y26:PI:1:S5 kinkFest,Y26:PI2:S1 no spillovers,Y26:PI2:S2 testing the waters,,,,,,,,,,,,,,,,,,,,,,,,0.0,Task,
+PAYLYNX-623,2712021,17.03.2025 16:55,07.04.2026 08:47,Done,Major,,07.04.2026 08:47,Y26:PI:1:S5 kinkFest,,,,,,,,,,,,,,,,,,,,,,,,,,3.0,Task,Done
+PAYLYNX-1136,3056604,12.12.2025 13:02,22.04.2026 10:00,Done,Major,,22.04.2026 10:00,Y26:PI:1:S5 kinkFest,Y26:PI2:S1 no spillovers,,,,,,,,,,,,,,,,,,,,,,,,,1.0,Task,Done
+PAYLYNX-1308,3153924,03.03.2026 13:28,15.04.2026 14:29,Done,Major,,15.04.2026 14:29,Y26:PI:1:S5 kinkFest,Y26:PI2:S1 no spillovers,,,,,,,,,,,,,,,,,,,,,,,,,1.0,Task,Done
+PAYLYNX-1344,3174280,18.03.2026 10:28,,Ready for Testing,Major,,27.04.2026 10:27,Y26:PI2:S1 no spillovers,Y26:PI2:S2 testing the waters,,,,,,,,,,,,,,,,,,,,,,,,,1.0,Task,
+PAYLYNX-1387,3208712,07.04.2026 13:11,16.04.2026 13:05,Done,Major,,20.04.2026 09:28,Y26:PI2:S1 no spillovers,,,,,,,,,,,,,,,,,,,,,,,,,,1.0,Task,Done
+PAYLYNX-1175,3080946,15.01.2026 09:46,,In Testing,Major,,29.04.2026 10:39,Y26:PI2:S1 no spillovers,Y26:PI2:S2 testing the waters,,,,,,,,,,,,,,,,,,,,,,,,,3.0,Bug,
+PAYLYNX-1338,3171093,16.03.2026 13:21,,In Testing,Major,,23.04.2026 07:33,Y26:PI2:S1 no spillovers,Y26:PI2:S2 testing the waters,,,,,,,,,,,,,,,,,,,,,,,,,1.0,Task,
+PAYLYNX-1374,3193962,30.03.2026 20:54,15.04.2026 12:59,Done,Major,,15.04.2026 12:59,Y26:PI2:S1 no spillovers,,,,,,,,,,,,,,,,,,,,,,,,,,2.0,Task,Done
+PAYLYNX-1286,3141459,20.02.2026 10:50,,In Testing,Major,,22.04.2026 10:11,Y26:PI2:S1 no spillovers,Y26:PI2:S2 testing the waters,,,,,,,,,,,,,,,,,,,,,,,,,1.0,Task,
+PAYLYNX-624,2712027,17.03.2025 17:02,,Ready for Testing,Major,,22.04.2026 10:13,Y26:PI2:S1 no spillovers,Y26:PI2:S2 testing the waters,,,,,,,,,,,,,,,,,,,,,,,,,1.0,Task,
+PAYLYNX-1368,3185154,25.03.2026 09:07,,Open,Major,,29.04.2026 10:20,Y26:PI2:S1 no spillovers,Y26:PI2:S2 testing the waters,,,,,,,,,,,,,,,,,,,,,,,,,1.0,Task,
+PAYLYNX-1337,3171092,16.03.2026 13:21,08.04.2026 09:24,Done,Major,,08.04.2026 12:58,Y26:PI:1:S5 kinkFest,,,,,,,,,,,,,,,,,,,,,,,,,,3.0,Task,Done
+PAYLYNX-1363,3183388,24.03.2026 11:47,,Done,Major,,08.04.2026 08:26,,,,,,,,,,,,,,,,,,,,,,,,,,,,Service Request,
+PAYLYNX-1364,3183552,24.03.2026 13:06,,Done,Major,,08.04.2026 14:07,,,,,,,,,,,,,,,,,,,,,,,,,,,,Service Request,
+PAYLYNX-1351,3180412,23.03.2026 09:56,,Open,Major,,02.04.2026 16:03,PI:2:2026 Refined tasks,,,,,,,,,,,,,,,,,,,,,,,,,,1.0,Task,
+PAYLYNX-1349,3180189,23.03.2026 09:42,,Open,Major,,02.04.2026 16:04,PI:2:2026 Refined tasks,,,,,,,,,,,,,,,,,,,,,,,,,,1.0,Task,
+PAYLYNX-1339,3171096,16.03.2026 13:25,,Open,Major,,07.04.2026 13:53,Y26:PI2:S4 planning,,,,,,,,,,,,,,,,,,,,,,,,,,3.0,Task,
+PAYLYNX-894,2869482,21.07.2025 14:33,,Open,Major,,07.04.2026 14:12,Y26:PI2:S4 planning,,,,,,,,,,,,,,,,,,,,,,,,,,3.0,Task,
+PAYLYNX-1360,3182133,23.03.2026 18:40,,Open,Major,,07.04.2026 14:26,Y26:PI2:S4 planning,,,,,,,,,,,,,,,,,,,,,,,,,,2.0,Task,
+PAYLYNX-895,2869497,21.07.2025 15:35,,Open,Major,,20.04.2026 12:58,Y26:PI2:S4 planning,,,,,,,,,,,,,,,,,,,,,,,,,,2.0,Task,
+PAYLYNX-1372,3189141,26.03.2026 15:37,01.04.2026 10:42,Canceled,Major,,01.04.2026 10:43,,,,,,,,,,,,,,,,,,,,,,,,,,,,Task,Won't Do
+PAYLYNX-1373,3191212,29.03.2026 15:52,07.04.2026 10:21,Done,Major,,07.04.2026 10:21,Y26:PI:1:S5 kinkFest,,,,,,,,,,,,,,,,,,,,,,,,,,0.0,Task,Done
+PAYLYNX-1003,2937325,17.09.2025 13:28,,Open,Major,,01.04.2026 14:58,PI:2:2026 Refined tasks,,,,,,,,,,,,,,,,,,,,,,,,,,2.0,Task,
+PAYLYNX-1178,3081992,15.01.2026 13:34,,Open,Major,,07.04.2026 14:03,Y26:PI2:S2 planning,,,,,,,,,,,,,,,,,,,,,,,,,,2.0,Task,
+PAYLYNX-772,2792764,19.05.2025 10:02,,Open,Major,,07.04.2026 12:59,PI:2:2026 Refined tasks,,,,,,,,,,,,,,,,,,,,,,,,,,2.0,Task,
+PAYLYNX-1180,3082672,16.01.2026 09:16,,Open,Major,,07.04.2026 14:29,PI:2:2026 Refined tasks,,,,,,,,,,,,,,,,,,,,,,,,,,2.0,Task,
+PAYLYNX-1291,3142085,20.02.2026 15:40,,Open,Major,,07.04.2026 14:29,PI:2:2026 Refined tasks,,,,,,,,,,,,,,,,,,,,,,,,,,3.0,Task,
+PAYLYNX-1380,3197017,31.03.2026 14:08,,Open,Minor,,22.04.2026 09:55,Premium Bugs,,,,,,,,,,,,,,,,,,,,,,,,,,,Bug,
+PAYLYNX-1381,3200715,01.04.2026 15:33,,Done,Major,,07.04.2026 08:51,,,,,,,,,,,,,,,,,,,,,,,,,,,,Service Request,
+PAYLYNX-1383,3203573,02.04.2026 12:30,02.04.2026 16:11,Done,Major,,02.04.2026 16:11,Y26:PI:1:S5 kinkFest,,,,,,,,,,,,,,,,,,,,,,,,,,0.0,Task,Done
+PAYLYNX-1384,3204515,03.04.2026 07:58,,Waiting for Answer,Major,,20.04.2026 10:47,,,,,,,,,,,,,,,,,,,,,,,,,,,,Service Request,
+PAYLYNX-1385,3206686,07.04.2026 10:30,,Done,Major,,08.04.2026 13:09,,,,,,,,,,,,,,,,,,,,,,,,,,,,Service Request,
+PAYLYNX-1075,2998314,05.11.2025 11:34,,Open,Major,,23.04.2026 14:42,Y26:PI2:S2 planning,,,,,,,,,,,,,,,,,,,,,,,,,,2.0,Task,
+PAYLYNX-1375,3193964,30.03.2026 20:55,,In Progress,Major,,24.04.2026 12:01,Y26:PI2:S2 testing the waters,,,,,,,,,,,,,,,,,,,,,,,,,,1.0,Task,
+PAYLYNX-1377,3193968,30.03.2026 21:02,,Open,Major,,21.04.2026 09:44,Y26:PI2:S2 planning,,,,,,,,,,,,,,,,,,,,,,,,,,2.0,Task,
+PAYLYNX-1425,3225695,17.04.2026 08:59,,In Progress,Major,,22.04.2026 10:32,Y26:PI2:S1 no spillovers,Y26:PI2:S2 planning,,,,,,,,,,,,,,,,,,,,,,,,,1.0,Task,
+PAYLYNX-1389,3208723,07.04.2026 13:13,,Open,Major,,07.04.2026 13:21,Y26:PI2:S3 planning,,,,,,,,,,,,,,,,,,,,,,,,,,1.0,Task,
+PAYLYNX-1378,3193969,30.03.2026 21:06,,Open,Major,,07.04.2026 13:46,Y26:PI2:S3 planning,,,,,,,,,,,,,,,,,,,,,,,,,,2.0,Task,
+PAYLYNX-1386,3207269,07.04.2026 11:03,,Open,Major,,07.04.2026 14:23,Y26:PI2:S3 planning,,,,,,,,,,,,,,,,,,,,,,,,,,3.0,Task,
+PAYLYNX-1355,3181323,23.03.2026 13:07,,Open,Major,,07.04.2026 14:25,Y26:PI2:S3 planning,,,,,,,,,,,,,,,,,,,,,,,,,,2.0,Task,
+PAYLYNX-1390,3208728,07.04.2026 13:13,,Open,Major,,07.04.2026 13:22,Y26:PI2:S5 planning,,,,,,,,,,,,,,,,,,,,,,,,,,1.0,Task,
+PAYLYNX-1290,3142084,20.02.2026 15:36,,Open,Major,,07.04.2026 14:26,Y26:PI2:S5 planning,,,,,,,,,,,,,,,,,,,,,,,,,,5.0,Task,
+PAYLYNX-1391,3208731,07.04.2026 13:13,07.04.2026 13:18,Canceled,Major,,07.04.2026 13:18,,,,,,,,,,,,,,,,,,,,,,,,,,,1.0,Task,Won't Do
+PAYLYNX-1392,3209827,07.04.2026 14:25,,Done,Trivial,,08.04.2026 14:07,,,,,,,,,,,,,,,,,,,,,,,,,,,,Service Request,
+PAYLYNX-1393,3211025,08.04.2026 07:56,,Canceled,Trivial,,08.04.2026 12:31,,,,,,,,,,,,,,,,,,,,,,,,,,,,Production bug,Won't Do
+PAYLYNX-1394,3211049,08.04.2026 08:28,,Open,Trivial,,08.04.2026 12:25,,,,,,,,,,,,,,,,,,,,,,,,,,,,Production bug,
+PAYLYNX-1395,3211607,08.04.2026 09:24,,Open,Major,,26.04.2026 19:50,PI:3:2026 Sprint 1,,,,,,,,,,,,,,,,,,,,,,,,,,3.0,Task,
+PAYLYNX-1244,3121456,04.02.2026 15:46,,Open,Major,,20.04.2026 13:07,Y26:PI2:S1 planning,,,,,,,,,,,,,,,,,,,,,,,,,,3.0,Task,
+PAYLYNX-1396,3211678,08.04.2026 09:46,,Done,Trivial,,09.04.2026 13:37,,,,,,,,,,,,,,,,,,,,,,,,,,,,Service Request,
+PAYLYNX-1397,3211941,08.04.2026 10:00,,Done,Trivial,,08.04.2026 13:11,,,,,,,,,,,,,,,,,,,,,,,,,,,,Service Request,
+PAYLYNX-1398,3212850,08.04.2026 12:42,,Done,Trivial,,21.04.2026 13:55,Y26:PI2:S1 no spillovers,,,,,,,,,,,,,,,,,,,,,,,,,,0.0,Production bug,
+PAYLYNX-1399,3213335,08.04.2026 13:32,15.04.2026 11:51,Done,Major,,15.04.2026 11:51,Y26:PI2:S1 no spillovers,,,,,,,,,,,,,,,,,,,,,,,,,,1.0,Task,Done
+PAYLYNX-1400,3213287,08.04.2026 13:41,13.04.2026 15:10,Done,Minor,,13.04.2026 15:10,Y26:PI2:S1 no spillovers,,,,,,,,,,,,,,,,,,,,,,,,,,3.0,Spike,Done
+PAYLYNX-1401,3213605,08.04.2026 14:03,,Done,Trivial,,08.04.2026 15:26,,,,,,,,,,,,,,,,,,,,,,,,,,,,Service Request,
+PAYLYNX-1402,3213622,08.04.2026 14:11,,Done,Trivial,,08.04.2026 15:24,,,,,,,,,,,,,,,,,,,,,,,,,,,,Service Request,
+PAYLYNX-1403,3214649,09.04.2026 09:02,,Open,Major,,09.04.2026 09:02,,,,,,,,,,,,,,,,,,,,,,,,,,,,Task,
+PAYLYNX-1404,3215355,09.04.2026 11:13,,Done,Major,,09.04.2026 13:33,,,,,,,,,,,,,,,,,,,,,,,,,,,,Service Request,
+PAYLYNX-1405,3215562,09.04.2026 13:16,,Done,Major,,20.04.2026 08:55,,,,,,,,,,,,,,,,,,,,,,,,,,,,Service Request,
+PAYLYNX-1406,3216350,10.04.2026 08:03,,Done,Major,,22.04.2026 09:43,Y26:PI2:S1 no spillovers,,,,,,,,,,,,,,,,,,,,,,,,,,0.0,Bug,
+PAYLYNX-1407,3216516,10.04.2026 08:45,,Open,Major,,28.04.2026 14:53,PI:2:2026 Refined tasks,,,,,,,,,,,,,,,,,,,,,,,,,,1.0,Task,
+PAYLYNX-1408,3217515,10.04.2026 13:07,,Done,Major,,10.04.2026 13:54,,,,,,,,,,,,,,,,,,,,,,,,,,,,Service Request,
+PAYLYNX-1409,3218812,13.04.2026 08:10,,Done,Major,,14.04.2026 10:28,,,,,,,,,,,,,,,,,,,,,,,,,,,,Service Request,
+PAYLYNX-1410,3219246,13.04.2026 10:32,,Done,Major,,13.04.2026 10:59,,,,,,,,,,,,,,,,,,,,,,,,,,,,Service Request,
+PAYLYNX-1411,3220167,13.04.2026 14:20,,Done,Major,,20.04.2026 21:27,Y26:PI2:S1 no spillovers,,,,,,,,,,,,,,,,,,,,,,,,,,1.0,Bug,
+PAYLYNX-1413,3220765,14.04.2026 08:55,,Open,Minor,,22.04.2026 10:01,Y26:PI2:S1 no spillovers,Y26:PI2:S2 testing the waters,,,,,,,,,,,,,,,,,,,,,,,,,,Bug,
+PAYLYNX-1412,3220762,14.04.2026 08:53,,Open,Major,,14.04.2026 08:53,,,,,,,,,,,,,,,,,,,,,,,,,,,,Bug,
+PAYLYNX-1414,3220667,14.04.2026 08:55,,Done,Major,,14.04.2026 09:16,,,,,,,,,,,,,,,,,,,,,,,,,,,,Service Request,
+PAYLYNX-1415,3221328,14.04.2026 11:08,,Waiting for Answer,Major,,14.04.2026 13:22,,,,,,,,,,,,,,,,,,,,,,,,,,,,Service Request,
+PAYLYNX-1416,3221470,14.04.2026 13:40,22.04.2026 09:24,Done,Major,,22.04.2026 09:24,Y26:PI2:S1 no spillovers,,,,,,,,,,,,,,,,,,,,,,,,,,2.0,Production bug,Done
+PAYLYNX-1419,3222117,14.04.2026 16:24,,Done,Major,,16.04.2026 15:19,,,,,,,,,,,,,,,,,,,,,,,,,,,,Service Request,
+PAYLYNX-1421,3223377,15.04.2026 13:56,,Open,Major,,15.04.2026 14:03,PI:2:2026 Refined tasks,,,,,,,,,,,,,,,,,,,,,,,,,,3.0,Task,
+PAYLYNX-1422,3223950,15.04.2026 16:27,,Open,Major,,28.04.2026 14:40,PI:2:2026 Refined tasks,,,,,,,,,,,,,,,,,,,,,,,,,,5.0,Task,
+PAYLYNX-1423,3224152,16.04.2026 06:57,22.04.2026 09:14,Done,Major,,22.04.2026 09:14,Y26:PI2:S1 no spillovers,,,,,,,,,,,,,,,,,,,,,,,,,,1.0,Production bug,Done
+PAYLYNX-1424,3225426,16.04.2026 15:13,,Done,Major,,17.04.2026 15:52,,,,,,,,,,,,,,,,,,,,,,,,,,,,Service Request,
+PAYLYNX-1426,3226182,17.04.2026 11:09,20.04.2026 09:32,Done,Major,,20.04.2026 09:34,Y26:PI2:S1 no spillovers,,,,,,,,,,,,,,,,,,,,,,,,,,1.0,Task,Done
+PAYLYNX-1427,3226340,17.04.2026 11:45,,Done,Major,,17.04.2026 15:38,,,,,,,,,,,,,,,,,,,,,,,,,,,,Service Request,
+PAYLYNX-1428,3227876,20.04.2026 13:07,,Open,Major,,20.04.2026 13:29,For Refinement,,,,,,,,,,,,,,,,,,,,,,,,,,,Task,
+PAYLYNX-1430,3229562,21.04.2026 12:56,,Investigation,Major,,28.04.2026 10:36,,,,,,,,,,,,,,,,,,,,,,,,,,,,Service Request,
+PAYLYNX-1431,3229696,21.04.2026 14:10,,Done,Major,,24.04.2026 14:46,,,,,,,,,,,,,,,,,,,,,,,,,,,,Service Request,
+PAYLYNX-1432,3229921,21.04.2026 14:35,,Open,Major,,22.04.2026 10:01,Y26:PI2:S1 no spillovers,Y26:PI2:S2 testing the waters,,,,,,,,,,,,,,,,,,,,,,,,,,Bug,
+PAYLYNX-1433,3230529,22.04.2026 08:53,,Done,Major,,22.04.2026 13:24,Y26:PI2:S1 no spillovers,Y26:PI2:S2 testing the waters,,,,,,,,,,,,,,,,,,,,,,,,,,Bug,
+PAYLYNX-1418,3221733,14.04.2026 14:41,,In Progress,Major,,27.04.2026 10:26,Y26:PI2:S2 testing the waters,,,,,,,,,,,,,,,,,,,,,,,,,,3.0,Task,
+PAYLYNX-1429,3228959,21.04.2026 09:24,,Open,Major,,22.04.2026 10:17,Y26:PI2:S2 testing the waters,,,,,,,,,,,,,,,,,,,,,,,,,,2.0,Task,
+PAYLYNX-1348,3180158,23.03.2026 09:27,,Ready for Testing,Major,,22.04.2026 13:22,Y26:PI2:S2 testing the waters,,,,,,,,,,,,,,,,,,,,,,,,,,1.0,Task,
+PAYLYNX-1369,3186068,25.03.2026 12:13,,In Progress,Major,,22.04.2026 12:47,Y26:PI2:S2 testing the waters,,,,,,,,,,,,,,,,,,,,,,,,,,3.0,Task,
+PAYLYNX-1192,3091792,22.01.2026 12:30,,Open,Major,,22.04.2026 10:35,Y26:PI2:S2 testing the waters,,,,,,,,,,,,,,,,,,,,,,,,,,1.0,Task,
+PAYLYNX-1434,3231108,22.04.2026 12:34,,Done,Major,,23.04.2026 15:37,,,,,,,,,,,,,,,,,,,,,,,,,,,,Service Request,
+PAYLYNX-1435,3231971,23.04.2026 08:44,,Open,Major,,23.04.2026 08:44,,,,,,,,,,,,,,,,,,,,,,,,,,,,Task,
+PAYLYNX-1436,3232353,23.04.2026 09:24,24.04.2026 11:12,Done,Major,,24.04.2026 11:12,Y26:PI2:S2 testing the waters,,,,,,,,,,,,,,,,,,,,,,,,,,0.0,Task,Done
+PAYLYNX-1437,3232847,23.04.2026 11:25,24.04.2026 08:16,Done,Major,,24.04.2026 08:16,Y26:PI2:S2 testing the waters,,,,,,,,,,,,,,,,,,,,,,,,,,1.0,Spike,Done
+PAYLYNX-1439,3233192,23.04.2026 14:57,,Ready for Testing,Major,,28.04.2026 09:02,Y26:PI2:S2 testing the waters,,,,,,,,,,,,,,,,,,,,,,,,,,2.0,Task,
+PAYLYNX-1440,3233777,24.04.2026 09:01,,Done,Major,,24.04.2026 13:45,,,,,,,,,,,,,,,,,,,,,,,,,,,,Service Request,
+PAYLYNX-1441,3234558,24.04.2026 13:26,,In Progress,Major,,27.04.2026 08:13,Y26:PI2:S2 testing the waters,,,,,,,,,,,,,,,,,,,,,,,,,,,Task,
+PAYLYNX-1442,3235208,25.04.2026 19:32,,Open,Major,,25.04.2026 19:32,,,,,,,,,,,,,,,,,,,,,,,,,,,3.0,Task,
+PAYLYNX-1443,3235390,27.04.2026 09:16,,Open,Major,,28.04.2026 14:54,PI:2:2026 Refined tasks,,,,,,,,,,,,,,,,,,,,,,,,,,5.0,Task,
+PAYLYNX-1444,3236308,27.04.2026 11:59,,Waiting for Answer,Major,,27.04.2026 12:22,,,,,,,,,,,,,,,,,,,,,,,,,,,,Service Request,
+PAYLYNX-1445,3237197,27.04.2026 18:12,,Canceled,Major,,28.04.2026 14:56,,,,,,,,,,,,,,,,,,,,,,,,,,,,Service Request,Won't Do
+PAYLYNX-1446,3237752,28.04.2026 10:03,,Open,Major,,28.04.2026 10:03,Y26:PI2:S2 testing the waters,,,,,,,,,,,,,,,,,,,,,,,,,,1.0,Task,
+PAYLYNX-1447,3238594,28.04.2026 14:37,,Open,Major,,28.04.2026 14:54,PI:2:2026 Refined tasks,,,,,,,,,,,,,,,,,,,,,,,,,,2.0,Task,
+PAYLYNX-1448,3238597,28.04.2026 14:44,,Open,Major,,28.04.2026 14:54,PI:2:2026 Refined tasks,,,,,,,,,,,,,,,,,,,,,,,,,,2.0,Task,
+PAYLYNX-1449,3238807,28.04.2026 14:53,,Open,Major,,28.04.2026 14:54,PI:2:2026 Refined tasks,,,,,,,,,,,,,,,,,,,,,,,,,,2.0,Task,

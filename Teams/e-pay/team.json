@@ -1,0 +1,105 @@
+{
+  "teamName": "E-Pay",
+  "doneConfig": {
+    "useStatusCategoryDone": false,
+    "doneStatuses": [
+      "Done",
+      "Closed",
+      "Resolved"
+    ]
+  },
+  "sleConfig": {
+    "percentiles": [
+      50,
+      70,
+      85,
+      95
+    ],
+    "rounding": "ceil",
+    "issueTypes": [
+      "Task",
+      "Bug",
+      "Story"
+    ]
+  },
+  "cycleTimeConfig": {
+    "endDateSource": "resolvedOrUpdated"
+  },
+  "mapping": {
+    "key": "Issue key",
+    "created": "Created",
+    "resolutionDate": "Resolved",
+    "updated": "Updated",
+    "status": "Status",
+    "resolution": "Resolution",
+    "storyPoints": "Story points",
+    "sprint": "Sprint",
+    "issueType": "Issue Type"
+  },
+  "velocityConfig": {
+    "mode": "weekly-ticket-count"
+  },
+  "bugConfig": {
+    "issueTypes": [
+      "Bug"
+    ]
+  },
+  "sprintScopeConfig": {
+    "statuses": []
+  },
+  "workflowConfig": {
+    "backlogStatuses": [],
+    "activeStatuses": []
+  },
+  "bottleneckConfig": {
+    "flowStatuses": []
+  },
+  "excludedIssueKeys": [],
+  "safeConfig": {
+    "enabled": false,
+    "entityType": "team",
+    "metricIds": [
+      "flow-time",
+      "flow-velocity",
+      "flow-load",
+      "flow-efficiency",
+      "flow-predictability",
+      "flow-distribution",
+      "built-in-quality",
+      "competency-assessment"
+    ]
+  },
+  "jiraQuery": {
+    "defaultQueryId": "default",
+    "queries": [
+      {
+        "id": "default",
+        "name": "Issues CSV Query",
+        "jql": "project = YOURPROJECT ORDER BY updated DESC",
+        "note": "Edit this query per team scope."
+      }
+    ],
+    "issueQuery": {
+      "defaultQueryId": "default",
+      "queries": [
+        {
+          "id": "default",
+          "name": "Issues CSV Query",
+          "jql": "project = YOURPROJECT ORDER BY updated DESC",
+          "note": "Edit this query per team scope."
+        }
+      ]
+    },
+    "timeInStatusQuery": {
+      "defaultQueryId": "time-in-status-default",
+      "queries": [
+        {
+          "id": "time-in-status-default",
+          "name": "Time in Status Query",
+          "jql": "project = YOURPROJECT ORDER BY updated DESC",
+          "note": "Use the same team scope/window as your Issues CSV query."
+        }
+      ]
+    }
+  }
+}

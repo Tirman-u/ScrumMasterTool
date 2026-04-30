@@ -3,6 +3,7 @@ import {
   buildMetrics,
   isIssueTypeIncludedInSle,
   normalizeSleIssueTypes,
+  resolveEffectiveSleIssueTypes,
 } from "../apps/sm-tool/src/lib/metrics";
 import { type ParsedIssue, type TeamConfig } from "../apps/sm-tool/src/types/contracts";
 
@@ -83,5 +84,35 @@ describe("SLE issue type filtering", () => {
     expect(isIssueTypeIncludedInSle("story", ["Story"])).toBe(true);
     expect(isIssueTypeIncludedInSle("EPIC", ["Story", "Task"])).toBe(false);
   });
-});
 
+  it("falls back to observed issue types when configured SLE list has no overlap", () => {
+    expect(resolveEffectiveSleIssueTypes(["Task", "Bug", "Story"], ["Program Epic", "Program Epic"])).toEqual([
+      "Program Epic",
+    ]);
+
+    const metrics = buildMetrics(
+      {
+        ...TEAM_CONFIG,
+        teamName: "Program",
+      },
+      2,
+      [
+        issue({
+          issueKey: "PRG-1",
+          issueType: "Program Epic",
+          created: new Date("2026-01-01T00:00:00.000Z"),
+          resolutionDate: new Date("2026-01-11T00:00:00.000Z"),
+        }),
+        issue({
+          issueKey: "PRG-2",
+          issueType: "Program Epic",
+          created: new Date("2026-01-01T00:00:00.000Z"),
+          resolutionDate: new Date("2026-01-21T00:00:00.000Z"),
+        }),
+      ],
+    );
+
+    expect(metrics.sle.values.p50).toBe(15);
+    expect(metrics.sle.values.p85).toBe(19);
+  });
+});

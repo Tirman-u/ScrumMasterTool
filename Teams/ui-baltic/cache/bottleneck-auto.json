@@ -1,0 +1,129 @@
+[
+  {
+    "period": "2025-09",
+    "columns": [
+      {
+        "name": "Open",
+        "avgDays": 87.99797032828286
+      },
+      {
+        "name": "Acceptance Testing",
+        "avgDays": 30.08
+      },
+      {
+        "name": "In Progress",
+        "avgDays": 16.929212239583332
+      },
+      {
+        "name": "In Code Review",
+        "avgDays": 9.632083333333334
+      }
+    ]
+  },
+  {
+    "period": "2025-10",
+    "columns": [
+      {
+        "name": "Open",
+        "avgDays": 216.30197784810127
+      },
+      {
+        "name": "In Progress",
+        "avgDays": 4.713636363636364
+      },
+      {
+        "name": "In Code Review",
+        "avgDays": 2.981666666666667
+      },
+      {
+        "name": "Acceptance Testing",
+        "avgDays": 0.01375
+      }
+    ]
+  },
+  {
+    "period": "2025-11",
+    "columns": [
+      {
+        "name": "Open",
+        "avgDays": 175.58493421052637
+      },
+      {
+        "name": "In Progress",
+        "avgDays": 2.704027777777778
+      },
+      {
+        "name": "In Code Review",
+        "avgDays": 1.9466666666666665
+      }
+    ]
+  },
+  {
+    "period": "2025-12",
+    "columns": [
+      {
+        "name": "Open",
+        "avgDays": 106.80166666666666
+      },
+      {
+        "name": "Acceptance Testing",
+        "avgDays": 12.85
+      },
+      {
+        "name": "In Code Review",
+        "avgDays": 0.10958333333333332
+      },
+      {
+        "name": "In Progress",
+        "avgDays": 0.0175
+      }
+    ]
+  },
+  {
+    "period": "2026-01",
+    "columns": [
+      {
+        "name": "Open",
+        "avgDays": 94.41511824324324
+      }
+    ]
+  },
+  {
+    "period": "2026-02",
+    "columns": [
+      {
+        "name": "Open",
+        "avgDays": 69.24300925925925
+      },
+      {
+        "name": "In Progress",
+        "avgDays": 3.986666666666667
+      }
+    ]
+  },
+  {
+    "period": "2026-03",
+    "columns": [
+      {
+        "name": "Open",
+        "avgDays": 91.15511612021855
+      },
+      {
+        "name": "In Progress",
+        "avgDays": 5.744930555555555
+      },
+      {
+        "name": "Acceptance Testing",
+        "avgDays": 5.2219444444444445
+      },
+      {
+        "name": "In Code Review",
+        "avgDays": 1.8081060606060608
+      },
+      {
+        "name": "Ready for Deploy",
+        "avgDays": 0.7054166666666667
+      }
+    ]
+  }
+]

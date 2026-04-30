@@ -72,7 +72,7 @@
     "status": "AC Test",
     "resolution": "",
     "issueType": "Bug",
-    "storyPoints": null,
+    "storyPoints": 1,
     "sprintRaw": "BWEBDEV-26-4",
     "sourceFile": "BalticWeb Scrum Tool - Done  (Swedbank) 2026-02-26T16_00_41+0100.csv",
     "sourceRow": 7
@@ -124,7 +124,7 @@
     "status": "AC Test",
     "resolution": "",
     "issueType": "Task",
-    "storyPoints": null,
+    "storyPoints": 1,
     "sprintRaw": "BWEBDEV-26-4",
     "sourceFile": "BalticWeb Scrum Tool - Done  (Swedbank) 2026-02-26T16_00_41+0100.csv",
     "sourceRow": 11
@@ -137,7 +137,7 @@
     "status": "AC Test",
     "resolution": "",
     "issueType": "Task",
-    "storyPoints": null,
+    "storyPoints": 1,
     "sprintRaw": "BWEBDEV-26-4",
     "sourceFile": "BalticWeb Scrum Tool - Done  (Swedbank) 2026-02-26T16_00_41+0100.csv",
     "sourceRow": 12
@@ -228,7 +228,7 @@
     "status": "Done",
     "resolution": "",
     "issueType": "Task",
-    "storyPoints": null,
+    "storyPoints": 1,
     "sprintRaw": "BWEBDEV-26-4",
     "sourceFile": "BalticWeb Scrum Tool - Done  (Swedbank) 2026-02-26T16_00_41+0100.csv",
     "sourceRow": 19
@@ -241,7 +241,7 @@
     "status": "Done",
     "resolution": "",
     "issueType": "Task",
-    "storyPoints": null,
+    "storyPoints": 1,
     "sprintRaw": "BWEBDEV-26-4",
     "sourceFile": "BalticWeb Scrum Tool - Done  (Swedbank) 2026-02-26T16_00_41+0100.csv",
     "sourceRow": 20
@@ -280,7 +280,7 @@
     "status": "Done",
     "resolution": "",
     "issueType": "Task",
-    "storyPoints": null,
+    "storyPoints": 1,
     "sprintRaw": "BWEBDEV-26-4",
     "sourceFile": "BalticWeb Scrum Tool - Done  (Swedbank) 2026-02-26T16_00_41+0100.csv",
     "sourceRow": 23
@@ -293,7 +293,7 @@
     "status": "Done",
     "resolution": "",
     "issueType": "Task",
-    "storyPoints": null,
+    "storyPoints": 2,
     "sprintRaw": "BWEBDEV-26-4",
     "sourceFile": "BalticWeb Scrum Tool - Done  (Swedbank) 2026-02-26T16_00_41+0100.csv",
     "sourceRow": 24
@@ -501,7 +501,7 @@
     "status": "AC Test",
     "resolution": "",
     "issueType": "Bug",
-    "storyPoints": null,
+    "storyPoints": 2,
     "sprintRaw": "BWEBDEV-26-4",
     "sourceFile": "BalticWeb Scrum Tool - Done  (Swedbank) 2026-02-26T16_00_41+0100.csv",
     "sourceRow": 40
@@ -514,7 +514,7 @@
     "status": "Done",
     "resolution": "",
     "issueType": "Bug",
-    "storyPoints": null,
+    "storyPoints": 2,
     "sprintRaw": "BWEBDEV-26-3",
     "sourceFile": "BalticWeb Scrum Tool - Done  (Swedbank) 2026-02-26T16_00_41+0100.csv",
     "sourceRow": 41
@@ -527,7 +527,7 @@
     "status": "Done",
     "resolution": "",
     "issueType": "Task",
-    "storyPoints": null,
+    "storyPoints": 1,
     "sprintRaw": "BWEBDEV-26-3",
     "sourceFile": "BalticWeb Scrum Tool - Done  (Swedbank) 2026-02-26T16_00_41+0100.csv",
     "sourceRow": 42
@@ -566,7 +566,7 @@
     "status": "Done",
     "resolution": "",
     "issueType": "Task",
-    "storyPoints": null,
+    "storyPoints": 1,
     "sprintRaw": "BWEBDEV-26-3",
     "sourceFile": "BalticWeb Scrum Tool - Done  (Swedbank) 2026-02-26T16_00_41+0100.csv",
     "sourceRow": 45
@@ -592,7 +592,7 @@
     "status": "Done",
     "resolution": "",
     "issueType": "Task",
-    "storyPoints": null,
+    "storyPoints": 0.5,
     "sprintRaw": "BWEBDEV-26-3",
     "sourceFile": "BalticWeb Scrum Tool - Done  (Swedbank) 2026-02-26T16_00_41+0100.csv",
     "sourceRow": 47
@@ -657,7 +657,7 @@
     "status": "Done",
     "resolution": "",
     "issueType": "Bug",
-    "storyPoints": null,
+    "storyPoints": 2,
     "sprintRaw": "BWEBDEV-26-3",
     "sourceFile": "BalticWeb Scrum Tool - Done  (Swedbank) 2026-02-26T16_00_41+0100.csv",
     "sourceRow": 52
@@ -683,7 +683,7 @@
     "status": "Done",
     "resolution": "",
     "issueType": "Task",
-    "storyPoints": null,
+    "storyPoints": 2,
     "sprintRaw": "BWEBDEV-26-3",
     "sourceFile": "BalticWeb Scrum Tool - Done  (Swedbank) 2026-02-26T16_00_41+0100.csv",
     "sourceRow": 54
@@ -722,7 +722,7 @@
     "status": "Done",
     "resolution": "",
     "issueType": "Task",
-    "storyPoints": null,
+    "storyPoints": 1,
     "sprintRaw": "BWEBDEV-26-3,BWEBDEV-26-4",
     "sourceFile": "BalticWeb Scrum Tool - Done  (Swedbank) 2026-02-26T16_00_41+0100.csv",
     "sourceRow": 57
@@ -735,7 +735,7 @@
     "status": "Done",
     "resolution": "",
     "issueType": "Bug",
-    "storyPoints": null,
+    "storyPoints": 2,
     "sprintRaw": "BWEBDEV-26-2,BWEBDEV-26-3",
     "sourceFile": "BalticWeb Scrum Tool - Done  (Swedbank) 2026-02-26T16_00_41+0100.csv",
     "sourceRow": 58
@@ -761,7 +761,7 @@
     "status": "Done",
     "resolution": "",
     "issueType": "Task",
-    "storyPoints": null,
+    "storyPoints": 3,
     "sprintRaw": "BWEBDEV-26-3",
     "sourceFile": "BalticWeb Scrum Tool - Done  (Swedbank) 2026-02-26T16_00_41+0100.csv",
     "sourceRow": 60
@@ -787,7 +787,7 @@
     "status": "AC Test",
     "resolution": "",
     "issueType": "Task",
-    "storyPoints": null,
+    "storyPoints": 3,
     "sprintRaw": "BWEBDEV-26-4",
     "sourceFile": "BalticWeb Scrum Tool - Done  (Swedbank) 2026-02-26T16_00_41+0100.csv",
     "sourceRow": 62
@@ -839,7 +839,7 @@
     "status": "Done",
     "resolution": "",
     "issueType": "Task",
-    "storyPoints": null,
+    "storyPoints": 1,
     "sprintRaw": "BWEBDEV-26-2",
     "sourceFile": "BalticWeb Scrum Tool - Done  (Swedbank) 2026-02-26T16_00_41+0100.csv",
     "sourceRow": 66
@@ -878,7 +878,7 @@
     "status": "Done",
     "resolution": "",
     "issueType": "Task",
-    "storyPoints": null,
+    "storyPoints": 2,
     "sprintRaw": "BWEBDEV-26-3,BWEBDEV-26-4",
     "sourceFile": "BalticWeb Scrum Tool - Done  (Swedbank) 2026-02-26T16_00_41+0100.csv",
     "sourceRow": 69
@@ -891,7 +891,7 @@
     "status": "AC Test",
     "resolution": "",
     "issueType": "Task",
-    "storyPoints": null,
+    "storyPoints": 5,
     "sprintRaw": "BWEBDEV-26-3,BWEBDEV-26-4",
     "sourceFile": "BalticWeb Scrum Tool - Done  (Swedbank) 2026-02-26T16_00_41+0100.csv",
     "sourceRow": 70
@@ -904,7 +904,7 @@
     "status": "AC Test",
     "resolution": "",
     "issueType": "Task",
-    "storyPoints": null,
+    "storyPoints": 8,
     "sprintRaw": "BWEBDEV-26-3,BWEBDEV-26-4",
     "sourceFile": "BalticWeb Scrum Tool - Done  (Swedbank) 2026-02-26T16_00_41+0100.csv",
     "sourceRow": 71
@@ -943,7 +943,7 @@
     "status": "Done",
     "resolution": "",
     "issueType": "Bug",
-    "storyPoints": null,
+    "storyPoints": 1,
     "sprintRaw": "BWEBDEV-26-2",
     "sourceFile": "BalticWeb Scrum Tool - Done  (Swedbank) 2026-02-26T16_00_41+0100.csv",
     "sourceRow": 74
@@ -956,7 +956,7 @@
     "status": "Done",
     "resolution": "",
     "issueType": "Bug",
-    "storyPoints": null,
+    "storyPoints": 3,
     "sprintRaw": "BWEBDEV-26-3",
     "sourceFile": "BalticWeb Scrum Tool - Done  (Swedbank) 2026-02-26T16_00_41+0100.csv",
     "sourceRow": 75
@@ -969,7 +969,7 @@
     "status": "Done",
     "resolution": "",
     "issueType": "Bug",
-    "storyPoints": null,
+    "storyPoints": 1,
     "sprintRaw": "BWEBDEV-26-2",
     "sourceFile": "BalticWeb Scrum Tool - Done  (Swedbank) 2026-02-26T16_00_41+0100.csv",
     "sourceRow": 76
@@ -1008,7 +1008,7 @@
     "status": "Done",
     "resolution": "",
     "issueType": "Task",
-    "storyPoints": null,
+    "storyPoints": 3,
     "sprintRaw": "BWEBDEV-26-3",
     "sourceFile": "BalticWeb Scrum Tool - Done  (Swedbank) 2026-02-26T16_00_41+0100.csv",
     "sourceRow": 79
@@ -1021,7 +1021,7 @@
     "status": "Done",
     "resolution": "",
     "issueType": "Task",
-    "storyPoints": null,
+    "storyPoints": 2,
     "sprintRaw": "BWEBDEV-26-3",
     "sourceFile": "BalticWeb Scrum Tool - Done  (Swedbank) 2026-02-26T16_00_41+0100.csv",
     "sourceRow": 80
@@ -1047,7 +1047,7 @@
     "status": "Done",
     "resolution": "",
     "issueType": "Task",
-    "storyPoints": null,
+    "storyPoints": 3,
     "sprintRaw": "BWEBDEV-26-3",
     "sourceFile": "BalticWeb Scrum Tool - Done  (Swedbank) 2026-02-26T16_00_41+0100.csv",
     "sourceRow": 82
@@ -1099,7 +1099,7 @@
     "status": "Done",
     "resolution": "",
     "issueType": "Bug",
-    "storyPoints": null,
+    "storyPoints": 0.5,
     "sprintRaw": "BWEBDEV-26-3",
     "sourceFile": "BalticWeb Scrum Tool - Done  (Swedbank) 2026-02-26T16_00_41+0100.csv",
     "sourceRow": 86
@@ -1151,7 +1151,7 @@
     "status": "Done",
     "resolution": "",
     "issueType": "Bug",
-    "storyPoints": null,
+    "storyPoints": 2,
     "sprintRaw": "BWEBDEV-26-2",
     "sourceFile": "BalticWeb Scrum Tool - Done  (Swedbank) 2026-02-26T16_00_41+0100.csv",
     "sourceRow": 90
@@ -1164,7 +1164,7 @@
     "status": "AC Test",
     "resolution": "",
     "issueType": "Bug",
-    "storyPoints": null,
+    "storyPoints": 1,
     "sprintRaw": "BWEBDEV-26-2,BWEBDEV-26-3,BWEBDEV-26-4",
     "sourceFile": "BalticWeb Scrum Tool - Done  (Swedbank) 2026-02-26T16_00_41+0100.csv",
     "sourceRow": 91
@@ -1177,7 +1177,7 @@
     "status": "Done",
     "resolution": "",
     "issueType": "Task",
-    "storyPoints": null,
+    "storyPoints": 3,
     "sprintRaw": "BWEBDEV-26-2,BWEBDEV-26-3,BWEBDEV-26-4",
     "sourceFile": "BalticWeb Scrum Tool - Done  (Swedbank) 2026-02-26T16_00_41+0100.csv",
     "sourceRow": 92
@@ -1203,7 +1203,7 @@
     "status": "Done",
     "resolution": "",
     "issueType": "Task",
-    "storyPoints": null,
+    "storyPoints": 5,
     "sprintRaw": "BWEBDEV-26-2,BWEBDEV-26-3",
     "sourceFile": "BalticWeb Scrum Tool - Done  (Swedbank) 2026-02-26T16_00_41+0100.csv",
     "sourceRow": 94
@@ -1216,7 +1216,7 @@
     "status": "Done",
     "resolution": "",
     "issueType": "Task",
-    "storyPoints": null,
+    "storyPoints": 1,
     "sprintRaw": "BWEBDEV-26-2,BWEBDEV-26-3",
     "sourceFile": "BalticWeb Scrum Tool - Done  (Swedbank) 2026-02-26T16_00_41+0100.csv",
     "sourceRow": 95
@@ -1242,7 +1242,7 @@
     "status": "Done",
     "resolution": "",
     "issueType": "Task",
-    "storyPoints": null,
+    "storyPoints": 1,
     "sprintRaw": "BWEBDEV-26-2,BWEBDEV-26-3",
     "sourceFile": "BalticWeb Scrum Tool - Done  (Swedbank) 2026-02-26T16_00_41+0100.csv",
     "sourceRow": 97
@@ -1294,7 +1294,7 @@
     "status": "Done",
     "resolution": "",
     "issueType": "Task",
-    "storyPoints": null,
+    "storyPoints": 2,
     "sprintRaw": "BWEBDEV-26-2",
     "sourceFile": "BalticWeb Scrum Tool - Done  (Swedbank) 2026-02-26T16_00_41+0100.csv",
     "sourceRow": 101
@@ -1320,7 +1320,7 @@
     "status": "AC Test",
     "resolution": "",
     "issueType": "Task",
-    "storyPoints": null,
+    "storyPoints": 1,
     "sprintRaw": "BWEBDEV-26-2,BWEBDEV-26-4",
     "sourceFile": "BalticWeb Scrum Tool - Done  (Swedbank) 2026-02-26T16_00_41+0100.csv",
     "sourceRow": 103
@@ -1333,7 +1333,7 @@
     "status": "AC Test",
     "resolution": "",
     "issueType": "Task",
-    "storyPoints": null,
+    "storyPoints": 2,
     "sprintRaw": "BWEBDEV-26-2,BWEBDEV-26-3,BWEBDEV-26-4",
     "sourceFile": "BalticWeb Scrum Tool - Done  (Swedbank) 2026-02-26T16_00_41+0100.csv",
     "sourceRow": 104
@@ -1424,7 +1424,7 @@
     "status": "Done",
     "resolution": "",
     "issueType": "Bug",
-    "storyPoints": null,
+    "storyPoints": 2,
     "sprintRaw": "BWEBDEV-26-1",
     "sourceFile": "BalticWeb Scrum Tool - Done  (Swedbank) 2026-02-26T16_00_41+0100.csv",
     "sourceRow": 111
@@ -1450,7 +1450,7 @@
     "status": "Done",
     "resolution": "",
     "issueType": "Task",
-    "storyPoints": null,
+    "storyPoints": 1,
     "sprintRaw": "BWEBDEV-26-1",
     "sourceFile": "BalticWeb Scrum Tool - Done  (Swedbank) 2026-02-26T16_00_41+0100.csv",
     "sourceRow": 113
@@ -1476,7 +1476,7 @@
     "status": "Done",
     "resolution": "",
     "issueType": "Task",
-    "storyPoints": null,
+    "storyPoints": 1,
     "sprintRaw": "BWEBDEV-26-1,BWEBDEV-26-2,BWEBDEV-26-3,BWEBDEV-26-4",
     "sourceFile": "BalticWeb Scrum Tool - Done  (Swedbank) 2026-02-26T16_00_41+0100.csv",
     "sourceRow": 115
@@ -1502,7 +1502,7 @@
     "status": "Done",
     "resolution": "",
     "issueType": "Task",
-    "storyPoints": null,
+    "storyPoints": 1,
     "sprintRaw": "BWEBDEV-26-1",
     "sourceFile": "BalticWeb Scrum Tool - Done  (Swedbank) 2026-02-26T16_00_41+0100.csv",
     "sourceRow": 117
@@ -1554,7 +1554,7 @@
     "status": "Done",
     "resolution": "",
     "issueType": "Task",
-    "storyPoints": null,
+    "storyPoints": 2,
     "sprintRaw": "BWEBDEV-26-1",
     "sourceFile": "BalticWeb Scrum Tool - Done  (Swedbank) 2026-02-26T16_00_41+0100.csv",
     "sourceRow": 121
@@ -1567,7 +1567,7 @@
     "status": "Done",
     "resolution": "",
     "issueType": "Task",
-    "storyPoints": null,
+    "storyPoints": 2,
     "sprintRaw": "BWEBDEV-26-1,BWEBDEV-26-2,BWEBDEV-26-3",
     "sourceFile": "BalticWeb Scrum Tool - Done  (Swedbank) 2026-02-26T16_00_41+0100.csv",
     "sourceRow": 122
@@ -1580,7 +1580,7 @@
     "status": "Done",
     "resolution": "",
     "issueType": "Task",
-    "storyPoints": null,
+    "storyPoints": 2,
     "sprintRaw": "BWEBDEV-26-1,BWEBDEV-26-2,BWEBDEV-26-3",
     "sourceFile": "BalticWeb Scrum Tool - Done  (Swedbank) 2026-02-26T16_00_41+0100.csv",
     "sourceRow": 123
@@ -1593,7 +1593,7 @@
     "status": "Done",
     "resolution": "",
     "issueType": "Bug",
-    "storyPoints": null,
+    "storyPoints": 2,
     "sprintRaw": "BWEBDEV-26-1",
     "sourceFile": "BalticWeb Scrum Tool - Done  (Swedbank) 2026-02-26T16_00_41+0100.csv",
     "sourceRow": 124
@@ -1619,7 +1619,7 @@
     "status": "Done",
     "resolution": "",
     "issueType": "Task",
-    "storyPoints": null,
+    "storyPoints": 1,
     "sprintRaw": "BWEBDEV-26-2,BWEBDEV-26-3",
     "sourceFile": "BalticWeb Scrum Tool - Done  (Swedbank) 2026-02-26T16_00_41+0100.csv",
     "sourceRow": 126
@@ -1632,7 +1632,7 @@
     "status": "Done",
     "resolution": "",
     "issueType": "Task",
-    "storyPoints": null,
+    "storyPoints": 1,
     "sprintRaw": "BWEBDEV-26-1,BWEBDEV-26-2",
     "sourceFile": "BalticWeb Scrum Tool - Done  (Swedbank) 2026-02-26T16_00_41+0100.csv",
     "sourceRow": 127
@@ -1697,7 +1697,7 @@
     "status": "Done",
     "resolution": "",
     "issueType": "Task",
-    "storyPoints": null,
+    "storyPoints": 2,
     "sprintRaw": "BWEBDEV-26-1",
     "sourceFile": "BalticWeb Scrum Tool - Done  (Swedbank) 2026-02-26T16_00_41+0100.csv",
     "sourceRow": 132
@@ -1710,7 +1710,7 @@
     "status": "Done",
     "resolution": "",
     "issueType": "Task",
-    "storyPoints": null,
+    "storyPoints": 3,
     "sprintRaw": "BWEBDEV-26-1,BWEBDEV-26-2",
     "sourceFile": "BalticWeb Scrum Tool - Done  (Swedbank) 2026-02-26T16_00_41+0100.csv",
     "sourceRow": 133
@@ -1723,7 +1723,7 @@
     "status": "Done",
     "resolution": "",
     "issueType": "Task",
-    "storyPoints": null,
+    "storyPoints": 2,
     "sprintRaw": "BWEBDEV-27,BWEBDEV-26-1",
     "sourceFile": "BalticWeb Scrum Tool - Done  (Swedbank) 2026-02-26T16_00_41+0100.csv",
     "sourceRow": 134
@@ -1736,7 +1736,7 @@
     "status": "Done",
     "resolution": "",
     "issueType": "Task",
-    "storyPoints": null,
+    "storyPoints": 3,
     "sprintRaw": "BWEBDEV-26-1,BWEBDEV-26-2",
     "sourceFile": "BalticWeb Scrum Tool - Done  (Swedbank) 2026-02-26T16_00_41+0100.csv",
     "sourceRow": 135
@@ -1749,7 +1749,7 @@
     "status": "Done",
     "resolution": "",
     "issueType": "Task",
-    "storyPoints": null,
+    "storyPoints": 1,
     "sprintRaw": "BWEBDEV-27,BWEBDEV-26-1",
     "sourceFile": "BalticWeb Scrum Tool - Done  (Swedbank) 2026-02-26T16_00_41+0100.csv",
     "sourceRow": 136
@@ -1762,7 +1762,7 @@
     "status": "Done",
     "resolution": "",
     "issueType": "Task",
-    "storyPoints": null,
+    "storyPoints": 1,
     "sprintRaw": "BWEBDEV-27,BWEBDEV-26-1,BWEBDEV-26-2",
     "sourceFile": "BalticWeb Scrum Tool - Done  (Swedbank) 2026-02-26T16_00_41+0100.csv",
     "sourceRow": 137
@@ -1775,7 +1775,7 @@
     "status": "Done",
     "resolution": "",
     "issueType": "Task",
-    "storyPoints": null,
+    "storyPoints": 1,
     "sprintRaw": "BWEBDEV-26-2",
     "sourceFile": "BalticWeb Scrum Tool - Done  (Swedbank) 2026-02-26T16_00_41+0100.csv",
     "sourceRow": 138
@@ -1788,7 +1788,7 @@
     "status": "Done",
     "resolution": "",
     "issueType": "Task",
-    "storyPoints": null,
+    "storyPoints": 1,
     "sprintRaw": "BWEBDEV-26-2",
     "sourceFile": "BalticWeb Scrum Tool - Done  (Swedbank) 2026-02-26T16_00_41+0100.csv",
     "sourceRow": 139
@@ -1801,7 +1801,7 @@
     "status": "Done",
     "resolution": "",
     "issueType": "Task",
-    "storyPoints": null,
+    "storyPoints": 1,
     "sprintRaw": "BWEBDEV-26-2",
     "sourceFile": "BalticWeb Scrum Tool - Done  (Swedbank) 2026-02-26T16_00_41+0100.csv",
     "sourceRow": 140
@@ -1814,7 +1814,7 @@
     "status": "Done",
     "resolution": "",
     "issueType": "Task",
-    "storyPoints": null,
+    "storyPoints": 0.5,
     "sprintRaw": "BWEBDEV-27,BWEBDEV-26-1",
     "sourceFile": "BalticWeb Scrum Tool - Done  (Swedbank) 2026-02-26T16_00_41+0100.csv",
     "sourceRow": 141
@@ -1827,7 +1827,7 @@
     "status": "Done",
     "resolution": "",
     "issueType": "Task",
-    "storyPoints": null,
+    "storyPoints": 0.5,
     "sprintRaw": "BWEBDEV-27,BWEBDEV-26-1",
     "sourceFile": "BalticWeb Scrum Tool - Done  (Swedbank) 2026-02-26T16_00_41+0100.csv",
     "sourceRow": 142
@@ -1840,7 +1840,7 @@
     "status": "Done",
     "resolution": "",
     "issueType": "Task",
-    "storyPoints": null,
+    "storyPoints": 0.5,
     "sprintRaw": "BWEBDEV-27,BWEBDEV-26-1",
     "sourceFile": "BalticWeb Scrum Tool - Done  (Swedbank) 2026-02-26T16_00_41+0100.csv",
     "sourceRow": 143
@@ -1853,7 +1853,7 @@
     "status": "Done",
     "resolution": "",
     "issueType": "Task",
-    "storyPoints": null,
+    "storyPoints": 0.5,
     "sprintRaw": "BWEBDEV-27,BWEBDEV-26-1",
     "sourceFile": "BalticWeb Scrum Tool - Done  (Swedbank) 2026-02-26T16_00_41+0100.csv",
     "sourceRow": 144
@@ -1866,7 +1866,7 @@
     "status": "Done",
     "resolution": "",
     "issueType": "Story",
-    "storyPoints": null,
+    "storyPoints": 1,
     "sprintRaw": "BWEBDEV-26-1,BWEBDEV-26-2",
     "sourceFile": "BalticWeb Scrum Tool - Done  (Swedbank) 2026-02-26T16_00_41+0100.csv",
     "sourceRow": 145
@@ -1879,7 +1879,7 @@
     "status": "Done",
     "resolution": "",
     "issueType": "Task",
-    "storyPoints": null,
+    "storyPoints": 3,
     "sprintRaw": "BWEBDEV-27,BWEBDEV-26-1",
     "sourceFile": "BalticWeb Scrum Tool - Done  (Swedbank) 2026-02-26T16_00_41+0100.csv",
     "sourceRow": 146
@@ -1892,7 +1892,7 @@
     "status": "Done",
     "resolution": "",
     "issueType": "Task",
-    "storyPoints": null,
+    "storyPoints": 1,
     "sprintRaw": "BWEBDEV-27,BWEBDEV-26-1",
     "sourceFile": "BalticWeb Scrum Tool - Done  (Swedbank) 2026-02-26T16_00_41+0100.csv",
     "sourceRow": 147
@@ -1905,7 +1905,7 @@
     "status": "Done",
     "resolution": "",
     "issueType": "Task",
-    "storyPoints": null,
+    "storyPoints": 3,
     "sprintRaw": "BWEBDEV-26-1",
     "sourceFile": "BalticWeb Scrum Tool - Done  (Swedbank) 2026-02-26T16_00_41+0100.csv",
     "sourceRow": 148
@@ -1918,7 +1918,7 @@
     "status": "Done",
     "resolution": "",
     "issueType": "Task",
-    "storyPoints": null,
+    "storyPoints": 3,
     "sprintRaw": "BWEBDEV-26-1,BWEBDEV-26-2",
     "sourceFile": "BalticWeb Scrum Tool - Done  (Swedbank) 2026-02-26T16_00_41+0100.csv",
     "sourceRow": 149
@@ -1931,7 +1931,7 @@
     "status": "Done",
     "resolution": "",
     "issueType": "Task",
-    "storyPoints": null,
+    "storyPoints": 1,
     "sprintRaw": "BWEBDEV-26-1",
     "sourceFile": "BalticWeb Scrum Tool - Done  (Swedbank) 2026-02-26T16_00_41+0100.csv",
     "sourceRow": 150
@@ -1944,7 +1944,7 @@
     "status": "Done",
     "resolution": "",
     "issueType": "Task",
-    "storyPoints": null,
+    "storyPoints": 3,
     "sprintRaw": "BWEBDEV-27,BWEBDEV-26-1",
     "sourceFile": "BalticWeb Scrum Tool - Done  (Swedbank) 2026-02-26T16_00_41+0100.csv",
     "sourceRow": 151
@@ -1957,7 +1957,7 @@
     "status": "Done",
     "resolution": "",
     "issueType": "Task",
-    "storyPoints": null,
+    "storyPoints": 2,
     "sprintRaw": "BWEBDEV-27,BWEBDEV-26-1",
     "sourceFile": "BalticWeb Scrum Tool - Done  (Swedbank) 2026-02-26T16_00_41+0100.csv",
     "sourceRow": 152
@@ -1970,7 +1970,7 @@
     "status": "Done",
     "resolution": "",
     "issueType": "Task",
-    "storyPoints": null,
+    "storyPoints": 13,
     "sprintRaw": "BWEBDEV-27,BWEBDEV-26-1",
     "sourceFile": "BalticWeb Scrum Tool - Done  (Swedbank) 2026-02-26T16_00_41+0100.csv",
     "sourceRow": 153
@@ -1983,7 +1983,7 @@
     "status": "Done",
     "resolution": "",
     "issueType": "Task",
-    "storyPoints": null,
+    "storyPoints": 5,
     "sprintRaw": "BWEBDEV-26-2,BWEBDEV-26-3",
     "sourceFile": "BalticWeb Scrum Tool - Done  (Swedbank) 2026-02-26T16_00_41+0100.csv",
     "sourceRow": 154
@@ -1996,7 +1996,7 @@
     "status": "Done",
     "resolution": "",
     "issueType": "Task",
-    "storyPoints": null,
+    "storyPoints": 2,
     "sprintRaw": "BWEBDEV-27,BWEBDEV-26-1,BWEBDEV-26-2",
     "sourceFile": "BalticWeb Scrum Tool - Done  (Swedbank) 2026-02-26T16_00_41+0100.csv",
     "sourceRow": 155
@@ -2009,7 +2009,7 @@
     "status": "AC Test",
     "resolution": "",
     "issueType": "Bug",
-    "storyPoints": null,
+    "storyPoints": 1,
     "sprintRaw": "BWEBDEV-26-3,BWEBDEV-26-4",
     "sourceFile": "BalticWeb Scrum Tool - Done  (Swedbank) 2026-02-26T16_00_41+0100.csv",
     "sourceRow": 156
@@ -2022,7 +2022,7 @@
     "status": "Done",
     "resolution": "",
     "issueType": "Task",
-    "storyPoints": null,
+    "storyPoints": 3,
     "sprintRaw": "BWEBDEV-26-1",
     "sourceFile": "BalticWeb Scrum Tool - Done  (Swedbank) 2026-02-26T16_00_41+0100.csv",
     "sourceRow": 157
@@ -2035,7 +2035,7 @@
     "status": "Done",
     "resolution": "",
     "issueType": "Task",
-    "storyPoints": null,
+    "storyPoints": 1,
     "sprintRaw": "BWEBDEV-26-1",
     "sourceFile": "BalticWeb Scrum Tool - Done  (Swedbank) 2026-02-26T16_00_41+0100.csv",
     "sourceRow": 158
@@ -2048,7 +2048,7 @@
     "status": "Done",
     "resolution": "",
     "issueType": "Task",
-    "storyPoints": null,
+    "storyPoints": 3,
     "sprintRaw": "BWEBDEV-27,BWEBDEV-26-1",
     "sourceFile": "BalticWeb Scrum Tool - Done  (Swedbank) 2026-02-26T16_00_41+0100.csv",
     "sourceRow": 159
@@ -2061,7 +2061,7 @@
     "status": "Done",
     "resolution": "",
     "issueType": "Task",
-    "storyPoints": null,
+    "storyPoints": 3,
     "sprintRaw": "BWEBDEV-26-1",
     "sourceFile": "BalticWeb Scrum Tool - Done  (Swedbank) 2026-02-26T16_00_41+0100.csv",
     "sourceRow": 160
@@ -2074,7 +2074,7 @@
     "status": "Done",
     "resolution": "",
     "issueType": "Task",
-    "storyPoints": null,
+    "storyPoints": 2,
     "sprintRaw": "BWEBDEV-27,BWEBDEV-26-1,BWEBDEV-26-2",
     "sourceFile": "BalticWeb Scrum Tool - Done  (Swedbank) 2026-02-26T16_00_41+0100.csv",
     "sourceRow": 161
@@ -2087,7 +2087,7 @@
     "status": "Done",
     "resolution": "",
     "issueType": "Task",
-    "storyPoints": null,
+    "storyPoints": 3,
     "sprintRaw": "BWEBDEV-26-1",
     "sourceFile": "BalticWeb Scrum Tool - Done  (Swedbank) 2026-02-26T16_00_41+0100.csv",
     "sourceRow": 162
@@ -2100,7 +2100,7 @@
     "status": "Done",
     "resolution": "",
     "issueType": "Task",
-    "storyPoints": null,
+    "storyPoints": 2,
     "sprintRaw": "BWEBDEV-26-1",
     "sourceFile": "BalticWeb Scrum Tool - Done  (Swedbank) 2026-02-26T16_00_41+0100.csv",
     "sourceRow": 163
@@ -2113,7 +2113,7 @@
     "status": "Done",
     "resolution": "",
     "issueType": "Task",
-    "storyPoints": null,
+    "storyPoints": 2,
     "sprintRaw": "",
     "sourceFile": "BalticWeb Scrum Tool - Done  (Swedbank) 2026-02-26T16_00_41+0100.csv",
     "sourceRow": 164
@@ -2126,7 +2126,7 @@
     "status": "Done",
     "resolution": "",
     "issueType": "Story",
-    "storyPoints": null,
+    "storyPoints": 3,
     "sprintRaw": "BWEBDEV-25,BWEBDEV-26,BWEBDEV-27,BWEBDEV-26-1",
     "sourceFile": "BalticWeb Scrum Tool - Done  (Swedbank) 2026-02-26T16_00_41+0100.csv",
     "sourceRow": 165
@@ -2139,7 +2139,7 @@
     "status": "AC Test",
     "resolution": "",
     "issueType": "Task",
-    "storyPoints": null,
+    "storyPoints": 3,
     "sprintRaw": "BWEBDEV-26-2,BWEBDEV-26-3,BWEBDEV-26-4",
     "sourceFile": "BalticWeb Scrum Tool - Done  (Swedbank) 2026-02-26T16_00_41+0100.csv",
     "sourceRow": 166
@@ -2152,7 +2152,7 @@
     "status": "Done",
     "resolution": "",
     "issueType": "Bug",
-    "storyPoints": null,
+    "storyPoints": 8,
     "sprintRaw": "BWEBDEV-24,BWEBDEV-25,BWEBDEV-26,BWEBDEV-27,BWEBDEV-26-1,BWEBDEV-26-2",
     "sourceFile": "BalticWeb Scrum Tool - Done  (Swedbank) 2026-02-26T16_00_41+0100.csv",
     "sourceRow": 167
@@ -2165,7 +2165,7 @@
     "status": "Done",
     "resolution": "",
     "issueType": "Sub-task",
-    "storyPoints": null,
+    "storyPoints": 8,
     "sprintRaw": "BWEBDEV-13,BWEBDEV-14,BWEBDEV-16,BWEBDEV-17,BWEBDEV-18,BWEBDEV-19,BWEBDEV-20,BWEBDEV-21,BWEBDEV-22,BWEBDEV-23,BWEBDEV-24,BWEBDEV-25,BWEBDEV-26,BWEBDEV-27,BWEBDEV-26-1",
     "sourceFile": "BalticWeb Scrum Tool - Done  (Swedbank) 2026-02-26T16_00_41+0100.csv",
     "sourceRow": 168
@@ -2178,7 +2178,7 @@
     "status": "Done",
     "resolution": "",
     "issueType": "Task",
-    "storyPoints": null,
+    "storyPoints": 5,
     "sprintRaw": "BWEBDEV-27,BWEBDEV-26-1,BWEBDEV-26-2",
     "sourceFile": "BalticWeb Scrum Tool - Done  (Swedbank) 2026-02-26T16_00_41+0100.csv",
     "sourceRow": 169
@@ -2217,7 +2217,7 @@
     "status": "Done",
     "resolution": "",
     "issueType": "Task",
-    "storyPoints": null,
+    "storyPoints": 3,
     "sprintRaw": "BWEBDEV-26-1",
     "sourceFile": "BalticWeb Scrum Tool - Done  (Swedbank) 2026-02-26T16_00_41+0100.csv",
     "sourceRow": 172
@@ -2230,7 +2230,7 @@
     "status": "Done",
     "resolution": "",
     "issueType": "Task",
-    "storyPoints": null,
+    "storyPoints": 5,
     "sprintRaw": "BWEBDEV-26-2,BWEBDEV-26-3",
     "sourceFile": "BalticWeb Scrum Tool - Done  (Swedbank) 2026-02-26T16_00_41+0100.csv",
     "sourceRow": 173
@@ -2243,7 +2243,7 @@
     "status": "Done",
     "resolution": "",
     "issueType": "Task",
-    "storyPoints": null,
+    "storyPoints": 2,
     "sprintRaw": "BWEBDEV-18,BWEBDEV-19,BWEBDEV-20,BWEBDEV-21,BWEBDEV-22,BWEBDEV-23,BWEBDEV-24,BWEBDEV-25,BWEBDEV-26,BWEBDEV-27,BWEBDEV-26-1",
     "sourceFile": "BalticWeb Scrum Tool - Done  (Swedbank) 2026-02-26T16_00_41+0100.csv",
     "sourceRow": 174
@@ -2256,7 +2256,7 @@
     "status": "Done",
     "resolution": "",
     "issueType": "Task",
-    "storyPoints": null,
+    "storyPoints": 3,
     "sprintRaw": "BWEBDEV-26-1,BWEBDEV-26-2",
     "sourceFile": "BalticWeb Scrum Tool - Done  (Swedbank) 2026-02-26T16_00_41+0100.csv",
     "sourceRow": 175
@@ -2269,7 +2269,7 @@
     "status": "AC Test",
     "resolution": "",
     "issueType": "Task",
-    "storyPoints": null,
+    "storyPoints": 5,
     "sprintRaw": "BWEBDEV-23,BWEBDEV-24,BWEBDEV-25,BWEBDEV-26,BWEBDEV-27,BWEBDEV-26-1,BWEBDEV-26-2,BWEBDEV-26-3,BWEBDEV-26-4",
     "sourceFile": "BalticWeb Scrum Tool - Done  (Swedbank) 2026-02-26T16_00_41+0100.csv",
     "sourceRow": 176
@@ -2282,7 +2282,7 @@
     "status": "Done",
     "resolution": "",
     "issueType": "Task",
-    "storyPoints": null,
+    "storyPoints": 8,
     "sprintRaw": "BWEBDEV-23,BWEBDEV-24,BWEBDEV-25,BWEBDEV-26,BWEBDEV-27,BWEBDEV-26-1",
     "sourceFile": "BalticWeb Scrum Tool - Done  (Swedbank) 2026-02-26T16_00_41+0100.csv",
     "sourceRow": 177
@@ -2295,7 +2295,7 @@
     "status": "Done",
     "resolution": "",
     "issueType": "Task",
-    "storyPoints": null,
+    "storyPoints": 5,
     "sprintRaw": "BWEBDEV-26-2,BWEBDEV-26-3",
     "sourceFile": "BalticWeb Scrum Tool - Done  (Swedbank) 2026-02-26T16_00_41+0100.csv",
     "sourceRow": 178
@@ -2308,7 +2308,7 @@
     "status": "Done",
     "resolution": "",
     "issueType": "Investment Opportunity",
-    "storyPoints": null,
+    "storyPoints": 1,
     "sprintRaw": "BWEBDEV-12,BWEBDEV-26-1,BWEBDEV-26-2",
     "sourceFile": "BalticWeb Scrum Tool - Done  (Swedbank) 2026-02-26T16_00_41+0100.csv",
     "sourceRow": 179
@@ -2321,7 +2321,7 @@
     "status": "Done",
     "resolution": "",
     "issueType": "Task",
-    "storyPoints": null,
+    "storyPoints": 3,
     "sprintRaw": "BWEBDEV-12,BWEBDEV-26-1",
     "sourceFile": "BalticWeb Scrum Tool - Done  (Swedbank) 2026-02-26T16_00_41+0100.csv",
     "sourceRow": 180
@@ -2334,7 +2334,7 @@
     "status": "Done",
     "resolution": "",
     "issueType": "Task",
-    "storyPoints": null,
+    "storyPoints": 2,
     "sprintRaw": "BWEBDEV-26-3",
     "sourceFile": "BalticWeb Scrum Tool - Done  (Swedbank) 2026-02-26T16_00_41+0100.csv",
     "sourceRow": 181
@@ -2347,7 +2347,7 @@
     "status": "Done",
     "resolution": "",
     "issueType": "Task",
-    "storyPoints": null,
+    "storyPoints": 1,
     "sprintRaw": "BWEBDEV-26-1",
     "sourceFile": "BalticWeb Scrum Tool - Done  (Swedbank) 2026-02-26T16_00_41+0100.csv",
     "sourceRow": 182
@@ -2360,7 +2360,7 @@
     "status": "Done",
     "resolution": "",
     "issueType": "Task",
-    "storyPoints": null,
+    "storyPoints": 2,
     "sprintRaw": "BWEBDEV-26-1,BWEBDEV-26-2,BWEBDEV-26-3",
     "sourceFile": "BalticWeb Scrum Tool - Done  (Swedbank) 2026-02-26T16_00_41+0100.csv",
     "sourceRow": 183
@@ -2373,7 +2373,7 @@
     "status": "Done",
     "resolution": "",
     "issueType": "Task",
-    "storyPoints": null,
+    "storyPoints": 2,
     "sprintRaw": "BWEBDEV-26-2,BWEBDEV-26-3",
     "sourceFile": "BalticWeb Scrum Tool - Done  (Swedbank) 2026-02-26T16_00_41+0100.csv",
     "sourceRow": 184
@@ -2386,7 +2386,7 @@
     "status": "Done",
     "resolution": "",
     "issueType": "Task",
-    "storyPoints": null,
+    "storyPoints": 1,
     "sprintRaw": "BWEBDEV-26-1",
     "sourceFile": "BalticWeb Scrum Tool - Done  (Swedbank) 2026-02-26T16_00_41+0100.csv",
     "sourceRow": 185
@@ -2399,7 +2399,7 @@
     "status": "Done",
     "resolution": "",
     "issueType": "Task",
-    "storyPoints": null,
+    "storyPoints": 2,
     "sprintRaw": "BWEBDEV-26-2",
     "sourceFile": "BalticWeb Scrum Tool - Done  (Swedbank) 2026-02-26T16_00_41+0100.csv",
     "sourceRow": 186
@@ -2555,7 +2555,7 @@
     "status": "Backlog",
     "resolution": "",
     "issueType": "Task",
-    "storyPoints": null,
+    "storyPoints": 1,
     "sprintRaw": "BWEBDEV-26-5",
     "sourceFile": "BalticWeb Scrum Tool-Open (Swedbank) 2026-02-26T16_05_11+0100.csv",
     "sourceRow": 13
@@ -2633,7 +2633,7 @@
     "status": "Backlog",
     "resolution": "",
     "issueType": "Task",
-    "storyPoints": null,
+    "storyPoints": 3,
     "sprintRaw": "BWEBDEV-26-7",
     "sourceFile": "BalticWeb Scrum Tool-Open (Swedbank) 2026-02-26T16_05_11+0100.csv",
     "sourceRow": 19
@@ -2646,7 +2646,7 @@
     "status": "In Progress",
     "resolution": "",
     "issueType": "Task",
-    "storyPoints": null,
+    "storyPoints": 1,
     "sprintRaw": "BWEBDEV-26-4",
     "sourceFile": "BalticWeb Scrum Tool-Open (Swedbank) 2026-02-26T16_05_11+0100.csv",
     "sourceRow": 20
@@ -2672,7 +2672,7 @@
     "status": "Code review",
     "resolution": "",
     "issueType": "Task",
-    "storyPoints": null,
+    "storyPoints": 2,
     "sprintRaw": "BWEBDEV-26-4",
     "sourceFile": "BalticWeb Scrum Tool-Open (Swedbank) 2026-02-26T16_05_11+0100.csv",
     "sourceRow": 22
@@ -2685,7 +2685,7 @@
     "status": "Backlog",
     "resolution": "",
     "issueType": "Story",
-    "storyPoints": null,
+    "storyPoints": 0.5,
     "sprintRaw": "BWEBDEV-26-4",
     "sourceFile": "BalticWeb Scrum Tool-Open (Swedbank) 2026-02-26T16_05_11+0100.csv",
     "sourceRow": 23
@@ -2698,7 +2698,7 @@
     "status": "Backlog",
     "resolution": "",
     "issueType": "Story",
-    "storyPoints": null,
+    "storyPoints": 1,
     "sprintRaw": "BWEBDEV-26-4",
     "sourceFile": "BalticWeb Scrum Tool-Open (Swedbank) 2026-02-26T16_05_11+0100.csv",
     "sourceRow": 24
@@ -2711,7 +2711,7 @@
     "status": "Backlog",
     "resolution": "Fixed",
     "issueType": "Story",
-    "storyPoints": null,
+    "storyPoints": 1,
     "sprintRaw": "BWEBDEV-26-6",
     "sourceFile": "BalticWeb Scrum Tool-Open (Swedbank) 2026-02-26T16_05_11+0100.csv",
     "sourceRow": 25
@@ -2724,7 +2724,7 @@
     "status": "Backlog",
     "resolution": "",
     "issueType": "Story",
-    "storyPoints": null,
+    "storyPoints": 1,
     "sprintRaw": "BWEBDEV-26-6",
     "sourceFile": "BalticWeb Scrum Tool-Open (Swedbank) 2026-02-26T16_05_11+0100.csv",
     "sourceRow": 26
@@ -2737,7 +2737,7 @@
     "status": "Backlog",
     "resolution": "",
     "issueType": "Task",
-    "storyPoints": null,
+    "storyPoints": 1,
     "sprintRaw": "BWEBDEV-26-4",
     "sourceFile": "BalticWeb Scrum Tool-Open (Swedbank) 2026-02-26T16_05_11+0100.csv",
     "sourceRow": 27
@@ -2750,7 +2750,7 @@
     "status": "Backlog",
     "resolution": "",
     "issueType": "Task",
-    "storyPoints": null,
+    "storyPoints": 1,
     "sprintRaw": "BWEBDEV-26-4",
     "sourceFile": "BalticWeb Scrum Tool-Open (Swedbank) 2026-02-26T16_05_11+0100.csv",
     "sourceRow": 28
@@ -2763,7 +2763,7 @@
     "status": "Backlog",
     "resolution": "",
     "issueType": "Story",
-    "storyPoints": null,
+    "storyPoints": 1,
     "sprintRaw": "BWEBDEV-26-6",
     "sourceFile": "BalticWeb Scrum Tool-Open (Swedbank) 2026-02-26T16_05_11+0100.csv",
     "sourceRow": 29
@@ -2789,7 +2789,7 @@
     "status": "In Progress",
     "resolution": "",
     "issueType": "Task",
-    "storyPoints": null,
+    "storyPoints": 2,
     "sprintRaw": "BWEBDEV-26-4",
     "sourceFile": "BalticWeb Scrum Tool-Open (Swedbank) 2026-02-26T16_05_11+0100.csv",
     "sourceRow": 31
@@ -2815,7 +2815,7 @@
     "status": "To Do",
     "resolution": "",
     "issueType": "Task",
-    "storyPoints": null,
+    "storyPoints": 1,
     "sprintRaw": "BWEBDEV-26-4",
     "sourceFile": "BalticWeb Scrum Tool-Open (Swedbank) 2026-02-26T16_05_11+0100.csv",
     "sourceRow": 33
@@ -2828,7 +2828,7 @@
     "status": "Backlog",
     "resolution": "",
     "issueType": "Task",
-    "storyPoints": null,
+    "storyPoints": 2,
     "sprintRaw": "BWEBDEV-26-5",
     "sourceFile": "BalticWeb Scrum Tool-Open (Swedbank) 2026-02-26T16_05_11+0100.csv",
     "sourceRow": 34
@@ -2854,7 +2854,7 @@
     "status": "In Progress",
     "resolution": "",
     "issueType": "Task",
-    "storyPoints": null,
+    "storyPoints": 2,
     "sprintRaw": "BWEBDEV-26-4",
     "sourceFile": "BalticWeb Scrum Tool-Open (Swedbank) 2026-02-26T16_05_11+0100.csv",
     "sourceRow": 36
@@ -2867,7 +2867,7 @@
     "status": "In Progress",
     "resolution": "",
     "issueType": "Task",
-    "storyPoints": null,
+    "storyPoints": 3,
     "sprintRaw": "BWEBDEV-26-4",
     "sourceFile": "BalticWeb Scrum Tool-Open (Swedbank) 2026-02-26T16_05_11+0100.csv",
     "sourceRow": 37
@@ -2971,7 +2971,7 @@
     "status": "Backlog",
     "resolution": "",
     "issueType": "Story",
-    "storyPoints": null,
+    "storyPoints": 5,
     "sprintRaw": "BWEBDEV-26-7",
     "sourceFile": "BalticWeb Scrum Tool-Open (Swedbank) 2026-02-26T16_05_11+0100.csv",
     "sourceRow": 45
@@ -3075,7 +3075,7 @@
     "status": "Cancelled",
     "resolution": "",
     "issueType": "Task",
-    "storyPoints": null,
+    "storyPoints": 1,
     "sprintRaw": "BWEBDEV-26-3",
     "sourceFile": "BalticWeb Scrum Tool-Open (Swedbank) 2026-02-26T16_05_11+0100.csv",
     "sourceRow": 53
@@ -3101,7 +3101,7 @@
     "status": "In Progress",
     "resolution": "",
     "issueType": "Task",
-    "storyPoints": null,
+    "storyPoints": 3,
     "sprintRaw": "BWEBDEV-26-4",
     "sourceFile": "BalticWeb Scrum Tool-Open (Swedbank) 2026-02-26T16_05_11+0100.csv",
     "sourceRow": 55
@@ -3127,7 +3127,7 @@
     "status": "Backlog",
     "resolution": "",
     "issueType": "Task",
-    "storyPoints": null,
+    "storyPoints": 13,
     "sprintRaw": "BWEBDEV-26-8",
     "sourceFile": "BalticWeb Scrum Tool-Open (Swedbank) 2026-02-26T16_05_11+0100.csv",
     "sourceRow": 57
@@ -3140,7 +3140,7 @@
     "status": "Backlog",
     "resolution": "",
     "issueType": "Task",
-    "storyPoints": null,
+    "storyPoints": 1,
     "sprintRaw": "BWEBDEV-26-4",
     "sourceFile": "BalticWeb Scrum Tool-Open (Swedbank) 2026-02-26T16_05_11+0100.csv",
     "sourceRow": 58
@@ -3205,7 +3205,7 @@
     "status": "Backlog",
     "resolution": "",
     "issueType": "Task",
-    "storyPoints": null,
+    "storyPoints": 5,
     "sprintRaw": "BWEBDEV-26-5",
     "sourceFile": "BalticWeb Scrum Tool-Open (Swedbank) 2026-02-26T16_05_11+0100.csv",
     "sourceRow": 63
@@ -3283,7 +3283,7 @@
     "status": "Backlog",
     "resolution": "",
     "issueType": "Task",
-    "storyPoints": null,
+    "storyPoints": 5,
     "sprintRaw": "BWEBDEV-26-5",
     "sourceFile": "BalticWeb Scrum Tool-Open (Swedbank) 2026-02-26T16_05_11+0100.csv",
     "sourceRow": 69
@@ -3296,7 +3296,7 @@
     "status": "Backlog",
     "resolution": "",
     "issueType": "Task",
-    "storyPoints": null,
+    "storyPoints": 5,
     "sprintRaw": "BWEBDEV-26-5",
     "sourceFile": "BalticWeb Scrum Tool-Open (Swedbank) 2026-02-26T16_05_11+0100.csv",
     "sourceRow": 70
@@ -3309,7 +3309,7 @@
     "status": "In Progress",
     "resolution": "",
     "issueType": "Task",
-    "storyPoints": null,
+    "storyPoints": 3,
     "sprintRaw": "BWEBDEV-26-4",
     "sourceFile": "BalticWeb Scrum Tool-Open (Swedbank) 2026-02-26T16_05_11+0100.csv",
     "sourceRow": 71
@@ -3322,7 +3322,7 @@
     "status": "To Do",
     "resolution": "",
     "issueType": "Task",
-    "storyPoints": null,
+    "storyPoints": 3,
     "sprintRaw": "BWEBDEV-26-4",
     "sourceFile": "BalticWeb Scrum Tool-Open (Swedbank) 2026-02-26T16_05_11+0100.csv",
     "sourceRow": 72
@@ -3335,7 +3335,7 @@
     "status": "Backlog",
     "resolution": "",
     "issueType": "Task",
-    "storyPoints": null,
+    "storyPoints": 8,
     "sprintRaw": "BWEBDEV-26-8",
     "sourceFile": "BalticWeb Scrum Tool-Open (Swedbank) 2026-02-26T16_05_11+0100.csv",
     "sourceRow": 73
@@ -3413,7 +3413,7 @@
     "status": "Cancelled",
     "resolution": "",
     "issueType": "Bug",
-    "storyPoints": null,
+    "storyPoints": 1,
     "sprintRaw": "BWEBDEV-26-1",
     "sourceFile": "BalticWeb Scrum Tool-Open (Swedbank) 2026-02-26T16_05_11+0100.csv",
     "sourceRow": 79
@@ -3426,7 +3426,7 @@
     "status": "In Progress",
     "resolution": "",
     "issueType": "Task",
-    "storyPoints": null,
+    "storyPoints": 2,
     "sprintRaw": "BWEBDEV-26-1,BWEBDEV-26-2,BWEBDEV-26-3,BWEBDEV-26-4",
     "sourceFile": "BalticWeb Scrum Tool-Open (Swedbank) 2026-02-26T16_05_11+0100.csv",
     "sourceRow": 80
@@ -3439,7 +3439,7 @@
     "status": "Backlog",
     "resolution": "",
     "issueType": "Story",
-    "storyPoints": null,
+    "storyPoints": 5,
     "sprintRaw": "BWEBDEV-26-4",
     "sourceFile": "BalticWeb Scrum Tool-Open (Swedbank) 2026-02-26T16_05_11+0100.csv",
     "sourceRow": 81
@@ -3452,7 +3452,7 @@
     "status": "Cancelled",
     "resolution": "",
     "issueType": "Task",
-    "storyPoints": null,
+    "storyPoints": 1,
     "sprintRaw": "BWEBDEV-26-1",
     "sourceFile": "BalticWeb Scrum Tool-Open (Swedbank) 2026-02-26T16_05_11+0100.csv",
     "sourceRow": 82
@@ -3465,7 +3465,7 @@
     "status": "Backlog",
     "resolution": "",
     "issueType": "Task",
-    "storyPoints": null,
+    "storyPoints": 2,
     "sprintRaw": "BWEBDEV-26-1",
     "sourceFile": "BalticWeb Scrum Tool-Open (Swedbank) 2026-02-26T16_05_11+0100.csv",
     "sourceRow": 83
@@ -3478,7 +3478,7 @@
     "status": "Code review",
     "resolution": "",
     "issueType": "Task",
-    "storyPoints": null,
+    "storyPoints": 3,
     "sprintRaw": "BWEBDEV-26-3,BWEBDEV-26-4",
     "sourceFile": "BalticWeb Scrum Tool-Open (Swedbank) 2026-02-26T16_05_11+0100.csv",
     "sourceRow": 84
@@ -3491,7 +3491,7 @@
     "status": "Cancelled",
     "resolution": "",
     "issueType": "Task",
-    "storyPoints": null,
+    "storyPoints": 8,
     "sprintRaw": "BWEBDEV-25,BWEBDEV-26,BWEBDEV-27,BWEBDEV-26-1,BWEBDEV-26-2",
     "sourceFile": "BalticWeb Scrum Tool-Open (Swedbank) 2026-02-26T16_05_11+0100.csv",
     "sourceRow": 85
@@ -3504,7 +3504,7 @@
     "status": "Cancelled",
     "resolution": "",
     "issueType": "Sub-task",
-    "storyPoints": null,
+    "storyPoints": 5,
     "sprintRaw": "BWEBDEV-25,BWEBDEV-26,BWEBDEV-27",
     "sourceFile": "BalticWeb Scrum Tool-Open (Swedbank) 2026-02-26T16_05_11+0100.csv",
     "sourceRow": 86
@@ -3517,7 +3517,7 @@
     "status": "Cancelled",
     "resolution": "",
     "issueType": "Task",
-    "storyPoints": null,
+    "storyPoints": 1,
     "sprintRaw": "",
     "sourceFile": "BalticWeb Scrum Tool-Open (Swedbank) 2026-02-26T16_05_11+0100.csv",
     "sourceRow": 87
@@ -3530,7 +3530,7 @@
     "status": "Cancelled",
     "resolution": "",
     "issueType": "Task",
-    "storyPoints": null,
+    "storyPoints": 1,
     "sprintRaw": "BWEBDEV-24",
     "sourceFile": "BalticWeb Scrum Tool-Open (Swedbank) 2026-02-26T16_05_11+0100.csv",
     "sourceRow": 88
@@ -3543,7 +3543,7 @@
     "status": "In Progress",
     "resolution": "",
     "issueType": "Story",
-    "storyPoints": null,
+    "storyPoints": 8,
     "sprintRaw": "BWEBDEV-26-4",
     "sourceFile": "BalticWeb Scrum Tool-Open (Swedbank) 2026-02-26T16_05_11+0100.csv",
     "sourceRow": 89
@@ -3582,7 +3582,7 @@
     "status": "Cancelled",
     "resolution": "",
     "issueType": "Task",
-    "storyPoints": null,
+    "storyPoints": 0.5,
     "sprintRaw": "BWEBDEV-22",
     "sourceFile": "BalticWeb Scrum Tool-Open (Swedbank) 2026-02-26T16_05_11+0100.csv",
     "sourceRow": 92
@@ -3595,7 +3595,7 @@
     "status": "Cancelled",
     "resolution": "",
     "issueType": "Bug",
-    "storyPoints": null,
+    "storyPoints": 1,
     "sprintRaw": "BWEBDEV-22",
     "sourceFile": "BalticWeb Scrum Tool-Open (Swedbank) 2026-02-26T16_05_11+0100.csv",
     "sourceRow": 93
@@ -3608,7 +3608,7 @@
     "status": "Cancelled",
     "resolution": "",
     "issueType": "Task",
-    "storyPoints": null,
+    "storyPoints": 0,
     "sprintRaw": "BWEBDEV-25",
     "sourceFile": "BalticWeb Scrum Tool-Open (Swedbank) 2026-02-26T16_05_11+0100.csv",
     "sourceRow": 94
@@ -3751,7 +3751,7 @@
     "status": "Cancelled",
     "resolution": "",
     "issueType": "Task",
-    "storyPoints": null,
+    "storyPoints": 1,
     "sprintRaw": "",
     "sourceFile": "BalticWeb Scrum Tool-Open (Swedbank) 2026-02-26T16_05_11+0100.csv",
     "sourceRow": 105
@@ -3764,7 +3764,7 @@
     "status": "Cancelled",
     "resolution": "",
     "issueType": "Task",
-    "storyPoints": null,
+    "storyPoints": 0,
     "sprintRaw": "BWEBDEV-22",
     "sourceFile": "BalticWeb Scrum Tool-Open (Swedbank) 2026-02-26T16_05_11+0100.csv",
     "sourceRow": 106
@@ -3803,7 +3803,7 @@
     "status": "Cancelled",
     "resolution": "",
     "issueType": "Task",
-    "storyPoints": null,
+    "storyPoints": 8,
     "sprintRaw": "BWEBDEV-25",
     "sourceFile": "BalticWeb Scrum Tool-Open (Swedbank) 2026-02-26T16_05_11+0100.csv",
     "sourceRow": 109
@@ -3829,7 +3829,7 @@
     "status": "Cancelled",
     "resolution": "",
     "issueType": "Task",
-    "storyPoints": null,
+    "storyPoints": 1,
     "sprintRaw": "BWEBDEV-19",
     "sourceFile": "BalticWeb Scrum Tool-Open (Swedbank) 2026-02-26T16_05_11+0100.csv",
     "sourceRow": 111
@@ -3842,7 +3842,7 @@
     "status": "To Do",
     "resolution": "",
     "issueType": "Task",
-    "storyPoints": null,
+    "storyPoints": 2,
     "sprintRaw": "BWEBDEV-26-1,BWEBDEV-26-5",
     "sourceFile": "BalticWeb Scrum Tool-Open (Swedbank) 2026-02-26T16_05_11+0100.csv",
     "sourceRow": 112
@@ -3881,7 +3881,7 @@
     "status": "Cancelled",
     "resolution": "",
     "issueType": "Bug",
-    "storyPoints": null,
+    "storyPoints": 1,
     "sprintRaw": "BWEBDEV-20,BWEBDEV-21,BWEBDEV-22,BWEBDEV-23",
     "sourceFile": "BalticWeb Scrum Tool-Open (Swedbank) 2026-02-26T16_05_11+0100.csv",
     "sourceRow": 115
@@ -3907,7 +3907,7 @@
     "status": "Cancelled",
     "resolution": "",
     "issueType": "Task",
-    "storyPoints": null,
+    "storyPoints": 1,
     "sprintRaw": "BWEBDEV-24",
     "sourceFile": "BalticWeb Scrum Tool-Open (Swedbank) 2026-02-26T16_05_11+0100.csv",
     "sourceRow": 117
@@ -3920,7 +3920,7 @@
     "status": "Cancelled",
     "resolution": "",
     "issueType": "Story",
-    "storyPoints": null,
+    "storyPoints": 3,
     "sprintRaw": "BWEBDEV-21,BWEBDEV-22",
     "sourceFile": "BalticWeb Scrum Tool-Open (Swedbank) 2026-02-26T16_05_11+0100.csv",
     "sourceRow": 118
@@ -3933,7 +3933,7 @@
     "status": "Cancelled",
     "resolution": "",
     "issueType": "Task",
-    "storyPoints": null,
+    "storyPoints": 0.5,
     "sprintRaw": "BWEBDEV-18,BWEBDEV-19,BWEBDEV-20",
     "sourceFile": "BalticWeb Scrum Tool-Open (Swedbank) 2026-02-26T16_05_11+0100.csv",
     "sourceRow": 119
@@ -3985,7 +3985,7 @@
     "status": "To Do",
     "resolution": "",
     "issueType": "Task",
-    "storyPoints": null,
+    "storyPoints": 8,
     "sprintRaw": "BWEBDEV-24,BWEBDEV-25,BWEBDEV-26,BWEBDEV-27,BWEBDEV-26-1,BWEBDEV-26-2,BWEBDEV-26-3,BWEBDEV-26-4",
     "sourceFile": "BalticWeb Scrum Tool-Open (Swedbank) 2026-02-26T16_05_11+0100.csv",
     "sourceRow": 123
@@ -4011,7 +4011,7 @@
     "status": "Cancelled",
     "resolution": "",
     "issueType": "Bug",
-    "storyPoints": null,
+    "storyPoints": 1,
     "sprintRaw": "BWEBDEV-19",
     "sourceFile": "BalticWeb Scrum Tool-Open (Swedbank) 2026-02-26T16_05_11+0100.csv",
     "sourceRow": 125
@@ -4024,7 +4024,7 @@
     "status": "Cancelled",
     "resolution": "",
     "issueType": "Task",
-    "storyPoints": null,
+    "storyPoints": 1,
     "sprintRaw": "BWEBDEV-22",
     "sourceFile": "BalticWeb Scrum Tool-Open (Swedbank) 2026-02-26T16_05_11+0100.csv",
     "sourceRow": 126
@@ -4050,7 +4050,7 @@
     "status": "Cancelled",
     "resolution": "",
     "issueType": "Task",
-    "storyPoints": null,
+    "storyPoints": 3,
     "sprintRaw": "BWEBDEV-26-2",
     "sourceFile": "BalticWeb Scrum Tool-Open (Swedbank) 2026-02-26T16_05_11+0100.csv",
     "sourceRow": 128
@@ -4089,7 +4089,7 @@
     "status": "Cancelled",
     "resolution": "",
     "issueType": "Task",
-    "storyPoints": null,
+    "storyPoints": 0,
     "sprintRaw": "BWEBDEV-16",
     "sourceFile": "BalticWeb Scrum Tool-Open (Swedbank) 2026-02-26T16_05_11+0100.csv",
     "sourceRow": 131
@@ -4115,7 +4115,7 @@
     "status": "Cancelled",
     "resolution": "",
     "issueType": "Bug",
-    "storyPoints": null,
+    "storyPoints": 1,
     "sprintRaw": "",
     "sourceFile": "BalticWeb Scrum Tool-Open (Swedbank) 2026-02-26T16_05_11+0100.csv",
     "sourceRow": 133
@@ -4167,7 +4167,7 @@
     "status": "Cancelled",
     "resolution": "",
     "issueType": "Task",
-    "storyPoints": null,
+    "storyPoints": 0.5,
     "sprintRaw": "BWEBDEV-12",
     "sourceFile": "BalticWeb Scrum Tool-Open (Swedbank) 2026-02-26T16_05_11+0100.csv",
     "sourceRow": 137
@@ -4193,7 +4193,7 @@
     "status": "Cancelled",
     "resolution": "",
     "issueType": "Task",
-    "storyPoints": null,
+    "storyPoints": 3,
     "sprintRaw": "",
     "sourceFile": "BalticWeb Scrum Tool-Open (Swedbank) 2026-02-26T16_05_11+0100.csv",
     "sourceRow": 139
@@ -4232,7 +4232,7 @@
     "status": "Cancelled",
     "resolution": "",
     "issueType": "Bug",
-    "storyPoints": null,
+    "storyPoints": 1,
     "sprintRaw": "BWEBDEV-11",
     "sourceFile": "BalticWeb Scrum Tool-Open (Swedbank) 2026-02-26T16_05_11+0100.csv",
     "sourceRow": 142
@@ -4271,7 +4271,7 @@
     "status": "Cancelled",
     "resolution": "",
     "issueType": "Task",
-    "storyPoints": null,
+    "storyPoints": 3,
     "sprintRaw": "BWEBDEV-11,BWEBDEV-12",
     "sourceFile": "BalticWeb Scrum Tool-Open (Swedbank) 2026-02-26T16_05_11+0100.csv",
     "sourceRow": 145
@@ -4362,7 +4362,7 @@
     "status": "Cancelled",
     "resolution": "",
     "issueType": "Task",
-    "storyPoints": null,
+    "storyPoints": 1,
     "sprintRaw": "BWEBDEV-10",
     "sourceFile": "BalticWeb Scrum Tool-Open (Swedbank) 2026-02-26T16_05_11+0100.csv",
     "sourceRow": 152
@@ -4596,7 +4596,7 @@
     "status": "Cancelled",
     "resolution": "",
     "issueType": "Task",
-    "storyPoints": null,
+    "storyPoints": 1,
     "sprintRaw": "",
     "sourceFile": "BalticWeb Scrum Tool-Open (Swedbank) 2026-02-26T16_05_11+0100.csv",
     "sourceRow": 170
@@ -4674,7 +4674,7 @@
     "status": "Cancelled",
     "resolution": "",
     "issueType": "Task",
-    "storyPoints": null,
+    "storyPoints": 2,
     "sprintRaw": "",
     "sourceFile": "BalticWeb Scrum Tool-Open (Swedbank) 2026-02-26T16_05_11+0100.csv",
     "sourceRow": 176
@@ -4713,7 +4713,7 @@
     "status": "Cancelled",
     "resolution": "",
     "issueType": "Task",
-    "storyPoints": null,
+    "storyPoints": 3,
     "sprintRaw": "BWEBDEV-7,BWEBDEV-8",
     "sourceFile": "BalticWeb Scrum Tool-Open (Swedbank) 2026-02-26T16_05_11+0100.csv",
     "sourceRow": 179
@@ -4739,7 +4739,7 @@
     "status": "Cancelled",
     "resolution": "",
     "issueType": "Sub-task",
-    "storyPoints": null,
+    "storyPoints": 2,
     "sprintRaw": "BWEBDEV-6,BWEBDEV-7,BWEBDEV-8",
     "sourceFile": "BalticWeb Scrum Tool-Open (Swedbank) 2026-02-26T16_05_11+0100.csv",
     "sourceRow": 181
@@ -4765,7 +4765,7 @@
     "status": "Cancelled",
     "resolution": "",
     "issueType": "Task",
-    "storyPoints": null,
+    "storyPoints": 2,
     "sprintRaw": "",
     "sourceFile": "BalticWeb Scrum Tool-Open (Swedbank) 2026-02-26T16_05_11+0100.csv",
     "sourceRow": 183
@@ -4817,7 +4817,7 @@
     "status": "Cancelled",
     "resolution": "",
     "issueType": "Task",
-    "storyPoints": null,
+    "storyPoints": 5,
     "sprintRaw": "",
     "sourceFile": "BalticWeb Scrum Tool-Open (Swedbank) 2026-02-26T16_05_11+0100.csv",
     "sourceRow": 187
@@ -4869,7 +4869,7 @@
     "status": "Cancelled",
     "resolution": "",
     "issueType": "Task",
-    "storyPoints": null,
+    "storyPoints": 2,
     "sprintRaw": "BWEBDEV-5",
     "sourceFile": "BalticWeb Scrum Tool-Open (Swedbank) 2026-02-26T16_05_11+0100.csv",
     "sourceRow": 191
@@ -4908,7 +4908,7 @@
     "status": "Cancelled",
     "resolution": "",
     "issueType": "Task",
-    "storyPoints": null,
+    "storyPoints": 5,
     "sprintRaw": "BWEBDEV-4",
     "sourceFile": "BalticWeb Scrum Tool-Open (Swedbank) 2026-02-26T16_05_11+0100.csv",
     "sourceRow": 194
@@ -4934,7 +4934,7 @@
     "status": "Cancelled",
     "resolution": "",
     "issueType": "Task",
-    "storyPoints": null,
+    "storyPoints": 2,
     "sprintRaw": "",
     "sourceFile": "BalticWeb Scrum Tool-Open (Swedbank) 2026-02-26T16_05_11+0100.csv",
     "sourceRow": 196
@@ -4947,7 +4947,7 @@
     "status": "Cancelled",
     "resolution": "",
     "issueType": "Task",
-    "storyPoints": null,
+    "storyPoints": 8,
     "sprintRaw": "",
     "sourceFile": "BalticWeb Scrum Tool-Open (Swedbank) 2026-02-26T16_05_11+0100.csv",
     "sourceRow": 197
@@ -4960,7 +4960,7 @@
     "status": "Cancelled",
     "resolution": "",
     "issueType": "Task",
-    "storyPoints": null,
+    "storyPoints": 5,
     "sprintRaw": "",
     "sourceFile": "BalticWeb Scrum Tool-Open (Swedbank) 2026-02-26T16_05_11+0100.csv",
     "sourceRow": 198
@@ -4999,7 +4999,7 @@
     "status": "Cancelled",
     "resolution": "",
     "issueType": "Task",
-    "storyPoints": null,
+    "storyPoints": 1,
     "sprintRaw": "",
     "sourceFile": "BalticWeb Scrum Tool-Open (Swedbank) 2026-02-26T16_05_11+0100.csv",
     "sourceRow": 201
@@ -5207,7 +5207,7 @@
     "status": "Backlog",
     "resolution": "",
     "issueType": "Task",
-    "storyPoints": null,
+    "storyPoints": 13,
     "sprintRaw": "",
     "sourceFile": "BalticWeb Scrum Tool-Open (Swedbank) 2026-02-26T16_05_11+0100.csv",
     "sourceRow": 217

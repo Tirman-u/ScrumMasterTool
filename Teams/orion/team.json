@@ -1,0 +1,108 @@
+{
+  "teamName": "Orion",
+  "doneConfig": {
+    "useStatusCategoryDone": false,
+    "doneStatuses": [
+      "Done",
+      "Closed",
+      "Resolved"
+    ]
+  },
+  "sleConfig": {
+    "percentiles": [
+      50,
+      70,
+      85,
+      95
+    ],
+    "rounding": "ceil",
+    "issueTypes": [
+      "Task",
+      "Bug",
+      "Story"
+    ]
+  },
+  "cycleTimeConfig": {
+    "endDateSource": "resolvedOrUpdated"
+  },
+  "mapping": {
+    "key": "Issue key",
+    "created": "Created",
+    "resolutionDate": "Resolved",
+    "updated": "Updated",
+    "status": "Status",
+    "resolution": "Resolution",
+    "storyPoints": "Story points",
+    "sprint": "Sprint",
+    "issueType": "Issue Type"
+  },
+  "velocityConfig": {
+    "mode": "sprint-story-points",
+    "sprintStartDate": "2026-03-01",
+    "sprintLengthWeeks": 2
+  },
+  "bugConfig": {
+    "issueTypes": [
+      "Bug"
+    ]
+  },
+  "sprintScopeConfig": {
+    "statuses": [
+      "Ready for Refinement",
+      "In Development",
+      "Ready for test"
+    ]
+  },
+  "bottleneckConfig": {
+    "flowStatuses": []
+  },
+  "excludedIssueKeys": [
+    "ORION-8"
+  ],
+  "jiraQuery": {
+    "defaultQueryId": "default",
+    "queries": [
+      {
+        "id": "default",
+        "name": "Issues CSV Query",
+        "jql": "project = YOURPROJECT ORDER BY updated DESC",
+        "note": "Edit this query per team scope."
+      }
+    ],
+    "issueQuery": {
+      "defaultQueryId": "default",
+      "queries": [
+        {
+          "id": "default",
+          "name": "Issues CSV Query",
+          "jql": "project = YOURPROJECT ORDER BY updated DESC",
+          "note": "Edit this query per team scope."
+        }
+      ]
+    },
+    "timeInStatusQuery": {
+      "defaultQueryId": "time-in-status-default",
+      "queries": [
+        {
+          "id": "time-in-status-default",
+          "name": "Time in Status Query",
+          "jql": "project = YOURPROJECT ORDER BY updated DESC",
+          "note": "Use the same team scope/window as your Issues CSV query."
+        }
+      ]
+    }
+  },
+  "workflowConfig": {
+    "backlogStatuses": [
+      "Open",
+      "Ready for Refinement",
+      "Abandoned",
+      "Refined"
+    ],
+    "activeStatuses": [
+      "Ready for Refinement",
+      "In Development",
+      "Ready for test"
+    ]
+  }
+}

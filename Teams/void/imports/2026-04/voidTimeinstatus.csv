@@ -1,0 +1,81 @@
+Type,Key,Summary,Resolution Date,Open,Ready for Refinement,On Hold,Investigation,To Do,Reopened,Refined,In Development,Ready for test,In Testing,Waiting for acceptance,Blocked,ON-HOLD testing,Done,Abandoned
+,,Average time taken (from table),,620.33h,1559.82h,258.67h,267.63h,148.80h,4.21h,229.13h,99.70h,221.21h,23.67h,0.00h,82.00h,1267.47h,988.95h,7.78h
+,VOID-82,[Fitness] Update Domestic Standing orders Shortcuts,,2.00h,0.00h,,,,,3.17h,1.35h,0.58h,19.57h,,,,,
+,VOID-80,Existing functionality BUG for payment priority set,,66.68h,49.58h,,,,,,,,,,,,,
+,VOID-79,Investigate iBank pain.001 Payment File Import for Proprietary ID Validation,,137.30h,,,,,,,,,,,,,,
+,VOID-78,iBank List of Payments Signing Page - Label for defective payment with Proprietary ID,,137.37h,,,,,,,,,,,,,,
+,VOID-77,[iBank] Add new state to standing orders to handle the 4xx/5xx errors differently from EBA NOAP,,0.00h,,138.68h,,,,,,,,,,,,
+,VOID-76,"Info text update for defective payments (EE, LT)",,1.97h,142.57h,,,,,,,,,,,,,
+,VOID-75,TEst ticket,,193.27h,,,,,,,,,,,,,,
+,VOID-74,Testing of special characters for SEPA Instant payments,4/29/26,0.00h,53.15h,,,,,0.00h,,0.00h,18.20h,,,,145.10h,
+,VOID-73,[Fitness] Delete Other Payment Related Pages,,285.73h,,,,,,,,,,,,,,
+,VOID-72,[Fitness] Delete Domestic Payments Related Pages,,285.85h,,,,,,,,,,,,,,
+,VOID-71,[Fitness] Delete List of Payments Related Pages,,285.93h,,,,,,,,,,,,,,
+,VOID-70,[Fitness] Delete Multibank related pages,,286.07h,,,,,,,,,,,,,,
+,VOID-63,STAR Domestic Payment Form - Remove Proprietary ID fields,,356.78h,,,,,,,,,,,,,,
+,VOID-62,STAR International Standing Order Agreement Form - Remove Proprietary ID fields,,356.87h,,,,,,,,,,,,,,
+,VOID-61,STAR International Payments Form - Remove Proprietary ID fields,,357.02h,,,,,,,,,,,,,,
+,VOID-60,iBank Smart Payment Form - Remove Proprietary ID fields,,379.23h,,,,,,,,,,,,,,
+,VOID-59,iBank International Standing Order Agreement Form - Remove Proprietary ID fields,,379.58h,,,,,,,,,,,,,,
+,VOID-58,iBank International Payments Form - Remove Proprietary ID fields,,380.07h,,,,,,,,,,,,,,
+,VOID-57,[ibank] - Import of payments test coverage rising before new payment priority is added,,2.53h,0.00h,,22.57h,,,0.02h,478.35h,,,,,,,
+,VOID-56,"[ibank] - Optimise iBank test suite, use single WebDriver session per test class",,0.00h,0.00h,,,,,500.95h,45.23h,,,,,,,
+,VOID-50,[iBank] Add new state to smartform to handle the 4xx/5xx errors differently from EBA NOAP,,21.32h,,139.62h,508.75h,,,,,,,,,,,
+,VOID-5,CVUL0125189 - Apache Tomcat,4/29/26,218.88h,0.00h,66.25h,,,,26.40h,96.82h,,0.00h,,,,288.93h,
+,VOID-4,CVUL0125237 - Apache Tomcat,4/29/26,218.88h,0.00h,163.08h,,,,23.07h,3.33h,,0.00h,,,,288.93h,
+,VOID-3,CVUL0074731 - Spring Framework,4/29/26,167.78h,0.00h,124.87h,,,,0.00h,74.15h,0.00h,0.00h,,,,330.48h,
+,VOID-68,"Moderate CVUL0075814 There is a stack overflow vulnerability in ash.c:6030 in busybox before 1.35. In the environment of Internet of Vehicles, this vulnerability can be executed from command to arbitrary code execution.",4/29/26,409.33h,0.00h,,,,,0.00h,,0.00h,0.00h,,,,288.00h,
+,VOID-69,"High CVUL0138868 Missing Authentication for Critical Function (CWE-306) vulnerability in Apache Artemis, Apache ActiveMQ Artemis.",,697.35h,,,,,,,,,,,,,,
+,VOID-66,[Fitness] Delete International Payments related pages part 2,3/30/26,1.13h,,451.63h,,,,,268.87h,,,,,,,
+,VOID-81,[DB] Add new attributes to PER_MK and decommission STANDING_ORDER_VOP table,4/29/26,0.65h,140.28h,0.00h,,,,484.52h,20.83h,99.02h,1.12h,0.00h,,,43.10h,
+,VOID-64,[Fitness] Delete Standing orders related pages,,669.52h,0.00h,,,,,0.00h,122.50h,,,,,,,
+,VOID-67,[Fitness] Delete Defined payments related pages,3/26/26,808.63h,,,,,,,,,,,,,,
+,VOID-65,[Fitness] Delete E-invoice related pages,3/26/26,88.03h,,694.52h,,,,,27.58h,,,,,,,
+,VOID-48,Void team: E2E testing of new processing flow for signed SGW files,,43.35h,790.82h,,,,,,,,,,,,,
+,VOID-2,[INFO] Welcome to Jira!,,715.30h,,,,148.80h,,,,,,,,,,
+,VOID-1,[INFO] Welcome to Jira!,,715.30h,,,,148.80h,,,,,,,,,,
+,VOID-54,Ensure possibility to perform VOP also after first signature is given,4/29/26,0.00h,719.77h,285.33h,,,,269.50h,21.32h,21.83h,6.00h,,,,44.22h,
+,VOID-34,CdtrAcct other ID should be presented as other Id and not as IBAN in pain.002.001.03,3/16/26,0.77h,0.00h,,0.00h,,0.50h,0.00h,2.37h,17.50h,28.58h,,282.02h,,1055.38h,0.00h
+,VOID-47,Missing <StsRsnInf> block for rejected batch in pain.002.001.03 / 09,3/3/26,0.05h,0.00h,,,,,0.00h,2.13h,18.92h,0.05h,,,,1366.45h,0.00h
+,VOID-26,Update handling of end point report/status-report if it returns 0 payments,,0.00h,187.55h,,,,,0.00h,1.95h,693.77h,,,,622.20h,,
+,VOID-33,unique_error_codes should be NULL if status report is created for batch without errors,3/2/26,23.75h,0.00h,,,,,0.00h,91.55h,2.37h,0.43h,,1.02h,,1387.07h,0.00h
+,VOID-46,If payment file is rejected then no_of_failed_payments should be the same value as total_number_of_trx,3/2/26,115.63h,0.00h,,,,,0.07h,,1.68h,0.52h,,0.75h,,1387.68h,0.00h
+,VOID-32,It should be 0 instead of NULL in outgoing kafka topic and DB bhandler.status_report table,3/3/26,115.83h,0.00h,,,,0.00h,0.00h,1.73h,18.20h,2.27h,,,,1368.40h,0.00h
+,VOID-31,In pain.002.001.03 where payment is successful field <OrgnlCtrlSum> is missing,3/2/26,115.88h,0.00h,,,,,0.00h,1.00h,3.35h,0.05h,,,,1386.48h,0.00h
+,VOID-45,In status report pain.002.001.03 field <CreDtTm> should be the time when actually xml was formed for status report,3/2/26,17.97h,0.00h,,,,,0.00h,29.65h,3.85h,0.10h,,69.40h,,1385.92h,0.00h
+,VOID-30,Group and payment information statuses are calculated incorrectly in pain.002.001.03,3/3/26,16.88h,0.00h,,0.00h,,,0.00h,30.92h,22.72h,0.38h,,69.40h,,1366.78h,0.00h
+,VOID-29,Error code instead of description is provided in pain.002,3/3/26,0.05h,0.00h,,0.00h,,,0.50h,47.72h,22.25h,0.45h,,69.40h,,1367.18h,0.00h
+,VOID-35,BH-data-manager: Update API collecting payment information needed for pain.002,,0.00h,72.62h,,0.00h,,,22.55h,26.98h,883.15h,,,,622.23h,,
+,VOID-42,"When both batches in payment file get rejected, pain.002 is providing wrong information for one of them",3/4/26,0.02h,240.35h,,,,,0.00h,21.40h,194.73h,0.92h,,,,1337.87h,0.00h
+,VOID-28,Update consuming of Kafka topic tracker.status.reports,,19.25h,0.00h,,,,,0.00h,121.98h,1079.18h,,,,645.77h,,
+,VOID-41,MsgId in pain.002 has to be generated on our side,3/4/26,0.00h,172.77h,,,,,0.00h,65.40h,293.72h,0.23h,,,,1338.80h,0.00h
+,VOID-53,Incorrect vop result message is shown in SMART form in the bottom of payment page,4/29/26,0.25h,1151.28h,,,,20.53h,668.78h,3.50h,24.67h,0.55h,,,,501.52h,
+,VOID-55,Instant payment limits in Mass/Salary payments,,1820.65h,645.92h,,,,,,,,,,,,,
+,VOID-11,Instant payment limits in Import of Payments page,,1823.10h,116.83h,,,,,0.00h,526.73h,,,,,,,
+,VOID-25,BH-data-manager: Update API collecting payment information needed for pain.002,,0.00h,172.73h,,,,,353.60h,1.37h,1442.18h,,,,622.17h,,
+,VOID-40,Pain.002 for rejected batch has to contain payment information,2/13/26,0.00h,649.53h,,,,,0.00h,95.55h,97.50h,0.00h,,,,1794.90h,
+,VOID-39,Incorrect number of failed payments in status report db record when one of the batch was rejected,3/4/26,763.70h,0.00h,,,,0.00h,0.00h,139.90h,486.87h,0.37h,,,,1339.07h,0.00h
+,VOID-38,In pain.002 BIC should be according to country,2/13/26,237.30h,647.30h,,,,,0.00h,97.78h,97.12h,0.00h,,,,1795.30h,
+,VOID-44,Do not provide internal error codes in pain.002,2/13/26,237.53h,646.45h,,,,,0.00h,98.62h,97.08h,0.00h,,,,1795.32h,
+,VOID-37,The same batch (batch sid) has two records in status report table,2/13/26,909.90h,0.00h,,,,,0.00h,73.57h,97.18h,0.00h,,,,1795.23h,
+,VOID-43,"When file gets rejected, do not call API to update batch and payment file status",3/4/26,168.90h,906.62h,,,,0.00h,0.00h,164.83h,486.88h,0.65h,,,,1339.45h,0.00h
+,VOID-22,IBank: Warning message because of changes in Mass/Salary payment uploaded via SGW,,1389.83h,2491.68h,,,,,672.83h,,,,,,,,
+,VOID-23,If changes made in Mass/Salary payment uploaded via SGW - new Mass/Salary payments must be created instead of initial one,,1414.07h,2686.35h,478.17h,,,,,,,,,,,,
+,VOID-27,Batch handler: test status response creation for batch,,0.67h,966.27h,,,,,,,693.77h,,,,3542.75h,,
+,VOID-36,[S1.3] Batch handler: test status response creation for not valid batch/payment file,,671.17h,1330.28h,,,,,380.53h,73.82h,357.60h,215.00h,,,1549.70h,649.45h,0.00h
+,VOID-8,IBank: 3. Information to customer because of payment validation results,,1510.65h,3503.38h,,,,,692.33h,,,,,,,,
+,VOID-24,iBank: when payments are signed via mass payment form - write session information to AQ,,1680.73h,3666.33h,,,,,672.52h,,,,,,,,
+,VOID-21,iBank: update signing via mass payment screen - store session information,,5346.65h,0.00h,478.23h,,,,194.73h,,,,,,,,
+,VOID-52,[iBank Private and Business PB]: Implement VoP response presentment in Domestic and European Standing Order Agreements conclusion,4/29/26,0.10h,4486.98h,,505.50h,,,1105.03h,,,,,,,,116.73h
+,VOID-51,[iBank Private and Business PB]: Implement VoP check initiation in Domestic and European Standing Order Agreements conclusion,,0.23h,4005.13h,,1104.22h,,,1105.03h,,,,,,,,
+,VOID-6,IBank: 1.New payment priority to be added,4/29/26,1703.43h,3963.73h,24.12h,,,,48.75h,162.08h,22.02h,386.52h,,,,49.67h,
+,VOID-7,IBank: 2. Validate payment file priority for payments uploaded in Ibank,,2539.28h,3964.55h,,,,,217.23h,475.10h,,,,,,,
+,VOID-10,iBank: when payments are signed via file import - write session information to AQ,,3622.08h,3646.78h,,,,,692.07h,,,,,,,,
+,VOID-9,iBank: update signing via payment file import - store session information,,3664.45h,3556.65h,384.32h,,,,303.88h,3.80h,0.00h,,,,,,
+,VOID-20,IBank: Notification for customer about failed instant payment,,956.78h,6716.62h,,,,,673.02h,,,,,,,,
+,VOID-19,IBank: Failed Instant payment proccessing,,956.57h,6716.87h,,,,,673.10h,,,,,,,,
+,VOID-16,IBank: Show in Defined payments Mass payment file priority for customer,,1151.53h,6716.52h,,,,,629.57h,44.02h,,,,,,,
+,VOID-15,IBank: In PDF show Mass payment file priority for customer,,1156.00h,6716.52h,192.53h,,,,341.55h,139.53h,,,,,,,
+,VOID-18,iBank: Information message update for processed payment file,4/29/26,3451.33h,4393.38h,,,,,146.18h,48.55h,20.10h,4.43h,,,,453.90h,
+,VOID-17,IBank: Validate Salary payment file priority for payments created in Ibank,,1341.17h,6716.97h,,,,,673.33h,,,,,,,,
+,VOID-14,IBank: Show Mass payment file priority for customer,,1392.60h,6718.50h,,,,,339.75h,333.93h,,,,,,,

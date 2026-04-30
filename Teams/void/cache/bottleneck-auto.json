@@ -1,0 +1,43 @@
+[
+  {
+    "period": "2026-04",
+    "columns": [
+      {
+        "name": "Ready for Refinement",
+        "avgDays": 47.51600694444445
+      },
+      {
+        "name": "Open",
+        "avgDays": 16.11356884057971
+      },
+      {
+        "name": "Refined",
+        "avgDays": 7.721157407407407
+      },
+      {
+        "name": "On Hold",
+        "avgDays": 5.5304166666666665
+      },
+      {
+        "name": "Ready for test",
+        "avgDays": 4.071136363636364
+      },
+      {
+        "name": "Blocked",
+        "avgDays": 3.4165972222222223
+      },
+      {
+        "name": "In Development",
+        "avgDays": 2.4213541666666667
+      },
+      {
+        "name": "In Testing",
+        "avgDays": 0.9908333333333332
+      },
+      {
+        "name": "Reopened",
+        "avgDays": 0.43812500000000004
+      }
+    ]
+  }
+]

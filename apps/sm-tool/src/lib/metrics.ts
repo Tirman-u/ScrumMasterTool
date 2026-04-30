@@ -1,4 +1,5 @@
 import { type ParsedIssue, type SleValues, type TeamConfig, type TeamMetrics, type VelocityPoint } from "../types/contracts";
+import { type TimeInStatusIssueRow } from "./time-in-status";
 
 const MS_PER_DAY = 1000 * 60 * 60 * 24;
 export const DEFAULT_SLE_ISSUE_TYPES = ["Task", "Bug", "Story"] as const;
@@ -24,18 +25,26 @@ export function dedupeIssuesByLatestUpdate(issues: ParsedIssue[]): ParsedIssue[]
   return Array.from(byKey.values());
 }
 
-export function buildMetrics(teamConfig: TeamConfig, allRowsCount: number, dedupedIssues: ParsedIssue[]): TeamMetrics {
+export interface BuildMetricsOptions {
+  timeInStatusIssueRows?: TimeInStatusIssueRow[];
+}
+
+export function buildMetrics(
+  teamConfig: TeamConfig,
+  allRowsCount: number,
+  dedupedIssues: ParsedIssue[],
+  options: BuildMetricsOptions = {},
+): TeamMetrics {
   const excludedIssueKeys = new Set((teamConfig.excludedIssueKeys ?? []).map(normalize).filter(Boolean));
   const includedIssues = dedupedIssues.filter((issue) => !excludedIssueKeys.has(normalize(issue.issueKey)));
   const doneIssues = includedIssues.filter((issue) => isDone(issue, teamConfig));
-  const sleIssueTypeSet = new Set(normalizeSleIssueTypes(teamConfig.sleConfig.issueTypes).map(normalize));
 
   const cycleTimeIssues = doneIssues
     .map((issue) => {
       if (!issue.created || !issue.resolutionDate) {
         return null;
       }
-      const cycleTimeDays = (issue.resolutionDate.getTime() - issue.created.getTime()) / MS_PER_DAY;
+      const cycleTimeDays = resolveCycleTimeDays(issue, teamConfig, options.timeInStatusIssueRows);
       if (!Number.isFinite(cycleTimeDays) || cycleTimeDays < 0) {
         return null;
       }
@@ -53,6 +62,12 @@ export function buildMetrics(teamConfig: TeamConfig, allRowsCount: number, dedup
     )
     .sort((a, b) => a.resolutionDate.localeCompare(b.resolutionDate));
 
+  const sleIssueTypeSet = new Set(
+    resolveEffectiveSleIssueTypes(
+      teamConfig.sleConfig.issueTypes,
+      cycleTimeIssues.map((item) => item.issueType),
+    ).map(normalize),
+  );
   const cycleTimes = cycleTimeIssues.map((item) => item.cycleTimeDays);
   const sleCycleTimes = cycleTimeIssues
     .filter((item) => sleIssueTypeSet.has(normalize(item.issueType)))
@@ -78,16 +93,14 @@ export function buildMetrics(teamConfig: TeamConfig, allRowsCount: number, dedup
     },
     scatter: cycleTimeIssues,
     scatterOverlay: sleValues,
-    velocityMonthly: buildVelocityMonthly(doneIssues),
+    velocityMonthly: buildVelocityMonthly(doneIssues, teamConfig),
     doneIssueDetails: doneIssues.map((issue) => ({
       issueKey: issue.issueKey,
       resolutionDate: issue.resolutionDate?.toISOString() ?? "",
       cycleTimeDays:
-        issue.created && issue.resolutionDate
-          ? (issue.resolutionDate.getTime() - issue.created.getTime()) / MS_PER_DAY
-          : null,
+        resolveCycleTimeDays(issue, teamConfig, options.timeInStatusIssueRows),
       issueType: issue.issueType,
-      storyPoints: issue.storyPoints,
+      storyPoints: resolveVelocityStoryPoints(issue, teamConfig),
       sprintCount: countSprints(issue.sprintRaw),
     })),
     multiSprint: {
@@ -97,6 +110,62 @@ export function buildMetrics(teamConfig: TeamConfig, allRowsCount: number, dedup
   };
 
   return metrics;
+}
+
+function resolveCycleTimeDays(
+  issue: ParsedIssue,
+  teamConfig: TeamConfig,
+  timeInStatusIssueRows: TimeInStatusIssueRow[] | undefined,
+): number | null {
+  const statusCycleTime = resolveTimeInStatusCycleTimeDays(issue, teamConfig, timeInStatusIssueRows);
+  if (statusCycleTime !== null) {
+    return statusCycleTime;
+  }
+
+  if (!issue.created || !issue.resolutionDate) {
+    return null;
+  }
+
+  return (issue.resolutionDate.getTime() - issue.created.getTime()) / MS_PER_DAY;
+}
+
+function resolveTimeInStatusCycleTimeDays(
+  issue: ParsedIssue,
+  teamConfig: TeamConfig,
+  timeInStatusIssueRows: TimeInStatusIssueRow[] | undefined,
+): number | null {
+  if (!timeInStatusIssueRows || timeInStatusIssueRows.length === 0) {
+    return null;
+  }
+
+  const issueKey = normalize(issue.issueKey);
+  const row = timeInStatusIssueRows.find((item) => normalize(item.issueKey) === issueKey);
+  if (!row) {
+    return null;
+  }
+
+  const activeSet = new Set((teamConfig.workflowConfig?.activeStatuses ?? teamConfig.sprintScopeConfig?.statuses ?? []).map(normalize).filter(Boolean));
+  const backlogSet = new Set((teamConfig.workflowConfig?.backlogStatuses ?? []).map(normalize).filter(Boolean));
+  const doneSet = new Set((teamConfig.doneConfig.doneStatuses ?? []).map(normalize).filter(Boolean));
+
+  const includedDurations = row.durations.filter((duration) => {
+    const status = normalize(duration.status);
+    if (!status || !Number.isFinite(duration.days) || duration.days <= 0) {
+      return false;
+    }
+
+    if (activeSet.size > 0) {
+      return activeSet.has(status);
+    }
+
+    return !backlogSet.has(status) && !doneSet.has(status) && !["done", "closed", "resolved"].includes(status);
+  });
+
+  if (includedDurations.length === 0) {
+    return null;
+  }
+
+  return includedDurations.reduce((sum, duration) => sum + duration.days, 0);
 }
 
 export function isDone(issue: ParsedIssue, teamConfig: TeamConfig): boolean {
@@ -135,25 +204,26 @@ export function buildSleValues(cycleTimes: number[], rounding: "ceil"): SleValue
 
 export function normalizeSleIssueTypes(issueTypes: string[] | undefined): string[] {
   const source = issueTypes && issueTypes.length > 0 ? issueTypes : [...DEFAULT_SLE_ISSUE_TYPES];
-  const seen = new Set<string>();
-  const normalized: string[] = [];
-
-  source.forEach((value) => {
-    const trimmed = value.trim();
-    if (!trimmed) {
-      return;
-    }
-
-    const key = normalize(trimmed);
-    if (!key || seen.has(key)) {
-      return;
-    }
-
-    seen.add(key);
-    normalized.push(trimmed);
-  });
+  const normalized = normalizeIssueTypeList(source);
 
   return normalized.length > 0 ? normalized : [...DEFAULT_SLE_ISSUE_TYPES];
+}
+
+export function resolveEffectiveSleIssueTypes(
+  configuredIssueTypes: string[] | undefined,
+  observedIssueTypes: Array<string | undefined>,
+): string[] {
+  const normalizedConfigured = normalizeSleIssueTypes(configuredIssueTypes);
+  const normalizedObserved = normalizeIssueTypeList(observedIssueTypes);
+
+  if (normalizedObserved.length === 0) {
+    return normalizedConfigured;
+  }
+
+  const observedSet = new Set(normalizedObserved.map(normalize));
+  const hasConfiguredMatch = normalizedConfigured.some((issueType) => observedSet.has(normalize(issueType)));
+
+  return hasConfiguredMatch ? normalizedConfigured : normalizedObserved;
 }
 
 export function isIssueTypeIncludedInSle(issueType: string | undefined, sleIssueTypes: string[] | undefined): boolean {
@@ -208,7 +278,46 @@ function normalize(value: string | undefined): string {
   return (value ?? "").trim().toLowerCase();
 }
 
-function buildVelocityMonthly(doneIssues: ParsedIssue[]): VelocityPoint[] {
+function normalizeIssueTypeList(issueTypes: Array<string | undefined>): string[] {
+  const seen = new Set<string>();
+  const normalized: string[] = [];
+
+  issueTypes.forEach((value) => {
+    const trimmed = (value ?? "").trim();
+    if (!trimmed) {
+      return;
+    }
+
+    const key = normalize(trimmed);
+    if (!key || seen.has(key)) {
+      return;
+    }
+
+    seen.add(key);
+    normalized.push(trimmed);
+  });
+
+  return normalized;
+}
+
+export function resolveVelocityStoryPoints(
+  issue: Pick<ParsedIssue, "storyPoints" | "issueType">,
+  teamConfig: Pick<TeamConfig, "bugConfig">,
+): number | null {
+  if (issue.storyPoints !== null && Number.isFinite(issue.storyPoints)) {
+    return issue.storyPoints;
+  }
+
+  const defaultStoryPoints = teamConfig.bugConfig?.defaultStoryPoints;
+  if (defaultStoryPoints === undefined || defaultStoryPoints === null || !Number.isFinite(defaultStoryPoints)) {
+    return null;
+  }
+
+  const bugSet = new Set((teamConfig.bugConfig?.issueTypes ?? ["Bug"]).map(normalize).filter(Boolean));
+  return bugSet.has(normalize(issue.issueType)) ? defaultStoryPoints : null;
+}
+
+function buildVelocityMonthly(doneIssues: ParsedIssue[], teamConfig: TeamConfig): VelocityPoint[] {
   const monthly = new Map<string, number>();
 
   for (const issue of doneIssues) {
@@ -217,7 +326,7 @@ function buildVelocityMonthly(doneIssues: ParsedIssue[]): VelocityPoint[] {
     }
 
     const month = issue.resolutionDate.toISOString().slice(0, 7);
-    const amount = issue.storyPoints ?? 1;
+    const amount = resolveVelocityStoryPoints(issue, teamConfig) ?? 1;
     const current = monthly.get(month) ?? 0;
     monthly.set(month, current + amount);
   }

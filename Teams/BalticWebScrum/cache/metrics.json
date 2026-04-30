@@ -1,146 +1,262 @@
 {
-  "generatedAt": "2026-02-27T13:30:37.299Z",
+  "generatedAt": "2026-04-29T09:08:45.143Z",
   "teamName": "BalticWebScrum",
   "totalImportedRows": 403,
   "uniqueIssues": 377,
-  "doneIssues": 133,
-  "cycleTimeCount": 133,
+  "doneIssues": 249,
+  "cycleTimeCount": 249,
   "cycleTimeDays": [
-    6.670833333333333,
-    39.89930555555556,
-    31.936805555555555,
-    77.00277777777778,
-    52.800694444444446,
-    51.864583333333336,
-    52.802083333333336,
-    5.973611111111111,
-    79.8548611111111,
-    25.981944444444444,
-    68.98611111111111,
-    36.88055555555555,
-    23.185416666666665,
-    29.178472222222222,
-    1.5465277777777777,
-    1.9875,
-    27.977777777777778,
-    45.69375,
-    3.6756944444444444,
-    31.831944444444446,
-    75.1125,
-    21.038888888888888,
-    0.10347222222222222,
-    1.075,
-    6.854861111111111,
-    4.805555555555555,
-    5.786111111111111,
-    65.11597222222223,
-    16.05902777777778,
-    1.91875,
-    69.21597222222222,
-    3.7472222222222222,
-    10.713194444444444,
-    56.88194444444444,
-    7.695833333333334,
-    0.7708333333333334,
-    9.74375,
-    12.983333333333333,
-    50.71875,
-    14.913194444444445,
-    24.023611111111112,
-    36.07013888888889,
-    18.0375,
-    7.049305555555556,
-    8.907638888888888,
-    8.911805555555556,
-    6.864583333333333,
-    1.0472222222222223,
-    46.071527777777774,
-    46.071527777777774,
-    46.07222222222222,
-    8.978472222222223,
-    0.9118055555555555,
-    6.993055555555555,
-    10.047222222222222,
-    15.874305555555555,
-    9.9875,
-    18.077083333333334,
-    49.99722222222222,
-    59.793055555555554,
-    11.098611111111111,
-    3.990972222222222,
-    4.965277777777778,
-    10.796527777777778,
-    16.861805555555556,
-    6.827083333333333,
-    0.75625,
-    8.05,
-    0.9013888888888889,
-    1.1631944444444444,
-    3.0236111111111112,
-    9.906944444444445,
-    2.7736111111111112,
-    4.167361111111111,
-    6.576388888888889,
-    0.8284722222222223,
-    4.829166666666667,
-    8.809722222222222,
-    2.1631944444444446,
-    21.98611111111111,
-    0.9680555555555556,
-    8.041666666666666,
-    19.99375,
-    63.921527777777776,
-    64.01875,
-    64.16041666666666,
-    64.1673611111111,
-    64.21666666666667,
-    69.14722222222223,
-    15.969444444444445,
-    25.88125,
-    27.11111111111111,
-    13.170833333333333,
-    14.089583333333334,
-    30.90138888888889,
-    58.175,
-    6.136805555555555,
-    8.131944444444445,
-    30.89097222222222,
-    15.10138888888889,
-    72.19375,
-    23.975694444444443,
-    55.82013888888889,
-    25.024305555555557,
-    59.83541666666667,
-    31.89236111111111,
-    0.05,
-    35.24444444444445,
-    15.078472222222222,
-    40.99305555555556,
-    10.051388888888889,
-    5.932638888888889,
-    3.720138888888889,
-    3.7222222222222223,
-    5.9534722222222225,
-    20.81736111111111,
-    8.973611111111111,
-    27.199305555555554,
-    26.544444444444444,
-    9.168055555555556,
-    7.972222222222222,
-    3.0027777777777778,
-    14.108333333333333,
-    64.23055555555555,
-    11.88263888888889,
-    11.775,
-    5.848611111111111,
-    42.83958333333333,
-    5.99375,
-    2.089583333333333,
-    13.044444444444444,
-    12.903472222222222,
-    8.115972222222222
+    6.951388888888889,
+    0.7479166666666667,
+    7.9006944444444445,
+    14.20138888888889,
+    8.197222222222223,
+    6.147222222222222,
+    2.720833333333333,
+    1.0784722222222223,
+    9.902083333333334,
+    0.017361111111111112,
+    0.95,
+    6.8694444444444445,
+    0.20625,
+    32.00138888888889,
+    5.2340277777777775,
+    0.9263888888888889,
+    46.68541666666667,
+    1.9055555555555554,
+    2.0680555555555555,
+    1.0416666666666667,
+    0.16111111111111112,
+    0.21875,
+    34.86875,
+    0.03611111111111111,
+    189.97916666666666,
+    189.97847222222222,
+    189.97916666666666,
+    6.7756944444444445,
+    12.900694444444444,
+    2.040277777777778,
+    4.020833333333333,
+    26.249305555555555,
+    20.085416666666667,
+    41.99791666666667,
+    16.02986111111111,
+    30.71527777777778,
+    2.9881944444444444,
+    2.3430555555555554,
+    0.1763888888888889,
+    8.910416666666666,
+    35.09166666666667,
+    35.142361111111114,
+    26.052777777777777,
+    0.6854166666666667,
+    0.08611111111111111,
+    84.85,
+    147.91944444444445,
+    366.95972222222224,
+    322.1645833333333,
+    13.827083333333333,
+    0.15208333333333332,
+    11.907638888888888,
+    12.972222222222221,
+    0.013194444444444444,
+    0.011111111111111112,
+    9.919444444444444,
+    852.7194444444444,
+    2.7222222222222223,
+    239.99166666666667,
+    57.96597222222222,
+    7.727083333333334,
+    78.78819444444444,
+    106.96527777777777,
+    239.99930555555557,
+    4.846527777777778,
+    0.029166666666666667,
+    76.80763888888889,
+    3.9319444444444445,
+    61.93333333333333,
+    0.6347222222222222,
+    0.1125,
+    277.8076388888889,
+    668.7652777777778,
+    0.11180555555555556,
+    2.9784722222222224,
+    0.20208333333333334,
+    0.20347222222222222,
+    0.2298611111111111,
+    118.94722222222222,
+    2.0118055555555556,
+    64.12638888888888,
+    6.981944444444444,
+    6.952083333333333,
+    6.947222222222222,
+    9.947222222222223,
+    9.953472222222222,
+    4.936805555555556,
+    2.66875,
+    2.66875,
+    64.99791666666667,
+    27.03611111111111,
+    27.09027777777778,
+    69.79930555555555,
+    9.010416666666666,
+    63.083333333333336,
+    98.07638888888889,
+    45.797916666666666,
+    3.9305555555555554,
+    170.99444444444444,
+    47.174305555555556,
+    4.320138888888889,
+    5.947916666666666,
+    38.710416666666674,
+    23.85486111111111,
+    24.857638888888886,
+    24.788888888888888,
+    24.790972222222223,
+    24.791666666666668,
+    4.920138888888889,
+    398.7673611111111,
+    355.7263888888889,
+    23.959027777777777,
+    20.168750000000003,
+    41.080555555555556,
+    433.9736111111111,
+    47.889583333333334,
+    30.110416666666666,
+    10.280555555555555,
+    23.263194444444444,
+    1.0152777777777777,
+    1.6444444444444444,
+    10.01388888888889,
+    42.16597222222222,
+    2.8090277777777777,
+    25.15277777777778,
+    11.795833333333334,
+    3.3138888888888887,
+    0.06736111111111111,
+    1.0722222222222222,
+    5.806944444444445,
+    0.7756944444444444,
+    306.95694444444445,
+    4.745833333333334,
+    24.07986111111111,
+    2.704166666666667,
+    0.8993055555555556,
+    26.086805555555557,
+    1.9069444444444446,
+    9.919444444444446,
+    44.134027777777774,
+    6.942361111111111,
+    0.08402777777777778,
+    8.920138888888888,
+    12.147222222222222,
+    8.980555555555556,
+    7.871527777777779,
+    1.054861111111111,
+    20.12986111111111,
+    27.463194444444444,
+    17.0125,
+    6.977777777777778,
+    5.76875,
+    5.76875,
+    4.947222222222222,
+    0.8909722222222223,
+    0.15138888888888888,
+    36.25694444444444,
+    21.34236111111111,
+    21.257638888888888,
+    5.9840277777777775,
+    0.7986111111111112,
+    5.909027777777778,
+    6.211805555555555,
+    4.981944444444445,
+    13.086805555555557,
+    6.946527777777777,
+    11.034722222222221,
+    33.790277777777774,
+    36.25763888888889,
+    86.05277777777778,
+    7.929861111111111,
+    3.899305555555556,
+    3.020138888888889,
+    9.943750000000001,
+    11.971527777777778,
+    4.989583333333333,
+    0.7034722222222222,
+    7.826388888888889,
+    0.19027777777777777,
+    0.22013888888888888,
+    0.28125,
+    5.798611111111111,
+    2.7715277777777776,
+    4.023611111111111,
+    6.029861111111111,
+    0.07847222222222222,
+    1.9625,
+    0.7152777777777778,
+    6.9375,
+    2.053472222222222,
+    20.21388888888889,
+    0.8951388888888888,
+    3.1465277777777776,
+    5.048611111111111,
+    13.565277777777776,
+    34.21388888888888,
+    10.879861111111111,
+    9.915277777777778,
+    8.711805555555555,
+    22.856249999999996,
+    301.02708333333334,
+    8.274305555555555,
+    6.283333333333333,
+    3.8055555555555554,
+    6.066666666666666,
+    1.0930555555555554,
+    15.259027777777778,
+    7.074305555555556,
+    2.8180555555555555,
+    1.4173611111111113,
+    19.985416666666666,
+    10.947916666666666,
+    59.30972222222222,
+    7.9631944444444445,
+    29.2875,
+    2.095138888888889,
+    10.83888888888889,
+    14.940277777777778,
+    21.179861111111112,
+    0.03194444444444444,
+    0.21041666666666664,
+    0.32013888888888886,
+    33.99166666666667,
+    6.989583333333334,
+    5.850694444444445,
+    3.7104166666666663,
+    3.7104166666666663,
+    1.0125,
+    7.997222222222223,
+    1.2951388888888888,
+    15.121527777777777,
+    0.017361111111111112,
+    20.90208333333333,
+    6.106249999999999,
+    1.7555555555555555,
+    0.09861111111111111,
+    2.9819444444444443,
+    14.078472222222222,
+    69.45347222222222,
+    35.15208333333334,
+    1.8541666666666665,
+    8.929861111111112,
+    5.003472222222222,
+    40.147222222222226,
+    5.991666666666666,
+    0.9222222222222222,
+    1.3298611111111112,
+    7.143055555555555,
+    8.110416666666666
   ],
-  "avgCycleTimeDays": 22.867972013366753,
+  "avgCycleTimeDays": 36.61662204373047,
   "sle": {
     "percentiles": [
       50,
@@ -150,833 +266,1585 @@
     ],
     "rounding": "ceil",
     "values": {
-      "p50": 13,
-      "p70": 28,
-      "p85": 53,
-      "p95": 68
+      "p50": 8,
+      "p70": 21,
+      "p85": 42,
+      "p95": 216
     }
   },
   "scatter": [
     {
+      "issueKey": "BWEBDEV-176",
+      "resolutionDate": "2024-10-03T05:24:00.000Z",
+      "cycleTimeDays": 6.951388888888889,
+      "issueType": "Bug"
+    },
+    {
+      "issueKey": "BWEBDEV-389",
+      "resolutionDate": "2024-10-08T06:58:00.000Z",
+      "cycleTimeDays": 0.7479166666666667,
+      "issueType": "Task"
+    },
+    {
+      "issueKey": "BWEBDEV-337",
+      "resolutionDate": "2024-10-11T10:15:00.000Z",
+      "cycleTimeDays": 7.9006944444444445,
+      "issueType": "Task"
+    },
+    {
+      "issueKey": "BWEBDEV-224",
+      "resolutionDate": "2024-10-14T10:38:00.000Z",
+      "cycleTimeDays": 14.20138888888889,
+      "issueType": "Task"
+    },
+    {
+      "issueKey": "BWEBDEV-635",
+      "resolutionDate": "2024-10-29T11:33:00.000Z",
+      "cycleTimeDays": 8.197222222222223,
+      "issueType": "Task"
+    },
+    {
+      "issueKey": "BWEBDEV-691",
+      "resolutionDate": "2024-10-30T08:42:00.000Z",
+      "cycleTimeDays": 6.147222222222222,
+      "issueType": "Task"
+    },
+    {
+      "issueKey": "BWEBDEV-824",
+      "resolutionDate": "2024-11-04T06:20:00.000Z",
+      "cycleTimeDays": 2.720833333333333,
+      "issueType": "Task"
+    },
+    {
+      "issueKey": "BWEBDEV-876",
+      "resolutionDate": "2024-11-07T10:00:00.000Z",
+      "cycleTimeDays": 1.0784722222222223,
+      "issueType": "Task"
+    },
+    {
+      "issueKey": "BWEBDEV-858",
+      "resolutionDate": "2024-11-15T06:34:00.000Z",
+      "cycleTimeDays": 9.902083333333334,
+      "issueType": "Task"
+    },
+    {
+      "issueKey": "BWEBDEV-1060",
+      "resolutionDate": "2024-11-15T11:37:00.000Z",
+      "cycleTimeDays": 0.017361111111111112,
+      "issueType": "Bug"
+    },
+    {
+      "issueKey": "BWEBDEV-1050",
+      "resolutionDate": "2024-11-15T14:01:00.000Z",
+      "cycleTimeDays": 0.95,
+      "issueType": "Task"
+    },
+    {
+      "issueKey": "BWEBDEV-1112",
+      "resolutionDate": "2024-11-26T11:30:00.000Z",
+      "cycleTimeDays": 6.8694444444444445,
+      "issueType": "Task"
+    },
+    {
+      "issueKey": "BWEBDEV-1389",
+      "resolutionDate": "2024-12-04T13:31:00.000Z",
+      "cycleTimeDays": 0.20625,
+      "issueType": "Task"
+    },
+    {
+      "issueKey": "BWEBDEV-929",
+      "resolutionDate": "2024-12-10T09:02:00.000Z",
+      "cycleTimeDays": 32.00138888888889,
+      "issueType": "Task"
+    },
+    {
+      "issueKey": "BWEBDEV-1407",
+      "resolutionDate": "2024-12-10T12:14:00.000Z",
+      "cycleTimeDays": 5.2340277777777775,
+      "issueType": "Task"
+    },
+    {
+      "issueKey": "BWEBDEV-1492",
+      "resolutionDate": "2024-12-11T06:29:00.000Z",
+      "cycleTimeDays": 0.9263888888888889,
+      "issueType": "Task"
+    },
+    {
+      "issueKey": "BWEBDEV-730",
+      "resolutionDate": "2024-12-13T10:57:00.000Z",
+      "cycleTimeDays": 46.68541666666667,
+      "issueType": "Task"
+    },
+    {
+      "issueKey": "BWEBDEV-1587",
+      "resolutionDate": "2024-12-18T06:30:00.000Z",
+      "cycleTimeDays": 1.9055555555555554,
+      "issueType": "Sub-task"
+    },
+    {
+      "issueKey": "BWEBDEV-1737",
+      "resolutionDate": "2025-01-02T09:20:00.000Z",
+      "cycleTimeDays": 2.0680555555555555,
+      "issueType": "Bug"
+    },
+    {
+      "issueKey": "BWEBDEV-1836",
+      "resolutionDate": "2025-01-08T15:13:00.000Z",
+      "cycleTimeDays": 1.0416666666666667,
+      "issueType": "Task"
+    },
+    {
+      "issueKey": "BWEBDEV-1863",
+      "resolutionDate": "2025-01-09T10:16:00.000Z",
+      "cycleTimeDays": 0.16111111111111112,
+      "issueType": "Task"
+    },
+    {
+      "issueKey": "BWEBDEV-1902",
+      "resolutionDate": "2025-01-10T14:03:00.000Z",
+      "cycleTimeDays": 0.21875,
+      "issueType": "Task"
+    },
+    {
+      "issueKey": "BWEBDEV-1512",
+      "resolutionDate": "2025-01-14T12:58:00.000Z",
+      "cycleTimeDays": 34.86875,
+      "issueType": "Sub-task"
+    },
+    {
+      "issueKey": "BWEBDEV-2003",
+      "resolutionDate": "2025-01-15T09:16:00.000Z",
+      "cycleTimeDays": 0.03611111111111111,
+      "issueType": "Task"
+    },
+    {
+      "issueKey": "BWEBDEV-497",
+      "resolutionDate": "2025-01-17T06:11:00.000Z",
+      "cycleTimeDays": 189.97916666666666,
+      "issueType": "Sub-task"
+    },
+    {
+      "issueKey": "BWEBDEV-499",
+      "resolutionDate": "2025-01-17T06:12:00.000Z",
+      "cycleTimeDays": 189.97847222222222,
+      "issueType": "Sub-task"
+    },
+    {
+      "issueKey": "BWEBDEV-498",
+      "resolutionDate": "2025-01-17T06:12:00.000Z",
+      "cycleTimeDays": 189.97916666666666,
+      "issueType": "Sub-task"
+    },
+    {
+      "issueKey": "BWEBDEV-2015",
+      "resolutionDate": "2025-01-22T08:32:00.000Z",
+      "cycleTimeDays": 6.7756944444444445,
+      "issueType": "Task"
+    },
+    {
+      "issueKey": "BWEBDEV-1885",
+      "resolutionDate": "2025-01-22T09:41:00.000Z",
+      "cycleTimeDays": 12.900694444444444,
+      "issueType": "Task"
+    },
+    {
+      "issueKey": "BWEBDEV-2138",
+      "resolutionDate": "2025-01-24T12:57:00.000Z",
+      "cycleTimeDays": 2.040277777777778,
+      "issueType": "Bug"
+    },
+    {
+      "issueKey": "BWEBDEV-2172",
+      "resolutionDate": "2025-01-28T09:41:00.000Z",
+      "cycleTimeDays": 4.020833333333333,
+      "issueType": "Bug"
+    },
+    {
+      "issueKey": "BWEBDEV-1742",
+      "resolutionDate": "2025-01-28T13:12:00.000Z",
+      "cycleTimeDays": 26.249305555555555,
+      "issueType": "Task"
+    },
+    {
+      "issueKey": "BWEBDEV-2406",
+      "resolutionDate": "2025-02-26T11:17:00.000Z",
+      "cycleTimeDays": 20.085416666666667,
+      "issueType": "Story"
+    },
+    {
+      "issueKey": "BWEBDEV-2033",
+      "resolutionDate": "2025-02-27T10:29:00.000Z",
+      "cycleTimeDays": 41.99791666666667,
+      "issueType": "Task"
+    },
+    {
+      "issueKey": "BWEBDEV-2495",
+      "resolutionDate": "2025-02-27T11:38:00.000Z",
+      "cycleTimeDays": 16.02986111111111,
+      "issueType": "Task"
+    },
+    {
+      "issueKey": "BWEBDEV-2325",
+      "resolutionDate": "2025-03-03T07:06:00.000Z",
+      "cycleTimeDays": 30.71527777777778,
+      "issueType": "Task"
+    },
+    {
+      "issueKey": "BWEBDEV-2833",
+      "resolutionDate": "2025-03-03T10:58:00.000Z",
+      "cycleTimeDays": 2.9881944444444444,
+      "issueType": "Bug"
+    },
+    {
+      "issueKey": "BWEBDEV-2844",
+      "resolutionDate": "2025-03-05T13:29:00.000Z",
+      "cycleTimeDays": 2.3430555555555554,
+      "issueType": "Task"
+    },
+    {
+      "issueKey": "BWEBDEV-2930",
+      "resolutionDate": "2025-03-06T13:59:00.000Z",
+      "cycleTimeDays": 0.1763888888888889,
+      "issueType": "Bug"
+    },
+    {
+      "issueKey": "BWEBDEV-2850",
+      "resolutionDate": "2025-03-12T06:15:00.000Z",
+      "cycleTimeDays": 8.910416666666666,
+      "issueType": "Bug"
+    },
+    {
+      "issueKey": "BWEBDEV-2485",
+      "resolutionDate": "2025-03-18T09:58:00.000Z",
+      "cycleTimeDays": 35.09166666666667,
+      "issueType": "Task"
+    },
+    {
+      "issueKey": "BWEBDEV-2482",
+      "resolutionDate": "2025-03-18T10:44:00.000Z",
+      "cycleTimeDays": 35.142361111111114,
+      "issueType": "Task"
+    },
+    {
+      "issueKey": "BWEBDEV-2769",
+      "resolutionDate": "2025-03-24T06:49:00.000Z",
+      "cycleTimeDays": 26.052777777777777,
+      "issueType": "Task"
+    },
+    {
+      "issueKey": "BWEBDEV-3301",
+      "resolutionDate": "2025-03-28T05:10:00.000Z",
+      "cycleTimeDays": 0.6854166666666667,
+      "issueType": "Task"
+    },
+    {
+      "issueKey": "BWEBDEV-3322",
+      "resolutionDate": "2025-03-28T11:51:00.000Z",
+      "cycleTimeDays": 0.08611111111111111,
+      "issueType": "Task"
+    },
+    {
+      "issueKey": "BWEBDEV-1827",
+      "resolutionDate": "2025-04-02T07:35:00.000Z",
+      "cycleTimeDays": 84.85,
+      "issueType": "Task"
+    },
+    {
+      "issueKey": "BWEBDEV-859",
+      "resolutionDate": "2025-04-02T07:36:00.000Z",
+      "cycleTimeDays": 147.91944444444445,
+      "issueType": "Task"
+    },
+    {
+      "issueKey": "BWEBDEV-398",
+      "resolutionDate": "2025-04-03T12:45:00.000Z",
+      "cycleTimeDays": 366.95972222222224,
+      "issueType": "Task"
+    },
+    {
+      "issueKey": "BWEBDEV-97",
+      "resolutionDate": "2025-04-03T12:45:00.000Z",
+      "cycleTimeDays": 322.1645833333333,
+      "issueType": "Task"
+    },
+    {
+      "issueKey": "BWEBDEV-3193",
+      "resolutionDate": "2025-04-04T08:02:00.000Z",
+      "cycleTimeDays": 13.827083333333333,
+      "issueType": "Bug"
+    },
+    {
+      "issueKey": "BWEBDEV-3561",
+      "resolutionDate": "2025-04-10T06:08:00.000Z",
+      "cycleTimeDays": 0.15208333333333332,
+      "issueType": "Bug"
+    },
+    {
+      "issueKey": "BWEBDEV-3414",
+      "resolutionDate": "2025-04-14T05:28:00.000Z",
+      "cycleTimeDays": 11.907638888888888,
+      "issueType": "Task"
+    },
+    {
+      "issueKey": "BWEBDEV-3430",
+      "resolutionDate": "2025-04-15T10:54:00.000Z",
+      "cycleTimeDays": 12.972222222222221,
+      "issueType": "Task"
+    },
+    {
+      "issueKey": "BWEBDEV-3671",
+      "resolutionDate": "2025-04-16T06:42:00.000Z",
+      "cycleTimeDays": 0.013194444444444444,
+      "issueType": "Bug"
+    },
+    {
+      "issueKey": "BWEBDEV-3672",
+      "resolutionDate": "2025-04-16T06:52:00.000Z",
+      "cycleTimeDays": 0.011111111111111112,
+      "issueType": "Bug"
+    },
+    {
+      "issueKey": "BWEBDEV-4072",
+      "resolutionDate": "2025-05-19T06:25:00.000Z",
+      "cycleTimeDays": 9.919444444444444,
+      "issueType": "Task"
+    },
+    {
+      "issueKey": "BWEBDEV-39",
+      "resolutionDate": "2025-05-19T06:41:00.000Z",
+      "cycleTimeDays": 852.7194444444444,
+      "issueType": "Task"
+    },
+    {
+      "issueKey": "BWEBDEV-4454",
+      "resolutionDate": "2025-06-05T05:11:00.000Z",
+      "cycleTimeDays": 2.7222222222222223,
+      "issueType": "Task"
+    },
+    {
+      "issueKey": "BWEBDEV-524",
+      "resolutionDate": "2025-06-11T10:24:00.000Z",
+      "cycleTimeDays": 239.99166666666667,
+      "issueType": "Task"
+    },
+    {
+      "issueKey": "BWEBDEV-3633",
+      "resolutionDate": "2025-06-11T10:50:00.000Z",
+      "cycleTimeDays": 57.96597222222222,
+      "issueType": "Task"
+    },
+    {
+      "issueKey": "BWEBDEV-4731",
+      "resolutionDate": "2025-06-26T05:35:00.000Z",
+      "cycleTimeDays": 7.727083333333334,
+      "issueType": "Bug"
+    },
+    {
+      "issueKey": "BWEBDEV-3556",
+      "resolutionDate": "2025-06-27T07:03:00.000Z",
+      "cycleTimeDays": 78.78819444444444,
+      "issueType": "Bug"
+    },
+    {
+      "issueKey": "BWEBDEV-3023",
+      "resolutionDate": "2025-06-27T07:27:00.000Z",
+      "cycleTimeDays": 106.96527777777777,
+      "issueType": "Task"
+    },
+    {
+      "issueKey": "BWEBDEV-789",
+      "resolutionDate": "2025-06-27T12:16:00.000Z",
+      "cycleTimeDays": 239.99930555555557,
+      "issueType": "Task"
+    },
+    {
+      "issueKey": "BWEBDEV-5265",
+      "resolutionDate": "2025-08-06T08:45:00.000Z",
+      "cycleTimeDays": 4.846527777777778,
+      "issueType": "Sub-task"
+    },
+    {
+      "issueKey": "BWEBDEV-5338",
+      "resolutionDate": "2025-08-07T05:55:00.000Z",
+      "cycleTimeDays": 0.029166666666666667,
+      "issueType": "Task"
+    },
+    {
+      "issueKey": "BWEBDEV-4327",
+      "resolutionDate": "2025-08-08T07:10:00.000Z",
+      "cycleTimeDays": 76.80763888888889,
+      "issueType": "Bug"
+    },
+    {
+      "issueKey": "BWEBDEV-5287",
+      "resolutionDate": "2025-08-08T10:12:00.000Z",
+      "cycleTimeDays": 3.9319444444444445,
+      "issueType": "Task"
+    },
+    {
+      "issueKey": "BWEBDEV-4993",
+      "resolutionDate": "2025-08-14T06:18:00.000Z",
+      "cycleTimeDays": 61.93333333333333,
+      "issueType": "Task"
+    },
+    {
+      "issueKey": "BWEBDEV-5611",
+      "resolutionDate": "2025-08-28T04:21:00.000Z",
+      "cycleTimeDays": 0.6347222222222222,
+      "issueType": "Bug"
+    },
+    {
+      "issueKey": "BWEBDEV-5679",
+      "resolutionDate": "2025-09-02T10:42:00.000Z",
+      "cycleTimeDays": 0.1125,
+      "issueType": "Task"
+    },
+    {
+      "issueKey": "BWEBDEV-1424",
+      "resolutionDate": "2025-09-09T07:25:00.000Z",
+      "cycleTimeDays": 277.8076388888889,
+      "issueType": "Task"
+    },
+    {
+      "issueKey": "BWEBDEV-36",
+      "resolutionDate": "2025-09-09T07:25:00.000Z",
+      "cycleTimeDays": 668.7652777777778,
+      "issueType": "Task"
+    },
+    {
+      "issueKey": "BWEBDEV-5844",
+      "resolutionDate": "2025-09-11T11:34:00.000Z",
+      "cycleTimeDays": 0.11180555555555556,
+      "issueType": "Task"
+    },
+    {
+      "issueKey": "BWEBDEV-5796",
+      "resolutionDate": "2025-09-12T10:39:00.000Z",
+      "cycleTimeDays": 2.9784722222222224,
+      "issueType": "Task"
+    },
+    {
+      "issueKey": "BWEBDEV-5860",
+      "resolutionDate": "2025-09-12T11:26:00.000Z",
+      "cycleTimeDays": 0.20208333333333334,
+      "issueType": "Sub-task"
+    },
+    {
+      "issueKey": "BWEBDEV-5862",
+      "resolutionDate": "2025-09-12T11:30:00.000Z",
+      "cycleTimeDays": 0.20347222222222222,
+      "issueType": "Sub-task"
+    },
+    {
+      "issueKey": "BWEBDEV-5879",
+      "resolutionDate": "2025-09-12T12:50:00.000Z",
+      "cycleTimeDays": 0.2298611111111111,
+      "issueType": "Sub-task"
+    },
+    {
+      "issueKey": "BWEBDEV-4294",
+      "resolutionDate": "2025-09-18T05:54:00.000Z",
+      "cycleTimeDays": 118.94722222222222,
+      "issueType": "Task"
+    },
+    {
+      "issueKey": "BWEBDEV-5922",
+      "resolutionDate": "2025-09-18T07:45:00.000Z",
+      "cycleTimeDays": 2.0118055555555556,
+      "issueType": "Bug"
+    },
+    {
+      "issueKey": "BWEBDEV-5041",
+      "resolutionDate": "2025-09-18T09:55:00.000Z",
+      "cycleTimeDays": 64.12638888888888,
+      "issueType": "Story"
+    },
+    {
+      "issueKey": "BWEBDEV-5859",
+      "resolutionDate": "2025-09-19T05:57:00.000Z",
+      "cycleTimeDays": 6.981944444444444,
+      "issueType": "Sub-task"
+    },
+    {
+      "issueKey": "BWEBDEV-5870",
+      "resolutionDate": "2025-09-19T05:58:00.000Z",
+      "cycleTimeDays": 6.952083333333333,
+      "issueType": "Sub-task"
+    },
+    {
+      "issueKey": "BWEBDEV-5878",
+      "resolutionDate": "2025-09-19T06:00:00.000Z",
+      "cycleTimeDays": 6.947222222222222,
+      "issueType": "Sub-task"
+    },
+    {
+      "issueKey": "BWEBDEV-5877",
+      "resolutionDate": "2025-09-22T05:57:00.000Z",
+      "cycleTimeDays": 9.947222222222223,
+      "issueType": "Sub-task"
+    },
+    {
+      "issueKey": "BWEBDEV-5876",
+      "resolutionDate": "2025-09-22T06:06:00.000Z",
+      "cycleTimeDays": 9.953472222222222,
+      "issueType": "Sub-task"
+    },
+    {
+      "issueKey": "BWEBDEV-6030",
+      "resolutionDate": "2025-09-23T08:55:00.000Z",
+      "cycleTimeDays": 4.936805555555556,
+      "issueType": "Task"
+    },
+    {
+      "issueKey": "BWEBDEV-6109",
+      "resolutionDate": "2025-09-29T05:54:00.000Z",
+      "cycleTimeDays": 2.66875,
+      "issueType": "Task"
+    },
+    {
+      "issueKey": "BWEBDEV-6108",
+      "resolutionDate": "2025-09-29T05:54:00.000Z",
+      "cycleTimeDays": 2.66875,
+      "issueType": "Task"
+    },
+    {
+      "issueKey": "BWEBDEV-5204",
+      "resolutionDate": "2025-10-03T05:05:00.000Z",
+      "cycleTimeDays": 64.99791666666667,
+      "issueType": "Bug"
+    },
+    {
+      "issueKey": "BWEBDEV-5864",
+      "resolutionDate": "2025-10-09T07:49:00.000Z",
+      "cycleTimeDays": 27.03611111111111,
+      "issueType": "Sub-task"
+    },
+    {
+      "issueKey": "BWEBDEV-5869",
+      "resolutionDate": "2025-10-09T09:15:00.000Z",
+      "cycleTimeDays": 27.09027777777778,
+      "issueType": "Sub-task"
+    },
+    {
+      "issueKey": "BWEBDEV-5269",
+      "resolutionDate": "2025-10-10T07:39:00.000Z",
+      "cycleTimeDays": 69.79930555555555,
+      "issueType": "Sub-task"
+    },
+    {
+      "issueKey": "BWEBDEV-6225",
+      "resolutionDate": "2025-10-15T10:22:00.000Z",
+      "cycleTimeDays": 9.010416666666666,
+      "issueType": "Task"
+    },
+    {
+      "issueKey": "BWEBDEV-5519",
+      "resolutionDate": "2025-10-23T09:20:00.000Z",
+      "cycleTimeDays": 63.083333333333336,
+      "issueType": "Task"
+    },
+    {
+      "issueKey": "BWEBDEV-5072",
+      "resolutionDate": "2025-10-23T12:30:00.000Z",
+      "cycleTimeDays": 98.07638888888889,
+      "issueType": "Task"
+    },
+    {
+      "issueKey": "BWEBDEV-5889",
+      "resolutionDate": "2025-10-28T05:58:00.000Z",
+      "cycleTimeDays": 45.797916666666666,
+      "issueType": "Task"
+    },
+    {
+      "issueKey": "BWEBDEV-6541",
+      "resolutionDate": "2025-10-28T09:11:00.000Z",
+      "cycleTimeDays": 3.9305555555555554,
+      "issueType": "Sub-task"
+    },
+    {
+      "issueKey": "BWEBDEV-4570",
+      "resolutionDate": "2025-11-27T11:34:00.000Z",
+      "cycleTimeDays": 170.99444444444444,
+      "issueType": "Task"
+    },
+    {
+      "issueKey": "BWEBDEV-6508",
+      "resolutionDate": "2025-12-09T11:31:00.000Z",
+      "cycleTimeDays": 47.174305555555556,
+      "issueType": "Task"
+    },
+    {
+      "issueKey": "BWEBDEV-7276",
+      "resolutionDate": "2025-12-16T11:48:00.000Z",
+      "cycleTimeDays": 4.320138888888889,
+      "issueType": "Bug"
+    },
+    {
       "issueKey": "BWEBDEV-7424",
       "resolutionDate": "2026-01-05T05:16:00.000Z",
-      "cycleTimeDays": 6.670833333333333,
+      "cycleTimeDays": 5.947916666666666,
       "issueType": "Task"
     },
     {
       "issueKey": "BWEBDEV-7016",
       "resolutionDate": "2026-01-05T05:35:00.000Z",
-      "cycleTimeDays": 39.89930555555556,
+      "cycleTimeDays": 38.710416666666674,
       "issueType": "Task"
     },
     {
       "issueKey": "BWEBDEV-7153",
       "resolutionDate": "2026-01-05T05:36:00.000Z",
-      "cycleTimeDays": 31.936805555555555,
+      "cycleTimeDays": 23.85486111111111,
       "issueType": "Task"
     },
     {
       "issueKey": "BWEBDEV-7180",
       "resolutionDate": "2026-01-05T05:38:00.000Z",
-      "cycleTimeDays": 77.00277777777778,
+      "cycleTimeDays": 24.857638888888886,
       "issueType": "Task"
     },
     {
       "issueKey": "BWEBDEV-7177",
       "resolutionDate": "2026-01-05T05:38:00.000Z",
-      "cycleTimeDays": 52.800694444444446,
+      "cycleTimeDays": 24.788888888888888,
       "issueType": "Task"
     },
     {
       "issueKey": "BWEBDEV-7179",
       "resolutionDate": "2026-01-05T05:44:00.000Z",
-      "cycleTimeDays": 51.864583333333336,
+      "cycleTimeDays": 24.790972222222223,
       "issueType": "Task"
     },
     {
       "issueKey": "BWEBDEV-7178",
       "resolutionDate": "2026-01-05T05:44:00.000Z",
-      "cycleTimeDays": 52.802083333333336,
+      "cycleTimeDays": 24.791666666666668,
       "issueType": "Task"
     },
     {
       "issueKey": "BWEBDEV-7429",
       "resolutionDate": "2026-01-05T05:45:00.000Z",
-      "cycleTimeDays": 5.973611111111111,
+      "cycleTimeDays": 4.920138888888889,
+      "issueType": "Task"
+    },
+    {
+      "issueKey": "BWEBDEV-1346",
+      "resolutionDate": "2026-01-05T06:18:00.000Z",
+      "cycleTimeDays": 398.7673611111111,
+      "issueType": "Task"
+    },
+    {
+      "issueKey": "BWEBDEV-1993",
+      "resolutionDate": "2026-01-05T06:57:00.000Z",
+      "cycleTimeDays": 355.7263888888889,
       "issueType": "Task"
     },
     {
       "issueKey": "BWEBDEV-6444",
       "resolutionDate": "2026-01-05T08:50:00.000Z",
-      "cycleTimeDays": 79.8548611111111,
+      "cycleTimeDays": 23.959027777777777,
       "issueType": "Task"
     },
     {
       "issueKey": "BWEBDEV-7237",
       "resolutionDate": "2026-01-05T10:52:00.000Z",
-      "cycleTimeDays": 25.981944444444444,
+      "cycleTimeDays": 20.168750000000003,
       "issueType": "Task"
     },
     {
       "issueKey": "BWEBDEV-6609",
       "resolutionDate": "2026-01-06T10:26:00.000Z",
-      "cycleTimeDays": 68.98611111111111,
+      "cycleTimeDays": 41.080555555555556,
+      "issueType": "Task"
+    },
+    {
+      "issueKey": "BWEBDEV-771",
+      "resolutionDate": "2026-01-06T13:00:00.000Z",
+      "cycleTimeDays": 433.9736111111111,
+      "issueType": "Task"
+    },
+    {
+      "issueKey": "BWEBDEV-6947",
+      "resolutionDate": "2026-01-07T10:59:00.000Z",
+      "cycleTimeDays": 47.889583333333334,
       "issueType": "Task"
     },
     {
       "issueKey": "BWEBDEV-7134",
       "resolutionDate": "2026-01-08T10:49:00.000Z",
-      "cycleTimeDays": 36.88055555555555,
+      "cycleTimeDays": 30.110416666666666,
       "issueType": "Task"
     },
     {
       "issueKey": "BWEBDEV-7321",
       "resolutionDate": "2026-01-08T14:35:00.000Z",
-      "cycleTimeDays": 23.185416666666665,
+      "cycleTimeDays": 10.280555555555555,
       "issueType": "Task"
     },
     {
       "issueKey": "BWEBDEV-7244",
       "resolutionDate": "2026-01-08T18:05:00.000Z",
-      "cycleTimeDays": 29.178472222222222,
+      "cycleTimeDays": 23.263194444444444,
       "issueType": "Task"
     },
     {
       "issueKey": "BWEBDEV-7500",
       "resolutionDate": "2026-01-09T06:21:00.000Z",
-      "cycleTimeDays": 1.5465277777777777,
+      "cycleTimeDays": 1.0152777777777777,
       "issueType": "Bug"
     },
     {
       "issueKey": "BWEBDEV-7477",
       "resolutionDate": "2026-01-09T06:40:00.000Z",
-      "cycleTimeDays": 1.9875,
+      "cycleTimeDays": 1.6444444444444444,
       "issueType": "Task"
     },
     {
       "issueKey": "BWEBDEV-7285",
       "resolutionDate": "2026-01-09T11:19:00.000Z",
-      "cycleTimeDays": 27.977777777777778,
+      "cycleTimeDays": 10.01388888888889,
       "issueType": "Task"
     },
     {
       "issueKey": "BWEBDEV-6986",
       "resolutionDate": "2026-01-09T11:42:00.000Z",
-      "cycleTimeDays": 45.69375,
+      "cycleTimeDays": 42.16597222222222,
       "issueType": "Task"
     },
     {
       "issueKey": "BWEBDEV-7539",
       "resolutionDate": "2026-01-12T06:18:00.000Z",
-      "cycleTimeDays": 3.6756944444444444,
+      "cycleTimeDays": 2.8090277777777777,
       "issueType": "Task"
     },
     {
       "issueKey": "BWEBDEV-7270",
       "resolutionDate": "2026-01-12T08:26:00.000Z",
-      "cycleTimeDays": 31.831944444444446,
+      "cycleTimeDays": 25.15277777777778,
       "issueType": "Task"
     },
     {
       "issueKey": "BWEBDEV-6603",
       "resolutionDate": "2026-01-12T11:17:00.000Z",
-      "cycleTimeDays": 75.1125,
+      "cycleTimeDays": 11.795833333333334,
       "issueType": "Task"
     },
     {
       "issueKey": "BWEBDEV-7396",
       "resolutionDate": "2026-01-12T12:42:00.000Z",
-      "cycleTimeDays": 21.038888888888888,
+      "cycleTimeDays": 3.3138888888888887,
       "issueType": "Task"
     },
     {
       "issueKey": "BWEBDEV-7572",
       "resolutionDate": "2026-01-12T13:04:00.000Z",
-      "cycleTimeDays": 0.10347222222222222,
+      "cycleTimeDays": 0.06736111111111111,
       "issueType": "Task"
     },
     {
       "issueKey": "BWEBDEV-7568",
       "resolutionDate": "2026-01-13T11:10:00.000Z",
-      "cycleTimeDays": 1.075,
+      "cycleTimeDays": 1.0722222222222222,
       "issueType": "Task"
     },
     {
       "issueKey": "BWEBDEV-7486",
       "resolutionDate": "2026-01-14T05:55:00.000Z",
-      "cycleTimeDays": 6.854861111111111,
+      "cycleTimeDays": 5.806944444444445,
       "issueType": "Task"
     },
     {
       "issueKey": "BWEBDEV-7550",
       "resolutionDate": "2026-01-14T06:37:00.000Z",
-      "cycleTimeDays": 4.805555555555555,
+      "cycleTimeDays": 0.7756944444444444,
       "issueType": "Bug"
+    },
+    {
+      "issueKey": "BWEBDEV-3057",
+      "resolutionDate": "2026-01-14T07:28:00.000Z",
+      "cycleTimeDays": 306.95694444444445,
+      "issueType": "Task"
     },
     {
       "issueKey": "BWEBDEV-7533",
       "resolutionDate": "2026-01-14T07:31:00.000Z",
-      "cycleTimeDays": 5.786111111111111,
+      "cycleTimeDays": 4.745833333333334,
       "issueType": "Task"
     },
     {
       "issueKey": "BWEBDEV-6774",
       "resolutionDate": "2026-01-14T14:01:00.000Z",
-      "cycleTimeDays": 65.11597222222223,
+      "cycleTimeDays": 24.07986111111111,
       "issueType": "Task"
     },
     {
       "issueKey": "BWEBDEV-7430",
       "resolutionDate": "2026-01-15T08:11:00.000Z",
-      "cycleTimeDays": 16.05902777777778,
+      "cycleTimeDays": 2.704166666666667,
       "issueType": "Task"
     },
     {
       "issueKey": "BWEBDEV-7603",
       "resolutionDate": "2026-01-15T10:16:00.000Z",
-      "cycleTimeDays": 1.91875,
+      "cycleTimeDays": 0.8993055555555556,
       "issueType": "Task"
     },
     {
       "issueKey": "BWEBDEV-6745",
       "resolutionDate": "2026-01-15T11:56:00.000Z",
-      "cycleTimeDays": 69.21597222222222,
+      "cycleTimeDays": 26.086805555555557,
       "issueType": "Task"
     },
     {
       "issueKey": "BWEBDEV-7580",
       "resolutionDate": "2026-01-16T06:20:00.000Z",
-      "cycleTimeDays": 3.7472222222222222,
+      "cycleTimeDays": 1.9069444444444446,
       "issueType": "Task"
     },
     {
       "issueKey": "BWEBDEV-7538",
       "resolutionDate": "2026-01-19T06:43:00.000Z",
-      "cycleTimeDays": 10.713194444444444,
+      "cycleTimeDays": 9.919444444444446,
       "issueType": "Task"
     },
     {
       "issueKey": "BWEBDEV-6971",
       "resolutionDate": "2026-01-20T06:12:00.000Z",
-      "cycleTimeDays": 56.88194444444444,
+      "cycleTimeDays": 44.134027777777774,
       "issueType": "Task"
     },
     {
       "issueKey": "BWEBDEV-7583",
       "resolutionDate": "2026-01-20T06:19:00.000Z",
-      "cycleTimeDays": 7.695833333333334,
+      "cycleTimeDays": 6.942361111111111,
       "issueType": "Task"
     },
     {
       "issueKey": "BWEBDEV-7722",
       "resolutionDate": "2026-01-21T08:44:00.000Z",
-      "cycleTimeDays": 0.7708333333333334,
+      "cycleTimeDays": 0.08402777777777778,
       "issueType": "Task"
     },
     {
       "issueKey": "BWEBDEV-7557",
       "resolutionDate": "2026-01-21T09:23:00.000Z",
-      "cycleTimeDays": 9.74375,
+      "cycleTimeDays": 8.920138888888888,
       "issueType": "Task"
     },
     {
       "issueKey": "BWEBDEV-7518",
       "resolutionDate": "2026-01-21T10:45:00.000Z",
-      "cycleTimeDays": 12.983333333333333,
+      "cycleTimeDays": 12.147222222222222,
       "issueType": "Task"
     },
     {
       "issueKey": "BWEBDEV-7130",
       "resolutionDate": "2026-01-22T05:54:00.000Z",
-      "cycleTimeDays": 50.71875,
+      "cycleTimeDays": 8.980555555555556,
       "issueType": "Task"
     },
     {
       "issueKey": "BWEBDEV-7484",
       "resolutionDate": "2026-01-22T06:39:00.000Z",
-      "cycleTimeDays": 14.913194444444445,
+      "cycleTimeDays": 7.871527777777779,
       "issueType": "Task"
+    },
+    {
+      "issueKey": "BWEBDEV-7727",
+      "resolutionDate": "2026-01-22T07:02:00.000Z",
+      "cycleTimeDays": 1.054861111111111,
+      "issueType": "Bug"
     },
     {
       "issueKey": "BWEBDEV-7425",
       "resolutionDate": "2026-01-22T13:48:00.000Z",
-      "cycleTimeDays": 24.023611111111112,
+      "cycleTimeDays": 20.12986111111111,
       "issueType": "Task"
     },
     {
       "issueKey": "BWEBDEV-7347",
       "resolutionDate": "2026-01-23T08:32:00.000Z",
-      "cycleTimeDays": 36.07013888888889,
+      "cycleTimeDays": 27.463194444444444,
       "issueType": "Bug"
     },
     {
       "issueKey": "BWEBDEV-7451",
       "resolutionDate": "2026-01-23T08:53:00.000Z",
-      "cycleTimeDays": 18.0375,
+      "cycleTimeDays": 17.0125,
       "issueType": "Task"
     },
     {
       "issueKey": "BWEBDEV-7645",
       "resolutionDate": "2026-01-23T09:05:00.000Z",
-      "cycleTimeDays": 7.049305555555556,
+      "cycleTimeDays": 6.977777777777778,
       "issueType": "Bug"
     },
     {
       "issueKey": "BWEBDEV-7661",
       "resolutionDate": "2026-01-26T05:15:00.000Z",
-      "cycleTimeDays": 8.907638888888888,
+      "cycleTimeDays": 5.76875,
       "issueType": "Task"
     },
     {
       "issueKey": "BWEBDEV-7660",
       "resolutionDate": "2026-01-26T05:15:00.000Z",
-      "cycleTimeDays": 8.911805555555556,
+      "cycleTimeDays": 5.76875,
       "issueType": "Task"
     },
     {
       "issueKey": "BWEBDEV-7682",
       "resolutionDate": "2026-01-26T07:57:00.000Z",
-      "cycleTimeDays": 6.864583333333333,
+      "cycleTimeDays": 4.947222222222222,
       "issueType": "Task"
     },
     {
       "issueKey": "BWEBDEV-7787",
       "resolutionDate": "2026-01-27T10:03:00.000Z",
-      "cycleTimeDays": 1.0472222222222223,
+      "cycleTimeDays": 0.8909722222222223,
+      "issueType": "Task"
+    },
+    {
+      "issueKey": "BWEBDEV-7813",
+      "resolutionDate": "2026-01-27T11:51:00.000Z",
+      "cycleTimeDays": 0.15138888888888888,
       "issueType": "Task"
     },
     {
       "issueKey": "BWEBDEV-7292",
       "resolutionDate": "2026-01-27T14:41:00.000Z",
-      "cycleTimeDays": 46.071527777777774,
+      "cycleTimeDays": 36.25694444444444,
       "issueType": "Sub-task"
     },
     {
       "issueKey": "BWEBDEV-7291",
       "resolutionDate": "2026-01-27T14:41:00.000Z",
-      "cycleTimeDays": 46.071527777777774,
+      "cycleTimeDays": 21.34236111111111,
       "issueType": "Sub-task"
     },
     {
       "issueKey": "BWEBDEV-7290",
       "resolutionDate": "2026-01-27T14:41:00.000Z",
-      "cycleTimeDays": 46.07222222222222,
+      "cycleTimeDays": 21.257638888888888,
       "issueType": "Sub-task"
     },
     {
       "issueKey": "BWEBDEV-7692",
       "resolutionDate": "2026-01-29T05:22:00.000Z",
-      "cycleTimeDays": 8.978472222222223,
+      "cycleTimeDays": 5.9840277777777775,
       "issueType": "Task"
     },
     {
       "issueKey": "BWEBDEV-7846",
       "resolutionDate": "2026-01-29T07:21:00.000Z",
-      "cycleTimeDays": 0.9118055555555555,
+      "cycleTimeDays": 0.7986111111111112,
+      "issueType": "Task"
+    },
+    {
+      "issueKey": "BWEBDEV-7775",
+      "resolutionDate": "2026-01-29T10:14:00.000Z",
+      "cycleTimeDays": 5.909027777777778,
       "issueType": "Task"
     },
     {
       "issueKey": "BWEBDEV-7760",
       "resolutionDate": "2026-01-29T12:14:00.000Z",
-      "cycleTimeDays": 6.993055555555555,
+      "cycleTimeDays": 6.211805555555555,
       "issueType": "Task"
     },
     {
       "issueKey": "BWEBDEV-7694",
       "resolutionDate": "2026-01-30T07:50:00.000Z",
-      "cycleTimeDays": 10.047222222222222,
+      "cycleTimeDays": 4.981944444444445,
       "issueType": "Bug"
     },
     {
       "issueKey": "BWEBDEV-7619",
       "resolutionDate": "2026-01-30T07:50:00.000Z",
-      "cycleTimeDays": 15.874305555555555,
+      "cycleTimeDays": 13.086805555555557,
       "issueType": "Bug"
     },
     {
       "issueKey": "BWEBDEV-7699",
       "resolutionDate": "2026-01-30T07:51:00.000Z",
-      "cycleTimeDays": 9.9875,
+      "cycleTimeDays": 6.946527777777777,
       "issueType": "Bug"
     },
     {
       "issueKey": "BWEBDEV-7559",
       "resolutionDate": "2026-01-30T08:05:00.000Z",
-      "cycleTimeDays": 18.077083333333334,
+      "cycleTimeDays": 11.034722222222221,
       "issueType": "Task"
     },
     {
       "issueKey": "BWEBDEV-7254",
       "resolutionDate": "2026-01-30T08:26:00.000Z",
-      "cycleTimeDays": 49.99722222222222,
+      "cycleTimeDays": 33.790277777777774,
       "issueType": "Task"
     },
     {
       "issueKey": "BWEBDEV-7100",
       "resolutionDate": "2026-01-30T08:26:00.000Z",
-      "cycleTimeDays": 59.793055555555554,
+      "cycleTimeDays": 36.25763888888889,
+      "issueType": "Task"
+    },
+    {
+      "issueKey": "BWEBDEV-6700",
+      "resolutionDate": "2026-01-30T08:28:00.000Z",
+      "cycleTimeDays": 86.05277777777778,
       "issueType": "Task"
     },
     {
       "issueKey": "BWEBDEV-7671",
       "resolutionDate": "2026-01-30T10:36:00.000Z",
-      "cycleTimeDays": 11.098611111111111,
+      "cycleTimeDays": 7.929861111111111,
       "issueType": "Task"
     },
     {
       "issueKey": "BWEBDEV-7876",
       "resolutionDate": "2026-02-02T05:51:00.000Z",
-      "cycleTimeDays": 3.990972222222222,
+      "cycleTimeDays": 3.899305555555556,
       "issueType": "Task"
     },
     {
       "issueKey": "BWEBDEV-7840",
       "resolutionDate": "2026-02-02T07:22:00.000Z",
-      "cycleTimeDays": 4.965277777777778,
+      "cycleTimeDays": 3.020138888888889,
       "issueType": "Task"
     },
     {
       "issueKey": "BWEBDEV-7763",
       "resolutionDate": "2026-02-02T10:39:00.000Z",
-      "cycleTimeDays": 10.796527777777778,
+      "cycleTimeDays": 9.943750000000001,
       "issueType": "Task"
     },
     {
       "issueKey": "BWEBDEV-7662",
       "resolutionDate": "2026-02-03T06:33:00.000Z",
-      "cycleTimeDays": 16.861805555555556,
+      "cycleTimeDays": 11.971527777777778,
       "issueType": "Task"
     },
     {
       "issueKey": "BWEBDEV-7827",
       "resolutionDate": "2026-02-03T07:16:00.000Z",
-      "cycleTimeDays": 6.827083333333333,
+      "cycleTimeDays": 4.989583333333333,
       "issueType": "Task"
     },
     {
       "issueKey": "BWEBDEV-7956",
       "resolutionDate": "2026-02-04T05:53:00.000Z",
-      "cycleTimeDays": 0.75625,
+      "cycleTimeDays": 0.7034722222222222,
       "issueType": "Task"
     },
     {
       "issueKey": "BWEBDEV-7809",
       "resolutionDate": "2026-02-04T07:07:00.000Z",
-      "cycleTimeDays": 8.05,
+      "cycleTimeDays": 7.826388888888889,
       "issueType": "Task"
     },
     {
       "issueKey": "BWEBDEV-7958",
       "resolutionDate": "2026-02-04T10:23:00.000Z",
-      "cycleTimeDays": 0.9013888888888889,
+      "cycleTimeDays": 0.19027777777777777,
       "issueType": "Task"
     },
     {
       "issueKey": "BWEBDEV-7970",
       "resolutionDate": "2026-02-05T12:08:00.000Z",
-      "cycleTimeDays": 1.1631944444444444,
+      "cycleTimeDays": 0.22013888888888888,
       "issueType": "Task"
     },
     {
       "issueKey": "BWEBDEV-7954",
       "resolutionDate": "2026-02-06T11:43:00.000Z",
-      "cycleTimeDays": 3.0236111111111112,
+      "cycleTimeDays": 0.28125,
       "issueType": "Task"
     },
     {
       "issueKey": "BWEBDEV-7897",
       "resolutionDate": "2026-02-09T06:24:00.000Z",
-      "cycleTimeDays": 9.906944444444445,
+      "cycleTimeDays": 5.798611111111111,
       "issueType": "Task"
     },
     {
       "issueKey": "BWEBDEV-8024",
       "resolutionDate": "2026-02-09T06:28:00.000Z",
-      "cycleTimeDays": 2.7736111111111112,
+      "cycleTimeDays": 2.7715277777777776,
       "issueType": "Task"
     },
     {
       "issueKey": "BWEBDEV-7992",
       "resolutionDate": "2026-02-09T13:47:00.000Z",
-      "cycleTimeDays": 4.167361111111111,
+      "cycleTimeDays": 4.023611111111111,
       "issueType": "Task"
     },
     {
       "issueKey": "BWEBDEV-7965",
       "resolutionDate": "2026-02-10T05:50:00.000Z",
-      "cycleTimeDays": 6.576388888888889,
+      "cycleTimeDays": 6.029861111111111,
       "issueType": "Task"
     },
     {
       "issueKey": "BWEBDEV-8058",
       "resolutionDate": "2026-02-10T09:32:00.000Z",
-      "cycleTimeDays": 0.8284722222222223,
+      "cycleTimeDays": 0.07847222222222222,
       "issueType": "Task"
     },
     {
       "issueKey": "BWEBDEV-8025",
       "resolutionDate": "2026-02-11T08:01:00.000Z",
-      "cycleTimeDays": 4.829166666666667,
+      "cycleTimeDays": 1.9625,
+      "issueType": "Task"
+    },
+    {
+      "issueKey": "BWEBDEV-8075",
+      "resolutionDate": "2026-02-11T08:53:00.000Z",
+      "cycleTimeDays": 0.7152777777777778,
       "issueType": "Task"
     },
     {
       "issueKey": "BWEBDEV-7946",
       "resolutionDate": "2026-02-11T08:59:00.000Z",
-      "cycleTimeDays": 8.809722222222222,
+      "cycleTimeDays": 6.9375,
       "issueType": "Task"
     },
     {
       "issueKey": "BWEBDEV-8038",
       "resolutionDate": "2026-02-11T11:21:00.000Z",
-      "cycleTimeDays": 2.1631944444444446,
+      "cycleTimeDays": 2.053472222222222,
       "issueType": "Task"
     },
     {
       "issueKey": "BWEBDEV-7712",
       "resolutionDate": "2026-02-11T12:16:00.000Z",
-      "cycleTimeDays": 21.98611111111111,
+      "cycleTimeDays": 20.21388888888889,
       "issueType": "Bug"
     },
     {
       "issueKey": "BWEBDEV-8092",
       "resolutionDate": "2026-02-12T09:51:00.000Z",
-      "cycleTimeDays": 0.9680555555555556,
+      "cycleTimeDays": 0.8951388888888888,
       "issueType": "Task"
     },
     {
       "issueKey": "BWEBDEV-7972",
       "resolutionDate": "2026-02-12T10:23:00.000Z",
-      "cycleTimeDays": 8.041666666666666,
+      "cycleTimeDays": 3.1465277777777776,
       "issueType": "Bug"
     },
     {
       "issueKey": "BWEBDEV-7772",
       "resolutionDate": "2026-02-12T11:01:00.000Z",
-      "cycleTimeDays": 19.99375,
+      "cycleTimeDays": 5.048611111111111,
       "issueType": "Task"
     },
     {
       "issueKey": "BWEBDEV-7242",
       "resolutionDate": "2026-02-12T11:01:00.000Z",
-      "cycleTimeDays": 63.921527777777776,
+      "cycleTimeDays": 13.565277777777776,
       "issueType": "Task"
     },
     {
       "issueKey": "BWEBDEV-7234",
       "resolutionDate": "2026-02-12T11:01:00.000Z",
-      "cycleTimeDays": 64.01875,
+      "cycleTimeDays": 34.21388888888888,
       "issueType": "Task"
     },
     {
       "issueKey": "BWEBDEV-7230",
       "resolutionDate": "2026-02-12T11:01:00.000Z",
-      "cycleTimeDays": 64.16041666666666,
+      "cycleTimeDays": 10.879861111111111,
       "issueType": "Task"
     },
     {
       "issueKey": "BWEBDEV-7229",
       "resolutionDate": "2026-02-12T11:01:00.000Z",
-      "cycleTimeDays": 64.1673611111111,
+      "cycleTimeDays": 9.915277777777778,
       "issueType": "Task"
     },
     {
       "issueKey": "BWEBDEV-7226",
       "resolutionDate": "2026-02-12T11:01:00.000Z",
-      "cycleTimeDays": 64.21666666666667,
+      "cycleTimeDays": 8.711805555555555,
       "issueType": "Task"
     },
     {
       "issueKey": "BWEBDEV-7175",
       "resolutionDate": "2026-02-12T11:01:00.000Z",
-      "cycleTimeDays": 69.14722222222223,
+      "cycleTimeDays": 22.856249999999996,
       "issueType": "Story"
+    },
+    {
+      "issueKey": "BWEBDEV-3721",
+      "resolutionDate": "2026-02-12T11:01:00.000Z",
+      "cycleTimeDays": 301.02708333333334,
+      "issueType": "Task"
     },
     {
       "issueKey": "BWEBDEV-7828",
       "resolutionDate": "2026-02-12T11:04:00.000Z",
-      "cycleTimeDays": 15.969444444444445,
+      "cycleTimeDays": 8.274305555555555,
       "issueType": "Task"
     },
     {
       "issueKey": "BWEBDEV-7665",
       "resolutionDate": "2026-02-12T11:04:00.000Z",
-      "cycleTimeDays": 25.88125,
+      "cycleTimeDays": 6.283333333333333,
       "issueType": "Task"
     },
     {
       "issueKey": "BWEBDEV-7648",
       "resolutionDate": "2026-02-12T11:07:00.000Z",
-      "cycleTimeDays": 27.11111111111111,
+      "cycleTimeDays": 3.8055555555555554,
       "issueType": "Bug"
     },
     {
       "issueKey": "BWEBDEV-7893",
       "resolutionDate": "2026-02-12T11:08:00.000Z",
-      "cycleTimeDays": 13.170833333333333,
+      "cycleTimeDays": 6.066666666666666,
       "issueType": "Bug"
     },
     {
       "issueKey": "BWEBDEV-7880",
       "resolutionDate": "2026-02-12T11:08:00.000Z",
-      "cycleTimeDays": 14.089583333333334,
+      "cycleTimeDays": 1.0930555555555554,
       "issueType": "Task"
     },
     {
       "issueKey": "BWEBDEV-7582",
       "resolutionDate": "2026-02-12T11:08:00.000Z",
-      "cycleTimeDays": 30.90138888888889,
+      "cycleTimeDays": 15.259027777777778,
       "issueType": "Task"
     },
     {
       "issueKey": "BWEBDEV-7311",
       "resolutionDate": "2026-02-12T11:08:00.000Z",
-      "cycleTimeDays": 58.175,
+      "cycleTimeDays": 7.074305555555556,
       "issueType": "Task"
     },
     {
       "issueKey": "BWEBDEV-8019",
       "resolutionDate": "2026-02-12T11:09:00.000Z",
-      "cycleTimeDays": 6.136805555555555,
+      "cycleTimeDays": 2.8180555555555555,
       "issueType": "Bug"
     },
     {
       "issueKey": "BWEBDEV-7969",
       "resolutionDate": "2026-02-12T11:09:00.000Z",
-      "cycleTimeDays": 8.131944444444445,
+      "cycleTimeDays": 1.4173611111111113,
       "issueType": "Task"
     },
     {
       "issueKey": "BWEBDEV-7585",
       "resolutionDate": "2026-02-12T11:10:00.000Z",
-      "cycleTimeDays": 30.89097222222222,
+      "cycleTimeDays": 19.985416666666666,
       "issueType": "Task"
     },
     {
       "issueKey": "BWEBDEV-7844",
       "resolutionDate": "2026-02-12T11:39:00.000Z",
-      "cycleTimeDays": 15.10138888888889,
+      "cycleTimeDays": 10.947916666666666,
       "issueType": "Bug"
     },
     {
       "issueKey": "BWEBDEV-7680",
       "resolutionDate": "2026-02-12T11:59:00.000Z",
-      "cycleTimeDays": 72.19375,
+      "cycleTimeDays": 59.30972222222222,
       "issueType": "Task"
     },
     {
       "issueKey": "BWEBDEV-7696",
       "resolutionDate": "2026-02-13T06:41:00.000Z",
-      "cycleTimeDays": 23.975694444444443,
+      "cycleTimeDays": 7.9631944444444445,
       "issueType": "Bug"
     },
     {
       "issueKey": "BWEBDEV-7377",
       "resolutionDate": "2026-02-13T08:04:00.000Z",
-      "cycleTimeDays": 55.82013888888889,
+      "cycleTimeDays": 29.2875,
       "issueType": "Task"
     },
     {
       "issueKey": "BWEBDEV-7672",
       "resolutionDate": "2026-02-13T08:53:00.000Z",
-      "cycleTimeDays": 25.024305555555557,
+      "cycleTimeDays": 2.095138888888889,
       "issueType": "Task"
     },
     {
       "issueKey": "BWEBDEV-7308",
       "resolutionDate": "2026-02-13T08:53:00.000Z",
-      "cycleTimeDays": 59.83541666666667,
+      "cycleTimeDays": 10.83888888888889,
+      "issueType": "Task"
+    },
+    {
+      "issueKey": "BWEBDEV-7957",
+      "resolutionDate": "2026-02-13T08:53:00.000Z",
+      "cycleTimeDays": 14.940277777777778,
       "issueType": "Task"
     },
     {
       "issueKey": "BWEBDEV-7584",
       "resolutionDate": "2026-02-13T11:07:00.000Z",
-      "cycleTimeDays": 31.89236111111111,
+      "cycleTimeDays": 21.179861111111112,
       "issueType": "Task"
     },
     {
       "issueKey": "BWEBDEV-8147",
       "resolutionDate": "2026-02-13T13:20:00.000Z",
-      "cycleTimeDays": 0.05,
+      "cycleTimeDays": 0.03194444444444444,
       "issueType": "Task"
     },
     {
       "issueKey": "BWEBDEV-7545",
       "resolutionDate": "2026-02-13T13:44:00.000Z",
-      "cycleTimeDays": 35.24444444444445,
+      "cycleTimeDays": 0.21041666666666664,
       "issueType": "Task"
     },
     {
       "issueKey": "BWEBDEV-7889",
       "resolutionDate": "2026-02-13T15:04:00.000Z",
-      "cycleTimeDays": 15.078472222222222,
+      "cycleTimeDays": 0.32013888888888886,
       "issueType": "Task"
     },
     {
       "issueKey": "BWEBDEV-7470",
       "resolutionDate": "2026-02-16T12:46:00.000Z",
-      "cycleTimeDays": 40.99305555555556,
+      "cycleTimeDays": 33.99166666666667,
       "issueType": "Task"
     },
     {
       "issueKey": "BWEBDEV-8028",
       "resolutionDate": "2026-02-16T13:52:00.000Z",
-      "cycleTimeDays": 10.051388888888889,
+      "cycleTimeDays": 6.989583333333334,
       "issueType": "Task"
     },
     {
       "issueKey": "BWEBDEV-8081",
       "resolutionDate": "2026-02-17T06:33:00.000Z",
-      "cycleTimeDays": 5.932638888888889,
+      "cycleTimeDays": 5.850694444444445,
       "issueType": "Task"
     },
     {
       "issueKey": "BWEBDEV-8152",
       "resolutionDate": "2026-02-17T07:04:00.000Z",
-      "cycleTimeDays": 3.720138888888889,
+      "cycleTimeDays": 3.7104166666666663,
       "issueType": "Task"
     },
     {
       "issueKey": "BWEBDEV-8151",
       "resolutionDate": "2026-02-17T07:04:00.000Z",
-      "cycleTimeDays": 3.7222222222222223,
+      "cycleTimeDays": 3.7104166666666663,
       "issueType": "Task"
     },
     {
       "issueKey": "BWEBDEV-8091",
       "resolutionDate": "2026-02-17T09:24:00.000Z",
-      "cycleTimeDays": 5.9534722222222225,
+      "cycleTimeDays": 1.0125,
       "issueType": "Task"
     },
     {
       "issueKey": "BWEBDEV-7845",
       "resolutionDate": "2026-02-18T05:05:00.000Z",
-      "cycleTimeDays": 20.81736111111111,
+      "cycleTimeDays": 7.997222222222223,
       "issueType": "Task"
     },
     {
       "issueKey": "BWEBDEV-8054",
       "resolutionDate": "2026-02-18T11:33:00.000Z",
-      "cycleTimeDays": 8.973611111111111,
+      "cycleTimeDays": 1.2951388888888888,
       "issueType": "Task"
     },
     {
       "issueKey": "BWEBDEV-7746",
       "resolutionDate": "2026-02-18T11:59:00.000Z",
-      "cycleTimeDays": 27.199305555555554,
+      "cycleTimeDays": 15.121527777777777,
       "issueType": "Task"
+    },
+    {
+      "issueKey": "BWEBDEV-8237",
+      "resolutionDate": "2026-02-18T12:55:00.000Z",
+      "cycleTimeDays": 0.017361111111111112,
+      "issueType": "Bug"
     },
     {
       "issueKey": "BWEBDEV-7779",
       "resolutionDate": "2026-02-19T04:20:00.000Z",
-      "cycleTimeDays": 26.544444444444444,
+      "cycleTimeDays": 20.90208333333333,
       "issueType": "Task"
     },
     {
       "issueKey": "BWEBDEV-8060",
       "resolutionDate": "2026-02-19T10:40:00.000Z",
-      "cycleTimeDays": 9.168055555555556,
+      "cycleTimeDays": 6.106249999999999,
       "issueType": "Task"
     },
     {
       "issueKey": "BWEBDEV-8103",
       "resolutionDate": "2026-02-20T06:28:00.000Z",
-      "cycleTimeDays": 7.972222222222222,
+      "cycleTimeDays": 1.7555555555555555,
       "issueType": "Task"
+    },
+    {
+      "issueKey": "BWEBDEV-8276",
+      "resolutionDate": "2026-02-20T11:51:00.000Z",
+      "cycleTimeDays": 0.09861111111111111,
+      "issueType": "Bug"
     },
     {
       "issueKey": "BWEBDEV-8273",
       "resolutionDate": "2026-02-23T08:26:00.000Z",
-      "cycleTimeDays": 3.0027777777777778,
+      "cycleTimeDays": 2.9819444444444443,
       "issueType": "Task"
     },
     {
       "issueKey": "BWEBDEV-8050",
       "resolutionDate": "2026-02-23T12:42:00.000Z",
-      "cycleTimeDays": 14.108333333333333,
+      "cycleTimeDays": 14.078472222222222,
+      "issueType": "Task"
+    },
+    {
+      "issueKey": "BWEBDEV-7326",
+      "resolutionDate": "2026-02-24T05:26:00.000Z",
+      "cycleTimeDays": 69.45347222222222,
       "issueType": "Task"
     },
     {
       "issueKey": "BWEBDEV-7391",
       "resolutionDate": "2026-02-24T13:54:00.000Z",
-      "cycleTimeDays": 64.23055555555555,
+      "cycleTimeDays": 35.15208333333334,
       "issueType": "Task"
     },
     {
       "issueKey": "BWEBDEV-8133",
       "resolutionDate": "2026-02-25T06:05:00.000Z",
-      "cycleTimeDays": 11.88263888888889,
+      "cycleTimeDays": 1.8541666666666665,
       "issueType": "Task"
     },
     {
       "issueKey": "BWEBDEV-8146",
       "resolutionDate": "2026-02-25T06:29:00.000Z",
-      "cycleTimeDays": 11.775,
+      "cycleTimeDays": 8.929861111111112,
       "issueType": "Task"
     },
     {
       "issueKey": "BWEBDEV-8256",
       "resolutionDate": "2026-02-25T07:32:00.000Z",
-      "cycleTimeDays": 5.848611111111111,
+      "cycleTimeDays": 5.003472222222222,
       "issueType": "Task"
     },
     {
       "issueKey": "BWEBDEV-7609",
       "resolutionDate": "2026-02-25T09:30:00.000Z",
-      "cycleTimeDays": 42.83958333333333,
+      "cycleTimeDays": 40.147222222222226,
       "issueType": "Task"
     },
     {
       "issueKey": "BWEBDEV-8275",
       "resolutionDate": "2026-02-26T08:55:00.000Z",
-      "cycleTimeDays": 5.99375,
+      "cycleTimeDays": 5.991666666666666,
       "issueType": "Task"
     },
     {
       "issueKey": "BWEBDEV-8316",
       "resolutionDate": "2026-02-26T09:40:00.000Z",
-      "cycleTimeDays": 2.089583333333333,
+      "cycleTimeDays": 0.9222222222222222,
       "issueType": "Task"
     },
     {
       "issueKey": "BWEBDEV-8134",
       "resolutionDate": "2026-02-26T10:13:00.000Z",
-      "cycleTimeDays": 13.044444444444444,
+      "cycleTimeDays": 1.3298611111111112,
       "issueType": "Task"
     },
     {
       "issueKey": "BWEBDEV-8148",
       "resolutionDate": "2026-02-26T10:28:00.000Z",
-      "cycleTimeDays": 12.903472222222222,
+      "cycleTimeDays": 7.143055555555555,
       "issueType": "Task"
     },
     {
       "issueKey": "BWEBDEV-8214",
       "resolutionDate": "2026-02-26T10:29:00.000Z",
-      "cycleTimeDays": 8.115972222222222,
+      "cycleTimeDays": 8.110416666666666,
       "issueType": "Task"
     }
   ],
   "scatterOverlay": {
-    "p50": 13,
-    "p70": 28,
-    "p85": 53,
-    "p95": 68
+    "p50": 8,
+    "p70": 21,
+    "p85": 42,
+    "p95": 216
   },
   "velocityMonthly": [
     {
+      "month": "2024-10",
+      "value": 6
+    },
+    {
+      "month": "2024-11",
+      "value": 10
+    },
+    {
+      "month": "2024-12",
+      "value": 13
+    },
+    {
+      "month": "2025-01",
+      "value": 17
+    },
+    {
+      "month": "2025-02",
+      "value": 3
+    },
+    {
+      "month": "2025-03",
+      "value": 11.5
+    },
+    {
+      "month": "2025-04",
+      "value": 10
+    },
+    {
+      "month": "2025-05",
+      "value": 2
+    },
+    {
+      "month": "2025-06",
+      "value": 7
+    },
+    {
+      "month": "2025-08",
+      "value": 5.5
+    },
+    {
+      "month": "2025-09",
+      "value": 19.5
+    },
+    {
+      "month": "2025-10",
+      "value": 19
+    },
+    {
+      "month": "2025-11",
+      "value": 1
+    },
+    {
+      "month": "2025-12",
+      "value": 2
+    },
+    {
       "month": "2026-01",
-      "value": 61
+      "value": 126
     },
     {
       "month": "2026-02",
-      "value": 72
+      "value": 104
     }
   ],
   "doneIssueDetails": [
     {
       "issueKey": "BWEBDEV-8316",
       "resolutionDate": "2026-02-26T09:40:00.000Z",
-      "cycleTimeDays": 2.089583333333333,
+      "cycleTimeDays": 0.9222222222222222,
       "issueType": "Task",
       "storyPoints": null,
       "sprintCount": 0
@@ -984,7 +1852,7 @@
     {
       "issueKey": "BWEBDEV-8275",
       "resolutionDate": "2026-02-26T08:55:00.000Z",
-      "cycleTimeDays": 5.99375,
+      "cycleTimeDays": 5.991666666666666,
       "issueType": "Task",
       "storyPoints": null,
       "sprintCount": 0
@@ -992,7 +1860,7 @@
     {
       "issueKey": "BWEBDEV-8273",
       "resolutionDate": "2026-02-23T08:26:00.000Z",
-      "cycleTimeDays": 3.0027777777777778,
+      "cycleTimeDays": 2.9819444444444443,
       "issueType": "Task",
       "storyPoints": null,
       "sprintCount": 0
@@ -1000,7 +1868,7 @@
     {
       "issueKey": "BWEBDEV-8256",
       "resolutionDate": "2026-02-25T07:32:00.000Z",
-      "cycleTimeDays": 5.848611111111111,
+      "cycleTimeDays": 5.003472222222222,
       "issueType": "Task",
       "storyPoints": null,
       "sprintCount": 0
@@ -1008,7 +1876,7 @@
     {
       "issueKey": "BWEBDEV-8214",
       "resolutionDate": "2026-02-26T10:29:00.000Z",
-      "cycleTimeDays": 8.115972222222222,
+      "cycleTimeDays": 8.110416666666666,
       "issueType": "Task",
       "storyPoints": null,
       "sprintCount": 0
@@ -1016,23 +1884,23 @@
     {
       "issueKey": "BWEBDEV-8152",
       "resolutionDate": "2026-02-17T07:04:00.000Z",
-      "cycleTimeDays": 3.720138888888889,
+      "cycleTimeDays": 3.7104166666666663,
       "issueType": "Task",
-      "storyPoints": null,
+      "storyPoints": 1,
       "sprintCount": 1
     },
     {
       "issueKey": "BWEBDEV-8151",
       "resolutionDate": "2026-02-17T07:04:00.000Z",
-      "cycleTimeDays": 3.7222222222222223,
+      "cycleTimeDays": 3.7104166666666663,
       "issueType": "Task",
-      "storyPoints": null,
+      "storyPoints": 1,
       "sprintCount": 1
     },
     {
       "issueKey": "BWEBDEV-8148",
       "resolutionDate": "2026-02-26T10:28:00.000Z",
-      "cycleTimeDays": 12.903472222222222,
+      "cycleTimeDays": 7.143055555555555,
       "issueType": "Task",
       "storyPoints": null,
       "sprintCount": 0
@@ -1040,7 +1908,7 @@
     {
       "issueKey": "BWEBDEV-8147",
       "resolutionDate": "2026-02-13T13:20:00.000Z",
-      "cycleTimeDays": 0.05,
+      "cycleTimeDays": 0.03194444444444444,
       "issueType": "Task",
       "storyPoints": null,
       "sprintCount": 0
@@ -1048,23 +1916,23 @@
     {
       "issueKey": "BWEBDEV-8146",
       "resolutionDate": "2026-02-25T06:29:00.000Z",
-      "cycleTimeDays": 11.775,
+      "cycleTimeDays": 8.929861111111112,
       "issueType": "Task",
-      "storyPoints": null,
+      "storyPoints": 1,
       "sprintCount": 1
     },
     {
       "issueKey": "BWEBDEV-8134",
       "resolutionDate": "2026-02-26T10:13:00.000Z",
-      "cycleTimeDays": 13.044444444444444,
+      "cycleTimeDays": 1.3298611111111112,
       "issueType": "Task",
-      "storyPoints": null,
+      "storyPoints": 2,
       "sprintCount": 1
     },
     {
       "issueKey": "BWEBDEV-8133",
       "resolutionDate": "2026-02-25T06:05:00.000Z",
-      "cycleTimeDays": 11.88263888888889,
+      "cycleTimeDays": 1.8541666666666665,
       "issueType": "Task",
       "storyPoints": null,
       "sprintCount": 0
@@ -1072,7 +1940,7 @@
     {
       "issueKey": "BWEBDEV-8103",
       "resolutionDate": "2026-02-20T06:28:00.000Z",
-      "cycleTimeDays": 7.972222222222222,
+      "cycleTimeDays": 1.7555555555555555,
       "issueType": "Task",
       "storyPoints": null,
       "sprintCount": 0
@@ -1080,7 +1948,7 @@
     {
       "issueKey": "BWEBDEV-8092",
       "resolutionDate": "2026-02-12T09:51:00.000Z",
-      "cycleTimeDays": 0.9680555555555556,
+      "cycleTimeDays": 0.8951388888888888,
       "issueType": "Task",
       "storyPoints": null,
       "sprintCount": 0
@@ -1088,7 +1956,7 @@
     {
       "issueKey": "BWEBDEV-8091",
       "resolutionDate": "2026-02-17T09:24:00.000Z",
-      "cycleTimeDays": 5.9534722222222225,
+      "cycleTimeDays": 1.0125,
       "issueType": "Task",
       "storyPoints": null,
       "sprintCount": 0
@@ -1096,7 +1964,7 @@
     {
       "issueKey": "BWEBDEV-8081",
       "resolutionDate": "2026-02-17T06:33:00.000Z",
-      "cycleTimeDays": 5.932638888888889,
+      "cycleTimeDays": 5.850694444444445,
       "issueType": "Task",
       "storyPoints": null,
       "sprintCount": 0
@@ -1104,7 +1972,7 @@
     {
       "issueKey": "BWEBDEV-8060",
       "resolutionDate": "2026-02-19T10:40:00.000Z",
-      "cycleTimeDays": 9.168055555555556,
+      "cycleTimeDays": 6.106249999999999,
       "issueType": "Task",
       "storyPoints": null,
       "sprintCount": 0
@@ -1112,7 +1980,7 @@
     {
       "issueKey": "BWEBDEV-8058",
       "resolutionDate": "2026-02-10T09:32:00.000Z",
-      "cycleTimeDays": 0.8284722222222223,
+      "cycleTimeDays": 0.07847222222222222,
       "issueType": "Task",
       "storyPoints": null,
       "sprintCount": 0
@@ -1120,7 +1988,7 @@
     {
       "issueKey": "BWEBDEV-8054",
       "resolutionDate": "2026-02-18T11:33:00.000Z",
-      "cycleTimeDays": 8.973611111111111,
+      "cycleTimeDays": 1.2951388888888888,
       "issueType": "Task",
       "storyPoints": null,
       "sprintCount": 0
@@ -1128,7 +1996,7 @@
     {
       "issueKey": "BWEBDEV-8050",
       "resolutionDate": "2026-02-23T12:42:00.000Z",
-      "cycleTimeDays": 14.108333333333333,
+      "cycleTimeDays": 14.078472222222222,
       "issueType": "Task",
       "storyPoints": null,
       "sprintCount": 0
@@ -1136,7 +2004,7 @@
     {
       "issueKey": "BWEBDEV-8038",
       "resolutionDate": "2026-02-11T11:21:00.000Z",
-      "cycleTimeDays": 2.1631944444444446,
+      "cycleTimeDays": 2.053472222222222,
       "issueType": "Task",
       "storyPoints": null,
       "sprintCount": 0
@@ -1144,7 +2012,7 @@
     {
       "issueKey": "BWEBDEV-8028",
       "resolutionDate": "2026-02-16T13:52:00.000Z",
-      "cycleTimeDays": 10.051388888888889,
+      "cycleTimeDays": 6.989583333333334,
       "issueType": "Task",
       "storyPoints": null,
       "sprintCount": 0
@@ -1152,7 +2020,7 @@
     {
       "issueKey": "BWEBDEV-8025",
       "resolutionDate": "2026-02-11T08:01:00.000Z",
-      "cycleTimeDays": 4.829166666666667,
+      "cycleTimeDays": 1.9625,
       "issueType": "Task",
       "storyPoints": null,
       "sprintCount": 0
@@ -1160,7 +2028,7 @@
     {
       "issueKey": "BWEBDEV-8024",
       "resolutionDate": "2026-02-09T06:28:00.000Z",
-      "cycleTimeDays": 2.7736111111111112,
+      "cycleTimeDays": 2.7715277777777776,
       "issueType": "Task",
       "storyPoints": null,
       "sprintCount": 0
@@ -1168,23 +2036,23 @@
     {
       "issueKey": "BWEBDEV-8019",
       "resolutionDate": "2026-02-12T11:09:00.000Z",
-      "cycleTimeDays": 6.136805555555555,
+      "cycleTimeDays": 2.8180555555555555,
       "issueType": "Bug",
-      "storyPoints": null,
+      "storyPoints": 2,
       "sprintCount": 1
     },
     {
       "issueKey": "BWEBDEV-7992",
       "resolutionDate": "2026-02-09T13:47:00.000Z",
-      "cycleTimeDays": 4.167361111111111,
+      "cycleTimeDays": 4.023611111111111,
       "issueType": "Task",
-      "storyPoints": null,
+      "storyPoints": 1,
       "sprintCount": 1
     },
     {
       "issueKey": "BWEBDEV-7972",
       "resolutionDate": "2026-02-12T10:23:00.000Z",
-      "cycleTimeDays": 8.041666666666666,
+      "cycleTimeDays": 3.1465277777777776,
       "issueType": "Bug",
       "storyPoints": null,
       "sprintCount": 0
@@ -1192,7 +2060,7 @@
     {
       "issueKey": "BWEBDEV-7970",
       "resolutionDate": "2026-02-05T12:08:00.000Z",
-      "cycleTimeDays": 1.1631944444444444,
+      "cycleTimeDays": 0.22013888888888888,
       "issueType": "Task",
       "storyPoints": null,
       "sprintCount": 0
@@ -1200,15 +2068,15 @@
     {
       "issueKey": "BWEBDEV-7969",
       "resolutionDate": "2026-02-12T11:09:00.000Z",
-      "cycleTimeDays": 8.131944444444445,
+      "cycleTimeDays": 1.4173611111111113,
       "issueType": "Task",
-      "storyPoints": null,
+      "storyPoints": 1,
       "sprintCount": 1
     },
     {
       "issueKey": "BWEBDEV-7965",
       "resolutionDate": "2026-02-10T05:50:00.000Z",
-      "cycleTimeDays": 6.576388888888889,
+      "cycleTimeDays": 6.029861111111111,
       "issueType": "Task",
       "storyPoints": null,
       "sprintCount": 0
@@ -1216,15 +2084,15 @@
     {
       "issueKey": "BWEBDEV-7958",
       "resolutionDate": "2026-02-04T10:23:00.000Z",
-      "cycleTimeDays": 0.9013888888888889,
+      "cycleTimeDays": 0.19027777777777777,
       "issueType": "Task",
-      "storyPoints": null,
+      "storyPoints": 0.5,
       "sprintCount": 1
     },
     {
       "issueKey": "BWEBDEV-7956",
       "resolutionDate": "2026-02-04T05:53:00.000Z",
-      "cycleTimeDays": 0.75625,
+      "cycleTimeDays": 0.7034722222222222,
       "issueType": "Task",
       "storyPoints": null,
       "sprintCount": 0
@@ -1232,7 +2100,7 @@
     {
       "issueKey": "BWEBDEV-7954",
       "resolutionDate": "2026-02-06T11:43:00.000Z",
-      "cycleTimeDays": 3.0236111111111112,
+      "cycleTimeDays": 0.28125,
       "issueType": "Task",
       "storyPoints": null,
       "sprintCount": 0
@@ -1240,7 +2108,7 @@
     {
       "issueKey": "BWEBDEV-7946",
       "resolutionDate": "2026-02-11T08:59:00.000Z",
-      "cycleTimeDays": 8.809722222222222,
+      "cycleTimeDays": 6.9375,
       "issueType": "Task",
       "storyPoints": null,
       "sprintCount": 0
@@ -1248,7 +2116,7 @@
     {
       "issueKey": "BWEBDEV-7897",
       "resolutionDate": "2026-02-09T06:24:00.000Z",
-      "cycleTimeDays": 9.906944444444445,
+      "cycleTimeDays": 5.798611111111111,
       "issueType": "Task",
       "storyPoints": null,
       "sprintCount": 0
@@ -1256,15 +2124,15 @@
     {
       "issueKey": "BWEBDEV-7893",
       "resolutionDate": "2026-02-12T11:08:00.000Z",
-      "cycleTimeDays": 13.170833333333333,
+      "cycleTimeDays": 6.066666666666666,
       "issueType": "Bug",
-      "storyPoints": null,
+      "storyPoints": 2,
       "sprintCount": 1
     },
     {
       "issueKey": "BWEBDEV-7889",
       "resolutionDate": "2026-02-13T15:04:00.000Z",
-      "cycleTimeDays": 15.078472222222222,
+      "cycleTimeDays": 0.32013888888888886,
       "issueType": "Task",
       "storyPoints": null,
       "sprintCount": 0
@@ -1272,15 +2140,15 @@
     {
       "issueKey": "BWEBDEV-7880",
       "resolutionDate": "2026-02-12T11:08:00.000Z",
-      "cycleTimeDays": 14.089583333333334,
+      "cycleTimeDays": 1.0930555555555554,
       "issueType": "Task",
-      "storyPoints": null,
+      "storyPoints": 2,
       "sprintCount": 1
     },
     {
       "issueKey": "BWEBDEV-7876",
       "resolutionDate": "2026-02-02T05:51:00.000Z",
-      "cycleTimeDays": 3.990972222222222,
+      "cycleTimeDays": 3.899305555555556,
       "issueType": "Task",
       "storyPoints": null,
       "sprintCount": 0
@@ -1288,7 +2156,7 @@
     {
       "issueKey": "BWEBDEV-7846",
       "resolutionDate": "2026-01-29T07:21:00.000Z",
-      "cycleTimeDays": 0.9118055555555555,
+      "cycleTimeDays": 0.7986111111111112,
       "issueType": "Task",
       "storyPoints": null,
       "sprintCount": 0
@@ -1296,23 +2164,23 @@
     {
       "issueKey": "BWEBDEV-7845",
       "resolutionDate": "2026-02-18T05:05:00.000Z",
-      "cycleTimeDays": 20.81736111111111,
+      "cycleTimeDays": 7.997222222222223,
       "issueType": "Task",
-      "storyPoints": null,
+      "storyPoints": 1,
       "sprintCount": 2
     },
     {
       "issueKey": "BWEBDEV-7844",
       "resolutionDate": "2026-02-12T11:39:00.000Z",
-      "cycleTimeDays": 15.10138888888889,
+      "cycleTimeDays": 10.947916666666666,
       "issueType": "Bug",
-      "storyPoints": null,
+      "storyPoints": 2,
       "sprintCount": 2
     },
     {
       "issueKey": "BWEBDEV-7840",
       "resolutionDate": "2026-02-02T07:22:00.000Z",
-      "cycleTimeDays": 4.965277777777778,
+      "cycleTimeDays": 3.020138888888889,
       "issueType": "Task",
       "storyPoints": null,
       "sprintCount": 0
@@ -1320,15 +2188,15 @@
     {
       "issueKey": "BWEBDEV-7828",
       "resolutionDate": "2026-02-12T11:04:00.000Z",
-      "cycleTimeDays": 15.969444444444445,
+      "cycleTimeDays": 8.274305555555555,
       "issueType": "Task",
-      "storyPoints": null,
+      "storyPoints": 3,
       "sprintCount": 1
     },
     {
       "issueKey": "BWEBDEV-7827",
       "resolutionDate": "2026-02-03T07:16:00.000Z",
-      "cycleTimeDays": 6.827083333333333,
+      "cycleTimeDays": 4.989583333333333,
       "issueType": "Task",
       "storyPoints": null,
       "sprintCount": 0
@@ -1336,7 +2204,7 @@
     {
       "issueKey": "BWEBDEV-7809",
       "resolutionDate": "2026-02-04T07:07:00.000Z",
-      "cycleTimeDays": 8.05,
+      "cycleTimeDays": 7.826388888888889,
       "issueType": "Task",
       "storyPoints": null,
       "sprintCount": 0
@@ -1344,7 +2212,7 @@
     {
       "issueKey": "BWEBDEV-7787",
       "resolutionDate": "2026-01-27T10:03:00.000Z",
-      "cycleTimeDays": 1.0472222222222223,
+      "cycleTimeDays": 0.8909722222222223,
       "issueType": "Task",
       "storyPoints": null,
       "sprintCount": 0
@@ -1352,7 +2220,7 @@
     {
       "issueKey": "BWEBDEV-7779",
       "resolutionDate": "2026-02-19T04:20:00.000Z",
-      "cycleTimeDays": 26.544444444444444,
+      "cycleTimeDays": 20.90208333333333,
       "issueType": "Task",
       "storyPoints": null,
       "sprintCount": 0
@@ -1360,15 +2228,15 @@
     {
       "issueKey": "BWEBDEV-7772",
       "resolutionDate": "2026-02-12T11:01:00.000Z",
-      "cycleTimeDays": 19.99375,
+      "cycleTimeDays": 5.048611111111111,
       "issueType": "Task",
-      "storyPoints": null,
+      "storyPoints": 1,
       "sprintCount": 1
     },
     {
       "issueKey": "BWEBDEV-7763",
       "resolutionDate": "2026-02-02T10:39:00.000Z",
-      "cycleTimeDays": 10.796527777777778,
+      "cycleTimeDays": 9.943750000000001,
       "issueType": "Task",
       "storyPoints": null,
       "sprintCount": 0
@@ -1376,7 +2244,7 @@
     {
       "issueKey": "BWEBDEV-7760",
       "resolutionDate": "2026-01-29T12:14:00.000Z",
-      "cycleTimeDays": 6.993055555555555,
+      "cycleTimeDays": 6.211805555555555,
       "issueType": "Task",
       "storyPoints": null,
       "sprintCount": 0
@@ -1384,15 +2252,15 @@
     {
       "issueKey": "BWEBDEV-7746",
       "resolutionDate": "2026-02-18T11:59:00.000Z",
-      "cycleTimeDays": 27.199305555555554,
+      "cycleTimeDays": 15.121527777777777,
       "issueType": "Task",
-      "storyPoints": null,
+      "storyPoints": 2,
       "sprintCount": 2
     },
     {
       "issueKey": "BWEBDEV-7722",
       "resolutionDate": "2026-01-21T08:44:00.000Z",
-      "cycleTimeDays": 0.7708333333333334,
+      "cycleTimeDays": 0.08402777777777778,
       "issueType": "Task",
       "storyPoints": null,
       "sprintCount": 0
@@ -1400,7 +2268,7 @@
     {
       "issueKey": "BWEBDEV-7712",
       "resolutionDate": "2026-02-11T12:16:00.000Z",
-      "cycleTimeDays": 21.98611111111111,
+      "cycleTimeDays": 20.21388888888889,
       "issueType": "Bug",
       "storyPoints": null,
       "sprintCount": 0
@@ -1408,31 +2276,31 @@
     {
       "issueKey": "BWEBDEV-7699",
       "resolutionDate": "2026-01-30T07:51:00.000Z",
-      "cycleTimeDays": 9.9875,
+      "cycleTimeDays": 6.946527777777777,
       "issueType": "Bug",
-      "storyPoints": null,
+      "storyPoints": 1,
       "sprintCount": 1
     },
     {
       "issueKey": "BWEBDEV-7696",
       "resolutionDate": "2026-02-13T06:41:00.000Z",
-      "cycleTimeDays": 23.975694444444443,
+      "cycleTimeDays": 7.9631944444444445,
       "issueType": "Bug",
-      "storyPoints": null,
+      "storyPoints": 3,
       "sprintCount": 1
     },
     {
       "issueKey": "BWEBDEV-7694",
       "resolutionDate": "2026-01-30T07:50:00.000Z",
-      "cycleTimeDays": 10.047222222222222,
+      "cycleTimeDays": 4.981944444444445,
       "issueType": "Bug",
-      "storyPoints": null,
+      "storyPoints": 1,
       "sprintCount": 1
     },
     {
       "issueKey": "BWEBDEV-7692",
       "resolutionDate": "2026-01-29T05:22:00.000Z",
-      "cycleTimeDays": 8.978472222222223,
+      "cycleTimeDays": 5.9840277777777775,
       "issueType": "Task",
       "storyPoints": null,
       "sprintCount": 0
@@ -1440,7 +2308,7 @@
     {
       "issueKey": "BWEBDEV-7682",
       "resolutionDate": "2026-01-26T07:57:00.000Z",
-      "cycleTimeDays": 6.864583333333333,
+      "cycleTimeDays": 4.947222222222222,
       "issueType": "Task",
       "storyPoints": null,
       "sprintCount": 0
@@ -1448,23 +2316,23 @@
     {
       "issueKey": "BWEBDEV-7680",
       "resolutionDate": "2026-02-12T11:59:00.000Z",
-      "cycleTimeDays": 72.19375,
+      "cycleTimeDays": 59.30972222222222,
       "issueType": "Task",
-      "storyPoints": null,
+      "storyPoints": 3,
       "sprintCount": 1
     },
     {
       "issueKey": "BWEBDEV-7672",
       "resolutionDate": "2026-02-13T08:53:00.000Z",
-      "cycleTimeDays": 25.024305555555557,
+      "cycleTimeDays": 2.095138888888889,
       "issueType": "Task",
-      "storyPoints": null,
+      "storyPoints": 2,
       "sprintCount": 1
     },
     {
       "issueKey": "BWEBDEV-7671",
       "resolutionDate": "2026-01-30T10:36:00.000Z",
-      "cycleTimeDays": 11.098611111111111,
+      "cycleTimeDays": 7.929861111111111,
       "issueType": "Task",
       "storyPoints": null,
       "sprintCount": 0
@@ -1472,15 +2340,15 @@
     {
       "issueKey": "BWEBDEV-7665",
       "resolutionDate": "2026-02-12T11:04:00.000Z",
-      "cycleTimeDays": 25.88125,
+      "cycleTimeDays": 6.283333333333333,
       "issueType": "Task",
-      "storyPoints": null,
+      "storyPoints": 3,
       "sprintCount": 1
     },
     {
       "issueKey": "BWEBDEV-7662",
       "resolutionDate": "2026-02-03T06:33:00.000Z",
-      "cycleTimeDays": 16.861805555555556,
+      "cycleTimeDays": 11.971527777777778,
       "issueType": "Task",
       "storyPoints": null,
       "sprintCount": 0
@@ -1488,7 +2356,7 @@
     {
       "issueKey": "BWEBDEV-7661",
       "resolutionDate": "2026-01-26T05:15:00.000Z",
-      "cycleTimeDays": 8.907638888888888,
+      "cycleTimeDays": 5.76875,
       "issueType": "Task",
       "storyPoints": null,
       "sprintCount": 0
@@ -1496,7 +2364,7 @@
     {
       "issueKey": "BWEBDEV-7660",
       "resolutionDate": "2026-01-26T05:15:00.000Z",
-      "cycleTimeDays": 8.911805555555556,
+      "cycleTimeDays": 5.76875,
       "issueType": "Task",
       "storyPoints": null,
       "sprintCount": 0
@@ -1504,15 +2372,15 @@
     {
       "issueKey": "BWEBDEV-7648",
       "resolutionDate": "2026-02-12T11:07:00.000Z",
-      "cycleTimeDays": 27.11111111111111,
+      "cycleTimeDays": 3.8055555555555554,
       "issueType": "Bug",
-      "storyPoints": null,
+      "storyPoints": 0.5,
       "sprintCount": 1
     },
     {
       "issueKey": "BWEBDEV-7645",
       "resolutionDate": "2026-01-23T09:05:00.000Z",
-      "cycleTimeDays": 7.049305555555556,
+      "cycleTimeDays": 6.977777777777778,
       "issueType": "Bug",
       "storyPoints": null,
       "sprintCount": 0
@@ -1520,23 +2388,23 @@
     {
       "issueKey": "BWEBDEV-7619",
       "resolutionDate": "2026-01-30T07:50:00.000Z",
-      "cycleTimeDays": 15.874305555555555,
+      "cycleTimeDays": 13.086805555555557,
       "issueType": "Bug",
-      "storyPoints": null,
+      "storyPoints": 2,
       "sprintCount": 1
     },
     {
       "issueKey": "BWEBDEV-7609",
       "resolutionDate": "2026-02-25T09:30:00.000Z",
-      "cycleTimeDays": 42.83958333333333,
+      "cycleTimeDays": 40.147222222222226,
       "issueType": "Task",
-      "storyPoints": null,
+      "storyPoints": 3,
       "sprintCount": 3
     },
     {
       "issueKey": "BWEBDEV-7603",
       "resolutionDate": "2026-01-15T10:16:00.000Z",
-      "cycleTimeDays": 1.91875,
+      "cycleTimeDays": 0.8993055555555556,
       "issueType": "Task",
       "storyPoints": null,
       "sprintCount": 0
@@ -1544,23 +2412,23 @@
     {
       "issueKey": "BWEBDEV-7585",
       "resolutionDate": "2026-02-12T11:10:00.000Z",
-      "cycleTimeDays": 30.89097222222222,
+      "cycleTimeDays": 19.985416666666666,
       "issueType": "Task",
-      "storyPoints": null,
+      "storyPoints": 5,
       "sprintCount": 2
     },
     {
       "issueKey": "BWEBDEV-7584",
       "resolutionDate": "2026-02-13T11:07:00.000Z",
-      "cycleTimeDays": 31.89236111111111,
+      "cycleTimeDays": 21.179861111111112,
       "issueType": "Task",
-      "storyPoints": null,
+      "storyPoints": 1,
       "sprintCount": 2
     },
     {
       "issueKey": "BWEBDEV-7583",
       "resolutionDate": "2026-01-20T06:19:00.000Z",
-      "cycleTimeDays": 7.695833333333334,
+      "cycleTimeDays": 6.942361111111111,
       "issueType": "Task",
       "storyPoints": null,
       "sprintCount": 0
@@ -1568,15 +2436,15 @@
     {
       "issueKey": "BWEBDEV-7582",
       "resolutionDate": "2026-02-12T11:08:00.000Z",
-      "cycleTimeDays": 30.90138888888889,
+      "cycleTimeDays": 15.259027777777778,
       "issueType": "Task",
-      "storyPoints": null,
+      "storyPoints": 1,
       "sprintCount": 2
     },
     {
       "issueKey": "BWEBDEV-7580",
       "resolutionDate": "2026-01-16T06:20:00.000Z",
-      "cycleTimeDays": 3.7472222222222222,
+      "cycleTimeDays": 1.9069444444444446,
       "issueType": "Task",
       "storyPoints": null,
       "sprintCount": 0
@@ -1584,7 +2452,7 @@
     {
       "issueKey": "BWEBDEV-7572",
       "resolutionDate": "2026-01-12T13:04:00.000Z",
-      "cycleTimeDays": 0.10347222222222222,
+      "cycleTimeDays": 0.06736111111111111,
       "issueType": "Task",
       "storyPoints": null,
       "sprintCount": 0
@@ -1592,7 +2460,7 @@
     {
       "issueKey": "BWEBDEV-7568",
       "resolutionDate": "2026-01-13T11:10:00.000Z",
-      "cycleTimeDays": 1.075,
+      "cycleTimeDays": 1.0722222222222222,
       "issueType": "Task",
       "storyPoints": null,
       "sprintCount": 0
@@ -1600,15 +2468,15 @@
     {
       "issueKey": "BWEBDEV-7559",
       "resolutionDate": "2026-01-30T08:05:00.000Z",
-      "cycleTimeDays": 18.077083333333334,
+      "cycleTimeDays": 11.034722222222221,
       "issueType": "Task",
-      "storyPoints": null,
+      "storyPoints": 2,
       "sprintCount": 1
     },
     {
       "issueKey": "BWEBDEV-7557",
       "resolutionDate": "2026-01-21T09:23:00.000Z",
-      "cycleTimeDays": 9.74375,
+      "cycleTimeDays": 8.920138888888888,
       "issueType": "Task",
       "storyPoints": null,
       "sprintCount": 0
@@ -1616,7 +2484,7 @@
     {
       "issueKey": "BWEBDEV-7550",
       "resolutionDate": "2026-01-14T06:37:00.000Z",
-      "cycleTimeDays": 4.805555555555555,
+      "cycleTimeDays": 0.7756944444444444,
       "issueType": "Bug",
       "storyPoints": null,
       "sprintCount": 0
@@ -1624,7 +2492,7 @@
     {
       "issueKey": "BWEBDEV-7545",
       "resolutionDate": "2026-02-13T13:44:00.000Z",
-      "cycleTimeDays": 35.24444444444445,
+      "cycleTimeDays": 0.21041666666666664,
       "issueType": "Task",
       "storyPoints": null,
       "sprintCount": 0
@@ -1632,7 +2500,7 @@
     {
       "issueKey": "BWEBDEV-7539",
       "resolutionDate": "2026-01-12T06:18:00.000Z",
-      "cycleTimeDays": 3.6756944444444444,
+      "cycleTimeDays": 2.8090277777777777,
       "issueType": "Task",
       "storyPoints": null,
       "sprintCount": 0
@@ -1640,7 +2508,7 @@
     {
       "issueKey": "BWEBDEV-7538",
       "resolutionDate": "2026-01-19T06:43:00.000Z",
-      "cycleTimeDays": 10.713194444444444,
+      "cycleTimeDays": 9.919444444444446,
       "issueType": "Task",
       "storyPoints": null,
       "sprintCount": 0
@@ -1648,7 +2516,7 @@
     {
       "issueKey": "BWEBDEV-7533",
       "resolutionDate": "2026-01-14T07:31:00.000Z",
-      "cycleTimeDays": 5.786111111111111,
+      "cycleTimeDays": 4.745833333333334,
       "issueType": "Task",
       "storyPoints": null,
       "sprintCount": 0
@@ -1656,7 +2524,7 @@
     {
       "issueKey": "BWEBDEV-7518",
       "resolutionDate": "2026-01-21T10:45:00.000Z",
-      "cycleTimeDays": 12.983333333333333,
+      "cycleTimeDays": 12.147222222222222,
       "issueType": "Task",
       "storyPoints": null,
       "sprintCount": 0
@@ -1664,15 +2532,15 @@
     {
       "issueKey": "BWEBDEV-7500",
       "resolutionDate": "2026-01-09T06:21:00.000Z",
-      "cycleTimeDays": 1.5465277777777777,
+      "cycleTimeDays": 1.0152777777777777,
       "issueType": "Bug",
-      "storyPoints": null,
+      "storyPoints": 2,
       "sprintCount": 1
     },
     {
       "issueKey": "BWEBDEV-7486",
       "resolutionDate": "2026-01-14T05:55:00.000Z",
-      "cycleTimeDays": 6.854861111111111,
+      "cycleTimeDays": 5.806944444444445,
       "issueType": "Task",
       "storyPoints": null,
       "sprintCount": 0
@@ -1680,15 +2548,15 @@
     {
       "issueKey": "BWEBDEV-7484",
       "resolutionDate": "2026-01-22T06:39:00.000Z",
-      "cycleTimeDays": 14.913194444444445,
+      "cycleTimeDays": 7.871527777777779,
       "issueType": "Task",
-      "storyPoints": null,
+      "storyPoints": 1,
       "sprintCount": 1
     },
     {
       "issueKey": "BWEBDEV-7477",
       "resolutionDate": "2026-01-09T06:40:00.000Z",
-      "cycleTimeDays": 1.9875,
+      "cycleTimeDays": 1.6444444444444444,
       "issueType": "Task",
       "storyPoints": null,
       "sprintCount": 0
@@ -1696,15 +2564,15 @@
     {
       "issueKey": "BWEBDEV-7470",
       "resolutionDate": "2026-02-16T12:46:00.000Z",
-      "cycleTimeDays": 40.99305555555556,
+      "cycleTimeDays": 33.99166666666667,
       "issueType": "Task",
-      "storyPoints": null,
+      "storyPoints": 1,
       "sprintCount": 4
     },
     {
       "issueKey": "BWEBDEV-7451",
       "resolutionDate": "2026-01-23T08:53:00.000Z",
-      "cycleTimeDays": 18.0375,
+      "cycleTimeDays": 17.0125,
       "issueType": "Task",
       "storyPoints": null,
       "sprintCount": 0
@@ -1712,15 +2580,15 @@
     {
       "issueKey": "BWEBDEV-7430",
       "resolutionDate": "2026-01-15T08:11:00.000Z",
-      "cycleTimeDays": 16.05902777777778,
+      "cycleTimeDays": 2.704166666666667,
       "issueType": "Task",
-      "storyPoints": null,
+      "storyPoints": 1,
       "sprintCount": 1
     },
     {
       "issueKey": "BWEBDEV-7429",
       "resolutionDate": "2026-01-05T05:45:00.000Z",
-      "cycleTimeDays": 5.973611111111111,
+      "cycleTimeDays": 4.920138888888889,
       "issueType": "Task",
       "storyPoints": null,
       "sprintCount": 0
@@ -1728,7 +2596,7 @@
     {
       "issueKey": "BWEBDEV-7425",
       "resolutionDate": "2026-01-22T13:48:00.000Z",
-      "cycleTimeDays": 24.023611111111112,
+      "cycleTimeDays": 20.12986111111111,
       "issueType": "Task",
       "storyPoints": null,
       "sprintCount": 0
@@ -1736,7 +2604,7 @@
     {
       "issueKey": "BWEBDEV-7424",
       "resolutionDate": "2026-01-05T05:16:00.000Z",
-      "cycleTimeDays": 6.670833333333333,
+      "cycleTimeDays": 5.947916666666666,
       "issueType": "Task",
       "storyPoints": null,
       "sprintCount": 0
@@ -1744,39 +2612,39 @@
     {
       "issueKey": "BWEBDEV-7396",
       "resolutionDate": "2026-01-12T12:42:00.000Z",
-      "cycleTimeDays": 21.038888888888888,
+      "cycleTimeDays": 3.3138888888888887,
       "issueType": "Task",
-      "storyPoints": null,
+      "storyPoints": 2,
       "sprintCount": 1
     },
     {
       "issueKey": "BWEBDEV-7391",
       "resolutionDate": "2026-02-24T13:54:00.000Z",
-      "cycleTimeDays": 64.23055555555555,
+      "cycleTimeDays": 35.15208333333334,
       "issueType": "Task",
-      "storyPoints": null,
+      "storyPoints": 2,
       "sprintCount": 3
     },
     {
       "issueKey": "BWEBDEV-7377",
       "resolutionDate": "2026-02-13T08:04:00.000Z",
-      "cycleTimeDays": 55.82013888888889,
+      "cycleTimeDays": 29.2875,
       "issueType": "Task",
-      "storyPoints": null,
+      "storyPoints": 2,
       "sprintCount": 3
     },
     {
       "issueKey": "BWEBDEV-7347",
       "resolutionDate": "2026-01-23T08:32:00.000Z",
-      "cycleTimeDays": 36.07013888888889,
+      "cycleTimeDays": 27.463194444444444,
       "issueType": "Bug",
-      "storyPoints": null,
+      "storyPoints": 2,
       "sprintCount": 1
     },
     {
       "issueKey": "BWEBDEV-7321",
       "resolutionDate": "2026-01-08T14:35:00.000Z",
-      "cycleTimeDays": 23.185416666666665,
+      "cycleTimeDays": 10.280555555555555,
       "issueType": "Task",
       "storyPoints": null,
       "sprintCount": 0
@@ -1784,23 +2652,23 @@
     {
       "issueKey": "BWEBDEV-7311",
       "resolutionDate": "2026-02-12T11:08:00.000Z",
-      "cycleTimeDays": 58.175,
+      "cycleTimeDays": 7.074305555555556,
       "issueType": "Task",
-      "storyPoints": null,
+      "storyPoints": 1,
       "sprintCount": 2
     },
     {
       "issueKey": "BWEBDEV-7308",
       "resolutionDate": "2026-02-13T08:53:00.000Z",
-      "cycleTimeDays": 59.83541666666667,
+      "cycleTimeDays": 10.83888888888889,
       "issueType": "Task",
-      "storyPoints": null,
+      "storyPoints": 1,
       "sprintCount": 2
     },
     {
       "issueKey": "BWEBDEV-7292",
       "resolutionDate": "2026-01-27T14:41:00.000Z",
-      "cycleTimeDays": 46.071527777777774,
+      "cycleTimeDays": 36.25694444444444,
       "issueType": "Sub-task",
       "storyPoints": null,
       "sprintCount": 2
@@ -1808,7 +2676,7 @@
     {
       "issueKey": "BWEBDEV-7291",
       "resolutionDate": "2026-01-27T14:41:00.000Z",
-      "cycleTimeDays": 46.071527777777774,
+      "cycleTimeDays": 21.34236111111111,
       "issueType": "Sub-task",
       "storyPoints": null,
       "sprintCount": 2
@@ -1816,7 +2684,7 @@
     {
       "issueKey": "BWEBDEV-7290",
       "resolutionDate": "2026-01-27T14:41:00.000Z",
-      "cycleTimeDays": 46.07222222222222,
+      "cycleTimeDays": 21.257638888888888,
       "issueType": "Sub-task",
       "storyPoints": null,
       "sprintCount": 2
@@ -1824,7 +2692,7 @@
     {
       "issueKey": "BWEBDEV-7285",
       "resolutionDate": "2026-01-09T11:19:00.000Z",
-      "cycleTimeDays": 27.977777777777778,
+      "cycleTimeDays": 10.01388888888889,
       "issueType": "Task",
       "storyPoints": null,
       "sprintCount": 0
@@ -1832,214 +2700,1142 @@
     {
       "issueKey": "BWEBDEV-7270",
       "resolutionDate": "2026-01-12T08:26:00.000Z",
-      "cycleTimeDays": 31.831944444444446,
+      "cycleTimeDays": 25.15277777777778,
       "issueType": "Task",
-      "storyPoints": null,
+      "storyPoints": 2,
       "sprintCount": 1
     },
     {
       "issueKey": "BWEBDEV-7254",
       "resolutionDate": "2026-01-30T08:26:00.000Z",
-      "cycleTimeDays": 49.99722222222222,
+      "cycleTimeDays": 33.790277777777774,
       "issueType": "Task",
-      "storyPoints": null,
+      "storyPoints": 3,
       "sprintCount": 2
     },
     {
       "issueKey": "BWEBDEV-7244",
       "resolutionDate": "2026-01-08T18:05:00.000Z",
-      "cycleTimeDays": 29.178472222222222,
+      "cycleTimeDays": 23.263194444444444,
       "issueType": "Task",
-      "storyPoints": null,
+      "storyPoints": 2,
       "sprintCount": 2
     },
     {
       "issueKey": "BWEBDEV-7242",
       "resolutionDate": "2026-02-12T11:01:00.000Z",
-      "cycleTimeDays": 63.921527777777776,
+      "cycleTimeDays": 13.565277777777776,
       "issueType": "Task",
-      "storyPoints": null,
+      "storyPoints": 3,
       "sprintCount": 2
     },
     {
       "issueKey": "BWEBDEV-7237",
       "resolutionDate": "2026-01-05T10:52:00.000Z",
-      "cycleTimeDays": 25.981944444444444,
+      "cycleTimeDays": 20.168750000000003,
       "issueType": "Task",
-      "storyPoints": null,
+      "storyPoints": 1,
       "sprintCount": 2
     },
     {
       "issueKey": "BWEBDEV-7234",
       "resolutionDate": "2026-02-12T11:01:00.000Z",
-      "cycleTimeDays": 64.01875,
+      "cycleTimeDays": 34.21388888888888,
       "issueType": "Task",
-      "storyPoints": null,
+      "storyPoints": 1,
       "sprintCount": 3
     },
     {
       "issueKey": "BWEBDEV-7230",
       "resolutionDate": "2026-02-12T11:01:00.000Z",
-      "cycleTimeDays": 64.16041666666666,
+      "cycleTimeDays": 10.879861111111111,
       "issueType": "Task",
-      "storyPoints": null,
+      "storyPoints": 1,
       "sprintCount": 1
     },
     {
       "issueKey": "BWEBDEV-7229",
       "resolutionDate": "2026-02-12T11:01:00.000Z",
-      "cycleTimeDays": 64.1673611111111,
+      "cycleTimeDays": 9.915277777777778,
       "issueType": "Task",
-      "storyPoints": null,
+      "storyPoints": 1,
       "sprintCount": 1
     },
     {
       "issueKey": "BWEBDEV-7226",
       "resolutionDate": "2026-02-12T11:01:00.000Z",
-      "cycleTimeDays": 64.21666666666667,
+      "cycleTimeDays": 8.711805555555555,
       "issueType": "Task",
-      "storyPoints": null,
+      "storyPoints": 1,
       "sprintCount": 1
     },
     {
       "issueKey": "BWEBDEV-7180",
       "resolutionDate": "2026-01-05T05:38:00.000Z",
-      "cycleTimeDays": 77.00277777777778,
+      "cycleTimeDays": 24.857638888888886,
       "issueType": "Task",
-      "storyPoints": null,
+      "storyPoints": 0.5,
       "sprintCount": 2
     },
     {
       "issueKey": "BWEBDEV-7179",
       "resolutionDate": "2026-01-05T05:44:00.000Z",
-      "cycleTimeDays": 51.864583333333336,
+      "cycleTimeDays": 24.790972222222223,
       "issueType": "Task",
-      "storyPoints": null,
+      "storyPoints": 0.5,
       "sprintCount": 2
     },
     {
       "issueKey": "BWEBDEV-7178",
       "resolutionDate": "2026-01-05T05:44:00.000Z",
-      "cycleTimeDays": 52.802083333333336,
+      "cycleTimeDays": 24.791666666666668,
       "issueType": "Task",
-      "storyPoints": null,
+      "storyPoints": 0.5,
       "sprintCount": 2
     },
     {
       "issueKey": "BWEBDEV-7177",
       "resolutionDate": "2026-01-05T05:38:00.000Z",
-      "cycleTimeDays": 52.800694444444446,
+      "cycleTimeDays": 24.788888888888888,
       "issueType": "Task",
-      "storyPoints": null,
+      "storyPoints": 0.5,
       "sprintCount": 2
     },
     {
       "issueKey": "BWEBDEV-7175",
       "resolutionDate": "2026-02-12T11:01:00.000Z",
-      "cycleTimeDays": 69.14722222222223,
+      "cycleTimeDays": 22.856249999999996,
       "issueType": "Story",
-      "storyPoints": null,
+      "storyPoints": 1,
       "sprintCount": 2
     },
     {
       "issueKey": "BWEBDEV-7153",
       "resolutionDate": "2026-01-05T05:36:00.000Z",
-      "cycleTimeDays": 31.936805555555555,
+      "cycleTimeDays": 23.85486111111111,
       "issueType": "Task",
-      "storyPoints": null,
+      "storyPoints": 3,
       "sprintCount": 2
     },
     {
       "issueKey": "BWEBDEV-7134",
       "resolutionDate": "2026-01-08T10:49:00.000Z",
-      "cycleTimeDays": 36.88055555555555,
+      "cycleTimeDays": 30.110416666666666,
       "issueType": "Task",
-      "storyPoints": null,
+      "storyPoints": 1,
       "sprintCount": 2
     },
     {
       "issueKey": "BWEBDEV-7130",
       "resolutionDate": "2026-01-22T05:54:00.000Z",
-      "cycleTimeDays": 50.71875,
+      "cycleTimeDays": 8.980555555555556,
       "issueType": "Task",
-      "storyPoints": null,
+      "storyPoints": 3,
       "sprintCount": 1
     },
     {
       "issueKey": "BWEBDEV-7100",
       "resolutionDate": "2026-01-30T08:26:00.000Z",
-      "cycleTimeDays": 59.793055555555554,
+      "cycleTimeDays": 36.25763888888889,
       "issueType": "Task",
-      "storyPoints": null,
+      "storyPoints": 3,
       "sprintCount": 2
     },
     {
       "issueKey": "BWEBDEV-7016",
       "resolutionDate": "2026-01-05T05:35:00.000Z",
-      "cycleTimeDays": 39.89930555555556,
+      "cycleTimeDays": 38.710416666666674,
       "issueType": "Task",
-      "storyPoints": null,
+      "storyPoints": 3,
       "sprintCount": 2
     },
     {
       "issueKey": "BWEBDEV-6986",
       "resolutionDate": "2026-01-09T11:42:00.000Z",
-      "cycleTimeDays": 45.69375,
+      "cycleTimeDays": 42.16597222222222,
       "issueType": "Task",
-      "storyPoints": null,
+      "storyPoints": 2,
       "sprintCount": 2
     },
     {
       "issueKey": "BWEBDEV-6971",
       "resolutionDate": "2026-01-20T06:12:00.000Z",
-      "cycleTimeDays": 56.88194444444444,
+      "cycleTimeDays": 44.134027777777774,
       "issueType": "Task",
-      "storyPoints": null,
+      "storyPoints": 13,
       "sprintCount": 2
     },
     {
       "issueKey": "BWEBDEV-6774",
       "resolutionDate": "2026-01-14T14:01:00.000Z",
-      "cycleTimeDays": 65.11597222222223,
+      "cycleTimeDays": 24.07986111111111,
       "issueType": "Task",
-      "storyPoints": null,
+      "storyPoints": 3,
       "sprintCount": 1
     },
     {
       "issueKey": "BWEBDEV-6745",
       "resolutionDate": "2026-01-15T11:56:00.000Z",
-      "cycleTimeDays": 69.21597222222222,
+      "cycleTimeDays": 26.086805555555557,
       "issueType": "Task",
-      "storyPoints": null,
+      "storyPoints": 1,
       "sprintCount": 1
     },
     {
       "issueKey": "BWEBDEV-6609",
       "resolutionDate": "2026-01-06T10:26:00.000Z",
-      "cycleTimeDays": 68.98611111111111,
+      "cycleTimeDays": 41.080555555555556,
       "issueType": "Task",
-      "storyPoints": null,
+      "storyPoints": 3,
       "sprintCount": 2
     },
     {
       "issueKey": "BWEBDEV-6603",
       "resolutionDate": "2026-01-12T11:17:00.000Z",
-      "cycleTimeDays": 75.1125,
+      "cycleTimeDays": 11.795833333333334,
       "issueType": "Task",
-      "storyPoints": null,
+      "storyPoints": 3,
       "sprintCount": 1
     },
     {
       "issueKey": "BWEBDEV-6444",
       "resolutionDate": "2026-01-05T08:50:00.000Z",
-      "cycleTimeDays": 79.8548611111111,
+      "cycleTimeDays": 23.959027777777777,
+      "issueType": "Task",
+      "storyPoints": 3,
+      "sprintCount": 1
+    },
+    {
+      "issueKey": "BWEBDEV-8276",
+      "resolutionDate": "2026-02-20T11:51:00.000Z",
+      "cycleTimeDays": 0.09861111111111111,
+      "issueType": "Bug",
+      "storyPoints": null,
+      "sprintCount": 0
+    },
+    {
+      "issueKey": "BWEBDEV-8237",
+      "resolutionDate": "2026-02-18T12:55:00.000Z",
+      "cycleTimeDays": 0.017361111111111112,
+      "issueType": "Bug",
+      "storyPoints": null,
+      "sprintCount": 0
+    },
+    {
+      "issueKey": "BWEBDEV-8075",
+      "resolutionDate": "2026-02-11T08:53:00.000Z",
+      "cycleTimeDays": 0.7152777777777778,
+      "issueType": "Task",
+      "storyPoints": null,
+      "sprintCount": 0
+    },
+    {
+      "issueKey": "BWEBDEV-7957",
+      "resolutionDate": "2026-02-13T08:53:00.000Z",
+      "cycleTimeDays": 14.940277777777778,
+      "issueType": "Task",
+      "storyPoints": 1,
+      "sprintCount": 1
+    },
+    {
+      "issueKey": "BWEBDEV-7813",
+      "resolutionDate": "2026-01-27T11:51:00.000Z",
+      "cycleTimeDays": 0.15138888888888888,
+      "issueType": "Task",
+      "storyPoints": null,
+      "sprintCount": 0
+    },
+    {
+      "issueKey": "BWEBDEV-7775",
+      "resolutionDate": "2026-01-29T10:14:00.000Z",
+      "cycleTimeDays": 5.909027777777778,
+      "issueType": "Task",
+      "storyPoints": null,
+      "sprintCount": 0
+    },
+    {
+      "issueKey": "BWEBDEV-7727",
+      "resolutionDate": "2026-01-22T07:02:00.000Z",
+      "cycleTimeDays": 1.054861111111111,
+      "issueType": "Bug",
+      "storyPoints": null,
+      "sprintCount": 0
+    },
+    {
+      "issueKey": "BWEBDEV-7326",
+      "resolutionDate": "2026-02-24T05:26:00.000Z",
+      "cycleTimeDays": 69.45347222222222,
       "issueType": "Task",
       "storyPoints": null,
       "sprintCount": 1
+    },
+    {
+      "issueKey": "BWEBDEV-7276",
+      "resolutionDate": "2025-12-16T11:48:00.000Z",
+      "cycleTimeDays": 4.320138888888889,
+      "issueType": "Bug",
+      "storyPoints": 1,
+      "sprintCount": 1
+    },
+    {
+      "issueKey": "BWEBDEV-6947",
+      "resolutionDate": "2026-01-07T10:59:00.000Z",
+      "cycleTimeDays": 47.889583333333334,
+      "issueType": "Task",
+      "storyPoints": 1,
+      "sprintCount": 1
+    },
+    {
+      "issueKey": "BWEBDEV-6700",
+      "resolutionDate": "2026-01-30T08:28:00.000Z",
+      "cycleTimeDays": 86.05277777777778,
+      "issueType": "Task",
+      "storyPoints": 8,
+      "sprintCount": 5
+    },
+    {
+      "issueKey": "BWEBDEV-6541",
+      "resolutionDate": "2025-10-28T09:11:00.000Z",
+      "cycleTimeDays": 3.9305555555555554,
+      "issueType": "Sub-task",
+      "storyPoints": 5,
+      "sprintCount": 3
+    },
+    {
+      "issueKey": "BWEBDEV-6508",
+      "resolutionDate": "2025-12-09T11:31:00.000Z",
+      "cycleTimeDays": 47.174305555555556,
+      "issueType": "Task",
+      "storyPoints": 1,
+      "sprintCount": 0
+    },
+    {
+      "issueKey": "BWEBDEV-6225",
+      "resolutionDate": "2025-10-15T10:22:00.000Z",
+      "cycleTimeDays": 9.010416666666666,
+      "issueType": "Task",
+      "storyPoints": 1,
+      "sprintCount": 1
+    },
+    {
+      "issueKey": "BWEBDEV-6109",
+      "resolutionDate": "2025-09-29T05:54:00.000Z",
+      "cycleTimeDays": 2.66875,
+      "issueType": "Task",
+      "storyPoints": null,
+      "sprintCount": 0
+    },
+    {
+      "issueKey": "BWEBDEV-6108",
+      "resolutionDate": "2025-09-29T05:54:00.000Z",
+      "cycleTimeDays": 2.66875,
+      "issueType": "Task",
+      "storyPoints": null,
+      "sprintCount": 0
+    },
+    {
+      "issueKey": "BWEBDEV-6030",
+      "resolutionDate": "2025-09-23T08:55:00.000Z",
+      "cycleTimeDays": 4.936805555555556,
+      "issueType": "Task",
+      "storyPoints": 0.5,
+      "sprintCount": 1
+    },
+    {
+      "issueKey": "BWEBDEV-5922",
+      "resolutionDate": "2025-09-18T07:45:00.000Z",
+      "cycleTimeDays": 2.0118055555555556,
+      "issueType": "Bug",
+      "storyPoints": 1,
+      "sprintCount": 1
+    },
+    {
+      "issueKey": "BWEBDEV-5889",
+      "resolutionDate": "2025-10-28T05:58:00.000Z",
+      "cycleTimeDays": 45.797916666666666,
+      "issueType": "Task",
+      "storyPoints": 0,
+      "sprintCount": 1
+    },
+    {
+      "issueKey": "BWEBDEV-5879",
+      "resolutionDate": "2025-09-12T12:50:00.000Z",
+      "cycleTimeDays": 0.2298611111111111,
+      "issueType": "Sub-task",
+      "storyPoints": null,
+      "sprintCount": 5
+    },
+    {
+      "issueKey": "BWEBDEV-5878",
+      "resolutionDate": "2025-09-19T06:00:00.000Z",
+      "cycleTimeDays": 6.947222222222222,
+      "issueType": "Sub-task",
+      "storyPoints": null,
+      "sprintCount": 5
+    },
+    {
+      "issueKey": "BWEBDEV-5877",
+      "resolutionDate": "2025-09-22T05:57:00.000Z",
+      "cycleTimeDays": 9.947222222222223,
+      "issueType": "Sub-task",
+      "storyPoints": null,
+      "sprintCount": 5
+    },
+    {
+      "issueKey": "BWEBDEV-5876",
+      "resolutionDate": "2025-09-22T06:06:00.000Z",
+      "cycleTimeDays": 9.953472222222222,
+      "issueType": "Sub-task",
+      "storyPoints": null,
+      "sprintCount": 5
+    },
+    {
+      "issueKey": "BWEBDEV-5870",
+      "resolutionDate": "2025-09-19T05:58:00.000Z",
+      "cycleTimeDays": 6.952083333333333,
+      "issueType": "Sub-task",
+      "storyPoints": null,
+      "sprintCount": 5
+    },
+    {
+      "issueKey": "BWEBDEV-5869",
+      "resolutionDate": "2025-10-09T09:15:00.000Z",
+      "cycleTimeDays": 27.09027777777778,
+      "issueType": "Sub-task",
+      "storyPoints": null,
+      "sprintCount": 5
+    },
+    {
+      "issueKey": "BWEBDEV-5864",
+      "resolutionDate": "2025-10-09T07:49:00.000Z",
+      "cycleTimeDays": 27.03611111111111,
+      "issueType": "Sub-task",
+      "storyPoints": null,
+      "sprintCount": 5
+    },
+    {
+      "issueKey": "BWEBDEV-5862",
+      "resolutionDate": "2025-09-12T11:30:00.000Z",
+      "cycleTimeDays": 0.20347222222222222,
+      "issueType": "Sub-task",
+      "storyPoints": null,
+      "sprintCount": 5
+    },
+    {
+      "issueKey": "BWEBDEV-5860",
+      "resolutionDate": "2025-09-12T11:26:00.000Z",
+      "cycleTimeDays": 0.20208333333333334,
+      "issueType": "Sub-task",
+      "storyPoints": null,
+      "sprintCount": 5
+    },
+    {
+      "issueKey": "BWEBDEV-5859",
+      "resolutionDate": "2025-09-19T05:57:00.000Z",
+      "cycleTimeDays": 6.981944444444444,
+      "issueType": "Sub-task",
+      "storyPoints": null,
+      "sprintCount": 5
+    },
+    {
+      "issueKey": "BWEBDEV-5844",
+      "resolutionDate": "2025-09-11T11:34:00.000Z",
+      "cycleTimeDays": 0.11180555555555556,
+      "issueType": "Task",
+      "storyPoints": 1,
+      "sprintCount": 0
+    },
+    {
+      "issueKey": "BWEBDEV-5796",
+      "resolutionDate": "2025-09-12T10:39:00.000Z",
+      "cycleTimeDays": 2.9784722222222224,
+      "issueType": "Task",
+      "storyPoints": 0,
+      "sprintCount": 1
+    },
+    {
+      "issueKey": "BWEBDEV-5679",
+      "resolutionDate": "2025-09-02T10:42:00.000Z",
+      "cycleTimeDays": 0.1125,
+      "issueType": "Task",
+      "storyPoints": null,
+      "sprintCount": 0
+    },
+    {
+      "issueKey": "BWEBDEV-5611",
+      "resolutionDate": "2025-08-28T04:21:00.000Z",
+      "cycleTimeDays": 0.6347222222222222,
+      "issueType": "Bug",
+      "storyPoints": null,
+      "sprintCount": 0
+    },
+    {
+      "issueKey": "BWEBDEV-5519",
+      "resolutionDate": "2025-10-23T09:20:00.000Z",
+      "cycleTimeDays": 63.083333333333336,
+      "issueType": "Task",
+      "storyPoints": 8,
+      "sprintCount": 1
+    },
+    {
+      "issueKey": "BWEBDEV-5338",
+      "resolutionDate": "2025-08-07T05:55:00.000Z",
+      "cycleTimeDays": 0.029166666666666667,
+      "issueType": "Task",
+      "storyPoints": null,
+      "sprintCount": 0
+    },
+    {
+      "issueKey": "BWEBDEV-5287",
+      "resolutionDate": "2025-08-08T10:12:00.000Z",
+      "cycleTimeDays": 3.9319444444444445,
+      "issueType": "Task",
+      "storyPoints": 1,
+      "sprintCount": 1
+    },
+    {
+      "issueKey": "BWEBDEV-5269",
+      "resolutionDate": "2025-10-10T07:39:00.000Z",
+      "cycleTimeDays": 69.79930555555555,
+      "issueType": "Sub-task",
+      "storyPoints": null,
+      "sprintCount": 5
+    },
+    {
+      "issueKey": "BWEBDEV-5265",
+      "resolutionDate": "2025-08-06T08:45:00.000Z",
+      "cycleTimeDays": 4.846527777777778,
+      "issueType": "Sub-task",
+      "storyPoints": null,
+      "sprintCount": 5
+    },
+    {
+      "issueKey": "BWEBDEV-5204",
+      "resolutionDate": "2025-10-03T05:05:00.000Z",
+      "cycleTimeDays": 64.99791666666667,
+      "issueType": "Bug",
+      "storyPoints": 1,
+      "sprintCount": 4
+    },
+    {
+      "issueKey": "BWEBDEV-5072",
+      "resolutionDate": "2025-10-23T12:30:00.000Z",
+      "cycleTimeDays": 98.07638888888889,
+      "issueType": "Task",
+      "storyPoints": 1,
+      "sprintCount": 1
+    },
+    {
+      "issueKey": "BWEBDEV-5041",
+      "resolutionDate": "2025-09-18T09:55:00.000Z",
+      "cycleTimeDays": 64.12638888888888,
+      "issueType": "Story",
+      "storyPoints": 3,
+      "sprintCount": 2
+    },
+    {
+      "issueKey": "BWEBDEV-4993",
+      "resolutionDate": "2025-08-14T06:18:00.000Z",
+      "cycleTimeDays": 61.93333333333333,
+      "issueType": "Task",
+      "storyPoints": 0.5,
+      "sprintCount": 3
+    },
+    {
+      "issueKey": "BWEBDEV-4731",
+      "resolutionDate": "2025-06-26T05:35:00.000Z",
+      "cycleTimeDays": 7.727083333333334,
+      "issueType": "Bug",
+      "storyPoints": null,
+      "sprintCount": 0
+    },
+    {
+      "issueKey": "BWEBDEV-4570",
+      "resolutionDate": "2025-11-27T11:34:00.000Z",
+      "cycleTimeDays": 170.99444444444444,
+      "issueType": "Task",
+      "storyPoints": null,
+      "sprintCount": 0
+    },
+    {
+      "issueKey": "BWEBDEV-4454",
+      "resolutionDate": "2025-06-05T05:11:00.000Z",
+      "cycleTimeDays": 2.7222222222222223,
+      "issueType": "Task",
+      "storyPoints": null,
+      "sprintCount": 0
+    },
+    {
+      "issueKey": "BWEBDEV-4327",
+      "resolutionDate": "2025-08-08T07:10:00.000Z",
+      "cycleTimeDays": 76.80763888888889,
+      "issueType": "Bug",
+      "storyPoints": 1,
+      "sprintCount": 1
+    },
+    {
+      "issueKey": "BWEBDEV-4294",
+      "resolutionDate": "2025-09-18T05:54:00.000Z",
+      "cycleTimeDays": 118.94722222222222,
+      "issueType": "Task",
+      "storyPoints": 1,
+      "sprintCount": 1
+    },
+    {
+      "issueKey": "BWEBDEV-4072",
+      "resolutionDate": "2025-05-19T06:25:00.000Z",
+      "cycleTimeDays": 9.919444444444444,
+      "issueType": "Task",
+      "storyPoints": null,
+      "sprintCount": 0
+    },
+    {
+      "issueKey": "BWEBDEV-3721",
+      "resolutionDate": "2026-02-12T11:01:00.000Z",
+      "cycleTimeDays": 301.02708333333334,
+      "issueType": "Task",
+      "storyPoints": 3,
+      "sprintCount": 1
+    },
+    {
+      "issueKey": "BWEBDEV-3672",
+      "resolutionDate": "2025-04-16T06:52:00.000Z",
+      "cycleTimeDays": 0.011111111111111112,
+      "issueType": "Bug",
+      "storyPoints": null,
+      "sprintCount": 0
+    },
+    {
+      "issueKey": "BWEBDEV-3671",
+      "resolutionDate": "2025-04-16T06:42:00.000Z",
+      "cycleTimeDays": 0.013194444444444444,
+      "issueType": "Bug",
+      "storyPoints": null,
+      "sprintCount": 1
+    },
+    {
+      "issueKey": "BWEBDEV-3633",
+      "resolutionDate": "2025-06-11T10:50:00.000Z",
+      "cycleTimeDays": 57.96597222222222,
+      "issueType": "Task",
+      "storyPoints": 0,
+      "sprintCount": 1
+    },
+    {
+      "issueKey": "BWEBDEV-3561",
+      "resolutionDate": "2025-04-10T06:08:00.000Z",
+      "cycleTimeDays": 0.15208333333333332,
+      "issueType": "Bug",
+      "storyPoints": null,
+      "sprintCount": 1
+    },
+    {
+      "issueKey": "BWEBDEV-3556",
+      "resolutionDate": "2025-06-27T07:03:00.000Z",
+      "cycleTimeDays": 78.78819444444444,
+      "issueType": "Bug",
+      "storyPoints": 1,
+      "sprintCount": 0
+    },
+    {
+      "issueKey": "BWEBDEV-3430",
+      "resolutionDate": "2025-04-15T10:54:00.000Z",
+      "cycleTimeDays": 12.972222222222221,
+      "issueType": "Task",
+      "storyPoints": null,
+      "sprintCount": 0
+    },
+    {
+      "issueKey": "BWEBDEV-3414",
+      "resolutionDate": "2025-04-14T05:28:00.000Z",
+      "cycleTimeDays": 11.907638888888888,
+      "issueType": "Task",
+      "storyPoints": null,
+      "sprintCount": 1
+    },
+    {
+      "issueKey": "BWEBDEV-3322",
+      "resolutionDate": "2025-03-28T11:51:00.000Z",
+      "cycleTimeDays": 0.08611111111111111,
+      "issueType": "Task",
+      "storyPoints": null,
+      "sprintCount": 0
+    },
+    {
+      "issueKey": "BWEBDEV-3301",
+      "resolutionDate": "2025-03-28T05:10:00.000Z",
+      "cycleTimeDays": 0.6854166666666667,
+      "issueType": "Task",
+      "storyPoints": 0.5,
+      "sprintCount": 1
+    },
+    {
+      "issueKey": "BWEBDEV-3193",
+      "resolutionDate": "2025-04-04T08:02:00.000Z",
+      "cycleTimeDays": 13.827083333333333,
+      "issueType": "Bug",
+      "storyPoints": null,
+      "sprintCount": 0
+    },
+    {
+      "issueKey": "BWEBDEV-3057",
+      "resolutionDate": "2026-01-14T07:28:00.000Z",
+      "cycleTimeDays": 306.95694444444445,
+      "issueType": "Task",
+      "storyPoints": 3,
+      "sprintCount": 0
+    },
+    {
+      "issueKey": "BWEBDEV-3023",
+      "resolutionDate": "2025-06-27T07:27:00.000Z",
+      "cycleTimeDays": 106.96527777777777,
+      "issueType": "Task",
+      "storyPoints": null,
+      "sprintCount": 1
+    },
+    {
+      "issueKey": "BWEBDEV-2930",
+      "resolutionDate": "2025-03-06T13:59:00.000Z",
+      "cycleTimeDays": 0.1763888888888889,
+      "issueType": "Bug",
+      "storyPoints": null,
+      "sprintCount": 0
+    },
+    {
+      "issueKey": "BWEBDEV-2850",
+      "resolutionDate": "2025-03-12T06:15:00.000Z",
+      "cycleTimeDays": 8.910416666666666,
+      "issueType": "Bug",
+      "storyPoints": 1,
+      "sprintCount": 1
+    },
+    {
+      "issueKey": "BWEBDEV-2844",
+      "resolutionDate": "2025-03-05T13:29:00.000Z",
+      "cycleTimeDays": 2.3430555555555554,
+      "issueType": "Task",
+      "storyPoints": null,
+      "sprintCount": 0
+    },
+    {
+      "issueKey": "BWEBDEV-2833",
+      "resolutionDate": "2025-03-03T10:58:00.000Z",
+      "cycleTimeDays": 2.9881944444444444,
+      "issueType": "Bug",
+      "storyPoints": null,
+      "sprintCount": 0
+    },
+    {
+      "issueKey": "BWEBDEV-2769",
+      "resolutionDate": "2025-03-24T06:49:00.000Z",
+      "cycleTimeDays": 26.052777777777777,
+      "issueType": "Task",
+      "storyPoints": 3,
+      "sprintCount": 2
+    },
+    {
+      "issueKey": "BWEBDEV-2495",
+      "resolutionDate": "2025-02-27T11:38:00.000Z",
+      "cycleTimeDays": 16.02986111111111,
+      "issueType": "Task",
+      "storyPoints": 1,
+      "sprintCount": 1
+    },
+    {
+      "issueKey": "BWEBDEV-2485",
+      "resolutionDate": "2025-03-18T09:58:00.000Z",
+      "cycleTimeDays": 35.09166666666667,
+      "issueType": "Task",
+      "storyPoints": null,
+      "sprintCount": 0
+    },
+    {
+      "issueKey": "BWEBDEV-2482",
+      "resolutionDate": "2025-03-18T10:44:00.000Z",
+      "cycleTimeDays": 35.142361111111114,
+      "issueType": "Task",
+      "storyPoints": null,
+      "sprintCount": 0
+    },
+    {
+      "issueKey": "BWEBDEV-2406",
+      "resolutionDate": "2025-02-26T11:17:00.000Z",
+      "cycleTimeDays": 20.085416666666667,
+      "issueType": "Story",
+      "storyPoints": null,
+      "sprintCount": 0
+    },
+    {
+      "issueKey": "BWEBDEV-2325",
+      "resolutionDate": "2025-03-03T07:06:00.000Z",
+      "cycleTimeDays": 30.71527777777778,
+      "issueType": "Task",
+      "storyPoints": null,
+      "sprintCount": 1
+    },
+    {
+      "issueKey": "BWEBDEV-2172",
+      "resolutionDate": "2025-01-28T09:41:00.000Z",
+      "cycleTimeDays": 4.020833333333333,
+      "issueType": "Bug",
+      "storyPoints": null,
+      "sprintCount": 1
+    },
+    {
+      "issueKey": "BWEBDEV-2138",
+      "resolutionDate": "2025-01-24T12:57:00.000Z",
+      "cycleTimeDays": 2.040277777777778,
+      "issueType": "Bug",
+      "storyPoints": null,
+      "sprintCount": 0
+    },
+    {
+      "issueKey": "BWEBDEV-2033",
+      "resolutionDate": "2025-02-27T10:29:00.000Z",
+      "cycleTimeDays": 41.99791666666667,
+      "issueType": "Task",
+      "storyPoints": 1,
+      "sprintCount": 0
+    },
+    {
+      "issueKey": "BWEBDEV-2015",
+      "resolutionDate": "2025-01-22T08:32:00.000Z",
+      "cycleTimeDays": 6.7756944444444445,
+      "issueType": "Task",
+      "storyPoints": null,
+      "sprintCount": 0
+    },
+    {
+      "issueKey": "BWEBDEV-2003",
+      "resolutionDate": "2025-01-15T09:16:00.000Z",
+      "cycleTimeDays": 0.03611111111111111,
+      "issueType": "Task",
+      "storyPoints": null,
+      "sprintCount": 0
+    },
+    {
+      "issueKey": "BWEBDEV-1993",
+      "resolutionDate": "2026-01-05T06:57:00.000Z",
+      "cycleTimeDays": 355.7263888888889,
+      "issueType": "Task",
+      "storyPoints": null,
+      "sprintCount": 0
+    },
+    {
+      "issueKey": "BWEBDEV-1902",
+      "resolutionDate": "2025-01-10T14:03:00.000Z",
+      "cycleTimeDays": 0.21875,
+      "issueType": "Task",
+      "storyPoints": null,
+      "sprintCount": 0
+    },
+    {
+      "issueKey": "BWEBDEV-1885",
+      "resolutionDate": "2025-01-22T09:41:00.000Z",
+      "cycleTimeDays": 12.900694444444444,
+      "issueType": "Task",
+      "storyPoints": null,
+      "sprintCount": 0
+    },
+    {
+      "issueKey": "BWEBDEV-1863",
+      "resolutionDate": "2025-01-09T10:16:00.000Z",
+      "cycleTimeDays": 0.16111111111111112,
+      "issueType": "Task",
+      "storyPoints": 2,
+      "sprintCount": 0
+    },
+    {
+      "issueKey": "BWEBDEV-1836",
+      "resolutionDate": "2025-01-08T15:13:00.000Z",
+      "cycleTimeDays": 1.0416666666666667,
+      "issueType": "Task",
+      "storyPoints": null,
+      "sprintCount": 0
+    },
+    {
+      "issueKey": "BWEBDEV-1827",
+      "resolutionDate": "2025-04-02T07:35:00.000Z",
+      "cycleTimeDays": 84.85,
+      "issueType": "Task",
+      "storyPoints": null,
+      "sprintCount": 0
+    },
+    {
+      "issueKey": "BWEBDEV-1742",
+      "resolutionDate": "2025-01-28T13:12:00.000Z",
+      "cycleTimeDays": 26.249305555555555,
+      "issueType": "Task",
+      "storyPoints": 3,
+      "sprintCount": 2
+    },
+    {
+      "issueKey": "BWEBDEV-1737",
+      "resolutionDate": "2025-01-02T09:20:00.000Z",
+      "cycleTimeDays": 2.0680555555555555,
+      "issueType": "Bug",
+      "storyPoints": null,
+      "sprintCount": 1
+    },
+    {
+      "issueKey": "BWEBDEV-1587",
+      "resolutionDate": "2024-12-18T06:30:00.000Z",
+      "cycleTimeDays": 1.9055555555555554,
+      "issueType": "Sub-task",
+      "storyPoints": 2,
+      "sprintCount": 3
+    },
+    {
+      "issueKey": "BWEBDEV-1512",
+      "resolutionDate": "2025-01-14T12:58:00.000Z",
+      "cycleTimeDays": 34.86875,
+      "issueType": "Sub-task",
+      "storyPoints": null,
+      "sprintCount": 4
+    },
+    {
+      "issueKey": "BWEBDEV-1492",
+      "resolutionDate": "2024-12-11T06:29:00.000Z",
+      "cycleTimeDays": 0.9263888888888889,
+      "issueType": "Task",
+      "storyPoints": 2,
+      "sprintCount": 0
+    },
+    {
+      "issueKey": "BWEBDEV-1424",
+      "resolutionDate": "2025-09-09T07:25:00.000Z",
+      "cycleTimeDays": 277.8076388888889,
+      "issueType": "Task",
+      "storyPoints": null,
+      "sprintCount": 0
+    },
+    {
+      "issueKey": "BWEBDEV-1407",
+      "resolutionDate": "2024-12-10T12:14:00.000Z",
+      "cycleTimeDays": 5.2340277777777775,
+      "issueType": "Task",
+      "storyPoints": null,
+      "sprintCount": 0
+    },
+    {
+      "issueKey": "BWEBDEV-1389",
+      "resolutionDate": "2024-12-04T13:31:00.000Z",
+      "cycleTimeDays": 0.20625,
+      "issueType": "Task",
+      "storyPoints": null,
+      "sprintCount": 0
+    },
+    {
+      "issueKey": "BWEBDEV-1346",
+      "resolutionDate": "2026-01-05T06:18:00.000Z",
+      "cycleTimeDays": 398.7673611111111,
+      "issueType": "Task",
+      "storyPoints": 5,
+      "sprintCount": 0
+    },
+    {
+      "issueKey": "BWEBDEV-1112",
+      "resolutionDate": "2024-11-26T11:30:00.000Z",
+      "cycleTimeDays": 6.8694444444444445,
+      "issueType": "Task",
+      "storyPoints": null,
+      "sprintCount": 0
+    },
+    {
+      "issueKey": "BWEBDEV-1060",
+      "resolutionDate": "2024-11-15T11:37:00.000Z",
+      "cycleTimeDays": 0.017361111111111112,
+      "issueType": "Bug",
+      "storyPoints": null,
+      "sprintCount": 0
+    },
+    {
+      "issueKey": "BWEBDEV-1050",
+      "resolutionDate": "2024-11-15T14:01:00.000Z",
+      "cycleTimeDays": 0.95,
+      "issueType": "Task",
+      "storyPoints": null,
+      "sprintCount": 0
+    },
+    {
+      "issueKey": "BWEBDEV-929",
+      "resolutionDate": "2024-12-10T09:02:00.000Z",
+      "cycleTimeDays": 32.00138888888889,
+      "issueType": "Task",
+      "storyPoints": 2,
+      "sprintCount": 1
+    },
+    {
+      "issueKey": "BWEBDEV-876",
+      "resolutionDate": "2024-11-07T10:00:00.000Z",
+      "cycleTimeDays": 1.0784722222222223,
+      "issueType": "Task",
+      "storyPoints": null,
+      "sprintCount": 0
+    },
+    {
+      "issueKey": "BWEBDEV-859",
+      "resolutionDate": "2025-04-02T07:36:00.000Z",
+      "cycleTimeDays": 147.91944444444445,
+      "issueType": "Task",
+      "storyPoints": null,
+      "sprintCount": 0
+    },
+    {
+      "issueKey": "BWEBDEV-858",
+      "resolutionDate": "2024-11-15T06:34:00.000Z",
+      "cycleTimeDays": 9.902083333333334,
+      "issueType": "Task",
+      "storyPoints": 5,
+      "sprintCount": 1
+    },
+    {
+      "issueKey": "BWEBDEV-824",
+      "resolutionDate": "2024-11-04T06:20:00.000Z",
+      "cycleTimeDays": 2.720833333333333,
+      "issueType": "Task",
+      "storyPoints": null,
+      "sprintCount": 0
+    },
+    {
+      "issueKey": "BWEBDEV-789",
+      "resolutionDate": "2025-06-27T12:16:00.000Z",
+      "cycleTimeDays": 239.99930555555557,
+      "issueType": "Task",
+      "storyPoints": 2,
+      "sprintCount": 0
+    },
+    {
+      "issueKey": "BWEBDEV-771",
+      "resolutionDate": "2026-01-06T13:00:00.000Z",
+      "cycleTimeDays": 433.9736111111111,
+      "issueType": "Task",
+      "storyPoints": 8,
+      "sprintCount": 0
+    },
+    {
+      "issueKey": "BWEBDEV-730",
+      "resolutionDate": "2024-12-13T10:57:00.000Z",
+      "cycleTimeDays": 46.68541666666667,
+      "issueType": "Task",
+      "storyPoints": 5,
+      "sprintCount": 0
+    },
+    {
+      "issueKey": "BWEBDEV-691",
+      "resolutionDate": "2024-10-30T08:42:00.000Z",
+      "cycleTimeDays": 6.147222222222222,
+      "issueType": "Task",
+      "storyPoints": null,
+      "sprintCount": 0
+    },
+    {
+      "issueKey": "BWEBDEV-635",
+      "resolutionDate": "2024-10-29T11:33:00.000Z",
+      "cycleTimeDays": 8.197222222222223,
+      "issueType": "Task",
+      "storyPoints": null,
+      "sprintCount": 0
+    },
+    {
+      "issueKey": "BWEBDEV-524",
+      "resolutionDate": "2025-06-11T10:24:00.000Z",
+      "cycleTimeDays": 239.99166666666667,
+      "issueType": "Task",
+      "storyPoints": 1,
+      "sprintCount": 0
+    },
+    {
+      "issueKey": "BWEBDEV-499",
+      "resolutionDate": "2025-01-17T06:12:00.000Z",
+      "cycleTimeDays": 189.97847222222222,
+      "issueType": "Sub-task",
+      "storyPoints": null,
+      "sprintCount": 18
+    },
+    {
+      "issueKey": "BWEBDEV-498",
+      "resolutionDate": "2025-01-17T06:12:00.000Z",
+      "cycleTimeDays": 189.97916666666666,
+      "issueType": "Sub-task",
+      "storyPoints": null,
+      "sprintCount": 18
+    },
+    {
+      "issueKey": "BWEBDEV-497",
+      "resolutionDate": "2025-01-17T06:11:00.000Z",
+      "cycleTimeDays": 189.97916666666666,
+      "issueType": "Sub-task",
+      "storyPoints": null,
+      "sprintCount": 18
+    },
+    {
+      "issueKey": "BWEBDEV-398",
+      "resolutionDate": "2025-04-03T12:45:00.000Z",
+      "cycleTimeDays": 366.95972222222224,
+      "issueType": "Task",
+      "storyPoints": null,
+      "sprintCount": 0
+    },
+    {
+      "issueKey": "BWEBDEV-389",
+      "resolutionDate": "2024-10-08T06:58:00.000Z",
+      "cycleTimeDays": 0.7479166666666667,
+      "issueType": "Task",
+      "storyPoints": null,
+      "sprintCount": 0
+    },
+    {
+      "issueKey": "BWEBDEV-337",
+      "resolutionDate": "2024-10-11T10:15:00.000Z",
+      "cycleTimeDays": 7.9006944444444445,
+      "issueType": "Task",
+      "storyPoints": null,
+      "sprintCount": 0
+    },
+    {
+      "issueKey": "BWEBDEV-224",
+      "resolutionDate": "2024-10-14T10:38:00.000Z",
+      "cycleTimeDays": 14.20138888888889,
+      "issueType": "Task",
+      "storyPoints": null,
+      "sprintCount": 0
+    },
+    {
+      "issueKey": "BWEBDEV-176",
+      "resolutionDate": "2024-10-03T05:24:00.000Z",
+      "cycleTimeDays": 6.951388888888889,
+      "issueType": "Bug",
+      "storyPoints": null,
+      "sprintCount": 1
+    },
+    {
+      "issueKey": "BWEBDEV-97",
+      "resolutionDate": "2025-04-03T12:45:00.000Z",
+      "cycleTimeDays": 322.1645833333333,
+      "issueType": "Task",
+      "storyPoints": null,
+      "sprintCount": 0
+    },
+    {
+      "issueKey": "BWEBDEV-39",
+      "resolutionDate": "2025-05-19T06:41:00.000Z",
+      "cycleTimeDays": 852.7194444444444,
+      "issueType": "Task",
+      "storyPoints": null,
+      "sprintCount": 0
+    },
+    {
+      "issueKey": "BWEBDEV-36",
+      "resolutionDate": "2025-09-09T07:25:00.000Z",
+      "cycleTimeDays": 668.7652777777778,
+      "issueType": "Task",
+      "storyPoints": null,
+      "sprintCount": 0
     }
   ],
   "multiSprint": {
-    "count": 32,
-    "percentage": 24.06015037593985
+    "count": 56,
+    "percentage": 22.48995983935743
   }
 }

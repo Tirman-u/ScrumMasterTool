@@ -5,7 +5,8 @@
     "doneStatuses": [
       "Done",
       "Closed",
-      "Resolved"
+      "Resolved",
+      "Cancelled"
     ]
   },
   "sleConfig": {
@@ -65,13 +66,50 @@
     "BWEBDEV-7067"
   ],
   "velocityConfig": {
-    "mode": "sprint",
+    "mode": "sprint-story-points",
     "sprintStartDate": "2026-01-15",
     "sprintLengthWeeks": 2
   },
   "bugConfig": {
     "issueTypes": [
-      "Bug"
+      "Bug",
+      "Defect",
+      "Incident"
+    ]
+  },
+  "safeConfig": {
+    "enabled": false,
+    "entityType": "team",
+    "metricIds": [
+      "flow-time",
+      "flow-velocity",
+      "flow-load",
+      "flow-efficiency",
+      "flow-predictability",
+      "flow-distribution",
+      "built-in-quality",
+      "competency-assessment"
+    ]
+  },
+  "sprintScopeConfig": {
+    "statuses": [
+      "AC Test",
+      "In Progress",
+      "Code review",
+      "Selected for Development"
+    ]
+  },
+  "workflowConfig": {
+    "backlogStatuses": [
+      "Backlog",
+      "To Do",
+      "Open"
+    ],
+    "activeStatuses": [
+      "AC Test",
+      "In Progress",
+      "Code review",
+      "Selected for Development"
     ]
   }
 }

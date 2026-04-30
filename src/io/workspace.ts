@@ -17,6 +17,18 @@ export interface WorkspaceLoadResult {
   teams: TeamLoadResult[];
 }
 
+interface ResolvedCsvMapping {
+  key: string;
+  created: string;
+  resolutionDate: string;
+  updated: string;
+  status: string;
+  resolution: string;
+  storyPoints?: string;
+  sprint?: string;
+  issueType?: string;
+}
+
 export async function loadWorkspace(workspacePath: string): Promise<WorkspaceLoadResult> {
   const resolvedWorkspace = path.resolve(workspacePath);
 
@@ -69,11 +81,12 @@ async function loadTeam(teamPath: string, teamId: string): Promise<TeamLoadResul
     const filePath = path.join(importsPath, file);
     const csvText = await fs.readFile(filePath, "utf-8");
     const parsed = parseCsv(csvText);
+    const resolvedMapping = resolveCsvMapping(teamConfig, parsed.headers, parsed.rows);
 
     totalRows += parsed.rows.length;
 
     parsed.rows.forEach((row, index) => {
-      const issue = mapRowToIssue(row, file, index + 2, teamConfig);
+      const issue = mapRowToIssue(row, file, index + 2, teamConfig, resolvedMapping);
       if (issue) {
         issues.push(issue);
       }
@@ -94,27 +107,26 @@ function mapRowToIssue(
   sourceFile: string,
   sourceRow: number,
   teamConfig: TeamConfig,
+  mapping: ResolvedCsvMapping,
 ): ParsedIssue | null {
-  const m = teamConfig.mapping;
-
-  const issueKey = (row[m.key] ?? "").trim();
+  const issueKey = (row[mapping.key] ?? "").trim();
   if (!issueKey) {
     return null;
   }
 
-  const created = parseDate(row[m.created]);
-  const updated = parseDate(row[m.updated]);
-  const resolved = parseDate(row[m.resolutionDate]);
+  const created = parseDate(row[mapping.created]);
+  const updated = parseDate(row[mapping.updated]);
+  const resolved = parseDate(row[mapping.resolutionDate]);
   const resolutionDate =
     teamConfig.cycleTimeConfig?.endDateSource === "updatedOnly"
       ? updated
       : resolved ?? updated;
-  const status = row[m.status] ?? "";
-  const resolution = row[m.resolution] ?? "";
+  const status = row[mapping.status] ?? "";
+  const resolution = row[mapping.resolution] ?? "";
   const issueType =
-    (m.issueType ? row[m.issueType] : row["Issue Type"] ?? row["Issuetype"]) ?? "";
-  const storyPoints = m.storyPoints ? parseNumber(row[m.storyPoints]) : null;
-  const sprintRaw = m.sprint ? (row[m.sprint] ?? "") : "";
+    (mapping.issueType ? row[mapping.issueType] : row["Issue Type"] ?? row["Issuetype"]) ?? "";
+  const storyPoints = mapping.storyPoints ? parseNumber(row[mapping.storyPoints]) : null;
+  const sprintRaw = mapping.sprint ? (row[mapping.sprint] ?? "") : "";
 
   return {
     issueKey,
@@ -129,6 +141,105 @@ function mapRowToIssue(
     sourceFile,
     sourceRow,
   };
+}
+
+function resolveCsvMapping(
+  config: TeamConfig,
+  headers: string[],
+  rows: Array<Record<string, string>>,
+): ResolvedCsvMapping {
+  const mapping = config.mapping;
+
+  return {
+    key: resolveExactHeader(headers, mapping.key) ?? mapping.key,
+    created: resolveExactHeader(headers, mapping.created) ?? mapping.created,
+    resolutionDate: resolveExactHeader(headers, mapping.resolutionDate) ?? mapping.resolutionDate,
+    updated: resolveExactHeader(headers, mapping.updated) ?? mapping.updated,
+    status: resolveExactHeader(headers, mapping.status) ?? mapping.status,
+    resolution: resolveExactHeader(headers, mapping.resolution) ?? mapping.resolution,
+    issueType:
+      resolveExactHeader(headers, mapping.issueType) ??
+      resolveHeaderFromCandidates(headers, rows, {
+        match: (header) => {
+          const normalized = normalizeHeaderToken(header);
+          return normalized === "issuetype" || normalized.endsWith("issuetype");
+        },
+        sampleScore: () => 0,
+      }) ??
+      mapping.issueType,
+    storyPoints:
+      resolveExactHeader(headers, mapping.storyPoints) ??
+      resolveHeaderFromCandidates(headers, rows, {
+        match: (header) => {
+          const normalized = normalizeHeaderToken(header);
+          return normalized.includes("story") && normalized.includes("point");
+        },
+        sampleScore: (header, sampleRows) =>
+          sampleRows.reduce((count, row) => count + (parseNumber(row[header]) !== null ? 1 : 0), 0),
+      }) ??
+      undefined,
+    sprint:
+      resolveExactHeader(headers, mapping.sprint) ??
+      resolveHeaderFromCandidates(headers, rows, {
+        match: (header) => normalizeHeaderToken(header).includes("sprint"),
+        sampleScore: (header, sampleRows) =>
+          sampleRows.reduce((count, row) => count + ((row[header] ?? "").trim().length > 0 ? 1 : 0), 0),
+      }) ??
+      undefined,
+  };
+}
+
+function resolveExactHeader(headers: string[], preferred: string | undefined): string | undefined {
+  const normalizedPreferred = normalizeHeaderToken(preferred);
+  if (!normalizedPreferred) {
+    return undefined;
+  }
+
+  return headers.find((header) => normalizeHeaderToken(header) === normalizedPreferred);
+}
+
+function resolveHeaderFromCandidates(
+  headers: string[],
+  rows: Array<Record<string, string>>,
+  options: {
+    match: (header: string) => boolean;
+    sampleScore: (header: string, sampleRows: Array<Record<string, string>>) => number;
+  },
+): string | undefined {
+  const sampleRows = rows.slice(0, 50);
+
+  const scored = headers
+    .filter((header) => options.match(header))
+    .map((header) => {
+      const normalized = normalizeHeaderToken(header);
+      const baseScore =
+        normalized === "sprint" || normalized === "storypoints" || normalized === "storypointestimate"
+          ? 200
+          : normalized.includes("customfield")
+            ? 140
+            : 120;
+
+      return {
+        header,
+        score: baseScore + options.sampleScore(header, sampleRows),
+      };
+    })
+    .sort((left, right) => {
+      if (right.score !== left.score) {
+        return right.score - left.score;
+      }
+
+      return left.header.localeCompare(right.header);
+    });
+
+  return scored[0]?.header;
+}
+
+function normalizeHeaderToken(value: string | undefined): string {
+  return (value ?? "")
+    .trim()
+    .toLowerCase()
+    .replace(/[^a-z0-9]+/g, "");
 }
 
 async function resolveTeamsPath(workspacePath: string): Promise<string> {

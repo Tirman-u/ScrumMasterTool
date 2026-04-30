@@ -1,0 +1,31 @@
+[
+  {
+    "period": "2026-04",
+    "columns": [
+      {
+        "name": "Ready for Refinement",
+        "avgDays": 161.01145833333334
+      },
+      {
+        "name": "Abandoned",
+        "avgDays": 27.895
+      },
+      {
+        "name": "In Development",
+        "avgDays": 8.010625
+      },
+      {
+        "name": "Open",
+        "avgDays": 5.447083333333333
+      },
+      {
+        "name": "Refined",
+        "avgDays": 3.127083333333333
+      },
+      {
+        "name": "Ready for test",
+        "avgDays": 0.015416666666666667
+      }
+    ]
+  }
+]

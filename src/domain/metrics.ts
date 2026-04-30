@@ -28,7 +28,19 @@ export function dedupeIssuesByLatestUpdate(issues: ParsedIssue[]): ParsedIssue[]
   return Array.from(byKey.values());
 }
 
-export function buildMetrics(teamConfig: TeamConfig, allRowsCount: number, dedupedIssues: ParsedIssue[]): TeamMetrics {
+interface BuildMetricsOptions {
+  timeInStatusIssueRows?: Array<{
+    issueKey: string;
+    durations: Array<{ status: string; days: number }>;
+  }>;
+}
+
+export function buildMetrics(
+  teamConfig: TeamConfig,
+  allRowsCount: number,
+  dedupedIssues: ParsedIssue[],
+  options: BuildMetricsOptions = {},
+): TeamMetrics {
   const excludedIssueKeys = new Set((teamConfig.excludedIssueKeys ?? []).map(normalize).filter(Boolean));
   const includedIssues = dedupedIssues.filter((issue) => !excludedIssueKeys.has(normalize(issue.issueKey)));
   const doneIssues = includedIssues.filter((issue) => isDone(issue, teamConfig));
@@ -38,7 +50,7 @@ export function buildMetrics(teamConfig: TeamConfig, allRowsCount: number, dedup
       if (!issue.created || !issue.resolutionDate) {
         return null;
       }
-      const cycleTimeDays = (issue.resolutionDate.getTime() - issue.created.getTime()) / MS_PER_DAY;
+      const cycleTimeDays = resolveCycleTimeDays(issue, teamConfig, options.timeInStatusIssueRows);
       if (!Number.isFinite(cycleTimeDays) || cycleTimeDays < 0) {
         return null;
       }
@@ -76,15 +88,15 @@ export function buildMetrics(teamConfig: TeamConfig, allRowsCount: number, dedup
     },
     scatter: cycleTimeIssues,
     scatterOverlay: sleValues,
-    velocityMonthly: buildVelocityMonthly(doneIssues),
+    velocityMonthly: buildVelocityMonthly(doneIssues, teamConfig),
     doneIssueDetails: doneIssues.map((issue) => ({
       issueKey: issue.issueKey,
       resolutionDate: issue.resolutionDate?.toISOString() ?? "",
       cycleTimeDays:
         issue.created && issue.resolutionDate
-          ? (issue.resolutionDate.getTime() - issue.created.getTime()) / MS_PER_DAY
+          ? resolveCycleTimeDays(issue, teamConfig, options.timeInStatusIssueRows)
           : null,
-      storyPoints: issue.storyPoints,
+      storyPoints: resolveVelocityStoryPoints(issue, teamConfig),
       sprintCount: countSprints(issue.sprintRaw),
     })),
     multiSprint: {
@@ -95,6 +107,59 @@ export function buildMetrics(teamConfig: TeamConfig, allRowsCount: number, dedup
   };
 
   return metrics;
+}
+
+function resolveCycleTimeDays(
+  issue: ParsedIssue,
+  teamConfig: TeamConfig,
+  timeInStatusIssueRows: BuildMetricsOptions["timeInStatusIssueRows"],
+): number | null {
+  const statusCycleTime = resolveTimeInStatusCycleTimeDays(issue, teamConfig, timeInStatusIssueRows);
+  if (statusCycleTime !== null) {
+    return statusCycleTime;
+  }
+
+  if (!issue.created || !issue.resolutionDate) {
+    return null;
+  }
+
+  return (issue.resolutionDate.getTime() - issue.created.getTime()) / MS_PER_DAY;
+}
+
+function resolveTimeInStatusCycleTimeDays(
+  issue: ParsedIssue,
+  teamConfig: TeamConfig,
+  timeInStatusIssueRows: BuildMetricsOptions["timeInStatusIssueRows"],
+): number | null {
+  if (!timeInStatusIssueRows || timeInStatusIssueRows.length === 0) {
+    return null;
+  }
+
+  const row = timeInStatusIssueRows.find((item) => normalize(item.issueKey) === normalize(issue.issueKey));
+  if (!row) {
+    return null;
+  }
+
+  const activeSet = new Set((teamConfig.workflowConfig?.activeStatuses ?? teamConfig.sprintScopeConfig?.statuses ?? []).map(normalize).filter(Boolean));
+  const backlogSet = new Set((teamConfig.workflowConfig?.backlogStatuses ?? []).map(normalize).filter(Boolean));
+  const doneSet = new Set((teamConfig.doneConfig.doneStatuses ?? []).map(normalize).filter(Boolean));
+
+  const includedDurations = row.durations.filter((duration) => {
+    const status = normalize(duration.status);
+    if (!status || !Number.isFinite(duration.days) || duration.days <= 0) {
+      return false;
+    }
+    if (activeSet.size > 0) {
+      return activeSet.has(status);
+    }
+    return !backlogSet.has(status) && !doneSet.has(status) && !["done", "closed", "resolved"].includes(status);
+  });
+
+  if (includedDurations.length === 0) {
+    return null;
+  }
+
+  return includedDurations.reduce((sum, duration) => sum + duration.days, 0);
 }
 
 export function isDone(issue: ParsedIssue, teamConfig: TeamConfig): boolean {
@@ -173,7 +238,24 @@ function normalize(value: string | undefined): string {
   return (value ?? "").trim().toLowerCase();
 }
 
-function buildVelocityMonthly(doneIssues: ParsedIssue[]): VelocityPoint[] {
+export function resolveVelocityStoryPoints(
+  issue: Pick<ParsedIssue, "storyPoints" | "issueType">,
+  teamConfig: Pick<TeamConfig, "bugConfig">,
+): number | null {
+  if (issue.storyPoints !== null && Number.isFinite(issue.storyPoints)) {
+    return issue.storyPoints;
+  }
+
+  const defaultStoryPoints = teamConfig.bugConfig?.defaultStoryPoints;
+  if (defaultStoryPoints === undefined || defaultStoryPoints === null || !Number.isFinite(defaultStoryPoints)) {
+    return null;
+  }
+
+  const bugSet = new Set((teamConfig.bugConfig?.issueTypes ?? ["Bug"]).map(normalize).filter(Boolean));
+  return bugSet.has(normalize(issue.issueType)) ? defaultStoryPoints : null;
+}
+
+function buildVelocityMonthly(doneIssues: ParsedIssue[], teamConfig: TeamConfig): VelocityPoint[] {
   const monthly = new Map<string, number>();
 
   for (const issue of doneIssues) {
@@ -182,7 +264,7 @@ function buildVelocityMonthly(doneIssues: ParsedIssue[]): VelocityPoint[] {
     }
 
     const month = issue.resolutionDate.toISOString().slice(0, 7);
-    const amount = issue.storyPoints ?? 1;
+    const amount = resolveVelocityStoryPoints(issue, teamConfig) ?? 1;
     const current = monthly.get(month) ?? 0;
     monthly.set(month, current + amount);
   }

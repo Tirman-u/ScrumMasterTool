@@ -3,12 +3,15 @@ import { TeamDetail } from "./components/TeamDetail";
 import {
   DEFAULT_SLE_ISSUE_TYPES,
   buildSleValues,
-  isIssueTypeIncludedInSle,
+  countSprints,
   normalizeSleIssueTypes,
+  resolveEffectiveSleIssueTypes,
+  resolveVelocityStoryPoints,
 } from "./lib/metrics";
 import {
   addTeam,
   analyzeTeam,
+  importCsvContents,
   importCsvFiles,
   listTeams,
   listRememberedWorkspaces,
@@ -26,11 +29,14 @@ import {
   saveTeamBottleneckEntries,
   supportsFileSystemAccess,
 } from "./lib/workspace";
+import { exportJiraIssuesToCsv, testJiraConnection } from "./lib/jira";
 import {
+  type JiraQueryCollection,
   type BottleneckEntry,
   type ImportBucket,
   type JiraQueryConfig,
   type JiraSavedQuery,
+  type MetricScope,
   type SleValues,
   type ParsedIssue,
   type TeamConfig,
@@ -39,6 +45,7 @@ import {
   type TeamProgressSnapshot,
   type TeamRuntime,
   type WorkspaceConfig,
+  type WorkspaceMetricConfig,
   type WorkspaceProfileConfig,
 } from "./types/contracts";
 
@@ -46,13 +53,266 @@ const EMPTY_SLE: SleValues = { p50: null, p70: null, p85: null, p95: null };
 const BOTTLENECK_HISTORY_START_MONTH = "2026-01";
 const ALL_TEAMS_PROFILE_ID = "__all-teams__";
 
-type Page = "workspace" | "dashboard" | "import" | "team";
+type Page = "workspace" | "dashboard" | "metrics" | "import" | "team";
 type TeamTab = "overview" | "cycle";
 type ImportMode = "current-month" | "root" | "custom";
 type QueryTimeWindow = "none" | "current-month" | "last-month" | "ytd";
+type JiraQueryTarget = "issueQuery" | "timeInStatusQuery";
 type TrendTone = "good" | "bad" | "neutral";
 type HealthTone = "good" | "warn" | "bad" | "neutral";
 type SleLineKey = "p50" | "p70" | "p85" | "p95";
+type ConfigurableMetricId =
+  | "health-check"
+  | "stories-done"
+  | "avg-cycle-time"
+  | "sle-p85"
+  | "velocity"
+  | "wip-age-risk"
+  | "forecast"
+  | "bug-ratio"
+  | "throughput"
+  | "sprint-work"
+  | "sprint-predictability"
+  | "flow-balance"
+  | "throughput-stability"
+  | "lead-time-by-type"
+  | "flow-efficiency"
+  | "queue-time"
+  | "bottleneck-trend"
+  | "wip-heatmap"
+  | "aging-wip"
+  | "bottleneck"
+  | "time-in-status"
+  | "data-monitor"
+  | "detailed-table";
+
+interface ConfigurableMetricDefinition {
+  id: ConfigurableMetricId;
+  label: string;
+  group: ConfigurableMetricGroup;
+  source: "Jira CSV" | "Time in Status" | "Derived" | "Manual/External";
+  description: string;
+  defaultScopes: MetricScope[];
+  safeMetricIds?: string[];
+}
+
+type ConfigurableMetricGroup = "Core" | "Flow" | "Predictability" | "Quality" | "Data";
+
+const METRIC_SCOPES: MetricScope[] = ["team", "value-stream", "art"];
+const METRIC_GROUPS: ConfigurableMetricGroup[] = ["Core", "Flow", "Predictability", "Quality", "Data"];
+const METRIC_SCOPE_LABELS: Record<MetricScope, string> = {
+  team: "Team",
+  "value-stream": "Value Stream",
+  art: "ART",
+};
+
+const CONFIGURABLE_METRICS: ConfigurableMetricDefinition[] = [
+  {
+    id: "health-check",
+    label: "Health Check",
+    group: "Core",
+    source: "Derived",
+    description: "Compact action/watch/healthy summary for the selected scope.",
+    defaultScopes: ["team", "value-stream", "art"],
+    safeMetricIds: ["flow-predictability", "built-in-quality"],
+  },
+  {
+    id: "stories-done",
+    label: "Stories Done",
+    group: "Core",
+    source: "Jira CSV",
+    description: "Done count in the selected period.",
+    defaultScopes: ["team", "value-stream", "art"],
+    safeMetricIds: ["flow-velocity"],
+  },
+  {
+    id: "avg-cycle-time",
+    label: "Avg Cycle Time",
+    group: "Core",
+    source: "Jira CSV",
+    description: "Average created-to-done time.",
+    defaultScopes: ["team", "value-stream", "art"],
+    safeMetricIds: ["flow-time"],
+  },
+  {
+    id: "sle-p85",
+    label: "SLE P85",
+    group: "Core",
+    source: "Jira CSV",
+    description: "85th percentile delivery time.",
+    defaultScopes: ["team", "value-stream", "art"],
+    safeMetricIds: ["flow-time"],
+  },
+  {
+    id: "velocity",
+    label: "Velocity",
+    group: "Core",
+    source: "Jira CSV",
+    description: "Delivered ticket count or story points by configured cadence.",
+    defaultScopes: ["team", "art"],
+    safeMetricIds: ["flow-velocity"],
+  },
+  {
+    id: "wip-age-risk",
+    label: "WIP Age Risk",
+    group: "Flow",
+    source: "Jira CSV",
+    description: "Open ticket age risk split.",
+    defaultScopes: ["team", "value-stream", "art"],
+    safeMetricIds: ["flow-load"],
+  },
+  {
+    id: "forecast",
+    label: "Forecast",
+    group: "Predictability",
+    source: "Derived",
+    description: "Monte Carlo lite forecast based on throughput history.",
+    defaultScopes: ["team", "value-stream", "art"],
+    safeMetricIds: ["flow-predictability"],
+  },
+  {
+    id: "bug-ratio",
+    label: "Done Bug Ratio",
+    group: "Quality",
+    source: "Jira CSV",
+    description: "Share of done items matching configured bug issue types.",
+    defaultScopes: ["team", "art"],
+    safeMetricIds: ["built-in-quality"],
+  },
+  {
+    id: "throughput",
+    label: "Throughput",
+    group: "Flow",
+    source: "Jira CSV",
+    description: "Current month, previous month and rolling 30-day throughput.",
+    defaultScopes: ["team", "value-stream", "art"],
+    safeMetricIds: ["flow-velocity"],
+  },
+  {
+    id: "sprint-work",
+    label: "Sprint Work Quality",
+    group: "Predictability",
+    source: "Jira CSV",
+    description: "Unestimated in-sprint work and delivered outside sprint.",
+    defaultScopes: ["team"],
+    safeMetricIds: ["flow-predictability"],
+  },
+  {
+    id: "sprint-predictability",
+    label: "2+ Sprint %",
+    group: "Predictability",
+    source: "Derived",
+    description: "Share of delivered work that has been assigned to 2 or more sprints.",
+    defaultScopes: ["team", "art"],
+    safeMetricIds: ["flow-predictability"],
+  },
+  {
+    id: "flow-balance",
+    label: "Created vs Delivered",
+    group: "Flow",
+    source: "Jira CSV",
+    description: "Intake, throughput and backlog flow.",
+    defaultScopes: ["team", "value-stream", "art"],
+    safeMetricIds: ["flow-load", "flow-velocity"],
+  },
+  {
+    id: "throughput-stability",
+    label: "Throughput Stability",
+    group: "Predictability",
+    source: "Derived",
+    description: "Predictability from weekly and monthly throughput variation.",
+    defaultScopes: ["team", "value-stream", "art"],
+    safeMetricIds: ["flow-predictability"],
+  },
+  {
+    id: "lead-time-by-type",
+    label: "Lead Time by Type",
+    group: "Flow",
+    source: "Jira CSV",
+    description: "Slowest issue types by average lead time.",
+    defaultScopes: ["team", "value-stream"],
+    safeMetricIds: ["flow-time", "flow-distribution"],
+  },
+  {
+    id: "flow-efficiency",
+    label: "Flow Efficiency",
+    group: "Flow",
+    source: "Time in Status",
+    description: "Active time versus waiting time.",
+    defaultScopes: ["team", "value-stream", "art"],
+    safeMetricIds: ["flow-efficiency"],
+  },
+  {
+    id: "queue-time",
+    label: "Queue Time by Status",
+    group: "Flow",
+    source: "Time in Status",
+    description: "Statuses with highest average waiting time.",
+    defaultScopes: ["team", "value-stream", "art"],
+    safeMetricIds: ["flow-efficiency"],
+  },
+  {
+    id: "bottleneck-trend",
+    label: "Bottleneck Trend",
+    group: "Flow",
+    source: "Time in Status",
+    description: "Recurring monthly bottleneck signal.",
+    defaultScopes: ["team", "value-stream", "art"],
+    safeMetricIds: ["flow-efficiency"],
+  },
+  {
+    id: "wip-heatmap",
+    label: "WIP Risk Heatmap",
+    group: "Flow",
+    source: "Jira CSV",
+    description: "Open WIP age split by status.",
+    defaultScopes: ["team", "value-stream"],
+    safeMetricIds: ["flow-load"],
+  },
+  {
+    id: "aging-wip",
+    label: "Aging WIP Details",
+    group: "Flow",
+    source: "Jira CSV",
+    description: "Oldest open tickets and aging distribution.",
+    defaultScopes: ["team"],
+    safeMetricIds: ["flow-load"],
+  },
+  {
+    id: "bottleneck",
+    label: "Bottleneck Panel",
+    group: "Flow",
+    source: "Time in Status",
+    description: "Monthly bottleneck table and manual override editor link.",
+    defaultScopes: ["team", "value-stream", "art"],
+    safeMetricIds: ["flow-efficiency"],
+  },
+  {
+    id: "time-in-status",
+    label: "Time in Status Table",
+    group: "Flow",
+    source: "Time in Status",
+    description: "Detailed status wait-time table.",
+    defaultScopes: ["team"],
+    safeMetricIds: ["flow-efficiency"],
+  },
+  {
+    id: "data-monitor",
+    label: "Data Monitor",
+    group: "Data",
+    source: "Derived",
+    description: "Missing fields and metric prerequisite checks.",
+    defaultScopes: ["team", "value-stream", "art"],
+  },
+  {
+    id: "detailed-table",
+    label: "Detailed Metrics Table",
+    group: "Core",
+    source: "Derived",
+    description: "Dense current/previous metric comparison table.",
+    defaultScopes: ["team"],
+  },
+];
 
 interface TeamSnapshot {
   done: number;
@@ -63,6 +323,8 @@ interface TeamSnapshot {
 }
 
 interface ThroughputSnapshot {
+  anchorMonth: string;
+  comparisonMonth: string;
   thisMonth: number;
   lastMonth: number;
   last30Days: number;
@@ -96,6 +358,8 @@ interface BugRatioSnapshot {
 }
 
 interface IntakeThroughputSnapshot {
+  anchorMonth: string;
+  comparisonMonth: string;
   intakeThisMonth: number;
   throughputThisMonth: number;
   intakeLast30Days: number;
@@ -110,8 +374,10 @@ interface NetFlowSnapshot {
 interface ThroughputStabilitySnapshot {
   weeklyAvg: number | null;
   weeklyCvPct: number | null;
+  weeklyPredictabilityPct: number | null;
   monthlyAvg: number | null;
   monthlyCvPct: number | null;
+  monthlyPredictabilityPct: number | null;
   weeklySamples: number;
   monthlySamples: number;
 }
@@ -159,9 +425,10 @@ interface BottleneckTrendSnapshot {
 interface WipRiskHeatmapStatusRow {
   status: string;
   total: number;
-  over30: number;
-  over60: number;
-  over90: number;
+  age0To30: number;
+  age31To60: number;
+  age61To90: number;
+  age91Plus: number;
 }
 
 interface WipRiskHeatmapSnapshot {
@@ -192,6 +459,17 @@ interface SprintPredictabilitySnapshot {
   rows: SprintPredictabilityRow[];
 }
 
+interface SprintWorkSnapshot {
+  inSprintTotal: number;
+  inSprintUnestimatedCount: number;
+  inSprintUnestimatedPct: number | null;
+  doneTotal: number;
+  deliveredInSprintCount: number;
+  deliveredInSprintPct: number | null;
+  deliveredOutsideSprintCount: number;
+  deliveredOutsideSprintPct: number | null;
+}
+
 interface TeamHealthSnapshot {
   throughput: ThroughputSnapshot;
   agingWip: AgingWipSnapshot;
@@ -206,6 +484,7 @@ interface TeamHealthSnapshot {
   bottleneckTrend: BottleneckTrendSnapshot;
   forecast: ForecastSnapshot;
   sprintPredictability: SprintPredictabilitySnapshot;
+  sprintWork: SprintWorkSnapshot;
   leadTimeByType: LeadTimeByTypeSnapshot[];
 }
 
@@ -257,7 +536,6 @@ interface TeamHealthSignals {
   queueTimeByStatus: MetricHealthSignal;
   bottleneckTrend: MetricHealthSignal;
   forecast: MetricHealthSignal;
-  sprintPredictability: MetricHealthSignal;
 }
 
 type TeamHealthSignalKey = keyof TeamHealthSignals;
@@ -307,9 +585,12 @@ type MetricHelpKey =
   | "bottleneckTrend"
   | "forecastMonteCarlo"
   | "sprintPredictability"
+  | "inSprintUnestimated"
+  | "deliveredOutsideSprint"
   | "wipRiskHeatmap"
   | "agingWip"
   | "bottleneck"
+  | "dataMonitor"
   | "healthCheckSummary";
 
 interface MetricHelpCopy {
@@ -326,6 +607,14 @@ interface MetricDataIssue {
 }
 
 type MetricDataIssueMap = Partial<Record<MetricHelpKey, MetricDataIssue>>;
+
+interface DataMonitorEntry {
+  id: string;
+  tone: "info" | "warn" | "bad";
+  title: string;
+  message: string;
+  sampleIssueKeys: string[];
+}
 
 interface ProgressComparisonMetricRow {
   label: string;
@@ -344,6 +633,23 @@ interface ProgressComparisonSummary {
   worsenedCount: number;
   unchangedCount: number;
   rows: ProgressComparisonMetricRow[];
+}
+
+interface PeriodYearGroup {
+  year: string;
+  months: string[];
+}
+
+type TimeInStatusStatusCategory = "queue" | "active" | "done" | "other";
+
+interface TimeInStatusStatusRow {
+  name: string;
+  avgDays: number;
+  category: TimeInStatusStatusCategory;
+  categoryLabel: string;
+  tone: HealthTone;
+  highlight: boolean;
+  signal: string;
 }
 
 const METRIC_HELP: Record<MetricHelpKey, MetricHelpCopy> = {
@@ -400,7 +706,8 @@ const METRIC_HELP: Record<MetricHelpKey, MetricHelpCopy> = {
   },
   throughputThisMonth: {
     title: "Throughput (This month)",
-    meaning: "Done count by Updated date in current month.",
+    meaning:
+      "Done count by delivery date (Resolved, or Updated fallback) in the anchor month. In month view this is the selected month; otherwise it uses the latest available activity month.",
     whyGood: "Shows current output pace and near-term delivery capacity.",
     improveTips: [
       "Reduce carry-over by finishing in-progress work first.",
@@ -410,7 +717,7 @@ const METRIC_HELP: Record<MetricHelpKey, MetricHelpCopy> = {
   },
   throughputLastMonth: {
     title: "Throughput (Last month)",
-    meaning: "Done count by Updated date in previous month.",
+    meaning: "Done count by Updated date in the month before the anchor month.",
     whyGood: "Good baseline to compare month-over-month change.",
     improveTips: [
       "Use it as baseline and investigate large month-over-month deltas.",
@@ -420,7 +727,7 @@ const METRIC_HELP: Record<MetricHelpKey, MetricHelpCopy> = {
   },
   throughputLast30Days: {
     title: "Throughput (Last 30 days)",
-    meaning: "Rolling done count over recent 30 days.",
+    meaning: "Rolling done count by delivery date over the 30-day window ending at the anchor month cutoff.",
     whyGood: "Less sensitive to month boundaries than calendar month totals.",
     improveTips: [
       "Track weekly fluctuations and investigate sudden drops.",
@@ -445,7 +752,7 @@ const METRIC_HELP: Record<MetricHelpKey, MetricHelpCopy> = {
   },
   intakeVsThroughput: {
     title: "Created vs Delivered",
-    meaning: "Newly created work compared to delivered work in same window.",
+    meaning: "Newly created work compared to delivered work in the same anchor month window, using delivery date for done work.",
     whyGood: "Created should stay close to or below Delivered to keep backlog healthy.",
     improveTips: [
       "Cap intake when delivery cannot keep up.",
@@ -460,7 +767,7 @@ const METRIC_HELP: Record<MetricHelpKey, MetricHelpCopy> = {
   },
   netFlow: {
     title: "Backlog Flow",
-    meaning: "Created minus Delivered.",
+    meaning: "Created minus Delivered in the anchor month window, using delivery date for done work.",
     whyGood: "Positive means backlog is growing, zero or negative means stable/reducing backlog.",
     improveTips: [
       "If backlog flow stays positive, reduce intake temporarily.",
@@ -475,17 +782,17 @@ const METRIC_HELP: Record<MetricHelpKey, MetricHelpCopy> = {
   },
   throughputStability: {
     title: "Throughput Stability",
-    meaning: "Coefficient of variation (CV) for recent throughput.",
-    whyGood: "Lower CV is better. It means output is more predictable.",
+    meaning: "Predictability score derived from recent throughput variation.",
+    whyGood: "Higher is better. 100% means throughput is very stable and easier to plan against.",
     improveTips: [
       "Stabilize sprint scope and reduce urgent ad-hoc interruptions.",
       "Keep work item sizes more consistent.",
       "Balance skills in the team to reduce bottleneck dependence.",
     ],
     healthScale: [
-      { tone: "good", label: "Healthy", range: "<= 35% CV" },
-      { tone: "warn", label: "Watch", range: "35.1% to 60% CV" },
-      { tone: "bad", label: "Action", range: "> 60% CV" },
+      { tone: "good", label: "Healthy", range: ">= 80% predictable" },
+      { tone: "warn", label: "Watch", range: "50% to 79.9% predictable" },
+      { tone: "bad", label: "Action", range: "< 50% predictable" },
     ],
   },
   wipAgeRisk: {
@@ -528,9 +835,9 @@ const METRIC_HELP: Record<MetricHelpKey, MetricHelpCopy> = {
       "Automate repetitive handoffs where possible.",
     ],
     healthScale: [
-      { tone: "good", label: "Healthy", range: ">= 35%" },
-      { tone: "warn", label: "Watch", range: "20% to 34.9%" },
-      { tone: "bad", label: "Action", range: "< 20%" },
+      { tone: "good", label: "Healthy", range: ">= 50%" },
+      { tone: "warn", label: "Watch", range: "30% to 49.9%" },
+      { tone: "bad", label: "Action", range: "< 30%" },
     ],
   },
   queueTimeByStatus: {
@@ -580,23 +887,38 @@ const METRIC_HELP: Record<MetricHelpKey, MetricHelpCopy> = {
     ],
   },
   sprintPredictability: {
-    title: "Sprint Predictability",
-    meaning: "Committed vs completed ratio by sprint bucket.",
-    whyGood: "Healthy range is around 85-115%. Too low means under-delivery; too high often means scope churn/unplanned work.",
+    title: "2+ Sprint %",
+    meaning: "Share of delivered work that has 2 or more sprint assignments.",
+    whyGood: "Lower is better. High values usually mean carry-over or work moving across sprint boundaries.",
     improveTips: [
-      "Freeze sprint scope after planning as much as possible.",
-      "Refine and estimate backlog better before sprint start.",
-      "If value is above 115%, track unplanned work and scope additions.",
+      "Split work smaller before it enters a sprint.",
+      "Review carry-over in retro and identify why work missed the sprint.",
+      "Use Delivered Outside Sprint % beside this to separate carry-over from ad-hoc work.",
     ],
-    healthScale: [
-      { tone: "good", label: "Healthy", range: "85% to 115%" },
-      { tone: "warn", label: "Watch", range: "70% to 84.9% OR 115.1% to 130%" },
-      { tone: "bad", label: "Action", range: "< 70% OR > 130%" },
+  },
+  inSprintUnestimated: {
+    title: "In-Sprint Unestimated %",
+    meaning: "Share of sprint-assigned tickets updated in the selected period that have no story points.",
+    whyGood: "Lower is better. Sprint work without estimates weakens planning and predictability.",
+    improveTips: [
+      "Add story points before work enters sprint scope.",
+      "Reject unestimated tickets from sprint planning unless explicitly expedited.",
+      "Track teams or issue types where estimate discipline is slipping.",
+    ],
+  },
+  deliveredOutsideSprint: {
+    title: "Delivered Outside Sprint %",
+    meaning: "Share of delivered tickets in the selected period that have no sprint assignment.",
+    whyGood: "Lower is better for Scrum teams. High values usually mean ad-hoc work or weak sprint discipline.",
+    improveTips: [
+      "Separate true support/ad-hoc work from sprint delivery.",
+      "Ensure sprint field is populated before planned work starts.",
+      "Review done items without sprint and decide if the process or mapping is wrong.",
     ],
   },
   wipRiskHeatmap: {
     title: "WIP Risk Heatmap by Status",
-    meaning: "Open WIP split by status with >30 / >60 / >90 days aging buckets.",
+    meaning: "Open WIP split by status into exclusive aging buckets so each row sums to Total.",
     whyGood: "Highlights exactly which statuses are accumulating stale work.",
     improveTips: [
       "Set aging alerts for >30 and >60 day tickets.",
@@ -605,7 +927,7 @@ const METRIC_HELP: Record<MetricHelpKey, MetricHelpCopy> = {
     ],
   },
   agingWip: {
-    title: "Aging WIP",
+    title: "Average age of open tickets",
     meaning: "Average age of currently open work.",
     whyGood: "Lower is better. Rising age usually predicts slower delivery.",
     improveTips: [
@@ -622,6 +944,16 @@ const METRIC_HELP: Record<MetricHelpKey, MetricHelpCopy> = {
       "Prioritize improvements in the current bottleneck stage first.",
       "Reduce handoff delays and waiting before/after that stage.",
       "Use temporary swarm policy until queue normalizes.",
+    ],
+  },
+  dataMonitor: {
+    title: "Data Monitor",
+    meaning: "Centralized list of missing source fields and metric prerequisites for the selected team/period.",
+    whyGood: "Makes broken or partial metrics actionable without hunting through individual cards.",
+    improveTips: [
+      "Fix missing source columns first: Created, Updated, Issue Type, Story points, Sprint.",
+      "Import Time in Status whenever flow metrics show gaps.",
+      "Use the sample issue keys to spot-check the raw CSV rows quickly.",
     ],
   },
   healthCheckSummary: {
@@ -652,6 +984,11 @@ export default function App(): JSX.Element {
   const [workspaceProfiles, setWorkspaceProfiles] = useState<WorkspaceProfileConfig[]>([]);
   const [activeWorkspaceProfileId, setActiveWorkspaceProfileId] = useState<string>(ALL_TEAMS_PROFILE_ID);
   const [workspaceProfileNameDraft, setWorkspaceProfileNameDraft] = useState("");
+  const [workspaceMetricConfig, setWorkspaceMetricConfig] = useState<WorkspaceMetricConfig>(() =>
+    buildDefaultWorkspaceMetricConfig(),
+  );
+  const [activeMetricScope, setActiveMetricScope] = useState<MetricScope>("team");
+  const [activeMetricGroup, setActiveMetricGroup] = useState<ConfigurableMetricGroup>("Core");
   const [teams, setTeams] = useState<TeamRuntime[]>([]);
   const [selectedTeamId, setSelectedTeamId] = useState<string | null>(null);
   const [status, setStatus] = useState("");
@@ -674,6 +1011,20 @@ export default function App(): JSX.Element {
   const [queryDraftJql, setQueryDraftJql] = useState("");
   const [queryDraftNote, setQueryDraftNote] = useState("");
   const [queryTimeWindow, setQueryTimeWindow] = useState<QueryTimeWindow>("ytd");
+  const [timeInStatusQuerySelectionId, setTimeInStatusQuerySelectionId] = useState("");
+  const [timeInStatusQueryDraftName, setTimeInStatusQueryDraftName] = useState("");
+  const [timeInStatusQueryDraftJql, setTimeInStatusQueryDraftJql] = useState("");
+  const [timeInStatusQueryDraftNote, setTimeInStatusQueryDraftNote] = useState("");
+  const [timeInStatusQueryTimeWindow, setTimeInStatusQueryTimeWindow] = useState<QueryTimeWindow>("ytd");
+  const [jiraImportUrl, setJiraImportUrl] = useState("");
+  const [jiraImportUsername, setJiraImportUsername] = useState("");
+  const [jiraImportToken, setJiraImportToken] = useState("");
+  const [jiraImportJql, setJiraImportJql] = useState("");
+  const [jiraImportMaxIssues, setJiraImportMaxIssues] = useState("200");
+  const [jiraConnectionStatus, setJiraConnectionStatus] = useState<{
+    tone: "success" | "error" | "neutral";
+    message: string;
+  } | null>(null);
 
   const [showAddTeamModal, setShowAddTeamModal] = useState(false);
   const [newTeamName, setNewTeamName] = useState("");
@@ -682,8 +1033,13 @@ export default function App(): JSX.Element {
   const [showAdvancedImport, setShowAdvancedImport] = useState(false);
   const [doneStatusesInput, setDoneStatusesInput] = useState("");
   const [bugIssueTypesInput, setBugIssueTypesInput] = useState("Bug");
+  const [bugDefaultStoryPointsInput, setBugDefaultStoryPointsInput] = useState("");
+  const [sprintScopeStatusesInput, setSprintScopeStatusesInput] = useState("");
+  const [backlogStatusesInput, setBacklogStatusesInput] = useState("");
   const [doneStatusDraft, setDoneStatusDraft] = useState("");
   const [bugIssueTypeDraft, setBugIssueTypeDraft] = useState("");
+  const [sprintScopeStatusDraft, setSprintScopeStatusDraft] = useState("");
+  const [backlogStatusDraft, setBacklogStatusDraft] = useState("");
   const [draftConfig, setDraftConfig] = useState<TeamConfig | null>(null);
   const [bottleneckPeriodInput, setBottleneckPeriodInput] = useState(() => monthKey(new Date()));
   const [bottleneckRows, setBottleneckRows] = useState<BottleneckDraftRow[]>(() => [createEmptyBottleneckRow()]);
@@ -705,6 +1061,16 @@ export default function App(): JSX.Element {
     return workspaceProfiles.find((profile) => profile.id === activeWorkspaceProfileId) ?? null;
   }, [workspaceProfiles, activeWorkspaceProfileId]);
 
+  const visibleMetricIds = useMemo(() => {
+    return getVisibleMetricSet(workspaceMetricConfig, activeMetricScope);
+  }, [workspaceMetricConfig, activeMetricScope]);
+
+  const visibleMetrics = useMemo(() => {
+    return CONFIGURABLE_METRICS.filter((metric) => visibleMetricIds.has(metric.id));
+  }, [visibleMetricIds]);
+
+  const hiddenMetricCount = CONFIGURABLE_METRICS.length - visibleMetrics.length;
+
   const filteredTeams = useMemo(() => {
     if (!activeWorkspaceProfile) {
       return teams;
@@ -724,9 +1090,11 @@ export default function App(): JSX.Element {
     [filteredTeams, importTeamId],
   );
 
-  const selectedTeamQueryConfig = useMemo(() => {
+  const selectedTeamJiraQueryConfig = useMemo(() => {
     return normalizeJiraQueryConfig(selectedImportTeam?.config.jiraQuery);
   }, [selectedImportTeam]);
+  const selectedIssueQueryConfig = selectedTeamJiraQueryConfig.issueQuery as JiraQueryCollection;
+  const selectedTimeInStatusQueryConfig = selectedTeamJiraQueryConfig.timeInStatusQuery as JiraQueryCollection;
 
   const importGuideColumns = useMemo(() => {
     const config = selectedImportTeam?.config ?? selectedTeam?.config;
@@ -768,19 +1136,16 @@ export default function App(): JSX.Element {
   }, [selectedImportTeam, selectedTeam]);
 
   const availableMonths = useMemo(() => {
-    const values = new Set<string>();
-
-    for (const team of filteredTeams) {
-      team.metrics?.velocityMonthly.forEach((item) => values.add(item.month));
-      team.metrics?.doneIssueDetails.forEach((item) => {
-        if (item.resolutionDate) {
-          values.add(item.resolutionDate.slice(0, 7));
-        }
-      });
-    }
-
-    return Array.from(values).sort((a, b) => a.localeCompare(b));
+    return buildAvailableMonths(filteredTeams);
   }, [filteredTeams]);
+
+  const periodYearGroups = useMemo(() => {
+    return buildPeriodYearGroups(availableMonths, 1);
+  }, [availableMonths]);
+
+  const periodReferenceDate = useMemo(() => {
+    return resolvePeriodReferenceDate(availableMonths, todayRef);
+  }, [availableMonths, todayRef]);
 
   useEffect(() => {
     setQuickInsightsOpen(false);
@@ -853,9 +1218,14 @@ export default function App(): JSX.Element {
       setDraftConfig(null);
       setDoneStatusesInput("");
       setBugIssueTypesInput("Bug");
+      setBugDefaultStoryPointsInput("");
+      setSprintScopeStatusesInput("");
+      setBacklogStatusesInput("");
       setSleIssueTypesDraft([...DEFAULT_SLE_ISSUE_TYPES]);
       setDoneStatusDraft("");
       setBugIssueTypeDraft("");
+      setSprintScopeStatusDraft("");
+      setBacklogStatusDraft("");
       setBottleneckFlowStatuses([]);
       setBottleneckFlowDraft("");
       setBottleneckRows([createEmptyBottleneckRow()]);
@@ -866,9 +1236,14 @@ export default function App(): JSX.Element {
     setDraftConfig(structuredClone(selectedTeam.config));
     setDoneStatusesInput((selectedTeam.config.doneConfig.doneStatuses ?? []).join(", "));
     setBugIssueTypesInput((selectedTeam.config.bugConfig?.issueTypes ?? ["Bug"]).join(", "));
+    setBugDefaultStoryPointsInput(formatOptionalNumberInput(selectedTeam.config.bugConfig?.defaultStoryPoints));
+    setSprintScopeStatusesInput(resolveSprintScopeStatuses(selectedTeam.config, selectedTeam.parsedIssues).join(", "));
+    setBacklogStatusesInput((selectedTeam.config.workflowConfig?.backlogStatuses ?? inferBacklogStatuses(selectedTeam.parsedIssues)).join(", "));
     setSleIssueTypesDraft(normalizeSleIssueTypes(selectedTeam.config.sleConfig.issueTypes));
     setDoneStatusDraft("");
     setBugIssueTypeDraft("");
+    setSprintScopeStatusDraft("");
+    setBacklogStatusDraft("");
 
     const effectiveEntries = buildEffectiveBottleneckEntries(selectedTeam);
     const flowStatuses = normalizeFlowStatuses(
@@ -944,47 +1319,76 @@ export default function App(): JSX.Element {
       setQueryDraftName("");
       setQueryDraftJql("");
       setQueryDraftNote("");
+      setTimeInStatusQuerySelectionId("");
+      setTimeInStatusQueryDraftName("");
+      setTimeInStatusQueryDraftJql("");
+      setTimeInStatusQueryDraftNote("");
       return;
     }
 
-    const preferredQuery =
-      selectedTeamQueryConfig.queries.find((query) => query.id === querySelectionId) ??
-      selectedTeamQueryConfig.queries.find((query) => query.id === selectedTeamQueryConfig.defaultQueryId) ??
-      selectedTeamQueryConfig.queries[0];
+    const preferredQuery = resolvePreferredSavedQuery(selectedIssueQueryConfig, querySelectionId);
 
     if (!preferredQuery) {
       setQuerySelectionId("");
       setQueryDraftName("");
       setQueryDraftJql("");
       setQueryDraftNote("");
+    } else {
+      if (querySelectionId !== preferredQuery.id) {
+        setQuerySelectionId(preferredQuery.id);
+      }
+
+      setQueryDraftName(preferredQuery.name);
+      setQueryDraftJql(preferredQuery.jql);
+      setQueryDraftNote(preferredQuery.note ?? "");
+    }
+
+    const preferredTimeInStatusQuery = resolvePreferredSavedQuery(
+      selectedTimeInStatusQueryConfig,
+      timeInStatusQuerySelectionId,
+    );
+
+    if (!preferredTimeInStatusQuery) {
+      setTimeInStatusQuerySelectionId("");
+      setTimeInStatusQueryDraftName("");
+      setTimeInStatusQueryDraftJql("");
+      setTimeInStatusQueryDraftNote("");
       return;
     }
 
-    if (querySelectionId !== preferredQuery.id) {
-      setQuerySelectionId(preferredQuery.id);
+    if (timeInStatusQuerySelectionId !== preferredTimeInStatusQuery.id) {
+      setTimeInStatusQuerySelectionId(preferredTimeInStatusQuery.id);
     }
 
-    setQueryDraftName(preferredQuery.name);
-    setQueryDraftJql(preferredQuery.jql);
-    setQueryDraftNote(preferredQuery.note ?? "");
-  }, [selectedImportTeam, selectedTeamQueryConfig, querySelectionId]);
+    setTimeInStatusQueryDraftName(preferredTimeInStatusQuery.name);
+    setTimeInStatusQueryDraftJql(preferredTimeInStatusQuery.jql);
+    setTimeInStatusQueryDraftNote(preferredTimeInStatusQuery.note ?? "");
+  }, [
+    selectedImportTeam,
+    selectedIssueQueryConfig,
+    selectedTimeInStatusQueryConfig,
+    querySelectionId,
+    timeInStatusQuerySelectionId,
+  ]);
 
   const dashboardBottleneckPeriod = useMemo(() => {
-    return resolveBottleneckPeriod(periodMonth, availableMonths);
-  }, [periodMonth, availableMonths]);
+    return resolveBottleneckPeriod(periodMonth, availableMonths, periodReferenceDate);
+  }, [periodMonth, availableMonths, periodReferenceDate]);
 
   const dashboardRows = useMemo(() => {
     const previousPeriod = getPreviousPeriodKey(periodMonth, availableMonths);
 
     return filteredTeams.map((team) => {
       const effectiveEntries = buildEffectiveBottleneckEntries(team);
-      const current = computeSnapshot(team.metrics, periodMonth, team.config, team.parsedIssues);
-      const previous = previousPeriod ? computeSnapshot(team.metrics, previousPeriod, team.config, team.parsedIssues) : null;
+      const current = computeSnapshot(team.metrics, periodMonth, team.config, team.parsedIssues, periodReferenceDate);
+      const previous = previousPeriod
+        ? computeSnapshot(team.metrics, previousPeriod, team.config, team.parsedIssues, periodReferenceDate)
+        : null;
       const healthCurrent = computeTeamHealthSnapshot(
         team.parsedIssues,
         team.config,
         periodMonth,
-        todayRef,
+        periodReferenceDate,
         effectiveEntries,
       );
       const healthPrevious =
@@ -994,7 +1398,7 @@ export default function App(): JSX.Element {
               team.parsedIssues,
               team.config,
               previousPeriod,
-              todayRef,
+              periodReferenceDate,
               effectiveEntries,
             );
       const healthTrends: TeamMetricsHealthTrendBundle = {
@@ -1014,7 +1418,7 @@ export default function App(): JSX.Element {
         bottleneck: getBottleneckForPeriod(effectiveEntries, dashboardBottleneckPeriod),
       };
     });
-  }, [filteredTeams, periodMonth, availableMonths, dashboardBottleneckPeriod, todayRef]);
+  }, [filteredTeams, periodMonth, availableMonths, dashboardBottleneckPeriod, periodReferenceDate]);
 
   const selectedTeamRow = useMemo(() => {
     if (!selectedTeamId) {
@@ -1081,10 +1485,18 @@ export default function App(): JSX.Element {
       selectedTeam?.parsedIssues ?? [],
       selectedTeam?.config,
       periodMonth,
-      todayRef,
+      periodReferenceDate,
       selectedTeamBottleneckEntries,
     );
-  }, [selectedTeam, periodMonth, todayRef, selectedTeamBottleneckEntries]);
+  }, [selectedTeam, periodMonth, periodReferenceDate, selectedTeamBottleneckEntries]);
+
+  const selectedTeamThroughputAnchorLabel = useMemo(() => {
+    return formatPeriodLabel(selectedTeamHealth.throughput.anchorMonth);
+  }, [selectedTeamHealth]);
+
+  const selectedTeamThroughputComparisonLabel = useMemo(() => {
+    return formatPeriodLabel(selectedTeamHealth.throughput.comparisonMonth);
+  }, [selectedTeamHealth]);
 
   const selectedTeamBoardStatuses = useMemo(() => {
     return buildBoardStatusMap(selectedTeam?.parsedIssues ?? []);
@@ -1098,6 +1510,21 @@ export default function App(): JSX.Element {
     return buildMetricDataIssues(selectedTeamHealth, selectedTeam?.config);
   }, [selectedTeamHealth, selectedTeam?.config]);
 
+  const selectedTeamDataMonitorEntries = useMemo(() => {
+    if (!selectedTeam) {
+      return [];
+    }
+
+    return buildDataMonitorEntries(
+      selectedTeam.parsedIssues,
+      selectedTeam.config,
+      periodMonth,
+      selectedTeamMetricDataIssues,
+      selectedTeamBottleneckEntries,
+      periodReferenceDate,
+    );
+  }, [selectedTeam, periodMonth, selectedTeamMetricDataIssues, selectedTeamBottleneckEntries, periodReferenceDate]);
+
   const selectedTeamHealthCheck = useMemo(() => {
     return buildTeamHealthCheckSummary(selectedTeamHealthSignals);
   }, [selectedTeamHealthSignals]);
@@ -1110,11 +1537,40 @@ export default function App(): JSX.Element {
     return parseCommaSeparatedList(bugIssueTypesInput);
   }, [bugIssueTypesInput]);
 
-  const cycleEndSourceLabel = useMemo(() => {
-    return draftConfig?.cycleTimeConfig?.endDateSource === "updatedOnly"
-      ? "Updated only"
-      : "Resolved (fallback Updated)";
-  }, [draftConfig?.cycleTimeConfig?.endDateSource]);
+  const bugIssueTypeOptions = useMemo(() => {
+    const byKey = new Map<string, string>();
+
+    (selectedTeam?.parsedIssues ?? []).forEach((issue) => {
+      const label = issue.issueType.trim();
+      const key = normalizeTextValue(label);
+      if (!key || byKey.has(key)) {
+        return;
+      }
+      byKey.set(key, label);
+    });
+
+    bugIssueTypeList.forEach((label) => {
+      const key = normalizeTextValue(label);
+      if (!key || byKey.has(key)) {
+        return;
+      }
+      byKey.set(key, label);
+    });
+
+    return Array.from(byKey.values()).sort((a, b) => a.localeCompare(b));
+  }, [selectedTeam, bugIssueTypeList]);
+
+  const sprintScopeStatusList = useMemo(() => {
+    return parseCommaSeparatedList(sprintScopeStatusesInput);
+  }, [sprintScopeStatusesInput]);
+
+  const backlogStatusList = useMemo(() => {
+    return parseCommaSeparatedList(backlogStatusesInput);
+  }, [backlogStatusesInput]);
+
+  const detectedWorkflowStatuses = useMemo(() => {
+    return buildDetectedWorkflowStatuses(selectedTeam, selectedTeamBottleneckEntries);
+  }, [selectedTeam, selectedTeamBottleneckEntries]);
 
   const velocityCadenceLabel = useMemo(() => {
     if (draftVelocityConfig.mode === "monthly-ticket-count") {
@@ -1126,10 +1582,10 @@ export default function App(): JSX.Element {
     }
 
     if (draftVelocityConfig.mode === "weekly-ticket-count") {
-      return "Weekly ticket count";
+      return "Kanban, weekly ticket count";
     }
 
-    return "Sprint based story points";
+    return "Scrum, sprint story points";
   }, [draftVelocityConfig.mode]);
 
   const agingTopThree = useMemo(() => {
@@ -1165,6 +1621,34 @@ export default function App(): JSX.Element {
   const selectedBottleneckFlowTimes = useMemo(() => {
     return getBottleneckColumnsForBoard(selectedBottleneckEntry, selectedTeamBoardStatuses).slice(0, 6);
   }, [selectedBottleneckEntry, selectedTeamBoardStatuses]);
+
+  const selectedTimeInStatusRows = useMemo(() => {
+    return buildTimeInStatusRows(selectedBottleneckEntry, selectedTeamBoardStatuses);
+  }, [selectedBottleneckEntry, selectedTeamBoardStatuses]);
+
+  const selectedTimeInStatusPreviewRows = useMemo(() => {
+    return selectedTimeInStatusRows.slice(0, 8);
+  }, [selectedTimeInStatusRows]);
+
+  const selectedTimeInStatusSummary = useMemo(() => {
+    if (!selectedBottleneckEntry) {
+      return "No per-status Time in Status data yet. Import Time in Status CSV or add a manual bottleneck row.";
+    }
+
+    const selectedPeriodLabel = formatPeriodLabel(dashboardBottleneckPeriod, periodReferenceDate);
+    const sourcePeriodLabel = formatPeriodLabel(selectedBottleneckEntry.period, periodReferenceDate);
+    const prefix =
+      selectedBottleneckEntry.period === dashboardBottleneckPeriod
+        ? `Showing ${selectedPeriodLabel}.`
+        : `Showing ${sourcePeriodLabel} data for ${selectedPeriodLabel}.`;
+
+    const highlighted = selectedTimeInStatusRows.filter((row) => row.highlight).slice(0, 3);
+    if (highlighted.length === 0) {
+      return `${prefix} No obvious long waiting stages right now.`;
+    }
+
+    return `${prefix} Watch ${highlighted.map((row) => `${row.name} ${row.avgDays.toFixed(1)}d`).join(" • ")}.`;
+  }, [selectedBottleneckEntry, dashboardBottleneckPeriod, periodReferenceDate, selectedTimeInStatusRows]);
 
   const bottleneckMonthlyRows = useMemo<BottleneckMonthlyRow[]>(() => {
     if (!selectedTeam) {
@@ -1217,11 +1701,35 @@ export default function App(): JSX.Element {
 
   const shouldEqualizeTeamOverviewSecondaryCards = !agingWipCompactOpen && !bottleneckPanelOpen;
 
-  const periodSummary = useMemo(() => describePeriod(periodMonth, availableMonths), [periodMonth, availableMonths]);
+  const periodSummary = useMemo(() => describePeriod(periodMonth, availableMonths, periodReferenceDate), [periodMonth, availableMonths, periodReferenceDate]);
   const previousPeriodLabel = useMemo(() => {
     const previousKey = getPreviousPeriodKey(periodMonth, availableMonths);
-    return previousKey ? formatPeriodLabel(previousKey) : null;
-  }, [periodMonth, availableMonths]);
+    return previousKey ? formatPeriodLabel(previousKey, periodReferenceDate) : null;
+  }, [periodMonth, availableMonths, periodReferenceDate]);
+
+  const selectedTeamProgressSummary = useMemo(() => {
+    return buildProgressComparisonSummary(selectedTeam?.progressHistory ?? []);
+  }, [selectedTeam]);
+
+  const previousMetricLabel = useMemo(() => {
+    if (previousPeriodLabel) {
+      return previousPeriodLabel;
+    }
+
+    if (periodMonth === "all" && selectedTeamProgressSummary.hasBaseline && selectedTeamProgressSummary.previous) {
+      return `Upload ${formatDateText(selectedTeamProgressSummary.previous.capturedAt)}`;
+    }
+
+    return null;
+  }, [previousPeriodLabel, periodMonth, selectedTeamProgressSummary]);
+
+  const previousUploadMetrics = useMemo(() => {
+    if (periodMonth !== "all" || !selectedTeamProgressSummary.hasBaseline) {
+      return null;
+    }
+
+    return selectedTeamProgressSummary.previous?.metrics ?? null;
+  }, [periodMonth, selectedTeamProgressSummary]);
 
   const importHistory = useMemo(() => {
     const items = filteredTeams.flatMap((team) =>
@@ -1234,6 +1742,17 @@ export default function App(): JSX.Element {
     items.sort((a, b) => b.updatedAt.localeCompare(a.updatedAt));
     return items.slice(0, 10);
   }, [filteredTeams]);
+
+  const selectedImportHistory = useMemo(() => {
+    if (!selectedImportTeam) {
+      return [];
+    }
+
+    return selectedImportTeam.importFiles
+      .slice()
+      .sort((a, b) => b.updatedAt.localeCompare(a.updatedAt))
+      .slice(0, 5);
+  }, [selectedImportTeam]);
 
   const folderTotals = useMemo(() => {
     const totals = new Map<string, number>();
@@ -1252,8 +1771,12 @@ export default function App(): JSX.Element {
   }, [filteredTeams]);
 
   const composedImportJql = useMemo(() => {
-    return composeQueryWithTimeWindow(queryDraftJql, queryTimeWindow);
+    return composeQueryWithTimeWindow(queryDraftJql, queryTimeWindow, "issues");
   }, [queryDraftJql, queryTimeWindow]);
+
+  const composedTimeInStatusJql = useMemo(() => {
+    return composeQueryWithTimeWindow(timeInStatusQueryDraftJql, timeInStatusQueryTimeWindow, "timeInStatus");
+  }, [timeInStatusQueryDraftJql, timeInStatusQueryTimeWindow]);
 
   function renderMetricInfoButton(helpKey: MetricHelpKey): JSX.Element {
     const copy = METRIC_HELP[helpKey];
@@ -1333,6 +1856,513 @@ export default function App(): JSX.Element {
     );
   }
 
+  function renderPeriodChip(period: string, label: string): JSX.Element {
+    return (
+      <button
+        type="button"
+        className={`period-chip-btn ${periodMonth === period ? "active" : ""}`}
+        aria-pressed={periodMonth === period}
+        onClick={() => setPeriodMonth(period)}
+      >
+        {label}
+      </button>
+    );
+  }
+
+  function renderPeriodPicker(): JSX.Element {
+    return (
+      <div className="period-select period-picker">
+        <span>Period:</span>
+        <div className="period-picker-controls">
+          <div className="period-chip-row">
+            {renderPeriodChip("all", "All")}
+            {renderPeriodChip("ytd", formatPeriodLabel("ytd", periodReferenceDate))}
+          </div>
+          {periodYearGroups.length > 0 ? (
+            <div className="period-year-groups">
+              {periodYearGroups.map((group) => (
+                <div key={group.year} className="period-year-group">
+                  <span className="period-year-label">{group.year}</span>
+                  <div className="period-chip-row">
+                    {group.months.map((month) => (
+                      <span key={month}>{renderPeriodChip(month, formatMonthShortLabel(month))}</span>
+                    ))}
+                  </div>
+                </div>
+              ))}
+            </div>
+          ) : null}
+        </div>
+      </div>
+    );
+  }
+
+  function renderMetricScopeSelector(className = ""): JSX.Element {
+    return (
+      <div className={`metric-scope-selector ${className}`}>
+        <span>Metric scope:</span>
+        <div className="metric-scope-buttons">
+          {METRIC_SCOPES.map((scope) => (
+            <button
+              key={scope}
+              type="button"
+              className={activeMetricScope === scope ? "soft-btn active" : "soft-btn"}
+              onClick={() => setActiveMetricScope(scope)}
+            >
+              {METRIC_SCOPE_LABELS[scope]}
+            </button>
+          ))}
+        </div>
+      </div>
+    );
+  }
+
+  function isMetricVisible(metricId: ConfigurableMetricId): boolean {
+    return visibleMetricIds.has(metricId);
+  }
+
+  function renderWorkspaceAccessPanel(variant: "compact" | "full" = "full"): JSX.Element {
+    return (
+      <section className={`table-panel workspace-recent-panel metrics-workspace-panel ${variant}`}>
+        <div>
+          <div className="table-title small-title">Workspace</div>
+          <div className="table-subtitle">
+            {workspaceHandle
+              ? `Current workspace: ${workspaceHandle.name}`
+              : "Choose a workspace to load teams, views and save metric setup."}
+          </div>
+        </div>
+        <div className="metrics-workspace-actions">
+          <button className="soft-btn" onClick={handlePickWorkspace} disabled={busy || !fsApiSupported}>
+            {workspaceHandle ? "Switch Workspace" : "Choose Workspace"}
+          </button>
+          {workspaceHandle && (
+            <button className="soft-btn" onClick={() => setShowAddTeamModal(true)}>
+              + Add Team
+            </button>
+          )}
+        </div>
+        {rememberedWorkspaces.length > 0 && (
+          <div className="workspace-recent-list">
+            {rememberedWorkspaces.map((workspace) => (
+              <article
+                key={`metrics-recent-${workspace.id}`}
+                className={`workspace-recent-item ${
+                  workspaceHandle?.name === workspace.name ? "active" : ""
+                }`}
+              >
+                <div>
+                  <strong>{workspace.name}</strong>
+                  <div className="card-meta">Last used: {formatDateText(workspace.lastUsedAt)}</div>
+                </div>
+                <button
+                  className="soft-btn"
+                  disabled={busy}
+                  onClick={() => void handleOpenRememberedWorkspace(workspace.id)}
+                >
+                  Open
+                </button>
+              </article>
+            ))}
+          </div>
+        )}
+      </section>
+    );
+  }
+
+  function renderWorkspaceViewsPanel(): JSX.Element | null {
+    if (!workspaceHandle) {
+      return null;
+    }
+
+    return (
+      <section className="table-panel workspace-profile-panel metrics-views-panel">
+        <div className="table-title small-title">Workspace Views</div>
+        <div className="table-subtitle">
+          Configure the team set that dashboard and metric setup are working against.
+        </div>
+
+        <div className="workspace-profile-list">
+          <button
+            type="button"
+            className={`soft-btn workspace-profile-chip ${
+              activeWorkspaceProfileId === ALL_TEAMS_PROFILE_ID ? "active" : ""
+            }`}
+            onClick={() => void handleSelectWorkspaceProfile(ALL_TEAMS_PROFILE_ID)}
+          >
+            All Teams ({teams.length})
+          </button>
+          {workspaceProfiles.map((profile) => (
+            <button
+              key={`metrics-profile-${profile.id}`}
+              type="button"
+              className={`soft-btn workspace-profile-chip ${
+                activeWorkspaceProfileId === profile.id ? "active" : ""
+              }`}
+              onClick={() => void handleSelectWorkspaceProfile(profile.id)}
+            >
+              {profile.name} ({profile.teamIds.length})
+            </button>
+          ))}
+        </div>
+
+        <div className="workspace-profile-actions">
+          <input
+            value={workspaceProfileNameDraft}
+            onChange={(event) => setWorkspaceProfileNameDraft(event.target.value)}
+            placeholder="New view name, e.g. Payments ART"
+          />
+          <button
+            type="button"
+            className="soft-btn"
+            disabled={busy || workspaceProfileNameDraft.trim().length === 0}
+            onClick={() => void handleCreateWorkspaceProfile()}
+          >
+            + Add View
+          </button>
+          {activeWorkspaceProfile && (
+            <button
+              type="button"
+              disabled={busy}
+              onClick={() => void handleDeleteActiveWorkspaceProfile()}
+            >
+              Delete Current View
+            </button>
+          )}
+        </div>
+
+        {activeWorkspaceProfile && (
+          <div className="workspace-profile-team-list">
+            {teams.map((team) => {
+              const included = activeWorkspaceProfile.teamIds.includes(team.teamId);
+              return (
+                <article key={`metrics-profile-team-${team.teamId}`} className="workspace-profile-team-item">
+                  <span>{team.config.teamName}</span>
+                  <button
+                    type="button"
+                    className="soft-btn"
+                    onClick={() => void handleToggleTeamInWorkspaceProfile(team.teamId)}
+                  >
+                    {included ? "Remove" : "Add"}
+                  </button>
+                </article>
+              );
+            })}
+          </div>
+        )}
+      </section>
+    );
+  }
+
+  function renderMetricCard(metric: ConfigurableMetricDefinition, normalizedConfig: WorkspaceMetricConfig): JSX.Element {
+    const activeScopeEnabled = new Set(normalizedConfig.scopeVisibility?.[activeMetricScope] ?? []).has(metric.id);
+
+    return (
+      <article className={`metric-config-card${activeScopeEnabled ? " active" : ""}`}>
+        <div className="metric-config-card-main">
+          <div>
+            <div className="metric-config-title-row">
+              <h3>{metric.label}</h3>
+              <span className="metric-source-pill">{metric.source}</span>
+            </div>
+            <p>{metric.description}</p>
+          </div>
+          <div className="metric-config-toggle-grid">
+            {METRIC_SCOPES.map((scope) => {
+              const checked = new Set(normalizedConfig.scopeVisibility?.[scope] ?? []).has(metric.id);
+              return (
+                <button
+                  key={`${metric.id}-${scope}`}
+                  type="button"
+                  className={`metric-toggle-button${checked ? " active" : ""}`}
+                  disabled={!workspaceHandle}
+                  onClick={() => void handleToggleWorkspaceMetric(scope, metric.id)}
+                >
+                  <span>{METRIC_SCOPE_LABELS[scope]}</span>
+                  <strong>{checked ? "On" : "Off"}</strong>
+                </button>
+              );
+            })}
+          </div>
+        </div>
+        <div className="metric-config-meta">
+          <span>{metric.group}</span>
+          <span>{metric.source}</span>
+        </div>
+      </article>
+    );
+  }
+
+  function renderMetricsSetupPage(): JSX.Element {
+    const normalizedConfig = normalizeWorkspaceMetricConfig(workspaceMetricConfig);
+    const activeGroupMetrics = CONFIGURABLE_METRICS.filter((metric) => metric.group === activeMetricGroup);
+    const activeScopeVisibleCount = activeGroupMetrics.filter((metric) =>
+      new Set(normalizedConfig.scopeVisibility?.[activeMetricScope] ?? []).has(metric.id),
+    ).length;
+
+    return (
+      <section className="page-section metrics-setup-page">
+        <div className="metrics-setup-shell">
+          <aside className="metrics-setup-sidebar">
+            <div className="metrics-setup-sidebar-head">
+              <h1>Metrics Setup</h1>
+              <p>Workspace, views and metric packs in one place.</p>
+            </div>
+
+            {renderWorkspaceAccessPanel("compact")}
+            {renderWorkspaceViewsPanel()}
+
+            <section className="metrics-control-panel">
+              <div className="metrics-control-title">Scope</div>
+              {renderMetricScopeSelector("metrics-sidebar-scope")}
+            </section>
+
+            <section className="metrics-control-panel">
+              <div className="metrics-control-title">Metric Packs</div>
+              <div className="metrics-pack-grid">
+                <button className="soft-btn" disabled={!workspaceHandle} onClick={() => void handleApplyMetricPreset(activeMetricScope, "recommended")}>
+                  Recommended
+                </button>
+                <button className="soft-btn" disabled={!workspaceHandle} onClick={() => void handleApplyMetricPreset(activeMetricScope, "flow")}>
+                  Flow Focus
+                </button>
+                <button className="soft-btn" disabled={!workspaceHandle} onClick={() => void handleApplyMetricPreset(activeMetricScope, "minimal")}>
+                  Minimal
+                </button>
+              </div>
+            </section>
+
+            <section className="metrics-setup-summary compact">
+              <article>
+                <strong>{visibleMetrics.length}</strong>
+                <span>Visible in {METRIC_SCOPE_LABELS[activeMetricScope]}</span>
+              </article>
+              <article>
+                <strong>{activeWorkspaceProfile?.name ?? "All Teams"}</strong>
+                <span>Dashboard view</span>
+              </article>
+            </section>
+          </aside>
+
+          <div className="metrics-setup-content">
+            <div className="metrics-setup-toolbar">
+              <div>
+                <h2>{activeMetricGroup} Metrics</h2>
+                <p>
+                  {activeScopeVisibleCount}/{activeGroupMetrics.length} enabled for {METRIC_SCOPE_LABELS[activeMetricScope]}.
+                </p>
+              </div>
+              <div className="metrics-group-tabs" role="tablist" aria-label="Metric groups">
+                {METRIC_GROUPS.map((group) => (
+                  <button
+                    key={group}
+                    type="button"
+                    className={activeMetricGroup === group ? "active" : ""}
+                    onClick={() => setActiveMetricGroup(group)}
+                  >
+                    {group}
+                  </button>
+                ))}
+              </div>
+            </div>
+
+            {!workspaceHandle && (
+              <section className="metrics-empty-callout">
+                <strong>Choose a workspace to save changes.</strong>
+                <span>You can still review the metric catalogue below.</span>
+              </section>
+            )}
+
+            {activeMetricGroup === "Quality" && (
+              <section className="metric-team-config-panel">
+                <div className="metric-team-config-head">
+                  <div>
+                    <h3>Define Bug Type</h3>
+                    <p>Choose which Jira issue types count as bugs for Bug Ratio and quality metrics.</p>
+                  </div>
+                  <label>
+                    Team
+                    <select value={selectedTeamId ?? ""} onChange={(event) => setSelectedTeamId(event.target.value || null)}>
+                      {filteredTeams.map((team) => (
+                        <option key={`bug-config-team-${team.teamId}`} value={team.teamId}>
+                          {team.config.teamName}
+                        </option>
+                      ))}
+                    </select>
+                  </label>
+                </div>
+
+                <div className="metric-choice-grid">
+                  {bugIssueTypeOptions.length === 0 ? (
+                    <p className="muted">Import a CSV first to detect issue types.</p>
+                  ) : (
+                    bugIssueTypeOptions.map((issueType) => {
+                      const selected = bugIssueTypeList.some(
+                        (value) => normalizeTextValue(value) === normalizeTextValue(issueType),
+                      );
+                      return (
+                        <button
+                          key={`bug-type-${issueType}`}
+                          type="button"
+                          className={`metric-choice-chip${selected ? " active" : ""}`}
+                          onClick={() => handleToggleBugIssueType(issueType)}
+                        >
+                          {issueType}
+                        </button>
+                      );
+                    })
+                  )}
+                </div>
+
+                <div className="done-chip-input-row">
+                  <input
+                    value={bugIssueTypeDraft}
+                    onChange={(event) => setBugIssueTypeDraft(event.target.value)}
+                    onKeyDown={(event) => {
+                      if (event.key === "Enter") {
+                        event.preventDefault();
+                        handleAddBugIssueType();
+                      }
+                    }}
+                    placeholder="Add issue type manually"
+                  />
+                  <button type="button" className="soft-btn" onClick={handleAddBugIssueType}>
+                    Add
+                  </button>
+                </div>
+
+                <label className="done-config-inline-field">
+                  <span className="done-chip-editor-label">Optional story point fallback for bug items</span>
+                  <input
+                    type="number"
+                    min="0"
+                    step="0.5"
+                    value={bugDefaultStoryPointsInput}
+                    onChange={(event) => setBugDefaultStoryPointsInput(event.target.value)}
+                    placeholder="Leave empty unless Scrum needs a bug estimate fallback"
+                  />
+                </label>
+
+                {bugIssueTypeList.some((value) => {
+                  const normalized = normalizeTextValue(value);
+                  return normalized === "task" || normalized === "sub-task" || normalized === "subtask";
+                }) && (
+                  <p className="done-config-warning">
+                    `Task` or `Sub-task` in bug types can inflate Bug Ratio heavily.
+                  </p>
+                )}
+
+                <div className="preset-row">
+                  <button type="button" disabled={busy || !selectedTeam} onClick={() => void handleSaveBugMetricConfig()}>
+                    Save Bug Type
+                  </button>
+                  <button type="button" className="soft-btn" onClick={() => setBugIssueTypesInput("Bug")}>
+                    Bug only
+                  </button>
+                </div>
+              </section>
+            )}
+
+            <div className="metric-config-card-list">
+              {activeGroupMetrics.map((metric) => renderMetricCard(metric, normalizedConfig))}
+            </div>
+          </div>
+        </div>
+      </section>
+    );
+  }
+
+  function renderTimeInStatusPanel(contentId: string): JSX.Element {
+    if (!isMetricVisible("time-in-status")) {
+      return <></>;
+    }
+
+    return (
+      <section className="table-panel compact time-in-status-panel">
+        <div className="bottleneck-head">
+          <div>
+            <div className="table-title-row">
+              <div className="table-title">Time in Status by Status</div>
+              {renderMetricInfoButton("queueTimeByStatus")}
+            </div>
+            <div className="table-subtitle">
+              Per-status average time for the selected Time in Status month. Long waiting stages are highlighted.
+            </div>
+          </div>
+        </div>
+
+        <div className="time-in-status-content" id={contentId}>
+          <p className="muted bottleneck-collapsed-hint">{selectedTimeInStatusSummary}</p>
+
+          {selectedTimeInStatusPreviewRows.length === 0 ? (
+            <p className="muted">No per-status Time in Status rows for this period.</p>
+          ) : (
+            <>
+              <div className="time-status-card-grid">
+                {selectedTimeInStatusPreviewRows.map((row, index) => (
+                  <div
+                    key={`${row.name}:${row.avgDays}:${index}`}
+                    className={`time-status-card ${row.tone}${row.highlight ? " key-risk" : ""}`}
+                    title={row.signal}
+                  >
+                    <div className="time-status-card-head">
+                      <span className="time-status-name">{row.name}</span>
+                      <span className={`time-status-kind ${row.category}`}>{row.categoryLabel}</span>
+                    </div>
+                    <strong>{formatDays(row.avgDays)}</strong>
+                    <small>{row.signal}</small>
+                  </div>
+                ))}
+              </div>
+
+              <div className="table-wrap time-status-table-wrap">
+                <table className="metrics-table time-status-table">
+                  <thead>
+                    <tr>
+                      <th>Status</th>
+                      <th>Avg time</th>
+                      <th>Type</th>
+                      <th>Signal</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    {selectedTimeInStatusRows.map((row) => (
+                      <tr key={`${row.name}:${row.avgDays}`} className={row.tone}>
+                        <td>{row.name}</td>
+                        <td>{formatDays(row.avgDays)}</td>
+                        <td>
+                          <span className={`time-status-kind ${row.category}`}>{row.categoryLabel}</span>
+                        </td>
+                        <td>
+                          <span className={`time-status-signal ${row.tone}`}>{row.signal}</span>
+                        </td>
+                      </tr>
+                    ))}
+                  </tbody>
+                </table>
+              </div>
+            </>
+          )}
+        </div>
+      </section>
+    );
+  }
+
+  function formatSprintPredictabilitySummary(): string {
+    if (!selectedTeamRow) {
+      return "No sprint data.";
+    }
+
+    const pct = selectedTeamRow.current.multiSprintPct;
+    if (pct <= 10) {
+      return "Low carry-over signal.";
+    }
+    if (pct <= 25) {
+      return "Some delivered work spans multiple sprints.";
+    }
+    return "High carry-over signal; review tickets with 2+ sprints.";
+  }
+
   function renderMetricDataIssue(helpKey: MetricHelpKey): JSX.Element | null {
     const issue = selectedTeamMetricDataIssues[helpKey];
     if (!issue) {
@@ -1342,7 +2372,284 @@ export default function App(): JSX.Element {
     return <small className={`metric-data-issue ${issue.tone}`}>Data check: {issue.message}</small>;
   }
 
-  function renderFlowBalanceCard(): JSX.Element {
+  function formatPreviousMetricLine(previousLabel: string | null, previousValue: string): string {
+    return previousLabel ? `Previous (${previousLabel}): ${previousValue}` : "Previous comparison: n/a";
+  }
+
+  function getPreviousDoneValue(): string {
+    if (selectedTeamRow?.previous) {
+      return String(selectedTeamRow.previous.done);
+    }
+
+    if (previousUploadMetrics?.doneCount !== null && previousUploadMetrics?.doneCount !== undefined) {
+      return String(previousUploadMetrics.doneCount);
+    }
+
+    return "-";
+  }
+
+  function getPreviousAvgCycleTimeValue(): string {
+    if (selectedTeamRow?.previous) {
+      return formatDays(selectedTeamRow.previous.avgCycleTime);
+    }
+
+    return formatDays(previousUploadMetrics?.avgCycleTimeDays ?? null);
+  }
+
+  function getPreviousSleValue(percentile: "p50" | "p70" | "p85" | "p95"): string {
+    if (selectedTeamRow?.previous) {
+      return formatDays(selectedTeamRow.previous.sle[percentile]);
+    }
+
+    if (percentile === "p50") {
+      return formatDays(previousUploadMetrics?.sleP50Days ?? null);
+    }
+
+    if (percentile === "p70") {
+      return formatDays(previousUploadMetrics?.sleP70Days ?? null);
+    }
+
+    if (percentile === "p85") {
+      return formatDays(previousUploadMetrics?.sleP85Days ?? null);
+    }
+
+    return formatDays(previousUploadMetrics?.sleP95Days ?? null);
+  }
+
+  function getPreviousMultiSprintValue(): string {
+    if (selectedTeamRow?.previous) {
+      return `${formatPercentValue(selectedTeamRow.previous.multiSprintPct)}%`;
+    }
+
+    const value = previousUploadMetrics?.multiSprintPct ?? null;
+    return value === null ? "-" : `${formatPercentValue(value)}%`;
+  }
+
+  function getPreviousVelocityValue(): string {
+    if (!selectedTeam) {
+      return "-";
+    }
+
+    if (selectedTeamRow?.previous) {
+      return formatVelocityValue(selectedTeamRow.previous.velocity, selectedTeam.config.velocityConfig);
+    }
+
+    if (previousUploadMetrics?.velocityLatest === null || previousUploadMetrics?.velocityLatest === undefined) {
+      return "-";
+    }
+
+    return formatVelocityValue(previousUploadMetrics.velocityLatest, selectedTeam.config.velocityConfig);
+  }
+
+  function renderDetailedMetricCell(
+    value: string,
+    trendResult: TrendResult,
+    previousValue: string,
+  ): JSX.Element {
+    return (
+      <div className="detailed-metric-cell">
+        {renderMetricWithTrend(value, trendResult)}
+        <small className="detailed-metric-previous">
+          {formatPreviousMetricLine(previousMetricLabel, previousValue)}
+        </small>
+      </div>
+    );
+  }
+
+  function renderDetailedMetricsTable(panelClassName?: string): JSX.Element | null {
+    if (!selectedTeam || !selectedTeamRow) {
+      return null;
+    }
+
+    const className = panelClassName ? `table-panel compact ${panelClassName}` : "table-panel compact";
+    const columns = [
+      {
+        id: "stories-done" as ConfigurableMetricId,
+        header: "Done",
+        cell: renderDetailedMetricCell(String(selectedTeamRow.current.done), selectedTeamRow.trends.done, getPreviousDoneValue()),
+      },
+      {
+        id: "avg-cycle-time" as ConfigurableMetricId,
+        header: "Avg Cycle Time",
+        cell: renderDetailedMetricCell(
+          formatDays(selectedTeamRow.current.avgCycleTime),
+          selectedTeamRow.trends.avgCycleTime,
+          getPreviousAvgCycleTimeValue(),
+        ),
+      },
+      {
+        id: "sle-p85" as ConfigurableMetricId,
+        header: "SLE P50",
+        cell: renderDetailedMetricCell(
+          formatDays(selectedTeamRow.current.sle.p50),
+          selectedTeamRow.trends.sleP50,
+          getPreviousSleValue("p50"),
+        ),
+      },
+      {
+        id: "sle-p85" as ConfigurableMetricId,
+        header: "SLE P70",
+        cell: renderDetailedMetricCell(
+          formatDays(selectedTeamRow.current.sle.p70),
+          selectedTeamRow.trends.sleP70,
+          getPreviousSleValue("p70"),
+        ),
+      },
+      {
+        id: "sle-p85" as ConfigurableMetricId,
+        header: "SLE P85",
+        cell: renderDetailedMetricCell(
+          formatDays(selectedTeamRow.current.sle.p85),
+          selectedTeamRow.trends.sleP85,
+          getPreviousSleValue("p85"),
+        ),
+      },
+      {
+        id: "sle-p85" as ConfigurableMetricId,
+        header: "SLE P95",
+        cell: renderDetailedMetricCell(
+          formatDays(selectedTeamRow.current.sle.p95),
+          selectedTeamRow.trends.sleP95,
+          getPreviousSleValue("p95"),
+        ),
+      },
+      {
+        id: "sprint-predictability" as ConfigurableMetricId,
+        header: "2+ Sprint %",
+        cell: renderDetailedMetricCell(
+          `${formatPercentValue(selectedTeamRow.current.multiSprintPct)}%`,
+          selectedTeamRow.trends.multiSprintPct,
+          getPreviousMultiSprintValue(),
+        ),
+      },
+      {
+        id: "velocity" as ConfigurableMetricId,
+        header: `Velocity (${selectedVelocityUnit})`,
+        cell: renderDetailedMetricCell(
+          formatVelocityValue(selectedTeamRow.current.velocity, selectedTeam.config.velocityConfig),
+          selectedTeamRow.trends.velocity,
+          getPreviousVelocityValue(),
+        ),
+      },
+    ].filter((column) => isMetricVisible(column.id));
+
+    if (!isMetricVisible("detailed-table") || columns.length === 0) {
+      return null;
+    }
+
+    return (
+      <section className={className}>
+        <div className="table-wrap">
+          <table className="metrics-table">
+            <thead>
+              <tr>
+                {columns.map((column, index) => (
+                  <th key={`${column.header}-${index}`}>{column.header}</th>
+                ))}
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                {columns.map((column, index) => (
+                  <td key={`${column.header}-${index}`}>{column.cell}</td>
+                ))}
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </section>
+    );
+  }
+
+  function renderDataMonitorPanel(panelClassName?: string): JSX.Element | null {
+    if (!selectedTeam || !isMetricVisible("data-monitor")) {
+      return null;
+    }
+
+    const className = panelClassName ? `table-panel compact ${panelClassName}` : "table-panel compact";
+
+    return (
+      <section className={className}>
+        <div className="table-title-row">
+          <div className="table-title small-title">Data Monitor</div>
+          {renderMetricInfoButton("dataMonitor")}
+        </div>
+        {selectedTeamDataMonitorEntries.length === 0 ? (
+          <p className="muted">No missing-data or source-field issues detected for this team.</p>
+        ) : (
+          <div className="data-monitor-list">
+            {selectedTeamDataMonitorEntries.map((entry) => (
+              <article key={entry.id} className={`data-monitor-entry ${entry.tone}`}>
+                <div className="data-monitor-entry-head">
+                  <strong>{entry.title}</strong>
+                  <span className={`health-pill ${entry.tone}`}>
+                    {entry.tone === "bad" ? "Action" : entry.tone === "warn" ? "Watch" : "Info"}
+                  </span>
+                </div>
+                <p>{entry.message}</p>
+                {entry.sampleIssueKeys.length > 0 ? (
+                  <small>Examples: {entry.sampleIssueKeys.join(", ")}</small>
+                ) : null}
+              </article>
+            ))}
+          </div>
+        )}
+      </section>
+    );
+  }
+
+  function renderWipRiskHeatmapPanel(panelClassName?: string): JSX.Element | null {
+    if (!isMetricVisible("wip-heatmap")) {
+      return null;
+    }
+
+    const className = panelClassName ? `table-panel compact ${panelClassName}` : "table-panel compact";
+
+    return (
+      <section className={className}>
+        <div className="table-title-row">
+          <div className="table-title small-title">WIP Risk Heatmap by Status</div>
+          {renderMetricInfoButton("wipRiskHeatmap")}
+        </div>
+        {selectedTeamHealth.wipRiskHeatmap.rows.length === 0 ? (
+          <p className="muted">No open WIP issues.</p>
+        ) : (
+          <div className="table-wrap">
+            <table className="metrics-table">
+              <thead>
+                <tr>
+                  <th>Status</th>
+                  <th>Total</th>
+                  <th>0-30 days</th>
+                  <th>31-60 days</th>
+                  <th>61-90 days</th>
+                  <th>91+ days</th>
+                </tr>
+              </thead>
+              <tbody>
+                {selectedTeamHealth.wipRiskHeatmap.rows.map((row) => (
+                  <tr key={`wip-heatmap-${row.status}`}>
+                    <td>{row.status}</td>
+                    <td>{row.total}</td>
+                    <td>{row.age0To30}</td>
+                    <td>{row.age31To60}</td>
+                    <td>{row.age61To90}</td>
+                    <td>{row.age91Plus}</td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          </div>
+        )}
+      </section>
+    );
+  }
+
+  function renderFlowBalanceCard(): JSX.Element | null {
+    if (!isMetricVisible("flow-balance")) {
+      return null;
+    }
+
     return (
       <article className="team-kpi-card flow-signal-card flow-balance-card">
         <div className="flow-balance-block">
@@ -1355,7 +2662,7 @@ export default function App(): JSX.Element {
             {selectedTeamHealth.intakeThroughput.intakeThisMonth} / {selectedTeamHealth.intakeThroughput.throughputThisMonth}
           </strong>
           <small>
-            This month Created/Delivered • Last 30 days {selectedTeamHealth.intakeThroughput.intakeLast30Days}/
+            {selectedTeamThroughputAnchorLabel} Created/Delivered • Rolling 30d {selectedTeamHealth.intakeThroughput.intakeLast30Days}/
             {selectedTeamHealth.intakeThroughput.throughputLast30Days}
           </small>
         </div>
@@ -1364,14 +2671,86 @@ export default function App(): JSX.Element {
           {renderMetricLabel("Backlog Flow", "netFlow", selectedTeamHealthSignals.netFlow)}
           <strong>{formatSignedNumber(selectedTeamHealth.netFlow.thisMonth)}</strong>
           <small>
-            This month (Created - Delivered) • Last 30 days {formatSignedNumber(selectedTeamHealth.netFlow.last30Days)}
+            {selectedTeamThroughputAnchorLabel} (Created - Delivered) • Rolling 30d {formatSignedNumber(selectedTeamHealth.netFlow.last30Days)}
           </small>
         </div>
       </article>
     );
   }
 
-  function renderHealthCheckCompactCard(keyPrefix: string): JSX.Element {
+  function renderThroughputSummaryCard(): JSX.Element | null {
+    if (!isMetricVisible("throughput")) {
+      return null;
+    }
+
+    return (
+      <article className="team-kpi-card throughput-summary-card">
+        <div className="throughput-summary-block">
+          {renderMetricLabel("Throughput (This / Last month)", "throughputThisMonth")}
+          <strong>
+            {selectedTeamHealth.throughput.thisMonth} / {selectedTeamHealth.throughput.lastMonth}
+          </strong>
+          <small>
+            {selectedTeamThroughputAnchorLabel} / {selectedTeamThroughputComparisonLabel} • Done by delivery date
+          </small>
+        </div>
+        <div className="throughput-summary-divider" aria-hidden="true" />
+        <div className="throughput-summary-block">
+          {renderMetricLabel("Throughput (Last 30 days)", "throughputLast30Days")}
+          <strong>{selectedTeamHealth.throughput.last30Days}</strong>
+          <small>Rolling 30d to {selectedTeamThroughputAnchorLabel}</small>
+        </div>
+      </article>
+    );
+  }
+
+  function renderSprintWorkSummaryCard(): JSX.Element | null {
+    if (!isMetricVisible("sprint-work")) {
+      return null;
+    }
+
+    return (
+      <article className="team-kpi-card sprint-work-summary-card">
+        <div className="sprint-work-summary-block">
+          {renderMetricLabel("Delivered In Sprint %", "deliveredOutsideSprint")}
+          <strong>
+            {selectedTeamHealth.sprintWork.deliveredInSprintPct === null
+              ? "-"
+              : `${formatPercentValue(selectedTeamHealth.sprintWork.deliveredInSprintPct)}%`}
+          </strong>
+          <small>
+            {selectedTeamHealth.sprintWork.doneTotal === 0
+              ? "No delivered tickets in selected period."
+              : `${selectedTeamHealth.sprintWork.deliveredInSprintCount}/${selectedTeamHealth.sprintWork.doneTotal} done ticket(s) have sprint assignment.`}
+          </small>
+        </div>
+        <div className="sprint-work-summary-divider" aria-hidden="true" />
+        <div className="sprint-work-summary-block">
+          {renderMetricLabel(
+            "Delivered Outside Sprint %",
+            "deliveredOutsideSprint",
+            selectedTeamHealthSignals.deliveredOutsideSprint,
+          )}
+          <strong>
+            {selectedTeamHealth.sprintWork.deliveredOutsideSprintPct === null
+              ? "-"
+              : `${formatPercentValue(selectedTeamHealth.sprintWork.deliveredOutsideSprintPct)}%`}
+          </strong>
+          <small>
+            {selectedTeamHealth.sprintWork.doneTotal === 0
+              ? "No delivered tickets in selected period."
+              : `${selectedTeamHealth.sprintWork.deliveredOutsideSprintCount}/${selectedTeamHealth.sprintWork.doneTotal} done ticket(s) have no sprint assignment.`}
+          </small>
+        </div>
+      </article>
+    );
+  }
+
+  function renderHealthCheckCompactCard(keyPrefix: string): JSX.Element | null {
+    if (!isMetricVisible("health-check")) {
+      return null;
+    }
+
     const firstAction = selectedTeamHealthCheck.topActions[0] ?? null;
     const criticalActions = selectedTeamHealthCheck.criticalActions;
     const scoredCount = Math.max(0, selectedTeamHealthCheck.totalMetrics - selectedTeamHealthCheck.neutralCount);
@@ -1459,6 +2838,7 @@ export default function App(): JSX.Element {
     setWorkspaceHandle(handle);
     setTeams(loadedTeams);
     setWorkspaceProfiles(config.profiles ?? []);
+    setWorkspaceMetricConfig(normalizeWorkspaceMetricConfig(config.metricConfig));
     setActiveWorkspaceProfileId(config.activeProfileId ?? ALL_TEAMS_PROFILE_ID);
     return loadedTeams;
   }
@@ -1477,11 +2857,31 @@ export default function App(): JSX.Element {
       profiles,
       activeProfileId:
         nextActiveProfileId === ALL_TEAMS_PROFILE_ID ? undefined : nextActiveProfileId,
+      metricConfig: workspaceMetricConfig,
     };
 
     await saveWorkspaceConfig(workspaceHandle, config);
     setWorkspaceProfiles(profiles);
     setActiveWorkspaceProfileId(nextActiveProfileId);
+  }
+
+  async function persistWorkspaceMetricConfig(nextConfig: WorkspaceMetricConfig): Promise<void> {
+    if (!workspaceHandle) {
+      return;
+    }
+
+    const normalized = normalizeWorkspaceMetricConfig(nextConfig);
+    const config: WorkspaceConfig = {
+      version: 1,
+      name: workspaceHandle.name,
+      profiles: workspaceProfiles,
+      activeProfileId:
+        activeWorkspaceProfileId === ALL_TEAMS_PROFILE_ID ? undefined : activeWorkspaceProfileId,
+      metricConfig: normalized,
+    };
+
+    await saveWorkspaceConfig(workspaceHandle, config);
+    setWorkspaceMetricConfig(normalized);
   }
 
   async function refreshRememberedWorkspaces(): Promise<void> {
@@ -1754,6 +3154,96 @@ export default function App(): JSX.Element {
     }
   }
 
+  async function handleJiraImport(): Promise<void> {
+    if (!importTeamId) {
+      setStatus("Select team first.");
+      return;
+    }
+
+    const team = teams.find((item) => item.teamId === importTeamId);
+    if (!team) {
+      setStatus("Selected team was not found.");
+      return;
+    }
+
+    const maxIssues = Number.parseInt(jiraImportMaxIssues, 10);
+    if (!Number.isFinite(maxIssues) || maxIssues < 1 || maxIssues > 1000) {
+      setStatus("Max issues must be between 1 and 1000.");
+      return;
+    }
+
+    setBusy(true);
+    try {
+      const result = await exportJiraIssuesToCsv({
+        baseUrl: jiraImportUrl,
+        username: jiraImportUsername,
+        token: jiraImportToken,
+        jql: jiraImportJql,
+        maxIssues,
+      });
+
+      const bucket = resolveImportBucket(importMode, customImportBucket);
+      const fileName = `jira-${team.teamId}-${new Date().toISOString().slice(0, 10)}.csv`;
+      await importCsvContents(team, [{ name: fileName, text: result.csvText }], bucket);
+      await analyzeTeam(team);
+      const refreshedTeams = await refreshTeams();
+      const refreshedTeam = refreshedTeams.find((item) => item.teamId === team.teamId) ?? null;
+
+      setSelectedTeamId(team.teamId);
+      if (refreshedTeam) {
+        const progressSnapshot = buildTeamProgressSnapshot(refreshedTeam, new Date());
+        const saveResult = await saveTeamProgressSnapshot(refreshedTeam, progressSnapshot);
+        setTeams((current) =>
+          current.map((item) =>
+            item.teamId === refreshedTeam.teamId
+              ? {
+                  ...item,
+                  progressHistory: saveResult.history,
+                }
+              : item,
+          ),
+        );
+      }
+
+      const cappedText = result.issueCount < result.total ? ` Imported first ${result.issueCount} of ${result.total}.` : "";
+      setStatus(`Jira import completed for ${team.config.teamName}: ${result.issueCount} issue(s).${cappedText}`);
+    } catch (error) {
+      const message = getErrorMessage(error);
+      setStatus(
+        `Jira import failed: ${message}. If this is a browser CORS error, Jira must allow this local app or we need a small local proxy.`,
+      );
+    } finally {
+      setBusy(false);
+    }
+  }
+
+  async function handleTestJiraConnection(): Promise<void> {
+    setJiraConnectionStatus({ tone: "neutral", message: "Testing Jira connection..." });
+    setBusy(true);
+    try {
+      const result = await testJiraConnection({
+        baseUrl: jiraImportUrl,
+        username: jiraImportUsername,
+        token: jiraImportToken,
+      });
+
+      setJiraConnectionStatus({
+        tone: "success",
+        message: `Connected as ${result.displayName} (${result.accountName}).`,
+      });
+      setStatus("Jira connection test succeeded.");
+    } catch (error) {
+      const message = getErrorMessage(error);
+      setJiraConnectionStatus({
+        tone: "error",
+        message,
+      });
+      setStatus(`Jira connection test failed: ${message}`);
+    } finally {
+      setBusy(false);
+    }
+  }
+
   async function handleRecalculateAll(): Promise<void> {
     if (!workspaceHandle) {
       return;
@@ -1809,10 +3299,10 @@ export default function App(): JSX.Element {
     }
 
     const normalizedVelocity = normalizeVelocityConfig(draftConfig.velocityConfig);
-    if (normalizedVelocity.mode === "sprint-story-points" && !normalizedVelocity.sprintStartDate) {
-      setStatus("Sprint start date is required when velocity cadence is Sprint Based Story Points.");
-      return;
-    }
+    const workflowVelocityConfig: VelocityConfig =
+      normalizedVelocity.mode === "sprint-story-points"
+        ? normalizedVelocity
+        : { mode: "weekly-ticket-count" };
 
     setBusy(true);
     try {
@@ -1825,23 +3315,26 @@ export default function App(): JSX.Element {
             .map((value) => value.trim())
             .filter((value) => value.length > 0),
         },
-        cycleTimeConfig: draftConfig.cycleTimeConfig ?? {
+        cycleTimeConfig: {
           endDateSource: "resolvedOrUpdated",
         },
         sleConfig: {
           ...draftConfig.sleConfig,
           issueTypes: normalizeSleIssueTypes(draftConfig.sleConfig.issueTypes),
         },
-        velocityConfig: normalizedVelocity,
-        bugConfig: {
-          issueTypes: bugIssueTypesInput
-            .split(",")
-            .map((value) => value.trim())
-            .filter((value) => value.length > 0),
+        velocityConfig: workflowVelocityConfig,
+        sprintScopeConfig: {
+          statuses: sprintScopeStatusList,
+        },
+        workflowConfig: {
+          backlogStatuses: backlogStatusList,
+          activeStatuses: sprintScopeStatusList,
         },
         mapping: {
           ...draftConfig.mapping,
-          issueType: draftConfig.mapping.issueType ?? "Issue Type",
+          issueType: normalizeOptionalMappingValue(draftConfig.mapping.issueType) ?? "Issue Type",
+          storyPoints: normalizeOptionalMappingValue(draftConfig.mapping.storyPoints),
+          sprint: normalizeOptionalMappingValue(draftConfig.mapping.sprint),
         },
       };
 
@@ -1861,9 +3354,45 @@ export default function App(): JSX.Element {
     }
   }
 
+  async function handleSaveBugMetricConfig(): Promise<void> {
+    if (!selectedTeam) {
+      setStatus("Select team first.");
+      return;
+    }
+
+    const normalizedBugDefaultStoryPoints = parseOptionalNonNegativeNumberInput(bugDefaultStoryPointsInput);
+    if (bugDefaultStoryPointsInput.trim().length > 0 && normalizedBugDefaultStoryPoints === null) {
+      setStatus("Bug default story points must be a non-negative number.");
+      return;
+    }
+
+    const updatedTeam: TeamRuntime = {
+      ...selectedTeam,
+      config: {
+        ...selectedTeam.config,
+        bugConfig: {
+          issueTypes: bugIssueTypeList.length > 0 ? bugIssueTypeList : ["Bug"],
+          defaultStoryPoints: normalizedBugDefaultStoryPoints ?? undefined,
+        },
+      },
+    };
+
+    setBusy(true);
+    try {
+      await saveTeamConfig(updatedTeam);
+      await analyzeTeam(updatedTeam);
+      await refreshTeams();
+      setStatus(`Bug type metric config saved for ${selectedTeam.config.teamName}.`);
+    } catch (error) {
+      setStatus(`Failed to save bug metric config: ${getErrorMessage(error)}`);
+    } finally {
+      setBusy(false);
+    }
+  }
+
   function handleSelectSavedQuery(queryId: string): void {
     setQuerySelectionId(queryId);
-    const selected = selectedTeamQueryConfig.queries.find((query) => query.id === queryId);
+    const selected = selectedIssueQueryConfig.queries.find((query) => query.id === queryId);
     if (!selected) {
       return;
     }
@@ -1871,6 +3400,18 @@ export default function App(): JSX.Element {
     setQueryDraftName(selected.name);
     setQueryDraftJql(selected.jql);
     setQueryDraftNote(selected.note ?? "");
+  }
+
+  function handleSelectTimeInStatusQuery(queryId: string): void {
+    setTimeInStatusQuerySelectionId(queryId);
+    const selected = selectedTimeInStatusQueryConfig.queries.find((query) => query.id === queryId);
+    if (!selected) {
+      return;
+    }
+
+    setTimeInStatusQueryDraftName(selected.name);
+    setTimeInStatusQueryDraftJql(selected.jql);
+    setTimeInStatusQueryDraftNote(selected.note ?? "");
   }
 
   async function persistImportTeamConfig(nextConfig: TeamConfig, successMessage: string): Promise<void> {
@@ -1909,7 +3450,7 @@ export default function App(): JSX.Element {
       return;
     }
 
-    const queryId = createUniqueQueryId(name, selectedTeamQueryConfig.queries);
+    const queryId = createUniqueQueryId(name, selectedIssueQueryConfig.queries);
     const nextQuery: JiraSavedQuery = {
       id: queryId,
       name,
@@ -1917,14 +3458,16 @@ export default function App(): JSX.Element {
       note: queryDraftNote.trim() || undefined,
     };
 
-    const nextConfig: TeamConfig = {
-      ...selectedImportTeam.config,
-      jiraQuery: {
-        defaultQueryId:
-          selectedTeamQueryConfig.defaultQueryId ?? selectedTeamQueryConfig.queries[0]?.id ?? nextQuery.id,
-        queries: [...selectedTeamQueryConfig.queries, nextQuery],
-      },
+    const nextCollection: JiraQueryCollection = {
+      defaultQueryId: selectedIssueQueryConfig.defaultQueryId ?? selectedIssueQueryConfig.queries[0]?.id ?? nextQuery.id,
+      queries: [...selectedIssueQueryConfig.queries, nextQuery],
     };
+    const nextConfig: TeamConfig = buildTeamConfigWithSavedQueries(
+      selectedImportTeam.config,
+      selectedTeamJiraQueryConfig,
+      "issueQuery",
+      nextCollection,
+    );
 
     setQuerySelectionId(queryId);
     await persistImportTeamConfig(nextConfig, `Saved new query "${name}" for ${selectedImportTeam.config.teamName}.`);
@@ -1944,7 +3487,7 @@ export default function App(): JSX.Element {
       return;
     }
 
-    const updatedQueries = selectedTeamQueryConfig.queries.map((query) =>
+    const updatedQueries = selectedIssueQueryConfig.queries.map((query) =>
       query.id === querySelectionId
         ? {
             ...query,
@@ -1955,13 +3498,15 @@ export default function App(): JSX.Element {
         : query,
     );
 
-    const nextConfig: TeamConfig = {
-      ...selectedImportTeam.config,
-      jiraQuery: {
-        defaultQueryId: selectedTeamQueryConfig.defaultQueryId,
+    const nextConfig: TeamConfig = buildTeamConfigWithSavedQueries(
+      selectedImportTeam.config,
+      selectedTeamJiraQueryConfig,
+      "issueQuery",
+      {
+        defaultQueryId: selectedIssueQueryConfig.defaultQueryId,
         queries: updatedQueries,
       },
-    };
+    );
 
     await persistImportTeamConfig(nextConfig, `Updated query "${name}" for ${selectedImportTeam.config.teamName}.`);
   }
@@ -1972,21 +3517,145 @@ export default function App(): JSX.Element {
       return;
     }
 
-    const selected = selectedTeamQueryConfig.queries.find((query) => query.id === querySelectionId);
+    const selected = selectedIssueQueryConfig.queries.find((query) => query.id === querySelectionId);
     if (!selected) {
       setStatus("Selected query not found.");
       return;
     }
 
-    const nextConfig: TeamConfig = {
-      ...selectedImportTeam.config,
-      jiraQuery: {
+    const nextConfig: TeamConfig = buildTeamConfigWithSavedQueries(
+      selectedImportTeam.config,
+      selectedTeamJiraQueryConfig,
+      "issueQuery",
+      {
         defaultQueryId: selected.id,
-        queries: selectedTeamQueryConfig.queries,
+        queries: selectedIssueQueryConfig.queries,
       },
-    };
+    );
 
     await persistImportTeamConfig(nextConfig, `Default query set to "${selected.name}".`);
+  }
+
+  async function handleSaveTimeInStatusQueryAsNew(): Promise<void> {
+    if (!selectedImportTeam) {
+      setStatus("Select team first.");
+      return;
+    }
+
+    const name = timeInStatusQueryDraftName.trim();
+    const jql = timeInStatusQueryDraftJql.trim();
+
+    if (!name || !jql) {
+      setStatus("Time in Status query name and JQL are required.");
+      return;
+    }
+
+    const queryId = createUniqueQueryId(name, selectedTimeInStatusQueryConfig.queries);
+    const nextQuery: JiraSavedQuery = {
+      id: queryId,
+      name,
+      jql,
+      note: timeInStatusQueryDraftNote.trim() || undefined,
+    };
+
+    const nextConfig: TeamConfig = buildTeamConfigWithSavedQueries(
+      selectedImportTeam.config,
+      selectedTeamJiraQueryConfig,
+      "timeInStatusQuery",
+      {
+        defaultQueryId:
+          selectedTimeInStatusQueryConfig.defaultQueryId ??
+          selectedTimeInStatusQueryConfig.queries[0]?.id ??
+          nextQuery.id,
+        queries: [...selectedTimeInStatusQueryConfig.queries, nextQuery],
+      },
+    );
+
+    setTimeInStatusQuerySelectionId(queryId);
+    await persistImportTeamConfig(
+      nextConfig,
+      `Saved new Time in Status query "${name}" for ${selectedImportTeam.config.teamName}.`,
+    );
+  }
+
+  async function handleUpdateSelectedTimeInStatusQuery(): Promise<void> {
+    if (!selectedImportTeam || !timeInStatusQuerySelectionId) {
+      setStatus("Select an existing Time in Status query to update.");
+      return;
+    }
+
+    const name = timeInStatusQueryDraftName.trim();
+    const jql = timeInStatusQueryDraftJql.trim();
+
+    if (!name || !jql) {
+      setStatus("Time in Status query name and JQL are required.");
+      return;
+    }
+
+    const updatedQueries = selectedTimeInStatusQueryConfig.queries.map((query) =>
+      query.id === timeInStatusQuerySelectionId
+        ? {
+            ...query,
+            name,
+            jql,
+            note: timeInStatusQueryDraftNote.trim() || undefined,
+          }
+        : query,
+    );
+
+    const nextConfig: TeamConfig = buildTeamConfigWithSavedQueries(
+      selectedImportTeam.config,
+      selectedTeamJiraQueryConfig,
+      "timeInStatusQuery",
+      {
+        defaultQueryId: selectedTimeInStatusQueryConfig.defaultQueryId,
+        queries: updatedQueries,
+      },
+    );
+
+    await persistImportTeamConfig(
+      nextConfig,
+      `Updated Time in Status query "${name}" for ${selectedImportTeam.config.teamName}.`,
+    );
+  }
+
+  async function handleSetDefaultTimeInStatusQuery(): Promise<void> {
+    if (!selectedImportTeam || !timeInStatusQuerySelectionId) {
+      setStatus("Select Time in Status query first.");
+      return;
+    }
+
+    const selected = selectedTimeInStatusQueryConfig.queries.find(
+      (query) => query.id === timeInStatusQuerySelectionId,
+    );
+    if (!selected) {
+      setStatus("Selected Time in Status query not found.");
+      return;
+    }
+
+    const nextConfig: TeamConfig = buildTeamConfigWithSavedQueries(
+      selectedImportTeam.config,
+      selectedTeamJiraQueryConfig,
+      "timeInStatusQuery",
+      {
+        defaultQueryId: selected.id,
+        queries: selectedTimeInStatusQueryConfig.queries,
+      },
+    );
+
+    await persistImportTeamConfig(
+      nextConfig,
+      `Default Time in Status query set to "${selected.name}".`,
+    );
+  }
+
+  function handleCopyIssueQueryToTimeInStatus(): void {
+    setTimeInStatusQueryDraftName(queryDraftName ? `${queryDraftName} (Time in Status)` : "Time in Status Query");
+    setTimeInStatusQueryDraftJql(queryDraftJql);
+    setTimeInStatusQueryDraftNote(
+      queryDraftNote ? `${queryDraftNote} Copied from Issues query.` : "Copied from Issues query.",
+    );
+    setTimeInStatusQueryTimeWindow(queryTimeWindow);
   }
 
   async function handleSaveBottleneckEntry(event: FormEvent<HTMLFormElement>): Promise<void> {
@@ -2403,9 +4072,6 @@ export default function App(): JSX.Element {
               ...curr.doneConfig,
               useStatusCategoryDone: false,
             },
-            cycleTimeConfig: {
-              endDateSource: "resolvedOrUpdated",
-            },
           }
         : curr,
     );
@@ -2420,9 +4086,6 @@ export default function App(): JSX.Element {
             doneConfig: {
               ...curr.doneConfig,
               useStatusCategoryDone: false,
-            },
-            cycleTimeConfig: {
-              endDateSource: "updatedOnly",
             },
           }
         : curr,
@@ -2463,6 +4126,128 @@ export default function App(): JSX.Element {
     setBugIssueTypesInput(nextList.join(", "));
   }
 
+  function handleToggleBugIssueType(value: string): void {
+    const normalized = normalizeTextValue(value);
+    if (!normalized) {
+      return;
+    }
+
+    const exists = bugIssueTypeList.some((item) => normalizeTextValue(item) === normalized);
+    const nextList = exists
+      ? bugIssueTypeList.filter((item) => normalizeTextValue(item) !== normalized)
+      : [...bugIssueTypeList, value.trim()];
+
+    setBugIssueTypesInput(parseCommaSeparatedList(nextList.join(", ")).join(", "));
+  }
+
+  function handleAddSprintScopeStatus(): void {
+    const nextValue = sprintScopeStatusDraft.trim();
+    if (!nextValue) {
+      return;
+    }
+
+    const nextList = parseCommaSeparatedList([...sprintScopeStatusList, nextValue].join(", "));
+    setSprintScopeStatusesInput(nextList.join(", "));
+    setSprintScopeStatusDraft("");
+  }
+
+  function handleRemoveSprintScopeStatus(value: string): void {
+    const normalized = normalizeTextValue(value);
+    const nextList = sprintScopeStatusList.filter((item) => normalizeTextValue(item) !== normalized);
+    setSprintScopeStatusesInput(nextList.join(", "));
+  }
+
+  function handleAddBacklogStatus(): void {
+    const nextValue = backlogStatusDraft.trim();
+    if (!nextValue) {
+      return;
+    }
+
+    const nextList = parseCommaSeparatedList([...backlogStatusList, nextValue].join(", "));
+    setBacklogStatusesInput(nextList.join(", "));
+    setBacklogStatusDraft("");
+  }
+
+  function handleRemoveBacklogStatus(value: string): void {
+    const normalized = normalizeTextValue(value);
+    const nextList = backlogStatusList.filter((item) => normalizeTextValue(item) !== normalized);
+    setBacklogStatusesInput(nextList.join(", "));
+  }
+
+  function handleClassifyWorkflowStatus(statusName: string, category: "backlog" | "active" | "done"): void {
+    const normalized = normalizeTextValue(statusName);
+    const withoutStatus = (values: string[]) => values.filter((item) => normalizeTextValue(item) !== normalized);
+
+    setBacklogStatusesInput((current) => withoutStatus(parseCommaSeparatedList(current)).join(", "));
+    setSprintScopeStatusesInput((current) => withoutStatus(parseCommaSeparatedList(current)).join(", "));
+    setDoneStatusesInput((current) => withoutStatus(parseCommaSeparatedList(current)).join(", "));
+
+    if (category === "backlog") {
+      setBacklogStatusesInput((current) => parseCommaSeparatedList([...parseCommaSeparatedList(current), statusName].join(", ")).join(", "));
+    } else if (category === "active") {
+      setSprintScopeStatusesInput((current) => parseCommaSeparatedList([...parseCommaSeparatedList(current), statusName].join(", ")).join(", "));
+    } else {
+      setDoneStatusesInput((current) => parseCommaSeparatedList([...parseCommaSeparatedList(current), statusName].join(", ")).join(", "));
+    }
+  }
+
+  function handleResetSprintScopeStatuses(): void {
+    const autoDetected = selectedTeam ? resolveSprintScopeStatuses({ ...selectedTeam.config, sprintScopeConfig: { statuses: [] } }, selectedTeam.parsedIssues) : [];
+    setSprintScopeStatusesInput(autoDetected.join(", "));
+    setSprintScopeStatusDraft("");
+  }
+
+  async function handleToggleWorkspaceMetric(scope: MetricScope, metricId: ConfigurableMetricId): Promise<void> {
+    const normalized = normalizeWorkspaceMetricConfig(workspaceMetricConfig);
+    const current = new Set(normalized.scopeVisibility?.[scope] ?? []);
+    if (current.has(metricId)) {
+      current.delete(metricId);
+    } else {
+      current.add(metricId);
+    }
+
+    const nextConfig: WorkspaceMetricConfig = {
+      scopeVisibility: {
+        ...normalized.scopeVisibility,
+        [scope]: Array.from(current),
+      },
+    };
+
+    try {
+      await persistWorkspaceMetricConfig(nextConfig);
+      setStatus(`Metric setup saved for ${METRIC_SCOPE_LABELS[scope]}.`);
+    } catch (error) {
+      setStatus(`Failed to save metric setup: ${getErrorMessage(error)}`);
+    }
+  }
+
+  async function handleApplyMetricPreset(scope: MetricScope, preset: "recommended" | "flow" | "minimal"): Promise<void> {
+    const metricIds = CONFIGURABLE_METRICS.filter((metric) => {
+      if (preset === "recommended") {
+        return metric.defaultScopes.includes(scope);
+      }
+      if (preset === "flow") {
+        return metric.group === "Flow" || metric.id === "health-check" || metric.id === "data-monitor";
+      }
+      return ["health-check", "stories-done", "avg-cycle-time", "sle-p85", "wip-age-risk", "data-monitor"].includes(metric.id);
+    }).map((metric) => metric.id);
+
+    const normalized = normalizeWorkspaceMetricConfig(workspaceMetricConfig);
+    const nextConfig: WorkspaceMetricConfig = {
+      scopeVisibility: {
+        ...normalized.scopeVisibility,
+        [scope]: metricIds,
+      },
+    };
+
+    try {
+      await persistWorkspaceMetricConfig(nextConfig);
+      setStatus(`${METRIC_SCOPE_LABELS[scope]} metric preset applied.`);
+    } catch (error) {
+      setStatus(`Failed to apply metric preset: ${getErrorMessage(error)}`);
+    }
+  }
+
   async function handleExportTeamReport(): Promise<void> {
     if (!selectedTeam || !selectedTeamRow) {
       return;
@@ -2496,48 +4281,33 @@ export default function App(): JSX.Element {
           : healthyPct === null
             ? "N/A"
             : `${healthyPct}% Healthy`;
-    const sprintPredictabilityCurrent =
-      !selectedTeamHealth.sprintPredictability.enabled
-        ? "-"
-        : selectedTeamHealth.sprintPredictability.latest?.predictabilityPct === null
-          ? "No commitment"
-          : `${formatPercentValue(selectedTeamHealth.sprintPredictability.latest.predictabilityPct)}%`;
-    const sprintPredictabilityPrevious =
-      previousHealth === null
-        ? "-"
-        : !previousHealth.sprintPredictability.enabled
-          ? "-"
-          : previousHealth.sprintPredictability.latest?.predictabilityPct === null
-            ? "No commitment"
-            : `${formatPercentValue(previousHealth.sprintPredictability.latest.predictabilityPct)}%`;
-
     const metricsRows: Array<[string, string, string, string, string]> = [
       ["Key Metrics Snapshot", "", "", "", periodMonth],
       [
         "Stories Done",
         String(selectedTeamRow.current.done),
-        String(selectedTeamRow.previous?.done ?? "-"),
+        getPreviousDoneValue(),
         selectedTeamRow.trends.done.label,
         periodMonth,
       ],
       [
         "Avg Cycle Time",
         formatDays(selectedTeamRow.current.avgCycleTime),
-        formatDays(selectedTeamRow.previous?.avgCycleTime ?? null),
+        getPreviousAvgCycleTimeValue(),
         selectedTeamRow.trends.avgCycleTime.label,
         periodMonth,
       ],
       [
         "SLE P85",
         formatDays(selectedTeamRow.current.sle.p85),
-        formatDays(selectedTeamRow.previous?.sle.p85 ?? null),
+        getPreviousSleValue("p85"),
         selectedTeamRow.trends.sleP85.label,
         periodMonth,
       ],
       [
         "Velocity",
         formatVelocityValue(selectedTeamRow.current.velocity, selectedTeam.config.velocityConfig),
-        formatVelocityValue(selectedTeamRow.previous?.velocity ?? 0, selectedTeam.config.velocityConfig),
+        getPreviousVelocityValue(),
         selectedTeamRow.trends.velocity.label,
         periodMonth,
       ],
@@ -2549,19 +4319,23 @@ export default function App(): JSX.Element {
         periodMonth,
       ],
       [
-        "Throughput (This / Last month)",
+        `Throughput (${formatPeriodLabel(selectedTeamHealth.throughput.anchorMonth, periodReferenceDate)} / ${formatPeriodLabel(selectedTeamHealth.throughput.comparisonMonth, periodReferenceDate)})`,
         `${selectedTeamHealth.throughput.thisMonth} / ${selectedTeamHealth.throughput.lastMonth}`,
         previousHealth
           ? `${previousHealth.throughput.thisMonth} / ${previousHealth.throughput.lastMonth}`
           : "-",
-        "Done by Updated date",
+        previousHealth
+          ? `Done by delivery date. Previous column anchor: ${formatPeriodLabel(previousHealth.throughput.anchorMonth, periodReferenceDate)} / ${formatPeriodLabel(previousHealth.throughput.comparisonMonth, periodReferenceDate)}`
+          : "Done by delivery date",
         periodMonth,
       ],
       [
-        "Throughput (Last 30 days)",
+        `Throughput (Rolling 30d to ${formatPeriodLabel(selectedTeamHealth.throughput.anchorMonth, periodReferenceDate)})`,
         String(selectedTeamHealth.throughput.last30Days),
         previousHealth ? String(previousHealth.throughput.last30Days) : "-",
-        "Rolling window",
+        previousHealth
+          ? `Previous column rolls to ${formatPeriodLabel(previousHealth.throughput.anchorMonth, periodReferenceDate)}`
+          : "Rolling window",
         periodMonth,
       ],
       [
@@ -2596,66 +4370,88 @@ export default function App(): JSX.Element {
         periodMonth,
       ],
       [
-        "Sprint Predictability",
-        sprintPredictabilityCurrent,
-        sprintPredictabilityPrevious,
-        selectedTeamHealthSignals.sprintPredictability.label,
+        "2+ Sprint %",
+        `${formatPercentValue(selectedTeamRow.current.multiSprintPct)}%`,
+        getPreviousMultiSprintValue(),
+        selectedTeamRow.trends.multiSprintPct.label,
+        periodMonth,
+      ],
+      [
+        "Delivered In Sprint %",
+        selectedTeamHealth.sprintWork.deliveredInSprintPct === null
+          ? "-"
+          : `${formatPercentValue(selectedTeamHealth.sprintWork.deliveredInSprintPct)}%`,
+        previousHealth?.sprintWork.deliveredInSprintPct === null || previousHealth === null
+          ? "-"
+          : `${formatPercentValue(previousHealth.sprintWork.deliveredInSprintPct)}%`,
+        `${selectedTeamHealth.sprintWork.deliveredInSprintCount}/${selectedTeamHealth.sprintWork.doneTotal} done ticket(s) with sprint`,
+        periodMonth,
+      ],
+      [
+        "Delivered Outside Sprint %",
+        selectedTeamHealth.sprintWork.deliveredOutsideSprintPct === null
+          ? "-"
+          : `${formatPercentValue(selectedTeamHealth.sprintWork.deliveredOutsideSprintPct)}%`,
+        previousHealth?.sprintWork.deliveredOutsideSprintPct === null || previousHealth === null
+          ? "-"
+          : `${formatPercentValue(previousHealth.sprintWork.deliveredOutsideSprintPct)}%`,
+        `${selectedTeamHealth.sprintWork.deliveredOutsideSprintCount}/${selectedTeamHealth.sprintWork.doneTotal} done ticket(s) without sprint`,
         periodMonth,
       ],
       ["Team Metrics", "", "", "", periodMonth],
       [
         "Done",
         String(selectedTeamRow.current.done),
-        String(selectedTeamRow.previous?.done ?? "-"),
+        getPreviousDoneValue(),
         selectedTeamRow.trends.done.label,
         periodMonth,
       ],
       [
         "Avg Cycle Time",
         formatDays(selectedTeamRow.current.avgCycleTime),
-        formatDays(selectedTeamRow.previous?.avgCycleTime ?? null),
+        getPreviousAvgCycleTimeValue(),
         selectedTeamRow.trends.avgCycleTime.label,
         periodMonth,
       ],
       [
         "SLE P50",
         formatDays(selectedTeamRow.current.sle.p50),
-        formatDays(selectedTeamRow.previous?.sle.p50 ?? null),
+        getPreviousSleValue("p50"),
         selectedTeamRow.trends.sleP50.label,
         periodMonth,
       ],
       [
         "SLE P70",
         formatDays(selectedTeamRow.current.sle.p70),
-        formatDays(selectedTeamRow.previous?.sle.p70 ?? null),
+        getPreviousSleValue("p70"),
         selectedTeamRow.trends.sleP70.label,
         periodMonth,
       ],
       [
         "SLE P85",
         formatDays(selectedTeamRow.current.sle.p85),
-        formatDays(selectedTeamRow.previous?.sle.p85 ?? null),
+        getPreviousSleValue("p85"),
         selectedTeamRow.trends.sleP85.label,
         periodMonth,
       ],
       [
         "SLE P95",
         formatDays(selectedTeamRow.current.sle.p95),
-        formatDays(selectedTeamRow.previous?.sle.p95 ?? null),
+        getPreviousSleValue("p95"),
         selectedTeamRow.trends.sleP95.label,
         periodMonth,
       ],
       [
         "2+ Sprint %",
         `${formatPercentValue(selectedTeamRow.current.multiSprintPct)}%`,
-        `${formatPercentValue(selectedTeamRow.previous?.multiSprintPct ?? 0)}%`,
+        getPreviousMultiSprintValue(),
         selectedTeamRow.trends.multiSprintPct.label,
         periodMonth,
       ],
       [
         "Velocity",
         formatVelocityValue(selectedTeamRow.current.velocity, selectedTeam.config.velocityConfig),
-        formatVelocityValue(selectedTeamRow.previous?.velocity ?? 0, selectedTeam.config.velocityConfig),
+        getPreviousVelocityValue(),
         selectedTeamRow.trends.velocity.label,
         periodMonth,
       ],
@@ -2802,6 +4598,10 @@ export default function App(): JSX.Element {
             <span className="nav-icon">◫</span>
             Dashboard
           </button>
+          <button className={page === "metrics" ? "nav-link active" : "nav-link"} onClick={() => setPage("metrics")}>
+            <span className="nav-icon">☷</span>
+            Metrics Setup
+          </button>
           <button className={page === "import" ? "nav-link active" : "nav-link"} onClick={() => setPage("import")}>
             <span className="nav-icon">⇪</span>
             Import Data
@@ -2819,7 +4619,7 @@ export default function App(): JSX.Element {
       <main className="main-area">
         {status ? <div className="status-toast">{status}</div> : null}
 
-        {!workspaceHandle ? (
+        {!workspaceHandle && page !== "metrics" ? (
           <section className="page-section empty-state">
             <h2>Workspace required</h2>
             <p>Select your root folder to load teams and imports.</p>
@@ -2852,7 +4652,9 @@ export default function App(): JSX.Element {
           </section>
         ) : (
           <>
-            {page === "workspace" && (
+            {page === "metrics" && renderMetricsSetupPage()}
+
+            {workspaceHandle && page === "workspace" && (
               <section className="page-section">
                 <div className="section-head">
                   <div>
@@ -3017,7 +4819,7 @@ export default function App(): JSX.Element {
               </section>
             )}
 
-            {page === "dashboard" && (
+            {workspaceHandle && page === "dashboard" && (
               <section className="page-section dashboard-page">
                 <div className="section-head">
                   <div>
@@ -3025,18 +4827,8 @@ export default function App(): JSX.Element {
                     <p>Compare team health metrics and identify trends.</p>
                   </div>
                   <div className="section-tools">
-                    <label className="period-select">
-                      <span>Period:</span>
-                      <select value={periodMonth} onChange={(event) => setPeriodMonth(event.target.value)}>
-                        <option value="all">All</option>
-                        <option value="ytd">{formatPeriodLabel("ytd")}</option>
-                        {availableMonths.map((month) => (
-                          <option key={month} value={month}>
-                            {formatMonthLabel(month)}
-                          </option>
-                        ))}
-                      </select>
-                    </label>
+                    {renderPeriodPicker()}
+                    {renderMetricScopeSelector()}
                     <button className="soft-btn" disabled={busy || teams.length === 0} onClick={handleRecalculateAll}>
                       Recalculate
                     </button>
@@ -3115,15 +4907,15 @@ export default function App(): JSX.Element {
                       <thead>
                         <tr>
                           <th>Team</th>
-                          <th>Done</th>
-                          <th>Avg Cycle Time</th>
-                          <th>SLE P85</th>
-                          <th>WIP Age Risk</th>
-                          <th>Bug Ratio</th>
-                          <th>Monte Carlo</th>
-                          <th>2+ Sprint %</th>
-                          <th>Velocity</th>
-                          <th>Bottleneck</th>
+                          {isMetricVisible("stories-done") && <th>Done</th>}
+                          {isMetricVisible("avg-cycle-time") && <th>Avg Cycle Time</th>}
+                          {isMetricVisible("sle-p85") && <th>SLE P85</th>}
+                          {isMetricVisible("wip-age-risk") && <th>WIP Age Risk</th>}
+                          {isMetricVisible("bug-ratio") && <th>Bug Ratio</th>}
+                          {isMetricVisible("forecast") && <th>Monte Carlo</th>}
+                          {isMetricVisible("sprint-predictability") && <th>2+ Sprint %</th>}
+                          {isMetricVisible("velocity") && <th>Velocity</th>}
+                          {isMetricVisible("bottleneck") && <th>Bottleneck</th>}
                         </tr>
                       </thead>
                       <tbody>
@@ -3144,39 +4936,47 @@ export default function App(): JSX.Element {
                                 {row.team.config.teamName}
                               </button>
                             </td>
-                            <td>{renderMetricWithTrend(String(row.current.done), row.trends.done)}</td>
-                            <td>{renderMetricWithTrend(formatDays(row.current.avgCycleTime), row.trends.avgCycleTime)}</td>
-                            <td>{renderMetricWithTrend(formatDays(row.current.sle.p85), row.trends.sleP85)}</td>
-                            <td>
-                              {renderMetricWithTrend(
-                                `${formatPercentValue(row.healthCurrent.wipRisk.over30Pct)}% >1 month`,
-                                row.healthTrends.wipAgeRisk,
-                              )}
-                            </td>
-                            <td>
-                              {renderMetricWithTrend(
-                                row.healthCurrent.bugRatio.doneBugRatio === null
-                                  ? "-"
-                                  : `${formatPercentValue(row.healthCurrent.bugRatio.doneBugRatio)}%`,
-                                row.healthTrends.bugRatio,
-                              )}
-                            </td>
-                            <td>
-                              {renderMetricWithTrend(
-                                row.healthCurrent.forecast.p85Days === null
-                                  ? "-"
-                                  : `P85 ${row.healthCurrent.forecast.p85Days} days`,
-                                row.healthTrends.monteCarlo,
-                              )}
-                            </td>
-                            <td>
-                              {renderMetricWithTrend(
-                                `${formatPercentValue(row.current.multiSprintPct)}%`,
-                                row.trends.multiSprintPct,
-                              )}
-                            </td>
-                            <td>{renderMetricWithTrend(formatVelocityValue(row.current.velocity, row.team.config.velocityConfig), row.trends.velocity)}</td>
-                            <td>{row.bottleneck}</td>
+                            {isMetricVisible("stories-done") && <td>{renderMetricWithTrend(String(row.current.done), row.trends.done)}</td>}
+                            {isMetricVisible("avg-cycle-time") && <td>{renderMetricWithTrend(formatDays(row.current.avgCycleTime), row.trends.avgCycleTime)}</td>}
+                            {isMetricVisible("sle-p85") && <td>{renderMetricWithTrend(formatDays(row.current.sle.p85), row.trends.sleP85)}</td>}
+                            {isMetricVisible("wip-age-risk") && (
+                              <td>
+                                {renderMetricWithTrend(
+                                  `${formatPercentValue(row.healthCurrent.wipRisk.over30Pct)}% >1 month`,
+                                  row.healthTrends.wipAgeRisk,
+                                )}
+                              </td>
+                            )}
+                            {isMetricVisible("bug-ratio") && (
+                              <td>
+                                {renderMetricWithTrend(
+                                  row.healthCurrent.bugRatio.doneBugRatio === null
+                                    ? "-"
+                                    : `${formatPercentValue(row.healthCurrent.bugRatio.doneBugRatio)}%`,
+                                  row.healthTrends.bugRatio,
+                                )}
+                              </td>
+                            )}
+                            {isMetricVisible("forecast") && (
+                              <td>
+                                {renderMetricWithTrend(
+                                  row.healthCurrent.forecast.p85Days === null
+                                    ? "-"
+                                    : `P85 ${row.healthCurrent.forecast.p85Days} days`,
+                                  row.healthTrends.monteCarlo,
+                                )}
+                              </td>
+                            )}
+                            {isMetricVisible("sprint-predictability") && (
+                              <td>
+                                {renderMetricWithTrend(
+                                  `${formatPercentValue(row.current.multiSprintPct)}%`,
+                                  row.trends.multiSprintPct,
+                                )}
+                              </td>
+                            )}
+                            {isMetricVisible("velocity") && <td>{renderMetricWithTrend(formatVelocityValue(row.current.velocity, row.team.config.velocityConfig), row.trends.velocity)}</td>}
+                            {isMetricVisible("bottleneck") && <td>{row.bottleneck}</td>}
                           </tr>
                         ))}
                       </tbody>
@@ -3221,47 +5021,14 @@ export default function App(): JSX.Element {
                       </section>
                     )}
 
-                    <section className="table-panel compact dashboard-merged-detailed-table">
-                      <div className="table-wrap">
-                        <table className="metrics-table">
-                          <thead>
-                            <tr>
-                              <th>Done</th>
-                              <th>Avg Cycle Time</th>
-                              <th>SLE P50</th>
-                              <th>SLE P70</th>
-                              <th>SLE P85</th>
-                              <th>SLE P95</th>
-                              <th>2+ Sprint %</th>
-                              <th>Velocity ({selectedVelocityUnit})</th>
-                            </tr>
-                          </thead>
-                          <tbody>
-                            <tr>
-                              <td>{renderMetricWithTrend(String(selectedTeamRow.current.done), selectedTeamRow.trends.done)}</td>
-                              <td>{renderMetricWithTrend(formatDays(selectedTeamRow.current.avgCycleTime), selectedTeamRow.trends.avgCycleTime)}</td>
-                              <td>{renderMetricWithTrend(formatDays(selectedTeamRow.current.sle.p50), selectedTeamRow.trends.sleP50)}</td>
-                              <td>{renderMetricWithTrend(formatDays(selectedTeamRow.current.sle.p70), selectedTeamRow.trends.sleP70)}</td>
-                              <td>{renderMetricWithTrend(formatDays(selectedTeamRow.current.sle.p85), selectedTeamRow.trends.sleP85)}</td>
-                              <td>{renderMetricWithTrend(formatDays(selectedTeamRow.current.sle.p95), selectedTeamRow.trends.sleP95)}</td>
-                              <td>
-                                {renderMetricWithTrend(
-                                  `${formatPercentValue(selectedTeamRow.current.multiSprintPct)}%`,
-                                  selectedTeamRow.trends.multiSprintPct,
-                                )}
-                              </td>
-                              <td>{renderMetricWithTrend(formatVelocityValue(selectedTeamRow.current.velocity, selectedTeam.config.velocityConfig), selectedTeamRow.trends.velocity)}</td>
-                            </tr>
-                          </tbody>
-                        </table>
-                      </div>
-                    </section>
+                    {renderDetailedMetricsTable("dashboard-merged-detailed-table")}
+                    {renderDataMonitorPanel("data-monitor-panel")}
 
                     <section className="overview-top dashboard-merged-overview">
                       <h2 className="team-section-title">Key Metrics</h2>
                       <div className="team-kpi-grid">
                         {renderHealthCheckCompactCard("dashboard")}
-                        <article className="team-kpi-card flow-signal-card">
+                        <article className={`team-kpi-card flow-signal-card${isMetricVisible("wip-age-risk") ? "" : " metric-hidden"}`}>
                           {renderMetricLabel("WIP Age Risk", "wipAgeRisk", selectedTeamHealthSignals.wipAgeRisk)}
                           <strong>
                             {formatPercentValue(selectedTeamHealth.wipRisk.over30Pct)}% of open tickets are older than 1+ Months
@@ -3272,7 +5039,7 @@ export default function App(): JSX.Element {
                             {formatPercentValue(Math.max(0, selectedTeamHealth.wipRisk.over30DeltaPpVs30dBaseline))}%
                           </small>
                         </article>
-                        <article className="team-kpi-card flow-signal-card">
+                        <article className={`team-kpi-card flow-signal-card${isMetricVisible("forecast") ? "" : " metric-hidden"}`}>
                           {renderMetricLabel(
                             "Forecast (Monte Carlo lite)",
                             "forecastMonteCarlo",
@@ -3290,27 +5057,27 @@ export default function App(): JSX.Element {
                           </small>
                           {renderMetricDataIssue("forecastMonteCarlo")}
                         </article>
-                        <article className="team-kpi-card">
+                        <article className={`team-kpi-card${isMetricVisible("velocity") ? "" : " metric-hidden"}`}>
                           {renderMetricLabel(`Velocity (${selectedVelocityUnit})`, "velocity")}
                           <strong>{formatVelocityValue(selectedTeamRow.current.velocity, selectedTeam.config.velocityConfig)}</strong>
-                          <small>{previousPeriodLabel ? `Previous (${previousPeriodLabel}): ${formatVelocityValue(selectedTeamRow.previous?.velocity ?? 0, selectedTeam.config.velocityConfig)}` : "Previous: -"}</small>
+                          <small>{formatPreviousMetricLine(previousMetricLabel, getPreviousVelocityValue())}</small>
                         </article>
-                        <article className="team-kpi-card">
+                        <article className={`team-kpi-card${isMetricVisible("stories-done") ? "" : " metric-hidden"}`}>
                           {renderMetricLabel("Stories Done", "storiesDone")}
                           <strong>{selectedTeamRow.current.done}</strong>
-                          <small>{previousPeriodLabel ? `Previous (${previousPeriodLabel}): ${selectedTeamRow.previous?.done ?? "-"}` : "Previous: -"}</small>
+                          <small>{formatPreviousMetricLine(previousMetricLabel, getPreviousDoneValue())}</small>
                         </article>
-                        <article className="team-kpi-card">
+                        <article className={`team-kpi-card${isMetricVisible("avg-cycle-time") ? "" : " metric-hidden"}`}>
                           {renderMetricLabel("Avg Cycle Time", "avgCycleTime")}
                           <strong>{formatDays(selectedTeamRow.current.avgCycleTime)}</strong>
-                          <small>{previousPeriodLabel ? `Previous (${previousPeriodLabel}): ${formatDays(selectedTeamRow.previous?.avgCycleTime ?? null)}` : "Previous: -"}</small>
+                          <small>{formatPreviousMetricLine(previousMetricLabel, getPreviousAvgCycleTimeValue())}</small>
                         </article>
-                        <article className="team-kpi-card">
+                        <article className={`team-kpi-card${isMetricVisible("sle-p85") ? "" : " metric-hidden"}`}>
                           {renderMetricLabel("SLE P85", "sleP85")}
                           <strong>{formatDays(selectedTeamRow.current.sle.p85)}</strong>
-                          <small>{previousPeriodLabel ? `Previous (${previousPeriodLabel}): ${formatDays(selectedTeamRow.previous?.sle.p85 ?? null)}` : "Previous: -"}</small>
+                          <small>{formatPreviousMetricLine(previousMetricLabel, getPreviousSleValue("p85"))}</small>
                         </article>
-                        <article className="team-kpi-card">
+                        <article className={`team-kpi-card${isMetricVisible("bug-ratio") ? "" : " metric-hidden"}`}>
                           {renderMetricLabel("Done Bug Ratio", "doneBugRatio", selectedTeamHealthSignals.doneBugRatio)}
                           <strong>
                             {selectedTeamHealth.bugRatio.doneBugRatio === null
@@ -3324,64 +5091,42 @@ export default function App(): JSX.Element {
                         </article>
                       </div>
                       <section className="flow-health-grid">
-                        <article className="team-kpi-card">
-                          {renderMetricLabel("Throughput (This / Last month)", "throughputThisMonth")}
-                          <strong>
-                            {selectedTeamHealth.throughput.thisMonth} / {selectedTeamHealth.throughput.lastMonth}
-                          </strong>
-                          <small>This month / Last month • Done by Updated date</small>
-                        </article>
-                        <article className="team-kpi-card">
-                          {renderMetricLabel("Throughput (Last 30 days)", "throughputLast30Days")}
-                          <strong>{selectedTeamHealth.throughput.last30Days}</strong>
-                          <small>Rolling window</small>
-                        </article>
-                        <article className="team-kpi-card flow-signal-card">
+                        {renderThroughputSummaryCard()}
+                        {renderSprintWorkSummaryCard()}
+                        <article className={`team-kpi-card flow-signal-card${isMetricVisible("sprint-predictability") ? "" : " metric-hidden"}`}>
                           {renderMetricLabel(
-                            "Sprint Predictability",
+                            "2+ Sprint %",
                             "sprintPredictability",
-                            selectedTeamHealthSignals.sprintPredictability,
                           )}
-                          <strong>
-                            {!selectedTeamHealth.sprintPredictability.enabled
-                              ? "-"
-                              : selectedTeamHealth.sprintPredictability.latest?.predictabilityPct === null
-                                ? "No commitment"
-                                : `${formatPercentValue(selectedTeamHealth.sprintPredictability.latest.predictabilityPct)}%`}
-                          </strong>
+                          <strong>{selectedTeamRow ? `${formatPercentValue(selectedTeamRow.current.multiSprintPct)}%` : "-"}</strong>
                           <small>
-                            {!selectedTeamHealth.sprintPredictability.enabled
-                              ? "Enable Sprint cadence to track committed vs done."
-                              : selectedTeamHealth.sprintPredictability.latest
-                                ? `${formatSprintBucketLabel(selectedTeamHealth.sprintPredictability.latest.sprint)} ${selectedTeamHealth.sprintPredictability.latest.done}/${selectedTeamHealth.sprintPredictability.latest.created} • Avg last 6 ${selectedTeamHealth.sprintPredictability.avgLast6Pct === null ? "-" : `${formatPercentValue(selectedTeamHealth.sprintPredictability.avgLast6Pct)}%`}`
-                                : "No sprint history yet."}
+                            {formatSprintPredictabilitySummary()}
                           </small>
-                          {renderMetricDataIssue("sprintPredictability")}
                         </article>
                       </section>
 
                       <section className="flow-signals-grid">
                         {renderFlowBalanceCard()}
-                        <article className="team-kpi-card flow-signal-card">
+                        <article className={`team-kpi-card flow-signal-card${isMetricVisible("throughput-stability") ? "" : " metric-hidden"}`}>
                           {renderMetricLabel(
                             "Throughput Stability",
                             "throughputStability",
                             selectedTeamHealthSignals.throughputStability,
                           )}
                           <strong>
-                            {selectedTeamHealth.throughputStability.weeklyCvPct === null
+                            {selectedTeamHealth.throughputStability.weeklyPredictabilityPct === null
                               ? "-"
-                              : `${formatPercentValue(selectedTeamHealth.throughputStability.weeklyCvPct)}% CV`}
+                              : `${formatPercentValue(selectedTeamHealth.throughputStability.weeklyPredictabilityPct)}%`}
                           </strong>
                           <small>
-                            8-week avg {formatNumber(selectedTeamHealth.throughputStability.weeklyAvg, 1) || "-"} done/wk • 6-month CV{" "}
-                            {selectedTeamHealth.throughputStability.monthlyCvPct === null
+                            8-week avg {formatNumber(selectedTeamHealth.throughputStability.weeklyAvg, 1) || "-"} done/wk • 6-month predictability{" "}
+                            {selectedTeamHealth.throughputStability.monthlyPredictabilityPct === null
                               ? "-"
-                              : `${formatPercentValue(selectedTeamHealth.throughputStability.monthlyCvPct)}%`}
+                              : `${formatPercentValue(selectedTeamHealth.throughputStability.monthlyPredictabilityPct)}%`}
                           </small>
                           {renderMetricDataIssue("throughputStability")}
                         </article>
-                        <article className="team-kpi-card flow-signal-card">
+                        <article className={`team-kpi-card flow-signal-card${isMetricVisible("lead-time-by-type") ? "" : " metric-hidden"}`}>
                           {renderMetricLabel(
                             "Lead Time by Type",
                             "leadTimeByType",
@@ -3403,7 +5148,7 @@ export default function App(): JSX.Element {
                       </section>
 
                       <section className="advanced-flow-grid">
-                        <article className="team-kpi-card flow-signal-card">
+                        <article className={`team-kpi-card flow-signal-card${isMetricVisible("flow-efficiency") ? "" : " metric-hidden"}`}>
                           {renderMetricLabel(
                             "Flow Efficiency",
                             "flowEfficiency",
@@ -3421,7 +5166,7 @@ export default function App(): JSX.Element {
                           </small>
                           {renderMetricDataIssue("flowEfficiency")}
                         </article>
-                        <article className="team-kpi-card flow-signal-card">
+                        <article className={`team-kpi-card flow-signal-card${isMetricVisible("queue-time") ? "" : " metric-hidden"}`}>
                           {renderMetricLabel(
                             "Queue Time by Status",
                             "queueTimeByStatus",
@@ -3441,7 +5186,7 @@ export default function App(): JSX.Element {
                           </small>
                           {renderMetricDataIssue("queueTimeByStatus")}
                         </article>
-                        <article className="team-kpi-card flow-signal-card">
+                        <article className={`team-kpi-card flow-signal-card${isMetricVisible("bottleneck-trend") ? "" : " metric-hidden"}`}>
                           {renderMetricLabel(
                             "Bottleneck Trend",
                             "bottleneckTrend",
@@ -3461,48 +5206,15 @@ export default function App(): JSX.Element {
                         </article>
                       </section>
 
-                      <section className="table-panel compact wip-heatmap-panel">
-                        <div className="table-title-row">
-                          <div className="table-title small-title">WIP Risk Heatmap by Status</div>
-                          {renderMetricInfoButton("wipRiskHeatmap")}
-                        </div>
-                        {selectedTeamHealth.wipRiskHeatmap.rows.length === 0 ? (
-                          <p className="muted">No open WIP issues.</p>
-                        ) : (
-                          <div className="table-wrap">
-                            <table className="metrics-table">
-                              <thead>
-                                <tr>
-                                  <th>Status</th>
-                                  <th>Total</th>
-                                  <th>&gt;30 days</th>
-                                  <th>&gt;60 days</th>
-                                  <th>&gt;90 days</th>
-                                </tr>
-                              </thead>
-                              <tbody>
-                                {selectedTeamHealth.wipRiskHeatmap.rows.map((row) => (
-                                  <tr key={`wip-heatmap-${row.status}`}>
-                                    <td>{row.status}</td>
-                                    <td>{row.total}</td>
-                                    <td>{row.over30}</td>
-                                    <td>{row.over60}</td>
-                                    <td>{row.over90}</td>
-                                  </tr>
-                                ))}
-                              </tbody>
-                            </table>
-                          </div>
-                        )}
-                      </section>
+                      {renderWipRiskHeatmapPanel("wip-heatmap-panel")}
                     </section>
 
                     <section className="overview-secondary-grid dashboard-merged-secondary">
                       <section className="aging-wip-compact-row">
-                        <article className="team-kpi-card aging-wip-compact-card">
+                        <article className={`team-kpi-card aging-wip-compact-card${isMetricVisible("aging-wip") ? "" : " metric-hidden"}`}>
                           <div className="aging-wip-compact-head">
                             <div className="aging-wip-title-row">
-                              <span>Aging WIP</span>
+                              <span>Average age of open tickets</span>
                               {renderMetricInfoButton("agingWip")}
                             </div>
                             <button
@@ -3581,7 +5293,7 @@ export default function App(): JSX.Element {
                         </article>
                       </section>
 
-                      <section className="table-panel compact bottleneck-panel">
+                      <section className={`table-panel compact bottleneck-panel${isMetricVisible("bottleneck") ? "" : " metric-hidden"}`}>
                         <div className="bottleneck-head">
                           <div>
                             <div className="table-title-row">
@@ -3641,6 +5353,7 @@ export default function App(): JSX.Element {
                           </div>
                         </div>
                       </section>
+                      {renderTimeInStatusPanel("dashboard-time-in-status-content")}
                     </section>
                   </section>
                 ) : (
@@ -3651,7 +5364,7 @@ export default function App(): JSX.Element {
               </section>
             )}
 
-            {page === "team" && (
+            {workspaceHandle && page === "team" && (
               <section className="page-section team-page">
                 {!selectedTeam || !selectedTeamRow ? (
                   <section className="panel-box">
@@ -3689,18 +5402,8 @@ export default function App(): JSX.Element {
                     </div>
 
                     <div className="team-controls-bar">
-                      <label className="period-select">
-                        <span>Period:</span>
-                        <select value={periodMonth} onChange={(event) => setPeriodMonth(event.target.value)}>
-                          <option value="all">All</option>
-                          <option value="ytd">{formatPeriodLabel("ytd")}</option>
-                          {availableMonths.map((month) => (
-                            <option key={month} value={month}>
-                              {formatMonthLabel(month)}
-                            </option>
-                          ))}
-                        </select>
-                      </label>
+                      {renderPeriodPicker()}
+                      {renderMetricScopeSelector()}
 
                       {teamTab === "cycle" && (
                         <div className="line-visibility-row">
@@ -3754,47 +5457,14 @@ export default function App(): JSX.Element {
                             </ul>
                           </section>
                         )}
-                        <section className="table-panel compact">
-                          <div className="table-wrap">
-                            <table className="metrics-table">
-                              <thead>
-                                <tr>
-                                  <th>Done</th>
-                                  <th>Avg Cycle Time</th>
-                                  <th>SLE P50</th>
-                                  <th>SLE P70</th>
-                                  <th>SLE P85</th>
-                                  <th>SLE P95</th>
-                                  <th>2+ Sprint %</th>
-                                  <th>Velocity ({selectedVelocityUnit})</th>
-                                </tr>
-                              </thead>
-                              <tbody>
-                                <tr>
-                                  <td>{renderMetricWithTrend(String(selectedTeamRow.current.done), selectedTeamRow.trends.done)}</td>
-                                  <td>{renderMetricWithTrend(formatDays(selectedTeamRow.current.avgCycleTime), selectedTeamRow.trends.avgCycleTime)}</td>
-                                  <td>{renderMetricWithTrend(formatDays(selectedTeamRow.current.sle.p50), selectedTeamRow.trends.sleP50)}</td>
-                                  <td>{renderMetricWithTrend(formatDays(selectedTeamRow.current.sle.p70), selectedTeamRow.trends.sleP70)}</td>
-                                  <td>{renderMetricWithTrend(formatDays(selectedTeamRow.current.sle.p85), selectedTeamRow.trends.sleP85)}</td>
-                                  <td>{renderMetricWithTrend(formatDays(selectedTeamRow.current.sle.p95), selectedTeamRow.trends.sleP95)}</td>
-                                  <td>
-                                    {renderMetricWithTrend(
-                                      `${formatPercentValue(selectedTeamRow.current.multiSprintPct)}%`,
-                                      selectedTeamRow.trends.multiSprintPct,
-                                    )}
-                                  </td>
-                                  <td>{renderMetricWithTrend(formatVelocityValue(selectedTeamRow.current.velocity, selectedTeam.config.velocityConfig), selectedTeamRow.trends.velocity)}</td>
-                                </tr>
-                              </tbody>
-                            </table>
-                          </div>
-                        </section>
+                        {renderDetailedMetricsTable()}
+                        {renderDataMonitorPanel("data-monitor-panel")}
 
                         <section className="overview-top">
                           <h2 className="team-section-title">Key Metrics</h2>
                           <div className="team-kpi-grid">
                             {renderHealthCheckCompactCard("team")}
-                            <article className="team-kpi-card flow-signal-card">
+                            <article className={`team-kpi-card flow-signal-card${isMetricVisible("wip-age-risk") ? "" : " metric-hidden"}`}>
                               {renderMetricLabel("WIP Age Risk", "wipAgeRisk", selectedTeamHealthSignals.wipAgeRisk)}
                               <strong>
                                 {formatPercentValue(selectedTeamHealth.wipRisk.over30Pct)}% of open tickets are older than 1+ Months
@@ -3805,7 +5475,7 @@ export default function App(): JSX.Element {
                                 {formatPercentValue(Math.max(0, selectedTeamHealth.wipRisk.over30DeltaPpVs30dBaseline))}%
                               </small>
                             </article>
-                            <article className="team-kpi-card flow-signal-card">
+                            <article className={`team-kpi-card flow-signal-card${isMetricVisible("forecast") ? "" : " metric-hidden"}`}>
                               {renderMetricLabel(
                                 "Forecast (Monte Carlo lite)",
                                 "forecastMonteCarlo",
@@ -3823,27 +5493,27 @@ export default function App(): JSX.Element {
                               </small>
                               {renderMetricDataIssue("forecastMonteCarlo")}
                             </article>
-                            <article className="team-kpi-card">
+                            <article className={`team-kpi-card${isMetricVisible("velocity") ? "" : " metric-hidden"}`}>
                               {renderMetricLabel(`Velocity (${selectedVelocityUnit})`, "velocity")}
                               <strong>{formatVelocityValue(selectedTeamRow.current.velocity, selectedTeam.config.velocityConfig)}</strong>
-                              <small>{previousPeriodLabel ? `Previous (${previousPeriodLabel}): ${formatVelocityValue(selectedTeamRow.previous?.velocity ?? 0, selectedTeam.config.velocityConfig)}` : "Previous: -"}</small>
+                              <small>{formatPreviousMetricLine(previousMetricLabel, getPreviousVelocityValue())}</small>
                             </article>
-                            <article className="team-kpi-card">
+                            <article className={`team-kpi-card${isMetricVisible("stories-done") ? "" : " metric-hidden"}`}>
                               {renderMetricLabel("Stories Done", "storiesDone")}
                               <strong>{selectedTeamRow.current.done}</strong>
-                              <small>{previousPeriodLabel ? `Previous (${previousPeriodLabel}): ${selectedTeamRow.previous?.done ?? "-"}` : "Previous: -"}</small>
+                              <small>{formatPreviousMetricLine(previousMetricLabel, getPreviousDoneValue())}</small>
                             </article>
-                            <article className="team-kpi-card">
+                            <article className={`team-kpi-card${isMetricVisible("avg-cycle-time") ? "" : " metric-hidden"}`}>
                               {renderMetricLabel("Avg Cycle Time", "avgCycleTime")}
                               <strong>{formatDays(selectedTeamRow.current.avgCycleTime)}</strong>
-                              <small>{previousPeriodLabel ? `Previous (${previousPeriodLabel}): ${formatDays(selectedTeamRow.previous?.avgCycleTime ?? null)}` : "Previous: -"}</small>
+                              <small>{formatPreviousMetricLine(previousMetricLabel, getPreviousAvgCycleTimeValue())}</small>
                             </article>
-                            <article className="team-kpi-card">
+                            <article className={`team-kpi-card${isMetricVisible("sle-p85") ? "" : " metric-hidden"}`}>
                               {renderMetricLabel("SLE P85", "sleP85")}
                               <strong>{formatDays(selectedTeamRow.current.sle.p85)}</strong>
-                              <small>{previousPeriodLabel ? `Previous (${previousPeriodLabel}): ${formatDays(selectedTeamRow.previous?.sle.p85 ?? null)}` : "Previous: -"}</small>
+                              <small>{formatPreviousMetricLine(previousMetricLabel, getPreviousSleValue("p85"))}</small>
                             </article>
-                            <article className="team-kpi-card">
+                            <article className={`team-kpi-card${isMetricVisible("bug-ratio") ? "" : " metric-hidden"}`}>
                               {renderMetricLabel("Done Bug Ratio", "doneBugRatio", selectedTeamHealthSignals.doneBugRatio)}
                               <strong>
                                 {selectedTeamHealth.bugRatio.doneBugRatio === null
@@ -3857,64 +5527,42 @@ export default function App(): JSX.Element {
                             </article>
                           </div>
                           <section className="flow-health-grid">
-                            <article className="team-kpi-card">
-                              {renderMetricLabel("Throughput (This / Last month)", "throughputThisMonth")}
-                              <strong>
-                                {selectedTeamHealth.throughput.thisMonth} / {selectedTeamHealth.throughput.lastMonth}
-                              </strong>
-                              <small>This month / Last month • Done by Updated date</small>
-                            </article>
-                            <article className="team-kpi-card">
-                              {renderMetricLabel("Throughput (Last 30 days)", "throughputLast30Days")}
-                              <strong>{selectedTeamHealth.throughput.last30Days}</strong>
-                              <small>Rolling window</small>
-                            </article>
-                            <article className="team-kpi-card flow-signal-card">
+                            {renderThroughputSummaryCard()}
+                            {renderSprintWorkSummaryCard()}
+                            <article className={`team-kpi-card flow-signal-card${isMetricVisible("sprint-predictability") ? "" : " metric-hidden"}`}>
                               {renderMetricLabel(
-                                "Sprint Predictability",
+                                "2+ Sprint %",
                                 "sprintPredictability",
-                                selectedTeamHealthSignals.sprintPredictability,
                               )}
-                              <strong>
-                                {!selectedTeamHealth.sprintPredictability.enabled
-                                  ? "-"
-                                  : selectedTeamHealth.sprintPredictability.latest?.predictabilityPct === null
-                                    ? "No commitment"
-                                    : `${formatPercentValue(selectedTeamHealth.sprintPredictability.latest.predictabilityPct)}%`}
-                              </strong>
+                              <strong>{selectedTeamRow ? `${formatPercentValue(selectedTeamRow.current.multiSprintPct)}%` : "-"}</strong>
                               <small>
-                                {!selectedTeamHealth.sprintPredictability.enabled
-                                  ? "Enable Sprint cadence to track committed vs done."
-                                  : selectedTeamHealth.sprintPredictability.latest
-                                    ? `${formatSprintBucketLabel(selectedTeamHealth.sprintPredictability.latest.sprint)} ${selectedTeamHealth.sprintPredictability.latest.done}/${selectedTeamHealth.sprintPredictability.latest.created} • Avg last 6 ${selectedTeamHealth.sprintPredictability.avgLast6Pct === null ? "-" : `${formatPercentValue(selectedTeamHealth.sprintPredictability.avgLast6Pct)}%`}`
-                                    : "No sprint history yet."}
+                                {formatSprintPredictabilitySummary()}
                               </small>
-                              {renderMetricDataIssue("sprintPredictability")}
                             </article>
                           </section>
 
                           <section className="flow-signals-grid">
                             {renderFlowBalanceCard()}
-                            <article className="team-kpi-card flow-signal-card">
+                            <article className={`team-kpi-card flow-signal-card${isMetricVisible("throughput-stability") ? "" : " metric-hidden"}`}>
                               {renderMetricLabel(
                                 "Throughput Stability",
                                 "throughputStability",
                                 selectedTeamHealthSignals.throughputStability,
                               )}
                               <strong>
-                                {selectedTeamHealth.throughputStability.weeklyCvPct === null
+                                {selectedTeamHealth.throughputStability.weeklyPredictabilityPct === null
                                   ? "-"
-                                  : `${formatPercentValue(selectedTeamHealth.throughputStability.weeklyCvPct)}% CV`}
+                                  : `${formatPercentValue(selectedTeamHealth.throughputStability.weeklyPredictabilityPct)}%`}
                               </strong>
                               <small>
-                                8-week avg {formatNumber(selectedTeamHealth.throughputStability.weeklyAvg, 1) || "-"} done/wk • 6-month CV{" "}
-                                {selectedTeamHealth.throughputStability.monthlyCvPct === null
+                                8-week avg {formatNumber(selectedTeamHealth.throughputStability.weeklyAvg, 1) || "-"} done/wk • 6-month predictability{" "}
+                                {selectedTeamHealth.throughputStability.monthlyPredictabilityPct === null
                                   ? "-"
-                                  : `${formatPercentValue(selectedTeamHealth.throughputStability.monthlyCvPct)}%`}
+                                  : `${formatPercentValue(selectedTeamHealth.throughputStability.monthlyPredictabilityPct)}%`}
                               </small>
                               {renderMetricDataIssue("throughputStability")}
                             </article>
-                            <article className="team-kpi-card flow-signal-card">
+                            <article className={`team-kpi-card flow-signal-card${isMetricVisible("lead-time-by-type") ? "" : " metric-hidden"}`}>
                               {renderMetricLabel(
                                 "Lead Time by Type",
                                 "leadTimeByType",
@@ -3936,7 +5584,7 @@ export default function App(): JSX.Element {
                           </section>
 
                           <section className="advanced-flow-grid">
-                            <article className="team-kpi-card flow-signal-card">
+                            <article className={`team-kpi-card flow-signal-card${isMetricVisible("flow-efficiency") ? "" : " metric-hidden"}`}>
                               {renderMetricLabel(
                                 "Flow Efficiency",
                                 "flowEfficiency",
@@ -3954,7 +5602,7 @@ export default function App(): JSX.Element {
                               </small>
                               {renderMetricDataIssue("flowEfficiency")}
                             </article>
-                            <article className="team-kpi-card flow-signal-card">
+                            <article className={`team-kpi-card flow-signal-card${isMetricVisible("queue-time") ? "" : " metric-hidden"}`}>
                               {renderMetricLabel(
                                 "Queue Time by Status",
                                 "queueTimeByStatus",
@@ -3974,7 +5622,7 @@ export default function App(): JSX.Element {
                               </small>
                               {renderMetricDataIssue("queueTimeByStatus")}
                             </article>
-                            <article className="team-kpi-card flow-signal-card">
+                            <article className={`team-kpi-card flow-signal-card${isMetricVisible("bottleneck-trend") ? "" : " metric-hidden"}`}>
                               {renderMetricLabel(
                                 "Bottleneck Trend",
                                 "bottleneckTrend",
@@ -3994,50 +5642,17 @@ export default function App(): JSX.Element {
                             </article>
                           </section>
 
-                          <section className="table-panel compact wip-heatmap-panel">
-                            <div className="table-title-row">
-                              <div className="table-title small-title">WIP Risk Heatmap by Status</div>
-                              {renderMetricInfoButton("wipRiskHeatmap")}
-                            </div>
-                            {selectedTeamHealth.wipRiskHeatmap.rows.length === 0 ? (
-                              <p className="muted">No open WIP issues.</p>
-                            ) : (
-                              <div className="table-wrap">
-                                <table className="metrics-table">
-                                  <thead>
-                                    <tr>
-                                      <th>Status</th>
-                                      <th>Total</th>
-                                      <th>&gt;30 days</th>
-                                      <th>&gt;60 days</th>
-                                      <th>&gt;90 days</th>
-                                    </tr>
-                                  </thead>
-                                  <tbody>
-                                    {selectedTeamHealth.wipRiskHeatmap.rows.map((row) => (
-                                      <tr key={`wip-heatmap-team-${row.status}`}>
-                                        <td>{row.status}</td>
-                                        <td>{row.total}</td>
-                                        <td>{row.over30}</td>
-                                        <td>{row.over60}</td>
-                                        <td>{row.over90}</td>
-                                      </tr>
-                                    ))}
-                                  </tbody>
-                                </table>
-                              </div>
-                            )}
-                          </section>
+                          {renderWipRiskHeatmapPanel("wip-heatmap-panel")}
                         </section>
 
                         <section
                           className={`overview-secondary-grid${shouldEqualizeTeamOverviewSecondaryCards ? " is-collapsed-pair" : ""}`}
                         >
                           <section className="aging-wip-compact-row">
-                            <article className="team-kpi-card aging-wip-compact-card">
+                            <article className={`team-kpi-card aging-wip-compact-card${isMetricVisible("aging-wip") ? "" : " metric-hidden"}`}>
                               <div className="aging-wip-compact-head">
                                 <div className="aging-wip-title-row">
-                                  <span>Aging WIP</span>
+                                  <span>Average age of open tickets</span>
                                   {renderMetricInfoButton("agingWip")}
                                 </div>
                                 <button
@@ -4116,7 +5731,7 @@ export default function App(): JSX.Element {
                             </article>
                           </section>
 
-                          <section className="table-panel compact bottleneck-panel">
+                          <section className={`table-panel compact bottleneck-panel${isMetricVisible("bottleneck") ? "" : " metric-hidden"}`}>
                           <div className="bottleneck-head">
                             <div>
                               <div className="table-title-row">
@@ -4379,17 +5994,18 @@ export default function App(): JSX.Element {
                             </div>
                           )}
                           </section>
+                          {renderTimeInStatusPanel("team-time-in-status-content")}
                         </section>
                         <hr className="team-divider" />
                         <section className="done-config-card">
                           <div className="done-config-head">
-                            <h2 className="team-section-title">Done Definition</h2>
+                            <h2 className="team-section-title">Team Workflow</h2>
                             <button
                               type="button"
                               className="done-config-toggle panel-toggle"
                               aria-expanded={doneDefinitionOpen}
                               aria-controls="done-definition-content"
-                              title={doneDefinitionOpen ? "Hide Done Definition" : "Show Done Definition"}
+                              title={doneDefinitionOpen ? "Hide Team Workflow" : "Show Team Workflow"}
                               onClick={() => setDoneDefinitionOpen((current) => !current)}
                             >
                               <span
@@ -4403,9 +6019,49 @@ export default function App(): JSX.Element {
                           {draftConfig ? (
                             doneDefinitionOpen ? (
                               <form className="done-config-form" id="done-definition-content" onSubmit={handleSaveAdvancedConfig}>
+                                <section className="workflow-status-card">
+                                  <div className="workflow-status-head">
+                                    <div>
+                                      <h3>Classify team statuses</h3>
+                                      <p>
+                                        Done statuses are where cycle time ends. Backlog statuses are excluded from active cycle-time when Time in Status data exists.
+                                      </p>
+                                    </div>
+                                    <span>{detectedWorkflowStatuses.length} detected</span>
+                                  </div>
+                                  <div className="workflow-status-grid">
+                                    {detectedWorkflowStatuses.map((statusName) => {
+                                      const normalized = normalizeTextValue(statusName);
+                                      const category = backlogStatusList.some((item) => normalizeTextValue(item) === normalized)
+                                        ? "backlog"
+                                        : sprintScopeStatusList.some((item) => normalizeTextValue(item) === normalized)
+                                          ? "active"
+                                          : doneStatusList.some((item) => normalizeTextValue(item) === normalized)
+                                            ? "done"
+                                            : "unmapped";
+                                      return (
+                                        <article key={`workflow-status-${statusName}`} className={`workflow-status-row ${category}`}>
+                                          <strong>{statusName}</strong>
+                                          <div className="workflow-status-actions">
+                                            <button type="button" className={category === "backlog" ? "active" : ""} onClick={() => handleClassifyWorkflowStatus(statusName, "backlog")}>
+                                              Backlog
+                                            </button>
+                                            <button type="button" className={category === "active" ? "active" : ""} onClick={() => handleClassifyWorkflowStatus(statusName, "active")}>
+                                              Active
+                                            </button>
+                                            <button type="button" className={category === "done" ? "active" : ""} onClick={() => handleClassifyWorkflowStatus(statusName, "done")}>
+                                              Done
+                                            </button>
+                                          </div>
+                                        </article>
+                                      );
+                                    })}
+                                  </div>
+                                </section>
+
                                 <div className="done-config-grid">
                                   <section className="done-config-panel">
-                                    <div className="done-config-panel-title">Done logic</div>
+                                    <div className="done-config-panel-title">Done statuses (cycle time ends here)</div>
                                     <label className="checkbox-row">
                                       <input
                                         type="checkbox"
@@ -4428,7 +6084,7 @@ export default function App(): JSX.Element {
                                     </label>
 
                                     <div className="done-chip-editor">
-                                      <div className="done-chip-editor-label">Done statuses</div>
+                                      <div className="done-chip-editor-label">Statuses that mean finished work</div>
                                       <div className="done-chip-list">
                                         {doneStatusList.length === 0 ? (
                                           <span className="muted">No statuses configured.</span>
@@ -4470,20 +6126,20 @@ export default function App(): JSX.Element {
                                   </section>
 
                                   <section className="done-config-panel">
-                                    <div className="done-config-panel-title">Bug counting</div>
+                                    <div className="done-config-panel-title">Backlog statuses</div>
                                     <div className="done-chip-editor">
-                                      <div className="done-chip-editor-label">Issue types counted as bug</div>
+                                      <div className="done-chip-editor-label">Excluded from active cycle-time when Time in Status exists</div>
                                       <div className="done-chip-list">
-                                        {bugIssueTypeList.length === 0 ? (
-                                          <span className="muted">Bug only (default fallback).</span>
+                                        {backlogStatusList.length === 0 ? (
+                                          <span className="muted">No backlog statuses configured.</span>
                                         ) : (
-                                          bugIssueTypeList.map((value) => (
+                                          backlogStatusList.map((value) => (
                                             <button
                                               key={value}
                                               type="button"
                                               className="chip-btn"
-                                              onClick={() => handleRemoveBugIssueType(value)}
-                                              title="Remove issue type"
+                                              onClick={() => handleRemoveBacklogStatus(value)}
+                                              title="Remove status"
                                             >
                                               {value} <span aria-hidden="true">x</span>
                                             </button>
@@ -4492,149 +6148,123 @@ export default function App(): JSX.Element {
                                       </div>
                                       <div className="done-chip-input-row">
                                         <input
-                                          value={bugIssueTypeDraft}
-                                          onChange={(event) => setBugIssueTypeDraft(event.target.value)}
+                                          value={backlogStatusDraft}
+                                          onChange={(event) => setBacklogStatusDraft(event.target.value)}
                                           onKeyDown={(event) => {
                                             if (event.key === "Enter") {
                                               event.preventDefault();
-                                              handleAddBugIssueType();
+                                              handleAddBacklogStatus();
                                             }
                                           }}
-                                          placeholder="Add type (e.g. Bug)"
+                                          placeholder="Add backlog status (e.g. Backlog)"
                                         />
-                                        <button type="button" className="soft-btn" onClick={handleAddBugIssueType}>Add</button>
+                                        <button type="button" className="soft-btn" onClick={handleAddBacklogStatus}>Add</button>
                                       </div>
+                                    </div>
+                                  </section>
+
+                                  <section className="done-config-panel">
+                                    <div className="done-config-panel-title">Active statuses</div>
+                                    <div className="done-chip-editor">
+                                      <div className="done-chip-editor-label">Statuses counted as active work / sprint work</div>
+                                      <div className="done-chip-list">
+                                        {sprintScopeStatusList.length === 0 ? (
+                                          <span className="muted">Auto-detect from active team flow.</span>
+                                        ) : (
+                                          sprintScopeStatusList.map((value) => (
+                                            <button
+                                              key={value}
+                                              type="button"
+                                              className="chip-btn"
+                                              onClick={() => handleRemoveSprintScopeStatus(value)}
+                                              title="Remove status"
+                                            >
+                                              {value} <span aria-hidden="true">x</span>
+                                            </button>
+                                          ))
+                                        )}
+                                      </div>
+                                      <div className="done-chip-input-row">
+                                        <input
+                                          value={sprintScopeStatusDraft}
+                                          onChange={(event) => setSprintScopeStatusDraft(event.target.value)}
+                                          onKeyDown={(event) => {
+                                            if (event.key === "Enter") {
+                                              event.preventDefault();
+                                              handleAddSprintScopeStatus();
+                                            }
+                                          }}
+                                          placeholder="Add active status (e.g. In Progress)"
+                                        />
+                                        <button type="button" className="soft-btn" onClick={handleAddSprintScopeStatus}>Add</button>
+                                      </div>
+                                      <small className="guide-note">
+                                        Also used by sprint discipline metrics to identify active-flow tickets.
+                                      </small>
                                     </div>
 
                                     <div className="done-config-presets">
-                                      <button type="button" className="soft-btn" onClick={() => setBugIssueTypesInput("Bug")}>
-                                        Bug only (recommended)
+                                      <button type="button" className="soft-btn" onClick={handleResetSprintScopeStatuses}>
+                                        Use auto-detect
                                       </button>
-                                      <button type="button" className="soft-btn" onClick={() => setBugIssueTypesInput("Bug, Defect, Incident")}>
-                                        Bug + Defect + Incident
+                                      <button type="button" className="soft-btn" onClick={() => setSprintScopeStatusesInput("")}>
+                                        Clear
                                       </button>
                                     </div>
-
-                                    {bugIssueTypeList.some((value) => {
-                                      const normalized = normalizeTextValue(value);
-                                      return normalized === "task" || normalized === "sub-task" || normalized === "subtask";
-                                    }) && (
-                                      <p className="done-config-warning">
-                                        `Task` or `Sub-task` in bug types can inflate Bug Ratio heavily.
-                                      </p>
-                                    )}
                                   </section>
                                 </div>
 
-                                <div className="done-config-grid done-config-grid-secondary">
-                                  <label>
-                                    Cycle time end date source
-                                    <select
-                                      value={draftConfig.cycleTimeConfig?.endDateSource ?? "resolvedOrUpdated"}
-                                      onChange={(event) =>
-                                        setDraftConfig((curr) =>
-                                          curr
-                                            ? {
-                                                ...curr,
-                                                cycleTimeConfig: {
-                                                  endDateSource: event.target.value as "resolvedOrUpdated" | "updatedOnly",
-                                                },
-                                              }
-                                            : curr,
-                                        )
-                                      }
-                                    >
-                                      <option value="resolvedOrUpdated">Resolved (fallback Updated)</option>
-                                      <option value="updatedOnly">Updated only (for misconfigured Jira)</option>
-                                    </select>
-                                  </label>
-
-                                  <label>
-                                    Velocity cadence
-                                    <select
-                                      value={draftVelocityConfig.mode}
-                                      onChange={(event) =>
-                                        setDraftConfig((curr) =>
-                                          curr
-                                            ? {
-                                                ...curr,
-                                                velocityConfig:
-                                                  event.target.value === "sprint-story-points"
-                                                    ? {
-                                                        mode: "sprint-story-points",
-                                                        sprintStartDate: normalizeVelocityConfig(curr.velocityConfig).sprintStartDate,
-                                                        sprintLengthWeeks: normalizeVelocityConfig(curr.velocityConfig).sprintLengthWeeks,
-                                                      }
-                                                    : { mode: event.target.value as VelocityConfig["mode"] },
-                                              }
-                                            : curr,
-                                        )
-                                      }
-                                    >
-                                      <option value="monthly-ticket-count">Monthly ticket count</option>
-                                      <option value="monthly-story-points">Monthly story points</option>
-                                      <option value="weekly-ticket-count">Weekly ticket count</option>
-                                      <option value="sprint-story-points">Sprint based story points</option>
-                                    </select>
-                                  </label>
-                                </div>
-
-                                {draftVelocityConfig.mode === "sprint-story-points" && (
-                                  <div className="velocity-sprint-grid">
-                                    <label>
-                                      Sprint start date
-                                      <input
-                                        type="date"
-                                        value={draftVelocityConfig.sprintStartDate ?? ""}
-                                        onChange={(event) =>
+                                <details className="workflow-advanced">
+                                  <summary>Work model</summary>
+                                  <section className="done-config-panel">
+                                    <div className="done-config-panel-title">How this team plans work</div>
+                                    <div className="work-model-toggle">
+                                      <button
+                                        type="button"
+                                        className={draftVelocityConfig.mode === "sprint-story-points" ? "" : "active"}
+                                        onClick={() =>
+                                          setDraftConfig((curr) =>
+                                            curr
+                                              ? {
+                                                  ...curr,
+                                                  velocityConfig: { mode: "weekly-ticket-count" },
+                                                }
+                                              : curr,
+                                          )
+                                        }
+                                      >
+                                        <strong>Kanban</strong>
+                                        <span>Weekly ticket count, no estimates needed.</span>
+                                      </button>
+                                      <button
+                                        type="button"
+                                        className={draftVelocityConfig.mode === "sprint-story-points" ? "active" : ""}
+                                        onClick={() =>
                                           setDraftConfig((curr) =>
                                             curr
                                               ? {
                                                   ...curr,
                                                   velocityConfig: {
-                                                    ...normalizeVelocityConfig(curr.velocityConfig),
                                                     mode: "sprint-story-points",
-                                                    sprintStartDate: event.target.value,
                                                   },
                                                 }
                                               : curr,
                                           )
                                         }
-                                      />
-                                    </label>
-                                    <label>
-                                      Sprint length (weeks)
-                                      <input
-                                        type="number"
-                                        min={1}
-                                        max={12}
-                                        step={1}
-                                        value={draftVelocityConfig.sprintLengthWeeks ?? 2}
-                                        onChange={(event) =>
-                                          setDraftConfig((curr) =>
-                                            curr
-                                              ? {
-                                                  ...curr,
-                                                  velocityConfig: {
-                                                    ...normalizeVelocityConfig(curr.velocityConfig),
-                                                    mode: "sprint-story-points",
-                                                    sprintLengthWeeks: Number.parseInt(event.target.value, 10) || 2,
-                                                  },
-                                                }
-                                              : curr,
-                                          )
-                                        }
-                                      />
-                                    </label>
-                                  </div>
-                                )}
+                                      >
+                                        <strong>Scrum</strong>
+                                        <span>Sprint-based story points. Sprint dates are inferred from Jira Sprint data.</span>
+                                      </button>
+                                    </div>
+                                  </section>
+                                </details>
 
                                 <div className="preset-row">
-                                  <button type="submit" disabled={busy}>Save Done Rules</button>
+                                  <button type="submit" disabled={busy}>Save Team Workflow</button>
                                 </div>
 
                                 <p className="guide-note">
-                                  All metrics for this team use this Done definition (cycle time, SLE, velocity, 2+ sprint %).
+                                  Cycle time uses active status durations when Time in Status data is available; otherwise it falls back to Created → Done.
                                 </p>
                               </form>
                             ) : (
@@ -4644,11 +6274,15 @@ export default function App(): JSX.Element {
                                   <span>{doneStatusList.length > 0 ? doneStatusList.join(" • ") : "-"}</span>
                                 </div>
                                 <div className="done-config-collapsed-row">
-                                  <strong>Bug types</strong>
-                                  <span>{bugIssueTypeList.length > 0 ? bugIssueTypeList.join(" • ") : "Bug (default)"}</span>
+                                  <strong>Backlog statuses</strong>
+                                  <span>{backlogStatusList.length > 0 ? backlogStatusList.join(" • ") : "None"}</span>
+                                </div>
+                                <div className="done-config-collapsed-row">
+                                  <strong>Active statuses</strong>
+                                  <span>{sprintScopeStatusList.length > 0 ? sprintScopeStatusList.join(" • ") : "Auto-detect"}</span>
                                 </div>
                                 <p className="muted done-config-collapsed-hint">
-                                  Cycle end: {cycleEndSourceLabel} • Velocity: {velocityCadenceLabel}
+                                  Cycle time ends at Done statuses. Work model: {velocityCadenceLabel}
                                 </p>
                               </div>
                             )
@@ -4697,19 +6331,19 @@ export default function App(): JSX.Element {
               </section>
             )}
 
-            {page === "import" && (
+            {workspaceHandle && page === "import" && (
               <section className="page-section import-layout">
-                <div className="import-left">
-                  <section className="panel-box">
-                    <div className="section-head compact-head">
-                      <div>
-                        <h1>Import Data</h1>
-                        <p>Import Jira CSV exports to update team metrics.</p>
-                      </div>
+                <section className="panel-box import-simple-panel">
+                  <div className="section-head compact-head import-simple-head">
+                    <div>
+                      <h1>Import Data</h1>
+                      <p>Select a team, upload Jira CSV, and the app updates only that team.</p>
                     </div>
+                  </div>
 
-                    <label>
-                      Select Team
+                  <div className="import-simple-flow">
+                    <label className="import-team-picker">
+                      Team
                       <select value={importTeamId} onChange={(event) => setImportTeamId(event.target.value)}>
                         <option value="">Choose team...</option>
                         {filteredTeams.map((team) => (
@@ -4720,173 +6354,418 @@ export default function App(): JSX.Element {
                       </select>
                     </label>
 
-                    {selectedImportTeam && (
-                      <section className="query-manager">
-                        <h4>Team Jira Query</h4>
+                    <button
+                      type="button"
+                      className="upload-zone import-upload-action"
+                      onClick={() => !busy && handleImport()}
+                      disabled={busy || !importTeamId}
+                    >
+                      <span className="upload-icon">⇪</span>
+                      <span className="upload-main">{busy ? "Importing..." : "Upload CSV table"}</span>
+                      <span className="upload-sub">
+                        {importTeamId ? "Choose Jira CSV file(s) for the selected team." : "Choose a team first."}
+                      </span>
+                    </button>
+                  </div>
 
-                        <label>
-                          Saved queries
-                          <select value={querySelectionId} onChange={(event) => handleSelectSavedQuery(event.target.value)}>
-                            {selectedTeamQueryConfig.queries.map((query) => (
-                              <option key={query.id} value={query.id}>
-                                {query.name}
-                              </option>
-                            ))}
-                          </select>
-                        </label>
+                  {selectedImportTeam && (
+                    <div className="import-team-summary">
+                      <div>
+                        <span>Selected team</span>
+                        <strong>{selectedImportTeam.config.teamName}</strong>
+                      </div>
+                      <div>
+                        <span>Current rows</span>
+                        <strong>{formatNumber(selectedImportTeam.parsedIssues.length, 0)}</strong>
+                      </div>
+                      <div>
+                        <span>Imported files</span>
+                        <strong>{formatNumber(selectedImportTeam.importFiles.length, 0)}</strong>
+                      </div>
+                    </div>
+                  )}
 
-                        <label>
-                          Query name
-                          <input
-                            value={queryDraftName}
-                            onChange={(event) => setQueryDraftName(event.target.value)}
-                            placeholder="e.g., Team YTD"
-                          />
-                        </label>
-
-                        <label>
-                          Base JQL
-                          <textarea
-                            value={queryDraftJql}
-                            onChange={(event) => setQueryDraftJql(event.target.value)}
-                            placeholder="project = YOURPROJECT ORDER BY updated DESC"
-                            rows={4}
-                          />
-                        </label>
-
-                        <label>
-                          Note (optional)
-                          <input
-                            value={queryDraftNote}
-                            onChange={(event) => setQueryDraftNote(event.target.value)}
-                            placeholder="Optional context for this query"
-                          />
-                        </label>
-
-                        <label>
-                          Time window for this import
-                          <select value={queryTimeWindow} onChange={(event) => setQueryTimeWindow(event.target.value as QueryTimeWindow)}>
-                            <option value="none">No extra window</option>
-                            <option value="current-month">Current month</option>
-                            <option value="last-month">Last month</option>
-                            <option value="ytd">Year to date</option>
-                          </select>
-                        </label>
-
-                        <div className="guide-block">
-                          <h4>Generated query preview</h4>
-                          <pre className="guide-code">{composedImportJql || "Enter base JQL to see preview."}</pre>
-                        </div>
-
-                        <div className="preset-row">
-                          <button type="button" className="soft-btn" onClick={handleUpdateSelectedQuery} disabled={!querySelectionId || busy}>
-                            Update selected
-                          </button>
-                          <button type="button" className="soft-btn" onClick={handleSaveQueryAsNew} disabled={busy}>
-                            Save as new
-                          </button>
-                          <button type="button" className="soft-btn" onClick={handleSetDefaultQuery} disabled={!querySelectionId || busy}>
-                            Set as default
-                          </button>
-                        </div>
-                      </section>
-                    )}
-
-                    <div className="upload-zone" onClick={() => !busy && handleImport()} role="button" tabIndex={0}>
-                      <div className="upload-icon">⇪</div>
-                      <div className="upload-main">Click to upload CSV files</div>
-                      <div className="upload-sub">Files are stored locally in team imports folder.</div>
+                  <section className="jira-import-panel">
+                    <div className="jira-import-head">
+                      <div>
+                        <h3>Pull From Jira</h3>
+                        <p>Runs only when you click import and writes the result under the selected team.</p>
+                      </div>
+                      <span>Manual per-team import</span>
                     </div>
 
-                    <details open={showAdvancedImport} onToggle={(event) => setShowAdvancedImport(event.currentTarget.open)}>
-                      <summary>Advanced (optional)</summary>
-                      <div className="advanced-grid">
-                        <label>
-                          Import folder mode
-                          <select value={importMode} onChange={(event) => setImportMode(event.target.value as ImportMode)}>
-                            <option value="current-month">Current month (YYYY-MM)</option>
-                            <option value="root">Root imports/</option>
-                            <option value="custom">Custom folder</option>
-                          </select>
-                        </label>
-                        {importMode === "custom" && (
-                          <label>
-                            Custom folder under imports/
-                            <input
-                              value={customImportBucket}
-                              onChange={(event) => setCustomImportBucket(event.target.value)}
-                              placeholder="2026-Q1"
-                            />
-                          </label>
-                        )}
+                    <div className="jira-import-grid">
+                      <label>
+                        Jira URL
+                        <input
+                          value={jiraImportUrl}
+                          onChange={(event) => setJiraImportUrl(event.target.value)}
+                          placeholder="https://jira.example.net"
+                          autoComplete="off"
+                        />
+                      </label>
+                      <label>
+                        Username
+                        <input
+                          value={jiraImportUsername}
+                          onChange={(event) => setJiraImportUsername(event.target.value)}
+                          placeholder="your username"
+                          autoComplete="username"
+                        />
+                      </label>
+                      <label>
+                        Token
+                        <input
+                          type="password"
+                          value={jiraImportToken}
+                          onChange={(event) => setJiraImportToken(event.target.value)}
+                          placeholder="personal token"
+                          autoComplete="off"
+                        />
+                      </label>
+                      <label>
+                        Max issues
+                        <input
+                          type="number"
+                          min={1}
+                          max={1000}
+                          step={50}
+                          value={jiraImportMaxIssues}
+                          onChange={(event) => setJiraImportMaxIssues(event.target.value)}
+                        />
+                      </label>
+                    </div>
+
+                    <label className="jira-jql-field">
+                      JQL query
+                      <textarea
+                        value={jiraImportJql}
+                        onChange={(event) => setJiraImportJql(event.target.value)}
+                        placeholder="project = YOURPROJECT AND updated >= startOfYear() ORDER BY updated DESC"
+                        rows={4}
+                      />
+                    </label>
+
+                    <div className="preset-row">
+                      <button
+                        type="button"
+                        className="soft-btn"
+                        disabled={busy}
+                        onClick={() => void handleTestJiraConnection()}
+                      >
+                        Test connection
+                      </button>
+                      <button
+                        type="button"
+                        disabled={busy || !importTeamId}
+                        onClick={() => void handleJiraImport()}
+                      >
+                        Import From Jira
+                      </button>
+                      <button
+                        type="button"
+                        className="soft-btn"
+                        disabled={!composedImportJql}
+                        onClick={() => setJiraImportJql(composedImportJql)}
+                      >
+                        Use saved team query
+                      </button>
+                    </div>
+
+                    {jiraConnectionStatus && (
+                      <div className={`jira-connection-status ${jiraConnectionStatus.tone}`}>
+                        {jiraConnectionStatus.message}
                       </div>
+                    )}
 
-                      {draftConfig && (
-                        <form className="advanced-config" onSubmit={handleSaveAdvancedConfig}>
-                          <h4>Team Mapping</h4>
-                          <label>
-                            Done statuses
-                            <input
-                              value={doneStatusesInput}
-                              onChange={(event) => setDoneStatusesInput(event.target.value)}
-                            />
-                          </label>
-                          <div className="mapping-row">
-                            {renderMappingInput("Issue key", draftConfig.mapping.key, (value) =>
-                              setDraftConfig((curr) =>
-                                curr ? { ...curr, mapping: { ...curr.mapping, key: value } } : curr,
-                              ),
-                            )}
-                            {renderMappingInput("Created", draftConfig.mapping.created, (value) =>
-                              setDraftConfig((curr) =>
-                                curr ? { ...curr, mapping: { ...curr.mapping, created: value } } : curr,
-                              ),
-                            )}
-                            {renderMappingInput("Resolution date", draftConfig.mapping.resolutionDate, (value) =>
-                              setDraftConfig((curr) =>
-                                curr ? { ...curr, mapping: { ...curr.mapping, resolutionDate: value } } : curr,
-                              ),
-                            )}
-                            {renderMappingInput("Updated", draftConfig.mapping.updated, (value) =>
-                              setDraftConfig((curr) =>
-                                curr ? { ...curr, mapping: { ...curr.mapping, updated: value } } : curr,
-                              ),
-                            )}
-                            {renderMappingInput("Issue type", draftConfig.mapping.issueType ?? "Issue Type", (value) =>
-                              setDraftConfig((curr) =>
-                                curr ? { ...curr, mapping: { ...curr.mapping, issueType: value } } : curr,
-                              ),
-                            )}
-                          </div>
-                          <button type="submit" disabled={busy || !selectedTeam}>
-                            Save Advanced Config
-                          </button>
-                        </form>
-                      )}
-                    </details>
-
-                    <button onClick={handleImport} disabled={busy || !importTeamId} className="import-btn">
-                      Import Data
-                    </button>
+                    <p className="guide-note">
+                      Token stays in this browser form only. The app exports Jira issues into a local CSV and then recalculates only the selected team.
+                    </p>
                   </section>
 
-                  <section className="hint-box">
+                  <div className="import-recent-strip">
+                    <div className="import-strip-head">
+                      <div>
+                        <h3>{selectedImportTeam ? "Latest imports for this team" : "Latest imports"}</h3>
+                        <p>{selectedImportTeam ? "Most recent CSV files loaded for the selected team." : "Choose a team to focus the list."}</p>
+                      </div>
+                    </div>
+                    <div className="history-list import-history-compact">
+                      {(selectedImportTeam ? selectedImportHistory : importHistory).map((item) => (
+                        <article key={`${"teamName" in item ? item.teamName : selectedImportTeam?.config.teamName}:${item.relativePath}:${item.updatedAt}`}>
+                          <strong>{item.name}</strong>
+                          <div>{"teamName" in item ? item.teamName : selectedImportTeam?.config.teamName}</div>
+                          <small>
+                            {item.bucket} · {item.rowCount} rows · {formatDateText(item.updatedAt)}
+                          </small>
+                        </article>
+                      ))}
+                      {(selectedImportTeam ? selectedImportHistory : importHistory).length === 0 && (
+                        <p className="muted">No imports yet.</p>
+                      )}
+                    </div>
+                  </div>
+
+                  <details
+                    className="import-advanced-panel"
+                    open={showAdvancedImport}
+                    onToggle={(event) => setShowAdvancedImport(event.currentTarget.open)}
+                  >
+                    <summary>Advanced import settings</summary>
+
+                    <div className="advanced-grid">
+                      <label>
+                        Import folder
+                        <select value={importMode} onChange={(event) => setImportMode(event.target.value as ImportMode)}>
+                          <option value="current-month">Current month (YYYY-MM)</option>
+                          <option value="root">Root imports/</option>
+                          <option value="custom">Custom folder</option>
+                        </select>
+                      </label>
+                      {importMode === "custom" && (
+                        <label>
+                          Custom folder under imports/
+                          <input
+                            value={customImportBucket}
+                            onChange={(event) => setCustomImportBucket(event.target.value)}
+                            placeholder="2026-Q1"
+                          />
+                        </label>
+                      )}
+                    </div>
+
+                    {selectedImportTeam && (
+                      <div className="import-query-grid">
+                        <section className="query-manager">
+                          <h4>Issues CSV Query</h4>
+
+                          <label>
+                            Saved queries
+                            <select value={querySelectionId} onChange={(event) => handleSelectSavedQuery(event.target.value)}>
+                              {selectedIssueQueryConfig.queries.map((query) => (
+                                <option key={query.id} value={query.id}>
+                                  {query.name}
+                                </option>
+                              ))}
+                            </select>
+                          </label>
+
+                          <label>
+                            Query name
+                            <input
+                              value={queryDraftName}
+                              onChange={(event) => setQueryDraftName(event.target.value)}
+                              placeholder="e.g., Team YTD Activity"
+                            />
+                          </label>
+
+                          <label>
+                            Base JQL
+                            <textarea
+                              value={queryDraftJql}
+                              onChange={(event) => setQueryDraftJql(event.target.value)}
+                              placeholder="project = YOURPROJECT ORDER BY updated DESC"
+                              rows={4}
+                            />
+                          </label>
+
+                          <label>
+                            Note (optional)
+                            <input
+                              value={queryDraftNote}
+                              onChange={(event) => setQueryDraftNote(event.target.value)}
+                              placeholder="Optional context for this query"
+                            />
+                          </label>
+
+                          <label>
+                            Time window for this import
+                            <select value={queryTimeWindow} onChange={(event) => setQueryTimeWindow(event.target.value as QueryTimeWindow)}>
+                              <option value="none">No extra window</option>
+                              <option value="current-month">Current month</option>
+                              <option value="last-month">Last month</option>
+                              <option value="ytd">Year to date</option>
+                            </select>
+                          </label>
+
+                          <div className="guide-block">
+                            <h4>Generated issues query preview</h4>
+                            <pre className="guide-code">{composedImportJql || "Enter base JQL to see preview."}</pre>
+                          </div>
+
+                          <div className="preset-row">
+                            <button type="button" className="soft-btn" onClick={handleUpdateSelectedQuery} disabled={!querySelectionId || busy}>
+                              Update selected
+                            </button>
+                            <button type="button" className="soft-btn" onClick={handleSaveQueryAsNew} disabled={busy}>
+                              Save as new
+                            </button>
+                            <button type="button" className="soft-btn" onClick={handleSetDefaultQuery} disabled={!querySelectionId || busy}>
+                              Set as default
+                            </button>
+                          </div>
+                        </section>
+
+                        <section className="query-manager">
+                          <h4>Time in Status Query</h4>
+
+                          <label>
+                            Saved queries
+                            <select
+                              value={timeInStatusQuerySelectionId}
+                              onChange={(event) => handleSelectTimeInStatusQuery(event.target.value)}
+                            >
+                              {selectedTimeInStatusQueryConfig.queries.map((query) => (
+                                <option key={query.id} value={query.id}>
+                                  {query.name}
+                                </option>
+                              ))}
+                            </select>
+                          </label>
+
+                          <label>
+                            Query name
+                            <input
+                              value={timeInStatusQueryDraftName}
+                              onChange={(event) => setTimeInStatusQueryDraftName(event.target.value)}
+                              placeholder="e.g., Team YTD Time in Status"
+                            />
+                          </label>
+
+                          <label>
+                            Base JQL
+                            <textarea
+                              value={timeInStatusQueryDraftJql}
+                              onChange={(event) => setTimeInStatusQueryDraftJql(event.target.value)}
+                              placeholder="project = YOURPROJECT ORDER BY updated DESC"
+                              rows={4}
+                            />
+                          </label>
+
+                          <label>
+                            Note (optional)
+                            <input
+                              value={timeInStatusQueryDraftNote}
+                              onChange={(event) => setTimeInStatusQueryDraftNote(event.target.value)}
+                              placeholder="Optional context for this query"
+                            />
+                          </label>
+
+                          <label>
+                            Time window for this export
+                            <select
+                              value={timeInStatusQueryTimeWindow}
+                              onChange={(event) =>
+                                setTimeInStatusQueryTimeWindow(event.target.value as QueryTimeWindow)
+                              }
+                            >
+                              <option value="none">No extra window</option>
+                              <option value="current-month">Current month</option>
+                              <option value="last-month">Last month</option>
+                              <option value="ytd">Year to date</option>
+                            </select>
+                          </label>
+
+                          <div className="guide-block">
+                            <h4>Generated Time in Status query preview</h4>
+                            <pre className="guide-code">
+                              {composedTimeInStatusJql || "Enter base JQL to see preview."}
+                            </pre>
+                          </div>
+
+                          <div className="preset-row">
+                            <button type="button" className="soft-btn" onClick={handleUpdateSelectedTimeInStatusQuery} disabled={!timeInStatusQuerySelectionId || busy}>
+                              Update selected
+                            </button>
+                            <button type="button" className="soft-btn" onClick={handleSaveTimeInStatusQueryAsNew} disabled={busy}>
+                              Save as new
+                            </button>
+                            <button type="button" className="soft-btn" onClick={handleSetDefaultTimeInStatusQuery} disabled={!timeInStatusQuerySelectionId || busy}>
+                              Set as default
+                            </button>
+                            <button type="button" className="soft-btn" onClick={handleCopyIssueQueryToTimeInStatus} disabled={busy}>
+                              Copy Issues Query
+                            </button>
+                          </div>
+                        </section>
+                      </div>
+                    )}
+
+                    {draftConfig && (
+                      <form className="advanced-config" onSubmit={handleSaveAdvancedConfig}>
+                        <h4>Team Mapping</h4>
+                        <label>
+                          Done statuses
+                          <input
+                            value={doneStatusesInput}
+                            onChange={(event) => setDoneStatusesInput(event.target.value)}
+                          />
+                        </label>
+                        <div className="mapping-row">
+                          {renderMappingInput("Issue key", draftConfig.mapping.key, (value) =>
+                            setDraftConfig((curr) =>
+                              curr ? { ...curr, mapping: { ...curr.mapping, key: value } } : curr,
+                            ),
+                          )}
+                          {renderMappingInput("Created", draftConfig.mapping.created, (value) =>
+                            setDraftConfig((curr) =>
+                              curr ? { ...curr, mapping: { ...curr.mapping, created: value } } : curr,
+                            ),
+                          )}
+                          {renderMappingInput("Resolution date", draftConfig.mapping.resolutionDate, (value) =>
+                            setDraftConfig((curr) =>
+                              curr ? { ...curr, mapping: { ...curr.mapping, resolutionDate: value } } : curr,
+                            ),
+                          )}
+                          {renderMappingInput("Updated", draftConfig.mapping.updated, (value) =>
+                            setDraftConfig((curr) =>
+                              curr ? { ...curr, mapping: { ...curr.mapping, updated: value } } : curr,
+                            ),
+                          )}
+                          {renderMappingInput("Issue type", draftConfig.mapping.issueType ?? "Issue Type", (value) =>
+                            setDraftConfig((curr) =>
+                              curr ? { ...curr, mapping: { ...curr.mapping, issueType: value } } : curr,
+                            ),
+                          )}
+                          {renderMappingInput("Story points", draftConfig.mapping.storyPoints ?? "", (value) =>
+                            setDraftConfig((curr) =>
+                              curr ? { ...curr, mapping: { ...curr.mapping, storyPoints: value } } : curr,
+                            ),
+                          )}
+                          {renderMappingInput("Sprint", draftConfig.mapping.sprint ?? "", (value) =>
+                            setDraftConfig((curr) =>
+                              curr ? { ...curr, mapping: { ...curr.mapping, sprint: value } } : curr,
+                            ),
+                          )}
+                        </div>
+                        <p className="guide-note">
+                          Leave `Story points` or `Sprint` empty to auto-detect Jira custom field headers like `Custom field (Story Points)`.
+                        </p>
+                        <button type="submit" disabled={busy || !selectedTeam}>
+                          Save Advanced Config
+                        </button>
+                      </form>
+                    )}
+
                     <h3>Jira Filter and Export Guide</h3>
 
                     <div className="guide-block">
                       <h4>Recommended team queries (JQL)</h4>
-                      <pre className="guide-code">{"DONE:\nproject = \"Your Project Here\" and issuetype in (Bug, Story, Task) AND status in ( \"Done\", Canceled) and status changed DURING (startOfYear(), endOfYear())"}</pre>
-                      <pre className="guide-code">{"Dont Done:\nproject = \"Your Project Here\" and issuetype in (Bug, Story, Task) AND status not in ( \"Done\", Canceled)"}</pre>
+                      <pre className="guide-code">{
+                        "Issues CSV:\nproject = \"Your Project Here\" AND issuetype in (Bug, Story, Task)\nAND (\n  created >= startOfYear()\n  OR updated >= startOfYear()\n  OR resolved >= startOfYear()\n)\nORDER BY updated DESC"
+                      }</pre>
                       <p className="guide-note">
-                        Import both CSV files per team refresh. The app keeps the latest row per issue key (by Updated).
+                        Preferred model: export one Issues CSV that covers created, updated, or resolved work in the window. The app still supports the old Open + Closed CSV workflow because duplicates are merged by latest Updated.
                       </p>
                     </div>
 
                     <div className="guide-block">
                       <h4>Optional: Time in Status CSV for Bottleneck</h4>
-                      <pre className="guide-code">{"project = \"Your Project Here\" and issuetype in (Bug, Story, Task) and status changed DURING (startOfYear(), endOfYear())"}</pre>
+                      <pre className="guide-code">{
+                        "Time in Status:\nproject = \"Your Project Here\" AND issuetype in (Bug, Story, Task)\nAND (\n  created >= startOfYear()\n  OR updated >= startOfYear()\n  OR resolved >= startOfYear()\n)\nORDER BY updated DESC"
+                      }</pre>
                       <p className="guide-note">
-                        Export as plain CSV. Required: Resolution Date (or Resolved) and status duration columns (e.g. In Progress, Code Review, Test). Manual bottleneck overrides auto for the same month.
+                        Export Time in Status separately with the same team scope/window. Required: Resolution Date (or Resolved) and status duration columns (e.g. In Progress, Code Review, Test). Manual bottleneck overrides auto for the same month.
                       </p>
                     </div>
 
@@ -4894,9 +6773,10 @@ export default function App(): JSX.Element {
                       <h4>Export steps</h4>
                       <ol>
                         <li>Open Jira and go to Issues.</li>
-                        <li>Apply your JQL filter (period + project/team scope).</li>
+                        <li>Run the Issues CSV query for your team scope and time window.</li>
                         <li>Use Export and choose CSV (Current fields).</li>
-                        <li>Upload CSV file(s) here.</li>
+                        <li>Optional: run the Time in Status query and export that CSV separately.</li>
+                        <li>Upload the exported CSV file(s) here.</li>
                       </ol>
                     </div>
 
@@ -4926,28 +6806,7 @@ export default function App(): JSX.Element {
                       </div>
                       <p className="guide-note">If Jira export names differ, update Team Mapping in Advanced section before import.</p>
                     </div>
-                  </section>
-                </div>
 
-                <aside className="import-right">
-                  <section className="panel-box">
-                    <h3>Import History</h3>
-                    <p>Recent imports across all teams.</p>
-                    <div className="history-list">
-                      {importHistory.map((item) => (
-                        <article key={`${item.teamName}:${item.relativePath}:${item.updatedAt}`}>
-                          <strong>{item.name}</strong>
-                          <div>{item.teamName}</div>
-                          <small>
-                            {item.bucket} · {item.rowCount} rows
-                          </small>
-                        </article>
-                      ))}
-                      {importHistory.length === 0 && <p className="muted">No imports yet.</p>}
-                    </div>
-                  </section>
-
-                  <section className="panel-box">
                     <h3>Folders</h3>
                     <p>Organized import locations.</p>
                     <ul className="folder-list">
@@ -4959,8 +6818,8 @@ export default function App(): JSX.Element {
                       ))}
                       {folderTotals.length === 0 && <li className="muted">No folders yet.</li>}
                     </ul>
-                  </section>
-                </aside>
+                  </details>
+                </section>
               </section>
             )}
           </>
@@ -5029,6 +6888,41 @@ function monthKey(date: Date): string {
   return `${date.getFullYear()}-${String(date.getMonth() + 1).padStart(2, "0")}`;
 }
 
+export function buildAvailableMonths(
+  teams: Array<Pick<TeamRuntime, "metrics" | "parsedIssues" | "manualBottleneck" | "autoBottleneck" | "importFiles">>,
+): string[] {
+  const values = new Set<string>();
+
+  const addMonthToken = (value: string | null | undefined): void => {
+    if (value && isMonthPeriod(value)) {
+      values.add(value);
+    }
+  };
+
+  const addIssueDate = (value: Date | null | undefined): void => {
+    if (!value || Number.isNaN(value.getTime())) {
+      return;
+    }
+
+    values.add(monthKey(value));
+  };
+
+  teams.forEach((team) => {
+    team.metrics?.velocityMonthly.forEach((item) => addMonthToken(item.month));
+    team.metrics?.doneIssueDetails.forEach((item) => addMonthToken(item.resolutionDate.slice(0, 7)));
+
+    team.parsedIssues.forEach((issue) => {
+      addIssueDate(issue.updated);
+      addIssueDate(issue.resolutionDate);
+    });
+
+    team.autoBottleneck.forEach((entry) => addMonthToken(entry.period));
+    team.manualBottleneck.forEach((entry) => addMonthToken(entry.period));
+  });
+
+  return Array.from(values).sort((a, b) => a.localeCompare(b));
+}
+
 function getPreviousMonth(month: string): string {
   const [yearRaw, monthRaw] = month.split("-");
   const year = Number.parseInt(yearRaw, 10);
@@ -5041,7 +6935,6 @@ function getPreviousMonth(month: string): string {
   const date = new Date(year, monthNum - 2, 1);
   return monthKey(date);
 }
-
 
 function isMonthPeriod(value: string): boolean {
   return /^\d{4}-\d{2}$/.test(value);
@@ -5064,22 +6957,61 @@ function formatMonthLabel(month: string): string {
   return date.toLocaleDateString(undefined, { year: "numeric", month: "short" });
 }
 
-function getYtdWindowLabel(): string {
-  const now = new Date();
-  return "Jan-" + now.toLocaleDateString(undefined, { month: "short" });
+function formatMonthShortLabel(month: string): string {
+  if (!isMonthPeriod(month)) {
+    return month;
+  }
+
+  const [yearRaw, monthRaw] = month.split("-");
+  const year = Number.parseInt(yearRaw, 10);
+  const monthNum = Number.parseInt(monthRaw, 10);
+
+  if (!Number.isFinite(year) || !Number.isFinite(monthNum)) {
+    return month;
+  }
+
+  const date = new Date(year, monthNum - 1, 1);
+  return date.toLocaleDateString(undefined, { month: "short" });
 }
 
-function formatPeriodLabel(period: string): string {
+export function buildPeriodYearGroups(availableMonths: string[], maxYears = 2): PeriodYearGroup[] {
+  const grouped = new Map<string, string[]>();
+
+  availableMonths.forEach((month) => {
+    if (!isMonthPeriod(month)) {
+      return;
+    }
+
+    const year = month.slice(0, 4);
+    const current = grouped.get(year) ?? [];
+    current.push(month);
+    grouped.set(year, current);
+  });
+
+  return Array.from(grouped.entries())
+    .sort(([left], [right]) => right.localeCompare(left))
+    .slice(0, Math.max(1, maxYears))
+    .map(([year, months]) => ({
+      year,
+      months: months.slice().sort((left, right) => right.localeCompare(left)),
+    }));
+}
+
+function getYtdWindowLabel(referenceDate: Date = new Date()): string {
+  return "Jan-" + referenceDate.toLocaleDateString(undefined, { month: "short" });
+}
+
+function formatPeriodLabel(period: string, referenceDate: Date = new Date()): string {
   if (period === "all") {
     return "All time";
   }
 
   if (period === "ytd") {
-    return "YTD " + new Date().getFullYear() + " (" + getYtdWindowLabel() + ")";
+    return "YTD " + referenceDate.getFullYear() + " (" + getYtdWindowLabel(referenceDate) + ")";
   }
 
   if (period === "ytd-prev") {
-    return "YTD " + (new Date().getFullYear() - 1) + " (" + getYtdWindowLabel() + ")";
+    return "YTD " + (referenceDate.getFullYear() - 1) + " (" + getYtdWindowLabel(referenceDate) + ")";
   }
 
   if (isMonthPeriod(period)) {
@@ -5089,11 +7021,11 @@ function formatPeriodLabel(period: string): string {
   return period;
 }
 
-function getPreviousPeriodKey(period: string, availableMonths: string[]): string | null {
+export function getPreviousPeriodKey(period: string, availableMonths: string[]): string | null {
   const sortedMonths = availableMonths.filter((value) => isMonthPeriod(value)).sort((a, b) => a.localeCompare(b));
 
   if (period === "all") {
-    return sortedMonths[sortedMonths.length - 1] ?? null;
+    return null;
   }
 
   if (period === "ytd") {
@@ -5113,39 +7045,70 @@ function getPreviousPeriodKey(period: string, availableMonths: string[]): string
   return null;
 }
 
-function describePeriod(period: string, availableMonths: string[]): { currentLabel: string; comparisonLabel: string } {
+export function resolvePeriodReferenceDate(availableMonths: string[], fallbackDate: Date): Date {
+  const sortedMonths = availableMonths.filter((value) => isMonthPeriod(value)).sort((a, b) => a.localeCompare(b));
+  const latestMonth = sortedMonths[sortedMonths.length - 1];
+  if (!latestMonth) {
+    return fallbackDate;
+  }
+
+  const latestMonthEnd = endOfMonthByKey(latestMonth);
+  if (!latestMonthEnd) {
+    return fallbackDate;
+  }
+
+  if (latestMonthEnd.getFullYear() < fallbackDate.getFullYear()) {
+    return fallbackDate;
+  }
+
+  return latestMonthEnd.getTime() > fallbackDate.getTime() ? fallbackDate : latestMonthEnd;
+}
+
+export function describePeriod(
+  period: string,
+  availableMonths: string[],
+  referenceDate: Date = new Date(),
+): { currentLabel: string; comparisonLabel: string } {
   const previousPeriod = getPreviousPeriodKey(period, availableMonths);
 
   if (period === "all") {
     return {
-      currentLabel: formatPeriodLabel(period),
-      comparisonLabel: previousPeriod
-        ? "Previous comparison: " + formatPeriodLabel(previousPeriod) + " (latest available month)"
-        : "Previous comparison: n/a",
+      currentLabel: formatPeriodLabel(period, referenceDate),
+      comparisonLabel: "Previous comparison: n/a (cumulative all-time view)",
     };
   }
 
   if (period === "ytd") {
     return {
-      currentLabel: formatPeriodLabel(period),
-      comparisonLabel: "Previous comparison: " + formatPeriodLabel("ytd-prev") + " (same " + getYtdWindowLabel() + " window)",
+      currentLabel: formatPeriodLabel(period, referenceDate),
+      comparisonLabel:
+        "Previous comparison: " +
+        formatPeriodLabel("ytd-prev", referenceDate) +
+        " (same " +
+        getYtdWindowLabel(referenceDate) +
+        " window)",
     };
   }
 
   if (isMonthPeriod(period)) {
     return {
-      currentLabel: formatPeriodLabel(period),
-      comparisonLabel: "Previous comparison: " + formatPeriodLabel(previousPeriod ?? getPreviousMonth(period)) + " (month-over-month)",
+      currentLabel: formatPeriodLabel(period, referenceDate),
+      comparisonLabel:
+        "Previous comparison: " +
+        formatPeriodLabel(previousPeriod ?? getPreviousMonth(period), referenceDate) +
+        " (month-over-month)",
     };
   }
 
   return {
     currentLabel: period,
-    comparisonLabel: previousPeriod ? "Previous comparison: " + formatPeriodLabel(previousPeriod) : "Previous comparison: n/a",
+    comparisonLabel: previousPeriod
+      ? "Previous comparison: " + formatPeriodLabel(previousPeriod, referenceDate)
+      : "Previous comparison: n/a",
   };
 }
 
-function isIsoDateInPeriod(isoDate: string, period: string): boolean {
+function isIsoDateInPeriod(isoDate: string, period: string, referenceDate: Date = new Date()): boolean {
   if (!isoDate) {
     return false;
   }
@@ -5172,9 +7135,8 @@ function isIsoDateInPeriod(isoDate: string, period: string): boolean {
       return false;
     }
 
-    const now = new Date();
-    const cutoffMonth = now.getMonth() + 1;
-    const targetYear = period === "ytd-prev" ? now.getFullYear() - 1 : now.getFullYear();
+    const cutoffMonth = referenceDate.getMonth() + 1;
+    const targetYear = period === "ytd-prev" ? referenceDate.getFullYear() - 1 : referenceDate.getFullYear();
 
     return year === targetYear && monthNum <= cutoffMonth;
   }
@@ -5182,14 +7144,38 @@ function isIsoDateInPeriod(isoDate: string, period: string): boolean {
   return false;
 }
 
-function normalizeJiraQueryConfig(config: JiraQueryConfig | undefined): JiraQueryConfig {
-  const fallbackQuery: JiraSavedQuery = {
+export function normalizeJiraQueryConfig(config: JiraQueryConfig | undefined): JiraQueryConfig {
+  const fallbackIssueQuery: JiraSavedQuery = {
     id: "default",
-    name: "Team Import Query",
+    name: "Issues CSV Query",
     jql: "project = YOURPROJECT ORDER BY updated DESC",
     note: "Edit this query for the team scope.",
   };
+  const fallbackTimeInStatusQuery: JiraSavedQuery = {
+    id: "time-in-status-default",
+    name: "Time in Status Query",
+    jql: "project = YOURPROJECT ORDER BY updated DESC",
+    note: "Use the same team scope/window as your Issues CSV query.",
+  };
 
+  const issueQuery = normalizeJiraQueryCollection(config?.issueQuery ?? config, fallbackIssueQuery);
+  const timeInStatusQuery = normalizeJiraQueryCollection(
+    config?.timeInStatusQuery ?? config?.issueQuery ?? config,
+    fallbackTimeInStatusQuery,
+  );
+
+  return {
+    defaultQueryId: issueQuery.defaultQueryId,
+    queries: issueQuery.queries,
+    issueQuery,
+    timeInStatusQuery,
+  };
+}
+
+function normalizeJiraQueryCollection(
+  config: JiraQueryCollection | undefined,
+  fallbackQuery: JiraSavedQuery,
+): JiraQueryCollection {
   const queries = (config?.queries ?? [])
     .filter((query) => query.id.trim().length > 0 && query.name.trim().length > 0 && query.jql.trim().length > 0)
     .map((query) => ({
@@ -5218,6 +7204,44 @@ function normalizeJiraQueryConfig(config: JiraQueryConfig | undefined): JiraQuer
   };
 }
 
+function buildTeamConfigWithSavedQueries(
+  config: TeamConfig,
+  normalizedConfig: JiraQueryConfig,
+  target: JiraQueryTarget,
+  nextCollection: JiraQueryCollection,
+): TeamConfig {
+  const hasExplicitTimeInStatusQuery = Boolean(config.jiraQuery?.timeInStatusQuery);
+  const issueQuery = target === "issueQuery" ? nextCollection : (normalizedConfig.issueQuery as JiraQueryCollection);
+  const timeInStatusQuery =
+    target === "timeInStatusQuery"
+      ? nextCollection
+      : hasExplicitTimeInStatusQuery
+        ? (normalizedConfig.timeInStatusQuery as JiraQueryCollection)
+        : issueQuery;
+
+  return {
+    ...config,
+    jiraQuery: {
+      defaultQueryId: issueQuery.defaultQueryId,
+      queries: issueQuery.queries,
+      issueQuery,
+      timeInStatusQuery,
+    },
+  };
+}
+
+function resolvePreferredSavedQuery(
+  config: JiraQueryCollection,
+  selectedId: string,
+): JiraSavedQuery | null {
+  return (
+    config.queries.find((query) => query.id === selectedId) ??
+    config.queries.find((query) => query.id === config.defaultQueryId) ??
+    config.queries[0] ??
+    null
+  );
+}
+
 function createUniqueQueryId(name: string, existing: JiraSavedQuery[]): string {
   const base = slugifyValue(name);
   const existingIds = new Set(existing.map((query) => query.id));
@@ -5234,9 +7258,13 @@ function createUniqueQueryId(name: string, existing: JiraSavedQuery[]): string {
   return `${base}-${index}`;
 }
 
-function composeQueryWithTimeWindow(baseJql: string, window: QueryTimeWindow): string {
+export function composeQueryWithTimeWindow(
+  baseJql: string,
+  window: QueryTimeWindow,
+  target: JiraQueryTarget = "issues",
+): string {
   const trimmedBase = baseJql.trim();
-  const clause = getTimeWindowClause(window);
+  const clause = getTimeWindowClause(window, target);
 
   if (!clause) {
     return trimmedBase;
@@ -5261,17 +7289,21 @@ function composeQueryWithTimeWindow(baseJql: string, window: QueryTimeWindow): s
   return `(${beforeOrder}) AND ${clause} ${orderByPart}`;
 }
 
-function getTimeWindowClause(window: QueryTimeWindow): string {
+function getTimeWindowClause(window: QueryTimeWindow, _target: JiraQueryTarget): string {
   if (window === "current-month") {
-    return "updated >= startOfMonth()";
+    return "(created >= startOfMonth() OR updated >= startOfMonth() OR resolved >= startOfMonth())";
   }
 
   if (window === "last-month") {
-    return "updated >= startOfMonth(-1) AND updated < startOfMonth()";
+    return (
+      "((created >= startOfMonth(-1) AND created < startOfMonth()) " +
+      "OR (updated >= startOfMonth(-1) AND updated < startOfMonth()) " +
+      "OR (resolved >= startOfMonth(-1) AND resolved < startOfMonth()))"
+    );
   }
 
   if (window === "ytd") {
-    return "updated >= startOfYear()";
+    return "(created >= startOfYear() OR updated >= startOfYear() OR resolved >= startOfYear())";
   }
 
   return "";
@@ -5314,7 +7346,7 @@ function normalizeVelocityConfig(config: VelocityConfig | undefined): VelocityCo
     };
   }
 
-  return { mode: "monthly-ticket-count" };
+  return { mode: "weekly-ticket-count" };
 }
 
 function normalizeDateOnly(value: string | undefined): string | undefined {
@@ -5324,6 +7356,29 @@ function normalizeDateOnly(value: string | undefined): string | undefined {
   }
 
   return normalized;
+}
+
+function normalizeOptionalMappingValue(value: string | undefined): string | undefined {
+  const normalized = (value ?? "").trim();
+  return normalized.length > 0 ? normalized : undefined;
+}
+
+function parseOptionalNonNegativeNumberInput(value: string): number | null {
+  const normalized = value.trim().replace(",", ".");
+  if (!normalized) {
+    return null;
+  }
+
+  const parsed = Number.parseFloat(normalized);
+  if (!Number.isFinite(parsed) || parsed < 0) {
+    return null;
+  }
+
+  return parsed;
+}
+
+function formatOptionalNumberInput(value: number | null | undefined): string {
+  return value === null || value === undefined ? "" : String(value);
 }
 
 function getVelocityUnitLabel(config: VelocityConfig | undefined): string {
@@ -5375,6 +7430,7 @@ function computeSnapshot(
   periodMonth: string,
   teamConfig: TeamConfig,
   parsedIssues: ParsedIssue[] = [],
+  referenceDate: Date = new Date(),
 ): TeamSnapshot {
   if (!metrics) {
     return {
@@ -5386,7 +7442,7 @@ function computeSnapshot(
     };
   }
 
-  const details = metrics.doneIssueDetails.filter((item) => isIsoDateInPeriod(item.resolutionDate, periodMonth));
+  const details = metrics.doneIssueDetails.filter((item) => isIsoDateInPeriod(item.resolutionDate, periodMonth, referenceDate));
   const issueTypeByKey = new Map<string, string>();
   parsedIssues.forEach((issue) => {
     const key = normalizeTextValue(issue.issueKey);
@@ -5395,6 +7451,16 @@ function computeSnapshot(
     }
     issueTypeByKey.set(key, issue.issueType);
   });
+  const effectiveSleIssueTypes = new Set(
+    resolveEffectiveSleIssueTypes(
+      teamConfig.sleConfig.issueTypes,
+      details.map((item) =>
+        item.issueType && item.issueType.trim().length > 0
+          ? item.issueType
+          : issueTypeByKey.get(normalizeTextValue(item.issueKey)) ?? "",
+      ),
+    ).map(normalizeTextValue),
+  );
   const cycleTimes = details
     .map((item) => item.cycleTimeDays)
     .filter((value): value is number => value !== null && Number.isFinite(value) && value >= 0);
@@ -5404,7 +7470,7 @@ function computeSnapshot(
         item.issueType && item.issueType.trim().length > 0
           ? item.issueType
           : issueTypeByKey.get(normalizeTextValue(item.issueKey)) ?? "";
-      return isIssueTypeIncludedInSle(effectiveType, teamConfig.sleConfig.issueTypes);
+      return effectiveSleIssueTypes.has(normalizeTextValue(effectiveType));
     })
     .map((item) => item.cycleTimeDays)
     .filter((value): value is number => value !== null && Number.isFinite(value) && value >= 0);
@@ -5659,11 +7725,6 @@ const TEAM_HEALTH_METRIC_META: Record<
     priority: 10,
     recommendation: "Reduce open backlog and stabilize throughput to shorten forecast horizon.",
   },
-  sprintPredictability: {
-    label: "Sprint Predictability",
-    priority: 11,
-    recommendation: "Improve commitment quality and reduce mid-sprint scope changes.",
-  },
 };
 
 export function buildTeamHealthSignals(snapshot: TeamHealthSnapshot): TeamHealthSignals {
@@ -5700,13 +7761,13 @@ export function buildTeamHealthSignals(snapshot: TeamHealthSnapshot): TeamHealth
         : createMetricHealth("bad", "Backlog is growing materially this month.");
 
   const throughputStability =
-    snapshot.throughputStability.weeklyCvPct === null
+    snapshot.throughputStability.weeklyPredictabilityPct === null
       ? createMetricHealth("neutral", "Not enough weekly throughput samples.")
-      : snapshot.throughputStability.weeklyCvPct <= 35
-        ? createMetricHealth("good", "Throughput is predictable (low variation).")
-        : snapshot.throughputStability.weeklyCvPct <= 60
-          ? createMetricHealth("warn", "Throughput variation is moderate.")
-          : createMetricHealth("bad", "Throughput variation is high; planning risk is elevated.");
+      : snapshot.throughputStability.weeklyPredictabilityPct >= 80
+        ? createMetricHealth("good", "Throughput is predictable.")
+        : snapshot.throughputStability.weeklyPredictabilityPct >= 50
+          ? createMetricHealth("warn", "Throughput predictability is moderate.")
+          : createMetricHealth("bad", "Throughput is hard to predict; planning risk is elevated.");
 
   const wipAgeRisk =
     snapshot.wipRisk.over30Pct <= 25
@@ -5728,9 +7789,9 @@ export function buildTeamHealthSignals(snapshot: TeamHealthSnapshot): TeamHealth
   const flowEfficiency =
     snapshot.flowEfficiency.valuePct === null
       ? createMetricHealth("neutral", "No Time in Status data for selected period.")
-      : snapshot.flowEfficiency.valuePct >= 35
+      : snapshot.flowEfficiency.valuePct >= 50
         ? createMetricHealth("good", "Healthy active-work share.")
-        : snapshot.flowEfficiency.valuePct >= 20
+        : snapshot.flowEfficiency.valuePct >= 30
           ? createMetricHealth("warn", "Queue time is significant.")
           : createMetricHealth("bad", "Most flow time is waiting; improve stage handoffs.");
 
@@ -5762,18 +7823,6 @@ export function buildTeamHealthSignals(snapshot: TeamHealthSnapshot): TeamHealth
           ? createMetricHealth("warn", "Forecast horizon is moderate.")
           : createMetricHealth("bad", "Forecast horizon is long; delivery risk is higher.");
 
-  const predictability = snapshot.sprintPredictability.latest?.predictabilityPct ?? null;
-  const sprintPredictability =
-    !snapshot.sprintPredictability.enabled
-      ? createMetricHealth("neutral", "Enable sprint cadence to evaluate predictability.")
-      : predictability === null
-        ? createMetricHealth("neutral", "No sprint commitment baseline.")
-        : predictability >= 85 && predictability <= 115
-          ? createMetricHealth("good", "Sprint commitment vs delivery is balanced.")
-          : (predictability >= 70 && predictability < 85) || (predictability > 115 && predictability <= 130)
-            ? createMetricHealth("warn", "Plan-vs-delivery mismatch is visible.")
-            : createMetricHealth("bad", "Large planning mismatch; inspect scope churn/commitment quality.");
-
   return {
     doneBugRatio,
     intakeVsThroughput,
@@ -5785,7 +7834,6 @@ export function buildTeamHealthSignals(snapshot: TeamHealthSnapshot): TeamHealth
     queueTimeByStatus,
     bottleneckTrend,
     forecast,
-    sprintPredictability,
   };
 }
 
@@ -5794,7 +7842,6 @@ export function buildMetricDataIssues(
   teamConfig: TeamConfig | undefined,
 ): MetricDataIssueMap {
   const issues: MetricDataIssueMap = {};
-  const velocityConfig = normalizeVelocityConfig(teamConfig?.velocityConfig);
 
   if (snapshot.bugRatio.doneBugCount > snapshot.bugRatio.doneTotal) {
     issues.doneBugRatio = {
@@ -5811,7 +7858,7 @@ export function buildMetricDataIssues(
   if (snapshot.throughputStability.weeklySamples < 4) {
     issues.throughputStability = {
       tone: "warn",
-      message: "Weekly stability uses less than 4 non-zero weeks. CV is low-confidence.",
+      message: "Weekly predictability uses less than 4 non-zero weeks. Score is low-confidence.",
     };
   }
 
@@ -5855,24 +7902,276 @@ export function buildMetricDataIssues(
     };
   }
 
-  if (velocityConfig.mode !== "sprint-story-points") {
-    issues.sprintPredictability = {
-      tone: "warn",
-      message: "Enable 'Sprint based story points' velocity cadence to calculate predictability.",
-    };
-  } else if (!snapshot.sprintPredictability.latest || snapshot.sprintPredictability.rows.length === 0) {
-    issues.sprintPredictability = {
+  return issues;
+}
+
+export function buildDataMonitorEntries(
+  issues: ParsedIssue[],
+  teamConfig: TeamConfig | undefined,
+  selectedPeriod: string,
+  metricIssues: MetricDataIssueMap,
+  bottleneckEntries: BottleneckEntry[] = [],
+  referenceDate: Date = new Date(),
+): DataMonitorEntry[] {
+  const entries: Array<DataMonitorEntry & { category: "source" | "metric" }> = [];
+  const excludedIssueKeys = new Set(
+    (teamConfig?.excludedIssueKeys ?? [])
+      .map((value) => normalizeTextValue(value))
+      .filter((value) => value.length > 0),
+  );
+  const includedIssues = issues.filter((issue) => !excludedIssueKeys.has(normalizeTextValue(issue.issueKey)));
+
+  (Object.entries(metricIssues) as Array<[MetricHelpKey, MetricDataIssue]>).forEach(([key, issue]) => {
+    entries.push({
+      id: `metric:${key}`,
+      category: "metric",
+      tone: issue.tone,
+      title: METRIC_HELP[key]?.title ?? key,
+      message: issue.message,
+      sampleIssueKeys: [],
+    });
+  });
+
+  if (includedIssues.length === 0) {
+    entries.push({
+      id: "source:no-issues",
+      category: "source",
       tone: "bad",
-      message: "No sprint buckets matched. Check Sprint start date, length, and sprint field values.",
-    };
-  } else if (snapshot.sprintPredictability.latest.predictabilityPct === null) {
-    issues.sprintPredictability = {
-      tone: "warn",
-      message: "Latest sprint has 0 commitment baseline. Predictability % cannot be computed.",
-    };
+      title: "No imported issues",
+      message: "No parsed Jira issues found for this team. Check imports folder, CSV mapping, and cache refresh.",
+      sampleIssueKeys: [],
+    });
   }
 
-  return issues;
+  const canonicalDoneStatuses = new Set(["done", "closed", "resolved"]);
+  const terminalNonWipStatuses = new Set(["cancelled", "canceled", "won't do", "wont do"]);
+  const doneSet = new Set(
+    (teamConfig?.doneConfig.doneStatuses ?? ["Done", "Closed", "Resolved"])
+      .map((value) => normalizeTextValue(value))
+      .filter((value) => value.length > 0),
+  );
+
+  const isCancelledLike = (issue: ParsedIssue): boolean => {
+    const status = normalizeTextValue(issue.status);
+    const resolution = normalizeTextValue(issue.resolution);
+    return terminalNonWipStatuses.has(status) || terminalNonWipStatuses.has(resolution);
+  };
+
+  const isDoneByStatus = (issue: ParsedIssue): boolean => {
+    if (isCancelledLike(issue)) {
+      return false;
+    }
+
+    const status = normalizeTextValue(issue.status);
+    return doneSet.has(status) || canonicalDoneStatuses.has(status);
+  };
+
+  const doneIssues = includedIssues.filter((issue) => isDoneByStatus(issue));
+  const openIssues = includedIssues.filter((issue) => !isDoneByStatus(issue) && !isCancelledLike(issue));
+  const sprintScopeStatusSet = new Set(
+    resolveSprintScopeStatuses(teamConfig, includedIssues).map((value) => normalizeTextValue(value)),
+  );
+
+  const pushFieldEntry = (
+    id: string,
+    title: string,
+    message: string,
+    sample: ParsedIssue[],
+    tone: DataMonitorEntry["tone"],
+  ): void => {
+    entries.push({
+      id,
+      category: "source",
+      tone,
+      title,
+      message,
+      sampleIssueKeys: buildIssueKeySamples(sample),
+    });
+  };
+
+  const doneMissingDeliveryDate = doneIssues.filter((issue) => getIssueDeliveryDate(issue) === null);
+  if (doneMissingDeliveryDate.length > 0) {
+    pushFieldEntry(
+      "source:done-missing-delivery-date",
+      "Delivery date missing on done items",
+      `Throughput and period-based done counts ignore ${doneMissingDeliveryDate.length} done ticket(s) because Resolved/Updated is empty.`,
+      doneMissingDeliveryDate,
+      resolveDataMonitorTone(doneMissingDeliveryDate.length, doneIssues.length, 0.2),
+    );
+  }
+
+  const doneMissingCreated = doneIssues.filter((issue) => issue.created === null);
+  if (doneMissingCreated.length > 0) {
+    pushFieldEntry(
+      "source:done-missing-created",
+      "Created missing on done items",
+      `Cycle time and lead-time calculations skip ${doneMissingCreated.length} done ticket(s) because Created is empty.`,
+      doneMissingCreated,
+      resolveDataMonitorTone(doneMissingCreated.length, doneIssues.length, 0.2),
+    );
+  }
+
+  const openMissingCreated = openIssues.filter((issue) => issue.created === null);
+  if (openMissingCreated.length > 0) {
+    pushFieldEntry(
+      "source:open-missing-created",
+      "Created missing on open items",
+      `Aging WIP excludes ${openMissingCreated.length} open ticket(s) because Created is empty.`,
+      openMissingCreated,
+      resolveDataMonitorTone(openMissingCreated.length, openIssues.length, 0.2),
+    );
+  }
+
+  const missingIssueType = includedIssues.filter((issue) => normalizeTextValue(issue.issueType).length === 0);
+  if (missingIssueType.length > 0) {
+    pushFieldEntry(
+      "source:missing-issue-type",
+      "Issue Type missing",
+      `Bug ratio and SLE issue-type filters cannot classify ${missingIssueType.length} ticket(s) because Issue Type is empty.`,
+      missingIssueType,
+      resolveDataMonitorTone(missingIssueType.length, includedIssues.length, 0.1),
+    );
+  }
+
+  const bugIssueTypeSet = new Set(
+    (teamConfig?.bugConfig?.issueTypes ?? ["Bug"])
+      .map((value) => normalizeTextValue(value))
+      .filter((value) => value.length > 0),
+  );
+  const isBugIssueType = (issue: ParsedIssue): boolean => {
+    const type = normalizeTextValue(issue.issueType);
+    return bugIssueTypeSet.size === 0 ? type === "bug" : bugIssueTypeSet.has(type);
+  };
+  const isStoryIssueType = (issue: ParsedIssue): boolean => {
+    const type = normalizeTextValue(issue.issueType);
+    return type === "story" || type === "userstory" || type === "user story";
+  };
+  const isTaskIssueType = (issue: ParsedIssue): boolean => {
+    const type = normalizeTextValue(issue.issueType);
+    return type === "task" || type === "subtask" || type === "sub-task";
+  };
+
+  const doneStoryMissingEstimate = doneIssues.filter(
+    (issue) => issue.storyPoints === null && isStoryIssueType(issue) && !isBugIssueType(issue),
+  );
+  if (doneStoryMissingEstimate.length > 0) {
+    pushFieldEntry(
+      "source:done-story-estimate-missing",
+      "Done Story estimate missing",
+      `${doneStoryMissingEstimate.length} done Story ticket(s) have no story points. Story estimates are expected for completed Stories.`,
+      doneStoryMissingEstimate,
+      "warn",
+    );
+  }
+
+  const doneTaskMissingEstimate = doneIssues.filter(
+    (issue) => issue.storyPoints === null && isTaskIssueType(issue) && !isBugIssueType(issue),
+  );
+  if (doneTaskMissingEstimate.length > 0) {
+    pushFieldEntry(
+      "source:done-task-estimate-missing",
+      "Done Task estimate optional",
+      `${doneTaskMissingEstimate.length} done Task ticket(s) have no story points. Task estimates are nice to have, but not required.`,
+      doneTaskMissingEstimate,
+      "info",
+    );
+  }
+
+  const sprintManagedOpenIssues = openIssues.filter((issue) => sprintScopeStatusSet.has(normalizeTextValue(issue.status)));
+  const missingSprint = [...doneIssues, ...sprintManagedOpenIssues].filter((issue) => normalizeTextValue(issue.sprintRaw).length === 0);
+  if (missingSprint.length > 0) {
+    pushFieldEntry(
+      "source:missing-sprint",
+      "Sprint field missing",
+      `Sprint discipline metrics rely on Sprint data, but ${missingSprint.length} done or active-flow ticket(s) have Sprint empty.`,
+      missingSprint,
+      resolveDataMonitorTone(missingSprint.length, Math.max(1, doneIssues.length + sprintManagedOpenIssues.length), 0.5),
+    );
+  }
+
+  if (bottleneckEntries.length === 0) {
+    entries.push({
+      id: "source:time-in-status-missing",
+      category: "source",
+      tone: "bad",
+      title: "Time in Status missing",
+      message:
+        "Time in Status CSV is not available. Flow Efficiency, Queue Time, and Bottleneck Trend cannot be validated.",
+      sampleIssueKeys: [],
+    });
+  } else if (isMonthPeriod(selectedPeriod) && !bottleneckEntries.some((entry) => entry.period === selectedPeriod)) {
+    const fallback = resolveBottleneckEntryForPeriod(bottleneckEntries, selectedPeriod);
+    if (fallback) {
+      entries.push({
+        id: `source:time-in-status-fallback:${selectedPeriod}`,
+        category: "source",
+        tone: "warn",
+        title: "Time in Status month missing",
+        message:
+          `No Time in Status row for ${formatPeriodLabel(selectedPeriod, referenceDate)}. ` +
+          `Flow metrics currently use ${formatPeriodLabel(fallback.period, referenceDate)} instead.`,
+        sampleIssueKeys: [],
+      });
+    }
+  }
+
+  return entries
+    .sort((left, right) => {
+      if (left.tone !== right.tone) {
+        return getDataMonitorToneRank(left.tone) - getDataMonitorToneRank(right.tone);
+      }
+      if (left.category !== right.category) {
+        return left.category === "source" ? -1 : 1;
+      }
+      return left.title.localeCompare(right.title);
+    })
+    .map(({ category: _category, ...entry }) => entry);
+}
+
+function getDataMonitorToneRank(tone: DataMonitorEntry["tone"]): number {
+  if (tone === "bad") {
+    return 0;
+  }
+  if (tone === "warn") {
+    return 1;
+  }
+  return 2;
+}
+
+function buildIssueKeySamples(issues: ParsedIssue[], limit = 3): string[] {
+  const seen = new Set<string>();
+  const samples: string[] = [];
+
+  for (const issue of issues) {
+    const key = issue.issueKey.trim();
+    if (!key || seen.has(key)) {
+      continue;
+    }
+
+    seen.add(key);
+    samples.push(key);
+    if (samples.length >= limit) {
+      break;
+    }
+  }
+
+  return samples;
+}
+
+function resolveDataMonitorTone(
+  count: number,
+  total: number,
+  badThreshold: number,
+): "warn" | "bad" {
+  if (count <= 0) {
+    return "warn";
+  }
+
+  if (total <= 0) {
+    return "bad";
+  }
+
+  return count / total >= badThreshold ? "bad" : "warn";
 }
 
 export function buildTeamHealthCheckSummary(signals: TeamHealthSignals): TeamHealthCheckSummary {
@@ -5968,6 +8267,10 @@ function formatDateText(isoDate: string): string {
   return date.toLocaleDateString();
 }
 
+function getIssueDeliveryDate(issue: ParsedIssue): Date | null {
+  return issue.resolutionDate ?? issue.updated;
+}
+
 function formatSprintBucketLabel(bucket: string): string {
   if (!bucket.startsWith("SPR-")) {
     return bucket;
@@ -6002,8 +8305,12 @@ function buildTeamProgressSnapshot(team: TeamRuntime, now: Date): TeamProgressSn
     capturedAt: now.toISOString(),
     importSignature: buildTeamImportSignature(team),
     metrics: {
+      doneCount: team.metrics?.doneIssues ?? null,
       avgCycleTimeDays: team.metrics?.avgCycleTimeDays ?? null,
+      sleP50Days: team.metrics?.sle.values.p50 ?? null,
+      sleP70Days: team.metrics?.sle.values.p70 ?? null,
       sleP85Days: team.metrics?.sle.values.p85 ?? null,
+      sleP95Days: team.metrics?.sle.values.p95 ?? null,
       multiSprintPct: team.metrics?.multiSprint.percentage ?? null,
       velocityLatest: getLatestVelocityValue(team.metrics),
       doneBugRatioPct: health.bugRatio.doneBugRatio,
@@ -6160,13 +8467,13 @@ function buildProgressStatusText(summary: ProgressComparisonSummary): string {
   return `Progress vs previous upload: Improved ${summary.improvedCount}, Worsened ${summary.worsenedCount}, No change ${summary.unchangedCount}.`;
 }
 
-function resolveBottleneckPeriod(period: string, availableMonths: string[]): string {
+function resolveBottleneckPeriod(period: string, availableMonths: string[], referenceDate: Date = new Date()): string {
   if (isMonthPeriod(period)) {
     return period;
   }
 
   const sorted = availableMonths.filter((month) => isMonthPeriod(month)).sort((a, b) => a.localeCompare(b));
-  return sorted[sorted.length - 1] ?? monthKey(new Date());
+  return sorted[sorted.length - 1] ?? monthKey(referenceDate);
 }
 
 export function getBottleneckForPeriod(entries: BottleneckEntry[], period: string): string {
@@ -6268,6 +8575,167 @@ function getBottleneckColumnsForBoard(
     });
 }
 
+function getTimeInStatusStatusCategory(statusName: string): TimeInStatusStatusCategory {
+  const normalized = normalizeTextValue(statusName);
+  if (!normalized) {
+    return "other";
+  }
+
+  const terminalHints = ["done", "closed", "resolved", "cancelled", "canceled", "deployed", "released"];
+  if (terminalHints.some((hint) => normalized.includes(hint))) {
+    return "done";
+  }
+
+  if (isActiveFlowStatus(statusName)) {
+    return "active";
+  }
+
+  const queueHints = [
+    "backlog",
+    "to do",
+    "todo",
+    "selected for",
+    "open",
+    "queue",
+    "ready",
+    "pending",
+    "blocked",
+    "wait",
+    "waiting",
+    "on hold",
+    "hold",
+    "analysis",
+    "triage",
+  ];
+  if (queueHints.some((hint) => normalized.includes(hint))) {
+    return "queue";
+  }
+
+  return "other";
+}
+
+function getTimeInStatusCategoryLabel(category: TimeInStatusStatusCategory): string {
+  if (category === "queue") {
+    return "Queue";
+  }
+
+  if (category === "active") {
+    return "Active";
+  }
+
+  if (category === "done") {
+    return "Done";
+  }
+
+  return "Other";
+}
+
+function getTimeInStatusTone(statusName: string, avgDays: number, category: TimeInStatusStatusCategory): HealthTone {
+  if (!Number.isFinite(avgDays) || avgDays <= 0) {
+    return "neutral";
+  }
+
+  if (category === "done") {
+    return "neutral";
+  }
+
+  const normalized = normalizeTextValue(statusName);
+  const severeQueue =
+    category === "queue" &&
+    ["blocked", "wait", "waiting", "on hold", "hold", "pending"].some((hint) => normalized.includes(hint));
+
+  if (category === "queue") {
+    if (severeQueue) {
+      return avgDays <= 2 ? "good" : avgDays <= 5 ? "warn" : "bad";
+    }
+
+    return avgDays <= 4 ? "good" : avgDays <= 8 ? "warn" : "bad";
+  }
+
+  if (category === "active") {
+    return avgDays <= 7 ? "good" : avgDays <= 14 ? "warn" : "bad";
+  }
+
+  return avgDays <= 5 ? "good" : avgDays <= 10 ? "warn" : "bad";
+}
+
+function getTimeInStatusSignal(category: TimeInStatusStatusCategory, tone: HealthTone): string {
+  if (category === "done") {
+    return "Terminal stage tracked, not treated as risk.";
+  }
+
+  if (category === "queue") {
+    if (tone === "good") {
+      return "Queue stage looks short enough.";
+    }
+    if (tone === "warn") {
+      return "Queue stage is building up.";
+    }
+    return "Queue stage is too long for healthy flow.";
+  }
+
+  if (category === "active") {
+    if (tone === "good") {
+      return "Active work is moving.";
+    }
+    if (tone === "warn") {
+      return "Active work is slowing down.";
+    }
+    return "Active work is aging and likely overloaded.";
+  }
+
+  if (tone === "good") {
+    return "Duration looks reasonable.";
+  }
+  if (tone === "warn") {
+    return "Duration is elevated.";
+  }
+  if (tone === "bad") {
+    return "Duration is too high.";
+  }
+
+  return "No signal.";
+}
+
+export function buildTimeInStatusRows(
+  entry: BottleneckEntry | null,
+  boardStatuses: Map<string, string>,
+): TimeInStatusStatusRow[] {
+  const rows = getBottleneckColumnsForBoard(entry, boardStatuses)
+    .slice()
+    .sort((left, right) => {
+      if (right.avgDays !== left.avgDays) {
+        return right.avgDays - left.avgDays;
+      }
+      return left.name.localeCompare(right.name);
+    })
+    .map((column) => {
+      const category = getTimeInStatusStatusCategory(column.name);
+      const tone = getTimeInStatusTone(column.name, column.avgDays, category);
+      return {
+        name: column.name,
+        avgDays: column.avgDays,
+        category,
+        categoryLabel: getTimeInStatusCategoryLabel(category),
+        tone,
+        highlight: false,
+        signal: getTimeInStatusSignal(category, tone),
+      };
+    });
+
+  const highlighted = new Set(
+    rows
+      .filter((row) => row.tone === "warn" || row.tone === "bad")
+      .slice(0, 3)
+      .map((row) => normalizeTextValue(row.name)),
+  );
+
+  return rows.map((row) => ({
+    ...row,
+    highlight: highlighted.has(normalizeTextValue(row.name)),
+  }));
+}
+
 function getMaxBottleneckColumnForBoard(
   entry: BottleneckEntry | null,
   boardStatuses: Map<string, string>,
@@ -6328,6 +8796,22 @@ function inferFlowStatusesFromEntries(entries: BottleneckEntry[]): string[] {
     .sort((a, b) => b.period.localeCompare(a.period))[0];
 
   return normalizeFlowStatuses(latest.columns.map((column) => column.name));
+}
+
+function resolveSprintScopeStatuses(teamConfig: TeamConfig | undefined, issues: ParsedIssue[]): string[] {
+  const configured = normalizeFlowStatuses(teamConfig?.sprintScopeConfig?.statuses ?? []);
+  if (configured.length > 0) {
+    return configured;
+  }
+
+  const flowTemplateStatuses = normalizeFlowStatuses(teamConfig?.bottleneckConfig?.flowStatuses ?? []).filter(
+    (status) => isDefaultSprintScopeStatus(status),
+  );
+  if (flowTemplateStatuses.length > 0) {
+    return flowTemplateStatuses;
+  }
+
+  return Array.from(buildBoardStatusMap(issues).values()).filter((status) => isDefaultSprintScopeStatus(status));
 }
 
 function buildBottleneckRowsFromStatuses(statuses: string[]): BottleneckDraftRow[] {
@@ -6491,32 +8975,39 @@ export function computeTeamHealthSnapshot(
     return bugSet.has(normalizeTextValue(issue.issueType));
   };
 
-  const throughputAnchor = resolveThroughputAnchor(selectedPeriod, now);
+  const throughputAnchor = resolveThroughputAnchor(selectedPeriod, now, includedIssues);
   const monthNow = throughputAnchor.month;
   const monthPrev = getPreviousMonth(monthNow);
   const anchorMs = throughputAnchor.anchorMs;
   const monthStart = startOfMonthByKey(monthNow) ?? startOfDay(new Date(anchorMs));
   const last30Start = new Date(anchorMs - 29 * 24 * 60 * 60 * 1000);
-  const doneWithUpdated = includedIssues.filter((issue) => isDoneByStatus(issue) && issue.updated !== null);
+  const doneWithDeliveryDate = includedIssues.filter((issue) => isDoneByStatus(issue) && getIssueDeliveryDate(issue) !== null);
   const createdWithDate = includedIssues.filter((issue) => issue.created !== null);
 
   const throughput = {
-    thisMonth: doneWithUpdated.filter((issue) => {
-      return issue.updated !== null && issue.updated.toISOString().slice(0, 7) === monthNow;
+    anchorMonth: monthNow,
+    comparisonMonth: monthPrev,
+    thisMonth: doneWithDeliveryDate.filter((issue) => {
+      const deliveryDate = getIssueDeliveryDate(issue);
+      return deliveryDate !== null && deliveryDate.toISOString().slice(0, 7) === monthNow;
     }).length,
-    lastMonth: doneWithUpdated.filter((issue) => {
-      return issue.updated !== null && issue.updated.toISOString().slice(0, 7) === monthPrev;
+    lastMonth: doneWithDeliveryDate.filter((issue) => {
+      const deliveryDate = getIssueDeliveryDate(issue);
+      return deliveryDate !== null && deliveryDate.toISOString().slice(0, 7) === monthPrev;
     }).length,
-    last30Days: doneWithUpdated.filter((issue) => {
+    last30Days: doneWithDeliveryDate.filter((issue) => {
+      const deliveryDate = getIssueDeliveryDate(issue);
       return (
-        issue.updated !== null &&
-        issue.updated.getTime() >= last30Start.getTime() &&
-        issue.updated.getTime() <= anchorMs
+        deliveryDate !== null &&
+        deliveryDate.getTime() >= last30Start.getTime() &&
+        deliveryDate.getTime() <= anchorMs
       );
     }).length,
   };
 
   const intakeThroughput = {
+    anchorMonth: monthNow,
+    comparisonMonth: monthPrev,
     intakeThisMonth: createdWithDate.filter((issue) => {
       return issue.created !== null && issue.created.getTime() >= monthStart.getTime() && issue.created.getTime() <= anchorMs;
     }).length,
@@ -6532,15 +9023,31 @@ export function computeTeamHealthSnapshot(
     last30Days: intakeThroughput.intakeLast30Days - intakeThroughput.throughputLast30Days,
   };
 
-  const throughputStability = buildThroughputStabilitySnapshot(doneWithUpdated, anchorMs, monthNow);
+  const throughputStability = buildThroughputStabilitySnapshot(doneWithDeliveryDate, anchorMs, monthNow);
 
-  const doneInPeriod = doneWithUpdated.filter((issue) => {
-    return issue.updated !== null && isIsoDateInPeriod(issue.updated.toISOString(), selectedPeriod);
+  const doneInPeriod = doneWithDeliveryDate.filter((issue) => {
+    const deliveryDate = getIssueDeliveryDate(issue);
+    return deliveryDate !== null && isIsoDateInPeriod(deliveryDate.toISOString(), selectedPeriod, now);
+  });
+  const updatedInPeriod = includedIssues.filter((issue) => {
+    if (issue.updated) {
+      return isIsoDateInPeriod(issue.updated.toISOString(), selectedPeriod, now);
+    }
+
+    if (issue.created) {
+      return isIsoDateInPeriod(issue.created.toISOString(), selectedPeriod, now);
+    }
+
+    return false;
   });
 
   const doneBugCount = doneInPeriod.filter((issue) => isBug(issue)).length;
   const doneTotal = doneInPeriod.length;
   const leadTimeByType = buildLeadTimeByTypeSnapshot(doneInPeriod);
+  const inSprintUpdatedInPeriod = updatedInPeriod.filter((issue) => countSprints(issue.sprintRaw) > 0);
+  const inSprintUnestimatedCount = inSprintUpdatedInPeriod.filter((issue) => issue.storyPoints === null).length;
+  const deliveredOutsideSprintCount = doneInPeriod.filter((issue) => countSprints(issue.sprintRaw) === 0).length;
+  const deliveredInSprintCount = doneInPeriod.filter((issue) => countSprints(issue.sprintRaw) > 0).length;
 
   const wipIssues = includedIssues.filter((issue) => {
     return !isDoneByStatus(issue) && !isCancelledLike(issue);
@@ -6583,7 +9090,7 @@ export function computeTeamHealthSnapshot(
     buildBoardStatusMap(includedIssues),
   );
   const bottleneckTrend = buildBottleneckTrendSnapshot(bottleneckEntries);
-  const forecast = buildForecastSnapshot(doneWithUpdated, wipIssues, teamConfig, now);
+  const forecast = buildForecastSnapshot(doneWithDeliveryDate, wipIssues, teamConfig, now);
   const sprintPredictability = buildSprintPredictabilitySnapshot(includedIssues, isDoneByStatus, teamConfig, now);
 
   return {
@@ -6598,6 +9105,17 @@ export function computeTeamHealthSnapshot(
     bottleneckTrend,
     forecast,
     sprintPredictability,
+    sprintWork: {
+      inSprintTotal: inSprintUpdatedInPeriod.length,
+      inSprintUnestimatedCount,
+      inSprintUnestimatedPct:
+        inSprintUpdatedInPeriod.length === 0 ? null : (inSprintUnestimatedCount / inSprintUpdatedInPeriod.length) * 100,
+      doneTotal,
+      deliveredInSprintCount,
+      deliveredInSprintPct: doneTotal === 0 ? null : (deliveredInSprintCount / doneTotal) * 100,
+      deliveredOutsideSprintCount,
+      deliveredOutsideSprintPct: doneTotal === 0 ? null : (deliveredOutsideSprintCount / doneTotal) * 100,
+    },
     leadTimeByType,
     agingWip: {
       total: wipIssues.length,
@@ -6620,33 +9138,38 @@ export function computeTeamHealthSnapshot(
 }
 
 function buildThroughputStabilitySnapshot(
-  doneWithUpdated: ParsedIssue[],
+  doneWithDeliveryDate: ParsedIssue[],
   anchorMs: number,
   anchorMonth: string,
 ): ThroughputStabilitySnapshot {
-  const weeklyCounts = buildRecentWeeklyCounts(doneWithUpdated, anchorMs, 8);
-  const monthlyCounts = buildRecentMonthlyCounts(doneWithUpdated, anchorMonth, 6);
+  const weeklyCounts = buildRecentWeeklyCounts(doneWithDeliveryDate, anchorMs, 8);
+  const monthlyCounts = buildRecentMonthlyCounts(doneWithDeliveryDate, anchorMonth, 6);
+  const weeklyCvPct = computeCoefficientOfVariationPct(weeklyCounts);
+  const monthlyCvPct = computeCoefficientOfVariationPct(monthlyCounts);
 
   return {
     weeklyAvg: computeAverage(weeklyCounts),
-    weeklyCvPct: computeCoefficientOfVariationPct(weeklyCounts),
+    weeklyCvPct,
+    weeklyPredictabilityPct: convertCvToPredictabilityPct(weeklyCvPct),
     monthlyAvg: computeAverage(monthlyCounts),
-    monthlyCvPct: computeCoefficientOfVariationPct(monthlyCounts),
+    monthlyCvPct,
+    monthlyPredictabilityPct: convertCvToPredictabilityPct(monthlyCvPct),
     weeklySamples: weeklyCounts.filter((value) => value > 0).length,
     monthlySamples: monthlyCounts.filter((value) => value > 0).length,
   };
 }
 
-function buildRecentWeeklyCounts(doneWithUpdated: ParsedIssue[], anchorMs: number, weeks: number): number[] {
+function buildRecentWeeklyCounts(doneWithDeliveryDate: ParsedIssue[], anchorMs: number, weeks: number): number[] {
   const anchorDay = startOfDay(new Date(anchorMs));
   const countsByWeek = new Map<string, number>();
 
-  doneWithUpdated.forEach((issue) => {
-    if (!issue.updated) {
+  doneWithDeliveryDate.forEach((issue) => {
+    const deliveryDate = getIssueDeliveryDate(issue);
+    if (!deliveryDate) {
       return;
     }
 
-    const key = getIsoWeekBucketKey(issue.updated);
+    const key = getIsoWeekBucketKey(deliveryDate);
     countsByWeek.set(key, (countsByWeek.get(key) ?? 0) + 1);
   });
 
@@ -6659,15 +9182,16 @@ function buildRecentWeeklyCounts(doneWithUpdated: ParsedIssue[], anchorMs: numbe
   return recentKeys.map((key) => countsByWeek.get(key) ?? 0);
 }
 
-function buildRecentMonthlyCounts(doneWithUpdated: ParsedIssue[], anchorMonth: string, months: number): number[] {
+function buildRecentMonthlyCounts(doneWithDeliveryDate: ParsedIssue[], anchorMonth: string, months: number): number[] {
   const countsByMonth = new Map<string, number>();
 
-  doneWithUpdated.forEach((issue) => {
-    if (!issue.updated) {
+  doneWithDeliveryDate.forEach((issue) => {
+    const deliveryDate = getIssueDeliveryDate(issue);
+    if (!deliveryDate) {
       return;
     }
 
-    const key = issue.updated.toISOString().slice(0, 7);
+    const key = deliveryDate.toISOString().slice(0, 7);
     countsByMonth.set(key, (countsByMonth.get(key) ?? 0) + 1);
   });
 
@@ -6912,20 +9436,21 @@ function buildWipRiskHeatmapSnapshot(items: AgingWipItem[]): WipRiskHeatmapSnaps
     const current = grouped.get(key) ?? {
       status,
       total: 0,
-      over30: 0,
-      over60: 0,
-      over90: 0,
+      age0To30: 0,
+      age31To60: 0,
+      age61To90: 0,
+      age91Plus: 0,
     };
 
     current.total += 1;
-    if (item.agingDays > 30) {
-      current.over30 += 1;
-    }
-    if (item.agingDays > 60) {
-      current.over60 += 1;
-    }
     if (item.agingDays > 90) {
-      current.over90 += 1;
+      current.age91Plus += 1;
+    } else if (item.agingDays > 60) {
+      current.age61To90 += 1;
+    } else if (item.agingDays > 30) {
+      current.age31To60 += 1;
+    } else {
+      current.age0To30 += 1;
     }
 
     grouped.set(key, current);
@@ -6933,8 +9458,14 @@ function buildWipRiskHeatmapSnapshot(items: AgingWipItem[]): WipRiskHeatmapSnaps
 
   const rows = Array.from(grouped.values())
     .sort((a, b) => {
-      if (b.over30 !== a.over30) {
-        return b.over30 - a.over30;
+      if (b.age91Plus !== a.age91Plus) {
+        return b.age91Plus - a.age91Plus;
+      }
+      if (b.age61To90 !== a.age61To90) {
+        return b.age61To90 - a.age61To90;
+      }
+      if (b.age31To60 !== a.age31To60) {
+        return b.age31To60 - a.age31To60;
       }
       if (b.total !== a.total) {
         return b.total - a.total;
@@ -6947,16 +9478,21 @@ function buildWipRiskHeatmapSnapshot(items: AgingWipItem[]): WipRiskHeatmapSnaps
 }
 
 function buildForecastSnapshot(
-  doneWithUpdated: ParsedIssue[],
+  doneWithDeliveryDate: ParsedIssue[],
   wipIssues: ParsedIssue[],
   teamConfig: TeamConfig | undefined,
   now: Date,
 ): ForecastSnapshot {
   const sampleDays = 90;
   const simulations = 2000;
-  const acceptedTypes = teamConfig?.sleConfig.issueTypes;
-  const doneEligible = doneWithUpdated.filter((issue) => isIssueTypeIncludedInSle(issue.issueType, acceptedTypes));
-  const backlogCount = wipIssues.filter((issue) => isIssueTypeIncludedInSle(issue.issueType, acceptedTypes)).length;
+  const acceptedTypes = new Set(
+    resolveEffectiveSleIssueTypes(
+      teamConfig?.sleConfig.issueTypes,
+      [...doneWithDeliveryDate, ...wipIssues].map((issue) => issue.issueType),
+    ).map(normalizeTextValue),
+  );
+  const doneEligible = doneWithDeliveryDate.filter((issue) => acceptedTypes.has(normalizeTextValue(issue.issueType)));
+  const backlogCount = wipIssues.filter((issue) => acceptedTypes.has(normalizeTextValue(issue.issueType))).length;
   const throughputSeries = buildRecentDailyThroughputCounts(doneEligible, now, sampleDays);
 
   if (
@@ -7017,12 +9553,17 @@ function buildSprintPredictabilitySnapshot(
     };
   }
 
-  const acceptedTypes = teamConfig?.sleConfig.issueTypes;
+  const acceptedTypes = new Set(
+    resolveEffectiveSleIssueTypes(
+      teamConfig?.sleConfig.issueTypes,
+      issues.map((issue) => issue.issueType),
+    ).map(normalizeTextValue),
+  );
   const createdByBucket = new Map<string, number>();
   const doneByBucket = new Map<string, number>();
 
   issues.forEach((issue) => {
-    if (!isIssueTypeIncludedInSle(issue.issueType, acceptedTypes)) {
+    if (!acceptedTypes.has(normalizeTextValue(issue.issueType))) {
       return;
     }
 
@@ -7033,8 +9574,9 @@ function buildSprintPredictabilitySnapshot(
       }
     }
 
-    if (isDone(issue) && issue.updated) {
-      const doneBucket = getVelocityBucketKey(issue.updated, velocityConfig);
+    const deliveryDate = getIssueDeliveryDate(issue);
+    if (isDone(issue) && deliveryDate) {
+      const doneBucket = getVelocityBucketKey(deliveryDate, velocityConfig);
       if (doneBucket) {
         doneByBucket.set(doneBucket, (doneByBucket.get(doneBucket) ?? 0) + 1);
       }
@@ -7068,16 +9610,17 @@ function buildSprintPredictabilitySnapshot(
   };
 }
 
-function buildRecentDailyThroughputCounts(doneWithUpdated: ParsedIssue[], now: Date, dayCount: number): number[] {
+function buildRecentDailyThroughputCounts(doneWithDeliveryDate: ParsedIssue[], now: Date, dayCount: number): number[] {
   const countsByDay = new Map<string, number>();
   const endDay = startOfDay(now).getTime();
 
-  doneWithUpdated.forEach((issue) => {
-    if (!issue.updated) {
+  doneWithDeliveryDate.forEach((issue) => {
+    const deliveryDate = getIssueDeliveryDate(issue);
+    if (!deliveryDate) {
       return;
     }
 
-    const key = issue.updated.toISOString().slice(0, 10);
+    const key = deliveryDate.toISOString().slice(0, 10);
     countsByDay.set(key, (countsByDay.get(key) ?? 0) + 1);
   });
 
@@ -7197,6 +9740,25 @@ function isActiveFlowStatus(statusName: string): boolean {
   return false;
 }
 
+function isDefaultSprintScopeStatus(statusName: string): boolean {
+  const normalized = normalizeTextValue(statusName);
+  if (!normalized) {
+    return false;
+  }
+
+  const terminalHints = ["done", "closed", "resolved", "cancelled", "canceled", "won't do", "wont do"];
+  if (terminalHints.some((hint) => normalized.includes(hint))) {
+    return false;
+  }
+
+  const outsideSprintHints = ["backlog", "open", "to do", "todo", "analysis", "triage", "intake", "draft", "idea"];
+  if (outsideSprintHints.some((hint) => normalized.includes(hint))) {
+    return false;
+  }
+
+  return true;
+}
+
 function computeAverage(values: number[]): number | null {
   if (values.length === 0) {
     return null;
@@ -7216,11 +9778,26 @@ function computeCoefficientOfVariationPct(values: number[]): number | null {
   return (deviation / mean) * 100;
 }
 
-function resolveThroughputAnchor(period: string, now: Date): { month: string; anchorMs: number } {
+function convertCvToPredictabilityPct(cvPct: number | null): number | null {
+  if (cvPct === null || !Number.isFinite(cvPct)) {
+    return null;
+  }
+
+  return Math.max(0, Math.min(100, 100 - cvPct));
+}
+
+function resolveThroughputAnchor(
+  period: string,
+  now: Date,
+  issues: ParsedIssue[],
+): { month: string; anchorMs: number } {
   if (!isMonthPeriod(period)) {
+    const latestActivityMonth = resolveLatestActivityMonth(period, now, issues);
+    const targetMonth = latestActivityMonth ?? resolveDefaultThroughputMonth(period, now);
+    const targetMonthEnd = endOfMonthByKey(targetMonth);
     return {
-      month: monthKey(now),
-      anchorMs: now.getTime(),
+      month: targetMonth,
+      anchorMs: targetMonthEnd ? Math.min(now.getTime(), targetMonthEnd.getTime()) : now.getTime(),
     };
   }
 
@@ -7240,6 +9817,75 @@ function resolveThroughputAnchor(period: string, now: Date): { month: string; an
     month: period,
     anchorMs: monthEnd.getTime(),
   };
+}
+
+function resolveLatestActivityMonth(period: string, now: Date, issues: ParsedIssue[]): string | null {
+  let latestMonth: string | null = null;
+  let latestTime = Number.NEGATIVE_INFINITY;
+  const cutoffMonth = now.getMonth() + 1;
+  const currentYear = now.getFullYear();
+
+  const isInScope = (date: Date): boolean => {
+    const year = date.getFullYear();
+    const month = date.getMonth() + 1;
+
+    if (period === "all") {
+      return true;
+    }
+
+    if (period === "ytd") {
+      return year === currentYear && month <= cutoffMonth;
+    }
+
+    if (period === "ytd-prev") {
+      return year === currentYear - 1 && month <= cutoffMonth;
+    }
+
+    return true;
+  };
+
+  issues.forEach((issue) => {
+    const candidates = [issue.created, issue.updated];
+
+    candidates.forEach((value) => {
+      if (!value || !isInScope(value)) {
+        return;
+      }
+
+      const time = value.getTime();
+      if (!Number.isFinite(time) || time < latestTime) {
+        return;
+      }
+
+      latestTime = time;
+      latestMonth = monthKey(value);
+    });
+  });
+
+  return latestMonth;
+}
+
+function resolveDefaultThroughputMonth(period: string, now: Date): string {
+  if (period === "ytd-prev") {
+    return monthKey(new Date(now.getFullYear() - 1, now.getMonth(), 1));
+  }
+
+  return monthKey(now);
+}
+
+function endOfMonthByKey(month: string): Date | null {
+  if (!isMonthPeriod(month)) {
+    return null;
+  }
+
+  const [yearRaw, monthRaw] = month.split("-");
+  const year = Number.parseInt(yearRaw, 10);
+  const monthNum = Number.parseInt(monthRaw, 10);
+  if (!Number.isFinite(year) || !Number.isFinite(monthNum)) {
+    return null;
+  }
+
+  return new Date(year, monthNum, 0, 23, 59, 59, 999);
 }
 
 function startOfMonthByKey(month: string): Date | null {
@@ -7313,8 +9959,81 @@ function areIssueTypeSelectionsEqual(left: string[], right: string[]): boolean {
   return leftNormalized.every((value, index) => value === rightNormalized[index]);
 }
 
+function buildDefaultWorkspaceMetricConfig(): WorkspaceMetricConfig {
+  return {
+    scopeVisibility: Object.fromEntries(
+      METRIC_SCOPES.map((scope) => [
+        scope,
+        CONFIGURABLE_METRICS.filter((metric) => metric.defaultScopes.includes(scope)).map((metric) => metric.id),
+      ]),
+    ) as Record<MetricScope, ConfigurableMetricId[]>,
+  };
+}
+
+function normalizeWorkspaceMetricConfig(config: WorkspaceMetricConfig | undefined): WorkspaceMetricConfig {
+  const defaults = buildDefaultWorkspaceMetricConfig();
+  const scopeVisibility: Partial<Record<MetricScope, string[]>> = {};
+  const validIds = new Set(CONFIGURABLE_METRICS.map((metric) => metric.id));
+
+  METRIC_SCOPES.forEach((scope) => {
+    const configured = config?.scopeVisibility?.[scope];
+    const source = Array.isArray(configured) && configured.length > 0 ? configured : defaults.scopeVisibility?.[scope] ?? [];
+    scopeVisibility[scope] = Array.from(
+      new Set(source.filter((metricId) => validIds.has(metricId as ConfigurableMetricId))),
+    );
+  });
+
+  return { scopeVisibility };
+}
+
+function getVisibleMetricSet(config: WorkspaceMetricConfig, scope: MetricScope): Set<ConfigurableMetricId> {
+  const normalized = normalizeWorkspaceMetricConfig(config);
+  return new Set((normalized.scopeVisibility?.[scope] ?? []) as ConfigurableMetricId[]);
+}
+
 function normalizeTextValue(value: string | undefined): string {
   return (value ?? "").trim().toLowerCase();
+}
+
+function buildDetectedWorkflowStatuses(team: TeamRuntime | null, bottleneckEntries: BottleneckEntry[]): string[] {
+  const byKey = new Map<string, string>();
+
+  const addStatus = (value: string | undefined): void => {
+    const trimmed = (value ?? "").trim();
+    const key = normalizeTextValue(trimmed);
+    if (!key || byKey.has(key)) {
+      return;
+    }
+    byKey.set(key, trimmed);
+  };
+
+  team?.parsedIssues.forEach((issue) => addStatus(issue.status));
+  bottleneckEntries.forEach((entry) => entry.columns.forEach((column) => addStatus(column.name)));
+  team?.config.doneConfig.doneStatuses?.forEach(addStatus);
+  team?.config.workflowConfig?.backlogStatuses?.forEach(addStatus);
+  team?.config.workflowConfig?.activeStatuses?.forEach(addStatus);
+  team?.config.sprintScopeConfig?.statuses?.forEach(addStatus);
+  team?.config.bottleneckConfig?.flowStatuses?.forEach(addStatus);
+
+  return Array.from(byKey.values()).sort((a, b) => a.localeCompare(b));
+}
+
+function inferBacklogStatuses(issues: ParsedIssue[]): string[] {
+  const backlogHints = ["backlog", "open", "to do", "todo", "ready", "new", "triage", "selected"];
+  const byKey = new Map<string, string>();
+
+  issues.forEach((issue) => {
+    const status = issue.status.trim();
+    const normalized = normalizeTextValue(status);
+    if (!normalized || byKey.has(normalized)) {
+      return;
+    }
+    if (backlogHints.some((hint) => normalized.includes(hint))) {
+      byKey.set(normalized, status);
+    }
+  });
+
+  return Array.from(byKey.values()).sort((a, b) => a.localeCompare(b));
 }
 
 function getErrorMessage(error: unknown): string {
