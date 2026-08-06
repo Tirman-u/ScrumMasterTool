@@ -1,4 +1,4 @@
-import { useEffect, useMemo, useState } from "react";
+import { useMemo, useState } from "react";
 import {
   CartesianGrid,
   ReferenceLine,
@@ -9,7 +9,8 @@ import {
   XAxis,
   YAxis,
 } from "recharts";
-import { type SleValues, type TeamRuntime } from "../types/contracts";
+import { type IssueExclusion, type SleValues, type TeamRuntime } from "../types/contracts";
+import { isIsoDateInPeriod } from "../lib/period";
 
 type SleLineKey = "p50" | "p70" | "p85" | "p95";
 
@@ -27,9 +28,11 @@ interface TeamDetailProps {
   onResetSleIssueTypes?: () => void;
   onApplySleIssueTypes?: () => void;
   excludedIssueKeys?: string[];
+  issueExclusions?: IssueExclusion[];
+  presentationMode?: boolean;
   busy?: boolean;
-  onExcludeIssue?: (issueKey: string) => void;
-  onExcludeIssues?: (issueKeys: string[]) => void;
+  onExcludeIssue?: (issueKey: string, reason: string) => void;
+  onExcludeIssues?: (issueKeys: string[], reason: string) => void;
   onRestoreIssue?: (issueKey: string) => void;
   onRestoreAllIssues?: () => void;
 }
@@ -49,10 +52,12 @@ interface ScatterDataPoint {
   resolutionTs: number;
 }
 
+const BULK_EXCLUSION_DAY_THRESHOLDS = [50, 100, 200, 300];
+
 export function TeamDetail({
   team,
   title = "Team detail",
-  subtitle = "Scatter: x=resolutionDate, y=cycleTimeDays",
+  subtitle = "Resolution date vs Cycle Time in working days",
   periodFilter,
   sleValues,
   lineVisibility,
@@ -63,6 +68,8 @@ export function TeamDetail({
   onResetSleIssueTypes,
   onApplySleIssueTypes,
   excludedIssueKeys = [],
+  issueExclusions = [],
+  presentationMode = false,
   busy = false,
   onExcludeIssue,
   onExcludeIssues,
@@ -70,7 +77,51 @@ export function TeamDetail({
   onRestoreAllIssues,
 }: TeamDetailProps): JSX.Element {
   const [selectedIssueKey, setSelectedIssueKey] = useState<string | null>(null);
-  const [bulkThreshold, setBulkThreshold] = useState<number>(30);
+  const [exclusionReason, setExclusionReason] = useState("");
+  const [bulkExcludeThreshold, setBulkExcludeThreshold] = useState(100);
+  const chartData: ScatterDataPoint[] = (team?.metrics?.scatter ?? [])
+    .map((point) => ({
+      ...point,
+      resolutionTs: new Date(point.resolutionDate).getTime(),
+    }))
+    .filter((point) => Number.isFinite(point.resolutionTs));
+
+  const filteredChartData = chartData.filter((point) => isIsoDateInPeriod(point.resolutionDate, periodFilter));
+  const selectedPoint = filteredChartData.find((point) => point.issueKey === selectedIssueKey) ?? null;
+
+  const overlay = sleValues ?? team?.metrics?.scatterOverlay ?? { p50: null, p70: null, p85: null, p95: null };
+  const dataMaximum = filteredChartData.reduce((maximum, point) => Math.max(maximum, point.cycleTimeDays), 0);
+  const presentationScaleMaximum =
+    presentationMode && overlay.p95 !== null
+      ? Math.max(1, Math.min(dataMaximum, Math.max(overlay.p95 * 1.5, (overlay.p85 ?? 0) * 2, 1)))
+      : dataMaximum;
+  const pointsAbovePresentationScale = presentationMode
+    ? filteredChartData.filter((point) => point.cycleTimeDays > presentationScaleMaximum).length
+    : 0;
+  const sleIssueTypeSet = useMemo(
+    () => new Set(sleIncludedIssueTypes.map((value) => value.trim().toLowerCase()).filter((value) => value.length > 0)),
+    [sleIncludedIssueTypes],
+  );
+  const excludedSorted = [...excludedIssueKeys]
+    .filter((value) => value.trim().length > 0)
+    .sort((a, b) => a.localeCompare(b));
+  const excludedIssueKeySet = useMemo(
+    () => new Set(excludedIssueKeys.map((issueKey) => normalizeIssueKey(issueKey)).filter((issueKey) => issueKey.length > 0)),
+    [excludedIssueKeys],
+  );
+  const bulkExcludeIssueKeys = useMemo(() => {
+    const keys = new Set<string>();
+    filteredChartData.forEach((point) => {
+      if (point.cycleTimeDays >= bulkExcludeThreshold && !excludedIssueKeySet.has(normalizeIssueKey(point.issueKey))) {
+        keys.add(point.issueKey);
+      }
+    });
+    return [...keys].sort((a, b) => a.localeCompare(b));
+  }, [bulkExcludeThreshold, excludedIssueKeySet, filteredChartData]);
+  const exclusionReasonByKey = useMemo(
+    () => new Map(issueExclusions.map((exclusion) => [exclusion.issueKey, exclusion.reason])),
+    [issueExclusions],
+  );
 
   if (!team) {
     return (
@@ -90,65 +141,12 @@ export function TeamDetail({
     );
   }
 
-  const chartData: ScatterDataPoint[] = team.metrics.scatter
-    .map((point) => ({
-      ...point,
-      resolutionTs: new Date(point.resolutionDate).getTime(),
-    }))
-    .filter((point) => Number.isFinite(point.resolutionTs));
-
-  const filteredChartData = chartData.filter((point) => isIsoDateInPeriod(point.resolutionDate, periodFilter));
-  const selectedPoint = filteredChartData.find((point) => point.issueKey === selectedIssueKey) ?? null;
-
-  const overlay = sleValues ?? team.metrics.scatterOverlay;
-  const sleIssueTypeSet = useMemo(
-    () => new Set(sleIncludedIssueTypes.map((value) => value.trim().toLowerCase()).filter((value) => value.length > 0)),
-    [sleIncludedIssueTypes],
-  );
-  const excludedSorted = [...excludedIssueKeys]
-    .filter((value) => value.trim().length > 0)
-    .sort((a, b) => a.localeCompare(b));
-
-  const excludedSet = useMemo(() => {
-    return new Set(excludedSorted);
-  }, [excludedSorted]);
-
-  const thresholdOptions = useMemo(() => {
-    return buildThresholdOptions(filteredChartData);
-  }, [filteredChartData]);
-
-  useEffect(() => {
-    if (thresholdOptions.length === 0) {
-      setBulkThreshold(0);
-      return;
-    }
-
-    setBulkThreshold((current) => {
-      if (thresholdOptions.includes(current)) {
-        return current;
-      }
-      return thresholdOptions[0];
-    });
-  }, [thresholdOptions]);
-
-  const bulkCandidateKeys = useMemo(() => {
-    if (thresholdOptions.length === 0 || bulkThreshold <= 0) {
-      return [];
-    }
-
-    const keys = filteredChartData
-      .filter((point) => point.cycleTimeDays >= bulkThreshold)
-      .map((point) => point.issueKey);
-
-    return Array.from(new Set(keys)).filter((key) => !excludedSet.has(key));
-  }, [bulkThreshold, excludedSet, filteredChartData, thresholdOptions]);
-
   return (
     <section className="panel">
       <h2>{title}</h2>
       <div className="detail-subtitle">{subtitle}</div>
 
-      {sleIssueTypeOptions.length > 0 && (
+      {!presentationMode && sleIssueTypeOptions.length > 0 && (
         <section className="sle-type-filter">
           <div className="sle-type-filter-head">
             <strong>SLE includes issue types</strong>
@@ -187,10 +185,13 @@ export function TeamDetail({
       )}
 
       <div className="percentile-legend">
-        {lineVisibility.p50 && overlay.p50 !== null && <span className="p50">P50: {overlay.p50.toFixed(1)}d</span>}
-        {lineVisibility.p70 && overlay.p70 !== null && <span className="p70">P70: {overlay.p70.toFixed(1)}d</span>}
-        {lineVisibility.p85 && overlay.p85 !== null && <span className="p85">P85: {overlay.p85.toFixed(1)}d</span>}
-        {lineVisibility.p95 && overlay.p95 !== null && <span className="p95">P95: {overlay.p95.toFixed(1)}d</span>}
+        {lineVisibility.p50 && overlay.p50 !== null && <span className="p50">P50: {overlay.p50.toFixed(1)} wd</span>}
+        {lineVisibility.p70 && overlay.p70 !== null && <span className="p70">P70: {overlay.p70.toFixed(1)} wd</span>}
+        {lineVisibility.p85 && overlay.p85 !== null && <span className="p85">P85: {overlay.p85.toFixed(1)} wd</span>}
+        {lineVisibility.p95 && overlay.p95 !== null && <span className="p95">P95: {overlay.p95.toFixed(1)} wd</span>}
+        {pointsAbovePresentationScale > 0 && (
+          <span className="scale-outliers">{pointsAbovePresentationScale} extreme items above scale</span>
+        )}
       </div>
 
       {filteredChartData.length === 0 ? (
@@ -212,8 +213,10 @@ export function TeamDetail({
               <YAxis
                 type="number"
                 dataKey="cycleTimeDays"
+                domain={presentationMode ? [0, presentationScaleMaximum] : [0, "auto"]}
+                allowDataOverflow={presentationMode}
                 tickFormatter={(value) => value.toFixed(0)}
-                label={{ value: "Cycle Time (days)", angle: -90, position: "insideLeft", offset: -2 }}
+                label={{ value: "Working days", angle: -90, position: "insideLeft", offset: -2 }}
                 stroke="#6b7280"
               />
 
@@ -224,12 +227,16 @@ export function TeamDetail({
                 fill="#7ea8f9"
                 fillOpacity={0.9}
                 name="Issues"
-                onClick={(entry: unknown) => {
-                  const point = extractPointFromScatterClick(entry);
-                  if (point) {
-                    setSelectedIssueKey(point.issueKey);
-                  }
-                }}
+                onClick={
+                  presentationMode
+                    ? undefined
+                    : (entry: unknown) => {
+                        const point = extractPointFromScatterClick(entry);
+                        if (point) {
+                          setSelectedIssueKey(point.issueKey);
+                        }
+                      }
+                }
               />
               {lineVisibility.p50 && overlay.p50 !== null && (
                 <ReferenceLine y={overlay.p50} stroke="#22c55e" strokeDasharray="6 6" />
@@ -248,7 +255,33 @@ export function TeamDetail({
         </div>
       )}
 
-      <section className="anomaly-toolbar">
+      {!presentationMode && filteredChartData.length > 0 ? (
+        <details className="chart-data-table">
+          <summary>Issue data ({filteredChartData.length})</summary>
+          <div className="table-wrap">
+            <table className="compact-table">
+              <thead>
+                <tr>
+                  <th>Issue</th>
+                  <th>Resolved</th>
+                  <th>Working days</th>
+                </tr>
+              </thead>
+              <tbody>
+                {filteredChartData.map((point) => (
+                  <tr key={`${point.issueKey}-${point.resolutionDate}`}>
+                    <td>{point.issueKey}</td>
+                    <td>{formatLongDate(point.resolutionDate)}</td>
+                    <td>{point.cycleTimeDays.toFixed(1)}</td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          </div>
+        </details>
+      ) : null}
+
+      {!presentationMode && <section className="anomaly-toolbar">
         <div className="selected-point">
           {selectedPoint ? (
             <>
@@ -262,62 +295,71 @@ export function TeamDetail({
         </div>
 
         <div className="anomaly-actions">
+          <label className="exclusion-reason-field">
+            Data-quality reason
+            <input
+              value={exclusionReason}
+              onChange={(event) => setExclusionReason(event.target.value)}
+              placeholder="For example: corrupted migration date"
+              disabled={busy}
+            />
+          </label>
+
+          <div className="bulk-exclude-row" aria-label="Bulk exclude long cycle time items">
+            <label>
+              Exclude tickets at
+              <select
+                value={bulkExcludeThreshold}
+                onChange={(event) => setBulkExcludeThreshold(Number(event.target.value))}
+                disabled={busy}
+              >
+                {BULK_EXCLUSION_DAY_THRESHOLDS.map((threshold) => (
+                  <option key={threshold} value={threshold}>
+                    {threshold}+ working days
+                  </option>
+                ))}
+              </select>
+            </label>
+            <button
+              type="button"
+              className="soft-btn"
+              disabled={busy || bulkExcludeIssueKeys.length === 0}
+              onClick={() => {
+                if (!onExcludeIssues || bulkExcludeIssueKeys.length === 0) {
+                  return;
+                }
+                onExcludeIssues(
+                  bulkExcludeIssueKeys,
+                  exclusionReason.trim() || `Cycle Time ${bulkExcludeThreshold}+ working days outlier`,
+                );
+                setSelectedIssueKey(null);
+                setExclusionReason("");
+              }}
+            >
+              Exclude {bulkExcludeIssueKeys.length} item{bulkExcludeIssueKeys.length === 1 ? "" : "s"}
+            </button>
+          </div>
+
           <button
             type="button"
             className="soft-btn"
-            disabled={!selectedPoint || busy}
+            disabled={!selectedPoint || busy || exclusionReason.trim().length < 5}
             onClick={() => {
               if (!selectedPoint || !onExcludeIssue) {
                 return;
               }
-              onExcludeIssue(selectedPoint.issueKey);
+              onExcludeIssue(selectedPoint.issueKey, exclusionReason.trim());
               setSelectedIssueKey(null);
+              setExclusionReason("");
             }}
           >
-            Exclude Selected Issue
+            Exclude data error
           </button>
 
-          <div className="bulk-exclude-row">
-            <label>
-              Exclude tickets:
-              <select
-                value={thresholdOptions.length === 0 ? "" : String(bulkThreshold)}
-                onChange={(event) => setBulkThreshold(Number.parseInt(event.target.value, 10) || 0)}
-                disabled={thresholdOptions.length === 0 || busy}
-              >
-                {thresholdOptions.length === 0 ? (
-                  <option value="">No thresholds</option>
-                ) : (
-                  thresholdOptions.map((value) => (
-                    <option key={value} value={value}>
-                      {value}+ days
-                    </option>
-                  ))
-                )}
-              </select>
-            </label>
-
-            <button
-              type="button"
-              className="soft-btn"
-              disabled={busy || !onExcludeIssues || bulkCandidateKeys.length === 0}
-              onClick={() => {
-                if (!onExcludeIssues || bulkCandidateKeys.length === 0) {
-                  return;
-                }
-                onExcludeIssues(bulkCandidateKeys);
-                if (selectedIssueKey && bulkCandidateKeys.includes(selectedIssueKey)) {
-                  setSelectedIssueKey(null);
-                }
-              }}
-            >
-              Exclude {bulkCandidateKeys.length} Ticket(s)
-            </button>
-          </div>
         </div>
-      </section>
+      </section>}
 
-      {excludedSorted.length > 0 && (
+      {!presentationMode && excludedSorted.length > 0 && (
         <section className="excluded-anomalies">
           <div className="excluded-head">
             <h3>Excluded anomalies ({excludedSorted.length})</h3>
@@ -335,6 +377,7 @@ export function TeamDetail({
                 className="chip-btn"
                 disabled={busy}
                 onClick={() => onRestoreIssue?.(issueKey)}
+                title={exclusionReasonByKey.get(issueKey) ?? "Legacy exclusion without recorded reason"}
               >
                 {issueKey} ×
               </button>
@@ -360,7 +403,7 @@ function CustomTooltip({ active, payload }: { active?: boolean; payload?: Toolti
     <div className="chart-tooltip">
       <div className="tooltip-key">{point.issueKey}</div>
       <div className="tooltip-date">Resolved: {formatLongDate(point.resolutionDate)}</div>
-      <div className="tooltip-cycle">Cycle Time: {point.cycleTimeDays.toFixed(1)} days</div>
+      <div className="tooltip-cycle">Cycle Time: {point.cycleTimeDays.toFixed(1)} working days</div>
     </div>
   );
 }
@@ -398,64 +441,8 @@ function extractPointFromScatterClick(input: unknown): ScatterDataPoint | null {
   };
 }
 
-function buildThresholdOptions(points: ScatterDataPoint[]): number[] {
-  if (points.length === 0) {
-    return [];
-  }
-
-  const maxCycleTime = Math.max(...points.map((point) => point.cycleTimeDays));
-  if (!Number.isFinite(maxCycleTime) || maxCycleTime < 10) {
-    return [];
-  }
-
-  const upper = Math.ceil(maxCycleTime / 10) * 10;
-  const options: number[] = [];
-
-  for (let value = 10; value <= upper; value += 10) {
-    options.push(value);
-  }
-
-  return options;
-}
-
-function isMonthPeriod(value: string): boolean {
-  return /^\d{4}-\d{2}$/.test(value);
-}
-
-function isIsoDateInPeriod(isoDate: string, period: string): boolean {
-  if (!isoDate) {
-    return false;
-  }
-
-  if (period === "all") {
-    return true;
-  }
-
-  const monthToken = isoDate.slice(0, 7);
-  if (!isMonthPeriod(monthToken)) {
-    return false;
-  }
-
-  if (isMonthPeriod(period)) {
-    return monthToken === period;
-  }
-
-  if (period === "ytd") {
-    const [yearRaw, monthRaw] = monthToken.split("-");
-    const year = Number.parseInt(yearRaw, 10);
-    const monthNum = Number.parseInt(monthRaw, 10);
-
-    if (!Number.isFinite(year) || !Number.isFinite(monthNum)) {
-      return false;
-    }
-
-    const now = new Date();
-    const cutoffMonth = now.getMonth() + 1;
-
-    return year === now.getFullYear() && monthNum <= cutoffMonth;
-  }
-
-  return false;
+function normalizeIssueKey(value: string): string {
+  return value.trim().toLowerCase();
 }
 
 function formatShortDate(value: number): string {

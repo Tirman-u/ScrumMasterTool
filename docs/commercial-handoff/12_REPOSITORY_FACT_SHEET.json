@@ -1,0 +1,121 @@
+{
+  "product_name": "Scrum Master Tool",
+  "product_description": "Local-first Scrum Master analytics tool for Jira CSV exports and Jira REST API pulled CSV data. It computes flow, SLE, WIP, bottleneck, Time in Status and data quality metrics from a local workspace.",
+  "stack": {
+    "frontend": ["React 18", "TypeScript", "Vite", "Recharts", "lucide-react"],
+    "cli": ["Node.js", "tsx", "TypeScript"],
+    "tests": ["Vitest"],
+    "hosting": ["Firebase Hosting static config"],
+    "storage": ["Local filesystem workspace", "IndexedDB", "localStorage"]
+  },
+  "implemented_features": [
+    "Local workspace picker using File System Access API",
+    "Remembered workspaces using IndexedDB",
+    "Team creation and local team config",
+    "CSV import and recursive CSV scanning",
+    "Jira pull CLI for issues and Time in Status CSV",
+    "Saved Jira query configuration",
+    "Issue dedupe by latest Updated",
+    "Moved Jira issue alias handling",
+    "Cycle Time, Lead Time, Active Time and SLE working-day metrics",
+    "Cycle Time scatter with percentile lines",
+    "SLE issue type filtering",
+    "Velocity, throughput, WIP aging, stale WIP and forecast snapshots",
+    "Time in Status and bottleneck analysis",
+    "Data Monitor and data quality checks",
+    "Team view and Scrum Master view",
+    "VDE/value-stream, ART and portfolio scoped dashboards",
+    "Issue exclusions with reasons",
+    "Vitest regression tests"
+  ],
+  "partial_features": [
+    "Firebase static deployment",
+    "Workspace profiles",
+    "SAFe metric mapping with supported/partial/external labels",
+    "Manual engineering metrics",
+    "Screen-based reporting without formal export"
+  ],
+  "integrations": [
+    {
+      "name": "Jira REST API",
+      "status": "implemented_cli",
+      "source_files": ["src/jira-pull.ts"]
+    },
+    {
+      "name": "Firebase Hosting",
+      "status": "partial_static_hosting",
+      "source_files": ["firebase.json"]
+    },
+    {
+      "name": "OpenAI or AI provider",
+      "status": "not_implemented",
+      "source_files": []
+    },
+    {
+      "name": "Billing provider",
+      "status": "not_implemented",
+      "source_files": []
+    },
+    {
+      "name": "Auth provider",
+      "status": "not_implemented",
+      "source_files": []
+    }
+  ],
+  "user_roles": {
+    "implemented_or_implied": ["Scrum Master", "Team presentation audience", "Agile Coach", "Delivery lead"],
+    "not_implemented": ["Authenticated user", "Organization admin", "Billing admin", "Viewer", "Member"]
+  },
+  "deployment": {
+    "current": "Static frontend can be built to apps/sm-tool/dist and hosted with Firebase Hosting config. No SaaS backend is present.",
+    "commands": ["npm run sm:build", "npm run check"],
+    "source_files": ["package.json", "apps/sm-tool/package.json", "firebase.json"]
+  },
+  "ai_usage": {
+    "status": "not_implemented",
+    "notes": "No OpenAI, LLM, embedding, prompt or AI provider integration is visible in the repository."
+  },
+  "data_stored": [
+    "Workspace config",
+    "Team config",
+    "Jira issue keys and previous keys",
+    "Issue dates, statuses, resolutions, issue types, assignees, story points and sprints",
+    "Jira JQL queries",
+    "Imported CSV files",
+    "Parsed issue cache",
+    "Metrics cache",
+    "Bottleneck and Time in Status cache",
+    "Progress history",
+    "Remembered workspace handles in IndexedDB"
+  ],
+  "commercial_readiness_gaps": [
+    "No SaaS backend",
+    "No hosted database",
+    "No authentication",
+    "No multi-tenancy",
+    "No organization/member/role model",
+    "No billing or subscriptions",
+    "No usage metering",
+    "No AI cost tracking",
+    "No email flows",
+    "No audit logs",
+    "No hosted backup/restore",
+    "No GDPR deletion/export workflows",
+    "No product analytics",
+    "No error monitoring",
+    "No support tooling",
+    "No formal legal documents"
+  ],
+  "source_file_references": {
+    "readme": ["README.md"],
+    "ui": ["apps/sm-tool/src/App.tsx", "apps/sm-tool/src/components/TeamDetail.tsx", "apps/sm-tool/src/styles.css"],
+    "workspace": ["apps/sm-tool/src/lib/workspace.ts", "src/io/workspace.ts"],
+    "metrics": ["apps/sm-tool/src/lib/metrics.ts", "src/domain/metrics.ts"],
+    "time_in_status": ["apps/sm-tool/src/lib/time-in-status.ts"],
+    "jira": ["src/jira-pull.ts", "apps/sm-tool/src/lib/jira-query.ts"],
+    "contracts": ["apps/sm-tool/src/types/contracts.ts", "src/types/contracts.ts"],
+    "safe": ["apps/sm-tool/src/lib/safe.ts"],
+    "tests": ["tests/*.test.ts"],
+    "deployment": ["firebase.json", "package.json", "apps/sm-tool/package.json"]
+  }
+}

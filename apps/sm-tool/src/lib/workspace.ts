@@ -1,16 +1,25 @@
 import { parseCsv, parseDate, parseNumber } from "./csv";
-import { buildMetrics, dedupeIssuesByLatestUpdate, isDone } from "./metrics";
+import {
+  buildMetrics,
+  buildSleValues,
+  dedupeIssuesByLatestUpdate,
+  dedupeTimeInStatusRowsByLatest,
+  isDone,
+} from "./metrics";
 import {
   buildAutoBottleneckEntriesFromIssueRows,
   isTimeInStatusCsv,
   parseTimeInStatusIssueRows,
 } from "./time-in-status";
+import { calendarDurationToWorkingDays } from "./working-days";
 import {
   type ImportBucket,
   type ImportFileInfo,
   type BottleneckEntry,
+  type MetricScope,
   type ParsedIssue,
   type TeamConfig,
+  type TeamEntityType,
   type TeamMetrics,
   type TeamProgressSnapshot,
   type WorkspaceConfig,
@@ -28,6 +37,21 @@ interface ImportScanResult {
   buckets: ImportBucket[];
 }
 
+interface ResolvedCsvMapping {
+  key: string;
+  previousIssueKeys?: string;
+  projectEnteredAt?: string;
+  created: string;
+  resolutionDate: string;
+  updated: string;
+  status: string;
+  resolution: string;
+  assignee?: string;
+  storyPoints?: string;
+  sprint?: string;
+  issueType?: string;
+}
+
 const WORKSPACE_DB_NAME = "sm-tool";
 const WORKSPACE_DB_VERSION = 1;
 const WORKSPACE_STORE = "settings";
@@ -36,6 +60,7 @@ const WORKSPACE_LIST_KEY = "workspace-handle-list-v1";
 const MAX_REMEMBERED_WORKSPACES = 12;
 const TEAM_PROGRESS_HISTORY_FILE = "progress-history.json";
 const TEAM_PROGRESS_HISTORY_LIMIT = 120;
+const METRIC_SCOPES: MetricScope[] = ["team", "value-stream", "art", "portfolio"];
 
 interface RememberedWorkspaceRecord {
   id: string;
@@ -208,6 +233,7 @@ export async function listTeams(workspaceHandle: FileSystemDirectoryHandle): Pro
     const parsedIssues = await readTeamParsedIssues(handle);
     const manualBottleneck = await readTeamBottleneckEntries(handle);
     const autoBottleneck = await readTeamAutoBottleneckEntries(handle);
+    const autoTimeInStatus = await readTeamAutoTimeInStatusEntries(handle, autoBottleneck);
     const progressHistory = await readTeamProgressHistoryFromHandle(handle);
     const importScan = await scanImportData(handle);
 
@@ -219,6 +245,7 @@ export async function listTeams(workspaceHandle: FileSystemDirectoryHandle): Pro
       parsedIssues,
       manualBottleneck,
       autoBottleneck,
+      autoTimeInStatus,
       importBuckets: importScan.buckets,
       importFiles: importScan.files,
       progressHistory,
@@ -233,6 +260,8 @@ export async function addTeam(
   workspaceHandle: FileSystemDirectoryHandle,
   teamName: string,
   description?: string,
+  entityType: TeamEntityType = "team",
+  jiraJql?: string,
 ): Promise<TeamRuntime> {
   const teamsDir = await ensureTeamsDirectory(workspaceHandle);
 
@@ -251,7 +280,7 @@ export async function addTeam(
   await teamHandle.getDirectoryHandle("cache", { create: true });
   await teamHandle.getDirectoryHandle("manual", { create: true });
 
-  const config = buildDefaultTeamConfig(teamName || teamId, description);
+  const config = buildDefaultTeamConfig(teamName || teamId, description, entityType, jiraJql);
   await writeJsonFile(teamHandle, "team.json", config);
 
   return {
@@ -262,6 +291,7 @@ export async function addTeam(
     parsedIssues: [],
     manualBottleneck: [],
     autoBottleneck: [],
+    autoTimeInStatus: [],
     importBuckets: [],
     importFiles: [],
     progressHistory: [],
@@ -306,7 +336,7 @@ export async function saveTeamProgressSnapshot(
 ): Promise<SaveTeamProgressResult> {
   const cacheDir = await team.teamHandle.getDirectoryHandle("cache", { create: true });
   const existing = await readTeamProgressHistoryFromHandle(team.teamHandle);
-  const normalizedSnapshot = normalizeTeamProgressSnapshot(snapshot as Record<string, unknown>);
+  const normalizedSnapshot = normalizeTeamProgressSnapshot(snapshot as unknown as Record<string, unknown>);
   if (!normalizedSnapshot) {
     return {
       saved: false,
@@ -368,6 +398,32 @@ export async function importCsvFiles(
   }
 }
 
+export interface CsvImportContent {
+  name: string;
+  text: string;
+}
+
+export async function importCsvContents(
+  team: TeamRuntime,
+  files: CsvImportContent[],
+  importBucket: string | null,
+): Promise<void> {
+  const importsDir = await team.teamHandle.getDirectoryHandle("imports", { create: true });
+  const destinationDir = importBucket
+    ? await ensureNestedDirectories(importsDir, sanitizeImportBucket(importBucket))
+    : importsDir;
+  const existingFileNames = await collectExistingFileNames(destinationDir);
+
+  for (const file of files) {
+    const destinationName = buildUniqueImportFileName(existingFileNames, sanitizeFileName(file.name));
+    existingFileNames.add(destinationName.toLowerCase());
+    const destinationHandle = await destinationDir.getFileHandle(destinationName, { create: true });
+    const writable = await destinationHandle.createWritable();
+    await writable.write(file.text);
+    await writable.close();
+  }
+}
+
 export async function analyzeTeam(team: TeamRuntime): Promise<TeamMetrics> {
   const importsDir = await team.teamHandle.getDirectoryHandle("imports", { create: true });
   const cacheDir = await team.teamHandle.getDirectoryHandle("cache", { create: true });
@@ -413,16 +469,17 @@ export async function analyzeTeam(team: TeamRuntime): Promise<TeamMetrics> {
         headers: parsed.headers,
         rows: parsed.rows,
         fallbackPeriod,
-        flowStatuses: team.config.bottleneckConfig?.flowStatuses ?? [],
+        includeAllStatuses: true,
       });
       timeInStatusIssueRows.push(...issueRows);
 
       continue;
     }
 
+    const resolvedMapping = resolveCsvMapping(team.config, parsed.headers, parsed.rows);
     let fileIssueRows = 0;
     parsed.rows.forEach((row, index) => {
-      const issue = mapRowToIssue(row, csvFile.relativePath, index + 2, team.config);
+      const issue = mapRowToIssue(row, csvFile.relativePath, index + 2, team.config, resolvedMapping);
       if (issue) {
         issues.push(issue);
         fileIssueRows += 1;
@@ -432,30 +489,41 @@ export async function analyzeTeam(team: TeamRuntime): Promise<TeamMetrics> {
   }
 
   const deduped = dedupeIssuesByLatestUpdate(issues);
-  const metrics = buildMetrics(team.config, totalRows, deduped);
+  const latestTimeInStatusIssueRows = dedupeTimeInStatusRowsByLatest(timeInStatusIssueRows, deduped);
+  const metrics = buildMetrics(team.config, totalRows, deduped, {
+    timeInStatusIssueRows: latestTimeInStatusIssueRows,
+  });
+  const bottleneckFlowStatuses = resolveBottleneckFlowStatuses(team.config);
   const doneIssuePeriodByKey = new Map<string, string>();
   deduped.forEach((issue) => {
     if (!isDone(issue, team.config)) {
       return;
     }
 
-    const periodDate = issue.updated ?? issue.resolutionDate;
+    const periodDate = issue.resolutionDate ?? issue.updated;
     if (!periodDate) {
       return;
     }
 
-    doneIssuePeriodByKey.set(normalizeIssueKey(issue.issueKey), monthKeyFromDate(periodDate));
+    getIssueKeyAliases(issue).forEach((key) => doneIssuePeriodByKey.set(key, monthKeyFromDate(periodDate)));
   });
 
   const autoBottleneckEntries = buildAutoBottleneckEntriesFromIssueRows({
-    issueRows: timeInStatusIssueRows,
+    issueRows: latestTimeInStatusIssueRows,
     issuePeriodByKey: doneIssuePeriodByKey,
-    flowStatuses: team.config.bottleneckConfig?.flowStatuses ?? [],
+    flowStatuses: bottleneckFlowStatuses,
+  });
+  const autoTimeInStatusEntries = buildAutoBottleneckEntriesFromIssueRows({
+    issueRows: latestTimeInStatusIssueRows,
+    issuePeriodByKey: doneIssuePeriodByKey,
+    includeAllStatuses: true,
   });
 
   const normalizedParsed = deduped.map((issue) => ({
     ...issue,
+    previousIssueKeys: issue.previousIssueKeys ?? [],
     created: issue.created?.toISOString() ?? null,
+    projectEnteredAt: issue.projectEnteredAt?.toISOString() ?? null,
     resolutionDate: issue.resolutionDate?.toISOString() ?? null,
     updated: issue.updated?.toISOString() ?? null,
   }));
@@ -466,6 +534,11 @@ export async function analyzeTeam(team: TeamRuntime): Promise<TeamMetrics> {
     cacheDir,
     "bottleneck-auto.json",
     autoBottleneckEntries,
+  );
+  await writeJsonFile(
+    cacheDir,
+    "time-in-status-auto.json",
+    autoTimeInStatusEntries,
   );
 
   return metrics;
@@ -560,19 +633,169 @@ function inferFallbackPeriod(relativePath: string, lastModified: number): string
   return monthKeyFromDate(new Date(lastModified));
 }
 
+function resolveCsvMapping(
+  config: TeamConfig,
+  headers: string[],
+  rows: Array<Record<string, string>>,
+): ResolvedCsvMapping {
+  const mapping = config.mapping;
+
+  return {
+    key: resolveExactHeader(headers, mapping.key) ?? mapping.key,
+    previousIssueKeys:
+      resolveHeaderFromCandidates(headers, rows, {
+        match: (header) => {
+          const normalized = normalizeHeaderToken(header);
+          return normalized === "previousissuekeys" || normalized === "previouskeys";
+        },
+        sampleScore: (header, sampleRows) =>
+          sampleRows.reduce((count, row) => count + ((row[header] ?? "").trim().length > 0 ? 1 : 0), 0),
+      }) ?? undefined,
+    projectEnteredAt:
+      resolveHeaderFromCandidates(headers, rows, {
+        match: (header) => {
+          const normalized = normalizeHeaderToken(header);
+          return (
+            normalized === "projectentered" ||
+            normalized === "projectenteredat" ||
+            normalized === "movedtoprojectat"
+          );
+        },
+        sampleScore: (header, sampleRows) =>
+          sampleRows.reduce((count, row) => count + (parseDate(row[header]) !== null ? 1 : 0), 0),
+      }) ?? undefined,
+    created: resolveExactHeader(headers, mapping.created) ?? mapping.created,
+    resolutionDate: resolveExactHeader(headers, mapping.resolutionDate) ?? mapping.resolutionDate,
+    updated: resolveExactHeader(headers, mapping.updated) ?? mapping.updated,
+    status: resolveExactHeader(headers, mapping.status) ?? mapping.status,
+    resolution: resolveExactHeader(headers, mapping.resolution) ?? mapping.resolution,
+    assignee:
+      resolveExactHeader(headers, mapping.assignee) ??
+      resolveHeaderFromCandidates(headers, rows, {
+        match: (header) => normalizeHeaderToken(header) === "assignee",
+        sampleScore: (header, sampleRows) =>
+          sampleRows.reduce((count, row) => count + ((row[header] ?? "").trim().length > 0 ? 1 : 0), 0),
+      }) ??
+      undefined,
+    issueType:
+      resolveExactHeader(headers, mapping.issueType) ??
+      resolveHeaderFromCandidates(headers, rows, {
+        match: (header) => {
+          const normalized = normalizeHeaderToken(header);
+          return normalized === "issuetype" || normalized.endsWith("issuetype");
+        },
+        sampleScore: () => 0,
+      }) ??
+      mapping.issueType,
+    storyPoints:
+      resolveExactHeader(headers, mapping.storyPoints) ??
+      resolveHeaderFromCandidates(headers, rows, {
+        match: (header) => {
+          const normalized = normalizeHeaderToken(header);
+          return normalized.includes("story") && normalized.includes("point");
+        },
+        sampleScore: (header, sampleRows) =>
+          sampleRows.reduce((count, row) => count + (parseNumber(row[header]) !== null ? 1 : 0), 0),
+      }) ??
+      undefined,
+    sprint:
+      resolveExactHeader(headers, mapping.sprint) ??
+      resolveHeaderFromCandidates(headers, rows, {
+        match: (header) => normalizeHeaderToken(header).includes("sprint"),
+        sampleScore: (header, sampleRows) =>
+          sampleRows.reduce((count, row) => count + ((row[header] ?? "").trim().length > 0 ? 1 : 0), 0),
+      }) ??
+      undefined,
+  };
+}
+
+function resolveExactHeader(headers: string[], preferred: string | undefined): string | undefined {
+  const normalizedPreferred = normalizeHeaderToken(preferred);
+  if (!normalizedPreferred) {
+    return undefined;
+  }
+
+  return headers.find((header) => normalizeHeaderToken(header) === normalizedPreferred);
+}
+
+function resolveHeaderFromCandidates(
+  headers: string[],
+  rows: Array<Record<string, string>>,
+  options: {
+    match: (header: string) => boolean;
+    sampleScore: (header: string, sampleRows: Array<Record<string, string>>) => number;
+  },
+): string | undefined {
+  const sampleRows = rows.slice(0, 50);
+
+  const scored = headers
+    .filter((header) => options.match(header))
+    .map((header) => {
+      const normalized = normalizeHeaderToken(header);
+      const baseScore =
+        normalized === "sprint" || normalized === "storypoints" || normalized === "storypointestimate"
+          ? 200
+          : normalized.includes("customfield")
+            ? 140
+            : 120;
+
+      return {
+        header,
+        score: baseScore + options.sampleScore(header, sampleRows),
+      };
+    })
+    .sort((left, right) => {
+      if (right.score !== left.score) {
+        return right.score - left.score;
+      }
+
+      return left.header.localeCompare(right.header);
+    });
+
+  return scored[0]?.header;
+}
+
+function normalizeHeaderToken(value: string | undefined): string {
+  return (value ?? "")
+    .trim()
+    .toLowerCase()
+    .replace(/[^a-z0-9]+/g, "");
+}
+
+function parseIssueKeyList(value: string | undefined): string[] {
+  const seen = new Set<string>();
+  const result: string[] = [];
+
+  (value ?? "")
+    .split(/[,;\s]+/)
+    .map((item) => item.trim())
+    .filter(Boolean)
+    .forEach((item) => {
+      const key = item.toLowerCase();
+      if (seen.has(key)) {
+        return;
+      }
+      seen.add(key);
+      result.push(item);
+    });
+
+  return result;
+}
+
 function mapRowToIssue(
   row: Record<string, string>,
   sourceFile: string,
   sourceRow: number,
   config: TeamConfig,
+  mapping: ResolvedCsvMapping,
 ): ParsedIssue | null {
-  const mapping = config.mapping;
   const issueKey = (row[mapping.key] ?? "").trim();
   if (!issueKey) {
     return null;
   }
 
   const created = parseDate(row[mapping.created]);
+  const projectEnteredAt = mapping.projectEnteredAt ? parseDate(row[mapping.projectEnteredAt]) : null;
   const updated = parseDate(row[mapping.updated]);
   const resolved = parseDate(row[mapping.resolutionDate]);
 
@@ -583,11 +806,14 @@ function mapRowToIssue(
 
   return {
     issueKey,
+    previousIssueKeys: parseIssueKeyList(mapping.previousIssueKeys ? row[mapping.previousIssueKeys] : undefined),
     created,
+    projectEnteredAt,
     updated,
     resolutionDate: cycleEnd,
     status: row[mapping.status] ?? "",
     resolution: row[mapping.resolution] ?? "",
+    assignee: mapping.assignee ? row[mapping.assignee] ?? "" : row["Assignee"] ?? "",
     issueType:
       (mapping.issueType ? row[mapping.issueType] : row["Issue Type"] ?? row["Issuetype"]) ?? "",
     storyPoints: mapping.storyPoints ? parseNumber(row[mapping.storyPoints]) : null,
@@ -618,6 +844,10 @@ async function isZipArchiveFile(file: File): Promise<boolean> {
 function monthKeyFromDate(date: Date): string {
   const month = String(date.getMonth() + 1).padStart(2, "0");
   return `${date.getFullYear()}-${month}`;
+}
+
+function getIssueKeyAliases(issue: ParsedIssue): string[] {
+  return [issue.issueKey, ...(issue.previousIssueKeys ?? [])].map(normalizeIssueKey).filter(Boolean);
 }
 
 function normalizeIssueKey(value: string): string {
@@ -696,6 +926,28 @@ async function readTeamAutoBottleneckEntries(teamHandle: FileSystemDirectoryHand
     .sort((a, b) => a.period.localeCompare(b.period));
 }
 
+async function readTeamAutoTimeInStatusEntries(
+  teamHandle: FileSystemDirectoryHandle,
+  fallbackEntries: BottleneckEntry[],
+): Promise<BottleneckEntry[]> {
+  const cacheDir = await getDirectoryHandle(teamHandle, "cache");
+  if (!cacheDir) {
+    return fallbackEntries;
+  }
+
+  const raw = await readJsonFile<Array<Record<string, unknown>>>(cacheDir, "time-in-status-auto.json");
+  if (!raw || !Array.isArray(raw)) {
+    return fallbackEntries;
+  }
+
+  const entries = raw
+    .map((entry) => normalizeBottleneckEntry(entry))
+    .filter((entry): entry is BottleneckEntry => entry !== null)
+    .sort((a, b) => a.period.localeCompare(b.period));
+
+  return entries.length > 0 ? entries : fallbackEntries;
+}
+
 async function readTeamProgressHistoryFromHandle(
   teamHandle: FileSystemDirectoryHandle,
 ): Promise<TeamProgressSnapshot[]> {
@@ -723,11 +975,16 @@ function parseCachedIssue(value: Record<string, unknown>): ParsedIssue | null {
 
   return {
     issueKey,
+    previousIssueKeys: Array.isArray(value.previousIssueKeys)
+      ? value.previousIssueKeys.filter((item): item is string => typeof item === "string" && item.trim().length > 0)
+      : [],
     created: parseIsoDate(value.created),
+    projectEnteredAt: parseIsoDate(value.projectEnteredAt),
     resolutionDate: parseIsoDate(value.resolutionDate),
     updated: parseIsoDate(value.updated),
     status: typeof value.status === "string" ? value.status : "",
     resolution: typeof value.resolution === "string" ? value.resolution : "",
+    assignee: typeof value.assignee === "string" ? value.assignee : "",
     issueType: typeof value.issueType === "string" ? value.issueType : "",
     storyPoints: typeof value.storyPoints === "number" && Number.isFinite(value.storyPoints) ? value.storyPoints : null,
     sprintRaw: typeof value.sprintRaw === "string" ? value.sprintRaw : "",
@@ -759,12 +1016,6 @@ export function normalizeTeamMetrics(raw: Record<string, unknown> | null): TeamM
       sprintCount: 0,
     }));
 
-  const avgCycleTimeDays =
-    toNullableNumber(raw.avgCycleTimeDays) ??
-    (cycleTimeDays.length === 0
-      ? null
-      : cycleTimeDays.reduce((sum, value) => sum + value, 0) / cycleTimeDays.length);
-
   const multiSprintIssueKeys = toStringArray(raw.multiSprintIssueKeys);
   const computedMultiSprintCount = doneIssueDetails.filter((item) => item.sprintCount >= 2).length;
   const multiSprintCount =
@@ -780,6 +1031,39 @@ export function normalizeTeamMetrics(raw: Record<string, unknown> | null): TeamM
   const cycleTimeCount = toNonNegativeIntegerOrNull(raw.cycleTimeCount) ?? cycleTimeDays.length;
   const uniqueIssues = toNonNegativeIntegerOrNull(raw.uniqueIssues) ?? Math.max(doneIssues, cycleTimeCount);
   const totalImportedRows = toNonNegativeIntegerOrNull(raw.totalImportedRows) ?? uniqueIssues;
+  const normalizedFlowTimingDetails = normalizeFlowTimingDetails(raw.flowTimingDetails);
+  const flowTimingDetails =
+    raw.flowTimingBasis === "working-days"
+      ? normalizedFlowTimingDetails
+      : normalizedFlowTimingDetails.map((detail) => {
+          const anchorDate = new Date(detail.anchorDate);
+          return {
+            ...detail,
+            leadTimeDays: calendarDurationToWorkingDays(detail.leadTimeDays, anchorDate),
+            activeTimeDays: calendarDurationToWorkingDays(detail.activeTimeDays, anchorDate),
+            cycleTimeDays: calendarDurationToWorkingDays(detail.cycleTimeDays, anchorDate),
+          };
+        });
+  const flowScatter = flowTimingDetails
+    .filter(
+      (detail) =>
+        detail.scope === "closed" &&
+        detail.cycleTimeDays !== null &&
+        Number.isFinite(detail.cycleTimeDays) &&
+        detail.cycleTimeDays >= 0,
+    )
+    .map((detail) => ({
+      issueKey: detail.issueKey,
+      resolutionDate: detail.anchorDate,
+      cycleTimeDays: detail.cycleTimeDays as number,
+    }))
+    .sort((left, right) => left.resolutionDate.localeCompare(right.resolutionDate));
+  const effectiveScatter = flowScatter.length > 0 ? flowScatter : scatter;
+  const effectiveCycleTimeDays = effectiveScatter.map((point) => point.cycleTimeDays);
+  const effectiveAvgCycleTimeDays =
+    effectiveCycleTimeDays.length === 0
+      ? null
+      : effectiveCycleTimeDays.reduce((sum, value) => sum + value, 0) / effectiveCycleTimeDays.length;
 
   return {
     generatedAt: typeof raw.generatedAt === "string" ? raw.generatedAt : new Date().toISOString(),
@@ -787,23 +1071,86 @@ export function normalizeTeamMetrics(raw: Record<string, unknown> | null): TeamM
     totalImportedRows,
     uniqueIssues,
     doneIssues,
-    cycleTimeCount,
-    cycleTimeDays,
-    avgCycleTimeDays,
+    cycleTimeCount: effectiveCycleTimeDays.length,
+    cycleTimeDays: effectiveCycleTimeDays,
+    avgCycleTimeDays: effectiveAvgCycleTimeDays,
     sle: {
       percentiles: normalizePercentiles(getNestedArray(raw, "sle", "percentiles")),
       rounding: "ceil",
       values: sleValues,
     },
-    scatter,
-    scatterOverlay,
+    scatter: effectiveScatter,
+    scatterOverlay:
+      flowScatter.length > 0 ? buildSleValues(effectiveCycleTimeDays, "ceil") : scatterOverlay,
     velocityMonthly: normalizeVelocity(raw.velocityMonthly),
     doneIssueDetails,
+    flowTiming: normalizeFlowTiming(raw.flowTiming),
+    flowTimingBasis: "working-days",
+    flowTimingDetails,
     multiSprint: {
       count: Math.max(0, multiSprintCount),
       percentage: multiSprintPercentage < 0 ? 0 : multiSprintPercentage,
     },
+    multiSprintIssueKeys,
   };
+}
+
+function normalizeFlowTimingDetails(value: unknown): NonNullable<TeamMetrics["flowTimingDetails"]> {
+  if (!Array.isArray(value)) {
+    return [];
+  }
+
+  const details: NonNullable<TeamMetrics["flowTimingDetails"]> = [];
+  value.forEach((item) => {
+    if (!isRecord(item)) {
+      return;
+    }
+
+    const issueKey = typeof item.issueKey === "string" ? item.issueKey.trim() : "";
+    const anchorDate = typeof item.anchorDate === "string" ? item.anchorDate : "";
+    const scope = item.scope === "open" ? "open" : item.scope === "closed" ? "closed" : null;
+    if (!issueKey || !anchorDate || !scope) {
+      return;
+    }
+
+    details.push({
+      issueKey,
+      issueType: typeof item.issueType === "string" ? item.issueType : "",
+      anchorDate,
+      scope,
+      leadTimeDays: toNullableNumber(item.leadTimeDays),
+      activeTimeDays: toNullableNumber(item.activeTimeDays),
+      cycleTimeDays: toNullableNumber(item.cycleTimeDays),
+    });
+  });
+
+  return details;
+}
+
+function normalizeFlowTiming(value: unknown): TeamMetrics["flowTiming"] {
+  const record = isRecord(value) ? value : {};
+
+  return {
+    leadTime: normalizeFlowTimingMetric(record.leadTime),
+    activeTime: normalizeFlowTimingMetric(record.activeTime),
+    cycleTime: normalizeFlowTimingMetric(record.cycleTime),
+  };
+}
+
+function normalizeFlowTimingMetric(value: unknown): TeamMetrics["flowTiming"]["leadTime"] {
+  const record = isRecord(value) ? value : {};
+  return {
+    count: toNonNegativeInteger(record.count),
+    avgDays: toNullableNumber(record.avgDays),
+    p50: toNullableNumber(record.p50),
+    p70: toNullableNumber(record.p70),
+    p85: toNullableNumber(record.p85),
+    p95: toNullableNumber(record.p95),
+  };
+}
+
+function isRecord(value: unknown): value is Record<string, unknown> {
+  return typeof value === "object" && value !== null && !Array.isArray(value);
 }
 
 function normalizeTeamProgressSnapshot(value: Record<string, unknown>): TeamProgressSnapshot | null {
@@ -815,7 +1162,7 @@ function normalizeTeamProgressSnapshot(value: Record<string, unknown>): TeamProg
   const importSignature =
     typeof value.importSignature === "string" ? value.importSignature : "";
 
-  const metrics = getNestedRecord(value, "metrics");
+  const metrics = getRecord(value.metrics);
   if (!metrics) {
     return null;
   }
@@ -824,8 +1171,12 @@ function normalizeTeamProgressSnapshot(value: Record<string, unknown>): TeamProg
     capturedAt,
     importSignature,
     metrics: {
+      doneCount: toNonNegativeIntegerOrNull(metrics.doneCount),
       avgCycleTimeDays: toNullableNumber(metrics.avgCycleTimeDays),
+      sleP50Days: toNullableNumber(metrics.sleP50Days),
+      sleP70Days: toNullableNumber(metrics.sleP70Days),
       sleP85Days: toNullableNumber(metrics.sleP85Days),
+      sleP95Days: toNullableNumber(metrics.sleP95Days),
       multiSprintPct: toNullableNumber(metrics.multiSprintPct),
       velocityLatest: toNullableNumber(metrics.velocityLatest),
       doneBugRatioPct: toNullableNumber(metrics.doneBugRatioPct),
@@ -988,6 +1339,12 @@ function normalizeSleValues(value: Record<string, unknown> | null, fallback?: Te
   };
 }
 
+function getRecord(value: unknown): Record<string, unknown> | null {
+  return value && typeof value === "object" && !Array.isArray(value)
+    ? (value as Record<string, unknown>)
+    : null;
+}
+
 function getNestedRecord(source: Record<string, unknown>, first: string, second: string): Record<string, unknown> | null {
   const parent = source[first];
   if (!parent || typeof parent !== "object") {
@@ -1050,7 +1407,12 @@ function normalizeBottleneckEntry(entry: Record<string, unknown>): BottleneckEnt
       if (!name || !Number.isFinite(avgDays) || avgDays < 0) {
         return null;
       }
-      return { name, avgDays };
+      const sampleCount = toNonNegativeIntegerOrNull(raw.sampleCount);
+      return {
+        name,
+        avgDays,
+        ...(sampleCount !== null && sampleCount > 0 ? { sampleCount } : {}),
+      };
     })
     .filter((column): column is { name: string; avgDays: number } => column !== null);
 
@@ -1067,6 +1429,37 @@ function normalizeBottleneckEntry(entry: Record<string, unknown>): BottleneckEnt
         ? entry.updatedAt
         : undefined,
   };
+}
+
+function resolveBottleneckFlowStatuses(config: TeamConfig): string[] {
+  const explicitFlowStatuses = normalizeStatusList(config.bottleneckConfig?.flowStatuses ?? []);
+  if (explicitFlowStatuses.length > 0) {
+    return explicitFlowStatuses;
+  }
+
+  return normalizeStatusList([
+    ...(config.workflowConfig?.funnelStatuses ?? []),
+    ...(config.workflowConfig?.activeStatuses ?? []),
+    ...(config.workflowConfig?.implementingStatuses ?? []),
+  ]);
+}
+
+function normalizeStatusList(values: string[]): string[] {
+  const seen = new Set<string>();
+  const normalized: string[] = [];
+
+  values.forEach((value) => {
+    const trimmed = value.trim();
+    const key = trimmed.toLowerCase();
+    if (!trimmed || seen.has(key)) {
+      return;
+    }
+
+    seen.add(key);
+    normalized.push(trimmed);
+  });
+
+  return normalized;
 }
 
 async function getDirectoryHandle(
@@ -1124,10 +1517,18 @@ async function writeJsonFile(dirHandle: FileSystemDirectoryHandle, fileName: str
   await writable.close();
 }
 
-function buildDefaultTeamConfig(teamName: string, description?: string): TeamConfig {
+function buildDefaultTeamConfig(
+  teamName: string,
+  description?: string,
+  entityType: TeamEntityType = "team",
+  jiraJql?: string,
+): TeamConfig {
+  const savedJql = jiraJql?.trim() || "project = YOURPROJECT ORDER BY updated DESC";
+
   return {
     teamName,
     description: description?.trim() || undefined,
+    entityType,
     doneConfig: {
       useStatusCategoryDone: false,
       doneStatuses: ["Done", "Closed", "Resolved"],
@@ -1139,6 +1540,7 @@ function buildDefaultTeamConfig(teamName: string, description?: string): TeamCon
     },
     cycleTimeConfig: {
       endDateSource: "resolvedOrUpdated",
+      durationSource: "timeInStatus",
     },
     mapping: {
       key: "Issue key",
@@ -1147,28 +1549,64 @@ function buildDefaultTeamConfig(teamName: string, description?: string): TeamCon
       updated: "Updated",
       status: "Status",
       resolution: "Resolution",
+      assignee: "Assignee",
       storyPoints: "Story points",
       sprint: "Sprint",
       issueType: "Issue Type",
     },
     velocityConfig: {
-      mode: "monthly-ticket-count",
+      mode: "weekly-ticket-count",
     },
     bugConfig: {
       issueTypes: ["Bug"],
+      defaultStoryPoints: undefined,
+    },
+    sprintScopeConfig: {
+      statuses: [],
+    },
+    workflowConfig: {
+      backlogStatuses: [],
+      funnelStatuses: [],
+      activeStatuses: [],
+      implementingStatuses: [],
+    },
+    flowTimingConfig: {
+      includeClosedTickets: true,
+      includeOpenTickets: false,
     },
     bottleneckConfig: {
       flowStatuses: [],
     },
     excludedIssueKeys: [],
+    safeConfig: {
+      enabled: false,
+      entityType:
+        entityType === "art"
+          ? "agile-release-train"
+          : entityType === "portfolio"
+            ? "portfolio"
+          : entityType === "vde"
+            ? "development-value-stream"
+            : "team",
+      metricIds: [
+        "flow-time",
+        "flow-velocity",
+        "flow-load",
+        "flow-efficiency",
+        "flow-predictability",
+        "flow-distribution",
+        "built-in-quality",
+        "competency-assessment",
+      ],
+    },
     jiraQuery: {
       defaultQueryId: "default",
       queries: [
         {
           id: "default",
           name: "Team Import Query",
-          jql: "project = YOURPROJECT ORDER BY updated DESC",
-          note: "Edit this query per team scope.",
+          jql: savedJql,
+          note: "Used for both Issues CSV and Time in Status.",
         },
       ],
     },
@@ -1247,7 +1685,39 @@ function normalizeWorkspaceConfig(
     name: typeof raw?.name === "string" && raw.name.trim().length > 0 ? raw.name.trim() : fallbackName,
     profiles,
     activeProfileId,
+    metricConfig: normalizeWorkspaceMetricConfig(raw?.metricConfig),
   };
+}
+
+function normalizeWorkspaceMetricConfig(raw: unknown): WorkspaceConfig["metricConfig"] {
+  if (!raw || typeof raw !== "object") {
+    return { scopeVisibility: {} };
+  }
+
+  const source = raw as Record<string, unknown>;
+  const rawScopeVisibility =
+    source.scopeVisibility && typeof source.scopeVisibility === "object"
+      ? (source.scopeVisibility as Record<string, unknown>)
+      : {};
+  const scopeVisibility: NonNullable<WorkspaceConfig["metricConfig"]>["scopeVisibility"] = {};
+
+  METRIC_SCOPES.forEach((scope) => {
+    const values = rawScopeVisibility[scope];
+    if (!Array.isArray(values)) {
+      return;
+    }
+
+    scopeVisibility[scope] = Array.from(
+      new Set(
+        values
+          .filter((item): item is string => typeof item === "string")
+          .map((item) => item.trim())
+          .filter((item) => item.length > 0),
+      ),
+    );
+  });
+
+  return { scopeVisibility };
 }
 
 function normalizeWorkspaceProfileConfig(value: unknown): WorkspaceProfileConfig | null {

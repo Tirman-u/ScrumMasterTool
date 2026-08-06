@@ -5,9 +5,11 @@
     "moduleResolution": "Bundler",
     "jsx": "react-jsx",
     "strict": true,
+    "noUnusedLocals": true,
+    "noUnusedParameters": true,
     "noEmit": true,
     "skipLibCheck": true,
-    "types": ["vite/client"]
+    "types": ["vite/client", "wicg-file-system-access"]
   },
   "include": ["src"]
 }

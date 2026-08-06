@@ -3,6 +3,7 @@ import {
   buildMetrics,
   isIssueTypeIncludedInSle,
   normalizeSleIssueTypes,
+  resolveEffectiveSleIssueTypes,
 } from "../apps/sm-tool/src/lib/metrics";
 import { type ParsedIssue, type TeamConfig } from "../apps/sm-tool/src/types/contracts";
 
@@ -55,20 +56,38 @@ describe("SLE issue type filtering", () => {
   });
 
   it("excludes non-selected issue types from SLE while keeping cycle-time metrics intact", () => {
-    const metrics = buildMetrics(TEAM_CONFIG, 2, [
-      issue({
-        issueKey: "WEB-1",
-        issueType: "Story",
-        created: new Date("2026-01-01T00:00:00.000Z"),
-        resolutionDate: new Date("2026-01-11T00:00:00.000Z"),
-      }),
-      issue({
-        issueKey: "WEB-2",
-        issueType: "Epic",
-        created: new Date("2026-01-01T00:00:00.000Z"),
-        resolutionDate: new Date("2026-02-10T00:00:00.000Z"),
-      }),
-    ]);
+    const metrics = buildMetrics(
+      TEAM_CONFIG,
+      2,
+      [
+        issue({
+          issueKey: "WEB-1",
+          issueType: "Story",
+          created: new Date("2026-01-01T00:00:00.000Z"),
+          resolutionDate: new Date("2026-01-11T00:00:00.000Z"),
+        }),
+        issue({
+          issueKey: "WEB-2",
+          issueType: "Epic",
+          created: new Date("2026-01-01T00:00:00.000Z"),
+          resolutionDate: new Date("2026-02-10T00:00:00.000Z"),
+        }),
+      ],
+      {
+        timeInStatusIssueRows: [
+          {
+            issueKey: "WEB-1",
+            durationBasis: "working-days",
+            durations: [{ status: "In Progress", days: 10 }],
+          },
+          {
+            issueKey: "WEB-2",
+            durationBasis: "working-days",
+            durations: [{ status: "In Progress", days: 40 }],
+          },
+        ],
+      },
+    );
 
     // Avg cycle time still includes all done issues.
     expect(metrics.avgCycleTimeDays).toBe(25);
@@ -83,5 +102,80 @@ describe("SLE issue type filtering", () => {
     expect(isIssueTypeIncludedInSle("story", ["Story"])).toBe(true);
     expect(isIssueTypeIncludedInSle("EPIC", ["Story", "Task"])).toBe(false);
   });
-});
 
+  it("does not silently broaden SLE to observed issue types", () => {
+    expect(resolveEffectiveSleIssueTypes(["Task", "Bug", "Story"], ["Program Epic", "Program Epic"])).toEqual([
+      "Task",
+      "Bug",
+      "Story",
+    ]);
+
+    const metrics = buildMetrics(
+      {
+        ...TEAM_CONFIG,
+        teamName: "Program",
+      },
+      2,
+      [
+        issue({
+          issueKey: "PRG-1",
+          issueType: "Program Epic",
+          created: new Date("2026-01-01T00:00:00.000Z"),
+          resolutionDate: new Date("2026-01-11T00:00:00.000Z"),
+        }),
+        issue({
+          issueKey: "PRG-2",
+          issueType: "Program Epic",
+          created: new Date("2026-01-01T00:00:00.000Z"),
+          resolutionDate: new Date("2026-01-21T00:00:00.000Z"),
+        }),
+      ],
+    );
+
+    expect(metrics.sle.values.p50).toBeNull();
+    expect(metrics.sle.values.p85).toBeNull();
+
+    const explicitlyConfiguredMetrics = buildMetrics(
+      {
+        ...TEAM_CONFIG,
+        teamName: "Program",
+        sleConfig: {
+          ...TEAM_CONFIG.sleConfig,
+          issueTypes: ["Program Epic"],
+        },
+      },
+      2,
+      [
+        issue({
+          issueKey: "PRG-1",
+          issueType: "Program Epic",
+          created: new Date("2026-01-01T00:00:00.000Z"),
+          resolutionDate: new Date("2026-01-11T00:00:00.000Z"),
+        }),
+        issue({
+          issueKey: "PRG-2",
+          issueType: "Program Epic",
+          created: new Date("2026-01-01T00:00:00.000Z"),
+          resolutionDate: new Date("2026-01-21T00:00:00.000Z"),
+        }),
+      ],
+      {
+        timeInStatusIssueRows: [
+          {
+            issueKey: "PRG-1",
+            durationBasis: "working-days",
+            durations: [{ status: "In Progress", days: 10 }],
+          },
+          {
+            issueKey: "PRG-2",
+            durationBasis: "working-days",
+            durations: [{ status: "In Progress", days: 20 }],
+          },
+        ],
+      },
+    );
+
+    expect(explicitlyConfiguredMetrics.sle.values.p50).toBe(15);
+    expect(explicitlyConfiguredMetrics.sle.values.p85).toBe(19);
+  });
+});

@@ -1,6 +1,14 @@
 node_modules/
 apps/sm-tool/node_modules/
 apps/sm-tool/dist/
+.firebase/
+.playwright-mcp/
 coverage/
 *.log
 .DS_Store
+
+# Local customer/team workspaces. These can contain Jira exports, issue keys,
+# internal team names, cache files, and manual configuration.
+Teams/
+teams/
+workspace.json
