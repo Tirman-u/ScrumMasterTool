@@ -40,6 +40,29 @@
     throw new Error(`Unterminated ${name} assignment.`);
   }
 
+  function patchLauncher(launcher) {
+    const marker = "set -euo pipefail\n";
+    if (!launcher.includes(marker) || launcher.includes("NODE_USE_SYSTEM_CA")) {
+      return launcher;
+    }
+
+    return launcher.replace(
+      marker,
+      `${marker}\n# Prefer certificates trusted by the operating system (important for corporate Jira/VPN environments).\nexport NODE_USE_SYSTEM_CA=1\n`,
+    );
+  }
+
+  function patchRunner(runner) {
+    const original = "console.error(`ERROR: ${error?.message || error}`);";
+    if (!runner.includes(original) || runner.includes("Jira connection detail")) {
+      return runner;
+    }
+
+    const replacement = `const cause = error?.cause;\n  const details = [error?.message || String(error), cause?.code, cause?.message].filter(Boolean);\n  console.error(\`ERROR: \${details.join(\" | \")}\`);\n  if (cause?.code) console.error(\`Jira connection detail: \${cause.code}\`);\n  if ([\"UNABLE_TO_VERIFY_LEAF_SIGNATURE\", \"SELF_SIGNED_CERT_IN_CHAIN\", \"DEPTH_ZERO_SELF_SIGNED_CERT\", \"UNABLE_TO_GET_ISSUER_CERT_LOCALLY\"].includes(cause?.code)) {\n    console.error(\"The Jira TLS certificate is not trusted by Node. Check corporate VPN/certificate installation.\");\n  }`;
+
+    return runner.replace(original, replacement);
+  }
+
   async function loadHelperContents() {
     if (!helperContentsPromise) {
       helperContentsPromise = fetch(BOOTSTRAP_SOURCE_URL, { cache: "no-store" })
@@ -50,8 +73,8 @@
           return response.text();
         })
         .then((source) => ({
-          runner: extractStringAssignment(source, "RUNNER_CONTENT"),
-          launcher: extractStringAssignment(source, "LAUNCHER_CONTENT"),
+          runner: patchRunner(extractStringAssignment(source, "RUNNER_CONTENT")),
+          launcher: patchLauncher(extractStringAssignment(source, "LAUNCHER_CONTENT")),
         }));
     }
     return helperContentsPromise;
