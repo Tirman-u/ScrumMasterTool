@@ -17,10 +17,6 @@ function replaceOne(source, from, to, label) {
   return source.slice(0, first) + to + source.slice(first + from.length);
 }
 
-function replaceOptional(source, from, to) {
-  return source.includes(from) ? source.replace(from, to) : source;
-}
-
 let app = fs.readFileSync(appPath, "utf8");
 let views = fs.readFileSync(viewsPath, "utf8");
 
@@ -97,8 +93,8 @@ if (!app.includes('from "./lib/metric-consistency"')) {
           ? "warning"
           : "good";
   const executiveBottleneckSummary = executiveFlowSummary.biggestQueueName
-    ? `${periodSummary.currentLabel}: ${executiveFlowSummary.biggestQueueName} (${executiveFlowSummary.biggestQueueDays?.toFixed(1)} days).`
-    : `No queue-stage Time in Status data for ${periodSummary.currentLabel}.`;
+    ? `${'${periodSummary.currentLabel}'}: ${'${executiveFlowSummary.biggestQueueName}'} (${'${executiveFlowSummary.biggestQueueDays?.toFixed(1)}'} days).`
+    : `No queue-stage Time in Status data for ${'${periodSummary.currentLabel}'}.`;
 `,
     "single selected-period flow model",
   );
@@ -226,9 +222,6 @@ if (!views.includes("flowSummary: {")) {
     "FlowPipeline flow efficiency display",
   );
 }
-
-// Remove obsolete runtime terminology if an earlier build patch left it around.
-app = replaceOptional(app, "selectedTeamHealth.flowEfficiency.valuePct", "selectedTeamHealth.flowEfficiency.valuePct");
 
 fs.writeFileSync(appPath, app, "utf8");
 fs.writeFileSync(viewsPath, views, "utf8");
