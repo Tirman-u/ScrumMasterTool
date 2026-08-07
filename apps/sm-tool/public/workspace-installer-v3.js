@@ -4,7 +4,7 @@
   const STORE_NAME = "settings";
   const WORKSPACE_KEY = "workspace-handle-v1";
   const SOURCE_URL = "/workspace-bootstrap.js";
-  const HELPER_VERSION = "v4";
+  const HELPER_VERSION = "v5";
 
   let installInFlight = false;
 
@@ -75,6 +75,12 @@
       "rows.push({ issue, durations, histories });",
     );
 
+    const cacheHelper = `function buildAutoBottleneckEntries(timeRows, config, includeAllStatuses = false) {\n  const configuredStatuses = Array.isArray(config?.bottleneckConfig?.flowStatuses)\n    ? config.bottleneckConfig.flowStatuses.map(value => String(value).trim()).filter(Boolean)\n    : [];\n  const configuredByKey = new Map(configuredStatuses.map(value => [fieldName(value), value]));\n  const terminal = new Set(['done','closed','resolved','abandoned','cancelled','canceled',\"won't do\",'wont do']);\n  const defaultExcluded = new Set(['backlog','open','to do','todo','ready for refinement','refinement']);\n  const periodAgg = new Map();\n\n  for (const row of timeRows) {\n    const resolutionDate = row?.issue?.fields?.resolutiondate;\n    const resolved = resolutionDate ? new Date(resolutionDate) : null;\n    if (!resolved || Number.isNaN(resolved.getTime())) continue;\n    const period = resolved.toISOString().slice(0, 7);\n    const byStatus = periodAgg.get(period) ?? new Map();\n\n    for (const [rawStatus, rawDays] of Object.entries(row.durations ?? {})) {\n      const days = Number(rawDays);\n      const key = fieldName(rawStatus);\n      if (!key || !Number.isFinite(days) || days <= 0) continue;\n      if (terminal.has(key) || key.includes('cancel') || key.includes('abandon') || key.includes('duplicate')) continue;\n\n      if (!includeAllStatuses) {\n        if (configuredByKey.size > 0) {\n          if (!configuredByKey.has(key)) continue;\n        } else if (defaultExcluded.has(key)) {\n          continue;\n        }\n      }\n\n      const status = configuredByKey.get(key) ?? rawStatus.trim();\n      const current = byStatus.get(status) ?? { sumDays: 0, count: 0 };\n      current.sumDays += days;\n      current.count += 1;\n      byStatus.set(status, current);\n    }\n\n    if (byStatus.size > 0) periodAgg.set(period, byStatus);\n  }\n\n  return [...periodAgg.entries()]\n    .sort(([left], [right]) => left.localeCompare(right))\n    .map(([period, byStatus]) => ({\n      period,\n      columns: [...byStatus.entries()]\n        .map(([name, value]) => ({ name, avgDays: value.sumDays / value.count, sampleCount: value.count }))\n        .filter(column => Number.isFinite(column.avgDays) && column.avgDays > 0)\n        .sort((left, right) => right.avgDays - left.avgDays),\n    }))\n    .filter(entry => entry.columns.length > 0);\n}\n`;
+
+    if (!patched.includes("function buildAutoBottleneckEntries(timeRows, config")) {
+      patched = patched.replace("async function writeTeamExport", `${cacheHelper}\nasync function writeTeamExport`);
+    }
+
     patched = patched.replace(
       "const { rows: timeRows, statuses } = await buildTimeRows(baseUrl, issues);",
       "const { rows: timeRows, statuses } = await buildTimeRows(baseUrl, issues);\n  const timeRowByKey = new Map(timeRows.map(row => [row.issue?.key ?? '', row]));",
@@ -85,6 +91,11 @@
       "for (const issue of issues) {\n    const f = issue?.fields ?? {};\n    const timeRow = timeRowByKey.get(issue?.key ?? '');\n    const moveInfo = collectProjectMoveInfo(issue, timeRow?.histories ?? []);\n    issueLines.push(csvLine([\n      issue?.key ?? '', moveInfo.previousIssueKeys.join(' | '), moveInfo.projectEnteredAt ?? '', f.summary ?? '',",
     );
 
+    patched = patched.replace(
+      "if (statuses.length >= 2) await fs.writeFile(path.join(importDir, `time-in-status-${stamp}.csv`), tisLines.join('\\n') + '\\n', 'utf8');\n  console.log(`  Saved to ${path.relative(process.cwd(), importDir)}`);",
+      "if (statuses.length >= 2) await fs.writeFile(path.join(importDir, `time-in-status-${stamp}.csv`), tisLines.join('\\n') + '\\n', 'utf8');\n  const cacheDir = path.join(teamsRoot, teamId, 'cache');\n  await fs.mkdir(cacheDir, { recursive: true });\n  const bottleneckEntries = buildAutoBottleneckEntries(timeRows, config, false);\n  const allTimeInStatusEntries = buildAutoBottleneckEntries(timeRows, config, true);\n  await fs.writeFile(path.join(cacheDir, 'bottleneck-auto.json'), JSON.stringify(bottleneckEntries, null, 2) + '\\n', 'utf8');\n  await fs.writeFile(path.join(cacheDir, 'time-in-status-auto.json'), JSON.stringify(allTimeInStatusEntries, null, 2) + '\\n', 'utf8');\n  console.log(`  Saved to ${path.relative(process.cwd(), importDir)}`);",
+    );
+
     const diagnosticReplacement = `main().catch(error => {\n  const cause = error?.cause;\n  const parts = [error?.message || String(error)];\n  if (cause?.code) parts.push(\`code=\${cause.code}\`);\n  if (cause?.message && cause.message !== error?.message) parts.push(cause.message);\n  console.error(\`ERROR: \${parts.join(" | ")}\`);\n  console.error("Jira helper ${HELPER_VERSION} diagnostic");\n  process.exitCode = 1;\n});`;
 
     patched = patched.replace(
@@ -92,8 +103,13 @@
       diagnosticReplacement,
     );
 
-    if (!patched.includes("collectProjectMoveInfo") || !patched.includes("timeRowByKey")) {
-      throw new Error("Could not patch Jira project-move handling.");
+    if (
+      !patched.includes("collectProjectMoveInfo") ||
+      !patched.includes("timeRowByKey") ||
+      !patched.includes("buildAutoBottleneckEntries(timeRows, config") ||
+      !patched.includes("bottleneck-auto.json")
+    ) {
+      throw new Error("Could not patch Jira project-move/bottleneck handling.");
     }
     return patched;
   }
@@ -174,7 +190,7 @@
 
   const picker = typeof window.showDirectoryPicker === "function" ? window.showDirectoryPicker.bind(window) : null;
   if (picker) {
-    window.showDirectoryPicker = async function smV4DirectoryPicker(options) {
+    window.showDirectoryPicker = async function smV5DirectoryPicker(options) {
       const handle = await picker(options);
       try {
         await install(handle);
