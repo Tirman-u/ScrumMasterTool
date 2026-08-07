@@ -8,7 +8,9 @@ REPO_DIR="${SM_TOOL_REPO_DIR:-$SCRIPT_DIR}"
 export JIRA_URL="${JIRA_URL:-https://jira.swedbank.net}"
 export JIRA_AUTH="${JIRA_AUTH:-bearer}"
 export JIRA_IMPORT_BUCKET="${JIRA_IMPORT_BUCKET:-jira-api}"
-export JIRA_MAX_ISSUES="${JIRA_MAX_ISSUES:-2000}"
+# Safety cap: one refresh must never request more than 2000 Jira issues.
+# Keep this fixed even if the calling shell already has JIRA_MAX_ISSUES set.
+export JIRA_MAX_ISSUES="2000"
 export NODE_USE_SYSTEM_CA=1
 
 setup_node_ca() {
