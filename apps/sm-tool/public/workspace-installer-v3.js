@@ -4,7 +4,7 @@
   const STORE_NAME = "settings";
   const WORKSPACE_KEY = "workspace-handle-v1";
   const SOURCE_URL = "/workspace-bootstrap.js";
-  const HELPER_VERSION = "v3";
+  const HELPER_VERSION = "v4";
 
   let installInFlight = false;
 
@@ -55,16 +55,45 @@
   }
 
   function patchRunner(runner) {
-    if (runner.includes(`Jira helper ${HELPER_VERSION} diagnostic`)) return runner;
+    let patched = runner;
 
-    const replacement = `main().catch(error => {\n  const cause = error?.cause;\n  const parts = [error?.message || String(error)];\n  if (cause?.code) parts.push(\`code=\${cause.code}\`);\n  if (cause?.message && cause.message !== error?.message) parts.push(cause.message);\n  console.error(\`ERROR: \${parts.join(" | ")}\`);\n  console.error("Jira helper ${HELPER_VERSION} diagnostic");\n  process.exitCode = 1;\n});`;
+    const moveHelper = `function collectProjectMoveInfo(issue, histories) {\n  const previousIssueKeys = [];\n  const seenPreviousKeys = new Set();\n  let projectEnteredAt = null;\n  for (const history of histories) {\n    const changedAt = history?.created ? new Date(history.created) : null;\n    if (!changedAt || Number.isNaN(changedAt.getTime())) continue;\n    for (const item of Array.isArray(history?.items) ? history.items : []) {\n      const field = fieldName(item?.fieldId || item?.field);\n      const isKeyChange = field === 'key' || field === 'issuekey';\n      const isProjectChange = field === 'project';\n      if (!isKeyChange && !isProjectChange) continue;\n      if (!projectEnteredAt || changedAt.getTime() > new Date(projectEnteredAt).getTime()) {\n        projectEnteredAt = changedAt.toISOString();\n      }\n      if (isKeyChange) {\n        const previousKey = String(item?.fromString ?? item?.from ?? '').trim();\n        const normalized = previousKey.toLowerCase();\n        if (previousKey && !seenPreviousKeys.has(normalized)) {\n          seenPreviousKeys.add(normalized);\n          previousIssueKeys.push(previousKey);\n        }\n      }\n    }\n  }\n  return { previousIssueKeys, projectEnteredAt };\n}\n`;
 
-    const patched = runner.replace(
-      /main\(\)\.catch\(error => \{[\s\S]*?process\.exitCode = 1;\s*\}\);\s*$/,
-      replacement,
+    if (!patched.includes("function collectProjectMoveInfo(issue, histories)")) {
+      patched = patched.replace("function statusDurations(issue, histories) {", `${moveHelper}\nfunction statusDurations(issue, histories) {`);
+    }
+
+    const replacementStatusDurations = `function statusDurations(issue, histories) {\n  const created = issue?.fields?.created;\n  if (!created) return {};\n  const moveInfo = collectProjectMoveInfo(issue, histories);\n  const flowStart = moveInfo.projectEnteredAt || created;\n  const flowStartMs = new Date(flowStart).getTime();\n  const transitions = [];\n  for (const history of histories) {\n    const at = history?.created;\n    if (!at) continue;\n    for (const item of Array.isArray(history?.items) ? history.items : []) {\n      if (fieldName(item?.field) === 'status' || fieldName(item?.fieldId) === 'status') {\n        transitions.push({ at, from: String(item?.fromString ?? ''), to: String(item?.toString ?? '') });\n      }\n    }\n  }\n  transitions.sort((a,b) => new Date(a.at) - new Date(b.at));\n  let currentStatus = transitions[0]?.from || String(getNamed(issue?.fields?.status) || '');\n  let currentAt = flowStart;\n  const durations = new Map();\n  for (const t of transitions) {\n    const transitionMs = new Date(t.at).getTime();\n    if (Number.isFinite(flowStartMs) && transitionMs <= flowStartMs) {\n      currentStatus = t.to || currentStatus;\n      continue;\n    }\n    if (currentStatus) durations.set(currentStatus, (durations.get(currentStatus) || 0) + workingDaysBetween(currentAt, t.at));\n    currentStatus = t.to || currentStatus;\n    currentAt = t.at;\n  }\n  const end = issue?.fields?.resolutiondate || issue?.fields?.updated || new Date().toISOString();\n  if (currentStatus) durations.set(currentStatus, (durations.get(currentStatus) || 0) + workingDaysBetween(currentAt, end));\n  return Object.fromEntries([...durations.entries()].filter(([,d]) => Number.isFinite(d) && d > 0));\n}\nasync function buildTimeRows`;
+
+    patched = patched.replace(
+      /function statusDurations\(issue, histories\) \{[\s\S]*?\n\}\nasync function buildTimeRows/,
+      replacementStatusDurations,
     );
-    if (patched === runner) {
-      throw new Error("Could not patch Jira runner diagnostics.");
+
+    patched = patched.replace(
+      "rows.push({ issue, durations });",
+      "rows.push({ issue, durations, histories });",
+    );
+
+    patched = patched.replace(
+      "const { rows: timeRows, statuses } = await buildTimeRows(baseUrl, issues);",
+      "const { rows: timeRows, statuses } = await buildTimeRows(baseUrl, issues);\n  const timeRowByKey = new Map(timeRows.map(row => [row.issue?.key ?? '', row]));",
+    );
+
+    patched = patched.replace(
+      "for (const issue of issues) {\n    const f = issue?.fields ?? {};\n    issueLines.push(csvLine([\n      issue?.key ?? '', '', '', f.summary ?? '',",
+      "for (const issue of issues) {\n    const f = issue?.fields ?? {};\n    const timeRow = timeRowByKey.get(issue?.key ?? '');\n    const moveInfo = collectProjectMoveInfo(issue, timeRow?.histories ?? []);\n    issueLines.push(csvLine([\n      issue?.key ?? '', moveInfo.previousIssueKeys.join(' | '), moveInfo.projectEnteredAt ?? '', f.summary ?? '',",
+    );
+
+    const diagnosticReplacement = `main().catch(error => {\n  const cause = error?.cause;\n  const parts = [error?.message || String(error)];\n  if (cause?.code) parts.push(\`code=\${cause.code}\`);\n  if (cause?.message && cause.message !== error?.message) parts.push(cause.message);\n  console.error(\`ERROR: \${parts.join(" | ")}\`);\n  console.error("Jira helper ${HELPER_VERSION} diagnostic");\n  process.exitCode = 1;\n});`;
+
+    patched = patched.replace(
+      /main\(\)\.catch\(error => \{[\s\S]*?process\.exitCode = 1;\s*\}\);\s*$/,
+      diagnosticReplacement,
+    );
+
+    if (!patched.includes("collectProjectMoveInfo") || !patched.includes("timeRowByKey")) {
+      throw new Error("Could not patch Jira project-move handling.");
     }
     return patched;
   }
@@ -91,7 +120,7 @@
 
   async function install(handle) {
     if (!handle || handle.kind !== "directory") return false;
-    let permission = await handle.queryPermission({ mode: "readwrite" });
+    const permission = await handle.queryPermission({ mode: "readwrite" });
     if (permission !== "granted") return false;
 
     const { launcher, runner } = await helperContents();
@@ -145,7 +174,7 @@
 
   const picker = typeof window.showDirectoryPicker === "function" ? window.showDirectoryPicker.bind(window) : null;
   if (picker) {
-    window.showDirectoryPicker = async function smV3DirectoryPicker(options) {
+    window.showDirectoryPicker = async function smV4DirectoryPicker(options) {
       const handle = await picker(options);
       try {
         await install(handle);
