@@ -1,57 +1,16 @@
 (() => {
   // GLOBAL PILOT CONSISTENCY BRIDGE — applies to every team.
   //
-  // The React data model already shares the same `data.kpis` between Team and
-  // Scrum Master views. The remaining inconsistency is the Team Flow pipeline:
-  // it independently classifies statuses and independently recalculates Flow
-  // Efficiency / Biggest Queue. That can disagree with Process Health.
+  // Shared KPI cards already use the same `data.kpis` in Team and Scrum Master
+  // views. The remaining inconsistency is Team Flow / Where Time Is Spent:
+  // ExecutiveViews currently receives a separate `flowStages` snapshot while
+  // the Scrum Master Time in Status / Process Health path uses the selected
+  // period's core Time in Status rows and health snapshot.
   //
-  // Until Codex consolidates this directly in ExecutiveViews/App.tsx, keep the
-  // visible Team Flow presentation aligned with the existing core calculations.
-  // No team IDs/names are hard-coded and no MutationObserver/polling loop is used.
-
-  const QUEUE_HINTS = [
-    "backlog",
-    "funnel",
-    "to do",
-    "todo",
-    "selected for",
-    "open",
-    "queue",
-    "ready",
-    "pending",
-    "blocked",
-    "wait",
-    "waiting",
-    "on hold",
-    "hold",
-    "preparation",
-    "release",
-    "analysis",
-    "analysing",
-    "refinement",
-    "refined",
-    "triage",
-  ];
-
-  const ACTIVE_HINTS = [
-    "in progress",
-    "progress",
-    "develop",
-    "development",
-    "dev",
-    "code",
-    "review",
-    "qa",
-    "test",
-    "validation",
-    "accept",
-    "implementation",
-    "implementing",
-    "build",
-  ];
-
-  const SEVERE_QUEUE_HINTS = ["blocked", "wait", "waiting", "on hold", "hold", "pending"];
+  // This bridge makes the Team presentation consume those already-rendered core
+  // values. It has no team-specific names/IDs and uses no MutationObserver or
+  // permanent polling. Codex can remove it once the React data model exposes one
+  // canonical flow-stage model directly to both views.
 
   const TONES = {
     good: { fg: "#16A34A", bg: "#F0FDF4", border: "#BBF7D0" },
@@ -64,15 +23,6 @@
     return String(value || "").trim().toLowerCase();
   }
 
-  // Mirrors App.tsx semantics: queue hints win first; only known value-adding
-  // hints are ACTIVE. Unknown/non-value-adding states default to QUEUE.
-  function isActiveStatus(name) {
-    const normalized = normalize(name);
-    if (!normalized) return false;
-    if (QUEUE_HINTS.some((hint) => normalized.includes(hint))) return false;
-    return ACTIVE_HINTS.some((hint) => normalized.includes(hint));
-  }
-
   function parseDays(value) {
     const match = String(value || "").replace(",", ".").match(/-?\d+(?:\.\d+)?/);
     if (!match) return null;
@@ -80,23 +30,11 @@
     return Number.isFinite(parsed) ? parsed : null;
   }
 
-  // Same thresholds as App.tsx getTimeInStatusTone(). This fixes the previous
-  // presentation bug where every ACTIVE status was painted green regardless of
-  // whether it had been sitting there for 30, 50 or 100+ days.
-  function getStatusTone(name, days, active) {
-    if (!Number.isFinite(days) || days <= 0) return TONES.neutral;
-
-    if (active) {
-      return days <= 7 ? TONES.good : days <= 14 ? TONES.warning : TONES.critical;
-    }
-
-    const normalized = normalize(name);
-    const severeQueue = SEVERE_QUEUE_HINTS.some((hint) => normalized.includes(hint));
-    if (severeQueue) {
-      return days <= 2 ? TONES.good : days <= 5 ? TONES.warning : TONES.critical;
-    }
-
-    return days <= 4 ? TONES.good : days <= 8 ? TONES.warning : TONES.critical;
+  function getToneFromLegacyCard(card) {
+    if (card.classList.contains("bad")) return TONES.critical;
+    if (card.classList.contains("warn")) return TONES.warning;
+    if (card.classList.contains("good")) return TONES.good;
+    return TONES.neutral;
   }
 
   function setSummaryValue(pipeline, label, value) {
@@ -106,15 +44,41 @@
     if (strong) strong.textContent = value;
   }
 
-  // Executive view and the hidden legacy view are rendered from the same
-  // selectedTeamHealth snapshot. Reading the hidden core metric here prevents
-  // Team Flow from inventing a second definition for a metric with the same name.
+  function getLegacyRoot() {
+    return document.querySelector(".legacy-team-ui");
+  }
+
+  // Read the exact selected-period Time in Status rows already produced by the
+  // core React calculation. This also carries the core health tone/category.
+  function readCoreTimeInStatusRows() {
+    const root = getLegacyRoot();
+    if (!root) return [];
+
+    return Array.from(root.querySelectorAll(".team-time-status-summary .time-status-card"))
+      .map((card) => {
+        const name = card.querySelector(".time-status-name")?.textContent?.trim() || "";
+        const category = normalize(card.querySelector(".time-status-kind")?.textContent);
+        const days = parseDays(card.querySelector("strong")?.textContent);
+        if (!name || days === null) return null;
+
+        return {
+          name,
+          days,
+          // Executive Time in Status treats only explicit Active rows as active;
+          // Queue/Other diagnostic states are waiting time.
+          active: category === "active",
+          tone: getToneFromLegacyCard(card),
+        };
+      })
+      .filter(Boolean);
+  }
+
   function findCoreMetricValue(label) {
-    const legacyRoot = document.querySelector(".legacy-team-ui");
-    if (!legacyRoot) return null;
+    const root = getLegacyRoot();
+    if (!root) return null;
 
     const target = normalize(label);
-    const cards = Array.from(legacyRoot.querySelectorAll(".team-kpi-card"));
+    const cards = Array.from(root.querySelectorAll(".team-kpi-card"));
     for (const card of cards) {
       const labelNode = card.querySelector(".metric-label-row > span, .metric-label-row span");
       if (normalize(labelNode?.textContent) !== target) continue;
@@ -130,57 +94,111 @@
     return value.replace(/\s+days?\b/gi, "d").replace(/\s+/g, " ").trim();
   }
 
+  function buildVisibleCard(row, templateWrapper) {
+    const wrapper = templateWrapper.cloneNode(true);
+    const card = wrapper.querySelector("article");
+    const kind = card?.querySelector("span");
+    const name = card?.querySelector("strong");
+    const value = card?.querySelector("b");
+    if (kind) kind.textContent = row.active ? "ACTIVE" : "QUEUE";
+    if (name) name.textContent = row.name;
+    if (value) value.innerHTML = `${row.days.toFixed(1)}<small>d</small>`;
+    return wrapper;
+  }
+
+  function applyRowPresentation(wrapper, row, maxDays, isLast) {
+    const card = wrapper.querySelector("article");
+    if (!card) return;
+
+    const kind = card.querySelector("span");
+    const value = card.querySelector("b");
+    const bar = card.querySelector("i > u");
+    const arrow = wrapper.querySelector("em");
+
+    if (kind) {
+      kind.textContent = row.active ? "ACTIVE" : "QUEUE";
+      kind.style.color = row.tone.fg;
+    }
+    card.style.background = row.tone.bg;
+    card.style.borderColor = row.tone.border;
+    if (value) {
+      value.innerHTML = `${row.days.toFixed(1)}<small>d</small>`;
+      value.style.color = row.tone.fg;
+    }
+    if (bar instanceof HTMLElement) {
+      bar.style.width = `${Math.max(8, (row.days / maxDays) * 100)}%`;
+      bar.style.background = row.tone.fg;
+    }
+
+    if (isLast) {
+      arrow?.remove();
+    } else if (!arrow) {
+      const marker = document.createElement("em");
+      marker.textContent = "›";
+      wrapper.insertBefore(marker, wrapper.firstChild);
+    }
+  }
+
+  function syncVisibleStageCards(pipeline, coreRows) {
+    const rowContainer = pipeline.querySelector(".exec-flow-arrow-row");
+    if (!rowContainer || coreRows.length === 0) return coreRows;
+
+    const existingWrappers = Array.from(rowContainer.children).filter((node) => node instanceof HTMLElement);
+    if (existingWrappers.length === 0) return coreRows;
+
+    const byName = new Map();
+    existingWrappers.forEach((wrapper) => {
+      const name = wrapper.querySelector("article > strong")?.textContent?.trim();
+      if (name) byName.set(normalize(name), wrapper);
+    });
+
+    const template = existingWrappers[0];
+    const ordered = [];
+    coreRows.forEach((row) => {
+      const wrapper = byName.get(normalize(row.name)) || buildVisibleCard(row, template);
+      const name = wrapper.querySelector("article > strong");
+      if (name) name.textContent = row.name;
+      ordered.push({ wrapper, row });
+    });
+
+    // Remove stale/latest-month-only cards and rebuild in the exact order of the
+    // selected-period core Time in Status rows (All/YTD/range/month all work).
+    rowContainer.replaceChildren(...ordered.map((item) => item.wrapper));
+    const maxDays = Math.max(1, ...coreRows.map((row) => row.days));
+    ordered.forEach((item, index) => applyRowPresentation(item.wrapper, item.row, maxDays, index === ordered.length - 1));
+
+    return coreRows;
+  }
+
   function patchTeamFlow() {
     const pipeline = document.querySelector(".exec-flow-pipeline");
     if (!pipeline) return false;
 
-    const cards = Array.from(pipeline.querySelectorAll(".exec-flow-arrow-row article"));
-    if (cards.length === 0) return false;
+    const coreRows = readCoreTimeInStatusRows();
+    if (coreRows.length === 0) return false;
+    const rows = syncVisibleStageCards(pipeline, coreRows);
 
     let queueDays = 0;
     let activeDays = 0;
     let biggestQueue = null;
 
-    cards.forEach((card) => {
-      const name = card.querySelector("strong")?.textContent?.trim() || "";
-      const valueNode = card.querySelector("b");
-      const days = parseDays(valueNode?.textContent);
-      if (days === null) return;
-
-      const active = isActiveStatus(name);
-      const queue = !active;
-      const tone = getStatusTone(name, days, active);
-      const kind = card.querySelector("span");
-
-      if (kind) {
-        kind.textContent = active ? "ACTIVE" : "QUEUE";
-        kind.style.color = tone.fg;
-      }
-
-      card.style.background = tone.bg;
-      card.style.borderColor = tone.border;
-      if (valueNode) valueNode.style.color = tone.fg;
-
-      const bar = card.querySelector("i > u");
-      if (bar instanceof HTMLElement) bar.style.background = tone.fg;
-
-      if (queue) {
-        queueDays += days;
-        if (!biggestQueue || days > biggestQueue.days) biggestQueue = { name, days };
+    rows.forEach((row) => {
+      if (row.active) {
+        activeDays += row.days;
       } else {
-        activeDays += days;
+        queueDays += row.days;
+        if (!biggestQueue || row.days > biggestQueue.days) biggestQueue = row;
       }
     });
 
     const totalDays = queueDays + activeDays;
     const rawActiveShare = totalDays > 0 ? `${((activeDays / totalDays) * 100).toFixed(1)}%` : "-";
 
-    // Use the exact same core Flow Efficiency shown in Scrum Master Process
-    // Health. Do not recompute a second metric with the same label in Team view.
+    // Exact same core metric shown in Scrum Master Process Health.
     const coreFlowEfficiency = findCoreMetricValue("Flow Efficiency") || rawActiveShare;
 
-    // Queue Time by Status is the core queue ranking. Prefer it for Biggest Queue
-    // so Team and Scrum Master diagnostics identify the same waiting stage.
+    // Exact core queue ranking if available; otherwise use the same selected-
+    // period rows shown above.
     const coreBiggestQueue = normalizeQueueMetricValue(findCoreMetricValue("Queue Time by Status"));
     const biggestQueueValue =
       coreBiggestQueue || (biggestQueue ? `${biggestQueue.name} ${biggestQueue.days.toFixed(1)}d` : "-");
@@ -194,8 +212,8 @@
   }
 
   function schedulePatch() {
-    // React navigation/rendering is asynchronous. Finite retries cover team
-    // switches and Team/Scrum Master toggles without a permanent DOM observer.
+    // Finite retries cover asynchronous React navigation / team switches without
+    // a permanent background observer.
     [0, 80, 220, 500, 900].forEach((delay) => window.setTimeout(patchTeamFlow, delay));
   }
 
