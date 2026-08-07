@@ -224,7 +224,7 @@ export function buildAutoBottleneckEntriesFromIssueRows(
   options: TimeInStatusIssuePeriodAggregationOptions,
 ): BottleneckEntry[] {
   const { issueRows, issuePeriodByKey, flowStatuses = [], includeAllStatuses = false } = options;
-  if (issueRows.length === 0 || issuePeriodByKey.size === 0) {
+  if (issueRows.length === 0) {
     return [];
   }
 
@@ -245,7 +245,14 @@ export function buildAutoBottleneckEntriesFromIssueRows(
   const periodAgg = new Map<string, Map<string, { sumDays: number; count: number }>>();
 
   dedupedByIssue.forEach((row, issueKey) => {
-    const period = issuePeriodByKey.get(issueKey);
+    // Prefer the issues CSV because it is the canonical Done mapping, but do not
+    // discard valid Time in Status history when that join is missing. Jira's TIS
+    // export already carries Resolution Date, which parseTimeInStatusIssueRows
+    // normalizes into periodHint.
+    const period =
+      issuePeriodByKey.get(issueKey) ??
+      row.periodHint ??
+      (row.resolvedDate ? toMonthKey(row.resolvedDate) : undefined);
     if (!period || !/^\d{4}-\d{2}$/.test(period)) {
       return;
     }
@@ -466,6 +473,14 @@ export function parseTimeInStatusDurationDays(value: string | undefined): number
 
   if (!normalized || normalized === "-" || normalized === "n/a") {
     return null;
+  }
+
+  // The local Jira export uses values such as "6d 4h", while the standalone
+  // web helper historically emitted decimal working days such as "6.1675".
+  // Supporting both formats keeps local and hosted workspaces interchangeable.
+  if (/^\d+(?:\.\d+)?$/.test(normalized)) {
+    const numericDays = Number.parseFloat(normalized);
+    return Number.isFinite(numericDays) && numericDays >= 0 ? numericDays : null;
   }
 
   const unitPattern = /(\d+(?:\.\d+)?)\s*(w(?:eeks?)?|d(?:ays?)?|h(?:ours?)?|m(?:in(?:ute)?s?)?)/gi;
