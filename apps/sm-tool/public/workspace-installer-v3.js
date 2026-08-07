@@ -4,7 +4,8 @@
   const STORE_NAME = "settings";
   const WORKSPACE_KEY = "workspace-handle-v1";
   const SOURCE_URL = "/workspace-bootstrap.js";
-  const HELPER_VERSION = "v6";
+  const HELPER_VERSION = "v7";
+  const HARD_MAX_ISSUES = 2000;
 
   let installInFlight = false;
 
@@ -48,7 +49,21 @@
     if (!launcher.includes(runnerMarker)) {
       throw new Error("Could not patch Jira launcher.");
     }
-    return launcher.replace(runnerMarker, macCaSetup);
+
+    let patched = launcher.replace(runnerMarker, macCaSetup);
+
+    // Pilot safety: the generated launcher must not inherit a larger value
+    // from the user's shell. One Jira refresh is always capped at 2000 issues.
+    patched = patched.replace(
+      'export JIRA_MAX_ISSUES="${JIRA_MAX_ISSUES:-2000}"',
+      `export JIRA_MAX_ISSUES="${HARD_MAX_ISSUES}"`,
+    );
+
+    if (!patched.includes(`export JIRA_MAX_ISSUES="${HARD_MAX_ISSUES}"`)) {
+      throw new Error("Could not apply the 2000 issue Jira safety cap to launcher.");
+    }
+
+    return patched;
   }
 
   function patchRunner(runner) {
@@ -70,7 +85,6 @@
       /function statusDurations\(issue, histories\) \{[\s\S]*?\n\}\nasync function buildTimeRows/,
       replacementStatusDurations,
     );
-
     patched = patched.replace("rows.push({ issue, durations });", "rows.push({ issue, durations, histories });");
 
     if (!patched.includes("function formatDurationDays(value)")) {
@@ -81,7 +95,6 @@
       "const { rows: timeRows, statuses } = await buildTimeRows(baseUrl, issues);",
       "const { rows: timeRows, statuses } = await buildTimeRows(baseUrl, issues);\n  const timeRowByKey = new Map(timeRows.map(row => [row.issue?.key ?? '', row]));",
     );
-
     patched = patched.replace(
       "for (const issue of issues) {\n    const f = issue?.fields ?? {};\n    issueLines.push(csvLine([\n      issue?.key ?? '', '', '', f.summary ?? '',",
       "for (const issue of issues) {\n    const f = issue?.fields ?? {};\n    const timeRow = timeRowByKey.get(issue?.key ?? '');\n    const moveInfo = collectProjectMoveInfo(issue, timeRow?.histories ?? []);\n    issueLines.push(csvLine([\n      issue?.key ?? '', moveInfo.previousIssueKeys.join(' | '), moveInfo.projectEnteredAt ?? '', f.summary ?? '',",
@@ -111,8 +124,14 @@
     patched = patched.replaceAll("`issues-${stamp}.csv`", "'issues.csv'");
     patched = patched.replaceAll("`time-in-status-${stamp}.csv`", "'time-in-status.csv'");
 
-    const diagnosticReplacement = `main().catch(error => {\n  const cause = error?.cause;\n  const parts = [error?.message || String(error)];\n  if (cause?.code) parts.push(\`code=\${cause.code}\`);\n  if (cause?.message && cause.message !== error?.message) parts.push(cause.message);\n  console.error(\`ERROR: \${parts.join(" | ")}\`);\n  console.error("Jira helper ${HELPER_VERSION} diagnostic");\n  process.exitCode = 1;\n});`;
+    // Defence in depth: even if the launcher is bypassed or JIRA_MAX_ISSUES is
+    // manually overridden, the Node runner itself refuses to go over 2000.
+    patched = patched.replace(
+      "const maxIssues = Math.max(1, Math.min(5000, Number(process.env.JIRA_MAX_ISSUES || DEFAULT_MAX_ISSUES) || DEFAULT_MAX_ISSUES));",
+      `const maxIssues = Math.max(1, Math.min(${HARD_MAX_ISSUES}, Number(process.env.JIRA_MAX_ISSUES || DEFAULT_MAX_ISSUES) || DEFAULT_MAX_ISSUES));`,
+    );
 
+    const diagnosticReplacement = `main().catch(error => {\n  const cause = error?.cause;\n  const parts = [error?.message || String(error)];\n  if (cause?.code) parts.push(\`code=\${cause.code}\`);\n  if (cause?.message && cause.message !== error?.message) parts.push(cause.message);\n  console.error(\`ERROR: \${parts.join(" | ")}\`);\n  console.error("Jira helper ${HELPER_VERSION} diagnostic");\n  process.exitCode = 1;\n});`;
     patched = patched.replace(
       /main\(\)\.catch\(error => \{[\s\S]*?process\.exitCode = 1;\s*\}\);\s*$/,
       diagnosticReplacement,
@@ -124,9 +143,10 @@
       !patched.includes("function formatDurationDays(value)") ||
       patched.includes("row.durations[s] ? row.durations[s].toFixed(4) : ''") ||
       !patched.includes("'time-in-status.csv'") ||
-      !patched.includes("bottleneck-auto.json")
+      !patched.includes("bottleneck-auto.json") ||
+      !patched.includes(`Math.min(${HARD_MAX_ISSUES}`)
     ) {
-      throw new Error("Could not build Jira helper v6.");
+      throw new Error(`Could not build Jira helper ${HELPER_VERSION}.`);
     }
 
     return patched;
@@ -208,7 +228,7 @@
 
   const picker = typeof window.showDirectoryPicker === "function" ? window.showDirectoryPicker.bind(window) : null;
   if (picker) {
-    window.showDirectoryPicker = async function smV6DirectoryPicker(options) {
+    window.showDirectoryPicker = async function smV7DirectoryPicker(options) {
       const handle = await picker(options);
       try {
         await install(handle);
