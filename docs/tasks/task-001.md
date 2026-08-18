@@ -324,6 +324,67 @@ observation follow-ups forward.
 
 **Final verdict: PASS WITH FOLLOW-UPS. Next task may begin.**
 
+## QA re-review — Windows generator quoting remediation
+
+### Verdict
+
+`PASS WITH FOLLOW-UPS`
+
+### Findings
+
+- No P0/P1/P2 blockers found.
+- P3 environment follow-up: native Windows execution is unavailable in this
+  review environment, so the CI smoke job remains the final runtime evidence.
+
+### Evidence
+
+- `generateHelpers()` no longer invokes `npm` through `cmd.exe` and no longer
+  embeds the spaces-containing fixture path in a command string. It invokes the
+  repository Node executable (`process.execPath`) directly with the installed
+  `tsx/dist/cli.mjs`, generator path, and fixture path as separate arguments.
+- The fixture path assertion explicitly requires `workspace with spaces`, so
+  generator setup still tests argument-safe path handling.
+- The actual launcher test remains unchanged: `runLauncher()` invokes
+  `cmd.exe /d /c renew-team.cmd`, feeds automated stdin, and verifies the real
+  `.cmd` → PowerShell → Node → workspace-local runner chain.
+- Success still verifies selected team and exact space-containing workspace
+  path. Failure coverage still verifies runner exit code 23, error log metadata,
+  token/Authorization redaction, visible error, suppressed false success,
+  missing runner, invalid workspace, and invalid selection.
+- `node --check scripts/windows-renew-smoke.mjs` passed; the smoke command
+  skipped safely on non-Windows.
+- `npm run check` passed: 23 test files / 122 tests, typechecks, and production
+  build. The existing chunk-size warning is non-blocking.
+- `git diff --check` passed. The remediation diff is limited to the smoke
+  script; no CI, generator, payload, Jira analytics, Teams/workspace data, or
+  Cloudflare changes were introduced.
+
+### Coverage
+
+- Generator setup argument safety, spaces fixture, actual Windows launcher
+  chain, failure/log/redaction/exit assertions, syntax, full validation, and
+  scope safety checked.
+
+### Risk assessment
+
+Low. The generator setup no longer depends on Windows shell quoting; the
+runtime launcher chain remains explicitly exercised by the smoke script.
+
+### Required fixes
+
+- None blocking this remediation.
+
+### Follow-up tests
+
+- Confirm the updated smoke script passes on `windows-latest`, including the
+  generated fixture under a path containing spaces.
+
+### Recommended next task
+
+The next task may begin. Carry native Windows CI observation as a P3 follow-up.
+
+**Final verdict: PASS WITH FOLLOW-UPS. Next task may begin.**
+
 ## QA re-review — Windows CI npm invocation remediation
 
 ### Verdict
@@ -1007,3 +1068,28 @@ task remains pending Main/QA workflow decisions.
 Please rerun the Windows workflow and confirm the ComSpec invocation reaches
 launcher generation and then executes the full smoke chain. No commit was
 created and no customer/workspace data was changed.
+
+## Developer remediation handoff — Windows smoke generator path forwarding
+
+### Implemented
+
+- Replaced the smoke harness generator setup's `cmd.exe`/npm argument
+  forwarding with direct `process.execPath` invocation of the repository-local
+  `tsx` CLI and `src/generate-renew-launchers.ts`.
+- Kept the fixture workspace path containing spaces and added an explicit
+  assertion for that setup condition.
+- Preserved the actual launcher test chain through `cmd.exe`, PowerShell,
+  Node, and the workspace-local bundled runner.
+
+### Validation
+
+- `node --check scripts/windows-renew-smoke.mjs` — PASS.
+- `node scripts/windows-renew-smoke.mjs` — safely skipped on macOS.
+- `npm run check` — PASS: 23 test files / 122 tests, typechecks, and build.
+- `git diff --check` — PASS.
+
+### QA handoff
+
+Please rerun the Windows workflow and verify generator setup succeeds with the
+space-containing fixture path before the full launcher-chain assertions run.
+No commit was created and no customer/workspace data was changed.
