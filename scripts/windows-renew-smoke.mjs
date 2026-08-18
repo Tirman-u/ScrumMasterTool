@@ -22,8 +22,10 @@ const launchedProcessIds = new Set();
 const teamConfig = {
   teamName: "Fixture Team",
   jiraQuery: {
+    queries: [{ id: "fixture-query", name: "Fixture query", jql: "project = FIXTURE_PROJECT ORDER BY updated DESC" }],
+    defaultQueryId: "fixture-query",
     issueQuery: {
-      queries: [{ id: "fixture-query", name: "Fixture query", jql: "project = YOUR_PROJECT_KEY" }],
+      queries: [{ id: "fixture-query", name: "Fixture query", jql: "project = FIXTURE_PROJECT ORDER BY updated DESC" }],
       defaultQueryId: "fixture-query",
     },
   },
@@ -145,6 +147,15 @@ async function writeFixtureWorkspace() {
   await fs.mkdir(path.dirname(runnerPath), { recursive: true });
   await fs.writeFile(path.join(fixtureRoot, "workspace.json"), JSON.stringify({ version: 1 }), "utf8");
   await fs.writeFile(path.join(teamRoot, "team.json"), JSON.stringify(teamConfig), "utf8");
+  const savedConfig = JSON.parse(await fs.readFile(path.join(teamRoot, "team.json"), "utf8"));
+  const savedQueries = [
+    ...(savedConfig.jiraQuery?.queries ?? []),
+    ...(savedConfig.jiraQuery?.issueQuery?.queries ?? []),
+  ];
+  assert(
+    savedQueries.some((query) => typeof query.jql === "string" && query.jql.trim() && !query.jql.toLowerCase().includes("yourproject")),
+    "smoke fixture must contain a realistic saved JQL",
+  );
 }
 
 async function generateHelpers() {
@@ -172,6 +183,7 @@ async function main() {
   const windowsLauncher = await fs.readFile(path.join(fixtureRoot, "renew-team.ps1"), "utf8");
   assert(windowsLauncher.includes('& node -- "$Runner" "$WorkspaceDir" @SelectedTeamIds'), "Windows runner invocation does not preserve quoted workspace arguments");
   assert(windowsLauncher.includes('Write-Host "Enter one team number'), "Windows team-selection prompt contract is missing");
+  assert(windowsLauncher.includes('hasRealSavedJql(config.jiraQuery)'), "Windows launcher must derive TeamHasJql from saved JQL");
 
   const success = await runLauncher(
     ["https://jira.example.test", "1", token],
@@ -186,7 +198,7 @@ async function main() {
   const failed = await runLauncher(["https://jira.example.test", "1", token], { SM_WIN_SMOKE_MODE: "fail" });
   assert(failed.status === 23, `runner exit code was not propagated: ${failed.status}\n${failed.output}`);
   const failedLog = await fs.readFile(logPath, "utf8");
-  assert(failedLog.includes("launcher=renew-team.ps1 version=0.2.7"), "failure log metadata is missing");
+  assert(failedLog.includes("launcher=renew-team.ps1 version=0.2.8"), "failure log metadata is missing");
   assert(failedLog.includes("exitCode=23"), "failure log exit code is missing");
   assert(failedLog.includes("[REDACTED]"), "failure log redaction marker is missing");
   assert(!failedLog.includes(token), "failure log leaked the Jira token");

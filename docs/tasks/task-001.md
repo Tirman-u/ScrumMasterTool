@@ -1691,6 +1691,35 @@ PASS
 No P0/P1/P2 findings. Native Windows runtime remains an existing
 environment-dependent follow-up on this macOS host.
 
+## QA review — smoke fixture saved-JQL remediation
+
+### Verdict
+
+PASS WITH FOLLOW-UPS
+
+### Findings and evidence
+
+- `scripts/windows-renew-smoke.mjs` now creates an isolated fixture with
+  neutral saved JQL in both `jiraQuery.queries` and
+  `jiraQuery.issueQuery.queries`; it contains no customer identifiers.
+- Fixture serialization asserts that at least one query is non-empty and not
+  the placeholder `yourproject`, matching the production `hasRealSavedJql`
+  rule and therefore establishing `TeamHasJql=1` before selection/token flow.
+- The generated helper assertion confirms it derives `TeamHasJql` through
+  `hasRealSavedJql(config.jiraQuery)`. The production no-JQL guard and failure
+  behavior remain unchanged.
+- The success path still selects `1`, requires exit status 0, and reaches the
+  subsequent token input/completion path; existing failure, redaction, exit,
+  and runner assertions remain.
+- `node --check` passed for reviewed scripts, `git diff --check` passed, and
+  `npm run check` passed: 23 test files / 122 tests, typechecks, and build.
+- Scope is limited to the isolated Windows smoke fixture/assertions and
+  release metadata; no production/customer/workspace data change was made.
+
+No P0/P1/P2 findings. P3 follow-up: rerun the Windows smoke workflow after
+this remediation and retain the actual token-prompt/success evidence; it is
+Windows-only on this macOS host.
+
 ## Developer remediation handoff — valid Windows team selection
 
 ### Implemented
@@ -1744,3 +1773,30 @@ Teams, workspace, or Cloudflare data was changed by this remediation.
 QA should verify release metadata parity and rerun the Windows workflow for
 the valid team-selection-to-token-prompt path. No commit was made and no
 customer, Teams, workspace, or Cloudflare data was changed.
+
+## Developer remediation handoff — smoke fixture saved JQL
+
+### Implemented
+
+- Updated `scripts/windows-renew-smoke.mjs` so the isolated fixture contains
+  realistic, non-customer saved JQL in both the root and issue-query
+  collections used by the workspace contract.
+- Added a fixture assertion that the serialized `team.json` yields a valid
+  saved query under the same conditions used by the launcher’s
+  `hasRealSavedJql` check, ensuring `TeamHasJql=1` before the token prompt.
+- Added a generated-helper assertion for the saved-JQL derivation and updated
+  the expected failure-log metadata to release version `0.2.8`.
+- Kept the production saved-JQL guard unchanged.
+
+### Validation
+
+- `node --check scripts/windows-renew-smoke.mjs` — PASS.
+- `npm run check` — PASS: 23 test files / 122 tests, typechecks, and build.
+- `git diff --check` — PASS.
+
+### QA handoff
+
+Please rerun the Windows workflow and verify that fixture generation reports a
+real saved query, selection `1` passes the production guard, and the flow
+reaches the Jira token prompt. The smoke run remains Windows-only on this
+macOS host. No commit or customer/workspace data change was made.
