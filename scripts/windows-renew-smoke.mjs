@@ -52,6 +52,13 @@ function assert(condition, message) {
   if (!condition) throw new Error(message);
 }
 
+function canonicalWorkspacePath(value) {
+  return path
+    .resolve(String(value))
+    .replace(/[\\/]+$/, "")
+    .toLowerCase();
+}
+
 function killProcessTree(pid) {
   if (!pid || process.platform !== "win32") return;
   const commandShell = process.env.ComSpec || process.env.COMSPEC || "cmd.exe";
@@ -225,7 +232,12 @@ async function main() {
   assert(!success.output.includes(token), "success output leaked the Jira token");
   const successMarker = JSON.parse(await fs.readFile(path.join(fixtureRoot, "runner-success.json"), "utf8"));
   assert(successMarker.teamId === "fixture-team", "runner did not receive the selected team");
-  assert(successMarker.workspace === fixtureRoot, "runner did not receive the space-containing workspace path");
+  assert(fixtureRoot.includes(" "), "fixture workspace path must contain spaces");
+  assert(String(successMarker.workspace).includes(" "), "runner workspace path lost its spaces");
+  assert(
+    canonicalWorkspacePath(successMarker.workspace) === canonicalWorkspacePath(fixtureRoot),
+    "runner did not receive the canonical space-containing workspace path",
+  );
 
   const failed = await runLauncher(["https://jira.example.test", "1", token], { JIRA_TOKEN: token, SM_WIN_SMOKE_MODE: "fail" }, null, { sendTokenInput: false });
   assert(failed.status === 23, `runner exit code was not propagated: ${failed.status}\n${failed.output}`);

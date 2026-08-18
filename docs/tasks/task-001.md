@@ -2211,3 +2211,25 @@ launcher or token handling was changed.
 Please rerun Windows CI and verify env-token runner completion plus structural
 interactive-branch coverage, without requiring a prompt that production
 correctly skips when `JIRA_TOKEN` is pre-set.
+
+## Developer remediation handoff — canonical Windows workspace path assertion
+
+### Implemented
+
+- Updated the smoke success assertion to canonicalize both the fixture path and
+  `runner-success.json` path with `path.resolve`, separator normalization,
+  trailing-separator trimming, and Windows-insensitive casing.
+- Retained explicit assertions that both paths contain spaces and that the
+  generated runner invocation remains quoted.
+
+### Validation
+
+- `npm run check` — PASS: 23 test files / 122 tests, typechecks, and build.
+- `npx vitest run tests/workspace-installer-v3.test.ts` — PASS.
+- `node --check scripts/windows-renew-smoke.mjs` — PASS.
+- `git diff --check` — PASS.
+
+### QA handoff
+
+Please rerun Windows CI and verify canonical path identity, space preservation,
+quoted runner arguments, completion, redaction, and exit assertions.
