@@ -3,7 +3,7 @@
   const DB_VERSION = 1;
   const STORE_NAME = "settings";
   const WORKSPACE_KEY = "workspace-handle-v1";
-  const BOOTSTRAP_SOURCE_URL = "/workspace-bootstrap.js?v=20260818-7";
+  const BOOTSTRAP_SOURCE_URL = "/workspace-bootstrap.js?v=20260818-8";
 
   let helperContentsPromise = null;
   let installInFlight = false;
@@ -73,7 +73,33 @@
       '  Fail-Renew "Could not determine Node.js version. Current: $NodeVersion"',
       '}',
     ].join("\r\n");
-    return launcher.replace(legacyProbe, safeProbe);
+    return patchWindowsLauncherSelection(launcher.replace(legacyProbe, safeProbe));
+  }
+
+  function patchWindowsLauncherSelection(launcher) {
+    const legacySelection = [
+      '$Selection = Read-Host "Team number(s)"', '$SelectedIndexes = @()', '',
+      'if ($Selection.Trim().ToLowerInvariant() -eq "all") {',
+      '  for ($i = 1; $i -le $TeamIds.Count; $i += 1) {', '    $SelectedIndexes += $i', '  }',
+      '} else {', '  $SelectionTokens = $Selection -split "[,\\s]+" | Where-Object { $_ }',
+      '  foreach ($Token in $SelectionTokens) {', '    $ParsedNumber = 0',
+      '    if (-not [int]::TryParse($Token, [ref]$ParsedNumber) -or $ParsedNumber -lt 1 -or $ParsedNumber -gt $TeamIds.Count) {',
+      '      Fail-Renew "Invalid team number: $Token"', '    }', '    $SelectedIndexes += $ParsedNumber', '  }',
+      '}',
+    ].join("\r\n");
+    const safeSelection = [
+      '$Selection = [string](Read-Host "Team number(s)")', '$SelectedIndexes = @()',
+      '$SelectionNormalized = $Selection.Trim().ToLowerInvariant()',
+      'if ($SelectionNormalized -eq "all") {',
+      '  for ($i = 1; $i -le $TeamIds.Count; $i += 1) {', '    $SelectedIndexes += $i', '  }',
+      '} else {', '  $SelectionTokens = @($Selection -split "[,\\s]+" | Where-Object { -not [string]::IsNullOrWhiteSpace($_) })',
+      '  foreach ($Token in $SelectionTokens) {', "    if ($Token -notmatch '^[0-9]+$') {",
+      '      Fail-Renew "Invalid team number: $Token"', '    }', '    $ParsedNumber = [int]$Token',
+      '    if ($ParsedNumber -lt 1 -or $ParsedNumber -gt $TeamIds.Count) {',
+      '      Fail-Renew "Invalid team number: $Token"', '    }', '    $SelectedIndexes += $ParsedNumber', '  }',
+      '}',
+    ].join("\r\n");
+    return launcher.replace(legacySelection, () => safeSelection);
   }
 
   async function loadHelperContents() {

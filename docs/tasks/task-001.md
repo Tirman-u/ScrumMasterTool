@@ -1636,3 +1636,111 @@ PASS
 
 No P0/P1/P2 findings. Native Windows execution remains an existing
 environment-dependent follow-up on this macOS host.
+
+## QA review — Windows team selection parser remediation
+
+### Verdict
+
+PASS WITH FOLLOW-UPS
+
+### Findings and evidence
+
+- `src/generate-renew-launchers.ts` now casts `Read-Host` to `[string]`,
+  normalizes the selection once, rejects non-numeric tokens with an explicit
+  regex, then parses valid values as integers and bounds-checks them.
+- The live bootstrap and v2/v3 installer patch paths apply the same selection
+  fix. Their `launcher.replace(..., () => safeSelection)` callback prevents
+  PowerShell `$` sequences in the replacement payload from being interpreted
+  by JavaScript replacement-string semantics or truncating the helper.
+- The v3 regression test verifies the installed helper contains the robust
+  parser and that Jira token prompting occurs after selection parsing.
+- `node --check` passed for bootstrap, v2, v3, and smoke scripts; `git
+  diff --check` passed.
+- `npm run check` passed: 23 test files / 122 tests, typechecks, and build.
+- Scope is limited to generated/live launcher selection handling and its
+  regression assertion; no Jira analytics, Teams/workspace data, or
+  Cloudflare changes were introduced.
+
+No P0/P1/P2 findings. P3 follow-up: rerun the Windows smoke workflow and
+retain evidence that `1` reaches the token prompt and selected team. No
+production/customer/workspace data change was made by QA.
+
+## QA review — release 0.2.8
+
+### Verdict
+
+PASS
+
+### Evidence
+
+- Root and app package/lock pairs are version-parity at `0.2.8`.
+- `apps/sm-tool/index.html` uses cache-bust `20260818-8` consistently across
+  all eight public legacy assets; v2 and v3 use the matching bootstrap URL.
+- Generated/live Windows payloads retain the robust string-cast, numeric
+  team-selection parser and the safe replacement callback that preserves
+  PowerShell `$` content.
+- Quote-safe `node --version` parsing remains present in the generated and
+  installed helper paths; the v3 regression assertions remain in place.
+- `node --check` passed for all reviewed public/smoke scripts, `git
+  diff --check` passed, and `npm run check` passed: 23 test files / 122 tests,
+  typechecks, and build.
+- Scope is limited to release metadata/cache-bust and already-reviewed helper
+  behavior; no Jira analytics, Teams/workspace data, or Cloudflare changes
+  were introduced by this release check.
+
+No P0/P1/P2 findings. Native Windows runtime remains an existing
+environment-dependent follow-up on this macOS host.
+
+## Developer remediation handoff — valid Windows team selection
+
+### Implemented
+
+- Hardened generated Windows selection parsing so `Read-Host` is normalized to
+  a string, blank tokens are removed explicitly, and numeric selections are
+  validated with a quote-safe digit check before casting to `[int]`.
+- Applied the same selection payload to the live bootstrap and v2/v3
+  installers. Their replacement now uses a function replacer so PowerShell
+  `$` sequences cannot be interpreted by JavaScript `String.replace` and
+  truncate the installed script before the Jira token prompt.
+- Added a focused v3 installer assertion proving the selection validation is
+  present and that the Jira token prompt follows successful selection parsing.
+
+### Validation
+
+- `npx vitest run tests/workspace-installer-v3.test.ts` — PASS.
+- `npm run check` — PASS: 23 test files / 122 tests, typechecks, and build.
+- `node --check` for bootstrap, v2/v3 installers, and Windows smoke harness —
+  PASS.
+- `git diff --check` — PASS.
+
+### QA handoff
+
+Please rerun the Windows smoke workflow and verify that input `1` reaches the
+Jira token prompt and the existing runner, error-log, redaction, NoExit, and
+exit-propagation assertions remain green. No commit was made and no customer,
+Teams, workspace, or Cloudflare data was changed by this remediation.
+
+## Developer release handoff — version 0.2.8
+
+### Implemented
+
+- Bumped synchronized root and app package versions, package-lock metadata,
+  and generated Windows launcher metadata from `0.2.7` to `0.2.8`.
+- Advanced the public installer/bootstrap cache-bust marker from
+  `20260818-7` to `20260818-8`, including the v3 installer assertions.
+- Preserved the robust `[string]` team-selection parsing and safe replacement
+  callback from the preceding production fix.
+
+### Validation
+
+- `npx vitest run tests/workspace-installer-v3.test.ts` — PASS.
+- `npm run check` — PASS: 23 test files / 122 tests, typechecks, and build.
+- `node --check` for bootstrap, v2/v3 installers, and Windows smoke harness —
+  PASS.
+- `git diff --check` — PASS.
+
+### QA handoff
+
+QA should verify release metadata parity and rerun the Windows workflow for
+the valid team-selection-to-token-prompt path. No commit was made and no
+customer, Teams, workspace, or Cloudflare data was changed.

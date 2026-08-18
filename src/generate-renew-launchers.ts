@@ -10,7 +10,7 @@ const DEFAULT_BUCKET = "jira-api";
 const MASTER_LAUNCHER_NAME = "renew-team.command";
 const WINDOWS_MASTER_LAUNCHER_NAME = "renew-team.ps1";
 const WINDOWS_WRAPPER_NAME = "renew-team.cmd";
-const LAUNCHER_VERSION = "0.2.7";
+const LAUNCHER_VERSION = "0.2.8";
 const LEGACY_TEAM_LAUNCHER_NAME = "renew-data.command";
 const execFileAsync = promisify(execFile);
 
@@ -346,18 +346,22 @@ function buildWindowsMasterLauncher(): string {
     "}",
     "",
     'Write-Host "Enter one team number, multiple numbers separated by comma/space, or all."',
-    '$Selection = Read-Host "Team number(s)"',
+    '$Selection = [string](Read-Host "Team number(s)")',
     "$SelectedIndexes = @()",
     "",
-    'if ($Selection.Trim().ToLowerInvariant() -eq "all") {',
+    '$SelectionNormalized = $Selection.Trim().ToLowerInvariant()',
+    'if ($SelectionNormalized -eq "all") {',
     "  for ($i = 1; $i -le $TeamIds.Count; $i += 1) {",
     "    $SelectedIndexes += $i",
     "  }",
     "} else {",
-    '  $SelectionTokens = $Selection -split "[,\\s]+" | Where-Object { $_ }',
+    '  $SelectionTokens = @($Selection -split "[,\\s]+" | Where-Object { -not [string]::IsNullOrWhiteSpace($_) })',
     "  foreach ($Token in $SelectionTokens) {",
-    "    $ParsedNumber = 0",
-    "    if (-not [int]::TryParse($Token, [ref]$ParsedNumber) -or $ParsedNumber -lt 1 -or $ParsedNumber -gt $TeamIds.Count) {",
+    "    if ($Token -notmatch '^[0-9]+$') {",
+    '      Fail-Renew "Invalid team number: $Token"',
+    "    }",
+    "    $ParsedNumber = [int]$Token",
+    "    if ($ParsedNumber -lt 1 -or $ParsedNumber -gt $TeamIds.Count) {",
     '      Fail-Renew "Invalid team number: $Token"',
     "    }",
     "    $SelectedIndexes += $ParsedNumber",
