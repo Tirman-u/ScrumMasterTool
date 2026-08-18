@@ -1,0 +1,8 @@
+Teams/
+teams/
+node_modules/
+src/
+tests/
+*.csv
+*.log
+workspace.json

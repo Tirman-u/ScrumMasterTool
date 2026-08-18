@@ -1,5 +1,5 @@
 import { describe, expect, it } from "vitest";
-import { composeQueryWithTimeWindow, normalizeJiraQueryConfig } from "../apps/sm-tool/src/App";
+import { composeQueryWithTimeWindow, normalizeJiraQueryConfig } from "../apps/sm-tool/src/lib/jira-query";
 
 describe("composeQueryWithTimeWindow", () => {
   it("builds a combined activity window for issues queries", () => {

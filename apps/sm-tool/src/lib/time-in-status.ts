@@ -1,17 +1,20 @@
 import { type BottleneckEntry } from "../types/contracts";
 import { parseDate } from "./csv";
+import { type DurationBasis } from "./working-days";
 
 export interface TimeInStatusParseOptions {
   headers: string[];
   rows: Array<Record<string, string>>;
   fallbackPeriod: string;
   flowStatuses?: string[];
+  includeAllStatuses?: boolean;
 }
 
 export interface TimeInStatusIssueRow {
   issueKey: string;
-  resolvedDate: Date | null;
-  periodHint: string;
+  resolvedDate?: Date | null;
+  periodHint?: string;
+  durationBasis?: DurationBasis;
   durations: Array<{ status: string; days: number }>;
 }
 
@@ -19,6 +22,7 @@ export interface TimeInStatusIssuePeriodAggregationOptions {
   issueRows: TimeInStatusIssueRow[];
   issuePeriodByKey: ReadonlyMap<string, string>;
   flowStatuses?: string[];
+  includeAllStatuses?: boolean;
 }
 
 interface TimeInStatusRecord {
@@ -28,6 +32,7 @@ interface TimeInStatusRecord {
   resolvedMs: number;
   rowIndex: number;
   period: string;
+  durationBasis: DurationBasis;
   durations: Array<{ status: string; days: number }>;
 }
 
@@ -54,6 +59,7 @@ const META_HEADER_EXACT = new Set<string>([
   "average time taken",
   "average time taken (from table)",
   "avg time taken",
+  "duration basis",
 ]);
 
 const META_HEADER_CONTAINS = [
@@ -114,7 +120,7 @@ export function isTimeInStatusCsv(headers: string[], rows: Array<Record<string, 
 }
 
 export function parseTimeInStatusIssueRows(options: TimeInStatusParseOptions): TimeInStatusIssueRow[] {
-  const { headers, rows, flowStatuses = [] } = options;
+  const { headers, rows, flowStatuses = [], includeAllStatuses = false } = options;
   const fallbackPeriod = sanitizePeriod(options.fallbackPeriod);
 
   if (headers.length === 0 || rows.length === 0) {
@@ -130,10 +136,12 @@ export function parseTimeInStatusIssueRows(options: TimeInStatusParseOptions): T
   const flowNameByKey = new Map(normalizedFlowStatuses.map((value) => [normalizeText(value), value]));
 
   let durationHeaders = detectedDurationHeaders;
-  if (normalizedFlowStatuses.length > 0) {
+  if (includeAllStatuses) {
+    durationHeaders = detectedDurationHeaders.filter((header) => !isCancelledLikeStatus(header));
+  } else if (normalizedFlowStatuses.length > 0) {
     const flowOrder = new Set(normalizedFlowStatuses.map((value) => normalizeText(value)));
     durationHeaders = detectedDurationHeaders.filter(
-      (header) => flowOrder.has(normalizeText(header)) && !isTerminalOrCancelledStatus(header),
+      (header) => flowOrder.has(normalizeText(header)) && !isCancelledLikeStatus(header),
     );
   } else {
     durationHeaders = detectedDurationHeaders.filter((header) => !isDefaultNonFlowStatus(header));
@@ -146,6 +154,7 @@ export function parseTimeInStatusIssueRows(options: TimeInStatusParseOptions): T
   const resolutionHeader = findHeader(headers, RESOLUTION_HEADER_HINTS);
   const updatedHeader = findHeader(headers, UPDATED_HEADER_HINTS);
   const issueKeyHeader = findHeader(headers, ISSUE_KEY_HEADER_HINTS);
+  const durationBasisHeader = headers.find((header) => normalizeText(header) === "duration basis");
 
   const records: TimeInStatusRecord[] = [];
 
@@ -187,6 +196,7 @@ export function parseTimeInStatusIssueRows(options: TimeInStatusParseOptions): T
       resolvedMs,
       rowIndex,
       period: resolvedDate ? toMonthKey(resolvedDate) : fallbackPeriod,
+      durationBasis: parseDurationBasis(durationBasisHeader ? row[durationBasisHeader] : undefined),
       durations,
     });
   });
@@ -201,14 +211,19 @@ export function parseTimeInStatusIssueRows(options: TimeInStatusParseOptions): T
     issueKey: record.issueKey,
     resolvedDate: record.resolvedDate,
     periodHint: record.period,
+    durationBasis: record.durationBasis,
     durations: record.durations,
   }));
+}
+
+function parseDurationBasis(value: string | undefined): DurationBasis {
+  return normalizeText(value ?? "") === "working-days" ? "working-days" : "calendar-days";
 }
 
 export function buildAutoBottleneckEntriesFromIssueRows(
   options: TimeInStatusIssuePeriodAggregationOptions,
 ): BottleneckEntry[] {
-  const { issueRows, issuePeriodByKey, flowStatuses = [] } = options;
+  const { issueRows, issuePeriodByKey, flowStatuses = [], includeAllStatuses = false } = options;
   if (issueRows.length === 0 || issuePeriodByKey.size === 0) {
     return [];
   }
@@ -248,8 +263,12 @@ export function buildAutoBottleneckEntriesFromIssueRows(
         return;
       }
 
-      if (normalizedFlowStatuses.length > 0) {
-        if (!flowOrder.has(statusKey) || isTerminalOrCancelledStatus(rawStatus)) {
+      if (includeAllStatuses) {
+        if (isCancelledLikeStatus(rawStatus)) {
+          return;
+        }
+      } else if (normalizedFlowStatuses.length > 0) {
+        if (!flowOrder.has(statusKey) || isCancelledLikeStatus(rawStatus)) {
           return;
         }
       } else if (isDefaultNonFlowStatus(rawStatus)) {
@@ -274,12 +293,13 @@ export function buildAutoBottleneckEntriesFromIssueRows(
         .map(([name, value]) => ({
           name,
           avgDays: value.count > 0 ? value.sumDays / value.count : 0,
+          sampleCount: value.count,
         }))
         .filter((column) => Number.isFinite(column.avgDays) && column.avgDays > 0);
 
       return {
         period,
-        columns: sortColumns(columns, flowOrder),
+        columns: includeAllStatuses ? columns : sortColumns(columns, flowOrder),
       };
     })
     .filter((entry) => entry.columns.length > 0)
@@ -287,7 +307,7 @@ export function buildAutoBottleneckEntriesFromIssueRows(
 }
 
 export function buildAutoBottleneckEntriesFromTimeInStatus(options: TimeInStatusParseOptions): BottleneckEntry[] {
-  const { headers, rows, flowStatuses = [] } = options;
+  const { headers, rows, flowStatuses = [], includeAllStatuses = false } = options;
   const fallbackPeriod = sanitizePeriod(options.fallbackPeriod);
 
   if (headers.length === 0 || rows.length === 0) {
@@ -305,7 +325,9 @@ export function buildAutoBottleneckEntriesFromTimeInStatus(options: TimeInStatus
 
   let durationHeaders = detectedDurationHeaders;
 
-  if (normalizedFlowStatuses.length > 0) {
+  if (includeAllStatuses) {
+    durationHeaders = detectedDurationHeaders.filter((header) => !isCancelledLikeStatus(header));
+  } else if (normalizedFlowStatuses.length > 0) {
     durationHeaders = detectedDurationHeaders.filter(
       (header) => flowOrder.has(normalizeText(header)) && !isTerminalOrCancelledStatus(header),
     );
@@ -338,7 +360,7 @@ export function buildAutoBottleneckEntriesFromTimeInStatus(options: TimeInStatus
       return [
         {
           period: fallbackPeriod,
-          columns: sortColumns(columns, flowOrder),
+          columns: includeAllStatuses ? columns : sortColumns(columns, flowOrder),
         },
       ];
     }
@@ -386,6 +408,7 @@ export function buildAutoBottleneckEntriesFromTimeInStatus(options: TimeInStatus
       resolvedMs,
       rowIndex,
       period: resolvedDate ? toMonthKey(resolvedDate) : fallbackPeriod,
+      durationBasis: "calendar-days",
       durations,
     });
   });
@@ -417,12 +440,13 @@ export function buildAutoBottleneckEntriesFromTimeInStatus(options: TimeInStatus
         .map(([name, value]) => ({
           name,
           avgDays: value.count > 0 ? value.sumDays / value.count : 0,
+          sampleCount: value.count,
         }))
         .filter((column) => Number.isFinite(column.avgDays) && column.avgDays > 0);
 
       return {
         period,
-        columns: sortColumns(columns, flowOrder),
+        columns: includeAllStatuses ? columns : sortColumns(columns, flowOrder),
       };
     })
     .filter((entry) => entry.columns.length > 0)
@@ -515,6 +539,15 @@ export function isTerminalOrCancelledStatus(statusName: string | undefined): boo
   }
 
   if (TERMINAL_STATUS_HINTS.has(normalized)) {
+    return true;
+  }
+
+  return CANCELLED_STATUS_HINTS.some((hint) => normalized.includes(hint));
+}
+
+function isCancelledLikeStatus(statusName: string | undefined): boolean {
+  const normalized = normalizeText(statusName);
+  if (!normalized) {
     return true;
   }
 

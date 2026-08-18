@@ -1,16 +1,30 @@
-import { type ParsedIssue, type SleValues, type TeamConfig, type TeamMetrics, type VelocityPoint } from "../types/contracts";
+import {
+  type FlowTimingIssueDetail,
+  type FlowTimingMetric,
+  type ParsedIssue,
+  type SleValues,
+  type TeamConfig,
+  type TeamMetrics,
+  type VelocityPoint,
+} from "../types/contracts";
 import { type TimeInStatusIssueRow } from "./time-in-status";
+import { calendarDurationToWorkingDays, workingDaysBetween } from "./working-days";
 
-const MS_PER_DAY = 1000 * 60 * 60 * 24;
 export const DEFAULT_SLE_ISSUE_TYPES = ["Task", "Bug", "Story"] as const;
 
 export function dedupeIssuesByLatestUpdate(issues: ParsedIssue[]): ParsedIssue[] {
   const byKey = new Map<string, ParsedIssue>();
+  const canonicalKeyByAlias = buildCanonicalIssueKeyMap(issues);
 
   for (const issue of issues) {
-    const existing = byKey.get(issue.issueKey);
+    const issueKey = resolveCanonicalIssueKey(issue.issueKey, canonicalKeyByAlias);
+    if (!issueKey) {
+      continue;
+    }
+
+    const existing = byKey.get(issueKey);
     if (!existing) {
-      byKey.set(issue.issueKey, issue);
+      byKey.set(issueKey, issue);
       continue;
     }
 
@@ -18,11 +32,43 @@ export function dedupeIssuesByLatestUpdate(issues: ParsedIssue[]): ParsedIssue[]
     const existingUpdated = existing.updated?.getTime() ?? Number.NEGATIVE_INFINITY;
 
     if (issueUpdated >= existingUpdated) {
-      byKey.set(issue.issueKey, issue);
+      byKey.set(issueKey, issue);
     }
   }
 
   return Array.from(byKey.values());
+}
+
+function buildCanonicalIssueKeyMap(issues: ParsedIssue[]): Map<string, string> {
+  const byAlias = new Map<string, string>();
+
+  for (const issue of issues) {
+    const currentKey = normalize(issue.issueKey);
+    if (!currentKey) {
+      continue;
+    }
+
+    for (const previousKey of issue.previousIssueKeys ?? []) {
+      const alias = normalize(previousKey);
+      if (alias && alias !== currentKey) {
+        byAlias.set(alias, currentKey);
+      }
+    }
+  }
+
+  return byAlias;
+}
+
+function resolveCanonicalIssueKey(issueKey: string, canonicalKeyByAlias: Map<string, string>): string {
+  let current = normalize(issueKey);
+  const visited = new Set<string>();
+
+  while (current && canonicalKeyByAlias.has(current) && !visited.has(current)) {
+    visited.add(current);
+    current = canonicalKeyByAlias.get(current) ?? current;
+  }
+
+  return current;
 }
 
 export interface BuildMetricsOptions {
@@ -35,31 +81,33 @@ export function buildMetrics(
   dedupedIssues: ParsedIssue[],
   options: BuildMetricsOptions = {},
 ): TeamMetrics {
-  const excludedIssueKeys = new Set((teamConfig.excludedIssueKeys ?? []).map(normalize).filter(Boolean));
-  const includedIssues = dedupedIssues.filter((issue) => !excludedIssueKeys.has(normalize(issue.issueKey)));
+  const excludedIssueKeys = new Set(
+    [
+      ...(teamConfig.excludedIssueKeys ?? []),
+      ...(teamConfig.issueExclusions ?? []).map((exclusion) => exclusion.issueKey),
+    ].map(normalize).filter(Boolean),
+  );
+  const includedIssues = dedupedIssues.filter(
+    (issue) => !getIssueKeyAliases(issue).some((issueKey) => excludedIssueKeys.has(issueKey)),
+  );
   const doneIssues = includedIssues.filter((issue) => isDone(issue, teamConfig));
+  const latestTimeInStatusRows = dedupeTimeInStatusRowsByLatest(options.timeInStatusIssueRows ?? [], includedIssues);
+  const flowTimingDetails = buildFlowTimingIssueDetails(includedIssues, teamConfig, latestTimeInStatusRows);
 
-  const cycleTimeIssues = doneIssues
-    .map((issue) => {
-      if (!issue.created || !issue.resolutionDate) {
-        return null;
-      }
-      const cycleTimeDays = resolveCycleTimeDays(issue, teamConfig, options.timeInStatusIssueRows);
-      if (!Number.isFinite(cycleTimeDays) || cycleTimeDays < 0) {
-        return null;
-      }
-
-      return {
-        issueKey: issue.issueKey,
-        resolutionDate: issue.resolutionDate.toISOString(),
-        cycleTimeDays,
-        issueType: issue.issueType,
-      };
-    })
+  const cycleTimeIssues = flowTimingDetails
     .filter(
-      (item): item is { issueKey: string; resolutionDate: string; cycleTimeDays: number; issueType: string } =>
-        item !== null,
+      (detail): detail is FlowTimingIssueDetail & { cycleTimeDays: number } =>
+        detail.scope === "closed" &&
+        detail.cycleTimeDays !== null &&
+        Number.isFinite(detail.cycleTimeDays) &&
+        detail.cycleTimeDays >= 0,
     )
+    .map((detail) => ({
+      issueKey: detail.issueKey,
+      resolutionDate: detail.anchorDate,
+      cycleTimeDays: detail.cycleTimeDays,
+      issueType: detail.issueType ?? "",
+    }))
     .sort((a, b) => a.resolutionDate.localeCompare(b.resolutionDate));
 
   const sleIssueTypeSet = new Set(
@@ -74,9 +122,13 @@ export function buildMetrics(
     .map((item) => item.cycleTimeDays);
   const sleValues = buildSleValues(sleCycleTimes, teamConfig.sleConfig.rounding);
 
-  const multiSprintCount = doneIssues.filter((issue) => countSprints(issue.sprintRaw) >= 2).length;
+  const multiSprintIssueKeys = doneIssues
+    .filter((issue) => countSprints(issue.sprintRaw) >= 2)
+    .map((issue) => issue.issueKey);
+  const multiSprintCount = multiSprintIssueKeys.length;
   const multiSprintPercentage = doneIssues.length === 0 ? 0 : (multiSprintCount / doneIssues.length) * 100;
 
+  const cycleTimeByIssueKey = new Map(cycleTimeIssues.map((item) => [normalize(item.issueKey), item.cycleTimeDays]));
   const metrics: TeamMetrics = {
     generatedAt: new Date().toISOString(),
     teamName: teamConfig.teamName,
@@ -97,78 +149,297 @@ export function buildMetrics(
     doneIssueDetails: doneIssues.map((issue) => ({
       issueKey: issue.issueKey,
       resolutionDate: issue.resolutionDate?.toISOString() ?? "",
-      cycleTimeDays:
-        resolveCycleTimeDays(issue, teamConfig, options.timeInStatusIssueRows),
+      cycleTimeDays: cycleTimeByIssueKey.get(normalize(issue.issueKey)) ?? null,
       issueType: issue.issueType,
       storyPoints: resolveVelocityStoryPoints(issue, teamConfig),
       sprintCount: countSprints(issue.sprintRaw),
     })),
+    flowTiming: summarizeFlowTimingDetails(flowTimingDetails, teamConfig),
+    flowTimingBasis: "working-days",
+    flowTimingDetails,
     multiSprint: {
       count: multiSprintCount,
       percentage: multiSprintPercentage,
     },
+    multiSprintIssueKeys,
   };
 
   return metrics;
 }
 
-function resolveCycleTimeDays(
-  issue: ParsedIssue,
+function buildFlowTimingIssueDetails(
+  includedIssues: ParsedIssue[],
   teamConfig: TeamConfig,
   timeInStatusIssueRows: TimeInStatusIssueRow[] | undefined,
-): number | null {
-  const statusCycleTime = resolveTimeInStatusCycleTimeDays(issue, teamConfig, timeInStatusIssueRows);
-  if (statusCycleTime !== null) {
-    return statusCycleTime;
-  }
+): FlowTimingIssueDetail[] {
+  const byIssueKey = new Map((timeInStatusIssueRows ?? []).map((row) => [normalize(row.issueKey), row]));
+  const details: FlowTimingIssueDetail[] = [];
 
-  if (!issue.created || !issue.resolutionDate) {
-    return null;
-  }
-
-  return (issue.resolutionDate.getTime() - issue.created.getTime()) / MS_PER_DAY;
-}
-
-function resolveTimeInStatusCycleTimeDays(
-  issue: ParsedIssue,
-  teamConfig: TeamConfig,
-  timeInStatusIssueRows: TimeInStatusIssueRow[] | undefined,
-): number | null {
-  if (!timeInStatusIssueRows || timeInStatusIssueRows.length === 0) {
-    return null;
-  }
-
-  const issueKey = normalize(issue.issueKey);
-  const row = timeInStatusIssueRows.find((item) => normalize(item.issueKey) === issueKey);
-  if (!row) {
-    return null;
-  }
-
-  const activeSet = new Set((teamConfig.workflowConfig?.activeStatuses ?? teamConfig.sprintScopeConfig?.statuses ?? []).map(normalize).filter(Boolean));
-  const backlogSet = new Set((teamConfig.workflowConfig?.backlogStatuses ?? []).map(normalize).filter(Boolean));
-  const doneSet = new Set((teamConfig.doneConfig.doneStatuses ?? []).map(normalize).filter(Boolean));
-
-  const includedDurations = row.durations.filter((duration) => {
-    const status = normalize(duration.status);
-    if (!status || !Number.isFinite(duration.days) || duration.days <= 0) {
-      return false;
+  includedIssues.forEach((issue) => {
+    const done = isDone(issue, teamConfig);
+    if (!done && isCancelledIssue(issue)) {
+      return;
     }
 
-    if (activeSet.size > 0) {
-      return activeSet.has(status);
+    const row = findTimeInStatusRow(issue, byIssueKey);
+    const anchorDate = done ? issue.resolutionDate : issue.updated ?? issue.created;
+    if (!anchorDate) {
+      return;
     }
 
-    return !backlogSet.has(status) && !doneSet.has(status) && !["done", "closed", "resolved"].includes(status);
+    const rawValues = row
+      ? buildIssueFlowTiming(row.durations, teamConfig)
+      : { leadTime: null, activeTime: null, cycleTime: null };
+    const toWorkingDays = (value: number | null): number | null =>
+      row?.durationBasis === "working-days" ? value : calendarDurationToWorkingDays(value, anchorDate);
+    const cycleTimeDays =
+      toWorkingDays(rawValues.cycleTime) ?? (done ? resolveElapsedCycleTimeWorkingDays(issue) : null);
+    if (cycleTimeDays === null) {
+      return;
+    }
+
+    details.push({
+      issueKey: issue.issueKey,
+      issueType: issue.issueType,
+      anchorDate: anchorDate.toISOString(),
+      scope: done ? "closed" : "open",
+      leadTimeDays: toWorkingDays(rawValues.leadTime),
+      activeTimeDays: toWorkingDays(rawValues.activeTime),
+      cycleTimeDays,
+    });
   });
 
-  if (includedDurations.length === 0) {
+  return details.sort((a, b) => a.anchorDate.localeCompare(b.anchorDate));
+}
+
+function summarizeFlowTimingDetails(details: FlowTimingIssueDetail[], teamConfig: TeamConfig): TeamMetrics["flowTiming"] {
+  const scope = resolveFlowTimingIssueScope(teamConfig);
+  const scopedDetails = details.filter((detail) =>
+    detail.scope === "closed" ? scope.includeClosedTickets : scope.includeOpenTickets,
+  );
+  const leadValues: number[] = [];
+  const activeValues: number[] = [];
+  const cycleValues: number[] = [];
+
+  scopedDetails.forEach((detail) => {
+    pushIfUsable(leadValues, detail.leadTimeDays);
+    pushIfUsable(activeValues, detail.activeTimeDays);
+    pushIfUsable(cycleValues, detail.cycleTimeDays);
+  });
+
+  return {
+    leadTime: summarizeFlowTiming(leadValues),
+    activeTime: summarizeFlowTiming(activeValues),
+    cycleTime: summarizeFlowTiming(cycleValues),
+  };
+}
+
+function resolveFlowTimingIssueScope(teamConfig: TeamConfig): { includeClosedTickets: boolean; includeOpenTickets: boolean } {
+  const includeClosedTickets = teamConfig.flowTimingConfig?.includeClosedTickets !== false;
+  const includeOpenTickets = teamConfig.flowTimingConfig?.includeOpenTickets === true;
+
+  if (!includeClosedTickets && !includeOpenTickets) {
+    return { includeClosedTickets: true, includeOpenTickets: false };
+  }
+
+  return { includeClosedTickets, includeOpenTickets };
+}
+
+export function isCancelledIssue(issue: ParsedIssue): boolean {
+  return isCancelledLikeText(issue.status) || isCancelledLikeText(issue.resolution);
+}
+
+function isCancelledLikeText(value: string | undefined): boolean {
+  const normalized = normalize(value ?? "");
+  return ["cancel", "abandon", "won't do", "wont do", "reject", "declin", "duplicate", "obsolete"].some((hint) =>
+    normalized.includes(hint),
+  );
+}
+
+function buildIssueFlowTiming(
+  durations: TimeInStatusIssueRow["durations"],
+  teamConfig: TeamConfig,
+): { leadTime: number | null; activeTime: number | null; cycleTime: number | null } {
+  const flowClassifier = buildFlowStatusClassifier(teamConfig);
+  const leadTime = sumDurations(durations, flowClassifier.isLead);
+  const activeTime = sumDurations(durations, flowClassifier.isActive);
+  const cycleTime = sumDurations(durations, flowClassifier.isImplementation);
+
+  return {
+    leadTime: normalizeFlowTimingValue(leadTime),
+    activeTime: normalizeFlowTimingValue(activeTime),
+    cycleTime: normalizeFlowTimingValue(cycleTime),
+  };
+}
+
+function sumDurations(
+  durations: TimeInStatusIssueRow["durations"],
+  include: (status: string) => boolean,
+): number | null {
+  const total = durations.reduce((sum, duration) => {
+    if (!Number.isFinite(duration.days) || duration.days <= 0 || !include(duration.status)) {
+      return sum;
+    }
+    return sum + duration.days;
+  }, 0);
+
+  return total > 0 ? total : null;
+}
+
+function normalizeFlowTimingValue(value: number | null): number | null {
+  if (value === null || !Number.isFinite(value) || value <= 0) {
     return null;
   }
 
-  return includedDurations.reduce((sum, duration) => sum + duration.days, 0);
+  return value <= 5000 ? value : null;
+}
+
+function summarizeFlowTiming(values: number[]): FlowTimingMetric {
+  return {
+    count: values.length,
+    avgDays: values.length === 0 ? null : values.reduce((sum, value) => sum + value, 0) / values.length,
+    ...buildSleValues(values, "ceil"),
+  };
+}
+
+function pushIfUsable(target: number[], value: number | null): void {
+  if (value !== null && Number.isFinite(value) && value > 0) {
+    target.push(value);
+  }
+}
+
+function buildFlowStatusClassifier(teamConfig: TeamConfig): {
+  isLead: (status: string) => boolean;
+  isActive: (status: string) => boolean;
+  isImplementation: (status: string) => boolean;
+} {
+  const workflow = teamConfig.workflowConfig;
+  const backlogSet = buildStatusSet(workflow?.backlogStatuses);
+  const funnelSet = buildStatusSet(workflow?.funnelStatuses);
+  const configuredActiveStatuses =
+    workflow?.activeStatuses && workflow.activeStatuses.length > 0
+      ? workflow.activeStatuses
+      : teamConfig.sprintScopeConfig?.statuses;
+  const activeSet = buildStatusSet(configuredActiveStatuses);
+  const implementingSet = buildStatusSet(workflow?.implementingStatuses);
+  const doneSet = buildStatusSet(teamConfig.doneConfig.doneStatuses);
+  const hasConfiguredFlowStatuses =
+    backlogSet.size > 0 || funnelSet.size > 0 || activeSet.size > 0 || implementingSet.size > 0;
+  const hasImplementationStatuses = implementingSet.size > 0;
+
+  if (!hasConfiguredFlowStatuses) {
+    return {
+      isLead: isLeadFlowStatus,
+      isActive: isActiveFlowStatus,
+      isImplementation: isImplementationFlowStatus,
+    };
+  }
+
+  const isDone = (status: string): boolean => {
+    const key = normalize(status);
+    return doneSet.has(key) || isTerminalFlowStatus(status);
+  };
+
+  return {
+    isLead: (status: string) => {
+      const key = normalize(status);
+      return Boolean(key) && !isDone(status) && (funnelSet.has(key) || activeSet.has(key) || implementingSet.has(key));
+    },
+    isActive: (status: string) => {
+      const key = normalize(status);
+      return Boolean(key) && !isDone(status) && (activeSet.has(key) || implementingSet.has(key));
+    },
+    isImplementation: (status: string) => {
+      const key = normalize(status);
+      if (!key || isDone(status)) {
+        return false;
+      }
+
+      return hasImplementationStatuses ? implementingSet.has(key) : activeSet.has(key) || isImplementationFlowStatus(status);
+    },
+  };
+}
+
+function buildStatusSet(statuses: string[] | undefined): Set<string> {
+  return new Set((statuses ?? []).map(normalize).filter(Boolean));
+}
+
+function isLeadFlowStatus(status: string): boolean {
+  return !isTerminalFlowStatus(status) && !isPreFunnelStatus(status);
+}
+
+function isActiveFlowStatus(status: string): boolean {
+  return isLeadFlowStatus(status) && !isFunnelStatus(status);
+}
+
+function isImplementationFlowStatus(status: string): boolean {
+  const key = normalize(status);
+  if (!key || isTerminalFlowStatus(status) || isFunnelStatus(status) || key.includes("analys")) {
+    return false;
+  }
+
+  return (
+    key.includes("implement") ||
+    key.includes("development") ||
+    key.includes("in progress") ||
+    key.includes("review") ||
+    key.includes("test") ||
+    key.includes("acceptance") ||
+    key.includes("code review")
+  );
+}
+
+function isFunnelStatus(status: string): boolean {
+  return normalize(status).includes("funnel");
+}
+
+function isPreFunnelStatus(status: string): boolean {
+  const key = normalize(status);
+  return key === "backlog" || key === "open" || key === "to do" || key === "todo" || key.includes("idea box");
+}
+
+function isTerminalFlowStatus(status: string): boolean {
+  const key = normalize(status);
+  return ["done", "closed", "resolved", "abandoned", "cancelled", "canceled", "won't do", "wont do"].includes(key);
+}
+
+function resolveElapsedCycleTimeWorkingDays(issue: ParsedIssue): number | null {
+  const cycleStart = resolveIssueStartDate(issue);
+  if (!cycleStart || !issue.resolutionDate) {
+    return null;
+  }
+
+  return workingDaysBetween(cycleStart, issue.resolutionDate);
+}
+
+function resolveIssueStartDate(issue: ParsedIssue): Date | null {
+  if (!issue.projectEnteredAt || !issue.created) {
+    return issue.projectEnteredAt ?? issue.created;
+  }
+
+  return issue.projectEnteredAt.getTime() > issue.created.getTime() ? issue.projectEnteredAt : issue.created;
+}
+
+function findTimeInStatusRow<T>(issue: ParsedIssue, byIssueKey: Map<string, T>): T | undefined {
+  for (const key of getIssueKeyAliases(issue)) {
+    const row = byIssueKey.get(key);
+    if (row) {
+      return row;
+    }
+  }
+
+  return undefined;
+}
+
+function getIssueKeyAliases(issue: ParsedIssue): string[] {
+  return [issue.issueKey, ...(issue.previousIssueKeys ?? [])].map(normalize).filter(Boolean);
 }
 
 export function isDone(issue: ParsedIssue, teamConfig: TeamConfig): boolean {
+  if (isCancelledIssue(issue)) {
+    return false;
+  }
+
   const status = normalize(issue.status);
   const resolution = normalize(issue.resolution);
   const hasResolutionDate = Boolean(issue.resolutionDate);
@@ -213,17 +484,40 @@ export function resolveEffectiveSleIssueTypes(
   configuredIssueTypes: string[] | undefined,
   observedIssueTypes: Array<string | undefined>,
 ): string[] {
-  const normalizedConfigured = normalizeSleIssueTypes(configuredIssueTypes);
-  const normalizedObserved = normalizeIssueTypeList(observedIssueTypes);
+  void observedIssueTypes;
+  return normalizeSleIssueTypes(configuredIssueTypes);
+}
 
-  if (normalizedObserved.length === 0) {
-    return normalizedConfigured;
-  }
+export function dedupeTimeInStatusRowsByLatest(
+  rows: TimeInStatusIssueRow[],
+  issues: ParsedIssue[],
+): TimeInStatusIssueRow[] {
+  const canonicalKeyByAlias = new Map<string, string>();
 
-  const observedSet = new Set(normalizedObserved.map(normalize));
-  const hasConfiguredMatch = normalizedConfigured.some((issueType) => observedSet.has(normalize(issueType)));
+  issues.forEach((issue) => {
+    const canonicalKey = normalize(issue.issueKey);
+    if (!canonicalKey) {
+      return;
+    }
 
-  return hasConfiguredMatch ? normalizedConfigured : normalizedObserved;
+    getIssueKeyAliases(issue).forEach((alias) => canonicalKeyByAlias.set(alias, canonicalKey));
+  });
+
+  const latestByCanonicalKey = new Map<string, TimeInStatusIssueRow>();
+  rows.forEach((row) => {
+    const rawKey = normalize(row.issueKey);
+    if (!rawKey) {
+      return;
+    }
+
+    const canonicalKey = canonicalKeyByAlias.get(rawKey) ?? rawKey;
+    latestByCanonicalKey.set(canonicalKey, {
+      ...row,
+      issueKey: canonicalKey,
+    });
+  });
+
+  return Array.from(latestByCanonicalKey.values());
 }
 
 export function isIssueTypeIncludedInSle(issueType: string | undefined, sleIssueTypes: string[] | undefined): boolean {

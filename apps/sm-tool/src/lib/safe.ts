@@ -46,7 +46,7 @@ export const SAFE_METRIC_CATALOG: Record<SafeMetricId, SafeMetricDefinition> = {
     label: "Flow Velocity",
     description: "Completed work items over a given period.",
     support: "supported",
-    mappedMetrics: ["Stories Done", "Velocity", "Throughput"],
+    mappedMetrics: ["Items Done", "Velocity", "Throughput"],
   },
   "flow-load": {
     id: "flow-load",

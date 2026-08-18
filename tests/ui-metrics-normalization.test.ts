@@ -70,4 +70,35 @@ describe("normalizeTeamMetrics", () => {
       }),
     ).toBeNull();
   });
+
+  it("migrates legacy flow details and scatter points to working days", () => {
+    const normalized = normalizeTeamMetrics({
+      teamName: "Legacy",
+      cycleTimeDays: [7],
+      scatter: [
+        { issueKey: "LEG-1", resolutionDate: "2026-01-12T09:00:00.000Z", cycleTimeDays: 365 },
+      ],
+      flowTimingDetails: [
+        {
+          issueKey: "LEG-1",
+          anchorDate: "2026-01-12T09:00:00.000Z",
+          scope: "closed",
+          leadTimeDays: 7,
+          activeTimeDays: 7,
+          cycleTimeDays: 7,
+        },
+      ],
+    });
+
+    expect(normalized?.flowTimingBasis).toBe("working-days");
+    expect(normalized?.flowTimingDetails?.[0].cycleTimeDays).toBe(5);
+    expect(normalized?.scatter).toEqual([
+      {
+        issueKey: "LEG-1",
+        resolutionDate: "2026-01-12T09:00:00.000Z",
+        cycleTimeDays: 5,
+      },
+    ]);
+    expect(normalized?.avgCycleTimeDays).toBe(5);
+  });
 });

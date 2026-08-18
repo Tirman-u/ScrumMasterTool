@@ -4,6 +4,7 @@ import os from "node:os";
 import path from "node:path";
 import { buildMetrics, dedupeIssuesByLatestUpdate } from "../src/domain/metrics.js";
 import { loadWorkspace, writeTeamCache } from "../src/io/workspace.js";
+import { workingDaysBetween } from "../apps/sm-tool/src/lib/working-days.js";
 
 const HEADER = "Issue key,Created,Resolved,Updated,Status,Resolution,Story points,Sprint,Sprint";
 
@@ -91,7 +92,10 @@ describe("workspace pipeline", () => {
     const metrics = buildMetrics(team.teamConfig, team.totalRows, deduped);
 
     expect(metrics.cycleTimeCount).toBe(1);
-    expect(metrics.scatter[0].cycleTimeDays).toBe(3);
+    expect(metrics.scatter[0].cycleTimeDays).toBeCloseTo(
+      workingDaysBetween(deduped[0].created as Date, deduped[0].resolutionDate as Date),
+      8,
+    );
     expect(metrics.velocityMonthly).toEqual([{ month: "2026-01", value: 2 }]);
   });
 
@@ -143,7 +147,10 @@ describe("workspace pipeline", () => {
     const metrics = buildMetrics(team.teamConfig, team.totalRows, deduped);
 
     expect(deduped[0].issueType).toBe("Bug");
-    expect(metrics.scatter[0].cycleTimeDays).toBe(9);
+    expect(metrics.scatter[0].cycleTimeDays).toBeCloseTo(
+      workingDaysBetween(deduped[0].created as Date, deduped[0].resolutionDate as Date),
+      8,
+    );
   });
 
   it("auto-detects custom field headers for story points and sprint", async () => {

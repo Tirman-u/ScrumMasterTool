@@ -4,6 +4,7 @@ import {
   buildAutoBottleneckEntriesFromTimeInStatus,
   isTimeInStatusCsv,
   parseTimeInStatusDurationDays,
+  parseTimeInStatusIssueRows,
 } from "../apps/sm-tool/src/lib/time-in-status";
 
 describe("time-in-status parser", () => {
@@ -11,6 +12,28 @@ describe("time-in-status parser", () => {
     expect(parseTimeInStatusDurationDays("2d 12h 30m")).toBeCloseTo(2.5208, 3);
     expect(parseTimeInStatusDurationDays("1w 2d")).toBe(9);
     expect(parseTimeInStatusDurationDays("-")).toBeNull();
+  });
+
+  it("preserves the working-day basis emitted by the Jira pull", () => {
+    const headers = ["Issue key", "Resolution Date", "Duration basis", "In Progress"];
+    const rows = [
+      {
+        "Issue key": "BW-11",
+        "Resolution Date": "10.02.2026 10:00",
+        "Duration basis": "working-days",
+        "In Progress": "3d 4h",
+      },
+    ];
+
+    const issueRows = parseTimeInStatusIssueRows({
+      headers,
+      rows,
+      fallbackPeriod: "2026-02",
+      includeAllStatuses: true,
+    });
+
+    expect(issueRows[0].durationBasis).toBe("working-days");
+    expect(issueRows[0].durations[0].days).toBeCloseTo(3.1667, 3);
   });
 
   it("builds one bottleneck entry from summary row and respects flow status filter", () => {
@@ -115,9 +138,108 @@ describe("time-in-status parser", () => {
     expect(entries).toEqual([
       {
         period: "2026-02",
-        columns: [{ name: "In Progress", avgDays: 6 }],
+        columns: [{ name: "In Progress", avgDays: 6, sampleCount: 1 }],
       },
     ]);
+  });
+
+  it("keeps configured funnel statuses in issue-row aggregation", () => {
+    const entries = buildAutoBottleneckEntriesFromIssueRows({
+      issueRows: [
+        {
+          issueKey: "BW-9",
+          resolvedDate: null,
+          periodHint: "2026-02",
+          durations: [
+            { status: "Refinement", days: 5 },
+            { status: "Ready for Testing", days: 3 },
+            { status: "Development", days: 2 },
+            { status: "Done", days: 1 },
+          ],
+        },
+      ],
+      issuePeriodByKey: new Map([["bw-9", "2026-02"]]),
+      flowStatuses: ["Refinement", "Ready for Testing", "Development"],
+    });
+
+    expect(entries[0].columns.map((column) => column.name)).toEqual([
+      "Refinement",
+      "Ready for Testing",
+      "Development",
+    ]);
+  });
+
+  it("can keep every Time in Status duration column for the detailed status view", () => {
+    const headers = [
+      "Issue key",
+      "Resolution Date",
+      "Updated",
+      "Think it",
+      "Choose It",
+      "Initial discovery",
+      "Analysing",
+      "Backlog",
+      "Implementing",
+      "Funnel",
+      "Reviewing",
+      "Delivery",
+      "Cancelled",
+    ];
+    const rows = [
+      {
+        "Issue key": "BW-10",
+        "Resolution Date": "10.02.2026 10:00",
+        Updated: "10.02.2026 10:00",
+        "Think it": "1d 0h 0m",
+        "Choose It": "2d 0h 0m",
+        "Initial discovery": "3d 0h 0m",
+        Analysing: "4d 0h 0m",
+        Backlog: "5d 0h 0m",
+        Implementing: "6d 0h 0m",
+        Funnel: "7d 0h 0m",
+        Reviewing: "8d 0h 0m",
+        Delivery: "9d 0h 0m",
+        Cancelled: "100d 0h 0m",
+      },
+    ];
+
+    const issueRows = parseTimeInStatusIssueRows({
+      headers,
+      rows,
+      fallbackPeriod: "2026-02",
+      includeAllStatuses: true,
+    });
+
+    expect(issueRows[0].durations.map((duration) => duration.status)).toEqual([
+      "Think it",
+      "Choose It",
+      "Initial discovery",
+      "Analysing",
+      "Backlog",
+      "Implementing",
+      "Funnel",
+      "Reviewing",
+      "Delivery",
+    ]);
+
+    const entries = buildAutoBottleneckEntriesFromIssueRows({
+      issueRows,
+      issuePeriodByKey: new Map([["bw-10", "2026-02"]]),
+      includeAllStatuses: true,
+    });
+
+    expect(entries[0].columns.map((column) => column.name)).toEqual([
+      "Think it",
+      "Choose It",
+      "Initial discovery",
+      "Analysing",
+      "Backlog",
+      "Implementing",
+      "Funnel",
+      "Reviewing",
+      "Delivery",
+    ]);
+    expect(entries[0].columns.map((column) => column.name)).not.toContain("Cancelled");
   });
 
   it("maps issue rows to month by matched done issue and keeps latest row per key", () => {
@@ -169,13 +291,13 @@ describe("time-in-status parser", () => {
       {
         period: "2026-01",
         columns: [
-          { name: "In Progress", avgDays: 5 },
-          { name: "Code Review", avgDays: 2 },
+          { name: "In Progress", avgDays: 5, sampleCount: 1 },
+          { name: "Code Review", avgDays: 2, sampleCount: 1 },
         ],
       },
       {
         period: "2026-02",
-        columns: [{ name: "In Progress", avgDays: 3 }],
+        columns: [{ name: "In Progress", avgDays: 3, sampleCount: 1 }],
       },
     ]);
   });
@@ -202,8 +324,8 @@ describe("time-in-status parser", () => {
       {
         period: "2026-02",
         columns: [
-          { name: "In Progress", avgDays: 8 },
-          { name: "Code Review", avgDays: 4 },
+          { name: "In Progress", avgDays: 8, sampleCount: 1 },
+          { name: "Code Review", avgDays: 4, sampleCount: 1 },
         ],
       },
     ]);
@@ -231,8 +353,8 @@ describe("time-in-status parser", () => {
       {
         period: "2026-02",
         columns: [
-          { name: "Reopened", avgDays: 9 },
-          { name: "In Progress", avgDays: 5 },
+          { name: "Reopened", avgDays: 9, sampleCount: 1 },
+          { name: "In Progress", avgDays: 5, sampleCount: 1 },
         ],
       },
     ]);

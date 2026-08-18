@@ -1,9 +1,12 @@
 import { promises as fs } from "node:fs";
 import path from "node:path";
 import { pathToFileURL } from "node:url";
+import { workingDaysBetween } from "../apps/sm-tool/src/lib/working-days.js";
 import { type TeamConfig } from "./types/contracts.js";
 
 const JIRA_PAGE_SIZE = 100;
+const JIRA_CHANGELOG_PAGE_SIZE = 100;
+const JIRA_CHANGELOG_CONCURRENCY = 4;
 const DEFAULT_MAX_ISSUES = 400;
 const HARD_MAX_ISSUES = 5000;
 const DEFAULT_IMPORT_BUCKET = "jira-api";
@@ -15,22 +18,34 @@ const ISSUE_BASE_FIELDS = [
   "status",
   "resolution",
   "issuetype",
+  "assignee",
 ] as const;
 const ISSUE_CSV_HEADERS = [
   "Issue key",
+  "Previous issue keys",
+  "Project entered",
   "Summary",
   "Created",
   "Updated",
   "Resolved",
   "Status",
   "Resolution",
+  "Assignee",
   "Issue Type",
   "Story points",
   "Sprint",
 ] as const;
-const TIME_IN_STATUS_BASE_HEADERS = ["Type", "Key", "Summary", "Created", "Updated", "Resolution Date"] as const;
+const TIME_IN_STATUS_BASE_HEADERS = [
+  "Type",
+  "Key",
+  "Summary",
+  "Created",
+  "Updated",
+  "Resolution Date",
+  "Duration basis",
+] as const;
 const MS_PER_MINUTE = 1000 * 60;
-const MS_PER_DAY = 1000 * 60 * 60 * 24;
+const MS_PER_DAY = 24 * 60 * 60 * 1000;
 
 interface JiraSavedQuery {
   id: string;
@@ -59,10 +74,11 @@ interface TeamSelection {
   config: TeamConfigWithJira;
 }
 
-interface JiraCredentials {
+export interface JiraCredentials {
   baseUrl: string;
   username: string;
   token: string;
+  authMode: "basic" | "bearer";
 }
 
 export interface CliOptions {
@@ -94,23 +110,29 @@ interface JiraIssueFields {
   status?: JiraNamedValue | null;
   resolution?: JiraNamedValue | null;
   issuetype?: JiraNamedValue | null;
+  assignee?: JiraUser | null;
   [fieldId: string]: unknown;
 }
 
 interface JiraChangelogItem {
   field?: string | null;
   fieldId?: string | null;
+  from?: string | null;
+  to?: string | null;
   fromString?: string | null;
   toString?: string | null;
 }
 
 interface JiraChangelogHistory {
+  id?: string | null;
   created?: string | null;
   items?: JiraChangelogItem[];
 }
 
 interface JiraChangelog {
+  startAt?: number;
   histories?: JiraChangelogHistory[];
+  values?: JiraChangelogHistory[];
   total?: number;
   maxResults?: number;
 }
@@ -158,15 +180,17 @@ export interface TimeInStatusCsvResult {
   truncatedChangelogIssueKeys: string[];
 }
 
-class JiraClient {
+export class JiraClient {
   private readonly baseUrl: string;
   private readonly username: string;
   private readonly token: string;
+  private readonly authMode: "basic" | "bearer";
 
   constructor(credentials: JiraCredentials) {
     this.baseUrl = normalizeJiraBaseUrl(credentials.baseUrl);
     this.username = credentials.username.trim();
     this.token = credentials.token.trim();
+    this.authMode = credentials.authMode;
   }
 
   async testConnection(): Promise<JiraUser> {
@@ -217,9 +241,69 @@ class JiraClient {
       }
     }
 
+    if (params.expandChangelog) {
+      await this.completeTruncatedChangelogs(issues);
+    }
+
     return {
       issues,
       total,
+    };
+  }
+
+  private async completeTruncatedChangelogs(issues: JiraIssue[]): Promise<void> {
+    const incomplete = issues.filter((issue) => {
+      const total = issue.changelog?.total;
+      const loaded = issue.changelog?.histories?.length ?? 0;
+      return Number.isFinite(total) && Number(total) > loaded;
+    });
+
+    for (let index = 0; index < incomplete.length; index += JIRA_CHANGELOG_CONCURRENCY) {
+      const batch = incomplete.slice(index, index + JIRA_CHANGELOG_CONCURRENCY);
+      await Promise.all(batch.map((issue) => this.loadCompleteChangelog(issue)));
+    }
+  }
+
+  private async loadCompleteChangelog(issue: JiraIssue): Promise<void> {
+    const issueIdOrKey = issue.id ?? issue.key;
+    if (!issueIdOrKey) {
+      throw new Error("Jira returned an issue without an id or key; changelog cannot be completed.");
+    }
+
+    const histories: JiraChangelogHistory[] = [];
+    let startAt = 0;
+    let total = Number.POSITIVE_INFINITY;
+
+    while (startAt < total) {
+      const query = new URLSearchParams({
+        startAt: String(startAt),
+        maxResults: String(JIRA_CHANGELOG_PAGE_SIZE),
+      });
+      const response = await this.request(
+        `${this.baseUrl}/rest/api/2/issue/${encodeURIComponent(issueIdOrKey)}/changelog?${query.toString()}`,
+        {
+          method: "GET",
+          headers: this.headers(),
+        },
+      );
+      const page = (await response.json()) as JiraChangelog;
+      const pageHistories = page.values ?? page.histories ?? [];
+      total = Number.isFinite(page.total) ? Number(page.total) : startAt + pageHistories.length;
+
+      if (pageHistories.length === 0) {
+        break;
+      }
+
+      histories.push(...pageHistories);
+      startAt += pageHistories.length;
+    }
+
+    const uniqueHistories = dedupeChangelogHistories(histories);
+    issue.changelog = {
+      startAt: 0,
+      maxResults: uniqueHistories.length,
+      total: uniqueHistories.length,
+      histories: uniqueHistories,
     };
   }
 
@@ -276,9 +360,14 @@ class JiraClient {
   }
 
   private headers(): HeadersInit {
+    const authorization =
+      this.authMode === "bearer"
+        ? `Bearer ${this.token}`
+        : `Basic ${Buffer.from(`${this.username}:${this.token}`, "utf-8").toString("base64")}`;
+
     return {
       Accept: "application/json",
-      Authorization: `Basic ${Buffer.from(`${this.username}:${this.token}`, "utf-8").toString("base64")}`,
+      Authorization: authorization,
     };
   }
 }
@@ -292,13 +381,11 @@ export async function runJiraPull(options: CliOptions): Promise<void> {
 
   const workspacePath = path.resolve(options.workspacePath);
   const team = await resolveTeam(workspacePath, options.teamSelector);
-  const issueJql = (options.issueJql ?? options.jql ?? resolveSavedJql(team.config, "issueQuery")).trim();
-  const timeInStatusJql = (
-    options.timeInStatusJql ??
-    options.jql ??
-    resolveSavedJql(team.config, "timeInStatusQuery") ??
-    issueJql
-  ).trim();
+  const savedIssueJql = resolveSavedJql(team.config, "issueQuery");
+  const issueJql = (options.issueJql ?? options.jql ?? savedIssueJql).trim();
+  const savedTimeInStatusJql = resolveSavedJql(team.config, "timeInStatusQuery");
+  const timeInStatusCandidate = (options.timeInStatusJql ?? options.jql ?? savedTimeInStatusJql).trim();
+  const timeInStatusJql = timeInStatusCandidate || issueJql;
 
   if (!options.timeOnly && !issueJql) {
     throw new Error("JQL is required. Pass --jql/--issues-jql or save a query under the team.");
@@ -338,7 +425,7 @@ export async function runJiraPull(options: CliOptions): Promise<void> {
         jql: issueJql,
         fields: jiraFields,
         maxIssues: options.maxIssues,
-        expandChangelog: false,
+        expandChangelog: true,
       });
     }
 
@@ -394,14 +481,18 @@ export async function runJiraPull(options: CliOptions): Promise<void> {
 export function buildJiraIssueCsv(issues: JiraIssue[], fields: DetectedFields = {}): string {
   const rows = issues.map((issue) => {
     const issueFields = issue.fields ?? {};
+    const projectMove = collectProjectMoveInfo(issue);
     return [
       issue.key ?? "",
+      projectMove.previousIssueKeys.join(", "),
+      projectMove.projectEnteredAt?.toISOString() ?? "",
       stringValue(issueFields.summary),
       stringValue(issueFields.created),
       stringValue(issueFields.updated),
       stringValue(issueFields.resolutiondate),
       issueFields.status?.name ?? "",
       issueFields.resolution?.name ?? "",
+      formatJiraUser(issueFields.assignee),
       issueFields.issuetype?.name ?? "",
       formatStoryPoints(fields.storyPointsField ? issueFields[fields.storyPointsField] : undefined),
       formatSprintValue(fields.sprintField ? issueFields[fields.sprintField] : undefined),
@@ -409,6 +500,47 @@ export function buildJiraIssueCsv(issues: JiraIssue[], fields: DetectedFields = 
   });
 
   return toCsv([Array.from(ISSUE_CSV_HEADERS), ...rows]);
+}
+
+function collectProjectMoveInfo(issue: JiraIssue): { previousIssueKeys: string[]; projectEnteredAt: Date | null } {
+  const previousIssueKeys: string[] = [];
+  const seenPreviousKeys = new Set<string>();
+  let projectEnteredAt: Date | null = null;
+
+  for (const history of issue.changelog?.histories ?? []) {
+    const changedAt = parseJiraDate(history.created);
+    if (!changedAt) {
+      continue;
+    }
+
+    for (const item of history.items ?? []) {
+      const field = normalizeText(item.fieldId ?? item.field);
+      const isKeyChange = field === "key" || field === "issuekey";
+      const isProjectChange = field === "project";
+      if (!isKeyChange && !isProjectChange) {
+        continue;
+      }
+
+      if (!projectEnteredAt || changedAt.getTime() > projectEnteredAt.getTime()) {
+        projectEnteredAt = changedAt;
+      }
+
+      if (!isKeyChange) {
+        continue;
+      }
+
+      const previousKey = (item.fromString ?? item.from ?? "").trim();
+      const normalizedPreviousKey = previousKey.toLowerCase();
+      if (!previousKey || seenPreviousKeys.has(normalizedPreviousKey)) {
+        continue;
+      }
+
+      seenPreviousKeys.add(normalizedPreviousKey);
+      previousIssueKeys.push(previousKey);
+    }
+  }
+
+  return { previousIssueKeys, projectEnteredAt };
 }
 
 export function buildTimeInStatusCsv(issues: JiraIssue[], now = new Date()): TimeInStatusCsvResult {
@@ -443,6 +575,7 @@ export function buildTimeInStatusCsv(issues: JiraIssue[], now = new Date()): Tim
     model.created,
     model.updated,
     model.resolutionDate,
+    "working-days",
     ...statuses.map((status) => formatDuration(model.durations.get(status) ?? 0)),
   ]);
 
@@ -485,13 +618,13 @@ function buildTimeInStatusRow(issue: JiraIssue, now: Date): {
       break;
     }
 
-    addDuration(durations, activeStatus, change.changedAt.getTime() - cursor.getTime());
+    addWorkingDuration(durations, activeStatus, cursor, change.changedAt);
     activeStatus = change.toStatus || activeStatus;
     cursor = change.changedAt;
   }
 
   if (end.getTime() > cursor.getTime()) {
-    addDuration(durations, activeStatus, end.getTime() - cursor.getTime());
+    addWorkingDuration(durations, activeStatus, cursor, end);
   }
 
   return {
@@ -541,8 +674,25 @@ function collectStatusChanges(issue: JiraIssue): Array<{
   return changes.sort((left, right) => left.changedAt.getTime() - right.changedAt.getTime());
 }
 
-function addDuration(target: Map<string, number>, status: string | undefined, durationMs: number): void {
+function dedupeChangelogHistories(histories: JiraChangelogHistory[]): JiraChangelogHistory[] {
+  const seen = new Set<string>();
+
+  return histories
+    .filter((history) => {
+      const identity = history.id?.trim() || JSON.stringify([history.created ?? "", history.items ?? []]);
+      if (seen.has(identity)) {
+        return false;
+      }
+
+      seen.add(identity);
+      return true;
+    })
+    .sort((left, right) => (left.created ?? "").localeCompare(right.created ?? ""));
+}
+
+function addWorkingDuration(target: Map<string, number>, status: string | undefined, start: Date, end: Date): void {
   const normalizedStatus = status?.trim();
+  const durationMs = workingDaysBetween(start, end) * MS_PER_DAY;
   if (!normalizedStatus || !Number.isFinite(durationMs) || durationMs <= 0) {
     return;
   }
@@ -679,16 +829,20 @@ async function resolveTeamsPath(workspacePath: string): Promise<string> {
   throw new Error(`No teams folder found under ${workspacePath}.`);
 }
 
-function resolveSavedJql(config: TeamConfigWithJira, target: "issueQuery" | "timeInStatusQuery"): string {
+export function resolveSavedJql(config: TeamConfigWithJira, target: "issueQuery" | "timeInStatusQuery"): string {
   const collection = normalizeJiraQueryCollection(
-    config.jiraQuery?.[target] ?? (target === "timeInStatusQuery" ? undefined : config.jiraQuery),
+    config.jiraQuery?.[target] ?? config.jiraQuery,
   );
   const selected =
     collection.queries.find((query) => query.id === collection.defaultQueryId) ??
     collection.queries[0] ??
     null;
 
-  return selected?.jql ?? "";
+  if (selected && !isPlaceholderJql(selected.jql)) {
+    return selected.jql;
+  }
+
+  return collection.queries.find((query) => !isPlaceholderJql(query.jql))?.jql ?? selected?.jql ?? "";
 }
 
 function normalizeJiraQueryCollection(config: JiraQueryCollection | undefined): Required<JiraQueryCollection> {
@@ -713,6 +867,10 @@ function normalizeJiraQueryCollection(config: JiraQueryCollection | undefined): 
   };
 }
 
+function isPlaceholderJql(jql: string): boolean {
+  return normalizeText(jql).includes("yourproject");
+}
+
 async function ensureOutputDirectory(teamPath: string, importBucket: string): Promise<string> {
   const importsPath = path.join(teamPath, "imports");
   const outputDir = path.join(importsPath, sanitizeImportBucket(importBucket));
@@ -734,6 +892,7 @@ function parseCliArgs(argv: string[], env: NodeJS.ProcessEnv = process.env): Cli
       baseUrl: getArg(args, "url", "base-url") ?? env.JIRA_URL ?? "",
       username: getArg(args, "username", "user") ?? env.JIRA_USERNAME ?? env.JIRA_USER ?? "",
       token: getArg(args, "token") ?? env.JIRA_TOKEN ?? "",
+      authMode: normalizeAuthMode(getArg(args, "auth") ?? env.JIRA_AUTH),
     },
     jql: getArg(args, "jql") ?? env.JIRA_JQL,
     issueJql: getArg(args, "issues-jql", "issue-jql") ?? env.JIRA_ISSUES_JQL,
@@ -807,6 +966,7 @@ Options:
   --url <url>                   Jira base URL. Prefer JIRA_URL env.
   --username <username>         Jira username. Prefer JIRA_USERNAME env.
   --token <token>               Jira personal token. Prefer JIRA_TOKEN env.
+  --auth <basic|bearer>         Auth mode. Default basic; use bearer for Jira Data Center personal access tokens.
   --max <number>                Max issues per query. Default ${DEFAULT_MAX_ISSUES}, hard max ${HARD_MAX_ISSUES}.
   --bucket <folder>             Folder under team imports/. Default ${DEFAULT_IMPORT_BUCKET}.
   --timestamped                 Write timestamped files instead of replacing issues.csv/time-in-status.csv.
@@ -822,9 +982,18 @@ function validateCredentials(credentials: JiraCredentials): void {
     throw new Error("Jira URL is required. Set JIRA_URL or pass --url.");
   }
 
-  if (!credentials.username.trim() || !credentials.token.trim()) {
-    throw new Error("Jira username and token are required. Set JIRA_USERNAME/JIRA_TOKEN or pass --username/--token.");
+  if (!credentials.token.trim()) {
+    throw new Error("Jira token is required. Set JIRA_TOKEN or pass --token.");
   }
+
+  if (credentials.authMode === "basic" && !credentials.username.trim()) {
+    throw new Error("Jira username is required for basic auth. Set JIRA_USERNAME or pass --username.");
+  }
+}
+
+function normalizeAuthMode(value: string | undefined): "basic" | "bearer" {
+  const normalized = normalizeText(value ?? "");
+  return normalized === "bearer" ? "bearer" : "basic";
 }
 
 function normalizeJiraBaseUrl(value: string): string {
@@ -894,6 +1063,14 @@ function formatSprintValue(value: unknown): string {
   }
 
   return String(value).trim();
+}
+
+function formatJiraUser(value: JiraUser | null | undefined): string {
+  if (!value) {
+    return "";
+  }
+
+  return stringValue(value.displayName) || stringValue(value.name) || stringValue(value.emailAddress);
 }
 
 function formatDuration(durationMs: number): string {
