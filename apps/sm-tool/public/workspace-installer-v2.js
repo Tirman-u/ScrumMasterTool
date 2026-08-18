@@ -76,6 +76,7 @@
           runner: patchRunner(extractStringAssignment(source, "RUNNER_CONTENT")),
           launcher: patchLauncher(extractStringAssignment(source, "LAUNCHER_CONTENT")),
           windowsLauncher: extractStringAssignment(source, "WINDOWS_LAUNCHER_CONTENT"),
+          windowsWrapper: extractStringAssignment(source, "WINDOWS_WRAPPER_CONTENT"),
         }));
     }
     return helperContentsPromise;
@@ -101,12 +102,13 @@
       return false;
     }
 
-    const { runner, launcher, windowsLauncher } = await loadHelperContents();
+    const { runner, launcher, windowsLauncher, windowsWrapper } = await loadHelperContents();
     await handle.getDirectoryHandle("teams", { create: true });
     const helperDir = await handle.getDirectoryHandle("sm-tool", { create: true });
     await writeTextFile(helperDir, "jira-pull.mjs", runner);
     await writeTextFile(handle, "renew-team.command", launcher);
     await writeTextFile(handle, "renew-team.ps1", windowsLauncher);
+    await writeTextFile(handle, "renew-team.cmd", windowsWrapper);
 
     installSucceeded = true;
     console.info("Scrum Master Tool workspace helper installed.");

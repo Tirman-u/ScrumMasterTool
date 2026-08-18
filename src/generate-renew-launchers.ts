@@ -9,6 +9,7 @@ const DEFAULT_MAX_ISSUES = 2000;
 const DEFAULT_BUCKET = "jira-api";
 const MASTER_LAUNCHER_NAME = "renew-team.command";
 const WINDOWS_MASTER_LAUNCHER_NAME = "renew-team.ps1";
+const WINDOWS_WRAPPER_NAME = "renew-team.cmd";
 const LEGACY_TEAM_LAUNCHER_NAME = "renew-data.command";
 const execFileAsync = promisify(execFile);
 
@@ -24,10 +25,14 @@ async function main(): Promise<void> {
   const windowsLauncherPath = path.join(workspacePath, WINDOWS_MASTER_LAUNCHER_NAME);
   await fs.writeFile(windowsLauncherPath, buildWindowsMasterLauncher(), "utf-8");
 
+  const windowsWrapperPath = path.join(workspacePath, WINDOWS_WRAPPER_NAME);
+  await fs.writeFile(windowsWrapperPath, buildWindowsWrapper(), "utf-8");
+
   const removedLegacyLaunchers = await removeLegacyTeamLaunchers(teamsPath);
 
   console.log(`Wrote ${path.relative(process.cwd(), launcherPath) || launcherPath}.`);
   console.log(`Wrote ${path.relative(process.cwd(), windowsLauncherPath) || windowsLauncherPath}.`);
+  console.log(`Wrote ${path.relative(process.cwd(), windowsWrapperPath) || windowsWrapperPath}.`);
   if (removedLegacyLaunchers > 0) {
     console.log(`Removed ${removedLegacyLaunchers} legacy per-team launcher(s).`);
   }
@@ -209,10 +214,15 @@ function buildWindowsMasterLauncher(): string {
     "",
     '$ScriptDir = Split-Path -Parent $MyInvocation.MyCommand.Path',
     '$WorkspaceDir = $ScriptDir',
-    '$RepoDir = if ($env:SM_TOOL_REPO_DIR) { $env:SM_TOOL_REPO_DIR } else { $ScriptDir }',
+    '$RepoDir = if ([string]::IsNullOrWhiteSpace($env:SM_TOOL_REPO_DIR)) { $WorkspaceDir } else { $env:SM_TOOL_REPO_DIR }',
     "",
     'if (-not $env:JIRA_URL) {',
-    `  $env:JIRA_URL = "${DEFAULT_JIRA_URL}"`,
+    "  do {",
+    `    $env:JIRA_URL = (Read-Host "Jira URL (for example ${DEFAULT_JIRA_URL})").Trim()`,
+    "    $parsedUrl = $null",
+    '    $validUrl = [Uri]::TryCreate($env:JIRA_URL, [UriKind]::Absolute, [ref]$parsedUrl) -and $parsedUrl.Scheme -in @("http", "https")',
+    '    if (-not $validUrl) { Write-Host "Enter a valid Jira URL beginning with http:// or https://." }',
+    "  } while (-not $validUrl)",
     "}",
     'if (-not $env:JIRA_AUTH) {',
     `  $env:JIRA_AUTH = "${DEFAULT_JIRA_AUTH}"`,
@@ -227,11 +237,15 @@ function buildWindowsMasterLauncher(): string {
     '  $env:NODE_USE_SYSTEM_CA = "1"',
     "}",
     "",
-    'if (-not (Test-Path -LiteralPath (Join-Path $RepoDir "package.json"))) {',
-    '  Write-Host "ScrumMasterTool repo was not found at: $RepoDir"',
-    '  Write-Host "Set SM_TOOL_REPO_DIR to the local repo path and run this file again."',
-    "  exit 1",
-    "}",
+    'while (-not (Test-Path -LiteralPath (Join-Path $RepoDir "package.json"))) {',
+    '  $CandidateRepo = Read-Host "ScrumMasterTool repo path (Enter to use workspace: $WorkspaceDir)"',
+    '  if ([string]::IsNullOrWhiteSpace($CandidateRepo)) { $CandidateRepo = $WorkspaceDir }',
+    '  if (Test-Path -LiteralPath (Join-Path $CandidateRepo "package.json")) {',
+    '    $RepoDir = (Resolve-Path -LiteralPath $CandidateRepo).Path',
+    '  } else {',
+    '    Write-Host "That folder does not contain package.json. Try again."',
+    '  }',
+    '}',
     "",
     '$LowerTeamsDir = Join-Path $WorkspaceDir "teams"',
     '$UpperTeamsDir = Join-Path $WorkspaceDir "Teams"',
@@ -377,6 +391,17 @@ function buildWindowsMasterLauncher(): string {
   ];
 
   return `${lines.join("\r\n")}`;
+}
+
+function buildWindowsWrapper(): string {
+  return [
+    "@echo off",
+    "setlocal",
+    'powershell.exe -NoProfile -ExecutionPolicy Bypass -File "%~dp0renew-team.ps1" %*',
+    "set \"EXIT_CODE=%ERRORLEVEL%\"",
+    "endlocal & exit /b %EXIT_CODE%",
+    "",
+  ].join("\r\n");
 }
 
 async function removeLegacyTeamLaunchers(teamsPath: string): Promise<number> {

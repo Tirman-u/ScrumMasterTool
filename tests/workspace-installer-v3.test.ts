@@ -60,7 +60,13 @@ describe("workspace installer v3", () => {
     expect(installed).toBe(true);
     expect(writes.has("renew-team.command")).toBe(true);
     expect(writes.has("renew-team.ps1")).toBe(true);
+    expect(writes.has("renew-team.cmd")).toBe(true);
     expect(writes.has("sm-tool/jira-pull.mjs")).toBe(true);
+    expect(writes.get("renew-team.ps1")).toContain('Read-Host "Jira URL');
+    expect(writes.get("renew-team.ps1")).toContain("ScrumMasterTool repo path");
+    expect(writes.get("renew-team.ps1")).toContain("Read-Host \"Jira token\" -AsSecureString");
     expect(writes.get("renew-team.ps1")).toContain("npm --prefix $RepoDir run jira:pull");
+    expect(writes.get("renew-team.cmd")).toContain("-NoProfile -ExecutionPolicy Bypass -File");
+    expect(writes.get("renew-team.cmd")).toContain("renew-team.ps1");
   });
 });
