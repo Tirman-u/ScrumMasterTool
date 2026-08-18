@@ -3,7 +3,7 @@
   const DB_VERSION = 1;
   const STORE_NAME = "settings";
   const WORKSPACE_KEY = "workspace-handle-v1";
-  const SOURCE_URL = "/workspace-bootstrap.js";
+  const SOURCE_URL = "/workspace-bootstrap.js?v=20260818-3";
   const HELPER_VERSION = "v7";
   const HARD_MAX_ISSUES = 2000;
 
