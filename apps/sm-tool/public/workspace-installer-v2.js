@@ -112,6 +112,12 @@
       .replace('$HasSavedJql = ([string]$TeamHasJql[$ArrayIndex]).Trim()', () => '  $HasSavedJql = ([string]$TeamHasJqlById[$TeamId]).Trim()')
       .replace('$TeamHasJqlById[[string]$Parts[0]] = ([string]$Parts[2]).Trim()', () => '  $TeamKey = ([string]$Parts[0]).Trim()\r\n  $TeamHasJqlById[$TeamKey] = ([string]$Parts[2]).Trim()')
       .replace('$HasSavedJql = ([string]$TeamHasJqlById[[string]$TeamId]).Trim()', () => '  $HasSavedJql = ([string]$TeamHasJqlById[$TeamId]).Trim()')
+      .replace('$SelectionNormalized = $Selection.Trim().ToLowerInvariant()', () => '$SelectionNormalized = $Selection.Trim().ToLowerInvariant()\r\nWrite-Host "[STAGE] selection-normalized"')
+      .replace('$TeamId = $TeamIds[$ArrayIndex]', () => '  Write-Host "[STAGE] selected-team-lookup"\r\n  $TeamId = ([string]@($TeamIds)[$ArrayIndex]).Trim()')
+      .replace('$TeamId = ([string]@($TeamIds)[$ArrayIndex]).Trim()', () => '  Write-Host "[STAGE] selected-team-lookup"\r\n  $TeamId = ([string]@($TeamIds)[$ArrayIndex]).Trim()')
+      .replace('$HasSavedJql = ([string]$TeamHasJqlById[$TeamId]).Trim()', () => '  $HasSavedJql = ([string]$TeamHasJqlById[$TeamId]).Trim()\r\n  Write-Host ("[STAGE] saved-jql-lookup flag={0}" -f $HasSavedJql)')
+      .replace('  if ($HasSavedJql -ne "1") {', () => '  Write-Host ("[STAGE] saved-jql-guard flag={0}" -f $HasSavedJql)\r\n  if ($HasSavedJql -ne "1") {')
+      .replace('  $SecureToken = Read-Host "Jira token" -AsSecureString', () => '  Write-Host "[STAGE] token-prompt"\r\n  $SecureToken = Read-Host "Jira token" -AsSecureString')
       .replace('No real saved JQL found in teams/$TeamId/team.json. Add JQL in the app first, then run this file again.', () => 'No real saved JQL found in teams/$TeamId/team.json (savedJqlFlag=$HasSavedJql). Add JQL in the app first, then run this file again.');
   }
 

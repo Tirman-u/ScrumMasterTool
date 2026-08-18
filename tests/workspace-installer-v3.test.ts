@@ -95,6 +95,10 @@ describe("workspace installer v3", () => {
     expect(writes.get("renew-team.ps1")).toContain("$HasSavedJql = ([string]$TeamHasJqlById[$TeamId]).Trim()");
     expect(writes.get("renew-team.ps1")).toContain('if ($HasSavedJql -ne "1")');
     expect(writes.get("renew-team.ps1")).toContain("savedJqlFlag=$HasSavedJql");
+    expect(writes.get("renew-team.ps1")).toContain('[STAGE] selection-normalized');
+    expect(writes.get("renew-team.ps1")).toContain('[STAGE] selected-team-lookup');
+    expect(writes.get("renew-team.ps1")).toContain('[STAGE] saved-jql-lookup');
+    expect(writes.get("renew-team.ps1")).toContain('[STAGE] token-prompt');
     expect(writes.get("renew-team.ps1")?.indexOf('Read-Host "Jira token"')).toBeGreaterThan(
       writes.get("renew-team.ps1")?.indexOf("$SelectedIndexes += $ParsedNumber") ?? -1,
     );

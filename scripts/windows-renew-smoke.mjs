@@ -110,14 +110,13 @@ function runLauncher(lines, env = {}, successEvidencePath = null) {
         killProcessTree(child.pid);
       }
     };
-    child.stdout.on("data", (chunk) => { output += chunk.toString(); });
-    child.stderr.on("data", (chunk) => { output += chunk.toString(); });
-    child.stdout.on("data", () => {
+    const handleOutput = (chunk) => {
+      output += chunk.toString();
       if (!teamSent && (output.includes("Enter one team number") || output.includes("Team number(s)"))) {
         teamSent = true;
         sendLine(lines[1] ?? "");
       }
-      if (!tokenSent && output.includes("Jira token")) {
+      if (!tokenSent && (output.includes("Jira token") || output.includes("[STAGE] token-prompt"))) {
         tokenSent = true;
         sendLine(lines[2] ?? "");
       }
@@ -126,7 +125,9 @@ function runLauncher(lines, env = {}, successEvidencePath = null) {
       } else if (output.includes("[ERROR]")) {
         void releasePowerShell(false);
       }
-    });
+    };
+    child.stdout.on("data", handleOutput);
+    child.stderr.on("data", handleOutput);
     child.once("error", (error) => {
       clearTimeout(timeout);
       if (child.pid) launchedProcessIds.delete(child.pid);
