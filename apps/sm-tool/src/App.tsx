@@ -29,6 +29,7 @@ import {
 import { isDefaultNonFlowStatus, isTerminalOrCancelledStatus } from "./lib/time-in-status";
 import { workingDaysBetween } from "./lib/working-days";
 import { buildExecutiveFlowSummary } from "./lib/metric-consistency";
+import { BUILD_MARKER_LABEL } from "./lib/build-info";
 import {
   isMetricAvailableInView,
   normalizeTeamViewMode,
@@ -8509,6 +8510,8 @@ export default function App(): JSX.Element {
           </>
         )}
       </main>
+
+      <div className="build-marker" aria-label={BUILD_MARKER_LABEL}>{BUILD_MARKER_LABEL}</div>
 
       {showAddTeamModal && (
         <div className="modal-overlay" onClick={() => setShowAddTeamModal(false)}>

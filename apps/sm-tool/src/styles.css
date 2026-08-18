@@ -5527,6 +5527,27 @@ textarea:focus-visible,
   width: 100%;
   min-width: 0;
   overflow-x: clip;
+  padding-bottom: 56px;
+}
+
+.build-marker {
+  position: fixed;
+  left: calc(248px + 16px);
+  bottom: 16px;
+  z-index: 25;
+  max-width: calc(100vw - 280px);
+  padding: 6px 9px;
+  border: 1px solid #b8c7bf;
+  border-radius: 6px;
+  background: #ffffff;
+  box-shadow: 0 4px 12px rgba(23, 33, 28, 0.16);
+  color: #24352c;
+  font-size: 0.72rem;
+  font-weight: 600;
+  line-height: 1.2;
+  letter-spacing: 0.01em;
+  pointer-events: none;
+  white-space: nowrap;
 }
 
 .page-section {
@@ -5946,6 +5967,17 @@ textarea:focus-visible,
 
   .page-section {
     padding: 20px;
+  }
+
+  .main-area {
+    padding-bottom: 56px;
+  }
+
+  .build-marker {
+    left: 12px;
+    bottom: 12px;
+    z-index: 25;
+    max-width: calc(100vw - 24px);
   }
 
   .metrics-setup-sidebar {
