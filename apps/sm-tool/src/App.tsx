@@ -62,6 +62,7 @@ import {
 import {
   addTeam,
   analyzeTeam,
+  ensureWorkspaceWritePermission,
   listTeams,
   listRememberedWorkspaces,
   openRememberedWorkspaceById,
@@ -108,6 +109,12 @@ import {
   type ExecutiveTicketRow,
   type ExecutiveWorkflowItem,
 } from "./components/ExecutiveViews";
+
+declare global {
+  interface Window {
+    __smInstallWorkspaceHelperV3?: (handle: FileSystemDirectoryHandle) => Promise<boolean>;
+  }
+}
 
 export {
   buildAvailableMonths,
@@ -4069,6 +4076,41 @@ export default function App(): JSX.Element {
     return loadedTeams;
   }
 
+  async function reinstallWorkspaceHelper(handle: FileSystemDirectoryHandle): Promise<"installed" | "permission-denied" | "unavailable" | "failed"> {
+    const installer = window.__smInstallWorkspaceHelperV3;
+    if (typeof installer !== "function") {
+      return "unavailable";
+    }
+
+    if (!(await ensureWorkspaceWritePermission(handle))) {
+      return "permission-denied";
+    }
+
+    try {
+      return (await installer(handle)) ? "installed" : "failed";
+    } catch {
+      return "failed";
+    }
+  }
+
+  function workspaceLoadStatus(
+    handle: FileSystemDirectoryHandle,
+    loadedTeams: TeamRuntime[],
+    helperResult: "installed" | "permission-denied" | "unavailable" | "failed",
+  ): string {
+    const loaded = `Workspace loaded: ${handle.name}. Found ${loadedTeams.length} teams.`;
+    if (helperResult === "installed") {
+      return `${loaded} Jira helpers updated.`;
+    }
+    if (helperResult === "permission-denied") {
+      return `${loaded} Jira helper update skipped: write permission was denied.`;
+    }
+    if (helperResult === "unavailable") {
+      return `${loaded} Jira helper update unavailable: reload the app and try again.`;
+    }
+    return `${loaded} Jira helper update failed.`;
+  }
+
   async function handlePickWorkspace(): Promise<void> {
     if (!fsApiSupported) {
       setStatus("File System Access API is not available in this browser.");
@@ -4081,9 +4123,10 @@ export default function App(): JSX.Element {
       await rememberWorkspaceDirectory(handle);
       await refreshRememberedWorkspaces();
 
+      const helperResult = await reinstallWorkspaceHelper(handle);
       const loadedTeams = await applyWorkspaceHandle(handle);
       setPage(loadedTeams.length > 0 ? "dashboard" : "workspace");
-      setStatus(`Workspace loaded: ${handle.name}. Found ${loadedTeams.length} teams.`);
+      setStatus(workspaceLoadStatus(handle, loadedTeams, helperResult));
     } catch (error) {
       setStatus(`Failed to open workspace: ${getErrorMessage(error)}`);
     } finally {
@@ -4105,9 +4148,10 @@ export default function App(): JSX.Element {
         return;
       }
 
+      const helperResult = await reinstallWorkspaceHelper(handle);
       const loadedTeams = await applyWorkspaceHandle(handle);
       setPage(loadedTeams.length > 0 ? "dashboard" : "workspace");
-      setStatus(`Workspace loaded: ${handle.name}. Found ${loadedTeams.length} teams.`);
+      setStatus(workspaceLoadStatus(handle, loadedTeams, helperResult));
       await refreshRememberedWorkspaces();
     } catch (error) {
       setStatus(`Failed to open remembered workspace: ${getErrorMessage(error)}`);

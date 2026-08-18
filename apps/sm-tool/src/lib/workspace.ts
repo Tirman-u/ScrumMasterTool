@@ -144,6 +144,19 @@ export async function restoreRememberedWorkspaceDirectory(): Promise<FileSystemD
   }
 }
 
+export async function ensureWorkspaceWritePermission(workspaceHandle: FileSystemDirectoryHandle): Promise<boolean> {
+  try {
+    const current = await workspaceHandle.queryPermission({ mode: "readwrite" });
+    if (current === "granted") {
+      return true;
+    }
+
+    return (await workspaceHandle.requestPermission({ mode: "readwrite" })) === "granted";
+  } catch {
+    return false;
+  }
+}
+
 export async function listRememberedWorkspaces(): Promise<RememberedWorkspaceSummary[]> {
   const records = await readRememberedWorkspaceRecords();
 
