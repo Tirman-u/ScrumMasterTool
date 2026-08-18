@@ -223,6 +223,8 @@ async function main() {
   assert(windowsLauncher.includes('& node -- "$Runner" "$WorkspaceDir" @SelectedTeamIds'), "Windows runner invocation does not preserve quoted workspace arguments");
   assert(windowsLauncher.includes('$ErrorActionPreference = "Continue"'), "Windows runner failure path does not preserve native exit codes");
   assert(windowsLauncher.includes("$RunnerExitCode = [int]$LASTEXITCODE"), "Windows runner failure path does not capture LASTEXITCODE");
+  assert(windowsLauncher.includes("Write-RenewExitCode $ExitCode"), "Windows failure path does not persist the native exit code");
+  assert(wrapper.includes("renew-team-exit.code"), "CMD wrapper does not read the PowerShell exit-code handoff");
   assert(windowsLauncher.includes('Write-Host "Enter one team number'), "Windows team-selection prompt contract is missing");
   assert(windowsLauncher.includes('hasRealSavedJql(config.jiraQuery)'), "Windows launcher must derive TeamHasJql from saved JQL");
   assert(windowsLauncher.includes('$TeamHasJqlById[$TeamKey]'), "Windows launcher must retain TeamHasJql by team ID");

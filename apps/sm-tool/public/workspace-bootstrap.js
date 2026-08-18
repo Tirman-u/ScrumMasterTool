@@ -28,7 +28,30 @@
       '  Fail-Renew "Could not determine Node.js version. Current: $NodeVersion"',
       '}',
     ].join("\r\n");
-    return patchWindowsLauncherRunnerExit(patchWindowsLauncherSelection(launcher.replace(legacyProbe, safeProbe)));
+    return patchWindowsLauncherExitMarker(patchWindowsLauncherRunnerExit(patchWindowsLauncherSelection(launcher.replace(legacyProbe, safeProbe))));
+  }
+
+  function patchWindowsLauncherExitMarker(launcher) {
+    if (launcher.includes("$ExitCodeFile =")) return launcher;
+    const anchor = '$ErrorLog = Join-Path (Join-Path (Split-Path -Parent $MyInvocation.MyCommand.Path) "logs") "renew-team-error.log"\r\n';
+    const prelude = [
+      anchor.trimEnd(),
+      '$ExitCodeFile = Join-Path (Join-Path (Split-Path -Parent $MyInvocation.MyCommand.Path) "logs") "renew-team-exit.code"',
+      'try { Remove-Item -LiteralPath $ExitCodeFile -Force -ErrorAction SilentlyContinue } catch {}',
+      'function Write-RenewExitCode {',
+      '  param([int] $ExitCode)',
+      '  try {',
+      '    New-Item -ItemType Directory -Force -Path (Split-Path -Parent $ExitCodeFile) | Out-Null',
+      '    Set-Content -LiteralPath $ExitCodeFile -Value ([string]$ExitCode) -Encoding ascii',
+      '  } catch {}',
+      '}',
+    ].join("\r\n") + "\r\n";
+    let patched = launcher.replace(anchor, prelude);
+    patched = patched
+      .replace('  Write-RenewErrorLog $Message $ExitCode\r\n', '  Write-RenewExitCode $ExitCode\r\n  Write-RenewErrorLog $Message $ExitCode\r\n')
+      .replace('trap {\r\n  Write-RenewErrorLog $_ 1', 'trap {\r\n  Write-RenewExitCode 1\r\n  Write-RenewErrorLog $_ 1')
+      .replace('$RunnerOutput | ForEach-Object { Write-Host $_ }\r\n\r\nWrite-Host "Done.', '$RunnerOutput | ForEach-Object { Write-Host $_ }\r\n\r\nWrite-RenewExitCode 0\r\nWrite-Host "Done.');
+    return patched;
   }
 
   function patchWindowsLauncherRunnerExit(launcher) {
@@ -47,6 +70,13 @@
       '}',
     ].join("\r\n");
     return launcher.replace(legacy, safe);
+  }
+
+  function patchWindowsWrapperExitCode(wrapper) {
+    if (wrapper.includes("renew-team-exit.code")) return wrapper;
+    return wrapper
+      .replace("@echo off\r\nsetlocal\r\n", "@echo off\r\nsetlocal\r\ndel /q \"%~dp0logs\\renew-team-exit.code\" >nul 2>&1\r\n")
+      .replace('set "EXIT_CODE=%ERRORLEVEL%"\r\n', 'set "EXIT_CODE=%ERRORLEVEL%"\r\nif exist "%~dp0logs\\renew-team-exit.code" set /p EXIT_CODE=<"%~dp0logs\\renew-team-exit.code"\r\n');
   }
 
   function patchWindowsLauncherSelection(launcher) {
@@ -119,7 +149,7 @@
     await writeTextFile(helperDir, "jira-pull.mjs", RUNNER_CONTENT);
     await writeTextFile(handle, "renew-team.command", LAUNCHER_CONTENT);
     await writeTextFile(handle, "renew-team.ps1", patchWindowsLauncherNodeProbe(WINDOWS_LAUNCHER_CONTENT));
-    await writeTextFile(handle, "renew-team.cmd", WINDOWS_WRAPPER_CONTENT);
+    await writeTextFile(handle, "renew-team.cmd", patchWindowsWrapperExitCode(WINDOWS_WRAPPER_CONTENT));
   }
 
   window.showDirectoryPicker = async function patchedShowDirectoryPicker(options) {

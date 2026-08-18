@@ -77,6 +77,10 @@ describe("workspace installer v3", () => {
     expect(writes.get("renew-team.ps1")).toContain('"logs") "renew-team-error.log"');
     expect(writes.get("renew-team.ps1")).toContain("launcher=renew-team.ps1 version=");
     expect(writes.get("renew-team.ps1")).toContain("exitCode=");
+    expect(writes.get("renew-team.ps1")).toContain('$ExitCodeFile = Join-Path');
+    expect(writes.get("renew-team.ps1")).toContain("function Write-RenewExitCode");
+    expect(writes.get("renew-team.ps1")).toContain("Write-RenewExitCode $ExitCode");
+    expect(writes.get("renew-team.ps1")).toContain("Write-RenewExitCode 0");
     expect(writes.get("renew-team.ps1")).toContain("[REDACTED]");
     expect(writes.get("renew-team.ps1")).toContain("JIRA_TOKEN");
     expect(writes.get("renew-team.ps1")).toContain("Authorization\\s*:\\s*");
@@ -128,6 +132,7 @@ describe("workspace installer v3", () => {
     expect(writes.get("renew-team.cmd")).toContain("[OK] renew-team.ps1 completed successfully.");
     expect(writes.get("renew-team.cmd")).toContain("[ERROR] renew-team.ps1 failed with exit code %EXIT_CODE%.");
     expect(writes.get("renew-team.cmd")).toContain("pause");
+    expect(writes.get("renew-team.cmd")).toContain("renew-team-exit.code");
     expect((writes.get("renew-team.cmd")?.match(/pause/g) ?? []).length).toBe(1);
     expect(writes.get("renew-team.cmd")).toContain("endlocal & exit /b %EXIT_CODE%");
   });
