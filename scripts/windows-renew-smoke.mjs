@@ -302,11 +302,19 @@ async function main() {
   assert(!missingRunnerLog.includes(token), "missing runner log leaked the Jira token");
   assert(!missingRunner.output.includes(token), "missing runner output leaked the Jira token");
 
+  await fs.writeFile(runnerPath, runnerSource, "utf8");
   await fs.rm(teamsRoot, { recursive: true, force: true });
-  const invalidWorkspace = await runLauncher(["", "exit", ""]);
+  const invalidWorkspace = await runLauncher(["https://jira.example.test", "exit", ""], { JIRA_TOKEN: token }, null, { sendTokenInput: false });
   assert(invalidWorkspace.status === 1, `invalid workspace exit code mismatch: ${invalidWorkspace.status}`);
   const invalidWorkspaceLog = await fs.readFile(logPath, "utf8");
   assert(invalidWorkspaceLog.includes("No teams folder found"), "invalid workspace was not logged");
+  assert(invalidWorkspace.output.includes("[ERROR]"), "invalid workspace failure was not visible");
+  assert(invalidWorkspace.output.includes("[ERROR] renew-team.ps1 failed with exit code"), "invalid workspace wrapper error was not visible");
+  assert(invalidWorkspace.pauseKeyCount === 1, `invalid workspace pause key was not sent exactly once (count=${invalidWorkspace.pauseKeyCount})`);
+  assert(invalidWorkspaceLog.includes("launcher=renew-team.ps1 version=0.2.9"), "invalid workspace log metadata is missing");
+  assert(invalidWorkspaceLog.includes("exitCode=1"), "invalid workspace log exit code is missing");
+  assert(!invalidWorkspaceLog.includes(token), "invalid workspace log leaked the Jira token");
+  assert(!invalidWorkspace.output.includes(token), "invalid workspace output leaked the Jira token");
 
   await writeFixtureWorkspace();
   await fs.writeFile(runnerPath, runnerSource, "utf8");
