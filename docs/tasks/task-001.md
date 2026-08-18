@@ -2186,3 +2186,28 @@ Please rerun Windows CI and retain evidence that the production success message
 is followed by `[OK]`, pause release, and status `0`; failure/no-JQL paths must
 still preserve their error, redaction, and exit assertions. No production
 launcher or token handling was changed.
+
+## Developer remediation handoff — env-token smoke assertion
+
+### Implemented
+
+- Updated the env-token success/failure smoke path to stop requiring the
+  interactive token stage when `JIRA_TOKEN` is intentionally pre-set.
+- Added structural assertions that the generated helper retains both the
+  `JIRA_TOKEN` guard and interactive `Read-Host "Jira token" -AsSecureString`
+  branch.
+- Success now asserts bundled-runner reachability and completion, while the
+  existing redaction, no-JQL, and exit assertions remain active.
+
+### Validation
+
+- `npx vitest run tests/workspace-installer-v3.test.ts` — PASS.
+- `npm run check` — PASS: 23 test files / 122 tests, typechecks, and build.
+- `node --check scripts/windows-renew-smoke.mjs` — PASS.
+- `git diff --check` — PASS.
+
+### QA handoff
+
+Please rerun Windows CI and verify env-token runner completion plus structural
+interactive-branch coverage, without requiring a prompt that production
+correctly skips when `JIRA_TOKEN` is pre-set.

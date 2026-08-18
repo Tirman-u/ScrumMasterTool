@@ -208,6 +208,8 @@ async function main() {
   assert(windowsLauncher.includes('$TeamHasJqlById[$TeamKey]'), "Windows launcher must retain TeamHasJql by team ID");
   assert(windowsLauncher.includes('$TeamId = ([string]@($TeamIds)[$ArrayIndex]).Trim()'), "Windows launcher must normalize the selected team ID");
   assert(windowsLauncher.includes('savedJqlFlag=$HasSavedJql'), "Windows launcher must expose sanitized saved-JQL guard diagnostics");
+  assert(windowsLauncher.includes('if (-not $env:JIRA_TOKEN)'), "Windows launcher must retain the token environment guard");
+  assert(windowsLauncher.includes('Read-Host "Jira token" -AsSecureString'), "Windows launcher must retain interactive secure token input");
 
   const success = await runLauncher(
     ["https://jira.example.test", "1", token],
@@ -218,8 +220,8 @@ async function main() {
   assert(success.status === 0, `success launcher exited ${success.status}: ${success.output}`);
   assert(success.output.includes("[OK] renew-team.ps1 completed successfully."), "CMD wrapper success message was not observed");
   assert(success.pauseKeyCount === 1, `CMD wrapper pause key was not sent exactly once (count=${success.pauseKeyCount})`);
-  assert(success.output.includes("[STAGE] token-prompt"), "token stage was not reached");
   assert(success.tokenSendCount === 0, `pre-set token path unexpectedly sent stdin (count=${success.tokenSendCount})`);
+  assert(success.output.includes("Renewing Jira data"), "env-token path did not reach the bundled runner");
   assert(!success.output.includes(token), "success output leaked the Jira token");
   const successMarker = JSON.parse(await fs.readFile(path.join(fixtureRoot, "runner-success.json"), "utf8"));
   assert(successMarker.teamId === "fixture-team", "runner did not receive the selected team");
