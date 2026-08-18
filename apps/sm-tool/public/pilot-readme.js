@@ -169,7 +169,7 @@
           <div><span>Browser</span><strong>Chrome / Edge</strong></div>
           <div><span>Jira access</span><strong>VPN / internal network</strong></div>
           <div><span>Runtime</span><strong>Node.js 18+</strong></div>
-          <div><span>Current helper</span><strong>macOS supported</strong></div>
+          <div><span>Jira helpers</span><strong>macOS + Windows</strong></div>
         </div>
 
         <div class="pilot-readme-steps">
@@ -217,7 +217,7 @@
                 <li>Add your team.</li>
                 <li>Add and save the Jira JQL for the team.</li>
               </ol>
-              <div class="pilot-readme-code">project = SOL</div>
+              <div class="pilot-readme-code">project = YOUR_PROJECT_KEY</div>
               <div class="pilot-readme-note">Use your team's real Jira project/filter JQL. The JQL must be saved before running the Jira refresh helper.</div>
             </div>
           </article>
@@ -229,6 +229,7 @@
               <p>The web app automatically creates the Jira helper in your workspace:</p>
               <div class="pilot-readme-code">ScrumMasterTool/
 ├── renew-team.command
+├── renew-team.ps1
 ├── sm-tool/
 │   └── jira-pull.mjs
 └── teams/
@@ -259,7 +260,18 @@ Team number(s):</div>
               <div class="pilot-readme-note">Terminal may show nothing while you paste or type the token. This is normal — token input is hidden.</div>
               <p>The helper loads Jira issues and changelog history. Depending on the amount of data, this can take a few minutes.</p>
               <div class="pilot-readme-success pilot-readme-note">Success message: <strong>Jira refresh complete. Return to the web app and refresh workspace data.</strong></div>
-              <div class="pilot-readme-warning pilot-readme-note"><strong>Windows:</strong> the browser app can be used on Windows, but the current pilot Jira refresh launcher is not yet packaged for Windows. Windows Jira refresh support is still under development.</div>
+              <h2>Refresh Jira data — Windows PowerShell</h2>
+              <ol>
+                <li>Open <strong>PowerShell</strong> and go to the workspace folder.</li>
+                <li>Set the Jira URL and, if needed, the repository path.</li>
+                <li>Run <strong>renew-team.ps1</strong>.</li>
+              </ol>
+              <div class="pilot-readme-code">cd "C:\\Users\\yourname\\Documents\\ScrumMasterTool"
+$env:JIRA_URL = "https://jira.example.invalid"
+$env:SM_TOOL_REPO_DIR = "C:\\Users\\yourname\\Code\\ScrumMasterTool"
+.\\renew-team.ps1</div>
+              <p>When prompted for <strong>Jira token:</strong>, paste the Personal Access Token from step 1. The token is entered interactively and is not written to the workspace or helper files.</p>
+              <div class="pilot-readme-note">If PowerShell blocks the local script, use <strong>ExecutionPolicy Bypass</strong> for this invocation only. Keep the token private.</div>
             </div>
           </article>
 
@@ -279,7 +291,7 @@ Team number(s):</div>
         </div>
 
         <div class="pilot-readme-footer">
-          <strong>Next refresh:</strong> you do not need to recreate the workspace or team. Connect to VPN, run <strong>renew-team.command</strong>, choose the team(s), enter your Jira token, return to the app and select <strong>Recalculate</strong>.
+          <strong>Next refresh:</strong> you do not need to recreate the workspace or team. Connect to VPN, run the platform-specific helper — <strong>renew-team.command</strong> on macOS or <strong>renew-team.ps1</strong> in PowerShell on Windows — choose the team(s), enter your Jira token, return to the app and select <strong>Recalculate</strong>.
         </div>
       </div>
     `;
