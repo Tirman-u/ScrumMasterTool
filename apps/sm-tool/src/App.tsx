@@ -6378,6 +6378,7 @@ export default function App(): JSX.Element {
             {workspaceHandle ? "Switch Workspace" : "Choose Workspace"}
           </button>
           <div className="nav-version"><Database size={14} aria-hidden="true" /> Local workspace data</div>
+          <small className="build-marker">{BUILD_MARKER_LABEL}</small>
         </div>
       </aside>
 
@@ -8510,8 +8511,6 @@ export default function App(): JSX.Element {
           </>
         )}
       </main>
-
-      <div className="build-marker" aria-label={BUILD_MARKER_LABEL}>{BUILD_MARKER_LABEL}</div>
 
       {showAddTeamModal && (
         <div className="modal-overlay" onClick={() => setShowAddTeamModal(false)}>
