@@ -166,6 +166,39 @@ remediation and a new QA review.**
 
 **Final verdict: PASS. Next task may begin.**
 
+## QA final check — Windows smoke EBUSY cleanup remediation
+
+### Verdict
+
+`PASS`
+
+### Evidence
+
+- `scripts/windows-renew-smoke.mjs` now uses asynchronous `spawn` with streamed
+  stdout/stderr capture and awaited launcher completion instead of blocking
+  `spawnSync` capture for the real Windows chain.
+- A 30-second timeout invokes a controlled `taskkill /PID /T /F` fallback via
+  the Windows command shell, and the final cleanup repeats the process-tree
+  safeguard before removing the temporary fixture. This addresses the prior
+  Windows EBUSY cleanup failure.
+- The generated wrapper assertion still requires
+  `powershell.exe -NoExit -NoProfile -ExecutionPolicy Bypass -File
+  "%~dp0renew-team.ps1" %*`. Production generator, live bootstrap payload, and
+  runner behavior are unchanged by this cleanup-only remediation.
+- Existing success, failure, exit-code, log metadata, token/auth redaction,
+  missing runner, invalid workspace, invalid selection, and separate runner
+  argument assertions remain present.
+- The delegated Windows run `32146223947` provides native evidence for the
+  remediation. Local `node --check` passed; the smoke command skipped safely
+  off Windows.
+- `npm run check` passed: 23 test files / 122 tests, typechecks, and build.
+  `git diff --check` passed.
+- Scope is limited to `scripts/windows-renew-smoke.mjs`; no production
+  launcher, Jira analytics, Teams/workspace data, or Cloudflare changes were
+  introduced.
+
+**Final verdict: PASS. Next task may begin.**
+
 ## QA final check — version 0.2.5 bump
 
 ### Verdict
@@ -1201,6 +1234,32 @@ No commit was created and no customer/workspace data was changed.
 Please verify 0.2.5 package/lock parity, launcher metadata, cache-busted
 installer assets, and that the quoted runner invocation remains unchanged.
 No commit was created and customer/workspace data was not touched.
+
+## Developer remediation handoff — Windows smoke process cleanup
+
+### Implemented
+
+- Updated the Windows smoke harness to run launcher invocations asynchronously,
+  capture their process IDs and output, and send controlled stdin including the
+  PowerShell exit command.
+- Added a targeted `taskkill /T /F` fallback for timed-out or lingering
+  launcher process trees, plus final cleanup before removing the temporary
+  fixture directory.
+- Kept the production `-NoExit` wrapper assertion and all success, failure,
+  exit-code, redaction, and error-log assertions unchanged.
+
+### Validation
+
+- `node --check scripts/windows-renew-smoke.mjs` — PASS.
+- `node scripts/windows-renew-smoke.mjs` — safely skipped on macOS.
+- `npm run check` — PASS: 23 test files / 122 tests, typechecks, and build.
+- `git diff --check` — PASS.
+
+### QA handoff
+
+Please rerun the Windows workflow and verify the smoke fixture is removed
+without EBUSY while `-NoExit` remains asserted. No commit or customer/workspace
+data change was made.
 
 ## Developer remediation handoff — Windows runner workspace argument quoting
 

@@ -1,7 +1,7 @@
 import { promises as fs } from "node:fs";
 import os from "node:os";
 import path from "node:path";
-import { spawnSync } from "node:child_process";
+import { spawn, spawnSync } from "node:child_process";
 import { fileURLToPath } from "node:url";
 
 if (process.platform !== "win32") {
@@ -17,6 +17,7 @@ const teamRoot = path.join(teamsRoot, "fixture-team");
 const runnerPath = path.join(fixtureRoot, "sm-tool", "jira-pull.mjs");
 const logPath = path.join(fixtureRoot, "logs", "renew-team-error.log");
 const token = "fixture-token-never-log-this";
+const launchedProcessIds = new Set();
 
 const teamConfig = {
   teamName: "Fixture Team",
@@ -49,20 +50,40 @@ function assert(condition, message) {
   if (!condition) throw new Error(message);
 }
 
-function runLauncher(lines, env = {}) {
-  const result = spawnSync("cmd.exe", ["/d", "/c", "renew-team.cmd"], {
-    cwd: fixtureRoot,
-    env: { ...process.env, ...env },
-    input: `${lines.join("\r\n")}\r\n`,
-    encoding: "utf8",
-    timeout: 30_000,
+function killProcessTree(pid) {
+  if (!pid || process.platform !== "win32") return;
+  const commandShell = process.env.ComSpec || process.env.COMSPEC || "cmd.exe";
+  spawnSync(commandShell, ["/d", "/c", "taskkill", "/PID", String(pid), "/T", "/F"], {
+    stdio: "ignore",
+    windowsHide: true,
   });
+}
 
-  if (result.error) throw result.error;
-  return {
-    status: result.status ?? -1,
-    output: `${result.stdout ?? ""}\n${result.stderr ?? ""}`,
-  };
+function runLauncher(lines, env = {}) {
+  return new Promise((resolve, reject) => {
+    const child = spawn("cmd.exe", ["/d", "/c", "renew-team.cmd"], {
+      cwd: fixtureRoot,
+      env: { ...process.env, ...env },
+      stdio: ["pipe", "pipe", "pipe"],
+      windowsHide: true,
+    });
+    if (child.pid) launchedProcessIds.add(child.pid);
+
+    let output = "";
+    let timeout;
+    child.stdout.on("data", (chunk) => { output += chunk.toString(); });
+    child.stderr.on("data", (chunk) => { output += chunk.toString(); });
+    child.once("error", (error) => {
+      clearTimeout(timeout);
+      reject(error);
+    });
+    child.once("close", (status) => {
+      clearTimeout(timeout);
+      resolve({ status: status ?? -1, output });
+    });
+    timeout = setTimeout(() => killProcessTree(child.pid), 30_000);
+    child.stdin.end(`${lines.join("\r\n")}\r\n`);
+  });
 }
 
 async function writeFixtureWorkspace() {
@@ -97,13 +118,13 @@ async function main() {
   const windowsLauncher = await fs.readFile(path.join(fixtureRoot, "renew-team.ps1"), "utf8");
   assert(windowsLauncher.includes('& node -- "$Runner" "$WorkspaceDir" @SelectedTeamIds'), "Windows runner invocation does not preserve quoted workspace arguments");
 
-  const success = runLauncher(["https://jira.example.test", "1", token, "", "exit", ""]);
+  const success = await runLauncher(["https://jira.example.test", "1", token, "", "exit", ""]);
   assert(success.status === 0, `success launcher exited ${success.status}: ${success.output}`);
   const successMarker = JSON.parse(await fs.readFile(path.join(fixtureRoot, "runner-success.json"), "utf8"));
   assert(successMarker.teamId === "fixture-team", "runner did not receive the selected team");
   assert(successMarker.workspace === fixtureRoot, "runner did not receive the space-containing workspace path");
 
-  const failed = runLauncher(["https://jira.example.test", "1", token, "", "exit", ""], { SM_WIN_SMOKE_MODE: "fail" });
+  const failed = await runLauncher(["https://jira.example.test", "1", token, "", "exit", ""], { SM_WIN_SMOKE_MODE: "fail" });
   assert(failed.status === 23, `runner exit code was not propagated: ${failed.status}\n${failed.output}`);
   const failedLog = await fs.readFile(logPath, "utf8");
   assert(failedLog.includes("launcher=renew-team.ps1 version=0.2.5"), "failure log metadata is missing");
@@ -116,20 +137,20 @@ async function main() {
   assert(!failed.output.includes("Done. Open Scrum Master Tool"), "failure printed a false success message");
 
   await fs.rm(runnerPath);
-  const missingRunner = runLauncher(["", "exit", ""]);
+  const missingRunner = await runLauncher(["", "exit", ""]);
   assert(missingRunner.status === 1, `missing runner exit code mismatch: ${missingRunner.status}`);
   const missingRunnerLog = await fs.readFile(logPath, "utf8");
   assert(missingRunnerLog.includes("Missing bundled Jira runner"), "missing runner was not logged");
 
   await fs.rm(teamsRoot, { recursive: true, force: true });
-  const invalidWorkspace = runLauncher(["", "exit", ""]);
+  const invalidWorkspace = await runLauncher(["", "exit", ""]);
   assert(invalidWorkspace.status === 1, `invalid workspace exit code mismatch: ${invalidWorkspace.status}`);
   const invalidWorkspaceLog = await fs.readFile(logPath, "utf8");
   assert(invalidWorkspaceLog.includes("No teams folder found"), "invalid workspace was not logged");
 
   await writeFixtureWorkspace();
   await fs.writeFile(runnerPath, runnerSource, "utf8");
-  const invalidSelection = runLauncher(["https://jira.example.test", "99", "exit", ""]);
+  const invalidSelection = await runLauncher(["https://jira.example.test", "99", "exit", ""]);
   assert(invalidSelection.status === 1, `invalid selection exit code mismatch: ${invalidSelection.status}`);
   const invalidSelectionLog = await fs.readFile(logPath, "utf8");
   assert(invalidSelectionLog.includes("Invalid team number"), "invalid selection was not logged");
@@ -140,5 +161,6 @@ async function main() {
 try {
   await main();
 } finally {
+  for (const pid of launchedProcessIds) killProcessTree(pid);
   await fs.rm(temporaryRoot, { recursive: true, force: true });
 }
