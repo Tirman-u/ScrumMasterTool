@@ -10,7 +10,7 @@ const DEFAULT_BUCKET = "jira-api";
 const MASTER_LAUNCHER_NAME = "renew-team.command";
 const WINDOWS_MASTER_LAUNCHER_NAME = "renew-team.ps1";
 const WINDOWS_WRAPPER_NAME = "renew-team.cmd";
-const LAUNCHER_VERSION = "0.2.6";
+const LAUNCHER_VERSION = "0.2.7";
 const LEGACY_TEAM_LAUNCHER_NAME = "renew-data.command";
 const execFileAsync = promisify(execFile);
 

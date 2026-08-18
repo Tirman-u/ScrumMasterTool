@@ -1389,6 +1389,31 @@ Please rerun the Windows workflow and verify the smoke fixture is removed
 without EBUSY while `-NoExit` remains asserted. No commit or customer/workspace
 data change was made.
 
+## Developer remediation handoff — 0.2.7 Windows prompt release
+
+### Implemented
+
+- Bumped synchronized root/app package versions and lockfile entries from
+  0.2.6 to 0.2.7.
+- Bumped generated/live Windows launcher metadata to 0.2.7.
+- Advanced installer/bootstrap cache-bust markers from `20260818-6` to
+  `20260818-7`.
+- Preserved the quote-safe Node probe and output-driven team/token prompt
+  sequencing.
+
+### Validation
+
+- Focused workspace installer test — PASS.
+- `npm run check` — PASS: 23 test files / 122 tests, typechecks, and build.
+- Node checks for bootstrap/installers/smoke harness — PASS.
+- `git diff --check` — PASS.
+
+### QA handoff
+
+Please verify 0.2.7 package/lock parity, launcher metadata, cache-busted assets,
+and Windows prompt sequencing. No commit or customer/workspace data change was
+made.
+
 ## Developer remediation handoff — 0.2.6 Node probe release
 
 ### Implemented
@@ -1537,3 +1562,77 @@ PASS
 
 No P0/P1/P2 findings. Native Windows execution remains environment-dependent
 on this macOS host and is covered as an existing operational follow-up.
+
+## Developer remediation handoff — Windows team prompt sequencing
+
+### Implemented
+
+- Updated smoke stdin sequencing to recognize the actual PowerShell team
+  prompt prefix `Enter one team number`, while retaining the `Team number(s)`
+  variant for compatibility.
+- Added a focused generated-helper assertion for the team-selection prompt;
+  token, completion evidence, cleanup, and all existing outcome assertions are
+  unchanged.
+
+### Validation
+
+- `node --check scripts/windows-renew-smoke.mjs` — PASS.
+- `node scripts/windows-renew-smoke.mjs` — safely skipped on macOS.
+- `npm run check` — PASS: 23 test files / 122 tests, typechecks, and build.
+- `git diff --check` — PASS.
+
+### QA handoff
+
+Please rerun the Windows workflow and verify `1` is sent after the actual team
+prompt, followed by token input and completion evidence. No commit or
+customer/workspace data change was made.
+
+## QA review — Windows team prompt sequencing remediation
+
+### Verdict
+
+PASS WITH FOLLOW-UPS
+
+### Findings and evidence
+
+- `scripts/windows-renew-smoke.mjs` now recognizes the actual PowerShell
+  output prefix `Enter one team number` and retains `Team number(s)` as a
+  compatibility alternative.
+- The harness sends the team selection first, then the token only after the
+  `Jira token` prompt; completion-marker/file gating, NoExit release, failure
+  visibility, exit propagation, redaction, and cleanup logic are unchanged.
+- The generated production helper and wrapper are not modified by this fix;
+  the smoke assertions still require the real quoted runner invocation and
+  `-NoExit -NoProfile -ExecutionPolicy Bypass` chain.
+- `node --check scripts/windows-renew-smoke.mjs` and `git diff --check` passed.
+- `npm run check` passed: 23 test files / 122 tests, typechecks, and build.
+
+No P0/P1/P2 findings. P3 follow-up: rerun Windows smoke after this fix and
+retain evidence that `1`, token input, and completion evidence arrive in that
+order. No production/customer/workspace data change was made.
+
+## QA review — release 0.2.7
+
+### Verdict
+
+PASS
+
+### Evidence
+
+- Root and app package/lock pairs are all version-parity at `0.2.7`.
+- `apps/sm-tool/index.html` uses cache-bust `20260818-7` consistently across
+  all eight public legacy assets; v2 and v3 reference the matching bootstrap
+  URL.
+- The generated Windows helper retains quote-safe `node --version` parsing;
+  the live bootstrap and installer paths produce the same installed helper.
+- The smoke harness retains output-driven recognition of `Enter one team
+  number` and `Team number(s)`, sends team input before token input, and keeps
+  the runner/NoExit/completion assertions intact.
+- `npm run check` passed: 23 test files / 122 tests, typechecks, and build.
+  Public payload and smoke `node --check` checks and `git diff --check` passed.
+- Scope is limited to release metadata/cache-bust and the already-reviewed
+  launcher/smoke behavior; no Jira analytics, Teams/workspace data, or
+  Cloudflare changes were introduced by this release check.
+
+No P0/P1/P2 findings. Native Windows execution remains an existing
+environment-dependent follow-up on this macOS host.

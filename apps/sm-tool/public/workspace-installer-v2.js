@@ -3,7 +3,7 @@
   const DB_VERSION = 1;
   const STORE_NAME = "settings";
   const WORKSPACE_KEY = "workspace-handle-v1";
-  const BOOTSTRAP_SOURCE_URL = "/workspace-bootstrap.js?v=20260818-6";
+  const BOOTSTRAP_SOURCE_URL = "/workspace-bootstrap.js?v=20260818-7";
 
   let helperContentsPromise = null;
   let installInFlight = false;

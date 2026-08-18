@@ -60,9 +60,9 @@ describe("workspace installer v3", () => {
     const installed = await install?.(createMockDirectory(writes));
 
     expect(installed).toBe(true);
-    expect(indexSource).toContain('/workspace-bootstrap.js?v=20260818-6');
-    expect(indexSource).toContain('/workspace-installer-v3.js?v=20260818-6');
-    expect(installerSource).toContain('const SOURCE_URL = "/workspace-bootstrap.js?v=20260818-6";');
+    expect(indexSource).toContain('/workspace-bootstrap.js?v=20260818-7');
+    expect(indexSource).toContain('/workspace-installer-v3.js?v=20260818-7');
+    expect(installerSource).toContain('const SOURCE_URL = "/workspace-bootstrap.js?v=20260818-7";');
     expect(writes.has("renew-team.command")).toBe(true);
     expect(writes.has("renew-team.ps1")).toBe(true);
     expect(writes.has("renew-team.cmd")).toBe(true);
