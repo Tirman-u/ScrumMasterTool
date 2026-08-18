@@ -3,7 +3,7 @@
   const DB_VERSION = 1;
   const STORE_NAME = "settings";
   const WORKSPACE_KEY = "workspace-handle-v1";
-  const SOURCE_URL = "/workspace-bootstrap.js?v=20260818-5";
+  const SOURCE_URL = "/workspace-bootstrap.js?v=20260818-6";
   const HELPER_VERSION = "v7";
   const HARD_MAX_ISSUES = 2000;
 
@@ -152,6 +152,19 @@
     return patched;
   }
 
+  function patchWindowsLauncherNodeProbe(launcher) {
+    const legacyProbe = `$NodeMajor = [int](node -p 'Number(process.versions.node.split(".")[0])')`;
+    const safeProbe = [
+      '$NodeVersion = (node --version).Trim()',
+      "$NodeMajorText = (($NodeVersion -replace '^v', '').Split('.')[0])",
+      '$NodeMajor = 0',
+      'if (-not [int]::TryParse($NodeMajorText, [ref]$NodeMajor)) {',
+      '  Fail-Renew "Could not determine Node.js version. Current: $NodeVersion"',
+      '}',
+    ].join("\r\n");
+    return launcher.replace(legacyProbe, safeProbe);
+  }
+
   async function helperContents() {
     const response = await fetch(`${SOURCE_URL}?helper=${HELPER_VERSION}&t=${Date.now()}`, { cache: "no-store" });
     if (!response.ok) throw new Error(`Could not load helper source (${response.status}).`);
@@ -159,7 +172,7 @@
     return {
       launcher: patchLauncher(extractStringAssignment(source, "LAUNCHER_CONTENT")),
       runner: patchRunner(extractStringAssignment(source, "RUNNER_CONTENT")),
-      windowsLauncher: extractStringAssignment(source, "WINDOWS_LAUNCHER_CONTENT"),
+      windowsLauncher: patchWindowsLauncherNodeProbe(extractStringAssignment(source, "WINDOWS_LAUNCHER_CONTENT")),
       windowsWrapper: extractStringAssignment(source, "WINDOWS_WRAPPER_CONTENT"),
     };
   }

@@ -166,6 +166,44 @@ remediation and a new QA review.**
 
 **Final verdict: PASS. Next task may begin.**
 
+## QA review — Windows Node version probe fix
+
+### Verdict
+
+`PASS WITH FOLLOW-UPS`
+
+### Findings
+
+- No P0/P1/P2 blockers found.
+- P3 environment follow-up: native Windows Node 22 execution was not
+  available in this review environment; the generated probe is quote-safe and
+  the existing Windows CI smoke remains the runtime confirmation.
+
+### Evidence
+
+- The production Windows launcher now obtains `node --version`, trims the
+  output, removes the leading `v`, splits the major component, and parses it
+  with `[int]::TryParse`. This removes the fragile Windows `node -p` probe and
+  its nested quoting.
+- Live bootstrap payload and installer v2/v3 patch paths preserve the safe
+  probe. The focused installer test asserts the `node --version` implementation
+  and explicitly rejects `node -p` in the installed PowerShell helper.
+- Prompts, SecureString token handling, diagnostics logging/redaction, `-NoExit`
+  wrapper behavior, and separated runner arguments remain present and tested.
+- `node --check` passed for bootstrap, installers, and smoke script.
+- `npm run check` passed: 23 test files / 122 tests, typechecks, and production
+  build. `git diff --check` passed.
+- Scope is limited to the version probe and generated/live payload/test
+  consistency; no Jira analytics, Teams/workspace data, or Cloudflare changes
+  were introduced.
+
+### Follow-up tests
+
+- Confirm one Windows CI run with Node 22 and retain its launcher output as
+  runtime evidence.
+
+**Final verdict: PASS WITH FOLLOW-UPS. Next task may begin.**
+
 ## QA re-review — Windows smoke prompt/race remediation
 
 ### Verdict
@@ -1351,6 +1389,31 @@ Please rerun the Windows workflow and verify the smoke fixture is removed
 without EBUSY while `-NoExit` remains asserted. No commit or customer/workspace
 data change was made.
 
+## Developer remediation handoff — 0.2.6 Node probe release
+
+### Implemented
+
+- Bumped synchronized root/app package versions and lockfile entries from
+  0.2.5 to 0.2.6.
+- Bumped generated/live Windows launcher metadata to 0.2.6.
+- Advanced installer/bootstrap cache-bust markers from `20260818-5` to
+  `20260818-6`.
+- Preserved quote-safe `(node --version)` parsing and the existing Windows
+  runner/prompt/log/NoExit behavior.
+
+### Validation
+
+- Focused workspace installer test — PASS.
+- `npm run check` — PASS: 23 test files / 122 tests, typechecks, and build.
+- Node checks for bootstrap/installers/smoke harness — PASS.
+- `git diff --check` — PASS.
+
+### QA handoff
+
+Please verify 0.2.6 package/lock parity, launcher metadata, cache-busted assets,
+and quote-safe Node version probing. No commit or customer/workspace data
+change was made.
+
 ## Developer remediation handoff — Windows smoke completion evidence
 
 ### Implemented
@@ -1377,6 +1440,30 @@ Please rerun the Windows workflow and verify success evidence is observed
 before PowerShell termination and fixture cleanup; no sleep-only workaround or
 assertion removal was introduced. No commit or customer/workspace data change
 was made.
+
+## Developer remediation handoff — Windows Node version probe
+
+### Implemented
+
+- Replaced the generated PowerShell `node -p` probe with quote-safe
+  `node --version` parsing and explicit numeric validation.
+- Added matching live bootstrap/v2/v3 installer normalization so newly and
+  previously installed workspaces receive the safe probe.
+- Added focused assertions for the exact generated command and ensured the
+  fragile `node -p` form is absent from the installed Windows helper.
+
+### Validation
+
+- Focused workspace installer test — PASS.
+- `npm run check` — PASS: 23 test files / 122 tests, typechecks, and build.
+- Node checks for generator payloads/installers/smoke harness — PASS.
+- `git diff --check` — PASS.
+
+### QA handoff
+
+Please rerun the Windows workflow on Node 22 and verify the helper parses
+`node --version` without a false Node 18+ error. No commit or customer/workspace
+data change was made.
 
 ## Developer remediation handoff — smoke PID lifecycle P3
 
@@ -1423,3 +1510,30 @@ data change was made.
 Please rerun the Windows workflow and verify the success marker is written in
 the space-containing workspace, followed by the existing exit, redaction, and
 error-log assertions. No commit or customer/workspace data change was made.
+
+## QA review — release 0.2.6
+
+### Verdict
+
+PASS
+
+### Evidence
+
+- Root `package.json`/`package-lock.json` and `apps/sm-tool/package.json`/
+  `apps/sm-tool/package-lock.json` all agree on version `0.2.6`.
+- `apps/sm-tool/index.html` uses cache-bust `20260818-6` consistently across
+  all eight legacy public assets; v2 and v3 fetch the matching bootstrap URL.
+- `src/generate-renew-launchers.ts` uses quote-safe PowerShell parsing from
+  `node --version` with explicit numeric validation; the generated Windows
+  helper contains no `node -p`/`node -e` probe.
+- The live bootstrap and v2/v3 installer write paths normalize the embedded
+  legacy payload before writing, and the focused installer test verifies the
+  installed helper contains the safe probe and rejects `node -p`.
+- `npm run check` passed: 23 test files / 122 tests, typechecks, and build.
+  `git diff --check` and public payload `node --check` checks passed.
+- Release scope is limited to version/cache-bust and launcher payload
+  consistency; no Jira analytics, Teams/workspace data, or Cloudflare changes
+  were introduced by this review.
+
+No P0/P1/P2 findings. Native Windows execution remains environment-dependent
+on this macOS host and is covered as an existing operational follow-up.

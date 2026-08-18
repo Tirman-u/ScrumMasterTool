@@ -3,7 +3,7 @@
   const DB_VERSION = 1;
   const STORE_NAME = "settings";
   const WORKSPACE_KEY = "workspace-handle-v1";
-  const BOOTSTRAP_SOURCE_URL = "/workspace-bootstrap.js?v=20260818-5";
+  const BOOTSTRAP_SOURCE_URL = "/workspace-bootstrap.js?v=20260818-6";
 
   let helperContentsPromise = null;
   let installInFlight = false;
@@ -63,6 +63,19 @@
     return runner.replace(original, replacement);
   }
 
+  function patchWindowsLauncherNodeProbe(launcher) {
+    const legacyProbe = `$NodeMajor = [int](node -p 'Number(process.versions.node.split(".")[0])')`;
+    const safeProbe = [
+      '$NodeVersion = (node --version).Trim()',
+      "$NodeMajorText = (($NodeVersion -replace '^v', '').Split('.')[0])",
+      '$NodeMajor = 0',
+      'if (-not [int]::TryParse($NodeMajorText, [ref]$NodeMajor)) {',
+      '  Fail-Renew "Could not determine Node.js version. Current: $NodeVersion"',
+      '}',
+    ].join("\r\n");
+    return launcher.replace(legacyProbe, safeProbe);
+  }
+
   async function loadHelperContents() {
     if (!helperContentsPromise) {
       helperContentsPromise = fetch(BOOTSTRAP_SOURCE_URL, { cache: "no-store" })
@@ -75,7 +88,7 @@
         .then((source) => ({
           runner: patchRunner(extractStringAssignment(source, "RUNNER_CONTENT")),
           launcher: patchLauncher(extractStringAssignment(source, "LAUNCHER_CONTENT")),
-          windowsLauncher: extractStringAssignment(source, "WINDOWS_LAUNCHER_CONTENT"),
+          windowsLauncher: patchWindowsLauncherNodeProbe(extractStringAssignment(source, "WINDOWS_LAUNCHER_CONTENT")),
           windowsWrapper: extractStringAssignment(source, "WINDOWS_WRAPPER_CONTENT"),
         }));
     }

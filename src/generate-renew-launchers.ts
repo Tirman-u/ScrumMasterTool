@@ -10,7 +10,7 @@ const DEFAULT_BUCKET = "jira-api";
 const MASTER_LAUNCHER_NAME = "renew-team.command";
 const WINDOWS_MASTER_LAUNCHER_NAME = "renew-team.ps1";
 const WINDOWS_WRAPPER_NAME = "renew-team.cmd";
-const LAUNCHER_VERSION = "0.2.5";
+const LAUNCHER_VERSION = "0.2.6";
 const LEGACY_TEAM_LAUNCHER_NAME = "renew-data.command";
 const execFileAsync = promisify(execFile);
 
@@ -275,7 +275,12 @@ function buildWindowsMasterLauncher(): string {
     'if (-not (Get-Command node -ErrorAction SilentlyContinue)) {',
     '  Fail-Renew "Node.js 18+ is required to refresh Jira data."',
     "}",
-    '$NodeMajor = [int](node -p \'Number(process.versions.node.split(".")[0])\')',
+    '$NodeVersion = (node --version).Trim()',
+    '$NodeMajorText = (($NodeVersion -replace \'^v\', \'\').Split(\'.\')[0])',
+    '$NodeMajor = 0',
+    'if (-not [int]::TryParse($NodeMajorText, [ref]$NodeMajor)) {',
+    '  Fail-Renew "Could not determine Node.js version. Current: $NodeVersion"',
+    '}',
     'if ($NodeMajor -lt 18) {',
     '  Fail-Renew "Node.js 18+ is required. Current: $(node --version)"',
     "}",
