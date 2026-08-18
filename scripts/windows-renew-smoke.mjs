@@ -290,10 +290,17 @@ async function main() {
   assert(noJqlLog.includes("savedJqlFlag=0"), "no-JQL diagnostic flag was not logged");
 
   await fs.rm(runnerPath);
-  const missingRunner = await runLauncher(["", "exit", ""]);
+  const missingRunner = await runLauncher(["https://jira.example.test", "exit", ""], { JIRA_TOKEN: token }, null, { sendTokenInput: false });
   assert(missingRunner.status === 1, `missing runner exit code mismatch: ${missingRunner.status}`);
   const missingRunnerLog = await fs.readFile(logPath, "utf8");
   assert(missingRunnerLog.includes("Missing bundled Jira runner"), "missing runner was not logged");
+  assert(missingRunner.output.includes("[ERROR]"), "missing runner failure was not visible");
+  assert(missingRunner.output.includes("[ERROR] renew-team.ps1 failed with exit code"), "missing runner wrapper error was not visible");
+  assert(missingRunner.pauseKeyCount === 1, `missing runner pause key was not sent exactly once (count=${missingRunner.pauseKeyCount})`);
+  assert(missingRunnerLog.includes("launcher=renew-team.ps1 version=0.2.9"), "missing runner log metadata is missing");
+  assert(missingRunnerLog.includes("exitCode=1"), "missing runner log exit code is missing");
+  assert(!missingRunnerLog.includes(token), "missing runner log leaked the Jira token");
+  assert(!missingRunner.output.includes(token), "missing runner output leaked the Jira token");
 
   await fs.rm(teamsRoot, { recursive: true, force: true });
   const invalidWorkspace = await runLauncher(["", "exit", ""]);
