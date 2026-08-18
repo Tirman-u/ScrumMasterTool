@@ -166,6 +166,96 @@ remediation and a new QA review.**
 
 **Final verdict: PASS. Next task may begin.**
 
+## QA re-review — Windows smoke prompt/race remediation
+
+### Verdict
+
+`PASS WITH FOLLOW-UPS`
+
+### Findings
+
+- **P3 cleanup hygiene:** `launchedProcessIds` retains PIDs after their child
+  processes close, and the final `finally` block calls `taskkill` for every
+  retained PID. Normal successful/error completion therefore still invokes
+  the fallback command against already-closed PIDs. This is harmless in the
+  observed flow but is not strictly “taskkill only fallback” and could become
+  unsafe if a PID were reused. Remove PIDs on `close` and reserve final
+  `taskkill` for still-active processes.
+
+### Evidence
+
+- Prompt input is now driven by observed output: URL is sent initially, team
+  selection after `Team number(s)`, and token after `Jira token` appears.
+- Success waits for the actual `Done. Open Scrum Master Tool` marker, then
+  waits for `runner-success.json`, sends the blank line for the script’s final
+  `Read-Host`, sends `exit` to close `-NoExit` PowerShell, and supplies the
+  wrapper pause input. The success assertion then reads and validates the file.
+- Failure waits for visible `[ERROR]`, supplies the error prompt and wrapper
+  pause input, and resolves only after the process closes; exit code/log/
+  redaction assertions remain active.
+- Timeout and wait failure use `taskkill /T /F` as the controlled fallback.
+- Production generator and live payload are unchanged by this race-test
+  remediation; the real `.cmd` → PowerShell → Node → runner chain remains
+  exercised.
+- Delegated Windows run `32146743887` supplied the prior race evidence. Local
+  `node --check` passed; the smoke test skipped safely off Windows.
+- `npm run check` passed: 23 test files / 122 tests, typechecks, and build.
+  `git diff --check` passed.
+- Scope is limited to `scripts/windows-renew-smoke.mjs`; no production,
+  Jira analytics, Teams/workspace data, or Cloudflare changes were introduced.
+
+### Coverage
+
+- Output-driven prompts, success marker/file synchronization, NoExit closure,
+  failure visibility, async process completion, timeout cleanup, production
+  chain preservation, full validation, and scope safety checked.
+
+### Risk assessment
+
+Low. The core race is addressed; the remaining issue is isolated to smoke-test
+cleanup PID bookkeeping.
+
+### Required fixes
+
+- None blocking the production task. Correct PID bookkeeping before relying on
+  the smoke script as a reusable test harness.
+
+### Follow-up tests
+
+- Run the smoke test on `windows-latest` after PID cleanup and confirm no
+  EBUSY, no lingering process, and no taskkill invocation on normal completion.
+
+### Recommended next task
+
+The next task may begin. Carry the P3 smoke cleanup follow-up forward.
+
+**Final verdict: PASS WITH FOLLOW-UPS. Next task may begin.**
+
+## QA final check — Windows smoke PID cleanup
+
+### Verdict
+
+`PASS`
+
+### Evidence
+
+- `runLauncher()` removes each child PID from `launchedProcessIds` on both
+  `error` and normal `close` events. The final cleanup loop therefore targets
+  only still-active processes; `taskkill /T /F` remains a timeout/wait-failure
+  fallback rather than normal completion behavior.
+- Output-driven prompt sequencing, success marker/file wait, explicit `exit`
+  to close `-NoExit` PowerShell, failure error visibility, and awaited process
+  close remain intact.
+- The real `.cmd` → PowerShell → Node → bundled runner assertions and
+  production launcher behavior are unchanged.
+- `node --check` passed; the smoke command skipped safely off Windows.
+- `npm run check` passed: 23 test files / 122 tests, typechecks, and build.
+  `git diff --check` passed.
+- Scope is limited to `scripts/windows-renew-smoke.mjs`; no production,
+  Jira analytics, Teams/workspace data, or Cloudflare changes were introduced.
+
+**Final verdict: PASS. Next task may begin.**
+
 ## QA final check — Windows smoke EBUSY cleanup remediation
 
 ### Verdict
@@ -1259,6 +1349,55 @@ No commit was created and customer/workspace data was not touched.
 
 Please rerun the Windows workflow and verify the smoke fixture is removed
 without EBUSY while `-NoExit` remains asserted. No commit or customer/workspace
+data change was made.
+
+## Developer remediation handoff — Windows smoke completion evidence
+
+### Implemented
+
+- Changed smoke launcher execution to interactive stdin sequencing: URL,
+  selection, and token are sent only when their prompts are observed.
+- The harness now waits for the actual runner completion output and, for the
+  success case, waits for `runner-success.json` to exist before releasing the
+  `-NoExit` PowerShell process with `exit` and allowing cleanup.
+- Failure cases release only after visible `[ERROR]` evidence, preserving exit,
+  redaction, and error-log assertions. Process-tree cleanup remains a final
+  fallback rather than the success path.
+
+### Validation
+
+- `node --check scripts/windows-renew-smoke.mjs` — PASS.
+- `node scripts/windows-renew-smoke.mjs` — safely skipped on macOS.
+- `npm run check` — PASS: 23 test files / 122 tests, typechecks, and build.
+- `git diff --check` — PASS.
+
+### QA handoff
+
+Please rerun the Windows workflow and verify success evidence is observed
+before PowerShell termination and fixture cleanup; no sleep-only workaround or
+assertion removal was introduced. No commit or customer/workspace data change
+was made.
+
+## Developer remediation handoff — smoke PID lifecycle P3
+
+### Implemented
+
+- Removed launcher process IDs from the active cleanup set on both `error` and
+  `close` events.
+- `finally` now taskkills only processes that are still active, avoiding stale
+  PID reuse risk while preserving the prompt/output synchronization and all
+  smoke assertions.
+
+### Validation
+
+- `npm run check` — PASS: 23 test files / 122 tests, typechecks, and build.
+- `node --check scripts/windows-renew-smoke.mjs` — PASS.
+- Windows smoke skipped safely on macOS.
+- `git diff --check` — PASS.
+
+### QA handoff
+
+Please verify active PID cleanup on Windows; no commit or customer/workspace
 data change was made.
 
 ## Developer remediation handoff — Windows runner workspace argument quoting

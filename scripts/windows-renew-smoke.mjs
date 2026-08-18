@@ -59,7 +59,20 @@ function killProcessTree(pid) {
   });
 }
 
-function runLauncher(lines, env = {}) {
+async function waitForPath(filePath, timeoutMs = 5_000) {
+  const deadline = Date.now() + timeoutMs;
+  while (Date.now() < deadline) {
+    try {
+      await fs.access(filePath);
+      return;
+    } catch {
+      await new Promise((resolve) => setTimeout(resolve, 50));
+    }
+  }
+  throw new Error(`Timed out waiting for smoke evidence: ${filePath}`);
+}
+
+function runLauncher(lines, env = {}, successEvidencePath = null) {
   return new Promise((resolve, reject) => {
     const child = spawn("cmd.exe", ["/d", "/c", "renew-team.cmd"], {
       cwd: fixtureRoot,
@@ -71,18 +84,59 @@ function runLauncher(lines, env = {}) {
 
     let output = "";
     let timeout;
+    let teamSent = false;
+    let tokenSent = false;
+    let completionReleased = false;
+    const sendLine = (line) => {
+      if (!child.stdin.destroyed) child.stdin.write(`${line}\r\n`);
+    };
+    const releasePowerShell = async (isSuccess) => {
+      if (completionReleased) return;
+      completionReleased = true;
+      try {
+        if (isSuccess && successEvidencePath) await waitForPath(successEvidencePath);
+        if (isSuccess) {
+          sendLine("");
+          sendLine("exit");
+          sendLine("");
+        } else {
+          sendLine("");
+          sendLine("");
+        }
+      } catch (error) {
+        reject(error);
+        killProcessTree(child.pid);
+      }
+    };
     child.stdout.on("data", (chunk) => { output += chunk.toString(); });
     child.stderr.on("data", (chunk) => { output += chunk.toString(); });
+    child.stdout.on("data", () => {
+      if (!teamSent && output.includes("Team number(s)")) {
+        teamSent = true;
+        sendLine(lines[1] ?? "");
+      }
+      if (!tokenSent && output.includes("Jira token")) {
+        tokenSent = true;
+        sendLine(lines[2] ?? "");
+      }
+      if (output.includes("Done. Open Scrum Master Tool")) {
+        void releasePowerShell(true);
+      } else if (output.includes("[ERROR]")) {
+        void releasePowerShell(false);
+      }
+    });
     child.once("error", (error) => {
       clearTimeout(timeout);
+      if (child.pid) launchedProcessIds.delete(child.pid);
       reject(error);
     });
     child.once("close", (status) => {
       clearTimeout(timeout);
+      if (child.pid) launchedProcessIds.delete(child.pid);
       resolve({ status: status ?? -1, output });
     });
     timeout = setTimeout(() => killProcessTree(child.pid), 30_000);
-    child.stdin.end(`${lines.join("\r\n")}\r\n`);
+    sendLine(lines[0] ?? "");
   });
 }
 
@@ -118,13 +172,17 @@ async function main() {
   const windowsLauncher = await fs.readFile(path.join(fixtureRoot, "renew-team.ps1"), "utf8");
   assert(windowsLauncher.includes('& node -- "$Runner" "$WorkspaceDir" @SelectedTeamIds'), "Windows runner invocation does not preserve quoted workspace arguments");
 
-  const success = await runLauncher(["https://jira.example.test", "1", token, "", "exit", ""]);
+  const success = await runLauncher(
+    ["https://jira.example.test", "1", token],
+    {},
+    path.join(fixtureRoot, "runner-success.json"),
+  );
   assert(success.status === 0, `success launcher exited ${success.status}: ${success.output}`);
   const successMarker = JSON.parse(await fs.readFile(path.join(fixtureRoot, "runner-success.json"), "utf8"));
   assert(successMarker.teamId === "fixture-team", "runner did not receive the selected team");
   assert(successMarker.workspace === fixtureRoot, "runner did not receive the space-containing workspace path");
 
-  const failed = await runLauncher(["https://jira.example.test", "1", token, "", "exit", ""], { SM_WIN_SMOKE_MODE: "fail" });
+  const failed = await runLauncher(["https://jira.example.test", "1", token], { SM_WIN_SMOKE_MODE: "fail" });
   assert(failed.status === 23, `runner exit code was not propagated: ${failed.status}\n${failed.output}`);
   const failedLog = await fs.readFile(logPath, "utf8");
   assert(failedLog.includes("launcher=renew-team.ps1 version=0.2.5"), "failure log metadata is missing");
