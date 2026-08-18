@@ -6,7 +6,6 @@ import {
   Database,
   FolderCog,
   Gauge,
-  GitBranch,
   KeyRound,
   Layers3,
   LockKeyhole,
@@ -29,6 +28,7 @@ import {
 } from "./lib/metrics";
 import { isDefaultNonFlowStatus, isTerminalOrCancelledStatus } from "./lib/time-in-status";
 import { workingDaysBetween } from "./lib/working-days";
+import { buildExecutiveFlowSummary } from "./lib/metric-consistency";
 import {
   isMetricAvailableInView,
   normalizeTeamViewMode,
@@ -107,7 +107,6 @@ import {
   type ExecutiveTicketRow,
   type ExecutiveWorkflowItem,
 } from "./components/ExecutiveViews";
-import { RoleWorkflow } from "./components/RoleWorkflow";
 
 export {
   buildAvailableMonths,
@@ -228,7 +227,7 @@ function readPilotSession(pins: PilotAccessPin[]): PilotSession | null {
   }
 }
 
-type Page = "workspace" | "dashboard" | "metrics" | "import" | "team" | "admin" | "workflow";
+type Page = "workspace" | "dashboard" | "metrics" | "import" | "team" | "admin";
 type TeamTab = "overview" | "cycle" | "data";
 type TrendTone = "good" | "bad" | "neutral";
 type HealthTone = "good" | "warn" | "bad" | "neutral";
@@ -5651,7 +5650,7 @@ export default function App(): JSX.Element {
       bugRatio,
       workMix: formatWorkMixSummary(row.healthCurrent.workMix),
       velocity: formatVelocityValue(row.current.velocity, row.team.config.velocityConfig),
-      bottleneck: row.bottleneck || "—",
+      bottleneck: row.healthCurrent.queueTime.topStatuses[0]?.status ?? "—",
       bottleneckDays: row.healthCurrent.queueTime.topStatuses[0]?.avgDays ?? null,
       health,
     };
@@ -5667,23 +5666,15 @@ export default function App(): JSX.Element {
     latestDataLabel: dashboardScopeSummary.latestImportAt ? formatDateText(dashboardScopeSummary.latestImportAt) : "-",
   };
 
-  const executiveFlowStages: ExecutiveFlowStage[] = selectedTeamRow
-    ? selectedTeamBottleneckEntries
-        .find((entry) => entry.period === dashboardBottleneckPeriod)?.columns
-        .slice()
-        .slice(0, 10)
-        .map((column) => {
-          const type = isDefaultNonFlowStatus(column.name) ? "queue" : "active";
-          const signal: ExecSig = type === "active" ? "good" : column.avgDays > 20 ? "critical" : column.avgDays > 7 ? "warning" : "neutral";
-          return { name: column.name, days: column.avgDays, type, signal };
-        }) ?? []
-    : [];
-
+  // Team and Scrum Master must render the same selected-period Time in Status model.
+  // Do not build a second flow model from the latest bottleneck month.
   const executiveTimeInStatus: ExecutiveFlowStage[] = selectedTimeInStatusRows
-    .filter((row): row is TimeInStatusStatusRow & { avgDays: number } => row.avgDays !== null)
-    .slice(0, 8)
+    .filter(
+      (row): row is TimeInStatusStatusRow & { avgDays: number } =>
+        row.avgDays !== null && (row.category === "active" || row.category === "queue"),
+    )
     .map((row) => {
-      const type = row.category === "active" ? "active" : "queue";
+      const type: ExecutiveFlowStage["type"] = isQueueTimeStatus(row.name, selectedTeam?.config) ? "queue" : "active";
       return {
         name: row.name,
         days: row.avgDays,
@@ -5691,6 +5682,28 @@ export default function App(): JSX.Element {
         signal: executiveSigFromHealthTone(row.tone),
       };
     });
+
+  const executiveFlowStages: ExecutiveFlowStage[] = executiveTimeInStatus;
+  const executiveFlowSummary = buildExecutiveFlowSummary(executiveFlowStages);
+  const executiveFlowEfficiencyTone: ExecSig =
+    executiveFlowSummary.flowEfficiencyPct === null
+      ? "neutral"
+      : executiveFlowSummary.flowEfficiencyPct >= 75
+        ? "good"
+        : executiveFlowSummary.flowEfficiencyPct >= 45
+          ? "warning"
+          : "critical";
+  const executiveBottleneckTone: ExecSig =
+    executiveFlowSummary.biggestQueueDays === null
+      ? "neutral"
+      : executiveFlowSummary.biggestQueueDays > 20
+        ? "critical"
+        : executiveFlowSummary.biggestQueueDays > 7
+          ? "warning"
+          : "good";
+  const executiveBottleneckSummary = executiveFlowSummary.biggestQueueName
+    ? `${periodSummary.currentLabel}: ${executiveFlowSummary.biggestQueueName} (${executiveFlowSummary.biggestQueueDays?.toFixed(1)} days).`
+    : `No queue-stage Time in Status data for ${periodSummary.currentLabel}.`;
 
   const executiveThroughputWeekly: ExecutiveChartPoint[] = selectedTeamHealth.throughputStability.weeklyRecentCounts.length > 0
     ? selectedTeamHealth.throughputStability.weeklyRecentCounts.slice(-12).map((value, index, values) => ({
@@ -5806,8 +5819,10 @@ export default function App(): JSX.Element {
             unit: "days",
             sub: `oldest open ticket ${selectedTeamHealth.agingWip.topOldest[0]?.agingDays ?? 0}d`,
           }),
-          executiveMetric("Bug Ratio", selectedTeamHealth.bugRatio.doneBugRatio === null ? "-" : `${formatPercentValue(selectedTeamHealth.bugRatio.doneBugRatio)}%`, selectedTeamHealthSignals.doneBugRatio.tone === "bad" ? "critical" : selectedTeamHealthSignals.doneBugRatio.tone === "warn" ? "warning" : "good", {
-            sub: `${selectedTeamHealth.bugRatio.wipBugCount} bugs in backlog`,
+          executiveMetric("Done Bug Ratio", selectedTeamHealth.bugRatio.doneBugRatio === null ? "-" : `${formatPercentValue(selectedTeamHealth.bugRatio.doneBugRatio)}%`, selectedTeamHealthSignals.doneBugRatio.tone === "bad" ? "critical" : selectedTeamHealthSignals.doneBugRatio.tone === "warn" ? "warning" : "good", {
+            sub: selectedTeamHealth.bugRatio.doneBugRatio === null
+              ? "No delivered items in selected period"
+              : `${selectedTeamHealth.bugRatio.doneBugCount}/${selectedTeamHealth.bugRatio.doneTotal} bugs in done`,
           }),
           executiveMetric("Velocity", formatVelocityValue(selectedTeamRow.current.velocity, selectedTeam.config.velocityConfig), "good", {
             prev: getPreviousVelocityValue(),
@@ -5815,11 +5830,10 @@ export default function App(): JSX.Element {
             trendGood: true,
             sub: selectedVelocityUnit,
           }),
-          executiveMetric("Bottleneck", selectedTeamHealth.bottleneckTrend.dominantStatus ?? selectedBottleneckFlowTimes[0]?.name ?? "-", selectedTeamHealthSignals.bottleneckTrend.tone === "bad" ? "critical" : selectedTeamHealthSignals.bottleneckTrend.tone === "warn" ? "warning" : "neutral", {
-            prev: selectedTeamHealth.bottleneckTrend.longestStatus ?? "-",
+          executiveMetric("Bottleneck", executiveFlowSummary.biggestQueueName ?? "-", executiveBottleneckTone, {
             trend: "flat",
             trendGood: false,
-            sub: selectedBottleneckSummary,
+            sub: executiveBottleneckSummary,
           }),
           executiveMetric("Work Past Expectation", formatSleRiskValue(selectedTeamHealth.sleRisk), selectedTeamHealthSignals.sleRisk.tone === "bad" ? "critical" : "warning", {
             sub: `${selectedTeamHealth.sleRisk.atRiskCount} of ${selectedTeamHealth.sleRisk.totalWip} open tickets`,
@@ -5861,18 +5875,19 @@ export default function App(): JSX.Element {
           executiveMetric("Aging WIP", formatWorkingDays(selectedTeamHealth.agingWip.avgDays).replace(" working days", ""), selectedTeamHealthSignals.wipAgeRisk.tone === "bad" ? "critical" : "warning", { unit: "days", sub: `oldest ${selectedTeamHealth.agingWip.topOldest[0]?.agingDays ?? 0}d` }),
           executiveMetric("Open Tickets", String(selectedTeamHealth.agingWip.total), selectedTeamHealth.agingWip.total > 0 ? "warning" : "good", { sub: `${selectedTeamHealth.staleWip.stalePct === null ? "-" : `${formatPercentValue(selectedTeamHealth.staleWip.stalePct)}%`} not updated` }),
           executiveMetric("Oldest Ticket", selectedTeamHealth.agingWip.topOldest[0]?.issueKey ?? "-", selectedTeamHealth.agingWip.topOldest[0]?.agingDays ? "critical" : "neutral", { sub: `${selectedTeamHealth.agingWip.topOldest[0]?.agingDays ?? 0} days in backlog` }),
-          executiveMetric("Bug Ratio", selectedTeamHealth.bugRatio.wipBugRatio === null ? "-" : `${formatPercentValue(selectedTeamHealth.bugRatio.wipBugRatio)}%`, selectedTeamHealthSignals.doneBugRatio.tone === "bad" ? "critical" : selectedTeamHealthSignals.doneBugRatio.tone === "warn" ? "warning" : "good", { sub: `${selectedTeamHealth.bugRatio.wipBugCount} / ${selectedTeamHealth.bugRatio.wipTotal} active items` }),
+          executiveMetric("WIP Bug Ratio", selectedTeamHealth.bugRatio.wipBugRatio === null ? "-" : `${formatPercentValue(selectedTeamHealth.bugRatio.wipBugRatio)}%`, selectedTeamHealth.bugRatio.wipBugRatio !== null && selectedTeamHealth.bugRatio.wipBugRatio > 15 ? "critical" : selectedTeamHealth.bugRatio.wipBugRatio !== null && selectedTeamHealth.bugRatio.wipBugRatio > 10 ? "warning" : "good", { sub: `${selectedTeamHealth.bugRatio.wipBugCount} / ${selectedTeamHealth.bugRatio.wipTotal} open items` }),
         ],
         processHealth: [
-          executiveMetric("Bottleneck", selectedBottleneckFlowTimes[0]?.name ?? "-", selectedTeamHealthSignals.bottleneckTrend.tone === "bad" ? "critical" : selectedTeamHealthSignals.bottleneckTrend.tone === "warn" ? "warning" : "neutral", { sub: selectedBottleneckSummary }),
-          executiveMetric("Flow Efficiency", selectedTeamHealth.flowEfficiency.valuePct === null ? "-" : `${formatPercentValue(selectedTeamHealth.flowEfficiency.valuePct)}%`, selectedTeamHealthSignals.flowEfficiency.tone === "bad" ? "critical" : selectedTeamHealthSignals.flowEfficiency.tone === "warn" ? "warning" : "good", { sub: "active / total time" }),
+          executiveMetric("Bottleneck", executiveFlowSummary.biggestQueueName ?? "-", executiveBottleneckTone, { sub: executiveBottleneckSummary }),
+          executiveMetric("Flow Efficiency", executiveFlowSummary.flowEfficiencyPct === null ? "-" : `${formatPercentValue(executiveFlowSummary.flowEfficiencyPct)}%`, executiveFlowEfficiencyTone, { sub: "active / (active + queue)" }),
           executiveMetric("Work Distribution", formatWorkMixSummary(selectedTeamHealth.workMix), "neutral", { sub: "Story · Bug · Sub-task" }),
           executiveMetric("Forecast P85", selectedTeamHealth.forecast.p85Days === null ? "-" : `${selectedTeamHealth.forecast.p85Days} days`, selectedTeamHealthSignals.forecast.tone === "bad" ? "critical" : selectedTeamHealthSignals.forecast.tone === "warn" ? "warning" : "good", { sub: "Monte Carlo · 85% confidence" }),
         ],
-        flowStages: executiveFlowStages.length > 0 ? executiveFlowStages : executiveTimeInStatus,
+        flowStages: executiveFlowStages,
+        flowSummary: executiveFlowSummary,
         throughputWeekly: executiveThroughputWeekly,
         cycleTimeWeekly: executiveCycleTimeWeekly.length > 0 ? executiveCycleTimeWeekly : [{ label: "Current", p50: selectedTeamRow.current.flowTiming.cycleTime.p50 ?? 0, p85: selectedTeamRow.current.flowTiming.cycleTime.p85 ?? 0 }],
-        timeInStatus: executiveTimeInStatus.length > 0 ? executiveTimeInStatus : executiveFlowStages,
+        timeInStatus: executiveTimeInStatus,
         agingDist: executiveAgingDist,
         bottleneckMonthly: executiveBottleneckMonthly,
         statusRows: executiveStatusRows,
@@ -6335,17 +6350,6 @@ export default function App(): JSX.Element {
             <Upload className="nav-icon" size={17} />
             Import
           </button>
-          <button
-            className={page === "workflow" ? "nav-link active" : "nav-link"}
-            onClick={() => {
-              setPage("workflow");
-              setMobileNavOpen(false);
-            }}
-            title="Role Workflow"
-          >
-            <GitBranch className="nav-icon" size={17} />
-            Role Workflow
-          </button>
           {pilotSession.role === "admin" ? (
             <button
               className={page === "admin" ? "nav-link active" : "nav-link"}
@@ -6379,7 +6383,7 @@ export default function App(): JSX.Element {
       <main className="main-area">
         {status ? <div className="status-toast" role="status" aria-live="polite">{status}</div> : null}
 
-        {!workspaceHandle && page !== "metrics" && page !== "admin" && page !== "workflow" ? (
+        {!workspaceHandle && page !== "metrics" && page !== "admin" ? (
           <section className="page-section empty-state">
             <h2>Workspace required</h2>
             <p>Select your root folder to load teams and imports.</p>
@@ -6414,7 +6418,6 @@ export default function App(): JSX.Element {
           <>
             {page === "metrics" && renderMetricsSetupPage()}
             {page === "admin" && pilotSession.role === "admin" && renderMasterAdminPage()}
-            {page === "workflow" && <RoleWorkflow />}
 
             {workspaceHandle && page === "workspace" && (
               <section className="page-section">
