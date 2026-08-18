@@ -90,9 +90,15 @@ function runLauncher(lines, env = {}, successEvidencePath = null, { sendTokenInp
     let tokenSent = false;
     let tokenSendCount = 0;
     let tokenSentSource = "";
+    let pauseKeyCount = 0;
     let completionReleased = false;
     const sendLine = (line) => {
       if (!child.stdin.destroyed) child.stdin.write(`${line}\r\n`);
+    };
+    const sendPauseKeyOnce = () => {
+      if (pauseKeyCount > 0 || child.stdin.destroyed) return;
+      pauseKeyCount += 1;
+      child.stdin.write(" \r\n");
     };
     const sendTokenOnce = (source) => {
       if (tokenSent) return;
@@ -133,6 +139,12 @@ function runLauncher(lines, env = {}, successEvidencePath = null, { sendTokenInp
       } else if (output.includes("[ERROR]")) {
         void releasePowerShell(false);
       }
+      if (
+        output.includes("[OK] renew-team.ps1 completed successfully.") ||
+        output.includes("[ERROR] renew-team.ps1 failed with exit code")
+      ) {
+        sendPauseKeyOnce();
+      }
     };
     child.stdout.on("data", (chunk) => handleOutput(chunk, "stdout"));
     child.stderr.on("data", (chunk) => handleOutput(chunk, "stderr"));
@@ -144,7 +156,7 @@ function runLauncher(lines, env = {}, successEvidencePath = null, { sendTokenInp
     child.once("close", (status) => {
       clearTimeout(timeout);
       if (child.pid) launchedProcessIds.delete(child.pid);
-      resolve({ status: status ?? -1, output, tokenSent, tokenSendCount, tokenSentSource });
+      resolve({ status: status ?? -1, output, tokenSent, tokenSendCount, tokenSentSource, pauseKeyCount });
     });
     timeout = setTimeout(() => killProcessTree(child.pid), 30_000);
     sendLine(lines[0] ?? "");
@@ -204,6 +216,8 @@ async function main() {
     { sendTokenInput: false },
   );
   assert(success.status === 0, `success launcher exited ${success.status}: ${success.output}`);
+  assert(success.output.includes("[OK] renew-team.ps1 completed successfully."), "CMD wrapper success message was not observed");
+  assert(success.pauseKeyCount === 1, `CMD wrapper pause key was not sent exactly once (count=${success.pauseKeyCount})`);
   assert(success.output.includes("[STAGE] token-prompt"), "token stage was not reached");
   assert(success.tokenSendCount === 0, `pre-set token path unexpectedly sent stdin (count=${success.tokenSendCount})`);
   assert(!success.output.includes(token), "success output leaked the Jira token");
@@ -220,6 +234,8 @@ async function main() {
   assert(!failedLog.includes(token), "failure log leaked the Jira token");
   assert(!failedLog.includes("Authorization: Bearer"), "failure log leaked an Authorization header");
   assert(failed.output.includes("[ERROR]"), "failure was not visible in launcher output");
+  assert(failed.output.includes("[ERROR] renew-team.ps1 failed with exit code"), "CMD wrapper failure message was not observed");
+  assert(failed.pauseKeyCount === 1, `CMD wrapper failure pause key was not sent exactly once (count=${failed.pauseKeyCount})`);
   assert(!failed.output.includes(token), "visible failure leaked the Jira token");
   assert(!failed.output.includes("Done. Open Scrum Master Tool"), "failure printed a false success message");
 

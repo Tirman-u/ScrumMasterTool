@@ -2160,3 +2160,29 @@ QA must run the updated `windows-latest` smoke and retain evidence for
 selection `1` → token prompt → runner completion, plus no-JQL rejection,
 redaction, and exit propagation. No commit or customer, Teams, workspace, or
 Cloudflare data was changed.
+
+## Developer remediation handoff — CMD pause completion
+
+### Implemented
+
+- Updated the Windows smoke harness to detect the production CMD wrapper’s
+  `[OK] renew-team.ps1 completed successfully.` and failure message.
+- Sends one actual space key followed by CRLF to release `pause`, then awaits
+  normal process close instead of treating the PowerShell completion message
+  as the end of the wrapper chain.
+- Added assertions for success message, failure message, exactly-one pause key,
+  runner completion, redaction, no-JQL rejection, and exit propagation.
+
+### Validation
+
+- `npx vitest run tests/workspace-installer-v3.test.ts` — PASS.
+- `npm run check` — PASS: 23 test files / 122 tests, typechecks, and build.
+- `node --check scripts/windows-renew-smoke.mjs` — PASS.
+- `git diff --check` — PASS.
+
+### QA handoff
+
+Please rerun Windows CI and retain evidence that the production success message
+is followed by `[OK]`, pause release, and status `0`; failure/no-JQL paths must
+still preserve their error, redaction, and exit assertions. No production
+launcher or token handling was changed.
