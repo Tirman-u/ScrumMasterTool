@@ -52,13 +52,22 @@ function assert(condition, message) {
   if (!condition) throw new Error(message);
 }
 
-function canonicalWorkspacePath(value) {
+async function canonicalWorkspacePath(value) {
   const raw = String(value).trim().replace(/^(["'])(.*)\1$/, "$2");
   const withoutDevicePrefix = raw.replace(/^\\\\\?\\/, "");
-  return path.win32
+  const normalized = path.win32
     .normalize(path.win32.resolve(withoutDevicePrefix.replaceAll("/", "\\")))
     .replace(/[\\/]+$/, "")
     .toLowerCase();
+  try {
+    const realPath = await fs.realpath(normalized);
+    return path.win32
+      .normalize(realPath.replaceAll("/", "\\"))
+      .replace(/[\\/]+$/, "")
+      .toLowerCase();
+  } catch {
+    return normalized;
+  }
 }
 
 function killProcessTree(pid) {
@@ -236,8 +245,8 @@ async function main() {
   assert(successMarker.teamId === "fixture-team", "runner did not receive the selected team");
   const actualWorkspacePath = String(successMarker.workspace);
   const expectedWorkspacePath = String(fixtureRoot);
-  const actualCanonicalPath = canonicalWorkspacePath(actualWorkspacePath);
-  const expectedCanonicalPath = canonicalWorkspacePath(expectedWorkspacePath);
+  const actualCanonicalPath = await canonicalWorkspacePath(actualWorkspacePath);
+  const expectedCanonicalPath = await canonicalWorkspacePath(expectedWorkspacePath);
   const pathDiagnostic = `(actual=${JSON.stringify(actualWorkspacePath)}, expected=${JSON.stringify(expectedWorkspacePath)}, actualCanonical=${JSON.stringify(actualCanonicalPath)}, expectedCanonical=${JSON.stringify(expectedCanonicalPath)})`;
   assert(fixtureRoot.includes(" "), `fixture workspace path must contain spaces ${pathDiagnostic}`);
   assert(actualWorkspacePath.includes(" "), `runner workspace path lost its spaces ${pathDiagnostic}`);
