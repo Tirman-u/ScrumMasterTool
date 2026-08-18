@@ -1691,6 +1691,31 @@ PASS
 No P0/P1/P2 findings. Native Windows runtime remains an existing
 environment-dependent follow-up on this macOS host.
 
+## QA review — release 0.2.9
+
+### Verdict
+
+PASS
+
+### Evidence
+
+- Root and app package/lock pairs are version-parity at `0.2.9`.
+- `apps/sm-tool/index.html` uses cache-bust `20260818-9` consistently across
+  all eight public legacy assets; v2 and v3 use the matching bootstrap URL.
+- Generated and effective live installer payloads retain trimmed string
+  normalization for `TeamHasJql` both at team-list ingestion and immediately
+  before the existing no-JQL guard; the v3 assertions cover both lines and
+  the guard.
+- `node --check` passed for public bootstrap/installers and smoke harness;
+  `git diff --check` passed.
+- `npm run check` passed: 23 test files / 122 tests, typechecks, and build.
+- Scope is limited to release metadata/cache-bust and previously reviewed
+  helper behavior; no Jira analytics, Teams/workspace data, or Cloudflare
+  changes were introduced by this release check.
+
+No P0/P1/P2 findings. Native Windows runtime remains an existing
+environment-dependent follow-up on this macOS host.
+
 ## QA review — smoke fixture saved-JQL remediation
 
 ### Verdict
@@ -1800,3 +1825,84 @@ Please rerun the Windows workflow and verify that fixture generation reports a
 real saved query, selection `1` passes the production guard, and the flow
 reaches the Jira token prompt. The smoke run remains Windows-only on this
 macOS host. No commit or customer/workspace data change was made.
+
+## Developer remediation handoff — normalize Windows saved-JQL flags
+
+### Implemented
+
+- Normalized generated `$TeamHasJql` entries with an explicit string cast and
+  trim when reading the team-list flag.
+- Normalized the selected flag before the existing `$HasSavedJql -ne "1"`
+  safety guard, preserving rejection of teams without saved JQL while making a
+  valid `1` deterministic across PowerShell pipeline/array coercion.
+- Applied the same normalization to the live bootstrap and v2/v3 installer
+  payload patch paths.
+- Added focused v3 installer assertions for the normalized flag and preserved
+  guard path.
+
+### Validation
+
+- `npx vitest run tests/workspace-installer-v3.test.ts` — PASS.
+- `npm run check` — PASS: 23 test files / 122 tests, typechecks, and build.
+- `node --check` for bootstrap, v2/v3 installers, and Windows smoke harness —
+  PASS.
+- `git diff --check` — PASS.
+
+### QA handoff
+
+Please rerun the Windows smoke workflow and verify that fixture flag `1` is
+accepted after selection `1`, the no-JQL guard remains active for invalid
+fixtures, and the flow reaches the Jira token prompt. No commit or customer,
+Teams, workspace, or Cloudflare data was changed.
+
+## Developer release handoff — version 0.2.9
+
+### Implemented
+
+- Bumped synchronized root/app package and lock metadata from `0.2.8` to
+  `0.2.9`.
+- Updated generated and live Windows launcher metadata to `0.2.9`.
+- Advanced public installer/bootstrap cache-busting from `20260818-8` to
+  `20260818-9`, including focused test expectations and the smoke log check.
+- Preserved trimmed string normalization for `TeamHasJql` and the no-JQL
+  safety guard.
+
+### Validation
+
+- `npx vitest run tests/workspace-installer-v3.test.ts` — PASS.
+- `npm run check` — PASS: 23 test files / 122 tests, typechecks, and build.
+- `node --check` for bootstrap, v2/v3 installers, and Windows smoke harness —
+  PASS.
+- `git diff --check` — PASS.
+
+### QA handoff
+
+QA should verify package/launcher/cache-bust parity and rerun Windows smoke for
+the TeamHasJql=1 selection-to-token flow. No commit or customer, Teams,
+workspace, or Cloudflare data was changed.
+
+## QA review — TeamHasJql coercion remediation
+
+### Verdict
+
+PASS WITH FOLLOW-UPS
+
+### Findings and evidence
+
+- `src/generate-renew-launchers.ts` now trims an explicit string cast when
+  ingesting `$Parts[2]` and again when reading the selected flag before the
+  existing `$HasSavedJql -ne "1"` guard.
+- `apps/sm-tool/public/workspace-bootstrap.js` and v2/v3 installer patch paths
+  apply the same two normalizations using replacement callbacks, preserving
+  PowerShell `$` content safely.
+- The valid fixture flag `1` therefore reaches the token prompt path, while
+  absent/non-`1` flags remain rejected by the unchanged no-JQL guard.
+- The focused v3 test asserts both normalized lines and the guard. Public and
+  smoke `node --check`, `git diff --check`, and `npm run check` passed: 23 test
+  files / 122 tests, typechecks, and build.
+- Scope is limited to flag coercion and payload/test consistency; no Jira
+  analytics, Teams/workspace data, or Cloudflare changes were made.
+
+No P0/P1/P2 findings. P3 follow-up: retain the Windows run evidence showing
+selection `1` reaches the token prompt; Windows execution is unavailable on
+this macOS host.

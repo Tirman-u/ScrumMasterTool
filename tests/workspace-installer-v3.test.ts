@@ -60,9 +60,9 @@ describe("workspace installer v3", () => {
     const installed = await install?.(createMockDirectory(writes));
 
     expect(installed).toBe(true);
-    expect(indexSource).toContain('/workspace-bootstrap.js?v=20260818-8');
-    expect(indexSource).toContain('/workspace-installer-v3.js?v=20260818-8');
-    expect(installerSource).toContain('const SOURCE_URL = "/workspace-bootstrap.js?v=20260818-8";');
+    expect(indexSource).toContain('/workspace-bootstrap.js?v=20260818-9');
+    expect(indexSource).toContain('/workspace-installer-v3.js?v=20260818-9');
+    expect(installerSource).toContain('const SOURCE_URL = "/workspace-bootstrap.js?v=20260818-9";');
     expect(writes.has("renew-team.command")).toBe(true);
     expect(writes.has("renew-team.ps1")).toBe(true);
     expect(writes.has("renew-team.cmd")).toBe(true);
@@ -89,6 +89,9 @@ describe("workspace installer v3", () => {
     expect(writes.get("renew-team.ps1")).not.toContain("node -p");
     expect(writes.get("renew-team.ps1")).toContain('$Selection = [string](Read-Host "Team number(s)")');
     expect(writes.get("renew-team.ps1")).toContain("if ($Token -notmatch '^[0-9]+$')");
+    expect(writes.get("renew-team.ps1")).toContain("$TeamHasJql += ([string]$Parts[2]).Trim()");
+    expect(writes.get("renew-team.ps1")).toContain("$HasSavedJql = ([string]$TeamHasJql[$ArrayIndex]).Trim()");
+    expect(writes.get("renew-team.ps1")).toContain('if ($HasSavedJql -ne "1")');
     expect(writes.get("renew-team.ps1")?.indexOf('Read-Host "Jira token"')).toBeGreaterThan(
       writes.get("renew-team.ps1")?.indexOf("$SelectedIndexes += $ParsedNumber") ?? -1,
     );

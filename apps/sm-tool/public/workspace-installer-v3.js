@@ -3,7 +3,7 @@
   const DB_VERSION = 1;
   const STORE_NAME = "settings";
   const WORKSPACE_KEY = "workspace-handle-v1";
-  const SOURCE_URL = "/workspace-bootstrap.js?v=20260818-8";
+  const SOURCE_URL = "/workspace-bootstrap.js?v=20260818-9";
   const HELPER_VERSION = "v7";
   const HARD_MAX_ISSUES = 2000;
 
@@ -188,7 +188,13 @@
       '      Fail-Renew "Invalid team number: $Token"', '    }', '    $SelectedIndexes += $ParsedNumber', '  }',
       '}',
     ].join("\r\n");
-    return launcher.replace(legacySelection, () => safeSelection);
+    return patchWindowsLauncherJql(launcher.replace(legacySelection, () => safeSelection));
+  }
+
+  function patchWindowsLauncherJql(launcher) {
+    return launcher
+      .replace('$TeamHasJql += $Parts[2]', () => '$TeamHasJql += ([string]$Parts[2]).Trim()')
+      .replace('$HasSavedJql = $TeamHasJql[$ArrayIndex]', () => '$HasSavedJql = ([string]$TeamHasJql[$ArrayIndex]).Trim()');
   }
 
   async function helperContents() {

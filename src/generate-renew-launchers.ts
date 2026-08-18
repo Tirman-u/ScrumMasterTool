@@ -10,7 +10,7 @@ const DEFAULT_BUCKET = "jira-api";
 const MASTER_LAUNCHER_NAME = "renew-team.command";
 const WINDOWS_MASTER_LAUNCHER_NAME = "renew-team.ps1";
 const WINDOWS_WRAPPER_NAME = "renew-team.cmd";
-const LAUNCHER_VERSION = "0.2.8";
+const LAUNCHER_VERSION = "0.2.9";
 const LEGACY_TEAM_LAUNCHER_NAME = "renew-data.command";
 const execFileAsync = promisify(execFile);
 
@@ -340,7 +340,7 @@ function buildWindowsMasterLauncher(): string {
     '  $Parts = $Line -split "`t", 3',
     "  $TeamIds += $Parts[0]",
     "  $TeamNames += $Parts[1]",
-    "  $TeamHasJql += $Parts[2]",
+    "  $TeamHasJql += ([string]$Parts[2]).Trim()",
     '  Write-Host ("{0,2}) {1} ({2})" -f $Index, $Parts[1], $Parts[0])',
     "  $Index += 1",
     "}",
@@ -376,7 +376,7 @@ function buildWindowsMasterLauncher(): string {
     "foreach ($SelectionIndex in $SelectedIndexes) {",
     "  $ArrayIndex = $SelectionIndex - 1",
     "  $TeamId = $TeamIds[$ArrayIndex]",
-    "  $HasSavedJql = $TeamHasJql[$ArrayIndex]",
+    "  $HasSavedJql = ([string]$TeamHasJql[$ArrayIndex]).Trim()",
     '  if ($HasSavedJql -ne "1") {',
     '    Fail-Renew "No real saved JQL found in teams/$TeamId/team.json. Add JQL in the app first, then run this file again."',
     "  }",
