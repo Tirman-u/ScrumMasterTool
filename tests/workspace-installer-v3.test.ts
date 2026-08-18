@@ -33,6 +33,7 @@ function createMockDirectory(writes: Map<string, string>, prefix = ""): MockDire
 describe("workspace installer v3", () => {
   it("writes macOS, Windows, and runner helpers during install", async () => {
     const bootstrapSource = readFileSync("apps/sm-tool/public/workspace-bootstrap.js", "utf8");
+    const generatorSource = readFileSync("src/generate-renew-launchers.ts", "utf8");
     const installerSource = readFileSync("apps/sm-tool/public/workspace-installer-v3.js", "utf8");
     const indexSource = readFileSync("apps/sm-tool/index.html", "utf8");
     const writes = new Map<string, string>();
@@ -73,6 +74,25 @@ describe("workspace installer v3", () => {
     expect(writes.get("renew-team.ps1")).not.toContain("npm --prefix");
     expect(writes.get("renew-team.ps1")).toContain("Read-Host \"Jira token\" -AsSecureString");
     expect(writes.get("renew-team.ps1")).toContain("Recalculate to rebuild metrics and cache");
+    expect(writes.get("renew-team.ps1")).toContain('"logs") "renew-team-error.log"');
+    expect(writes.get("renew-team.ps1")).toContain("launcher=renew-team.ps1 version=");
+    expect(writes.get("renew-team.ps1")).toContain("exitCode=");
+    expect(writes.get("renew-team.ps1")).toContain("[REDACTED]");
+    expect(writes.get("renew-team.ps1")).toContain("JIRA_TOKEN");
+    expect(writes.get("renew-team.ps1")).toContain("Authorization\\s*:\\s*");
+    expect(writes.get("renew-team.ps1")).not.toContain("Authorization: Bearer");
+    expect(writes.get("renew-team.ps1")).toContain("Press Enter to close this PowerShell window");
+    expect(writes.get("renew-team.ps1")).toContain("function Fail-Renew");
+    expect(writes.get("renew-team.ps1")).toContain('Fail-Renew "Node.js 18+ is required to refresh Jira data."');
+    expect(writes.get("renew-team.ps1")).toContain("$TeamListExitCode = [int]$LASTEXITCODE");
+    expect(writes.get("renew-team.ps1")).toContain('Fail-Renew "Could not read workspace team configuration (exit code $TeamListExitCode)." $TeamListExitCode');
+    expect(writes.get("renew-team.ps1")).not.toMatch(/Write-Host "No teams folder[^\r\n]*"[\r\n]+\s+exit 1/);
+    expect(writes.get("renew-team.ps1")?.match(/exit 1/g) ?? []).toHaveLength(1);
+    expect(writes.get("renew-team.ps1")).toContain("$RunnerExitCode = [int]$LASTEXITCODE");
+    expect(writes.get("renew-team.ps1")).toContain('Fail-Renew "Bundled Jira runner failed with exit code $RunnerExitCode." $RunnerExitCode');
+    expect(writes.get("renew-team.ps1")?.indexOf("$RunnerExitCode -ne 0")).toBeLessThan(
+      writes.get("renew-team.ps1")?.indexOf("Done. Open Scrum Master Tool") ?? -1,
+    );
     expect(writes.get("renew-team.command")).toContain('node "$RUNNER" "$WORKSPACE_DIR" "${SELECTED_IDS[@]}"');
     expect(writes.get("renew-team.command")).toContain("SELECTED_IDS=()");
     expect(writes.get("renew-team.command")).toContain('SELECTED_IDS+=("$TEAM_ID")');
@@ -80,6 +100,8 @@ describe("workspace installer v3", () => {
     expect(writes.get("renew-team.command")).not.toContain("npm --prefix");
     expect(writes.get("renew-team.command")).toContain("Recalculate to rebuild metrics and cache");
     expect(writes.get("renew-team.cmd")).toContain("-NoProfile -ExecutionPolicy Bypass -File");
+    expect(generatorSource).toContain('powershell.exe -NoExit -NoProfile -ExecutionPolicy Bypass -File "%~dp0renew-team.ps1" %*');
+    expect(writes.get("renew-team.cmd")).toContain('powershell.exe -NoExit -NoProfile -ExecutionPolicy Bypass -File "%~dp0renew-team.ps1" %*');
     expect(writes.get("renew-team.cmd")).toContain("renew-team.ps1");
     expect(writes.get("renew-team.cmd")).toContain('if "%EXIT_CODE%"=="0"');
     expect(writes.get("renew-team.cmd")).toContain("[OK] renew-team.ps1 completed successfully.");
