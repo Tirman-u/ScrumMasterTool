@@ -1,12 +1,13 @@
 {
   "name": "scrum-master-tool",
-  "version": "0.2.3",
+  "version": "0.2.4",
   "private": true,
   "description": "Offline Scrum Master tool for local Jira CSV exports",
   "type": "module",
   "scripts": {
     "analyze": "tsx src/cli.ts",
     "generate:renew-launchers": "tsx src/generate-renew-launchers.ts",
+    "test:windows:renew": "node scripts/windows-renew-smoke.mjs",
     "jira:pull": "tsx src/jira-pull.ts",
     "test": "vitest run",
     "test:watch": "vitest",

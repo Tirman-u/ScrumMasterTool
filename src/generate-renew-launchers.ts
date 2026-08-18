@@ -10,7 +10,7 @@ const DEFAULT_BUCKET = "jira-api";
 const MASTER_LAUNCHER_NAME = "renew-team.command";
 const WINDOWS_MASTER_LAUNCHER_NAME = "renew-team.ps1";
 const WINDOWS_WRAPPER_NAME = "renew-team.cmd";
-const LAUNCHER_VERSION = "0.2.1";
+const LAUNCHER_VERSION = "0.2.4";
 const LEGACY_TEAM_LAUNCHER_NAME = "renew-data.command";
 const execFileAsync = promisify(execFile);
 
@@ -403,9 +403,10 @@ function buildWindowsMasterLauncher(): string {
     "}",
     "",
     'Write-Host "Renewing Jira data for $($SelectedTeamIds -join ", ")"',
-    'node $Runner $WorkspaceDir @SelectedTeamIds',
+    '$RunnerOutput = @(& node $Runner $WorkspaceDir @SelectedTeamIds 2>&1 | ForEach-Object { $_.ToString() })',
     '$RunnerExitCode = [int]$LASTEXITCODE',
-    'if ($RunnerExitCode -ne 0) { Fail-Renew "Bundled Jira runner failed with exit code $RunnerExitCode." $RunnerExitCode }',
+    'if ($RunnerExitCode -ne 0) { Fail-Renew ("Bundled Jira runner failed with exit code $RunnerExitCode. " + ($RunnerOutput -join " ")) $RunnerExitCode }',
+    '$RunnerOutput | ForEach-Object { Write-Host $_ }',
     "",
     'Write-Host "Done. Open Scrum Master Tool and select Recalculate to rebuild metrics and cache."',
     "Read-Host | Out-Null",

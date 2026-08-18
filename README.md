@@ -54,7 +54,13 @@ ScrumMasterTool/
 
 ## Käivitamine
 
-Eeldus: Node.js 22 või uuem ja File System Access API toega Chromiumi brauser (Chrome või Edge).
+Arenduse eeldus on Node.js 22 või uuem ja File System Access API toega Chromiumi brauser (Chrome või Edge). Generated Jira helper vajab kasutaja masinas Node.js 18+ runtime'i `PATH`-is.
+
+### Node.js distributsiooni staatus
+
+- **CURRENT:** repository arendus ja CI kasutavad Node.js 22; generated Jira helper töötab kasutaja masinas Node.js 18 või uuema versiooniga.
+- **PARTIAL:** workspace sisaldab bundled Jira runneri JavaScript-faili ja helper-faile, kuid need ei sisalda Node.js runtime'i.
+- **MISSING:** kui `node` ei ole kasutaja `PATH`-is leitav, tuleb kasutajal paigaldada Node.js 18+ ja avada uus Terminali või PowerShelli aken. Rakendus ei paigalda runtime'i automaatselt.
 
 ```bash
 npm install
@@ -66,16 +72,16 @@ Arendusrakendus avaneb vaikimisi aadressil `http://localhost:5173`.
 
 ## Jira andmete uuendamine
 
-Helperid tuleb käivitada workspace'i juurest ehk samast kaustast, kus asuvad `workspace.json` ja `Teams/` või `teams/`. Kui ScrumMasterTool repo asub teisest kaustast, määra enne käivitamist `SM_TOOL_REPO_DIR`.
+Helperid tuleb käivitada workspace'i juurest ehk samast kaustast, kus asuvad `workspace.json` ja `Teams/` või `teams/`. Tavalises voos kasutavad need workspace'i lokaalset `sm-tool/jira-pull.mjs` runner'it: repo rada ega `npm` käsku ei ole vaja määrata.
 
-Workspace'i juurkausta helperid genereerib `npm run generate:renew-launchers`: generaator haldab nii `renew-team.command` kui ka `renew-team.ps1` faili. Ära muuda neid faile käsitsi; uuenda vajadusel generaatori väljundit generaatori kaudu.
+Workspace'i juurkausta helperid ja bundled runner'i paigutuse genereerib `npm run generate:renew-launchers`: generaator haldab nii `renew-team.command` kui ka `renew-team.ps1` faili. Ära muuda neid faile käsitsi; uuenda vajadusel generaatori väljundit generaatori kaudu. Pärast edukat Jira pull'i ava rakendus ja vajuta **Recalculate**, et uuendada mõõdikud ja cache.
 
 ### macOS
 
 1. Ava **Terminal**.
-2. Kirjuta `zsh` ja lisa üks tühik.
-3. Lohista `renew-team.command` Finderist Terminali aknasse.
-4. Vajuta **Enter**.
+2. Käivita workspace'i juurest `renew-team.command` (seda võib Finderist Terminali aknasse lohistada).
+3. Sisesta küsitud Jira URL, tiim(id) ja token.
+4. Pärast edukat pull'i ava rakendus ja vajuta **Recalculate**.
 
 Näide:
 
@@ -83,27 +89,19 @@ Näide:
 zsh "/Users/yourname/Documents/ScrumMasterTool/renew-team.command"
 ```
 
-Kui repo ja workspace on eri kaustades:
-
-```bash
-SM_TOOL_REPO_DIR="/Users/yourname/Code/ScrumMasterTool" \
-JIRA_URL="https://jira.company.net" \
-zsh "/Users/yourname/Documents/SmToolWorkspace/renew-team.command"
-```
-
 ### Windows
 
-1. Ava **PowerShell**.
-2. Mine workspace'i kausta.
-3. Kui repo ja workspace on eri kaustades, määra `SM_TOOL_REPO_DIR`.
-4. Käivita `renew-team.ps1`.
+`renew-team.cmd` on Windowsi põhivool: selle võib workspace'i kaustas topeltklõpsata. Wrapper avab PowerShelli, hoiab akna vea korral nähtaval ja käivitab workspace'i lokaalse `sm-tool/jira-pull.mjs` runner'i.
 
-Näide:
+1. Ava workspace Exploreris.
+2. Topeltklõpsa `renew-team.cmd`.
+3. Sisesta küsitud Jira URL, tiim(id) ja token.
+4. Pärast edukat pull'i ava rakendus ja vajuta **Recalculate**.
+
+Kui topeltklõpsu asemel on vaja PowerShelli otse kasutada, on `renew-team.ps1` fallback:
 
 ```powershell
 cd "C:\Users\yourname\Documents\SmToolWorkspace"
-$env:JIRA_URL = "https://jira.company.net"
-$env:SM_TOOL_REPO_DIR = "C:\Users\yourname\Code\ScrumMasterTool"
 .\renew-team.ps1
 ```
 
@@ -156,9 +154,9 @@ $env:JIRA_AUTH = "basic"
 $env:JIRA_USERNAME = "user@example.com"
 ```
 
-### Otse CLI-ga
+### Täiustatud CLI fallback (valikuline)
 
-Kui helperit kasutada ei saa, käivita sama import otse CLI-ga:
+Kui generated helperit kasutada ei saa, võib arenduskeskkonnas sama importi käivitada repo CLI-ga. See on eraldi fallback, mitte tavalise workspace helperi eeltingimus:
 
 ```bash
 JIRA_URL=https://jira.company.net \
@@ -173,7 +171,6 @@ Windows PowerShellis kasuta `$env:` süntaksit:
 $env:JIRA_URL = "https://jira.company.net"
 $env:JIRA_USERNAME = "user@example.com"
 $env:JIRA_TOKEN = "token"
-$env:SM_TOOL_REPO_DIR = "C:\Users\yourname\Code\ScrumMasterTool"
 
 npm.cmd run jira:pull -- `
   --workspace "C:\Users\yourname\Documents\SmToolWorkspace" `

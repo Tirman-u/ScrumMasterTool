@@ -60,9 +60,9 @@ describe("workspace installer v3", () => {
     const installed = await install?.(createMockDirectory(writes));
 
     expect(installed).toBe(true);
-    expect(indexSource).toContain('/workspace-bootstrap.js?v=20260818-3');
-    expect(indexSource).toContain('/workspace-installer-v3.js?v=20260818-3');
-    expect(installerSource).toContain('const SOURCE_URL = "/workspace-bootstrap.js?v=20260818-3";');
+    expect(indexSource).toContain('/workspace-bootstrap.js?v=20260818-4');
+    expect(indexSource).toContain('/workspace-installer-v3.js?v=20260818-4');
+    expect(installerSource).toContain('const SOURCE_URL = "/workspace-bootstrap.js?v=20260818-4";');
     expect(writes.has("renew-team.command")).toBe(true);
     expect(writes.has("renew-team.ps1")).toBe(true);
     expect(writes.has("renew-team.cmd")).toBe(true);
@@ -89,7 +89,7 @@ describe("workspace installer v3", () => {
     expect(writes.get("renew-team.ps1")).not.toMatch(/Write-Host "No teams folder[^\r\n]*"[\r\n]+\s+exit 1/);
     expect(writes.get("renew-team.ps1")?.match(/exit 1/g) ?? []).toHaveLength(1);
     expect(writes.get("renew-team.ps1")).toContain("$RunnerExitCode = [int]$LASTEXITCODE");
-    expect(writes.get("renew-team.ps1")).toContain('Fail-Renew "Bundled Jira runner failed with exit code $RunnerExitCode." $RunnerExitCode');
+    expect(writes.get("renew-team.ps1")).toContain('Fail-Renew ("Bundled Jira runner failed with exit code $RunnerExitCode. " + ($RunnerOutput -join " ")) $RunnerExitCode');
     expect(writes.get("renew-team.ps1")?.indexOf("$RunnerExitCode -ne 0")).toBeLessThan(
       writes.get("renew-team.ps1")?.indexOf("Done. Open Scrum Master Tool") ?? -1,
     );
