@@ -230,6 +230,7 @@
               <div class="pilot-readme-code">ScrumMasterTool/
 ├── renew-team.command
 ├── renew-team.ps1
+├── renew-team.cmd
 ├── sm-tool/
 │   └── jira-pull.mjs
 └── teams/
@@ -259,19 +260,18 @@ Team number(s):</div>
               <p>When prompted for <strong>Jira token:</strong>, paste the Personal Access Token from step 1 and press Enter.</p>
               <div class="pilot-readme-note">Terminal may show nothing while you paste or type the token. This is normal — token input is hidden.</div>
               <p>The helper loads Jira issues and changelog history. Depending on the amount of data, this can take a few minutes.</p>
-              <div class="pilot-readme-success pilot-readme-note">Success message: <strong>Jira refresh complete. Return to the web app and refresh workspace data.</strong></div>
+              <div class="pilot-readme-success pilot-readme-note">Success message: <strong>Jira refresh complete. Open Scrum Master Tool and select Recalculate to rebuild metrics and cache.</strong></div>
               <h2>Refresh Jira data — Windows PowerShell</h2>
               <ol>
                 <li>Open <strong>PowerShell</strong> and go to the workspace folder.</li>
-                <li>Set the Jira URL and, if needed, the repository path.</li>
-                <li>Run <strong>renew-team.ps1</strong>.</li>
+                <li>Set the Jira URL if needed; the bundled runner is already in the workspace.</li>
+                <li>Run <strong>renew-team.ps1</strong>, or double-click <strong>renew-team.cmd</strong>.</li>
               </ol>
               <div class="pilot-readme-code">cd "C:\\Users\\yourname\\Documents\\ScrumMasterTool"
 $env:JIRA_URL = "https://jira.example.invalid"
-$env:SM_TOOL_REPO_DIR = "C:\\Users\\yourname\\Code\\ScrumMasterTool"
 .\\renew-team.ps1</div>
               <p>When prompted for <strong>Jira token:</strong>, paste the Personal Access Token from step 1. The token is entered interactively and is not written to the workspace or helper files.</p>
-              <div class="pilot-readme-note">If PowerShell blocks the local script, use <strong>ExecutionPolicy Bypass</strong> for this invocation only. Keep the token private.</div>
+              <div class="pilot-readme-note">If PowerShell blocks the local script, use <strong>ExecutionPolicy Bypass</strong> for this invocation only. Keep the token private. After the helper finishes, return to the app and select <strong>Recalculate</strong> to rebuild metrics and cache.</div>
             </div>
           </article>
 
