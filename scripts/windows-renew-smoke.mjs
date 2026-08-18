@@ -73,7 +73,9 @@ async function writeFixtureWorkspace() {
 }
 
 async function generateHelpers() {
-  const result = spawnSync("npm.cmd", ["run", "generate:renew-launchers", "--", fixtureRoot], {
+  const commandShell = process.env.ComSpec || process.env.COMSPEC || "cmd.exe";
+  const generateCommand = `npm run generate:renew-launchers -- "${fixtureRoot}"`;
+  const result = spawnSync(commandShell, ["/d", "/s", "/c", generateCommand], {
     cwd: repositoryRoot,
     env: process.env,
     encoding: "utf8",

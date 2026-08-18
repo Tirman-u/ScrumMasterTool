@@ -324,6 +324,71 @@ observation follow-ups forward.
 
 **Final verdict: PASS WITH FOLLOW-UPS. Next task may begin.**
 
+## QA re-review — Windows CI npm invocation remediation
+
+### Verdict
+
+`PASS WITH FOLLOW-UPS`
+
+### Findings
+
+- No P0/P1/P2 blockers found.
+- P3 environment follow-up: this macOS/Linux review cannot execute
+  `cmd.exe` or Windows PowerShell. The real chain remains delegated to the
+  configured `windows-latest` CI job.
+
+### Evidence
+
+- `scripts/windows-renew-smoke.mjs` now resolves
+  `process.env.ComSpec || process.env.COMSPEC || "cmd.exe"` and invokes
+  `npm run generate:renew-launchers -- "<fixture path>"` through that command
+  shell. This avoids the prior direct `npm.cmd` spawn issue while preserving
+  the Windows command resolution path.
+- The smoke test still generates helpers in a fixture whose path contains
+  spaces, then runs the real `renew-team.cmd` via `cmd.exe /d /c` and feeds
+  stdin through the `.cmd` → PowerShell → Node → workspace-local runner chain.
+- Success checks still verify selected team and exact space-containing
+  workspace path. Failure checks still cover runner exit code 23, timestamp/
+  versioned log metadata, redaction of token and Authorization/Bearer content,
+  visible errors, suppressed false success, missing runner, invalid workspace,
+  and invalid selection.
+- `node --check scripts/windows-renew-smoke.mjs` passed.
+- `npm run test:windows:renew` safely skipped on this non-Windows host with the
+  documented platform guard.
+- `npm run check` passed: 23 test files / 122 tests, typechecks, and production
+  build. The existing chunk-size warning is non-blocking.
+- `git diff --check` passed. The remediation diff is limited to the smoke
+  script; no Jira analytics, Teams/workspace data, or Cloudflare changes were
+  introduced.
+
+### Coverage
+
+- Windows npm shell resolution, fixture/path quoting, actual launcher chain
+  assertions, success/failure/log/redaction/exit behavior, syntax, full
+  validation, and scope safety checked.
+
+### Risk assessment
+
+Low. The prior Windows `npm` process-launch issue is addressed without
+weakening the smoke assertions. Residual risk is limited to not observing a
+native Windows run in this environment.
+
+### Required fixes
+
+- None blocking this remediation.
+
+### Follow-up tests
+
+- Confirm one successful `windows-latest` CI run and retain its smoke output as
+  release evidence.
+
+### Recommended next task
+
+The next task may begin. Carry the native Windows CI observation as a P3
+follow-up.
+
+**Final verdict: PASS WITH FOLLOW-UPS. Next task may begin.**
+
 ## QA re-review — Windows diagnostics remediation
 
 ### Verdict
@@ -919,3 +984,26 @@ for QA review; the task remains open pending QA verdict.
 Please verify package/lockfile parity, generated Windows error-log version
 metadata, and cache-busted bootstrap/installers. No commit was created and the
 task remains pending Main/QA workflow decisions.
+
+## Developer remediation handoff — Windows smoke harness invocation
+
+### Implemented
+
+- Updated `scripts/windows-renew-smoke.mjs` to invoke launcher generation via
+  the Windows `ComSpec`/`cmd.exe` shell instead of direct `npm.cmd` spawning.
+- Preserved the real `cmd.exe` → PowerShell → Node → workspace-local bundled
+  runner execution and all existing assertions, including paths with spaces.
+
+### Validation
+
+- `node --check scripts/windows-renew-smoke.mjs` — PASS.
+- `node scripts/windows-renew-smoke.mjs` — safely skipped on macOS; Windows
+  execution requires `cmd.exe` and PowerShell.
+- `npm run check` — PASS: 23 test files / 122 tests, typechecks, and build.
+- `git diff --check` — PASS.
+
+### QA handoff
+
+Please rerun the Windows workflow and confirm the ComSpec invocation reaches
+launcher generation and then executes the full smoke chain. No commit was
+created and no customer/workspace data was changed.
