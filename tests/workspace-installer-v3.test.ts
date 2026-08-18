@@ -68,5 +68,9 @@ describe("workspace installer v3", () => {
     expect(writes.get("renew-team.ps1")).toContain("npm --prefix $RepoDir run jira:pull");
     expect(writes.get("renew-team.cmd")).toContain("-NoProfile -ExecutionPolicy Bypass -File");
     expect(writes.get("renew-team.cmd")).toContain("renew-team.ps1");
+    expect(writes.get("renew-team.cmd")).toContain('if not "%EXIT_CODE%"=="0"');
+    expect(writes.get("renew-team.cmd")).toContain("[ERROR] renew-team.ps1 failed with exit code %EXIT_CODE%.");
+    expect(writes.get("renew-team.cmd")).toContain("pause");
+    expect(writes.get("renew-team.cmd")).toContain("endlocal & exit /b %EXIT_CODE%");
   });
 });
