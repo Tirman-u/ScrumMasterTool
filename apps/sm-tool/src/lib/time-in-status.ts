@@ -224,7 +224,7 @@ export function buildAutoBottleneckEntriesFromIssueRows(
   options: TimeInStatusIssuePeriodAggregationOptions,
 ): BottleneckEntry[] {
   const { issueRows, issuePeriodByKey, flowStatuses = [], includeAllStatuses = false } = options;
-  if (issueRows.length === 0 || issuePeriodByKey.size === 0) {
+  if (issueRows.length === 0) {
     return [];
   }
 
@@ -245,7 +245,7 @@ export function buildAutoBottleneckEntriesFromIssueRows(
   const periodAgg = new Map<string, Map<string, { sumDays: number; count: number }>>();
 
   dedupedByIssue.forEach((row, issueKey) => {
-    const period = issuePeriodByKey.get(issueKey);
+    const period = issuePeriodByKey.size === 0 ? row.periodHint : issuePeriodByKey.get(issueKey);
     if (!period || !/^\d{4}-\d{2}$/.test(period)) {
       return;
     }
@@ -466,6 +466,12 @@ export function parseTimeInStatusDurationDays(value: string | undefined): number
 
   if (!normalized || normalized === "-" || normalized === "n/a") {
     return null;
+  }
+
+  const bareNumberMatch = normalized.match(/^\d+(?:\.\d+)?$/);
+  if (bareNumberMatch) {
+    const days = Number.parseFloat(bareNumberMatch[0]);
+    return Number.isFinite(days) && days >= 0 ? days : null;
   }
 
   const unitPattern = /(\d+(?:\.\d+)?)\s*(w(?:eeks?)?|d(?:ays?)?|h(?:ours?)?|m(?:in(?:ute)?s?)?)/gi;

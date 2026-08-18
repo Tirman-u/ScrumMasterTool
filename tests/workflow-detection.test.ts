@@ -7,7 +7,7 @@ import {
 import { type ParsedIssue, type TeamConfig, type TeamMetrics } from "../apps/sm-tool/src/types/contracts";
 
 describe("workflow auto-detection", () => {
-  it("classifies Iron-style board statuses into flow timing roles", () => {
+  it("classifies implementation-heavy board statuses into flow timing roles", () => {
     const workflow = inferWorkflowConfig(
       [
         { status: "OPEN" },

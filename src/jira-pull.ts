@@ -956,7 +956,7 @@ function hasArg(args: Map<string, string | boolean>, ...names: string[]): boolea
 function printHelp(): void {
   console.log(`Usage:
   JIRA_URL=https://jira.example.net JIRA_USERNAME=user JIRA_TOKEN=token \\
-    npm run jira:pull -- --team BalticWebKanban --jql 'project = ABC ORDER BY updated DESC'
+    npm run jira:pull -- --team demo-team --jql 'project = DEMO ORDER BY updated DESC'
 
 Options:
   --team <name-or-folder>       Required. Team folder id or team name.

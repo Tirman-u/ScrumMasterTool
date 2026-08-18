@@ -40,4 +40,3 @@
 | AI assistant | AI assisted coaching, summary or recommendations. | Scrum Master | Planned | - | - | - | Koodis OpenAI/LLM integratsiooni ei paista. | Pro |
 | Billing/subscription | Subscription, tiers, usage limits. | Buyer/admin | Planned | - | - | - | Puudub. | Pro |
 | Analytics/error monitoring | Product analytics and crash monitoring. | Product/admin | Planned | - | - | - | Puudub nähtav telemetry. | Enterprise |
-
