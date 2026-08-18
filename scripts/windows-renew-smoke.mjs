@@ -74,7 +74,7 @@ async function waitForPath(filePath, timeoutMs = 5_000) {
   throw new Error(`Timed out waiting for smoke evidence: ${filePath}`);
 }
 
-function runLauncher(lines, env = {}, successEvidencePath = null) {
+function runLauncher(lines, env = {}, successEvidencePath = null, { sendTokenInput = true } = {}) {
   return new Promise((resolve, reject) => {
     const child = spawn("cmd.exe", ["/d", "/c", "renew-team.cmd"], {
       cwd: fixtureRoot,
@@ -125,7 +125,7 @@ function runLauncher(lines, env = {}, successEvidencePath = null) {
         teamSent = true;
         sendLine(lines[1] ?? "");
       }
-      if (!tokenSent && (output.includes("Jira token") || output.includes("[STAGE] token-prompt"))) {
+      if (sendTokenInput && !tokenSent && (output.includes("Jira token") || output.includes("[STAGE] token-prompt"))) {
         sendTokenOnce(source);
       }
       if (output.includes("Done. Open Scrum Master Tool")) {
@@ -199,17 +199,19 @@ async function main() {
 
   const success = await runLauncher(
     ["https://jira.example.test", "1", token],
-    {},
+    { JIRA_TOKEN: token },
     path.join(fixtureRoot, "runner-success.json"),
+    { sendTokenInput: false },
   );
   assert(success.status === 0, `success launcher exited ${success.status}: ${success.output}`);
-  assert(success.tokenSendCount === 1, `token was not sent exactly once (count=${success.tokenSendCount}, source=${success.tokenSentSource})`);
+  assert(success.output.includes("[STAGE] token-prompt"), "token stage was not reached");
+  assert(success.tokenSendCount === 0, `pre-set token path unexpectedly sent stdin (count=${success.tokenSendCount})`);
   assert(!success.output.includes(token), "success output leaked the Jira token");
   const successMarker = JSON.parse(await fs.readFile(path.join(fixtureRoot, "runner-success.json"), "utf8"));
   assert(successMarker.teamId === "fixture-team", "runner did not receive the selected team");
   assert(successMarker.workspace === fixtureRoot, "runner did not receive the space-containing workspace path");
 
-  const failed = await runLauncher(["https://jira.example.test", "1", token], { SM_WIN_SMOKE_MODE: "fail" });
+  const failed = await runLauncher(["https://jira.example.test", "1", token], { JIRA_TOKEN: token, SM_WIN_SMOKE_MODE: "fail" }, null, { sendTokenInput: false });
   assert(failed.status === 23, `runner exit code was not propagated: ${failed.status}\n${failed.output}`);
   const failedLog = await fs.readFile(logPath, "utf8");
   assert(failedLog.includes("launcher=renew-team.ps1 version=0.2.9"), "failure log metadata is missing");

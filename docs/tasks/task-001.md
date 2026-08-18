@@ -1986,6 +1986,44 @@ FAIL
 Next task remains blocked and remediation routes to Developer. No
 production/customer/workspace data was changed by QA.
 
+## QA re-review — smoke preset-token completion remediation
+
+### Verdict
+
+FAIL
+
+### Findings and evidence
+
+- P1 — the required native Windows run is still red. GitHub Actions run
+  `32174946582` for remote HEAD `f4d0f41b` (“Fix Windows smoke token delivery”)
+  completed with `windows-renew-smoke: failure` at step “Run Windows renew
+  helper smoke test”; “Run full project check on Windows” was skipped.
+- The local diff is scope-safe: smoke success/failure paths preset
+  `JIRA_TOKEN` and disable stdin token injection only for those fixture paths;
+  production still emits the token stage and keeps
+  `Read-Host "Jira token" -AsSecureString` under the `if (-not
+  $env:JIRA_TOKEN)` branch. Combined stdout/stderr handling, no-JQL,
+  redaction, exit propagation, and runner assertions remain.
+- Local checks pass, but there is no passing native proof of
+  `1` → token stage → runner completion or the preserved no-JQL/redaction/exit
+  paths.
+
+### Validation
+
+- Public/smoke `node --check` — PASS.
+- `git diff --check` — PASS.
+- `npm run check` — PASS: 23 test files / 122 tests, typechecks, and build.
+- Windows-latest run `32174946582` — FAIL; full Windows check skipped.
+
+### Required fix
+
+- Developer must inspect the failed smoke output, correct the remaining
+  Windows fixture/launcher failure, and provide a green Windows run proving
+  the complete success and failure paths before QA can PASS.
+
+Next task remains blocked and remediation routes to Developer. No
+production/customer/workspace data was changed by QA.
+
 ## QA re-review — prompt stream/stage-marker remediation
 
 ### Verdict
