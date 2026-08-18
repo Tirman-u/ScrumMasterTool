@@ -193,8 +193,15 @@
 
   function patchWindowsLauncherJql(launcher) {
     return launcher
-      .replace('$TeamHasJql += $Parts[2]', () => '$TeamHasJql += ([string]$Parts[2]).Trim()')
-      .replace('$HasSavedJql = $TeamHasJql[$ArrayIndex]', () => '$HasSavedJql = ([string]$TeamHasJql[$ArrayIndex]).Trim()');
+      .replace('$TeamHasJql = @()', () => '$TeamHasJqlById = @{}')
+      .replace('$TeamHasJql += $Parts[2]', () => '  $TeamKey = ([string]$Parts[0]).Trim()\r\n  $TeamHasJqlById[$TeamKey] = ([string]$Parts[2]).Trim()')
+      .replace('$TeamHasJql += ([string]$Parts[2]).Trim()', () => '  $TeamKey = ([string]$Parts[0]).Trim()\r\n  $TeamHasJqlById[$TeamKey] = ([string]$Parts[2]).Trim()')
+      .replace('$TeamId = $TeamIds[$ArrayIndex]', () => '  $TeamId = ([string]@($TeamIds)[$ArrayIndex]).Trim()')
+      .replace('$HasSavedJql = $TeamHasJql[$ArrayIndex]', () => '  $HasSavedJql = ([string]$TeamHasJqlById[$TeamId]).Trim()')
+      .replace('$HasSavedJql = ([string]$TeamHasJql[$ArrayIndex]).Trim()', () => '  $HasSavedJql = ([string]$TeamHasJqlById[$TeamId]).Trim()')
+      .replace('$TeamHasJqlById[[string]$Parts[0]] = ([string]$Parts[2]).Trim()', () => '  $TeamKey = ([string]$Parts[0]).Trim()\r\n  $TeamHasJqlById[$TeamKey] = ([string]$Parts[2]).Trim()')
+      .replace('$HasSavedJql = ([string]$TeamHasJqlById[[string]$TeamId]).Trim()', () => '  $HasSavedJql = ([string]$TeamHasJqlById[$TeamId]).Trim()')
+      .replace('No real saved JQL found in teams/$TeamId/team.json. Add JQL in the app first, then run this file again.', () => 'No real saved JQL found in teams/$TeamId/team.json (savedJqlFlag=$HasSavedJql). Add JQL in the app first, then run this file again.');
   }
 
   async function helperContents() {

@@ -184,6 +184,9 @@ async function main() {
   assert(windowsLauncher.includes('& node -- "$Runner" "$WorkspaceDir" @SelectedTeamIds'), "Windows runner invocation does not preserve quoted workspace arguments");
   assert(windowsLauncher.includes('Write-Host "Enter one team number'), "Windows team-selection prompt contract is missing");
   assert(windowsLauncher.includes('hasRealSavedJql(config.jiraQuery)'), "Windows launcher must derive TeamHasJql from saved JQL");
+  assert(windowsLauncher.includes('$TeamHasJqlById[$TeamKey]'), "Windows launcher must retain TeamHasJql by team ID");
+  assert(windowsLauncher.includes('$TeamId = ([string]@($TeamIds)[$ArrayIndex]).Trim()'), "Windows launcher must normalize the selected team ID");
+  assert(windowsLauncher.includes('savedJqlFlag=$HasSavedJql'), "Windows launcher must expose sanitized saved-JQL guard diagnostics");
 
   const success = await runLauncher(
     ["https://jira.example.test", "1", token],
@@ -206,6 +209,16 @@ async function main() {
   assert(failed.output.includes("[ERROR]"), "failure was not visible in launcher output");
   assert(!failed.output.includes(token), "visible failure leaked the Jira token");
   assert(!failed.output.includes("Done. Open Scrum Master Tool"), "failure printed a false success message");
+
+  const noJqlConfig = JSON.parse(JSON.stringify(teamConfig));
+  noJqlConfig.jiraQuery.queries = [];
+  noJqlConfig.jiraQuery.issueQuery.queries = [];
+  await fs.writeFile(path.join(teamRoot, "team.json"), JSON.stringify(noJqlConfig), "utf8");
+  const noJql = await runLauncher(["https://jira.example.test", "1", "exit", ""]);
+  assert(noJql.status === 1, `no-JQL guard exit code mismatch: ${noJql.status}`);
+  assert(noJql.output.includes("savedJqlFlag=0"), "no-JQL diagnostic flag was not visible");
+  const noJqlLog = await fs.readFile(logPath, "utf8");
+  assert(noJqlLog.includes("savedJqlFlag=0"), "no-JQL diagnostic flag was not logged");
 
   await fs.rm(runnerPath);
   const missingRunner = await runLauncher(["", "exit", ""]);
