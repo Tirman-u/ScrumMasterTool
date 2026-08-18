@@ -125,8 +125,9 @@ describe("workspace installer v3", () => {
     expect(writes.get("renew-team.command")).not.toContain("npm --prefix");
     expect(writes.get("renew-team.command")).toContain("Recalculate to rebuild metrics and cache");
     expect(writes.get("renew-team.cmd")).toContain("-NoProfile -ExecutionPolicy Bypass -File");
-    expect(generatorSource).toContain('powershell.exe -NoExit -NoProfile -ExecutionPolicy Bypass -File "%~dp0renew-team.ps1" %*');
-    expect(writes.get("renew-team.cmd")).toContain('powershell.exe -NoExit -NoProfile -ExecutionPolicy Bypass -File "%~dp0renew-team.ps1" %*');
+    expect(generatorSource).toContain('powershell.exe -NoProfile -ExecutionPolicy Bypass -File "%~dp0renew-team.ps1" %*');
+    expect(writes.get("renew-team.cmd")).toContain('powershell.exe -NoProfile -ExecutionPolicy Bypass -File "%~dp0renew-team.ps1" %*');
+    expect(writes.get("renew-team.cmd")).not.toContain("-NoExit");
     expect(writes.get("renew-team.cmd")).toContain("renew-team.ps1");
     expect(writes.get("renew-team.cmd")).toContain('if "%EXIT_CODE%"=="0"');
     expect(writes.get("renew-team.cmd")).toContain("[OK] renew-team.ps1 completed successfully.");

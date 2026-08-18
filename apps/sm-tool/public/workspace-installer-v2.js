@@ -124,6 +124,10 @@
     return wrapper.replace('if "%EXIT_CODE%"=="0"', `${readExitCode}\r\nif "%EXIT_CODE%"=="0"`);
   }
 
+  function patchWindowsWrapperNoExit(wrapper) {
+    return wrapper.replace("powershell.exe -NoExit ", "powershell.exe ");
+  }
+
   function patchWindowsWrapperExitCode(wrapper) {
     if (wrapper.includes("renew-team-exit.code")) return wrapper;
     return wrapper
@@ -189,7 +193,7 @@
           runner: patchRunner(extractStringAssignment(source, "RUNNER_CONTENT")),
           launcher: patchLauncher(extractStringAssignment(source, "LAUNCHER_CONTENT")),
           windowsLauncher: patchWindowsLauncherNodeProbe(extractStringAssignment(source, "WINDOWS_LAUNCHER_CONTENT")),
-          windowsWrapper: patchWindowsWrapperForF(patchWindowsWrapperExitCode(extractStringAssignment(source, "WINDOWS_WRAPPER_CONTENT"))),
+          windowsWrapper: patchWindowsWrapperNoExit(patchWindowsWrapperForF(patchWindowsWrapperExitCode(extractStringAssignment(source, "WINDOWS_WRAPPER_CONTENT")))),
         }));
     }
     return helperContentsPromise;

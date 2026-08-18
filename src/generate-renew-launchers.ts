@@ -453,7 +453,7 @@ function buildWindowsWrapper(): string {
     "@echo off",
     "setlocal",
     'del /q "%~dp0logs\\renew-team-exit.code" >nul 2>&1',
-    'powershell.exe -NoExit -NoProfile -ExecutionPolicy Bypass -File "%~dp0renew-team.ps1" %*',
+    'powershell.exe -NoProfile -ExecutionPolicy Bypass -File "%~dp0renew-team.ps1" %*',
     "set \"EXIT_CODE=%ERRORLEVEL%\"",
     'for /f "usebackq delims=" %%C in ("%~dp0logs\\renew-team-exit.code") do set "EXIT_CODE=%%C"',
     "if \"%EXIT_CODE%\"==\"0\" (",

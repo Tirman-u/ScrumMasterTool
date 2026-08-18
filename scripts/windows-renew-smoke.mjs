@@ -219,7 +219,8 @@ async function main() {
   await generateHelpers();
 
   const wrapper = await fs.readFile(path.join(fixtureRoot, "renew-team.cmd"), "utf8");
-  assert(wrapper.includes('powershell.exe -NoExit -NoProfile -ExecutionPolicy Bypass -File "%~dp0renew-team.ps1" %*'), "wrapper quoting/NoExit contract missing");
+  assert(wrapper.includes('powershell.exe -NoProfile -ExecutionPolicy Bypass -File "%~dp0renew-team.ps1" %*'), "wrapper quoting/PowerShell contract missing");
+  assert(!wrapper.includes("-NoExit"), "wrapper must allow PowerShell to return its real exit code");
   const windowsLauncher = await fs.readFile(path.join(fixtureRoot, "renew-team.ps1"), "utf8");
   assert(windowsLauncher.includes('& node -- "$Runner" "$WorkspaceDir" @SelectedTeamIds'), "Windows runner invocation does not preserve quoted workspace arguments");
   assert(windowsLauncher.includes('$ErrorActionPreference = "Continue"'), "Windows runner failure path does not preserve native exit codes");

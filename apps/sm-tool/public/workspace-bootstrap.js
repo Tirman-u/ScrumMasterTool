@@ -79,6 +79,10 @@
     return wrapper.replace('if "%EXIT_CODE%"=="0"', `${readExitCode}\r\nif "%EXIT_CODE%"=="0"`);
   }
 
+  function patchWindowsWrapperNoExit(wrapper) {
+    return wrapper.replace("powershell.exe -NoExit ", "powershell.exe ");
+  }
+
   function patchWindowsWrapperExitCode(wrapper) {
     if (wrapper.includes("renew-team-exit.code")) return wrapper;
     return wrapper
@@ -156,7 +160,7 @@
     await writeTextFile(helperDir, "jira-pull.mjs", RUNNER_CONTENT);
     await writeTextFile(handle, "renew-team.command", LAUNCHER_CONTENT);
     await writeTextFile(handle, "renew-team.ps1", patchWindowsLauncherNodeProbe(WINDOWS_LAUNCHER_CONTENT));
-    await writeTextFile(handle, "renew-team.cmd", patchWindowsWrapperForF(patchWindowsWrapperExitCode(WINDOWS_WRAPPER_CONTENT)));
+    await writeTextFile(handle, "renew-team.cmd", patchWindowsWrapperNoExit(patchWindowsWrapperForF(patchWindowsWrapperExitCode(WINDOWS_WRAPPER_CONTENT))));
   }
 
   window.showDirectoryPicker = async function patchedShowDirectoryPicker(options) {
