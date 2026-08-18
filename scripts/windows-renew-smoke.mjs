@@ -53,8 +53,10 @@ function assert(condition, message) {
 }
 
 function canonicalWorkspacePath(value) {
-  return path
-    .resolve(String(value))
+  const raw = String(value).trim().replace(/^(["'])(.*)\1$/, "$2");
+  const withoutDevicePrefix = raw.replace(/^\\\\\?\\/, "");
+  return path.win32
+    .normalize(path.win32.resolve(withoutDevicePrefix.replaceAll("/", "\\")))
     .replace(/[\\/]+$/, "")
     .toLowerCase();
 }
@@ -232,11 +234,16 @@ async function main() {
   assert(!success.output.includes(token), "success output leaked the Jira token");
   const successMarker = JSON.parse(await fs.readFile(path.join(fixtureRoot, "runner-success.json"), "utf8"));
   assert(successMarker.teamId === "fixture-team", "runner did not receive the selected team");
-  assert(fixtureRoot.includes(" "), "fixture workspace path must contain spaces");
-  assert(String(successMarker.workspace).includes(" "), "runner workspace path lost its spaces");
+  const actualWorkspacePath = String(successMarker.workspace);
+  const expectedWorkspacePath = String(fixtureRoot);
+  const actualCanonicalPath = canonicalWorkspacePath(actualWorkspacePath);
+  const expectedCanonicalPath = canonicalWorkspacePath(expectedWorkspacePath);
+  const pathDiagnostic = `(actual=${JSON.stringify(actualWorkspacePath)}, expected=${JSON.stringify(expectedWorkspacePath)}, actualCanonical=${JSON.stringify(actualCanonicalPath)}, expectedCanonical=${JSON.stringify(expectedCanonicalPath)})`;
+  assert(fixtureRoot.includes(" "), `fixture workspace path must contain spaces ${pathDiagnostic}`);
+  assert(actualWorkspacePath.includes(" "), `runner workspace path lost its spaces ${pathDiagnostic}`);
   assert(
-    canonicalWorkspacePath(successMarker.workspace) === canonicalWorkspacePath(fixtureRoot),
-    "runner did not receive the canonical space-containing workspace path",
+    actualCanonicalPath === expectedCanonicalPath,
+    `runner did not receive the canonical space-containing workspace path ${pathDiagnostic}`,
   );
 
   const failed = await runLauncher(["https://jira.example.test", "1", token], { JIRA_TOKEN: token, SM_WIN_SMOKE_MODE: "fail" }, null, { sendTokenInput: false });
