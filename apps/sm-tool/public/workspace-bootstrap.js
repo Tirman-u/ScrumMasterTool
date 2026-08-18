@@ -28,7 +28,25 @@
       '  Fail-Renew "Could not determine Node.js version. Current: $NodeVersion"',
       '}',
     ].join("\r\n");
-    return patchWindowsLauncherSelection(launcher.replace(legacyProbe, safeProbe));
+    return patchWindowsLauncherRunnerExit(patchWindowsLauncherSelection(launcher.replace(legacyProbe, safeProbe)));
+  }
+
+  function patchWindowsLauncherRunnerExit(launcher) {
+    const legacy = [
+      '$RunnerOutput = @(& node -- "$Runner" "$WorkspaceDir" @SelectedTeamIds 2>&1 | ForEach-Object { $_.ToString() })',
+      '$RunnerExitCode = [int]$LASTEXITCODE',
+    ].join("\r\n");
+    const safe = [
+      '$PreviousErrorActionPreference = $ErrorActionPreference',
+      '$ErrorActionPreference = "Continue"',
+      'try {',
+      '  $RunnerOutput = @(& node -- "$Runner" "$WorkspaceDir" @SelectedTeamIds 2>&1 | ForEach-Object { $_.ToString() })',
+      '  $RunnerExitCode = [int]$LASTEXITCODE',
+      '} finally {',
+      '  $ErrorActionPreference = $PreviousErrorActionPreference',
+      '}',
+    ].join("\r\n");
+    return launcher.replace(legacy, safe);
   }
 
   function patchWindowsLauncherSelection(launcher) {

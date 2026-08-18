@@ -221,6 +221,8 @@ async function main() {
   assert(wrapper.includes('powershell.exe -NoExit -NoProfile -ExecutionPolicy Bypass -File "%~dp0renew-team.ps1" %*'), "wrapper quoting/NoExit contract missing");
   const windowsLauncher = await fs.readFile(path.join(fixtureRoot, "renew-team.ps1"), "utf8");
   assert(windowsLauncher.includes('& node -- "$Runner" "$WorkspaceDir" @SelectedTeamIds'), "Windows runner invocation does not preserve quoted workspace arguments");
+  assert(windowsLauncher.includes('$ErrorActionPreference = "Continue"'), "Windows runner failure path does not preserve native exit codes");
+  assert(windowsLauncher.includes("$RunnerExitCode = [int]$LASTEXITCODE"), "Windows runner failure path does not capture LASTEXITCODE");
   assert(windowsLauncher.includes('Write-Host "Enter one team number'), "Windows team-selection prompt contract is missing");
   assert(windowsLauncher.includes('hasRealSavedJql(config.jiraQuery)'), "Windows launcher must derive TeamHasJql from saved JQL");
   assert(windowsLauncher.includes('$TeamHasJqlById[$TeamKey]'), "Windows launcher must retain TeamHasJql by team ID");

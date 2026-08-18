@@ -107,6 +107,9 @@ describe("workspace installer v3", () => {
     expect(writes.get("renew-team.ps1")).not.toMatch(/Write-Host "No teams folder[^\r\n]*"[\r\n]+\s+exit 1/);
     expect(writes.get("renew-team.ps1")?.match(/exit 1/g) ?? []).toHaveLength(1);
     expect(writes.get("renew-team.ps1")).toContain("$RunnerExitCode = [int]$LASTEXITCODE");
+    expect(writes.get("renew-team.ps1")).toContain('$PreviousErrorActionPreference = $ErrorActionPreference');
+    expect(writes.get("renew-team.ps1")).toContain('$ErrorActionPreference = "Continue"');
+    expect(writes.get("renew-team.ps1")).toContain("} finally {");
     expect(writes.get("renew-team.ps1")).toContain('Fail-Renew ("Bundled Jira runner failed with exit code $RunnerExitCode. " + ($RunnerOutput -join " ")) $RunnerExitCode');
     expect(writes.get("renew-team.ps1")?.indexOf("$RunnerExitCode -ne 0")).toBeLessThan(
       writes.get("renew-team.ps1")?.indexOf("Done. Open Scrum Master Tool") ?? -1,
