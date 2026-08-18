@@ -94,6 +94,8 @@ async function main() {
 
   const wrapper = await fs.readFile(path.join(fixtureRoot, "renew-team.cmd"), "utf8");
   assert(wrapper.includes('powershell.exe -NoExit -NoProfile -ExecutionPolicy Bypass -File "%~dp0renew-team.ps1" %*'), "wrapper quoting/NoExit contract missing");
+  const windowsLauncher = await fs.readFile(path.join(fixtureRoot, "renew-team.ps1"), "utf8");
+  assert(windowsLauncher.includes('& node -- "$Runner" "$WorkspaceDir" @SelectedTeamIds'), "Windows runner invocation does not preserve quoted workspace arguments");
 
   const success = runLauncher(["https://jira.example.test", "1", token, "", "exit", ""]);
   assert(success.status === 0, `success launcher exited ${success.status}: ${success.output}`);
@@ -104,7 +106,7 @@ async function main() {
   const failed = runLauncher(["https://jira.example.test", "1", token, "", "exit", ""], { SM_WIN_SMOKE_MODE: "fail" });
   assert(failed.status === 23, `runner exit code was not propagated: ${failed.status}\n${failed.output}`);
   const failedLog = await fs.readFile(logPath, "utf8");
-  assert(failedLog.includes("launcher=renew-team.ps1 version=0.2.4"), "failure log metadata is missing");
+  assert(failedLog.includes("launcher=renew-team.ps1 version=0.2.5"), "failure log metadata is missing");
   assert(failedLog.includes("exitCode=23"), "failure log exit code is missing");
   assert(failedLog.includes("[REDACTED]"), "failure log redaction marker is missing");
   assert(!failedLog.includes(token), "failure log leaked the Jira token");

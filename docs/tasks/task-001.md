@@ -166,6 +166,30 @@ remediation and a new QA review.**
 
 **Final verdict: PASS. Next task may begin.**
 
+## QA final check — version 0.2.5 bump
+
+### Verdict
+
+`PASS`
+
+### Evidence
+
+- Root `package.json` and `package-lock.json` are `0.2.5`; app
+  `package.json` and both app lockfile version entries are also `0.2.5`.
+- Generator `LAUNCHER_VERSION`, generated/live Windows payload metadata, and
+  smoke log assertion are all `0.2.5`.
+- Cache-bust `20260818-5` is consistent in `index.html`, installer v2, installer
+  v3, and the focused installer test.
+- Separated runner invocation remains
+  `& node -- "$Runner" "$WorkspaceDir" @SelectedTeamIds` in generator, live
+  bootstrap payload, installer output assertion, and smoke fixture assertion.
+- `npm run check` passed: 23 test files / 122 tests, typechecks, and build.
+  `node --check` for smoke/bootstrap/installers and `git diff --check` passed.
+- Scope review found only version/payload/cache-bust/test-related changes; no
+  Jira analytics, Teams/workspace data, or Cloudflare changes were introduced.
+
+**Final verdict: PASS. Next task may begin.**
+
 ## Developer implementation — Windows CI renew smoke coverage
 
 ### Implemented
@@ -323,6 +347,65 @@ The next task may begin. Carry the P3 README wording and native Windows CI
 observation follow-ups forward.
 
 **Final verdict: PASS WITH FOLLOW-UPS. Next task may begin.**
+
+## QA re-review — Windows runner argument quoting after CI run
+
+### Verdict
+
+`PASS`
+
+### Findings
+
+- No P0/P1/P2/P3 findings.
+
+### Evidence
+
+- `src/generate-renew-launchers.ts` now emits
+  `& node -- "$Runner" "$WorkspaceDir" @SelectedTeamIds`, so PowerShell
+  passes the runner path, workspace path, and selected IDs as separate
+  arguments. The `--` terminator prevents path/argument interpretation issues.
+- `apps/sm-tool/public/workspace-bootstrap.js` contains the matching generated
+  live payload, and the installer test asserts the same command in the
+  installed `renew-team.ps1` output.
+- `scripts/windows-renew-smoke.mjs` generates the helper, asserts the generated
+  command, then runs the real `.cmd` → PowerShell → Node → bundled runner chain
+  with a workspace path containing spaces. Existing success, selected-team and
+  exact-workspace assertions remain in place.
+- Existing failure assertions remain intact for exit code 23, error-log
+  metadata, token/Authorization redaction, visible error, false-success
+  suppression, missing runner, invalid workspace, and invalid selection.
+- The delegated real Windows CI run `32145624821` provides native execution
+  evidence for the corrected chain.
+- Local validation passed: `node --check` for the smoke script,
+  `npm run test:windows:renew` platform guard, `npm run check` with 23 test
+  files / 122 tests plus typechecks/build, and `git diff --check`.
+- Scope is limited to generator/live payload/smoke assertion/test updates. No
+  Jira analytics, Teams/workspace data, or Cloudflare changes were introduced.
+
+### Coverage
+
+- Separate PowerShell argument forwarding, generated/live payload parity,
+  spaces fixture, actual launcher chain, success/failure/log/redaction/exit
+  assertions, native CI evidence, full validation, and scope safety checked.
+
+### Risk assessment
+
+Low. The previous path-quoting failure is addressed at the production helper
+invocation and covered by the fixture plus native Windows run.
+
+### Required fixes
+
+- None.
+
+### Follow-up tests
+
+- None required for this remediation.
+
+### Recommended next task
+
+The next task may begin.
+
+**Final verdict: PASS. Next task may begin.**
 
 ## QA re-review — Windows generator quoting remediation
 
@@ -1093,3 +1176,52 @@ created and no customer/workspace data was changed.
 Please rerun the Windows workflow and verify generator setup succeeds with the
 space-containing fixture path before the full launcher-chain assertions run.
 No commit was created and no customer/workspace data was changed.
+
+## Developer remediation handoff — 0.2.5 final Windows launcher release
+
+### Implemented
+
+- Bumped synchronized root/app package versions and lockfile package entries
+  from 0.2.4 to 0.2.5.
+- Bumped generated/live Windows launcher metadata to 0.2.5.
+- Advanced installer/bootstrap cache-bust markers from `20260818-4` to
+  `20260818-5`.
+- Preserved the verified quoted invocation:
+  `node -- "$Runner" "$WorkspaceDir" @SelectedTeamIds`.
+
+### Validation
+
+- Focused workspace installer test — PASS.
+- `npm run check` — PASS: 23 test files / 122 tests, typechecks, and build.
+- Node checks for bootstrap/installers/smoke harness — PASS.
+- `git diff --check` — PASS.
+
+### QA handoff
+
+Please verify 0.2.5 package/lock parity, launcher metadata, cache-busted
+installer assets, and that the quoted runner invocation remains unchanged.
+No commit was created and customer/workspace data was not touched.
+
+## Developer remediation handoff — Windows runner workspace argument quoting
+
+### Implemented
+
+- Updated the generated Windows helper and matching bootstrap payload to invoke
+  Node as `node -- "$Runner" "$WorkspaceDir" @SelectedTeamIds`, preserving
+  the workspace path as one argument when it contains spaces.
+- Updated focused installer and smoke assertions for the quoted runner
+  contract and retained the real `.cmd` → PowerShell → Node → runner chain.
+
+### Validation
+
+- Focused workspace installer test — PASS.
+- `npm run check` — PASS: 23 test files / 122 tests, typechecks, and build.
+- Node syntax checks for bootstrap and smoke harness — PASS.
+- `git diff --check` — PASS.
+- Windows smoke execution remains environment-dependent on this macOS host.
+
+### QA handoff
+
+Please rerun the Windows workflow and verify the success marker is written in
+the space-containing workspace, followed by the existing exit, redaction, and
+error-log assertions. No commit or customer/workspace data change was made.

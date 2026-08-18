@@ -60,16 +60,16 @@ describe("workspace installer v3", () => {
     const installed = await install?.(createMockDirectory(writes));
 
     expect(installed).toBe(true);
-    expect(indexSource).toContain('/workspace-bootstrap.js?v=20260818-4');
-    expect(indexSource).toContain('/workspace-installer-v3.js?v=20260818-4');
-    expect(installerSource).toContain('const SOURCE_URL = "/workspace-bootstrap.js?v=20260818-4";');
+    expect(indexSource).toContain('/workspace-bootstrap.js?v=20260818-5');
+    expect(indexSource).toContain('/workspace-installer-v3.js?v=20260818-5');
+    expect(installerSource).toContain('const SOURCE_URL = "/workspace-bootstrap.js?v=20260818-5";');
     expect(writes.has("renew-team.command")).toBe(true);
     expect(writes.has("renew-team.ps1")).toBe(true);
     expect(writes.has("renew-team.cmd")).toBe(true);
     expect(writes.has("sm-tool/jira-pull.mjs")).toBe(true);
     expect(writes.get("renew-team.ps1")).toContain('Read-Host "Jira URL');
     expect(writes.get("renew-team.ps1")).toContain('$Runner = Join-Path $WorkspaceDir "sm-tool\\jira-pull.mjs"');
-    expect(writes.get("renew-team.ps1")).toContain("node $Runner $WorkspaceDir @SelectedTeamIds");
+    expect(writes.get("renew-team.ps1")).toContain('& node -- "$Runner" "$WorkspaceDir" @SelectedTeamIds');
     expect(writes.get("renew-team.ps1")).not.toContain("SM_TOOL_REPO_DIR");
     expect(writes.get("renew-team.ps1")).not.toContain("npm --prefix");
     expect(writes.get("renew-team.ps1")).toContain("Read-Host \"Jira token\" -AsSecureString");
