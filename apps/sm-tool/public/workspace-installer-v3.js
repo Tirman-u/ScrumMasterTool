@@ -206,6 +206,13 @@
     return launcher.replace(legacy, safe);
   }
 
+  function patchWindowsWrapperForF(wrapper) {
+    if (wrapper.includes('for /f "usebackq delims="')) return wrapper;
+    const exitCodePath = '"%~dp0logs' + String.fromCharCode(92) + 'renew-team-exit.code"';
+    const readExitCode = `for /f "usebackq delims=" %%C in (${exitCodePath}) do set "EXIT_CODE=%%C"`;
+    return wrapper.replace('if "%EXIT_CODE%"=="0"', `${readExitCode}\r\nif "%EXIT_CODE%"=="0"`);
+  }
+
   function patchWindowsWrapperExitCode(wrapper) {
     if (wrapper.includes("renew-team-exit.code")) return wrapper;
     return wrapper
@@ -266,7 +273,7 @@
       launcher: patchLauncher(extractStringAssignment(source, "LAUNCHER_CONTENT")),
       runner: patchRunner(extractStringAssignment(source, "RUNNER_CONTENT")),
       windowsLauncher: patchWindowsLauncherNodeProbe(extractStringAssignment(source, "WINDOWS_LAUNCHER_CONTENT")),
-      windowsWrapper: patchWindowsWrapperExitCode(extractStringAssignment(source, "WINDOWS_WRAPPER_CONTENT")),
+      windowsWrapper: patchWindowsWrapperForF(patchWindowsWrapperExitCode(extractStringAssignment(source, "WINDOWS_WRAPPER_CONTENT"))),
     };
   }
 

@@ -133,6 +133,7 @@ describe("workspace installer v3", () => {
     expect(writes.get("renew-team.cmd")).toContain("[ERROR] renew-team.ps1 failed with exit code %EXIT_CODE%.");
     expect(writes.get("renew-team.cmd")).toContain("pause");
     expect(writes.get("renew-team.cmd")).toContain("renew-team-exit.code");
+    expect(writes.get("renew-team.cmd")).toContain('for /f "usebackq delims="');
     expect((writes.get("renew-team.cmd")?.match(/pause/g) ?? []).length).toBe(1);
     expect(writes.get("renew-team.cmd")).toContain("endlocal & exit /b %EXIT_CODE%");
   });

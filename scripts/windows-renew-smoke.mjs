@@ -16,6 +16,7 @@ const teamsRoot = path.join(fixtureRoot, "Teams");
 const teamRoot = path.join(teamsRoot, "fixture-team");
 const runnerPath = path.join(fixtureRoot, "sm-tool", "jira-pull.mjs");
 const logPath = path.join(fixtureRoot, "logs", "renew-team-error.log");
+const exitCodePath = path.join(fixtureRoot, "logs", "renew-team-exit.code");
 const token = "fixture-token-never-log-this";
 const launchedProcessIds = new Set();
 
@@ -225,6 +226,7 @@ async function main() {
   assert(windowsLauncher.includes("$RunnerExitCode = [int]$LASTEXITCODE"), "Windows runner failure path does not capture LASTEXITCODE");
   assert(windowsLauncher.includes("Write-RenewExitCode $ExitCode"), "Windows failure path does not persist the native exit code");
   assert(wrapper.includes("renew-team-exit.code"), "CMD wrapper does not read the PowerShell exit-code handoff");
+  assert(wrapper.includes('for /f "usebackq delims="'), "CMD wrapper does not robustly read the PowerShell exit-code handoff");
   assert(windowsLauncher.includes('Write-Host "Enter one team number'), "Windows team-selection prompt contract is missing");
   assert(windowsLauncher.includes('hasRealSavedJql(config.jiraQuery)'), "Windows launcher must derive TeamHasJql from saved JQL");
   assert(windowsLauncher.includes('$TeamHasJqlById[$TeamKey]'), "Windows launcher must retain TeamHasJql by team ID");
@@ -240,6 +242,7 @@ async function main() {
     { sendTokenInput: false },
   );
   assert(success.status === 0, `success launcher exited ${success.status}: ${success.output}`);
+  assert((await fs.readFile(exitCodePath, "utf8")).trim() === "0", "success exit-code marker was not numeric zero");
   assert(success.output.includes("[OK] renew-team.ps1 completed successfully."), "CMD wrapper success message was not observed");
   assert(success.pauseKeyCount === 1, `CMD wrapper pause key was not sent exactly once (count=${success.pauseKeyCount})`);
   assert(success.tokenSendCount === 0, `pre-set token path unexpectedly sent stdin (count=${success.tokenSendCount})`);
@@ -260,7 +263,9 @@ async function main() {
   );
 
   const failed = await runLauncher(["https://jira.example.test", "1", token], { JIRA_TOKEN: token, SM_WIN_SMOKE_MODE: "fail" }, null, { sendTokenInput: false });
-  assert(failed.status === 23, `runner exit code was not propagated: ${failed.status}\n${failed.output}`);
+  const failedExitMarker = (await fs.readFile(exitCodePath, "utf8")).trim();
+  assert(failedExitMarker === "23", `PowerShell exit-code marker mismatch: actual=${JSON.stringify(failedExitMarker)} expected="23"`);
+  assert(failed.status === 23, `runner exit code was not propagated: status=${failed.status} marker=${JSON.stringify(failedExitMarker)}\n${failed.output}`);
   const failedLog = await fs.readFile(logPath, "utf8");
   assert(failedLog.includes("launcher=renew-team.ps1 version=0.2.9"), "failure log metadata is missing");
   assert(failedLog.includes("exitCode=23"), "failure log exit code is missing");

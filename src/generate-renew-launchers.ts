@@ -455,7 +455,7 @@ function buildWindowsWrapper(): string {
     'del /q "%~dp0logs\\renew-team-exit.code" >nul 2>&1',
     'powershell.exe -NoExit -NoProfile -ExecutionPolicy Bypass -File "%~dp0renew-team.ps1" %*',
     "set \"EXIT_CODE=%ERRORLEVEL%\"",
-    'if exist "%~dp0logs\\renew-team-exit.code" set /p EXIT_CODE=<"%~dp0logs\\renew-team-exit.code"',
+    'for /f "usebackq delims=" %%C in ("%~dp0logs\\renew-team-exit.code") do set "EXIT_CODE=%%C"',
     "if \"%EXIT_CODE%\"==\"0\" (",
     "  echo.",
     "  echo [OK] renew-team.ps1 completed successfully.",
