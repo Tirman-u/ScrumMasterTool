@@ -1906,3 +1906,219 @@ PASS WITH FOLLOW-UPS
 No P0/P1/P2 findings. P3 follow-up: retain the Windows run evidence showing
 selection `1` reaches the token prompt; Windows execution is unavailable on
 this macOS host.
+
+## QA re-review — deterministic TeamHasJql diagnostics
+
+### Verdict
+
+FAIL
+
+### Findings
+
+- P1 — native Windows smoke is not passing for the reviewed remediation.
+  GitHub Actions run `32149754590` for commit `d7346a8` completed with
+  `windows-renew-smoke: failure` at the smoke step; full Windows check was
+  skipped. The subsequent remote run `32150375529` also reports
+  `windows-renew-smoke: failure`. No successful run demonstrates selection
+  `1` reaching the Jira token prompt and runner completion after this fix.
+- The local source review confirms the intended implementation: generator and
+  live v2/v3/bootstrap payloads replace positional `TeamHasJql` with a team-ID
+  keyed hashtable, preserve the no-JQL guard, and expose only the sanitized
+  `savedJqlFlag` value (no JQL or token). Focused assertions and local checks
+  pass, but they do not replace native Windows execution evidence.
+
+### Validation
+
+- Public/smoke `node --check` — PASS.
+- `git diff --check` — PASS.
+- `npm run check` — PASS: 23 test files / 122 tests, typechecks, and build.
+- GitHub Actions Windows smoke — FAIL in runs `32149754590` and
+  `32150375529`.
+
+### Required fix
+
+- Developer must diagnose the failing Windows smoke run, rerun the current
+  hashtable payload on `windows-latest`, and provide evidence of the complete
+  `1` → Jira token prompt → successful runner completion path plus preserved
+  no-JQL rejection and redaction checks.
+
+No production/customer/workspace data was changed by QA. Next task is blocked
+until a passing native Windows smoke run is reviewed.
+
+## QA re-review — Team ID normalization remediation
+
+### Verdict
+
+FAIL
+
+### Findings and evidence
+
+- P1 — the required native Windows proof is still failing. I observed and
+  polled GitHub Actions run `32174128413` for commit `a2147362` (“Fix Windows
+  team selection normalization”); it completed `failure`.
+- Its `windows-renew-smoke` job `95831975317` failed specifically at “Run
+  Windows renew helper smoke test”; “Run full project check on Windows” was
+  skipped. Therefore there is still no passing evidence for
+  `1` → Jira token prompt → successful runner completion, nor for the new
+  no-JQL/redaction/exit assertions on native Windows.
+- Local inspection confirms the intended fix: generator and live
+  bootstrap/v2/v3 payloads normalize the selected team ID to a trimmed
+  string, use the team-ID keyed `TeamHasJqlById` hashtable, preserve the
+  no-JQL guard, and expose only `savedJqlFlag` diagnostics. The direct smoke
+  no-JQL test checks exit code and diagnostic redaction. These are useful
+  controls but do not override the failed Windows run.
+
+### Validation
+
+- `node --check` for public bootstrap/installers and smoke harness — PASS.
+- `git diff --check` — PASS.
+- `npm run check` — PASS: 23 test files / 122 tests, typechecks, and build.
+- Native Windows-latest smoke run `32174128413` — FAIL; full Windows check
+  skipped.
+
+### Required fix
+
+- Developer must inspect the failing run’s smoke output, correct the remaining
+  Windows failure, and provide a completed passing Windows run proving the
+  valid selection/token/completion path plus no-JQL rejection, redaction, and
+  exit propagation.
+
+Next task remains blocked and remediation routes to Developer. No
+production/customer/workspace data was changed by QA.
+
+## QA re-review — prompt stream/stage-marker remediation
+
+### Verdict
+
+FAIL
+
+### Findings and evidence
+
+- P1 — required native evidence is still absent. The latest GitHub Actions run
+  `32174128413` for remote commit `a2147362` completed failure at the Windows
+  smoke step; it does not contain the new prompt-detector/stage-marker diff,
+  which remains uncommitted in the current checkout. No new run was triggered
+  for the reviewed remediation.
+- The local implementation is directionally correct: smoke now feeds one
+  handler from both stdout and stderr and accepts `[STAGE] token-prompt`; the
+  generator and bootstrap/v2/v3 patch paths add selection, team lookup,
+  saved-JQL guard, and token stage markers. The existing no-JQL, redaction,
+  exit, and completion assertions remain.
+
+### Validation
+
+- Public/smoke `node --check` — PASS.
+- `git diff --check` — PASS.
+- `npm run check` — PASS: 23 test files / 122 tests, typechecks, and build.
+- Native Windows-latest smoke for the reviewed uncommitted remediation — NOT
+  RUN; latest available run `32174128413` is a failure for the prior remote
+  commit.
+
+### Required fix
+
+- Push the reviewed remediation, run the Windows CI workflow, and provide a
+  completed passing smoke job proving `1` → token prompt → runner completion,
+  plus no-JQL rejection, redaction, and exit propagation.
+
+Next task remains blocked and remediation routes to Developer. No
+production/customer/workspace data was changed by QA.
+
+## Developer remediation handoff — deterministic TeamHasJql diagnostics
+
+### Implemented
+
+- Replaced positional `$TeamHasJql[$ArrayIndex]` lookup with a team-ID keyed
+  PowerShell hashtable, avoiding native pipeline/array coercion during helper
+  execution.
+- Preserved the no-JQL safety guard and added a visible/logged sanitized
+  `savedJqlFlag` diagnostic when that guard rejects a team.
+- Applied the production fix to the generator and live bootstrap/v2/v3
+  installer payload patch paths.
+- Added focused installer and Windows smoke source assertions for the keyed
+  flag path and diagnostic.
+
+### Validation
+
+- `npx vitest run tests/workspace-installer-v3.test.ts` — PASS.
+- `npm run check` — PASS: 23 test files / 122 tests, typechecks, and build.
+- `node --check` for bootstrap, v2/v3 installers, and Windows smoke harness —
+  PASS.
+- `git diff --check` — PASS.
+
+### QA handoff
+
+Please rerun the Windows workflow and inspect the now-visible
+`savedJqlFlag=...` diagnostic if selection `1` still stops before the token
+prompt. Confirm valid fixture team IDs pass the guard and no-JQL fixtures still
+fail safely. No commit or customer, Teams, workspace, or Cloudflare data was
+changed.
+
+## Developer remediation handoff — PowerShell prompt stream diagnosis
+
+### Implemented
+
+- Inspected run `32174128413` job `windows-renew-smoke`: the process did not
+  exit at selection; it remained alive until the smoke harness’s 30-second
+  timeout killed it. The log therefore contained no guard error or log entry.
+- Root cause identified in the harness: stdout triggered prompt sequencing,
+  while stderr only appended text. The PowerShell secure token prompt can be
+  delivered on stderr/host output, so the smoke never sent the token.
+- Unified stdout/stderr through one output handler and trigger token input on
+  either the real prompt or the safe `[STAGE] token-prompt` marker.
+- Added safe stage markers before selection normalization, selected-team
+  lookup, saved-JQL lookup/guard, and token prompt. Markers contain no JQL,
+  token, or customer data.
+- Applied stage instrumentation to the generator and live bootstrap/v2/v3
+  installer payload patch paths; added focused assertions.
+- Added smoke coverage for valid completion and no-JQL rejection/diagnostics.
+
+### Validation
+
+- `npx vitest run tests/workspace-installer-v3.test.ts` — PASS.
+- `npm run check` — PASS: 23 test files / 122 tests, typechecks, and build.
+- `node --check` for bootstrap, v2/v3 installers, and Windows smoke harness —
+  PASS.
+- `git diff --check` — PASS.
+
+### QA handoff
+
+The updated code is not yet proven on Windows. Main must route this
+uncommitted remediation through CI and QA must provide a new successful
+`windows-latest` run showing `1` → token prompt → runner completion, plus
+no-JQL rejection, redaction, and exit propagation. Do not mark complete based
+on local checks alone.
+
+## Developer remediation handoff — Windows one-team selection coercion
+
+### Implemented
+
+- Inspected the actual `windows-renew-smoke` log from run `32150375529`:
+  Node and team listing succeeded, input `1` was received, and the helper
+  exited before token input without exposing the selected team/flag state.
+- Hardened the generated helper so the selected team is always normalized from
+  an explicitly wrapped array and the saved-JQL flag is keyed by a normalized
+  team ID. This removes both one-item PowerShell scalar indexing and positional
+  flag coercion from the production path.
+- Kept the no-JQL guard and its sanitized `savedJqlFlag` diagnostic.
+- Applied the same compatibility transformation to bootstrap and v2/v3
+  installers, and added smoke coverage for valid selection and no-JQL rejection,
+  including exit code and diagnostic log assertions.
+
+### Validation
+
+- `npx vitest run tests/workspace-installer-v3.test.ts` — PASS.
+- `npm run check` — PASS: 23 test files / 122 tests, typechecks, and build.
+- `node --check` for bootstrap, v2/v3 installers, and Windows smoke harness —
+  PASS.
+- `git diff --check` — PASS.
+- GitHub log inspection confirmed the prior failure occurred on commit
+  `e5cc797`; a new Windows run containing this uncommitted remediation cannot
+  be started from this macOS checkout until Main routes it through the normal
+  commit/CI workflow.
+
+### QA handoff
+
+QA must run the updated `windows-latest` smoke and retain evidence for
+selection `1` → token prompt → runner completion, plus no-JQL rejection,
+redaction, and exit propagation. No commit or customer, Teams, workspace, or
+Cloudflare data was changed.

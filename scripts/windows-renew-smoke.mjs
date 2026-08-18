@@ -88,9 +88,18 @@ function runLauncher(lines, env = {}, successEvidencePath = null) {
     let timeout;
     let teamSent = false;
     let tokenSent = false;
+    let tokenSendCount = 0;
+    let tokenSentSource = "";
     let completionReleased = false;
     const sendLine = (line) => {
       if (!child.stdin.destroyed) child.stdin.write(`${line}\r\n`);
+    };
+    const sendTokenOnce = (source) => {
+      if (tokenSent) return;
+      tokenSent = true;
+      tokenSendCount += 1;
+      tokenSentSource = source;
+      setTimeout(() => sendLine(lines[2] ?? ""), 0);
     };
     const releasePowerShell = async (isSuccess) => {
       if (completionReleased) return;
@@ -110,15 +119,14 @@ function runLauncher(lines, env = {}, successEvidencePath = null) {
         killProcessTree(child.pid);
       }
     };
-    const handleOutput = (chunk) => {
+    const handleOutput = (chunk, source) => {
       output += chunk.toString();
       if (!teamSent && (output.includes("Enter one team number") || output.includes("Team number(s)"))) {
         teamSent = true;
         sendLine(lines[1] ?? "");
       }
       if (!tokenSent && (output.includes("Jira token") || output.includes("[STAGE] token-prompt"))) {
-        tokenSent = true;
-        sendLine(lines[2] ?? "");
+        sendTokenOnce(source);
       }
       if (output.includes("Done. Open Scrum Master Tool")) {
         void releasePowerShell(true);
@@ -126,8 +134,8 @@ function runLauncher(lines, env = {}, successEvidencePath = null) {
         void releasePowerShell(false);
       }
     };
-    child.stdout.on("data", handleOutput);
-    child.stderr.on("data", handleOutput);
+    child.stdout.on("data", (chunk) => handleOutput(chunk, "stdout"));
+    child.stderr.on("data", (chunk) => handleOutput(chunk, "stderr"));
     child.once("error", (error) => {
       clearTimeout(timeout);
       if (child.pid) launchedProcessIds.delete(child.pid);
@@ -136,7 +144,7 @@ function runLauncher(lines, env = {}, successEvidencePath = null) {
     child.once("close", (status) => {
       clearTimeout(timeout);
       if (child.pid) launchedProcessIds.delete(child.pid);
-      resolve({ status: status ?? -1, output });
+      resolve({ status: status ?? -1, output, tokenSent, tokenSendCount, tokenSentSource });
     });
     timeout = setTimeout(() => killProcessTree(child.pid), 30_000);
     sendLine(lines[0] ?? "");
@@ -195,6 +203,8 @@ async function main() {
     path.join(fixtureRoot, "runner-success.json"),
   );
   assert(success.status === 0, `success launcher exited ${success.status}: ${success.output}`);
+  assert(success.tokenSendCount === 1, `token was not sent exactly once (count=${success.tokenSendCount}, source=${success.tokenSentSource})`);
+  assert(!success.output.includes(token), "success output leaked the Jira token");
   const successMarker = JSON.parse(await fs.readFile(path.join(fixtureRoot, "runner-success.json"), "utf8"));
   assert(successMarker.teamId === "fixture-team", "runner did not receive the selected team");
   assert(successMarker.workspace === fixtureRoot, "runner did not receive the space-containing workspace path");
