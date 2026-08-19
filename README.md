@@ -1,6 +1,6 @@
 # Scrum Master Tool
 
-Lokaalne Scrum Masteri tööriist Jira töövoo, läbilaske, tsükliaja, SLE ja andmekvaliteedi jälgimiseks. UI loeb ning kirjutab ainult kasutaja valitud workspace'i. Jira andmeid uuendab eraldi Node.js CLI, macOS helper `renew-team.command` või Windows helper `renew-team.ps1`.
+Lokaalne Scrum Masteri tööriist Jira töövoo, läbilaske, tsükliaja, SLE ja andmekvaliteedi jälgimiseks. UI loeb ning kirjutab ainult kasutaja valitud workspace'i. Jira andmeid uuendab eraldi Node.js CLI, macOS helper `renew-team.command` või Windowsi põhivool `renew-team.cmd` koos `renew-team.ps1` fallbackiga.
 
 ## Põhivõimalused
 
@@ -72,33 +72,35 @@ Arendusrakendus avaneb vaikimisi aadressil `http://localhost:5173`.
 
 ## Jira andmete uuendamine
 
-Helperid tuleb käivitada workspace'i juurest ehk samast kaustast, kus asuvad `workspace.json` ja `Teams/` või `teams/`. Tavalises voos kasutavad need workspace'i lokaalset `sm-tool/jira-pull.mjs` runner'it: repo rada ega `npm` käsku ei ole vaja määrata.
+Soovituslik on hoida workspace'i kaustas, mida kasutaja ja tiim saavad jagada — näiteks OneDrive'is või ettevõtte võrgukettal. Säilita olemasolev struktuur: workspace'i juures `workspace.json` ja `Teams/` või `teams/`, iga tiimi all `team.json` ning `imports/`. Kõik kasutajad peavad jagatud kaustale ligi pääsema ja rakenduses valima sama workspace'i.
+
+Helperid tuleb käivitada shared workspace'i juurest ehk samast kaustast, kus asuvad `workspace.json` ja `Teams/` või `teams/`. Tavalises voos kasutavad need workspace'i lokaalset `sm-tool/jira-pull.mjs` runner'it: repo rada ega `npm` käsku ei ole vaja määrata.
 
 Workspace'i juurkausta helperid ja bundled runner'i paigutuse genereerib `npm run generate:renew-launchers`: generaator haldab nii `renew-team.command` kui ka `renew-team.ps1` faili. Ära muuda neid faile käsitsi; uuenda vajadusel generaatori väljundit generaatori kaudu. Pärast edukat Jira pull'i ava rakendus ja vajuta **Recalculate**, et uuendada mõõdikud ja cache.
 
 ### macOS
 
 1. Ava **Terminal**.
-2. Käivita workspace'i juurest `renew-team.command` (seda võib Finderist Terminali aknasse lohistada).
+2. Käivita workspace'i juurest `renew-team.command` käsuga `zsh`. Drag-to-Terminal võib sõltuvalt seadistusest ebaõnnestuda, seega kasuta pigem täielikku käsku:
 3. Sisesta küsitud Jira URL, tiim(id) ja token.
 4. Pärast edukat pull'i ava rakendus ja vajuta **Recalculate**.
 
 Näide:
 
 ```bash
-zsh "/Users/yourname/Documents/ScrumMasterTool/renew-team.command"
+zsh "/Users/yourname/Shared/ScrumMasterTool/renew-team.command"
 ```
+
+Asenda näidistee oma tegeliku shared workspace'i teega. Jira URL peab olema sinu päris Jira base URL; `https://jira.example.invalid` on ainult placeholder. Ära lisa URL-ile `/rest/api/2` rada.
 
 ### Windows
 
-`renew-team.cmd` on Windowsi põhivool: selle võib workspace'i kaustas topeltklõpsata. Wrapper avab PowerShelli, hoiab akna vea korral nähtaval ja käivitab workspace'i lokaalse `sm-tool/jira-pull.mjs` runner'i.
+`renew-team.cmd` on Windowsi põhivool: selle võib shared workspace'i kaustas topeltklõpsata. Wrapper avab PowerShelli ja käivitab workspace'i lokaalse `sm-tool/jira-pull.mjs` runner'i.
 
-1. Ava workspace Exploreris.
+1. Ava shared workspace Exploreris.
 2. Topeltklõpsa `renew-team.cmd`.
 3. Sisesta küsitud Jira URL, tiim(id) ja token.
 4. Pärast edukat pull'i ava rakendus ja vajuta **Recalculate**.
-
-Kui topeltklõpsu asemel on vaja PowerShelli otse kasutada, on `renew-team.ps1` fallback:
 
 ```powershell
 cd "C:\Users\yourname\Documents\SmToolWorkspace"
@@ -110,6 +112,8 @@ Kui PowerShell blokeerib lokaalse scripti, käivita see ainult selleks korraks b
 ```powershell
 powershell -ExecutionPolicy Bypass -File ".\renew-team.ps1"
 ```
+
+Asenda näidistee oma tegeliku workspace'i teega. Node.js 18+ peab olema kasutaja `PATH`-is; helper ei paigalda runtime'i ega vaja administraatoriõigusi.
 
 ### Helperi kasutamine
 
@@ -154,12 +158,35 @@ $env:JIRA_AUTH = "basic"
 $env:JIRA_USERNAME = "user@example.com"
 ```
 
+### Kui automaatne Jira refresh ei õnnestu: käsitsi CSV fallback
+
+Kui helper ei saa Jiraga ühendust, ekspordi Jira kasutajaliidesest täpselt kaks CSV-faili:
+
+1. issue/Jira andmete CSV, nimega `issues.csv`;
+2. Time in Status andmete CSV, nimega `time-in-status.csv`.
+
+Paiguta mõlemad sama tiimi kausta alla:
+
+```text
+<workspace>/Teams/<teamId>/imports/jira-api/
+  issues.csv
+  time-in-status.csv
+```
+
+Kui workspace kasutab väikese tähega `teams/`, kasuta sama nimekuju. Importer otsib CSV-faile rekursiivselt tiimi `imports/` kausta alt, kuid `imports/jira-api/` on olemasoleva helperi täpne vaikimisi väljundkoht. Ära ekspordi neid faile Scrum Master Toolist — need tuleb eksportida Jira kasutajaliidesest.
+
+Hoia failid samas shared workspace'is, vali rakenduses sama workspace ja vajuta **Recalculate**. Rakendus ei jälgi failisüsteemi automaatselt; pärast uute failide lisamist tuleb recalculation käsitsi käivitada. Kui olek on vana, laadi rakendus uuesti ja vajuta seejärel **Recalculate**.
+
+### Jira ühendusvead
+
+Viga nagu `Unexpected token '<', "<!DOCTYPE "... is not valid JSON` tähendab tavaliselt, et Jira asemel tagastas server HTML-i — näiteks loginilehe, proxy-, VPN- või blokeerimislehe. Sisesta Jira päris base URL; `https://jira.example.invalid` on ainult placeholder, ära kasuta sõnasõnalist `jira.company.net` ega REST API rada nagu `https://jira.example.invalid/rest/api/2`. Testi esmalt ühe tiimiga. Ära jaga Jira tokenit ega kleebi seda CSV-sse või tugisõnumisse.
+
 ### Täiustatud CLI fallback (valikuline)
 
 Kui generated helperit kasutada ei saa, võib arenduskeskkonnas sama importi käivitada repo CLI-ga. See on eraldi fallback, mitte tavalise workspace helperi eeltingimus:
 
 ```bash
-JIRA_URL=https://jira.company.net \
+JIRA_URL=https://jira.example.invalid \
 JIRA_USERNAME=user@example.com \
 JIRA_TOKEN=token \
 npm run jira:pull -- --workspace /absolute/path/to/workspace --team team-folder
@@ -168,7 +195,7 @@ npm run jira:pull -- --workspace /absolute/path/to/workspace --team team-folder
 Windows PowerShellis kasuta `$env:` süntaksit:
 
 ```powershell
-$env:JIRA_URL = "https://jira.company.net"
+$env:JIRA_URL = "https://jira.example.invalid"
 $env:JIRA_USERNAME = "user@example.com"
 $env:JIRA_TOKEN = "token"
 

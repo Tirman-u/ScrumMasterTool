@@ -211,7 +211,7 @@
             <div>
               <h2>Create and select a workspace</h2>
               <ol>
-                <li>Create an empty folder on your computer, for example <strong>Documents/ScrumMasterTool</strong>.</li>
+                <li>Create or choose a shared folder, for example <strong>OneDrive/ScrumMasterTool</strong> or a company network folder. Keep the workspace folder structure unchanged so everyone uses the same workspace.</li>
                 <li>Open <strong>Workspace Setup</strong> in the app.</li>
                 <li>Choose the folder and allow the browser to read and write it.</li>
                 <li>Add your team.</li>
@@ -245,33 +245,45 @@
               <h2>Refresh Jira data — macOS</h2>
               <ol>
                 <li>Open <strong>Terminal</strong>.</li>
-                <li>Type <strong>zsh</strong> followed by one space.</li>
-                <li>Drag <strong>renew-team.command</strong> from Finder into the Terminal window.</li>
-                <li>Press <strong>Enter</strong>.</li>
+                <li>Run the platform helper from the shared workspace with <strong>zsh</strong>. Dragging the file into Terminal can fail on some macOS setups, so use the full command below.</li>
               </ol>
-              <div class="pilot-readme-code">zsh "/Users/yourname/Documents/ScrumMasterTool/renew-team.command"</div>
+              <div class="pilot-readme-code">zsh "/Users/yourname/Shared/ScrumMasterTool/renew-team.command"</div>
               <p>Select the team number when the helper asks:</p>
               <div class="pilot-readme-code">Select team to refresh:
 1) TEAM A
 2) TEAM B
 Team number(s):</div>
               <p>If asked for the Jira URL, enter your Jira base URL, for example:</p>
-              <div class="pilot-readme-code">https://jira.company.net</div>
+              <div class="pilot-readme-code">https://jira.example.invalid</div>
+              <p>Replace the example with your real Jira base URL. Do not use a REST path such as <strong>/rest/api/2</strong> and do not use the literal placeholder.</p>
               <p>When prompted for <strong>Jira token:</strong>, paste the Personal Access Token from step 1 and press Enter.</p>
               <div class="pilot-readme-note">Terminal may show nothing while you paste or type the token. This is normal — token input is hidden.</div>
               <p>The helper loads Jira issues and changelog history. Depending on the amount of data, this can take a few minutes.</p>
               <div class="pilot-readme-success pilot-readme-note">Success message: <strong>Jira refresh complete. Open Scrum Master Tool and select Recalculate to rebuild metrics and cache.</strong></div>
               <h2>Refresh Jira data — Windows PowerShell</h2>
               <ol>
-                <li>Open <strong>PowerShell</strong> and go to the workspace folder.</li>
+                <li>Open <strong>PowerShell</strong> and go to the shared workspace folder.</li>
                 <li>Set the Jira URL if needed; the bundled runner is already in the workspace.</li>
-                <li>Run <strong>renew-team.ps1</strong>, or double-click <strong>renew-team.cmd</strong>.</li>
+                <li>Double-click the primary entry point <strong>renew-team.cmd</strong>. If needed, run <strong>renew-team.ps1</strong> directly as the PowerShell fallback.</li>
               </ol>
               <div class="pilot-readme-code">cd "C:\\Users\\yourname\\Documents\\ScrumMasterTool"
 $env:JIRA_URL = "https://jira.example.invalid"
 .\\renew-team.ps1</div>
               <p>When prompted for <strong>Jira token:</strong>, paste the Personal Access Token from step 1. The token is entered interactively and is not written to the workspace or helper files.</p>
-              <div class="pilot-readme-note">If PowerShell blocks the local script, use <strong>ExecutionPolicy Bypass</strong> for this invocation only. Keep the token private. After the helper finishes, return to the app and select <strong>Recalculate</strong> to rebuild metrics and cache.</div>
+              <div class="pilot-readme-note">If PowerShell blocks the local script, use <strong>ExecutionPolicy Bypass</strong> for this invocation only. Node.js 18+ must already be on PATH; the helper does not install Node.js or require administrator rights. Keep the token private. After the helper finishes, return to the app and select <strong>Recalculate</strong> to rebuild metrics and cache.</div>
+              <h2>Manual Jira CSV fallback</h2>
+              <p>If automatic refresh cannot connect to Jira, export exactly two CSV files from Jira: the issue/Jira data file as <strong>issues.csv</strong> and the Time in Status data file as <strong>time-in-status.csv</strong>.</p>
+              <div class="pilot-readme-code">SharedWorkspace/
+└── Teams/
+    └── your-team/
+        └── imports/
+            └── jira-api/
+                ├── issues.csv
+                └── time-in-status.csv</div>
+              <p>Use <strong>teams</strong> instead of <strong>Teams</strong> if that is the existing workspace folder name. The app scans CSV files recursively under the team's <strong>imports/</strong> folder. Export these files from Jira, never from this app, then select the same workspace and press <strong>Recalculate</strong>.</p>
+              <div class="pilot-readme-note">The app does not watch the filesystem automatically. After adding new files, press <strong>Recalculate</strong>; reload the app first if the displayed state is stale. Never put Jira tokens in CSV files or share them.</div>
+              <h2>Jira connection errors</h2>
+              <p>An error such as <strong>Unexpected token '&lt;' ... &lt;!DOCTYPE ...&gt;</strong> usually means Jira returned an HTML login, proxy, VPN, or block page instead of JSON. Use your real Jira base URL, test one team first, and do not use a REST path such as <strong>/rest/api/2</strong> or the literal placeholder <strong>jira.company.net</strong>.</p>
             </div>
           </article>
 
@@ -291,7 +303,7 @@ $env:JIRA_URL = "https://jira.example.invalid"
         </div>
 
         <div class="pilot-readme-footer">
-          <strong>Next refresh:</strong> you do not need to recreate the workspace or team. Connect to VPN, run the platform-specific helper — <strong>renew-team.command</strong> on macOS or <strong>renew-team.ps1</strong> in PowerShell on Windows — choose the team(s), enter your Jira token, return to the app and select <strong>Recalculate</strong>.
+          <strong>Next refresh:</strong> you do not need to recreate the shared workspace or team. Connect to VPN, run <strong>renew-team.command</strong> with zsh on macOS or double-click the primary <strong>renew-team.cmd</strong> entry point on Windows (use <strong>renew-team.ps1</strong> directly only as the PowerShell fallback), choose the team(s), enter your Jira token, return to the app and select <strong>Recalculate</strong>.
         </div>
       </div>
     `;
