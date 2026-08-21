@@ -1626,29 +1626,64 @@ button:disabled {
   white-space: nowrap;
 }
 
-.percentile-legend span::before {
-  content: "";
+.percentile-legend span > i {
   display: inline-block;
   width: 20px;
   height: 3px;
-  margin-right: 8px;
+  margin: 0 8px 0 0;
   vertical-align: middle;
 }
 
-.percentile-legend .p50::before {
+.percentile-legend .completed-items > i {
+  width: 9px;
+  height: 9px;
+  border-radius: 50%;
+  background: #7ea8f9;
+}
+
+.percentile-legend .p50 > i {
   background: #22c55e;
+  border-top: 2px dashed #22c55e;
 }
 
-.percentile-legend .p70::before {
+.percentile-legend .p70 > i {
   background: #3b82f6;
+  border-top: 2px dashed #3b82f6;
 }
 
-.percentile-legend .p85::before {
+.percentile-legend .p85 > i {
   background: #f59e0b;
+  border-top: 2px dashed #f59e0b;
 }
 
-.percentile-legend .p95::before {
+.percentile-legend .p95 > i {
   background: #ef4444;
+  border-top: 2px dashed #ef4444;
+}
+
+.percentile-legend .unavailable {
+  color: var(--muted);
+  font-weight: 500;
+}
+
+.chart-accessible-summary {
+  margin: 10px 0;
+  padding: 10px 12px;
+  border: 1px solid var(--line-soft);
+  border-radius: 8px;
+  background: var(--bg);
+  color: var(--text);
+}
+
+.chart-accessible-summary strong {
+  font-size: 0.82rem;
+}
+
+.chart-accessible-summary p {
+  margin: 4px 0 0;
+  color: var(--muted);
+  font-size: 0.78rem;
+  line-height: 1.5;
 }
 
 .chart-wrap {
@@ -5873,6 +5908,25 @@ textarea:focus-visible,
   font-size: 0.78rem;
 }
 
+.compact-table tbody tr[role="button"] {
+  cursor: pointer;
+}
+
+.compact-table tbody tr[role="button"]:focus-visible {
+  outline: 2px solid var(--primary);
+  outline-offset: -2px;
+}
+
+.compact-table tbody tr[role="button"].selected {
+  background: color-mix(in srgb, var(--primary) 10%, var(--panel));
+}
+
+.selected-point-announcement {
+  margin: 8px 0;
+  color: var(--muted);
+  font-size: 0.78rem;
+}
+
 .anomaly-actions {
   align-items: end;
 }
@@ -7451,6 +7505,18 @@ textarea:focus-visible,
   color: #94a3b8;
   font-size: 10.5px;
   line-height: 1.5;
+}
+
+.exec-diagnostic-note,
+.chart-data-note {
+  margin: 6px 0 0;
+  color: #64748b;
+  font-size: 10.5px;
+  line-height: 1.5;
+}
+
+.exec-cycle-time-panel > .panel {
+  margin: 0;
 }
 
 .exec-flow-pipeline header {

@@ -79,7 +79,8 @@ export function TeamDetail({
   const [selectedIssueKey, setSelectedIssueKey] = useState<string | null>(null);
   const [exclusionReason, setExclusionReason] = useState("");
   const [bulkExcludeThreshold, setBulkExcludeThreshold] = useState(100);
-  const chartData: ScatterDataPoint[] = (team?.metrics?.scatter ?? [])
+  const scatterPoints = team?.metrics?.scatter ?? [];
+  const chartData: ScatterDataPoint[] = scatterPoints
     .map((point) => ({
       ...point,
       resolutionTs: new Date(point.resolutionDate).getTime(),
@@ -88,6 +89,7 @@ export function TeamDetail({
 
   const filteredChartData = chartData.filter((point) => isIsoDateInPeriod(point.resolutionDate, periodFilter));
   const selectedPoint = filteredChartData.find((point) => point.issueKey === selectedIssueKey) ?? null;
+  const invalidResolutionDateCount = scatterPoints.length - chartData.length;
 
   const overlay = sleValues ?? team?.metrics?.scatterOverlay ?? { p50: null, p70: null, p85: null, p95: null };
   const dataMaximum = filteredChartData.reduce((maximum, point) => Math.max(maximum, point.cycleTimeDays), 0);
@@ -122,6 +124,17 @@ export function TeamDetail({
     () => new Map(issueExclusions.map((exclusion) => [exclusion.issueKey, exclusion.reason])),
     [issueExclusions],
   );
+  const sleLineSummary = (Object.keys(lineVisibility) as SleLineKey[]).map((key) => {
+    const label = `${key.toUpperCase()}${key === "p85" && presentationMode ? " delivery expectation" : ""}`;
+    const value = overlay[key];
+    return lineVisibility[key] && value !== null
+      ? label
+      : `${label} unavailable/not rendered`;
+  });
+
+  function selectIssue(issueKey: string): void {
+    setSelectedIssueKey(issueKey);
+  }
 
   if (!team) {
     return (
@@ -145,6 +158,18 @@ export function TeamDetail({
     <section className="panel">
       <h2>{title}</h2>
       <div className="detail-subtitle">{subtitle}</div>
+
+      <section className="chart-accessible-summary" aria-label="Cycle Time chart summary">
+        <strong>Chart summary</strong>
+        <p>
+          {team.config.teamName} · {periodFilter === "all" ? "All periods" : periodFilter} · x-axis: resolution date · y-axis: Cycle Time in working days · visible SLE: {sleLineSummary.join(", ")} · {filteredChartData.length} completed item{filteredChartData.length === 1 ? "" : "s"}.
+        </p>
+      </section>
+      {invalidResolutionDateCount > 0 ? (
+        <p className="chart-data-note" role="note">
+          {invalidResolutionDateCount} item{invalidResolutionDateCount === 1 ? "" : "s"} omitted because the resolution date is invalid or missing.
+        </p>
+      ) : null}
 
       {!presentationMode && sleIssueTypeOptions.length > 0 && (
         <section className="sle-type-filter">
@@ -185,10 +210,15 @@ export function TeamDetail({
       )}
 
       <div className="percentile-legend">
-        {lineVisibility.p50 && overlay.p50 !== null && <span className="p50">P50: {overlay.p50.toFixed(1)} wd</span>}
-        {lineVisibility.p70 && overlay.p70 !== null && <span className="p70">P70: {overlay.p70.toFixed(1)} wd</span>}
-        {lineVisibility.p85 && overlay.p85 !== null && <span className="p85">P85: {overlay.p85.toFixed(1)} wd</span>}
-        {lineVisibility.p95 && overlay.p95 !== null && <span className="p95">P95: {overlay.p95.toFixed(1)} wd</span>}
+        <span className="completed-items"><i aria-hidden="true" />Completed items</span>
+        {lineVisibility.p50 && overlay.p50 !== null && <span className="p50"><i aria-hidden="true" />P50: {overlay.p50.toFixed(1)} working days</span>}
+        {lineVisibility.p70 && overlay.p70 !== null && <span className="p70"><i aria-hidden="true" />P70: {overlay.p70.toFixed(1)} working days</span>}
+        {lineVisibility.p85 && overlay.p85 !== null && <span className="p85"><i aria-hidden="true" />P85{presentationMode ? " delivery expectation" : ""}: {overlay.p85.toFixed(1)} working days</span>}
+        {lineVisibility.p95 && overlay.p95 !== null && <span className="p95"><i aria-hidden="true" />P95: {overlay.p95.toFixed(1)} working days</span>}
+        {lineVisibility.p50 && overlay.p50 === null && <span className="p50 unavailable"><i aria-hidden="true" />P50 unavailable</span>}
+        {lineVisibility.p70 && overlay.p70 === null && <span className="p70 unavailable"><i aria-hidden="true" />P70 unavailable</span>}
+        {lineVisibility.p85 && overlay.p85 === null && <span className="p85 unavailable"><i aria-hidden="true" />P85{presentationMode ? " delivery expectation" : ""} unavailable</span>}
+        {lineVisibility.p95 && overlay.p95 === null && <span className="p95 unavailable"><i aria-hidden="true" />P95 unavailable</span>}
         {pointsAbovePresentationScale > 0 && (
           <span className="scale-outliers">{pointsAbovePresentationScale} extreme items above scale</span>
         )}
@@ -269,7 +299,21 @@ export function TeamDetail({
               </thead>
               <tbody>
                 {filteredChartData.map((point) => (
-                  <tr key={`${point.issueKey}-${point.resolutionDate}`}>
+                  <tr
+                    key={`${point.issueKey}-${point.resolutionDate}`}
+                    className={selectedIssueKey === point.issueKey ? "selected" : undefined}
+                    role="button"
+                    tabIndex={0}
+                    aria-selected={selectedIssueKey === point.issueKey}
+                    aria-label={`Select ${point.issueKey}, resolved ${formatLongDate(point.resolutionDate)}, ${point.cycleTimeDays.toFixed(1)} working days`}
+                    onClick={() => selectIssue(point.issueKey)}
+                    onKeyDown={(event) => {
+                      if (event.key === "Enter" || event.key === " ") {
+                        event.preventDefault();
+                        selectIssue(point.issueKey);
+                      }
+                    }}
+                  >
                     <td>{point.issueKey}</td>
                     <td>{formatLongDate(point.resolutionDate)}</td>
                     <td>{point.cycleTimeDays.toFixed(1)}</td>
@@ -279,6 +323,12 @@ export function TeamDetail({
             </table>
           </div>
         </details>
+      ) : null}
+
+      {!presentationMode ? (
+        <p className="selected-point-announcement" role="status" aria-live="polite">
+          {selectedPoint ? `Selected ${selectedPoint.issueKey}. Use the exclusion controls below to record a data-quality reason.` : "Select a scatter point or issue row to inspect an item."}
+        </p>
       ) : null}
 
       {!presentationMode && <section className="anomaly-toolbar">

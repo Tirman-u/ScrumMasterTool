@@ -14,6 +14,8 @@ import {
   XAxis,
   YAxis,
 } from "recharts";
+import { TeamDetail } from "./TeamDetail";
+import { type IssueExclusion, type SleValues, type TeamMetrics, type TeamRuntime } from "../types/contracts";
 
 export type ExecSig = "good" | "warning" | "critical" | "neutral";
 
@@ -106,6 +108,35 @@ export interface ExecutiveTeamDesignData {
   workHealth: ExecutiveTeamMetric[];
   processHealth: ExecutiveTeamMetric[];
   flowStages: ExecutiveFlowStage[];
+  flowSummary: {
+    queueDays: number;
+    activeDays: number;
+    totalDays: number;
+    flowEfficiencyPct: number | null;
+    biggestQueueName: string | null;
+    biggestQueueDays: number | null;
+  };
+  flowTiming: TeamMetrics["flowTiming"];
+  previousFlowTiming: TeamMetrics["flowTiming"] | null;
+  cycleTimePanel: {
+    team: TeamRuntime;
+    periodFilter: string;
+    sleValues: SleValues;
+    lineVisibility: Record<"p50" | "p70" | "p85" | "p95", boolean>;
+    sleIssueTypeOptions: string[];
+    sleIncludedIssueTypes: string[];
+    sleTypeDirty: boolean;
+    excludedIssueKeys: string[];
+    issueExclusions: IssueExclusion[];
+    busy: boolean;
+    onToggleSleIssueType: (issueType: string) => void;
+    onResetSleIssueTypes: () => void;
+    onApplySleIssueTypes: () => void;
+    onExcludeIssue: (issueKey: string, reason: string) => void;
+    onExcludeIssues: (issueKeys: string[], reason: string) => void;
+    onRestoreIssue: (issueKey: string) => void;
+    onRestoreAllIssues: () => void;
+  };
   throughputWeekly: ExecutiveChartPoint[];
   cycleTimeWeekly: ExecutiveChartPoint[];
   timeInStatus: ExecutiveFlowStage[];
@@ -270,6 +301,81 @@ function FlowMetricCard({ metric, wide = false }: { metric: ExecutiveTeamMetric;
       {metric.sub ? <b>{metric.sub}</b> : null}
       {metric.detail ? <p>{metric.detail}</p> : null}
     </article>
+  );
+}
+
+function FlowTimeCards({ data, diagnostic }: { data: ExecutiveTeamDesignData; diagnostic: boolean }) {
+  const metricInputs: Array<[
+    string,
+    TeamMetrics["flowTiming"]["leadTime"],
+    ExecSig,
+    string,
+  ]> = [
+    ["Lead Time", data.flowTiming.leadTime, "warning", "Total flow from Funnel to Done"],
+    ["Active Time", data.flowTiming.activeTime, "good", "Active delivery flow after Funnel"],
+    ["Cycle Time", data.flowTiming.cycleTime, "warning", "Implementation time until Done"],
+  ];
+  const metrics: ExecutiveTeamMetric[] = metricInputs.map(([label, timing, tone, definition]) => {
+    const previous = data.previousFlowTiming?.[label === "Lead Time" ? "leadTime" : label === "Active Time" ? "activeTime" : "cycleTime"];
+    const percentiles: Array<[string, number | null]> = [
+      ["P50", timing.p50],
+      ["P85", timing.p85],
+      ["P95", timing.p95],
+    ];
+    const percentileDetail = percentiles
+      .map(([percentile, value]) => `${percentile} ${formatPlainDays(value) === "-" ? "unavailable" : `${formatPlainDays(value)} working days`}`)
+      .join(" · ");
+    return {
+      label,
+      value: formatPlainDays(timing.avgDays),
+      unit: "working days",
+      tone,
+      sub: `${timing.count} item${timing.count === 1 ? "" : "s"} · P85 ${formatPlainDays(timing.p85)}`,
+      detail: `${timing.avgDays === null ? "Unavailable: no completed items in the selected period" : definition} · ${percentileDetail}${previous ? ` · previous ${formatPlainDays(previous.avgDays)}` : ""}`,
+    };
+  });
+
+  return (
+    <section aria-label="Flow Time">
+      <SectionHeader
+        title="Flow Time"
+        sub={`${data.periodLabel} · working days · averages are not additive`}
+      />
+      <div className="exec-flow-metric-grid">
+        {metrics.map((metric) => <FlowMetricCard key={metric.label} metric={metric} />)}
+      </div>
+      {diagnostic ? <p className="exec-diagnostic-note">Time in Status is diagnostic only and is not added to Lead, Active, or Cycle Time.</p> : null}
+    </section>
+  );
+}
+
+function CycleTimePanel({ data, presentationMode }: { data: ExecutiveTeamDesignData; presentationMode: boolean }) {
+  const panel = data.cycleTimePanel;
+  return (
+    <section className="exec-cycle-time-panel" aria-label="Cycle Time scatter">
+      <TeamDetail
+        team={panel.team}
+        title="Cycle Time"
+        subtitle={presentationMode ? "Resolution date vs Cycle Time in working days" : "Resolution date vs Cycle Time with SLE percentile lines"}
+        periodFilter={panel.periodFilter}
+        sleValues={panel.sleValues}
+        lineVisibility={presentationMode ? { p50: false, p70: false, p85: true, p95: false } : panel.lineVisibility}
+        sleIssueTypeOptions={panel.sleIssueTypeOptions}
+        sleIncludedIssueTypes={panel.sleIncludedIssueTypes}
+        sleTypeDirty={panel.sleTypeDirty}
+        onToggleSleIssueType={panel.onToggleSleIssueType}
+        onResetSleIssueTypes={panel.onResetSleIssueTypes}
+        onApplySleIssueTypes={panel.onApplySleIssueTypes}
+        excludedIssueKeys={panel.excludedIssueKeys}
+        issueExclusions={panel.issueExclusions}
+        presentationMode={presentationMode}
+        busy={panel.busy}
+        onExcludeIssue={panel.onExcludeIssue}
+        onExcludeIssues={panel.onExcludeIssues}
+        onRestoreIssue={panel.onRestoreIssue}
+        onRestoreAllIssues={panel.onRestoreAllIssues}
+      />
+    </section>
   );
 }
 
@@ -539,10 +645,17 @@ export function ExecutiveDashboard({
 
 function FlowPipeline({ data, periodLabel }: { data: ExecutiveTeamDesignData; periodLabel: string }) {
   const maxDays = Math.max(1, ...data.flowStages.map((stage) => stage.days));
-  const queueDays = data.flowStages.filter((stage) => stage.type === "queue").reduce((sum, stage) => sum + stage.days, 0);
-  const activeDays = data.flowStages.filter((stage) => stage.type === "active").reduce((sum, stage) => sum + stage.days, 0);
-  const totalDays = queueDays + activeDays;
-  const biggestQueue = data.flowStages.filter((stage) => stage.type === "queue").sort((a, b) => b.days - a.days)[0] ?? null;
+  const { queueDays, activeDays, flowEfficiencyPct, biggestQueueName, biggestQueueDays } = data.flowSummary;
+  const biggestQueue = biggestQueueName !== null && biggestQueueDays !== null
+    ? { name: biggestQueueName, days: biggestQueueDays }
+    : null;
+  const flowEfficiencySig: ExecSig = flowEfficiencyPct === null
+    ? "neutral"
+    : flowEfficiencyPct >= 75
+      ? "good"
+      : flowEfficiencyPct >= 45
+        ? "warning"
+        : "critical";
 
   return (
     <section className="exec-figma-card exec-flow-pipeline">
@@ -572,7 +685,7 @@ function FlowPipeline({ data, periodLabel }: { data: ExecutiveTeamDesignData; pe
       <footer>
         <SummaryKpi label="Total Queue Time" value={formatDays(queueDays)} sig="critical" />
         <SummaryKpi label="Total Active Time" value={formatDays(activeDays)} sig="good" />
-        <SummaryKpi label="Flow Efficiency" value={totalDays > 0 ? `${((activeDays / totalDays) * 100).toFixed(1)}%` : "-"} sig="warning" />
+        <SummaryKpi label="Flow Efficiency" value={flowEfficiencyPct === null ? "-" : `${flowEfficiencyPct.toFixed(1)}%`} sig={flowEfficiencySig} />
         <SummaryKpi label="Biggest Queue" value={biggestQueue ? `${biggestQueue.name} ${formatDays(biggestQueue.days)}` : "-"} sig="critical" />
         <SummaryKpi label="Delivery Expectation" value={data.kpis.find((kpi) => kpi.label === "Delivery Expectation")?.value ?? "-"} />
       </footer>
@@ -655,6 +768,8 @@ function TeamDesignView({ data }: { data: ExecutiveTeamDesignData }) {
           {data.kpis.slice(0, 6).map((metric) => <FlowMetricCard key={metric.label} metric={metric} />)}
         </div>
       </section>
+      <FlowTimeCards data={data} diagnostic={false} />
+      <CycleTimePanel data={data} presentationMode />
       <FlowPipeline data={data} periodLabel={data.periodLabel} />
       <section>
         <SectionHeader title="Delivery Trends" />
@@ -685,6 +800,8 @@ function ScrumMasterDesignView({ data }: { data: ExecutiveTeamDesignData }) {
           <HealthCard title="Process Health" icon="⚙">{data.processHealth.map((metric) => <MetricRow key={metric.label} metric={metric} />)}</HealthCard>
         </div>
       </section>
+      <FlowTimeCards data={data} diagnostic />
+      <CycleTimePanel data={data} presentationMode={false} />
       <section>
         <SectionHeader title="Visual Analytics" />
         {renderTrendCharts(data)}
