@@ -24,7 +24,7 @@ describe("Executive flow-time restoration", () => {
     expect(viewsSource).toContain("<TrustMetricCard");
     expect(viewsSource).toContain("<TeamDetail");
     expect(viewsSource).toContain('lineVisibility={presentationMode ? { p50: false, p70: false, p85: true, p95: false }');
-    expect(viewsSource).toContain("presentationMode={false}");
+    expect(viewsSource).toContain("presentationMode={!diagnostic}");
   });
 
   it("covers null metrics, invalid-date omission, and keyboard issue-row selection states", () => {

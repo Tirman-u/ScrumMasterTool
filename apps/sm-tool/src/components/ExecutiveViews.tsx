@@ -1,4 +1,4 @@
-import { useEffect, useMemo, useRef, useState, type ReactNode } from "react";
+import { useEffect, useMemo, useRef, useState, type KeyboardEvent as ReactKeyboardEvent, type ReactNode } from "react";
 import {
   Area,
   AreaChart,
@@ -148,6 +148,14 @@ export interface ExecutiveTeamDesignData {
   oldestTickets: ExecutiveTicketRow[];
   workflowItems: ExecutiveWorkflowItem[];
   qualityCards: ExecutiveWorkflowItem[];
+  dataStatus: {
+    latestDataUpdate: string | null;
+    lastCalculated: string | null;
+    stale: boolean;
+    recalculateState: "idle" | "loading" | "success" | "error" | "unavailable";
+    recalculateMessage: string;
+    onRecalculate: () => void;
+  };
 }
 
 const sigColor: Record<ExecSig, string> = {
@@ -807,7 +815,6 @@ function TeamDesignView({ data }: { data: ExecutiveTeamDesignData }) {
         </div>
       </section>
       <FlowTimeCards data={data} diagnostic={false} />
-      <CycleTimePanel data={data} presentationMode />
       <FlowPipeline data={data} periodLabel={data.periodLabel} />
       <section>
         <SectionHeader title="Delivery Trends" />
@@ -839,7 +846,6 @@ function ScrumMasterDesignView({ data }: { data: ExecutiveTeamDesignData }) {
         </div>
       </section>
       <FlowTimeCards data={data} diagnostic />
-      <CycleTimePanel data={data} presentationMode={false} />
       <section>
         <SectionHeader title="Visual Analytics" />
         {renderTrendCharts(data)}
@@ -915,6 +921,9 @@ export function ExecutiveTeamView({
   onModeChange,
   onExport,
   settingsSlot,
+  activeTab,
+  onTabChange,
+  periodSlot,
 }: {
   data: ExecutiveTeamDesignData;
   mode: "team" | "scrum-master";
@@ -922,7 +931,44 @@ export function ExecutiveTeamView({
   onModeChange: (mode: "team" | "scrum-master") => void;
   onExport: () => void;
   settingsSlot?: ReactNode;
+  activeTab: "overview" | "cycle";
+  onTabChange: (tab: "overview" | "cycle") => void;
+  periodSlot: ReactNode;
 }) {
+  const diagnostic = mode === "scrum-master";
+  const overviewPanelId = "team-overview-panel";
+  const cyclePanelId = "team-cycle-time-panel";
+  const status = data.dataStatus;
+  const tabRefs = useRef<Partial<Record<"overview" | "cycle", HTMLButtonElement>>>({});
+  const stateLabel = status.recalculateState === "loading"
+    ? "Recalculating team…"
+    : status.recalculateState === "success"
+      ? "Team recalculated just now."
+      : status.recalculateState === "error"
+        ? status.recalculateMessage
+        : status.recalculateState === "unavailable"
+          ? "Workspace access is required to recalculate this team."
+          : "";
+  const formatStatusTimestamp = (value: string | null, missing: string): string => value ? new Date(value).toLocaleString() : missing;
+
+  function handleTabKeyDown(event: ReactKeyboardEvent<HTMLButtonElement>): void {
+    const tabs: Array<"overview" | "cycle"> = ["overview", "cycle"];
+    const currentIndex = tabs.indexOf(activeTab);
+    const nextIndex = event.key === "ArrowRight" || event.key === "ArrowDown"
+      ? (currentIndex + 1) % tabs.length
+      : event.key === "ArrowLeft" || event.key === "ArrowUp"
+        ? (currentIndex - 1 + tabs.length) % tabs.length
+        : event.key === "Home"
+          ? 0
+          : event.key === "End"
+            ? tabs.length - 1
+            : -1;
+    if (nextIndex < 0) return;
+    event.preventDefault();
+    onTabChange(tabs[nextIndex]);
+    window.requestAnimationFrame(() => tabRefs.current[tabs[nextIndex]]?.focus());
+  }
+
   return (
     <section className="exec-figma-page exec-team-page">
       <header className="exec-figma-topbar">
@@ -950,9 +996,42 @@ export function ExecutiveTeamView({
           <button type="button" onClick={onExport}>Export</button>
         </div>
       </header>
+      <div className="exec-team-tabs" role="tablist" aria-label="Team detail tabs">
+         <button ref={(element) => { tabRefs.current.overview = element ?? undefined; }} type="button" role="tab" id="team-overview-tab" aria-controls={overviewPanelId} aria-selected={activeTab === "overview"} tabIndex={activeTab === "overview" ? 0 : -1} className={activeTab === "overview" ? "active" : ""} onClick={() => onTabChange("overview")} onKeyDown={handleTabKeyDown}>
+          Overview
+        </button>
+         <button ref={(element) => { tabRefs.current.cycle = element ?? undefined; }} type="button" role="tab" id="team-cycle-time-tab" aria-controls={cyclePanelId} aria-selected={activeTab === "cycle"} tabIndex={activeTab === "cycle" ? 0 : -1} className={activeTab === "cycle" ? "active" : ""} onClick={() => onTabChange("cycle")} onKeyDown={handleTabKeyDown}>
+          Cycle Time
+        </button>
+      </div>
+      <div className="exec-team-context-row">
+        {periodSlot}
+        <span className="exec-team-period-helper">All period-sensitive metrics use this selection.</span>
+      </div>
       <div className="exec-figma-scroll">
-        {mode === "team" ? <TeamDesignView data={data} /> : <ScrumMasterDesignView data={data} />}
-        {mode === "scrum-master" ? settingsSlot : null}
+        {activeTab === "overview" ? (
+          <section id={overviewPanelId} role="tabpanel" aria-labelledby="team-overview-tab">
+            <section className={`exec-data-status-panel ${status.stale ? "stale" : ""}`} aria-label="Data status">
+              <header><strong>Data status</strong>{status.stale ? <span className="exec-data-status-warning">Data is stale</span> : null}</header>
+              <div className="exec-data-status-grid">
+                <div><span>Last data update</span><strong>{formatStatusTimestamp(status.latestDataUpdate, "Unavailable — no valid imported file timestamp.")}</strong></div>
+                <div><span>Last calculated</span><strong>{formatStatusTimestamp(status.lastCalculated, "Unavailable — metrics have not been calculated.")}</strong></div>
+                <button type="button" className="soft-btn" disabled={status.recalculateState === "loading" || status.recalculateState === "unavailable"} onClick={status.onRecalculate} aria-busy={status.recalculateState === "loading"}>
+                  {status.recalculateState === "loading" ? "Recalculating team…" : "Recalculate team"}
+                </button>
+              </div>
+              {status.stale ? <p role="status">Data changed after the last calculation. Recalculate this team to refresh the metrics.</p> : null}
+              {stateLabel ? <p role="status" className={`exec-data-status-message ${status.recalculateState}`}>{stateLabel}</p> : null}
+              {diagnostic && status.recalculateState === "error" ? <p className="muted">Existing calculated data is still shown. Try again.</p> : null}
+            </section>
+            {mode === "team" ? <TeamDesignView data={data} /> : <ScrumMasterDesignView data={data} />}
+            {mode === "scrum-master" ? settingsSlot : null}
+          </section>
+        ) : (
+          <section id={cyclePanelId} role="tabpanel" aria-labelledby="team-cycle-time-tab">
+            <CycleTimePanel data={data} presentationMode={!diagnostic} />
+          </section>
+        )}
       </div>
     </section>
   );

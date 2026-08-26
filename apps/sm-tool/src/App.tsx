@@ -30,6 +30,9 @@ import { isDefaultNonFlowStatus, isTerminalOrCancelledStatus } from "./lib/time-
 import { workingDaysBetween } from "./lib/working-days";
 import { buildExecutiveFlowSummary } from "./lib/metric-consistency";
 import { buildMetricTrustMetadata, type MetricTrust } from "./lib/metric-trust";
+import { buildTeamDataStatus } from "./lib/team-data-status";
+import { parseTeamRouteSearch, routeHistoryAction, serializeTeamRoute, validateTeamRoute, type TeamRouteState } from "./lib/team-route";
+import { recalculateSelectedTeam, type TeamRecalculateState } from "./lib/team-recalculate";
 import { BUILD_MARKER_LABEL } from "./lib/build-info";
 import {
   isMetricAvailableInView,
@@ -258,6 +261,18 @@ interface PilotSession {
   label: string;
   role: PilotAccessRole;
   authenticatedAt: string;
+}
+
+function readTeamRouteState(): TeamRouteState {
+  return parseTeamRouteSearch(typeof window === "undefined" ? "" : window.location.search, readStoredTeamViewMode());
+}
+
+function writeTeamRoute(state: TeamRouteState, source: "user" | "initial" | "canonicalize" | "popstate"): void {
+  if (typeof window === "undefined") return;
+  const action = routeHistoryAction(source, window.location.search, state);
+  if (action === "none") return;
+  const search = serializeTeamRoute(state, window.location.search);
+  window.history[action === "push" ? "pushState" : "replaceState"]({}, "", `${window.location.pathname}${search}${window.location.hash}`);
 }
 
 const TEAM_ENTITY_TYPES: TeamEntityType[] = ["team", "vde", "art", "portfolio"];
@@ -1515,8 +1530,10 @@ export default function App(): JSX.Element {
   const [newPilotPinLabel, setNewPilotPinLabel] = useState("");
   const [newPilotPinRole, setNewPilotPinRole] = useState<PilotAccessRole>("user");
   const [mobileNavOpen, setMobileNavOpen] = useState(false);
-  const [teamTab, setTeamTab] = useState<TeamTab>("overview");
-  const [teamViewMode, setTeamViewMode] = useState<TeamViewMode>(() => readStoredTeamViewMode());
+  const initialTeamRoute = useMemo(() => readTeamRouteState(), []);
+  const routeHydratedRef = useRef(false);
+  const [teamTab, setTeamTab] = useState<TeamTab>(() => initialTeamRoute.tab);
+  const [teamViewMode, setTeamViewMode] = useState<TeamViewMode>(() => initialTeamRoute.mode);
   const [workspaceHandle, setWorkspaceHandle] = useState<FileSystemDirectoryHandle | null>(null);
   const [rememberedWorkspaces, setRememberedWorkspaces] = useState<RememberedWorkspaceSummary[]>([]);
   const [workspaceProfiles, setWorkspaceProfiles] = useState<WorkspaceProfileConfig[]>([]);
@@ -1531,6 +1548,8 @@ export default function App(): JSX.Element {
   const [selectedTeamId, setSelectedTeamId] = useState<string | null>(null);
   const [status, setStatus] = useState("");
   const [busy, setBusy] = useState(false);
+  const [teamRecalculateState, setTeamRecalculateState] = useState<TeamRecalculateState>("idle");
+  const [teamRecalculateMessage, setTeamRecalculateMessage] = useState("");
 
   const [periodMonth, setPeriodMonth] = useState<string>("all");
   const [periodRangeStart, setPeriodRangeStart] = useState<string>("");
@@ -1725,6 +1744,8 @@ export default function App(): JSX.Element {
     setAgingWipCompactOpen(false);
     setBottleneckPanelOpen(false);
     setOpenMetricHelpKey(null);
+    setTeamRecalculateState("idle");
+    setTeamRecalculateMessage("");
   }, [selectedTeamId]);
 
   useEffect(() => {
@@ -1903,6 +1924,41 @@ export default function App(): JSX.Element {
       return filteredTeams[0].teamId;
     });
   }, [filteredTeams]);
+
+  useEffect(() => {
+    if (routeHydratedRef.current || teams.length === 0) {
+      return;
+    }
+
+    const route = validateTeamRoute(readTeamRouteState(), teams.map((team) => team.teamId), [...availableMonths, "ytd", "last-24m"]);
+    routeHydratedRef.current = true;
+    if (route.page === "team" && route.teamId && teams.some((team) => team.teamId === route.teamId)) {
+      setSelectedTeamId(route.teamId);
+      setTeamViewMode(route.mode);
+      setTeamTab(route.tab);
+      if (route.period) setPeriodMonth(route.period);
+      setPage("team");
+    }
+    writeTeamRoute(route, "canonicalize");
+  }, [teams, availableMonths]);
+
+  useEffect(() => {
+    const onPopState = (): void => {
+      const route = validateTeamRoute(readTeamRouteState(), teams.map((team) => team.teamId), [...availableMonths, "ytd", "last-24m"]);
+      if (route.page !== "team" || !route.teamId || !teams.some((team) => team.teamId === route.teamId)) {
+        setPage("dashboard");
+        return;
+      }
+      setSelectedTeamId(route.teamId);
+      setTeamViewMode(route.mode);
+      setTeamTab(route.tab);
+      if (route.period) setPeriodMonth(route.period);
+      else setPeriodMonth("all");
+      setPage("team");
+    };
+    window.addEventListener("popstate", onPopState);
+    return () => window.removeEventListener("popstate", onPopState);
+  }, [teams, availableMonths]);
 
   useEffect(() => {
     if (!selectedTeam) {
@@ -2250,10 +2306,7 @@ export default function App(): JSX.Element {
       ...(selectedTeam.config.excludedIssueKeys ?? []),
       ...(selectedTeam.config.issueExclusions ?? []).map((exclusion) => exclusion.issueKey),
     ]);
-    const latestImportAt = selectedTeam.importFiles
-      .map((file) => file.updatedAt)
-      .filter(Boolean)
-      .sort((left, right) => right.localeCompare(left))[0] ?? null;
+    const latestImportAt = buildTeamDataStatus(selectedTeam.importFiles, selectedTeam.metrics?.generatedAt).latestDataUpdate;
 
     return {
       issueCount: selectedTeam.parsedIssues.length,
@@ -2264,6 +2317,16 @@ export default function App(): JSX.Element {
       latestImportAt,
     };
   }, [selectedTeam]);
+
+  const selectedTeamDataStatus = useMemo(() => {
+    const snapshot = buildTeamDataStatus(selectedTeam?.importFiles ?? [], selectedTeam?.metrics?.generatedAt);
+    return {
+      ...snapshot,
+      recalculateState: teamRecalculateState,
+      recalculateMessage: teamRecalculateMessage,
+      onRecalculate: () => void handleRecalculateSelectedTeam(),
+    };
+  }, [selectedTeam, teamRecalculateState, teamRecalculateMessage]);
 
 
   const doneStatusList = useMemo(() => {
@@ -2568,7 +2631,7 @@ export default function App(): JSX.Element {
         type="button"
         className={`period-chip-btn ${periodMonth === period ? "active" : ""}`}
         aria-pressed={periodMonth === period}
-        onClick={() => setPeriodMonth(period)}
+        onClick={() => handleTeamPeriodChange(period)}
       >
         {label}
       </button>
@@ -2595,7 +2658,7 @@ export default function App(): JSX.Element {
                   const nextEnd = !periodRangeEnd || periodRangeEnd < nextStart ? nextStart : periodRangeEnd;
                   setPeriodRangeStart(nextStart);
                   setPeriodRangeEnd(nextEnd);
-                  setPeriodMonth(buildRangePeriod(nextStart, nextEnd));
+                  handleTeamPeriodChange(buildRangePeriod(nextStart, nextEnd));
                 }}
               >
                 {availableMonths.map((month) => (
@@ -2613,7 +2676,7 @@ export default function App(): JSX.Element {
                   const nextStart = !periodRangeStart || periodRangeStart > nextEnd ? nextEnd : periodRangeStart;
                   setPeriodRangeStart(nextStart);
                   setPeriodRangeEnd(nextEnd);
-                  setPeriodMonth(buildRangePeriod(nextStart, nextEnd));
+                  handleTeamPeriodChange(buildRangePeriod(nextStart, nextEnd));
                 }}
               >
                 {availableMonths.map((month) => (
@@ -2741,9 +2804,60 @@ export default function App(): JSX.Element {
   function handleTeamViewModeChange(nextMode: TeamViewMode): void {
     setTeamViewMode(nextMode);
     setOpenMetricHelpKey(null);
+    if (page === "team" && selectedTeamId) {
+      writeTeamRoute({ page: "team", teamId: selectedTeamId, mode: nextMode, tab: teamTab === "cycle" ? "cycle" : "overview", period: periodMonth }, "user");
+    }
+  }
 
-    if (nextMode === "team" && teamTab === "data") {
-      setTeamTab("overview");
+  function handleTeamTabChange(nextTab: "overview" | "cycle"): void {
+    setTeamTab(nextTab);
+    if (page === "team" && selectedTeamId) {
+      writeTeamRoute({ page: "team", teamId: selectedTeamId, mode: teamViewMode, tab: nextTab, period: periodMonth }, "user");
+    }
+  }
+
+  function handleTeamPeriodChange(nextPeriod: string): void {
+    setPeriodMonth(nextPeriod);
+    if (page === "team" && selectedTeamId) {
+      writeTeamRoute({ page: "team", teamId: selectedTeamId, mode: teamViewMode, tab: teamTab === "cycle" ? "cycle" : "overview", period: nextPeriod }, "user");
+    }
+  }
+
+  async function handleRecalculateSelectedTeam(): Promise<void> {
+    if (teamRecalculateState === "loading") {
+      return;
+    }
+    if (!workspaceHandle || !selectedTeam) {
+      setTeamRecalculateState("unavailable");
+      setTeamRecalculateMessage("Workspace access is required to recalculate this team.");
+      return;
+    }
+
+    setTeamRecalculateState("loading");
+    setTeamRecalculateMessage(`Recalculating ${selectedTeam.config.teamName} metrics.`);
+    const result = await recalculateSelectedTeam(
+      {
+        selectedTeam,
+        workspaceAvailable: true,
+        analyzeTeam,
+        refreshTeam: async (team) => {
+          const refreshed = await listTeams(workspaceHandle);
+          const target = refreshed.find((item) => item.teamId === team.teamId);
+          if (!target) throw new Error("Selected team was not found after recalculation.");
+          return target;
+        },
+        onSuccess: () => undefined,
+        onError: () => undefined,
+      },
+      false,
+    );
+    if (result.state === "success" && result.team) {
+      setTeams((current) => current.map((team) => team.teamId === result.team?.teamId ? result.team : team));
+      setTeamRecalculateState("success");
+      setTeamRecalculateMessage("Team recalculated just now.");
+    } else if (result.state === "error") {
+      setTeamRecalculateState("error");
+      setTeamRecalculateMessage(`Could not recalculate this team. ${getErrorMessage(result.error)}`);
     }
   }
 
@@ -5013,6 +5127,7 @@ export default function App(): JSX.Element {
     setActiveMetricScope(getMetricScopeForEntityType(getTeamEntityType(target?.config)));
     setTeamTab("overview");
     setPage("team");
+    writeTeamRoute({ page: "team", teamId, mode: teamViewMode, tab: "overview", period: periodMonth }, "user");
     setMobileNavOpen(false);
   }
 
@@ -5980,6 +6095,7 @@ export default function App(): JSX.Element {
           { label: "Unit Test Coverage", value: formatEngineeringPercent(selectedTeam.config.engineeringMetrics?.unitTestCoveragePct) },
           { label: "Technical Debt", value: selectedTeam.config.engineeringMetrics?.technicalDebtAvgDays == null ? "-" : `${selectedTeam.config.engineeringMetrics.technicalDebtAvgDays}d` },
         ],
+        dataStatus: selectedTeamDataStatus,
       }
     : null;
 
@@ -7272,6 +7388,9 @@ export default function App(): JSX.Element {
 	                      onBack={() => setPage("dashboard")}
 	                      onModeChange={handleTeamViewModeChange}
 	                      onExport={handleExportTeamReport}
+	                      activeTab={teamTab === "cycle" ? "cycle" : "overview"}
+	                      onTabChange={handleTeamTabChange}
+	                      periodSlot={renderPeriodPicker()}
 	                      settingsSlot={renderExecutiveTeamConfigurationPanel()}
 	                      />
 	                    ) : null}

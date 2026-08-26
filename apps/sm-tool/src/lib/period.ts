@@ -10,7 +10,13 @@ export function monthKey(date: Date): string {
 }
 
 export function isMonthPeriod(value: string): boolean {
-  return /^\d{4}-\d{2}$/.test(value);
+  const match = value.match(/^\d{4}-(\d{2})$/);
+  if (!match) {
+    return false;
+  }
+
+  const month = Number(match[1]);
+  return month >= 1 && month <= 12;
 }
 
 export function parseRangePeriod(period: string): { startMonth: string; endMonth: string } | null {

@@ -1,6 +1,6 @@
 {
   "name": "scrum-master-tool",
-  "version": "0.3.0",
+  "version": "0.4.0",
   "private": true,
   "description": "Offline Scrum Master tool for local Jira CSV exports",
   "type": "module",
