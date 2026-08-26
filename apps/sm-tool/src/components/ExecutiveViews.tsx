@@ -1,4 +1,4 @@
-import { useMemo, useState, type ReactNode } from "react";
+import { useEffect, useMemo, useRef, useState, type ReactNode } from "react";
 import {
   Area,
   AreaChart,
@@ -16,6 +16,7 @@ import {
 } from "recharts";
 import { TeamDetail } from "./TeamDetail";
 import { type IssueExclusion, type SleValues, type TeamMetrics, type TeamRuntime } from "../types/contracts";
+import { type MetricTrust, type MetricTrustKey } from "../lib/metric-trust";
 
 export type ExecSig = "good" | "warning" | "critical" | "neutral";
 
@@ -118,6 +119,7 @@ export interface ExecutiveTeamDesignData {
   };
   flowTiming: TeamMetrics["flowTiming"];
   previousFlowTiming: TeamMetrics["flowTiming"] | null;
+  metricTrust: MetricTrust[];
   cycleTimePanel: {
     team: TeamRuntime;
     periodFilter: string;
@@ -304,45 +306,82 @@ function FlowMetricCard({ metric, wide = false }: { metric: ExecutiveTeamMetric;
   );
 }
 
+function MetricTrustPopover({ trust, diagnostic, popoverId }: { trust: MetricTrust; diagnostic: boolean; popoverId: string }) {
+  return (
+    <div className="metric-trust-popover" id={popoverId} role="region">
+      <strong>{trust.label} explanation</strong>
+      <div className="metric-trust-block"><span>What it measures</span><p>{trust.definition}</p></div>
+      <div className="metric-trust-block"><span>How it is calculated</span><p>{trust.calculation}</p></div>
+      {trust.interpretation ? <div className="metric-trust-block"><span>Interpretation</span><p>{trust.interpretation}</p></div> : null}
+      <div className="metric-trust-block"><span>Data basis</span><p>Selected period: {trust.periodLabel} · {trust.basis}</p></div>
+      <div className="metric-trust-block"><span>State</span><p>{trust.state[0].toUpperCase() + trust.state.slice(1)}. {trust.reason}</p></div>
+      {diagnostic ? (
+        <dl className="metric-trust-meta">
+          <div><dt>Eligible</dt><dd>{trust.eligibleCount ?? "Unavailable"}</dd></div>
+          <div><dt>Usable</dt><dd>{trust.usableCount ?? "Unavailable"}</dd></div>
+          <div><dt>Coverage</dt><dd>{trust.coveragePct === null ? "Unavailable" : `${trust.coveragePct.toFixed(0)}%`}</dd></div>
+          <div><dt>P85</dt><dd>{trust.p85 === null ? "Unavailable" : `${trust.p85.toFixed(1)} working days`}</dd></div>
+          <div><dt>Source</dt><dd>{trust.source}</dd></div>
+          <div><dt>Fallback</dt><dd>{trust.fallback}</dd></div>
+          <div><dt>Data quality</dt><dd>{trust.reason}</dd></div>
+        </dl>
+      ) : (
+        <p className="metric-trust-team-count">{trust.usableCount === null ? "Usable observations unavailable." : `Based on ${trust.usableCount} usable observation${trust.usableCount === 1 ? "" : "s"}.`}</p>
+      )}
+    </div>
+  );
+}
+
+function TrustMetricCard({ trust, diagnostic, open, onToggle, buttonRef }: { trust: MetricTrust; diagnostic: boolean; open: boolean; onToggle: () => void; buttonRef: (element: HTMLButtonElement | null) => void }) {
+  const popoverId = `metric-trust-${diagnostic ? "scrum-master" : "team"}-${trust.key}`;
+  const stateLabel = trust.state[0].toUpperCase() + trust.state.slice(1);
+  return (
+    <article className={`exec-figma-card exec-flow-metric metric-trust-card${open ? " open" : ""}`}>
+      <i style={{ background: sigColor[trust.state === "complete" ? "good" : trust.state === "partial" ? "warning" : "neutral"] }} />
+      <header className="metric-trust-card-header">
+        <span>{trust.label}</span>
+        <button ref={buttonRef} type="button" className="metric-help-btn" aria-label={`Explain ${trust.label}`} aria-expanded={open} aria-controls={popoverId} onClick={onToggle}>i</button>
+      </header>
+      <div><strong>{trust.value === null ? "-" : trust.value.toFixed(1)}</strong><small>working days</small></div>
+      <b>{trust.usableCount === null ? "Usable count unavailable" : `Based on ${trust.usableCount} usable item${trust.usableCount === 1 ? "" : "s"}`}</b>
+      <p className={`metric-trust-state ${trust.state}`}>{stateLabel}{trust.state !== "complete" ? ` · ${trust.reason}` : ""}</p>
+      {open ? <MetricTrustPopover trust={trust} diagnostic={diagnostic} popoverId={popoverId} /> : null}
+    </article>
+  );
+}
+
 function FlowTimeCards({ data, diagnostic }: { data: ExecutiveTeamDesignData; diagnostic: boolean }) {
-  const metricInputs: Array<[
-    string,
-    TeamMetrics["flowTiming"]["leadTime"],
-    ExecSig,
-    string,
-  ]> = [
-    ["Lead Time", data.flowTiming.leadTime, "warning", "Total flow from Funnel to Done"],
-    ["Active Time", data.flowTiming.activeTime, "good", "Active delivery flow after Funnel"],
-    ["Cycle Time", data.flowTiming.cycleTime, "warning", "Implementation time until Done"],
-  ];
-  const metrics: ExecutiveTeamMetric[] = metricInputs.map(([label, timing, tone, definition]) => {
-    const previous = data.previousFlowTiming?.[label === "Lead Time" ? "leadTime" : label === "Active Time" ? "activeTime" : "cycleTime"];
-    const percentiles: Array<[string, number | null]> = [
-      ["P50", timing.p50],
-      ["P85", timing.p85],
-      ["P95", timing.p95],
-    ];
-    const percentileDetail = percentiles
-      .map(([percentile, value]) => `${percentile} ${formatPlainDays(value) === "-" ? "unavailable" : `${formatPlainDays(value)} working days`}`)
-      .join(" · ");
-    return {
-      label,
-      value: formatPlainDays(timing.avgDays),
-      unit: "working days",
-      tone,
-      sub: `${timing.count} item${timing.count === 1 ? "" : "s"} · P85 ${formatPlainDays(timing.p85)}`,
-      detail: `${timing.avgDays === null ? "Unavailable: no completed items in the selected period" : definition} · ${percentileDetail}${previous ? ` · previous ${formatPlainDays(previous.avgDays)}` : ""}`,
+  const [openKey, setOpenKey] = useState<MetricTrustKey | null>(null);
+  const buttonRefs = useRef<Partial<Record<MetricTrustKey, HTMLButtonElement>>>({});
+
+  useEffect(() => {
+    if (openKey === null) return;
+    const onKeyDown = (event: KeyboardEvent): void => {
+      if (event.key !== "Escape") return;
+      setOpenKey(null);
+      window.setTimeout(() => buttonRefs.current[openKey]?.focus(), 0);
     };
-  });
+    const onPointerDown = (event: PointerEvent): void => {
+      const target = event.target as HTMLElement | null;
+      if (!target?.closest(`[data-metric-trust-key="${openKey}"]`)) setOpenKey(null);
+    };
+    document.addEventListener("keydown", onKeyDown);
+    document.addEventListener("pointerdown", onPointerDown);
+    return () => {
+      document.removeEventListener("keydown", onKeyDown);
+      document.removeEventListener("pointerdown", onPointerDown);
+    };
+  }, [openKey]);
 
   return (
     <section aria-label="Flow Time">
-      <SectionHeader
-        title="Flow Time"
-        sub={`${data.periodLabel} · working days · averages are not additive`}
-      />
-      <div className="exec-flow-metric-grid">
-        {metrics.map((metric) => <FlowMetricCard key={metric.label} metric={metric} />)}
+      <SectionHeader title="Flow Time" sub={`${data.periodLabel} · working days · averages are not additive`} />
+      <div className="exec-flow-metric-grid metric-trust-grid">
+        {data.metricTrust.map((trust) => (
+          <div key={trust.key} className="metric-trust-anchor" data-metric-trust-key={trust.key}>
+            <TrustMetricCard trust={trust} diagnostic={diagnostic} open={openKey === trust.key} buttonRef={(element) => { buttonRefs.current[trust.key] = element ?? undefined; }} onToggle={() => setOpenKey((current) => current === trust.key ? null : trust.key)} />
+          </div>
+        ))}
       </div>
       {diagnostic ? <p className="exec-diagnostic-note">Time in Status is diagnostic only and is not added to Lead, Active, or Cycle Time.</p> : null}
     </section>
@@ -726,7 +765,7 @@ function renderTrendCharts(data: ExecutiveTeamDesignData, compact = false) {
         </ResponsiveContainer>
       </ChartCard>
 
-      <ChartCard title="Cycle Time Trend" badge="P50 · P85" height={compact ? 145 : 155}>
+      <ChartCard title="Cycle Time Trend" badge="P85" height={compact ? 145 : 155}>
         <ResponsiveContainer width="100%" height="100%">
           <LineChart data={data.cycleTimeWeekly} margin={{ top: 4, right: 4, left: -28, bottom: 0 }}>
             <CartesianGrid strokeDasharray="2 4" stroke="#F1F5F9" vertical={false} />
@@ -734,7 +773,6 @@ function renderTrendCharts(data: ExecutiveTeamDesignData, compact = false) {
             <YAxis tick={{ fontSize: 10, fill: "#94A3B8" }} tickLine={false} axisLine={false} />
             <Tooltip content={<CustomTooltip unit="d" />} />
             <ReferenceLine y={Number(data.kpis.find((kpi) => kpi.label === "Delivery Expectation")?.value.replace(/[^\d.]/g, "")) || 0} stroke="#D97706" strokeDasharray="3 3" strokeWidth={1} />
-            <Line type="monotone" dataKey="p50" name="P50" stroke="#4F46E5" strokeWidth={1.5} dot={false} />
             <Line type="monotone" dataKey="p85" name="P85" stroke="#DC2626" strokeWidth={1.5} dot={false} strokeDasharray="4 2" />
           </LineChart>
         </ResponsiveContainer>

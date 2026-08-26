@@ -20,12 +20,8 @@ describe("Executive flow-time restoration", () => {
   };
 
   it("renders ordered flow-time cards from the selected snapshot and reuses TeamDetail", () => {
-    expect(viewsSource.indexOf('["Lead Time", data.flowTiming.leadTime')).toBeLessThan(
-      viewsSource.indexOf('["Active Time", data.flowTiming.activeTime'),
-    );
-    expect(viewsSource.indexOf('["Active Time", data.flowTiming.activeTime')).toBeLessThan(
-      viewsSource.indexOf('["Cycle Time", data.flowTiming.cycleTime'),
-    );
+    expect(viewsSource).toContain("data.metricTrust.map");
+    expect(viewsSource).toContain("<TrustMetricCard");
     expect(viewsSource).toContain("<TeamDetail");
     expect(viewsSource).toContain('lineVisibility={presentationMode ? { p50: false, p70: false, p85: true, p95: false }');
     expect(viewsSource).toContain("presentationMode={false}");

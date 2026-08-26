@@ -29,6 +29,7 @@ import {
 import { isDefaultNonFlowStatus, isTerminalOrCancelledStatus } from "./lib/time-in-status";
 import { workingDaysBetween } from "./lib/working-days";
 import { buildExecutiveFlowSummary } from "./lib/metric-consistency";
+import { buildMetricTrustMetadata, type MetricTrust } from "./lib/metric-trust";
 import { BUILD_MARKER_LABEL } from "./lib/build-info";
 import {
   isMetricAvailableInView,
@@ -5932,6 +5933,16 @@ export default function App(): JSX.Element {
         flowSummary: executiveFlowSummary,
         flowTiming: selectedTeamRow.current.flowTiming,
         previousFlowTiming: selectedTeamRow.previous?.flowTiming ?? null,
+        metricTrust: buildExecutiveMetricTrust(
+          selectedTeam.metrics,
+          periodMonth,
+          periodSummary.currentLabel,
+          selectedTeam.config,
+          selectedTeam.parsedIssues,
+          periodReferenceDate,
+          selectedTeamRow.current.flowTiming,
+          selectedTeamRow.current.sle.p85,
+        ),
         cycleTimePanel: {
           team: selectedTeam,
           periodFilter: periodMonth,
@@ -8888,6 +8899,40 @@ function buildOpenCycleTimeByIssueKey(metrics: TeamMetrics | null): ReadonlyMap<
   });
 
   return byIssueKey;
+}
+
+function buildExecutiveMetricTrust(
+  metrics: TeamMetrics | null,
+  periodMonth: string,
+  periodLabel: string,
+  teamConfig: TeamConfig,
+  parsedIssues: ParsedIssue[],
+  referenceDate: Date,
+  flowTiming: TeamMetrics["flowTiming"],
+  sleP85: number | null,
+): MetricTrust[] {
+  const details = metrics?.flowTimingDetails ?? [];
+  const scope = normalizeFlowTimingConfig(teamConfig.flowTimingConfig);
+  const scopedDetails = details.filter((detail) => {
+    if (!isIsoDateInPeriod(detail.anchorDate, periodMonth, referenceDate)) return false;
+    return detail.scope === "closed" ? scope.includeClosedTickets : scope.includeOpenTickets;
+  });
+  const cycleDetails = buildClosedCycleTimeDetails(metrics, periodMonth, parsedIssues, referenceDate);
+  const effectiveTypes = new Set(resolveEffectiveSleIssueTypes(teamConfig.sleConfig.issueTypes, cycleDetails.map((item) => item.issueType)).map(normalizeTextValue));
+  const eligibleSleDetails = cycleDetails.filter((item) => effectiveTypes.has(normalizeTextValue(item.issueType)));
+  const validFlowCycleDetails = details.filter((detail) => detail.scope === "closed" && isIsoDateInPeriod(detail.anchorDate, periodMonth, referenceDate) && detail.cycleTimeDays !== null && Number.isFinite(detail.cycleTimeDays) && detail.cycleTimeDays >= 0);
+  const fallbackUsed = validFlowCycleDetails.length === 0 && eligibleSleDetails.length > 0;
+  const sleEligible = eligibleSleDetails.length;
+  const sleUsable = eligibleSleDetails.filter((item) => Number.isFinite(item.cycleTimeDays) && item.cycleTimeDays >= 0).length;
+  return buildMetricTrustMetadata({
+    flowTiming,
+    flowDetails: scopedDetails,
+    periodLabel,
+    sleP85,
+    sleEligibleCount: sleEligible,
+    sleUsableCount: sleUsable,
+    cycleFallbackUsed: fallbackUsed,
+  });
 }
 
 function computeSnapshot(
