@@ -155,6 +155,16 @@ export interface ExecutiveTeamDesignData {
     recalculateState: "idle" | "loading" | "success" | "error" | "unavailable";
     recalculateMessage: string;
     onRecalculate: () => void;
+    autoUpdateStatus: string;
+    autoUpdateDetail: string | null;
+    changedFileCounts: { added: number; changed: number; removed: number; meaningful: boolean };
+    stableScans: number;
+    autoUpdatesPaused: boolean;
+    autoUpdateAvailable: boolean;
+    manualRecalculateAvailable: boolean;
+    autoUpdateNeedsRetry: boolean;
+    onTryAgain: () => void;
+    onToggleAutoUpdates: () => void;
   };
 }
 
@@ -1007,21 +1017,30 @@ export function ExecutiveTeamView({
       <div className="exec-team-context-row">
         {periodSlot}
         <span className="exec-team-period-helper">All period-sensitive metrics use this selection.</span>
+        {activeTab === "cycle" && status.changedFileCounts.meaningful ? <span className="exec-cycle-pending-notice" role="status">Data changed since last calculation.</span> : null}
       </div>
       <div className="exec-figma-scroll">
         {activeTab === "overview" ? (
           <section id={overviewPanelId} role="tabpanel" aria-labelledby="team-overview-tab">
-            <section className={`exec-data-status-panel ${status.stale ? "stale" : ""}`} aria-label="Data status">
-              <header><strong>Data status</strong>{status.stale ? <span className="exec-data-status-warning">Data is stale</span> : null}</header>
+            <section className={`exec-data-status-panel ${status.stale ? "stale" : ""}`} aria-labelledby="exec-data-status-heading">
+              <header><strong id="exec-data-status-heading">Data status</strong>{status.stale ? <span className="exec-data-status-warning">Data is stale</span> : null}</header>
               <div className="exec-data-status-grid">
                 <div><span>Last data update</span><strong>{formatStatusTimestamp(status.latestDataUpdate, "Unavailable — no valid imported file timestamp.")}</strong></div>
                 <div><span>Last calculated</span><strong>{formatStatusTimestamp(status.lastCalculated, "Unavailable — metrics have not been calculated.")}</strong></div>
-                <button type="button" className="soft-btn" disabled={status.recalculateState === "loading" || status.recalculateState === "unavailable"} onClick={status.onRecalculate} aria-busy={status.recalculateState === "loading"}>
-                  {status.recalculateState === "loading" ? "Recalculating team…" : "Recalculate team"}
-                </button>
               </div>
-              {status.stale ? <p role="status">Data changed after the last calculation. Recalculate this team to refresh the metrics.</p> : null}
-              {stateLabel ? <p role="status" className={`exec-data-status-message ${status.recalculateState}`}>{stateLabel}</p> : null}
+              <div className="exec-data-status-live" aria-live="polite" aria-atomic="true" aria-busy={status.recalculateState === "loading"}>
+                <p className="exec-data-status-message">{status.autoUpdateStatus}</p>
+                {diagnostic && status.autoUpdateDetail ? <p className="muted">{status.autoUpdateDetail}</p> : null}
+                {status.stale ? <p>Data changed after the last calculation. Recalculate this team to refresh the metrics.</p> : null}
+                {stateLabel ? <p className={`exec-data-status-message ${status.recalculateState}`}>{stateLabel}</p> : null}
+              </div>
+              {diagnostic && status.changedFileCounts.meaningful ? <p className="exec-data-status-detail">{status.changedFileCounts.added} new · {status.changedFileCounts.changed} changed · {status.changedFileCounts.removed} removed</p> : null}
+              <button type="button" className="soft-btn" disabled={!status.manualRecalculateAvailable || status.recalculateState === "loading" || status.recalculateState === "unavailable"} onClick={status.onRecalculate} aria-busy={status.recalculateState === "loading"}>
+                {status.recalculateState === "loading" ? "Recalculating team…" : "Recalculate team"}
+              </button>
+              {diagnostic && status.autoUpdateAvailable ? <button type="button" className="soft-btn" onClick={status.onToggleAutoUpdates}>{status.autoUpdatesPaused ? "Resume auto-update" : "Pause auto-update"}</button> : null}
+              {!diagnostic && status.autoUpdatesPaused ? <button type="button" className="soft-btn" onClick={status.onToggleAutoUpdates}>Resume auto-update</button> : null}
+              {status.autoUpdateNeedsRetry ? <button type="button" className="soft-btn" onClick={status.onTryAgain}>Try again</button> : null}
               {diagnostic && status.recalculateState === "error" ? <p className="muted">Existing calculated data is still shown. Try again.</p> : null}
             </section>
             {mode === "team" ? <TeamDesignView data={data} /> : <ScrumMasterDesignView data={data} />}

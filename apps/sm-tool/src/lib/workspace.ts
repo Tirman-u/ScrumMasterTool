@@ -37,6 +37,14 @@ interface ImportScanResult {
   buckets: ImportBucket[];
 }
 
+export interface TeamImportManifestEntry {
+  relativePath: string;
+  size: number | null;
+  modifiedAt: number | null;
+  digest: string | null;
+  status: "ready" | "unstable" | "unavailable";
+}
+
 interface ResolvedCsvMapping {
   key: string;
   previousIssueKeys?: string;
@@ -600,6 +608,41 @@ async function scanImportData(teamHandle: FileSystemDirectoryHandle): Promise<Im
   files.sort((a, b) => b.updatedAt.localeCompare(a.updatedAt));
 
   return { files, buckets };
+}
+
+export async function scanTeamImportManifest(teamHandle: FileSystemDirectoryHandle): Promise<TeamImportManifestEntry[]> {
+  const importsDir = await getDirectoryHandle(teamHandle, "imports");
+  if (!importsDir) {
+    return [];
+  }
+
+  const entries = await collectCsvFilesRecursive(importsDir);
+  const manifest: TeamImportManifestEntry[] = [];
+  for (const entry of entries) {
+    try {
+      const file = await entry.handle.getFile();
+      if (file.size === 0) {
+        manifest.push({ relativePath: entry.relativePath, size: 0, modifiedAt: file.lastModified, digest: null, status: "unstable" });
+        continue;
+      }
+
+      const digest = await digestFile(file);
+      manifest.push({ relativePath: entry.relativePath, size: file.size, modifiedAt: file.lastModified, digest, status: "ready" });
+    } catch {
+      manifest.push({ relativePath: entry.relativePath, size: null, modifiedAt: null, digest: null, status: "unavailable" });
+    }
+  }
+
+  return manifest;
+}
+
+async function digestFile(file: File): Promise<string | null> {
+  if (!globalThis.crypto?.subtle) {
+    return null;
+  }
+
+  const digest = await globalThis.crypto.subtle.digest("SHA-256", await file.arrayBuffer());
+  return Array.from(new Uint8Array(digest), (byte) => byte.toString(16).padStart(2, "0")).join("");
 }
 
 async function collectCsvFilesRecursive(

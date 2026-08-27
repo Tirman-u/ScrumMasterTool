@@ -7336,6 +7336,11 @@ textarea:focus-visible,
   font-size: 11px;
 }
 
+.exec-cycle-pending-notice {
+  color: #92400e;
+  font-weight: 800;
+}
+
 .exec-data-status-panel {
   margin-bottom: 12px;
   padding: 12px 14px;
@@ -7395,6 +7400,27 @@ textarea:focus-visible,
   margin: 10px 0 0;
   color: #92400e;
   font-size: 11px;
+}
+
+.exec-data-status-live {
+  margin-top: 10px;
+  color: #475569;
+  font-size: 11px;
+}
+
+.exec-data-status-live p {
+  margin: 4px 0 0;
+}
+
+.exec-data-status-detail {
+  margin: 8px 0 0;
+  color: #475569;
+  font-size: 11px;
+  font-variant-numeric: tabular-nums;
+}
+
+.exec-data-status-panel > .soft-btn {
+  margin-top: 8px;
 }
 
 .exec-data-status-message.success { color: #166534; }

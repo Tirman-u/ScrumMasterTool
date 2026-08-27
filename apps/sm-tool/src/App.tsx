@@ -33,6 +33,15 @@ import { buildMetricTrustMetadata, type MetricTrust } from "./lib/metric-trust";
 import { buildTeamDataStatus } from "./lib/team-data-status";
 import { parseTeamRouteSearch, routeHistoryAction, serializeTeamRoute, validateTeamRoute, type TeamRouteState } from "./lib/team-route";
 import { recalculateSelectedTeam, type TeamRecalculateState } from "./lib/team-recalculate";
+import {
+  commitImportMonitorBaseline,
+  buildImportMonitorPresentation,
+  createImportManifest,
+  createImportMonitorState,
+  observeImportManifest,
+  type ImportManifest,
+  type ImportMonitorState,
+} from "./lib/import-monitor";
 import { BUILD_MARKER_LABEL } from "./lib/build-info";
 import {
   isMetricAvailableInView,
@@ -77,6 +86,7 @@ import {
   restoreRememberedWorkspaceDirectory,
   saveWorkspaceConfig,
   saveTeamProgressSnapshot,
+  scanTeamImportManifest,
   type RememberedWorkspaceSummary,
   saveTeamConfig,
   saveTeamBottleneckEntries,
@@ -1546,10 +1556,23 @@ export default function App(): JSX.Element {
   const [activeMetricGroup, setActiveMetricGroup] = useState<ConfigurableMetricGroup>("Core");
   const [teams, setTeams] = useState<TeamRuntime[]>([]);
   const [selectedTeamId, setSelectedTeamId] = useState<string | null>(null);
+  const selectedTeamIdRef = useRef<string | null>(null);
   const [status, setStatus] = useState("");
   const [busy, setBusy] = useState(false);
   const [teamRecalculateState, setTeamRecalculateState] = useState<TeamRecalculateState>("idle");
   const [teamRecalculateMessage, setTeamRecalculateMessage] = useState("");
+  const [importMonitorState, setImportMonitorState] = useState<ImportMonitorState>(() => createImportMonitorState());
+  const importMonitorStateRef = useRef<ImportMonitorState>(createImportMonitorState());
+  const [importMonitorError, setImportMonitorError] = useState<"permission" | "unsupported" | "error" | null>(null);
+  const [importMonitorScanning, setImportMonitorScanning] = useState(false);
+  const [importMonitorScanNonce, setImportMonitorScanNonce] = useState(0);
+  const [autoUpdatesPaused, setAutoUpdatesPaused] = useState(false);
+  const monitorGenerationRef = useRef(0);
+  const monitorWorkspaceHandleRef = useRef<FileSystemDirectoryHandle | null>(null);
+  const monitorTeamHandleRef = useRef<FileSystemDirectoryHandle | null>(null);
+  const recalculateActiveRef = useRef(false);
+  const pendingAutomaticManifestRef = useRef<ImportManifest | null>(null);
+  const queuedAutomaticManifestRef = useRef<ImportManifest | null>(null);
 
   const [periodMonth, setPeriodMonth] = useState<string>("all");
   const [periodRangeStart, setPeriodRangeStart] = useState<string>("");
@@ -1606,6 +1629,7 @@ export default function App(): JSX.Element {
   const [sleIssueTypesDraft, setSleIssueTypesDraft] = useState<string[]>([...DEFAULT_SLE_ISSUE_TYPES]);
 
   const fsApiSupported = supportsFileSystemAccess();
+  selectedTeamIdRef.current = selectedTeamId;
 
   useEffect(() => {
     try {
@@ -1746,7 +1770,103 @@ export default function App(): JSX.Element {
     setOpenMetricHelpKey(null);
     setTeamRecalculateState("idle");
     setTeamRecalculateMessage("");
+    setImportMonitorState(createImportMonitorState());
+    importMonitorStateRef.current = createImportMonitorState();
+    setImportMonitorError(null);
+    pendingAutomaticManifestRef.current = null;
+    queuedAutomaticManifestRef.current = null;
+    monitorGenerationRef.current += 1;
   }, [selectedTeamId]);
+
+  useEffect(() => {
+    const teamHandle = selectedTeam?.teamHandle;
+    const generation = ++monitorGenerationRef.current;
+    const lifecycleChanged = monitorWorkspaceHandleRef.current !== workspaceHandle || monitorTeamHandleRef.current !== teamHandle;
+    monitorWorkspaceHandleRef.current = workspaceHandle;
+    monitorTeamHandleRef.current = teamHandle ?? null;
+    if (lifecycleChanged) {
+      const resetState = createImportMonitorState();
+      importMonitorStateRef.current = resetState;
+      setImportMonitorState(resetState);
+      setImportMonitorError(null);
+      pendingAutomaticManifestRef.current = null;
+      queuedAutomaticManifestRef.current = null;
+    }
+    if (!workspaceHandle || !teamHandle || !fsApiSupported) {
+      const resetState = createImportMonitorState();
+      importMonitorStateRef.current = resetState;
+      setImportMonitorState(resetState);
+      setImportMonitorError(fsApiSupported ? null : "unsupported");
+      return;
+    }
+
+    let cancelled = false;
+    let scanInFlight = false;
+    const scan = async (): Promise<void> => {
+      if (
+        cancelled ||
+        autoUpdatesPaused ||
+        document.visibilityState !== "visible" ||
+        scanInFlight
+      ) {
+        return;
+      }
+
+      scanInFlight = true;
+      setImportMonitorScanning(true);
+      try {
+        const permission = await workspaceHandle.queryPermission({ mode: "read" });
+        if (permission !== "granted") {
+          setImportMonitorError("permission");
+          return;
+        }
+
+        const entries = await scanTeamImportManifest(teamHandle);
+        if (cancelled || generation !== monitorGenerationRef.current) {
+          return;
+        }
+
+        setImportMonitorError(null);
+        const observation = observeImportManifest(
+          importMonitorStateRef.current,
+          createImportManifest(entries),
+        );
+        importMonitorStateRef.current = observation.state;
+        setImportMonitorState(observation.state);
+        if (observation.shouldRecalculate) {
+          if (recalculateActiveRef.current) {
+            queuedAutomaticManifestRef.current = createImportManifest(entries);
+          } else {
+            pendingAutomaticManifestRef.current = createImportManifest(entries);
+            void handleRecalculateSelectedTeam("automatic");
+          }
+        }
+      } catch {
+        if (!cancelled && generation === monitorGenerationRef.current) {
+          setImportMonitorError("error");
+        }
+      } finally {
+        scanInFlight = false;
+        setImportMonitorScanning(false);
+      }
+    };
+
+    const onVisibilityChange = (): void => {
+      if (document.visibilityState === "visible") void scan();
+    };
+    const onFocus = (): void => void scan();
+    const interval = window.setInterval(() => void scan(), 30_000);
+    document.addEventListener("visibilitychange", onVisibilityChange);
+    window.addEventListener("focus", onFocus);
+    void scan();
+
+    return () => {
+      cancelled = true;
+      window.clearInterval(interval);
+      document.removeEventListener("visibilitychange", onVisibilityChange);
+      window.removeEventListener("focus", onFocus);
+    };
+  }, [workspaceHandle, selectedTeam?.teamHandle, selectedTeamId, fsApiSupported, autoUpdatesPaused, importMonitorScanNonce]);
 
   useEffect(() => {
     if (!fsApiSupported) {
@@ -2306,7 +2426,10 @@ export default function App(): JSX.Element {
       ...(selectedTeam.config.excludedIssueKeys ?? []),
       ...(selectedTeam.config.issueExclusions ?? []).map((exclusion) => exclusion.issueKey),
     ]);
-    const latestImportAt = buildTeamDataStatus(selectedTeam.importFiles, selectedTeam.metrics?.generatedAt).latestDataUpdate;
+    const latestImportAt = buildTeamDataStatus(
+      selectedTeam.importFiles.filter((file) => file.rowCount > 0),
+      selectedTeam.metrics?.generatedAt,
+    ).latestDataUpdate;
 
     return {
       issueCount: selectedTeam.parsedIssues.length,
@@ -2319,14 +2442,41 @@ export default function App(): JSX.Element {
   }, [selectedTeam]);
 
   const selectedTeamDataStatus = useMemo(() => {
-    const snapshot = buildTeamDataStatus(selectedTeam?.importFiles ?? [], selectedTeam?.metrics?.generatedAt);
+    const validImportFiles = selectedTeam?.importFiles.filter((file) => file.rowCount > 0) ?? [];
+    const snapshot = buildTeamDataStatus(validImportFiles, selectedTeam?.metrics?.generatedAt);
+    const change = importMonitorState.lastChange;
+    const hasUsableImports = validImportFiles.length > 0;
+    const presentation = buildImportMonitorPresentation({
+      error: importMonitorError,
+      scanning: importMonitorScanning,
+      recalculating: teamRecalculateState === "loading",
+      recalculateFailed: teamRecalculateState === "error",
+      recalculatedSuccessfully: teamRecalculateState === "success",
+      paused: autoUpdatesPaused,
+      hasUsableImports,
+      hasMetrics: Boolean(selectedTeam?.metrics),
+      state: importMonitorState,
+    });
     return {
       ...snapshot,
       recalculateState: teamRecalculateState,
       recalculateMessage: teamRecalculateMessage,
       onRecalculate: () => void handleRecalculateSelectedTeam(),
+      autoUpdateStatus: presentation.status,
+      autoUpdateDetail: presentation.detail,
+      changedFileCounts: change,
+      autoUpdatesPaused,
+      autoUpdateAvailable: !importMonitorError && hasUsableImports,
+      manualRecalculateAvailable: hasUsableImports,
+      autoUpdateNeedsRetry: presentation.needsRetry,
+      stableScans: importMonitorState.stableScans,
+      onTryAgain: () => {
+        setImportMonitorError(null);
+        setImportMonitorScanNonce((value) => value + 1);
+      },
+      onToggleAutoUpdates: () => setAutoUpdatesPaused((value) => !value),
     };
-  }, [selectedTeam, teamRecalculateState, teamRecalculateMessage]);
+  }, [selectedTeam, importMonitorState, importMonitorError, importMonitorScanning, autoUpdatesPaused, teamRecalculateState, teamRecalculateMessage]);
 
 
   const doneStatusList = useMemo(() => {
@@ -2823,41 +2973,68 @@ export default function App(): JSX.Element {
     }
   }
 
-  async function handleRecalculateSelectedTeam(): Promise<void> {
-    if (teamRecalculateState === "loading") {
+  async function handleRecalculateSelectedTeam(trigger: "manual" | "automatic" = "manual"): Promise<void> {
+    if (recalculateActiveRef.current || teamRecalculateState === "loading") {
+      if (trigger === "automatic" && pendingAutomaticManifestRef.current) {
+        queuedAutomaticManifestRef.current = pendingAutomaticManifestRef.current;
+      }
       return;
     }
-    if (!workspaceHandle || !selectedTeam) {
+    const handle = workspaceHandle;
+    const team = selectedTeam;
+    const teamIdAtStart = selectedTeamId;
+    if (!handle || !team) {
       setTeamRecalculateState("unavailable");
       setTeamRecalculateMessage("Workspace access is required to recalculate this team.");
       return;
     }
 
+    recalculateActiveRef.current = true;
+    const pendingManifest = pendingAutomaticManifestRef.current;
+    pendingAutomaticManifestRef.current = null;
     setTeamRecalculateState("loading");
-    setTeamRecalculateMessage(`Recalculating ${selectedTeam.config.teamName} metrics.`);
-    const result = await recalculateSelectedTeam(
-      {
-        selectedTeam,
-        workspaceAvailable: true,
-        analyzeTeam,
-        refreshTeam: async (team) => {
-          const refreshed = await listTeams(workspaceHandle);
-          const target = refreshed.find((item) => item.teamId === team.teamId);
-          if (!target) throw new Error("Selected team was not found after recalculation.");
-          return target;
+    setTeamRecalculateMessage(`Recalculating ${team.config.teamName} metrics.`);
+    try {
+      const result = await recalculateSelectedTeam(
+        {
+          selectedTeam: team,
+          workspaceAvailable: true,
+          analyzeTeam,
+          refreshTeam: async (selected) => {
+            const refreshed = await listTeams(handle);
+            const target = refreshed.find((item) => item.teamId === selected.teamId);
+            if (!target) throw new Error("Selected team was not found after recalculation.");
+            return target;
+          },
+          onSuccess: () => undefined,
+          onError: () => undefined,
         },
-        onSuccess: () => undefined,
-        onError: () => undefined,
-      },
-      false,
-    );
-    if (result.state === "success" && result.team) {
-      setTeams((current) => current.map((team) => team.teamId === result.team?.teamId ? result.team : team));
-      setTeamRecalculateState("success");
-      setTeamRecalculateMessage("Team recalculated just now.");
-    } else if (result.state === "error") {
-      setTeamRecalculateState("error");
-      setTeamRecalculateMessage(`Could not recalculate this team. ${getErrorMessage(result.error)}`);
+        false,
+      );
+      if (result.state === "success" && result.team && selectedTeamIdRef.current === teamIdAtStart) {
+        const baseline = pendingManifest ?? await scanTeamImportManifest(team.teamHandle).then((entries) => createImportManifest(entries)).catch(() => null);
+        if (baseline) {
+          const nextMonitorState = commitImportMonitorBaseline(importMonitorStateRef.current, baseline);
+          importMonitorStateRef.current = nextMonitorState;
+          setImportMonitorState(nextMonitorState);
+        }
+        setTeams((current) => current.map((currentTeam) => currentTeam.teamId === result.team?.teamId ? result.team : currentTeam));
+        setTeamRecalculateState("success");
+        setTeamRecalculateMessage(trigger === "automatic" ? "Auto-update complete · metrics recalculated just now." : "Team recalculated just now.");
+      } else if (result.state === "error" && selectedTeamIdRef.current === teamIdAtStart) {
+        setTeamRecalculateState("error");
+        setTeamRecalculateMessage(`Could not recalculate this team. ${getErrorMessage(result.error)}`);
+        const retryState = { ...importMonitorStateRef.current, candidateFingerprint: null, stableScans: 0, phase: "stability-wait" as const };
+        importMonitorStateRef.current = retryState;
+        setImportMonitorState(retryState);
+      }
+    } finally {
+      recalculateActiveRef.current = false;
+      if (queuedAutomaticManifestRef.current && selectedTeamIdRef.current === teamIdAtStart) {
+        pendingAutomaticManifestRef.current = queuedAutomaticManifestRef.current;
+        queuedAutomaticManifestRef.current = null;
+        void handleRecalculateSelectedTeam("automatic");
+      }
     }
   }
 
