@@ -34,6 +34,7 @@ import { buildTeamDataStatus } from "./lib/team-data-status";
 import { parseTeamRouteSearch, routeHistoryAction, serializeTeamRoute, validateTeamRoute, type TeamRouteState } from "./lib/team-route";
 import { recalculateSelectedTeam, type TeamRecalculateState } from "./lib/team-recalculate";
 import { createOperation, finishOperation, type AppOperation, type AppOperationPhase, type AppRecoveryAction } from "./lib/app-operation";
+import { canDismissToast, classifyToastStatus, shouldClearForContextChange, type ToastStatus } from "./lib/status-toast";
 import {
   commitImportMonitorBaseline,
   buildImportMonitorPresentation,
@@ -1558,7 +1559,24 @@ export default function App(): JSX.Element {
   const [teams, setTeams] = useState<TeamRuntime[]>([]);
   const [selectedTeamId, setSelectedTeamId] = useState<string | null>(null);
   const selectedTeamIdRef = useRef<string | null>(null);
-  const [status, setStatus] = useState("");
+  const [status, setStatusValue] = useState("");
+  const [toastStatus, setToastStatus] = useState<ToastStatus | null>(null);
+  const [statusRevision, setStatusRevision] = useState(0);
+  const observedContextStatusRevisionRef = useRef(0);
+  const statusIdRef = useRef(0);
+  const toastTimerRef = useRef<{ statusId: number; startedAt: number; remainingMs: number; timer: number | null }>({
+    statusId: 0,
+    startedAt: 0,
+    remainingMs: 0,
+    timer: null,
+  });
+  const [toastPaused, setToastPaused] = useState(false);
+  const setStatus = (message: string): void => {
+    const statusId = ++statusIdRef.current;
+    setStatusValue(message);
+    setToastStatus(classifyToastStatus(statusId, message));
+    setStatusRevision((revision) => revision + 1);
+  };
   const [operation, setOperation] = useState<AppOperation | null>(null);
   const operationIdRef = useRef(0);
   const operationRef = useRef<AppOperation | null>(null);
@@ -1666,6 +1684,62 @@ export default function App(): JSX.Element {
 
   const fsApiSupported = supportsFileSystemAccess();
   selectedTeamIdRef.current = selectedTeamId;
+
+  useEffect(() => {
+    const timerState = toastTimerRef.current;
+    if (!toastStatus || toastStatus.durationMs === null) {
+      if (timerState.timer !== null) window.clearTimeout(timerState.timer);
+      timerState.timer = null;
+      return;
+    }
+
+    if (timerState.statusId !== toastStatus.statusId) {
+      if (timerState.timer !== null) window.clearTimeout(timerState.timer);
+      timerState.statusId = toastStatus.statusId;
+      timerState.remainingMs = toastStatus.durationMs;
+      timerState.startedAt = 0;
+      timerState.timer = null;
+    }
+
+    if (toastPaused || timerState.timer !== null) return;
+    timerState.startedAt = Date.now();
+    timerState.timer = window.setTimeout(() => {
+      timerState.timer = null;
+      if (canDismissToast(toastStatus, statusIdRef.current) && !toastPaused) {
+        setStatusValue("");
+        setToastStatus(null);
+      }
+    }, timerState.remainingMs);
+
+    return () => {
+      if (timerState.timer !== null) {
+        window.clearTimeout(timerState.timer);
+        timerState.remainingMs = Math.max(0, timerState.remainingMs - (Date.now() - timerState.startedAt));
+        timerState.timer = null;
+      }
+    };
+  }, [toastStatus, toastPaused]);
+
+  useEffect(() => {
+    // Navigation/context changes invalidate a pending transient timer. A
+    // status published in the same transition is allowed to finish normally;
+    // a later ordinary context change clears the old transient presentation.
+    if (statusRevision !== observedContextStatusRevisionRef.current) {
+      // A status published in this render/transition may accompany a page or
+      // team change (workspace open/restore). Let its own timer govern it.
+      observedContextStatusRevisionRef.current = statusRevision;
+      return;
+    }
+    if (!shouldClearForContextChange(toastStatus, statusRevision, observedContextStatusRevisionRef.current)) return;
+    if (!toastStatus) return;
+    const timerState = toastTimerRef.current;
+    if (timerState.timer !== null) window.clearTimeout(timerState.timer);
+    timerState.timer = null;
+    timerState.statusId = toastStatus.statusId;
+    timerState.remainingMs = 0;
+    setStatusValue("");
+    setToastStatus(null);
+  }, [page, selectedTeamId, teamTab, teamViewMode, periodMonth, statusRevision, toastStatus]);
 
   useEffect(() => {
     try {
@@ -6858,11 +6932,22 @@ export default function App(): JSX.Element {
       </aside>
 
       <main className="main-area">
-        {(status || operation) ? (
-          <div className={`status-toast operation-status operation-status-${operation?.state ?? "complete"}`} role="status" aria-live="polite" aria-busy={operation?.state === "active"}>
-            {operation ? <strong className="operation-phase">{operation.phase}</strong> : null}
-            <span>{operation?.message ?? status}</span>
-            {operation?.recovery ? (
+        {(status || (operation && operation.state !== "complete")) ? (
+          <div
+            className={`status-toast operation-status operation-status-${operation?.state ?? "complete"}`}
+            role="status"
+            aria-live="polite"
+            aria-busy={operation?.state === "active"}
+            onMouseEnter={() => setToastPaused(true)}
+            onMouseLeave={() => setToastPaused(false)}
+            onFocus={() => setToastPaused(true)}
+            onBlur={(event) => {
+              if (!event.currentTarget.contains(event.relatedTarget as Node | null)) setToastPaused(false);
+            }}
+          >
+            {operation && operation.state !== "complete" ? <strong className="operation-phase">{operation.phase}</strong> : null}
+            <span>{operation && operation.state !== "complete" ? operation.message : status}</span>
+            {operation && operation.state !== "complete" && operation.recovery ? (
               operation.recoveryAction ? (
                 <button type="button" className="soft-btn operation-recovery-button" onClick={handleOperationRecovery}>
                   {operation.recovery}
