@@ -161,6 +161,53 @@ body,
   font-size: 0.9rem;
 }
 
+.operation-status {
+  display: flex;
+  align-items: baseline;
+  gap: 10px;
+  min-height: 42px;
+}
+
+.operation-phase {
+  flex: 0 0 auto;
+  font-size: 0.72rem;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+}
+
+.operation-recovery,
+.operation-lock-hint {
+  color: var(--muted);
+  font-size: 0.78rem;
+}
+
+.operation-recovery-button {
+  margin-left: auto;
+  padding: 5px 9px;
+  font-size: 0.8rem;
+}
+
+.operation-status-error {
+  border-color: #e4b6b6;
+  background: #fff7f7;
+}
+
+.operation-status-complete {
+  border-color: #b9d8c6;
+}
+
+@media (max-width: 720px) {
+  .operation-status {
+    align-items: flex-start;
+    flex-direction: column;
+    gap: 3px;
+  }
+
+  .operation-recovery-button {
+    margin-left: 0;
+  }
+}
+
 button,
 input,
 select,

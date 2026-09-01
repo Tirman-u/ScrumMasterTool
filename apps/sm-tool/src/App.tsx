@@ -33,6 +33,7 @@ import { buildMetricTrustMetadata, type MetricTrust } from "./lib/metric-trust";
 import { buildTeamDataStatus } from "./lib/team-data-status";
 import { parseTeamRouteSearch, routeHistoryAction, serializeTeamRoute, validateTeamRoute, type TeamRouteState } from "./lib/team-route";
 import { recalculateSelectedTeam, type TeamRecalculateState } from "./lib/team-recalculate";
+import { createOperation, finishOperation, type AppOperation, type AppOperationPhase, type AppRecoveryAction } from "./lib/app-operation";
 import {
   commitImportMonitorBaseline,
   buildImportMonitorPresentation,
@@ -1558,7 +1559,42 @@ export default function App(): JSX.Element {
   const [selectedTeamId, setSelectedTeamId] = useState<string | null>(null);
   const selectedTeamIdRef = useRef<string | null>(null);
   const [status, setStatus] = useState("");
-  const [busy, setBusy] = useState(false);
+  const [operation, setOperation] = useState<AppOperation | null>(null);
+  const operationIdRef = useRef(0);
+  const operationRef = useRef<AppOperation | null>(null);
+  const legacyOperationIdRef = useRef<number | null>(null);
+  const teamSaveRetryRef = useRef<(() => void) | null>(null);
+  const busy = operation?.state === "active";
+  const beginOperation = (phase: AppOperationPhase, message: string, action?: string): number => {
+    const operationId = ++operationIdRef.current;
+    const next = createOperation(operationId, phase, message, action);
+    operationRef.current = next;
+    setOperation(next);
+    return operationId;
+  };
+  const completeOperation = (operationId: number, message: string, error = false, recovery?: string, recoveryAction?: AppRecoveryAction): void => {
+    const next = finishOperation(operationRef.current, operationId, error ? "error" : "complete", message, recovery, recoveryAction);
+    if (next) {
+      operationRef.current = next;
+      setOperation(next);
+    }
+  };
+  const updateOperation = (operationId: number, phase: AppOperationPhase, message: string): void => {
+    if (operationRef.current?.operationId !== operationId) return;
+    const next = { ...operationRef.current, phase, message, state: "active" as const };
+    operationRef.current = next;
+    setOperation(next);
+  };
+  // Retain the existing action guards while older save flows are migrated to
+  // named phases; every transition still goes through the structured model.
+  const setBusy = (active: boolean): void => {
+    if (active) {
+      legacyOperationIdRef.current = beginOperation("Saving team", "Saving settings…");
+    } else if (legacyOperationIdRef.current !== null) {
+      completeOperation(legacyOperationIdRef.current, "Settings saved.");
+      legacyOperationIdRef.current = null;
+    }
+  };
   const [teamRecalculateState, setTeamRecalculateState] = useState<TeamRecalculateState>("idle");
   const [teamRecalculateMessage, setTeamRecalculateMessage] = useState("");
   const [importMonitorState, setImportMonitorState] = useState<ImportMonitorState>(() => createImportMonitorState());
@@ -2990,6 +3026,7 @@ export default function App(): JSX.Element {
     }
 
     recalculateActiveRef.current = true;
+    const operationId = beginOperation("Recalculating team", "Recalculating this team locally…", "Recalculate team");
     const pendingManifest = pendingAutomaticManifestRef.current;
     pendingAutomaticManifestRef.current = null;
     setTeamRecalculateState("loading");
@@ -3021,15 +3058,22 @@ export default function App(): JSX.Element {
         setTeams((current) => current.map((currentTeam) => currentTeam.teamId === result.team?.teamId ? result.team : currentTeam));
         setTeamRecalculateState("success");
         setTeamRecalculateMessage(trigger === "automatic" ? "Auto-update complete · metrics recalculated just now." : "Team recalculated just now.");
+        completeOperation(operationId, "Team recalculated.");
       } else if (result.state === "error" && selectedTeamIdRef.current === teamIdAtStart) {
         setTeamRecalculateState("error");
         setTeamRecalculateMessage(`Could not recalculate this team. ${getErrorMessage(result.error)}`);
         const retryState = { ...importMonitorStateRef.current, candidateFingerprint: null, stableScans: 0, phase: "stability-wait" as const };
         importMonitorStateRef.current = retryState;
         setImportMonitorState(retryState);
+        const message = `Could not recalculate this team. ${getErrorMessage(result.error)} Your previous metrics remain available.`;
+        setStatus(message);
+        completeOperation(operationId, message, true, "Try again", "retry-recalculate-team");
       }
     } finally {
       recalculateActiveRef.current = false;
+      if (operationRef.current?.operationId === operationId && operationRef.current.state === "active") {
+        completeOperation(operationId, "Team recalculation finished.");
+      }
       if (queuedAutomaticManifestRef.current && selectedTeamIdRef.current === teamIdAtStart) {
         pendingAutomaticManifestRef.current = queuedAutomaticManifestRef.current;
         queuedAutomaticManifestRef.current = null;
@@ -3295,9 +3339,10 @@ export default function App(): JSX.Element {
           </div>
         </div>
         <div className="metrics-workspace-actions">
-          <button className="soft-btn" onClick={handlePickWorkspace} disabled={busy || !fsApiSupported}>
+          <button className="soft-btn" onClick={handlePickWorkspace} disabled={busy || !fsApiSupported} aria-describedby={busy ? "metrics-workspace-lock" : undefined}>
             {workspaceHandle ? "Switch Workspace" : "Choose Workspace"}
           </button>
+          {workspaceOperationHint() ? <small id="metrics-workspace-lock" className="operation-lock-hint">{workspaceOperationHint()}</small> : null}
           {workspaceHandle && (
             <button className="soft-btn" onClick={() => setShowAddTeamModal(true)}>
               + Add Entity
@@ -3320,10 +3365,13 @@ export default function App(): JSX.Element {
                 <button
                   className="soft-btn"
                   disabled={busy}
+                  aria-label={`Open ${workspace.name}${busy ? ` — unavailable while ${operation?.phase ?? "an operation"} is in progress` : ""}`}
+                  aria-describedby={busy ? "metrics-workspace-lock" : undefined}
                   onClick={() => void handleOpenRememberedWorkspace(workspace.id)}
                 >
                   Open
                 </button>
+                {workspaceOperationHint() ? <small className="operation-lock-hint">{workspaceOperationHint()}</small> : null}
               </article>
             ))}
           </div>
@@ -4403,26 +4451,39 @@ export default function App(): JSX.Element {
     return `${loaded} Jira helper update failed.`;
   }
 
+  function workspaceOperationHint(): string | null {
+    return busy ? `Unavailable while ${operation?.phase ?? "an operation"} is in progress.` : null;
+  }
+
   async function handlePickWorkspace(): Promise<void> {
     if (!fsApiSupported) {
       setStatus("File System Access API is not available in this browser.");
       return;
     }
 
-    setBusy(true);
+    const operationId = beginOperation("Opening workspace", "Loading workspace and teams…", "Choose Workspace");
     try {
       const handle = await pickWorkspaceDirectory();
       await rememberWorkspaceDirectory(handle);
       await refreshRememberedWorkspaces();
 
+      updateOperation(operationId, "Updating local helper", "Updating the local Jira helper…");
       const helperResult = await reinstallWorkspaceHelper(handle);
+      updateOperation(operationId, "Opening workspace", "Loading workspace and teams…");
       const loadedTeams = await applyWorkspaceHandle(handle);
       setPage(loadedTeams.length > 0 ? "dashboard" : "workspace");
-      setStatus(workspaceLoadStatus(handle, loadedTeams, helperResult));
+      const message = workspaceLoadStatus(handle, loadedTeams, helperResult);
+      setStatus(message);
+      completeOperation(operationId, message);
     } catch (error) {
-      setStatus(`Failed to open workspace: ${getErrorMessage(error)}`);
+      const message = `Could not open workspace. ${getErrorMessage(error)} Choose Workspace to try again.`;
+      setStatus(message);
+      completeOperation(operationId, message, true, "Choose Workspace", "retry-workspace");
     } finally {
-      setBusy(false);
+      // The operation ID guard prevents a stale open from clearing a newer action.
+      if (operationRef.current?.operationId === operationId && operationRef.current.state === "active") {
+        completeOperation(operationId, "Workspace operation finished.");
+      }
     }
   }
 
@@ -4432,23 +4493,48 @@ export default function App(): JSX.Element {
       return;
     }
 
-    setBusy(true);
+    const operationId = beginOperation("Opening workspace", "Loading workspace and teams…", "Open workspace");
     try {
+      updateOperation(operationId, "Restoring access", "Workspace permission is required to continue.");
       const handle = await openRememberedWorkspaceById(workspaceId);
       if (!handle) {
-        setStatus("Workspace permission was not granted. Choose workspace manually.");
+        const message = "Could not open remembered workspace. Permission was not granted. Choose Workspace manually.";
+        setStatus(message);
+        completeOperation(operationId, message, true, "Choose Workspace", "retry-workspace");
         return;
       }
 
+      updateOperation(operationId, "Updating local helper", "Updating the local Jira helper…");
       const helperResult = await reinstallWorkspaceHelper(handle);
+      updateOperation(operationId, "Opening workspace", "Loading workspace and teams…");
       const loadedTeams = await applyWorkspaceHandle(handle);
       setPage(loadedTeams.length > 0 ? "dashboard" : "workspace");
-      setStatus(workspaceLoadStatus(handle, loadedTeams, helperResult));
+      const message = workspaceLoadStatus(handle, loadedTeams, helperResult);
+      setStatus(message);
+      completeOperation(operationId, message);
       await refreshRememberedWorkspaces();
     } catch (error) {
-      setStatus(`Failed to open remembered workspace: ${getErrorMessage(error)}`);
+      const message = `Could not open remembered workspace. ${getErrorMessage(error)} Choose Workspace manually.`;
+      setStatus(message);
+      completeOperation(operationId, message, true, "Choose Workspace", "retry-workspace");
     } finally {
-      setBusy(false);
+      if (operationRef.current?.operationId === operationId && operationRef.current.state === "active") {
+        completeOperation(operationId, "Workspace operation finished.");
+      }
+    }
+  }
+
+  function handleOperationRecovery(): void {
+    const action = operation?.recoveryAction;
+    if (!action || operation?.state !== "error" || busy) return;
+    if (action === "retry-workspace") {
+      void handlePickWorkspace();
+    } else if (action === "retry-recalculate-all") {
+      void handleRecalculateAll();
+    } else if (action === "retry-team-save") {
+      teamSaveRetryRef.current?.();
+    } else {
+      void handleRecalculateSelectedTeam("manual");
     }
   }
 
@@ -4570,7 +4656,8 @@ export default function App(): JSX.Element {
       },
     };
 
-    setBusy(true);
+    const operationId = beginOperation("Saving team", "Saving team settings…", "Save team");
+    teamSaveRetryRef.current = () => void handleUpdateTeamEntityType(teamId, entityType);
     try {
       await saveTeamConfig(updatedTeam);
       const refreshed = workspaceHandle
@@ -4581,9 +4668,13 @@ export default function App(): JSX.Element {
       setActiveMetricScope(getMetricScopeForEntityType(entityType));
       setStatus(`${team.config.teamName} moved to ${TEAM_ENTITY_LABELS[entityType]}.`);
     } catch (error) {
-      setStatus(`Failed to update entity layer: ${getErrorMessage(error)}`);
+      const message = `Could not save team settings. ${getErrorMessage(error)} Your previous settings are unchanged.`;
+      setStatus(message);
+      completeOperation(operationId, message, true, "Try again", "retry-team-save");
     } finally {
-      setBusy(false);
+      if (operationRef.current?.operationId === operationId && operationRef.current.state === "active") {
+        completeOperation(operationId, "Team settings saved.");
+      }
     }
   }
 
@@ -4647,7 +4738,7 @@ export default function App(): JSX.Element {
       return;
     }
 
-    setBusy(true);
+    const operationId = beginOperation("Recalculating all teams", "Recalculating teams locally…", "Recalculate all");
     try {
       const currentTeams = await listTeams(workspaceHandle);
       for (const team of currentTeams) {
@@ -4678,13 +4769,17 @@ export default function App(): JSX.Element {
         }
         return refreshedWithProgress[0]?.teamId ?? null;
       });
-      setStatus(
-        `Metrics recalculated for ${refreshedWithProgress.length} team(s). Progress snapshots updated for ${savedSnapshots} team(s).`,
-      );
+      const message = `All teams recalculated. ${refreshedWithProgress.length} team(s) updated locally; ${savedSnapshots} progress snapshot(s) saved.`;
+      setStatus(message);
+      completeOperation(operationId, message);
     } catch (error) {
-      setStatus(`Recalculation failed: ${getErrorMessage(error)}`);
+      const message = `Could not recalculate all teams. ${getErrorMessage(error)} Your previous metrics remain available.`;
+      setStatus(message);
+      completeOperation(operationId, message, true, "Try again", "retry-recalculate-all");
     } finally {
-      setBusy(false);
+      if (operationRef.current?.operationId === operationId && operationRef.current.state === "active") {
+        completeOperation(operationId, "All-team recalculation finished.");
+      }
     }
   }
 
@@ -4730,7 +4825,8 @@ export default function App(): JSX.Element {
             updatedAt: new Date().toISOString(),
           };
 
-    setBusy(true);
+    const operationId = beginOperation("Saving team", "Saving settings…", "Save team settings");
+    teamSaveRetryRef.current = () => void handleSaveAdvancedConfig(event);
     try {
       const updatedConfig: TeamConfig = {
         ...draftConfig,
@@ -4779,9 +4875,13 @@ export default function App(): JSX.Element {
       await refreshTeams();
       setStatus("Team config saved and metrics recalculated.");
     } catch (error) {
-      setStatus(`Failed to save config: ${getErrorMessage(error)}`);
+      const message = `Could not save team settings. ${getErrorMessage(error)} Your previous settings are unchanged.`;
+      setStatus(message);
+      completeOperation(operationId, message, true, "Try again", "retry-team-save");
     } finally {
-      setBusy(false);
+      if (operationRef.current?.operationId === operationId && operationRef.current.state === "active") {
+        completeOperation(operationId, "Team settings saved.");
+      }
     }
   }
 
@@ -6748,24 +6848,38 @@ export default function App(): JSX.Element {
               Logout
             </button>
           </div>
-          <button className="link-btn" disabled={busy || !fsApiSupported} onClick={handlePickWorkspace}>
+          <button className="link-btn" disabled={busy || !fsApiSupported} onClick={handlePickWorkspace} aria-describedby={busy ? "workspace-operation-lock" : undefined}>
             {workspaceHandle ? "Switch Workspace" : "Choose Workspace"}
           </button>
+          {busy ? <small id="workspace-operation-lock" className="operation-lock-hint">Unavailable while {operation?.phase ?? "an operation"} is in progress.</small> : null}
           <div className="nav-version"><Database size={14} aria-hidden="true" /> Local workspace data</div>
           <small className="build-marker">{BUILD_MARKER_LABEL}</small>
         </div>
       </aside>
 
       <main className="main-area">
-        {status ? <div className="status-toast" role="status" aria-live="polite">{status}</div> : null}
+        {(status || operation) ? (
+          <div className={`status-toast operation-status operation-status-${operation?.state ?? "complete"}`} role="status" aria-live="polite" aria-busy={operation?.state === "active"}>
+            {operation ? <strong className="operation-phase">{operation.phase}</strong> : null}
+            <span>{operation?.message ?? status}</span>
+            {operation?.recovery ? (
+              operation.recoveryAction ? (
+                <button type="button" className="soft-btn operation-recovery-button" onClick={handleOperationRecovery}>
+                  {operation.recovery}
+                </button>
+              ) : <span className="operation-recovery">{operation.recovery}</span>
+            ) : null}
+          </div>
+        ) : null}
 
         {!workspaceHandle && page !== "metrics" && page !== "admin" ? (
           <section className="page-section empty-state">
             <h2>Workspace required</h2>
             <p>Select your root folder to load teams and imports.</p>
-            <button disabled={busy || !fsApiSupported} onClick={handlePickWorkspace}>
+            <button disabled={busy || !fsApiSupported} onClick={handlePickWorkspace} aria-describedby={busy ? "empty-workspace-lock" : undefined}>
               Choose Workspace
             </button>
+            {workspaceOperationHint() ? <small id="empty-workspace-lock" className="operation-lock-hint">{workspaceOperationHint()}</small> : null}
             {rememberedWorkspaces.length > 0 && (
               <section className="table-panel workspace-recent-panel workspace-recent-empty">
                 <div className="table-title small-title">Recent Workspaces</div>
@@ -6780,10 +6894,12 @@ export default function App(): JSX.Element {
                       <button
                         className="soft-btn"
                         disabled={busy}
+                        aria-label={`Open ${workspace.name}${busy ? ` — unavailable while ${operation?.phase ?? "an operation"} is in progress` : ""}`}
                         onClick={() => void handleOpenRememberedWorkspace(workspace.id)}
                       >
                         Open
                       </button>
+                      {workspaceOperationHint() ? <small className="operation-lock-hint">{workspaceOperationHint()}</small> : null}
                     </article>
                   ))}
                 </div>
@@ -6803,9 +6919,10 @@ export default function App(): JSX.Element {
                     <p>Manage your teams and configure workspace settings.</p>
                   </div>
                   <div className="header-actions">
-                    <button className="soft-btn" onClick={handlePickWorkspace} disabled={busy}>
+                    <button className="soft-btn" onClick={handlePickWorkspace} disabled={busy} aria-describedby={busy ? "workspace-page-lock" : undefined}>
                       Choose Workspace
                     </button>
+                    {workspaceOperationHint() ? <small id="workspace-page-lock" className="operation-lock-hint">{workspaceOperationHint()}</small> : null}
                     <button onClick={() => setShowAddTeamModal(true)}>+ Add Entity</button>
                   </div>
                 </div>
@@ -6833,10 +6950,12 @@ export default function App(): JSX.Element {
                           <button
                             className="soft-btn"
                             disabled={busy}
+                            aria-label={`Open ${workspace.name}${busy ? ` — unavailable while ${operation?.phase ?? "an operation"} is in progress` : ""}`}
                             onClick={() => void handleOpenRememberedWorkspace(workspace.id)}
                           >
                             Open
                           </button>
+                          {workspaceOperationHint() ? <small className="operation-lock-hint">{workspaceOperationHint()}</small> : null}
                         </article>
                       ))}
                     </div>
