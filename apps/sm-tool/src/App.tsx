@@ -124,6 +124,7 @@ import {
   type ExecutiveTeamMetric,
   type ExecutiveTicketRow,
   type ExecutiveWorkflowItem,
+  type HistoricalTrendSnapshot,
 } from "./components/ExecutiveViews";
 
 declare global {
@@ -6291,7 +6292,20 @@ export default function App(): JSX.Element {
     { label: "Flow Time Scope", value: "Created / project entered -> Done" },
   ];
 
-  const executiveTeamData: ExecutiveTeamDesignData | null = selectedTeam && selectedTeamRow
+    const historicalTrend: HistoricalTrendSnapshot[] = selectedTeam
+      ? selectedTeam.progressHistory
+          .map((snapshot) => ({
+            period: snapshot.capturedAt.slice(0, 7),
+            capturedAt: snapshot.capturedAt,
+            cycleTime: snapshot.metrics.avgCycleTimeDays,
+            sleP85: snapshot.metrics.sleP85Days,
+            sample: snapshot.metrics.doneCount ?? null,
+            usable: snapshot.metrics.doneCount ?? null,
+            source: "Persisted progress snapshot",
+          }))
+          .sort((left, right) => left.period.localeCompare(right.period))
+      : [];
+    const executiveTeamData: ExecutiveTeamDesignData | null = selectedTeam && selectedTeamRow
     ? {
         teamName: selectedTeam.config.teamName,
         description: selectedTeam.config.description || "No description",
@@ -6399,6 +6413,8 @@ export default function App(): JSX.Element {
         flowSummary: executiveFlowSummary,
         flowTiming: selectedTeamRow.current.flowTiming,
         previousFlowTiming: selectedTeamRow.previous?.flowTiming ?? null,
+        historicalTrend,
+        selectedHistoricalPeriod: periodMonth,
         metricTrust: buildExecutiveMetricTrust(
           selectedTeam.metrics,
           periodMonth,

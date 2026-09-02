@@ -196,6 +196,24 @@ body,
   border-color: #b9d8c6;
 }
 
+.historical-trends-card { margin: 16px 0; }
+.historical-trends-header { display: flex; justify-content: space-between; gap: 16px; align-items: flex-start; }
+.historical-trends-header h3 { margin: 0; }
+.historical-trends-header p { margin: 4px 0 0; color: var(--muted); font-size: 0.8rem; }
+.historical-trends-selector { display: flex; gap: 4px; flex-wrap: wrap; }
+.historical-trends-selector button { padding: 6px 9px; font-size: 0.78rem; }
+.historical-trends-selector button.active { background: #172033; color: #fff; }
+.historical-trends-summary { min-height: 1.3em; margin: 10px 0 6px; font-size: 0.82rem; }
+.historical-trends-plot { height: 180px; display: flex; align-items: flex-end; gap: 8px; padding: 10px 8px 0; border-bottom: 1px solid #dbe2ee; }
+.historical-trends-point { flex: 1; height: 100%; min-width: 18px; display: flex; align-items: flex-end; justify-content: center; padding: 0; border: 0; background: transparent; border-radius: 5px 5px 0 0; }
+.historical-trends-point span { display: block; width: min(18px, 70%); background: #4f46e5; border-radius: 4px 4px 0 0; }
+.historical-trends-point.selected { outline: 3px solid #f59e0b; outline-offset: 2px; }
+.historical-trends-gap { flex: 1; min-width: 18px; height: 100%; border-bottom: 2px dashed #cbd5e1; }
+.historical-trends-table { margin-top: 8px; font-size: 0.78rem; }
+.historical-trends-table table { width: 100%; border-collapse: collapse; }
+.historical-trends-table th, .historical-trends-table td { padding: 4px 6px; text-align: left; border-bottom: 1px solid #e5e7eb; }
+.historical-trends-detail { margin: 8px 0 0; font-size: 0.8rem; }
+
 @media (max-width: 720px) {
   .operation-status {
     align-items: flex-start;
@@ -206,6 +224,9 @@ body,
   .operation-recovery-button {
     margin-left: 0;
   }
+
+  .historical-trends-header { flex-direction: column; }
+  .historical-trends-selector { width: 100%; }
 }
 
 button,
