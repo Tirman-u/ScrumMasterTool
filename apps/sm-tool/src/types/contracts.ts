@@ -268,11 +268,40 @@ export interface TeamMetrics {
   flowTiming: FlowTimingMetrics;
   flowTimingBasis?: "working-days";
   flowTimingDetails?: FlowTimingIssueDetail[];
+  waitingTime?: WaitingTimeSnapshot;
   multiSprint: {
     count: number;
     percentage: number;
   };
   multiSprintIssueKeys: string[];
+}
+
+export type WaitingTimeCoverageState = "complete" | "partial" | "unavailable" | "conflict";
+export type WaitingTimeSnapshotState =
+  | "complete"
+  | "partial"
+  | "unavailable"
+  | "unavailable-no-source"
+  | "conflict"
+  | "stale-last-known"
+  | "needs-review-config"
+  | "error-with-retry";
+
+export interface WaitingTimeSnapshot {
+  waitingDurationWorkingDays?: number;
+  cycleDurationWorkingDays?: number;
+  waitingPct?: number;
+  sampleCount?: number;
+  usableCount?: number;
+  unknownCount?: number;
+  coverageState: WaitingTimeCoverageState;
+  state?: WaitingTimeSnapshotState;
+  asOf?: string;
+  capturedAt?: string;
+  source?: "local-import" | "local-cache" | "local-recalculation";
+  semanticVersion?: string;
+  retryAvailable?: boolean;
+  reason?: string;
 }
 
 export interface ImportBucket {
@@ -316,6 +345,7 @@ export interface TeamProgressSnapshot {
     doneBugRatioPct: number | null;
     openWipCount: number;
     openWipAvgAgeDays: number | null;
+    waitingTime?: WaitingTimeSnapshot;
   };
 }
 

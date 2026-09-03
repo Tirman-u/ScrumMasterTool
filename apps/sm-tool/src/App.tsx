@@ -20,6 +20,7 @@ import {
 import {
   DEFAULT_SLE_ISSUE_TYPES,
   buildSleValues,
+  buildWaitingTimeSnapshot,
   countSprints,
   isCancelledIssue,
   isDone,
@@ -39,6 +40,7 @@ import {
   normalizeUnifiedFlowStatusConfig,
   classifyWorkflowStatusForReport,
   getWorkflowCompatibilityBuckets,
+  getWorkflowSemanticVersion,
   hasExplicitWorkflowStatusConfiguration,
   validatedWorkflowStatusOrder,
   validateUnifiedFlowStatusConfig,
@@ -6373,6 +6375,25 @@ export default function App(): JSX.Element {
           }))
           .sort((left, right) => left.period.localeCompare(right.period))
       : [];
+    const executiveMetricTrust = selectedTeam && selectedTeamRow
+      ? buildExecutiveMetricTrust(
+          selectedTeam.metrics,
+          periodMonth,
+          periodSummary.currentLabel,
+          selectedTeam.config,
+          selectedTeam.parsedIssues,
+          periodReferenceDate,
+          selectedTeamRow.current.flowTiming,
+          selectedTeamRow.current.sle.p85,
+          selectedTeam.progressHistory,
+        )
+      : [];
+    const waitingTimeTrust = executiveMetricTrust.find((metric) => metric.key === "waitingTimePct");
+    const waitingTimeValue = waitingTimeTrust?.value === null || waitingTimeTrust?.value === undefined ? "-" : waitingTimeTrust.value.toFixed(1);
+    const waitingTimeTone: ExecSig = waitingTimeTrust?.state === "complete" ? "good" : waitingTimeTrust?.state === "partial" ? "warning" : "neutral";
+    const waitingTimeCurrentValue = waitingTimeTrust?.value;
+    const waitingTimePreviousValue = waitingTimeTrust?.previousValue;
+    const waitingTimeHasComparablePrevious = Number.isFinite(waitingTimeCurrentValue) && Number.isFinite(waitingTimePreviousValue);
     const executiveTeamData: ExecutiveTeamDesignData | null = selectedTeam && selectedTeamRow
     ? {
         teamName: selectedTeam.config.teamName,
@@ -6453,6 +6474,15 @@ export default function App(): JSX.Element {
             sub: "Implementation time from first hands-on work until Done",
             detail: `P85: ${formatWorkingDays(getFlowPresentationValue(selectedTeamRow.current.flowTiming, "implementation")?.p85 ?? null)} · Based on ${getFlowPresentationValue(selectedTeamRow.current.flowTiming, "implementation")?.count ?? 0} items`,
           }),
+          executiveMetric("Waiting Time %", waitingTimeValue, waitingTimeTone, {
+            unit: "%",
+            prev: waitingTimeHasComparablePrevious ? `${waitingTimePreviousValue!.toFixed(1)}%` : undefined,
+            trend: waitingTimeHasComparablePrevious ? waitingTimeCurrentValue! < waitingTimePreviousValue! ? "down" : waitingTimeCurrentValue! > waitingTimePreviousValue! ? "up" : "flat" : undefined,
+            trendGood: false,
+            sub: "Cycle-only waiting share · lower is better",
+            detail: waitingTimeTrust?.reason ?? "Unavailable · valid Waiting Time % detail is not available for this period.",
+            metricTrust: waitingTimeTrust,
+          }),
           executiveMetric("Delivery Expectation", `≤ ${formatWorkingDays(selectedTeamRow.current.sle.p85).replace(" working days", "")}`, "good", {
             unit: "working days",
             sub: "Team's current delivery promise (SLE P85)",
@@ -6483,16 +6513,7 @@ export default function App(): JSX.Element {
         previousFlowTiming: selectedTeamRow.previous?.flowTiming ?? null,
         historicalTrend,
         selectedHistoricalPeriod: periodMonth,
-        metricTrust: buildExecutiveMetricTrust(
-          selectedTeam.metrics,
-          periodMonth,
-          periodSummary.currentLabel,
-          selectedTeam.config,
-          selectedTeam.parsedIssues,
-          periodReferenceDate,
-          selectedTeamRow.current.flowTiming,
-          selectedTeamRow.current.sle.p85,
-        ),
+        metricTrust: executiveMetricTrust,
         cycleTimePanel: {
           team: selectedTeam,
           periodFilter: periodMonth,
@@ -9526,6 +9547,7 @@ function buildExecutiveMetricTrust(
   referenceDate: Date,
   flowTiming: TeamMetrics["flowTiming"],
   sleP85: number | null,
+  progressHistory: TeamProgressSnapshot[],
 ): MetricTrust[] {
   const details = metrics?.flowTimingDetails ?? [];
   const scope = normalizeFlowTimingConfig(teamConfig.flowTimingConfig);
@@ -9540,6 +9562,26 @@ function buildExecutiveMetricTrust(
   const fallbackUsed = validFlowCycleDetails.length === 0 && eligibleSleDetails.length > 0;
   const sleEligible = eligibleSleDetails.length;
   const sleUsable = eligibleSleDetails.filter((item) => Number.isFinite(item.cycleTimeDays) && item.cycleTimeDays >= 0).length;
+  const semanticVersion = getWorkflowSemanticVersion(teamConfig);
+  const comparableSnapshots = progressHistory
+    .map((item) => item.metrics.waitingTime)
+    .filter((item): item is NonNullable<TeamProgressSnapshot["metrics"]["waitingTime"]> => Boolean(item?.asOf && item.semanticVersion === semanticVersion));
+  const persistedPeriods = comparableSnapshots.map((item) => item.asOf as string);
+  const persistedCurrentSnapshot = comparableSnapshots
+    .filter((item) => item.asOf === periodMonth)
+    .sort((left, right) => (left.capturedAt ?? "").localeCompare(right.capturedAt ?? ""))
+    .at(-1);
+  const metricSnapshotIsAuthoritative = metrics?.waitingTime !== undefined && (
+    (metrics.waitingTime.asOf === periodMonth && metrics.waitingTime.semanticVersion === semanticVersion) ||
+    (metrics.waitingTime.asOf === undefined && (metrics.waitingTime.state !== "complete" || metrics.waitingTime.coverageState === "conflict"))
+  );
+  const waitingSnapshot = metricSnapshotIsAuthoritative && metrics?.waitingTime
+    ? metrics.waitingTime
+    : persistedCurrentSnapshot ?? buildWaitingTimeSnapshot(scopedDetails, periodMonth, metrics?.generatedAt, "local-recalculation", semanticVersion ?? undefined);
+  const previousPeriod = getPreviousPeriodKey(periodMonth, persistedPeriods);
+  const previousWaitingSnapshot = previousPeriod
+    ? comparableSnapshots.filter((item) => item.asOf === previousPeriod).sort((left, right) => (left.capturedAt ?? "").localeCompare(right.capturedAt ?? "")).at(-1)
+    : undefined;
   return buildMetricTrustMetadata({
     flowTiming,
     flowDetails: scopedDetails,
@@ -9548,6 +9590,8 @@ function buildExecutiveMetricTrust(
     sleEligibleCount: sleEligible,
     sleUsableCount: sleUsable,
     cycleFallbackUsed: fallbackUsed,
+    waitingTimeSnapshot: waitingSnapshot,
+    previousWaitingTimeSnapshot: previousWaitingSnapshot,
   });
 }
 
@@ -10807,6 +10851,9 @@ function buildTeamProgressSnapshot(team: TeamRuntime, now: Date): TeamProgressSn
       doneBugRatioPct: health.bugRatio.doneBugRatio,
       openWipCount: health.agingWip.total,
       openWipAvgAgeDays: health.agingWip.avgDays,
+      waitingTime: team.metrics?.waitingTime
+        ? { ...team.metrics.waitingTime, semanticVersion: getWorkflowSemanticVersion(team.config) ?? undefined }
+        : undefined,
     },
   };
 }

@@ -284,6 +284,21 @@ export function adaptLegacyWorkflowConfig(config?: TeamConfig): FlowStatusMappin
   return { ...legacyValidation.config, state: "complete", source: "legacy", diagnostics };
 }
 
+/** Stable semantic identity for comparable local metric snapshots. */
+export function getWorkflowSemanticVersion(config?: TeamConfig): string | null {
+  const mapping = adaptLegacyWorkflowConfig(config);
+  if (mapping.state !== "complete") return null;
+  const normalize = (values: string[] | null): string[] => (values ?? [])
+    .map((value) => value.trim().toLocaleLowerCase())
+    .sort();
+  return `flow-status-v1:${JSON.stringify({
+    lead: normalize(mapping.leadStatuses),
+    cycle: normalize(mapping.cycleStatuses),
+    implementation: normalize(mapping.implementationStatuses),
+    done: normalize(mapping.doneStatuses),
+  })}`;
+}
+
 export function classifyWorkflowStatusForReport(status: string, config?: TeamConfig): ReportFlowStatusRole {
   const mapping = adaptLegacyWorkflowConfig(config);
   if (mapping.state !== "complete") return "unmapped";

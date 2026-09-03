@@ -1,11 +1,27 @@
-import type { FlowTimingIssueDetail, TeamMetrics } from "../types/contracts";
+import type { FlowTimingIssueDetail, TeamMetrics, WaitingTimeSnapshot, WaitingTimeSnapshotState } from "../types/contracts";
 
-export type MetricTrustKey = "leadTime" | "activeTime" | "cycleTime" | "sleP85";
-export type MetricTrustState = "complete" | "partial" | "unavailable" | "loading" | "error";
+export type MetricTrustKey = "leadTime" | "activeTime" | "cycleTime" | "sleP85" | "waitingTimePct";
+export type MetricTrustState =
+  | "complete"
+  | "partial"
+  | "unavailable"
+  | "unavailable-no-source"
+  | "loading"
+  | "error"
+  | "error-with-retry"
+  | "conflict"
+  | "stale-last-known"
+  | "needs-review-config";
 
 export interface MetricTrust {
   key: MetricTrustKey;
   label: string;
+  unit: "working days" | "%";
+  asOf: string | null;
+  capturedAt: string | null;
+  unknownCount: number | null;
+  previousValue: number | null;
+  previousPeriodLabel: string | null;
   value: number | null;
   p85: number | null;
   definition: string;
@@ -17,6 +33,9 @@ export interface MetricTrust {
   eligibleCount: number | null;
   usableCount: number | null;
   coveragePct: number | null;
+  coverageState?: WaitingTimeSnapshot["coverageState"];
+  retryAvailable?: boolean;
+  semanticVersion?: string;
   state: MetricTrustState;
   reason: string;
   interpretation?: string;
@@ -30,6 +49,8 @@ export interface MetricTrustInput {
   sleEligibleCount: number;
   sleUsableCount: number;
   cycleFallbackUsed: boolean;
+  waitingTimeSnapshot?: WaitingTimeSnapshot;
+  previousWaitingTimeSnapshot?: WaitingTimeSnapshot;
 }
 
 const BASIS = "Monday-Friday working days";
@@ -74,6 +95,12 @@ function flowMetricTrust(
   return {
     key,
     label: key === "leadTime" ? "Lead Time" : key === "activeTime" ? "Cycle Time" : "Implementation Time",
+    unit: "working days",
+    asOf: input.periodLabel,
+    capturedAt: null,
+    unknownCount: detailRowsAvailable ? Math.max(0, eligibleCount - usableCount) : null,
+    previousValue: null,
+    previousPeriodLabel: null,
     value: metric.avgDays,
     p85: metric.p85,
     definition,
@@ -92,6 +119,73 @@ function flowMetricTrust(
     state,
     reason,
   };
+}
+
+function waitingTimeTrust(input: MetricTrustInput): MetricTrust {
+  const snapshot = input.waitingTimeSnapshot;
+  const eligibleCount = snapshot?.sampleCount ?? input.flowDetails.length;
+  const usableDetails = input.flowDetails.filter((detail) => {
+    const cycleDays = detail.activeTimeDays;
+    const implementationDays = detail.cycleTimeDays;
+    return cycleDays !== null && implementationDays !== null
+      && Number.isFinite(cycleDays) && Number.isFinite(implementationDays)
+      && cycleDays >= 0 && implementationDays >= 0 && implementationDays <= cycleDays;
+  });
+  const usableCount = snapshot?.usableCount ?? usableDetails.length;
+  const cycleDuration = snapshot?.cycleDurationWorkingDays ?? usableDetails.reduce((sum, detail) => sum + (detail.activeTimeDays ?? 0), 0);
+  const waitingDuration = snapshot?.waitingDurationWorkingDays ?? usableDetails.reduce((sum, detail) => sum + ((detail.activeTimeDays ?? 0) - (detail.cycleTimeDays ?? 0)), 0);
+  const value = snapshot?.waitingPct ?? (usableCount > 0 && cycleDuration > 0 ? (waitingDuration / cycleDuration) * 100 : null);
+  const snapshotState = snapshot ? mapWaitingSnapshotState(snapshot.state, snapshot.coverageState, snapshot.source) : null;
+  const state: MetricTrustState = snapshotState ?? (value === null ? "unavailable" : usableCount < eligibleCount ? "partial" : "complete");
+  const comparablePrevious = snapshot?.semanticVersion !== undefined
+    && input.previousWaitingTimeSnapshot?.semanticVersion === snapshot.semanticVersion;
+  const source = snapshot?.source ?? (snapshot ? "Unavailable source" : "Local flowTiming detail snapshot");
+  const reason = snapshot?.reason ?? (value === null
+    ? eligibleCount === 0
+      ? "Unavailable · valid Waiting Time % detail is not available for this period."
+      : cycleDuration === 0
+        ? "Unavailable · usable Cycle Time duration is zero."
+        : "Unavailable · no usable Cycle Time denominator for this period."
+    : state === "partial"
+      ? `${usableCount} of ${eligibleCount} observations usable; excluded or invalid observations reduce coverage.`
+      : `Coverage: ${usableCount} usable observations.`);
+  return {
+    key: "waitingTimePct",
+    label: "Waiting Time %",
+    unit: "%",
+    asOf: snapshot?.asOf ?? input.periodLabel,
+    capturedAt: snapshot?.capturedAt ?? null,
+    unknownCount: snapshot?.unknownCount ?? Math.max(0, eligibleCount - usableCount),
+    previousValue: comparablePrevious ? input.previousWaitingTimeSnapshot?.waitingPct ?? null : null,
+    previousPeriodLabel: comparablePrevious ? input.previousWaitingTimeSnapshot?.asOf ?? null : null,
+    value,
+    p85: null,
+    definition: "Share of usable Cycle Time spent waiting outside Implementation Time.",
+    calculation: "Summed usable Cycle-only waiting duration outside Implementation Time ÷ summed usable Cycle Time duration × 100.",
+    source,
+    fallback: snapshot?.reason ?? "None used.",
+    periodLabel: input.periodLabel,
+    basis: BASIS,
+    eligibleCount,
+    usableCount,
+    coveragePct: eligibleCount > 0 ? (usableCount / eligibleCount) * 100 : null,
+    coverageState: snapshot?.coverageState,
+    retryAvailable: snapshot?.retryAvailable,
+    semanticVersion: snapshot?.semanticVersion,
+    state,
+    reason,
+  };
+}
+
+function mapWaitingSnapshotState(
+  state: WaitingTimeSnapshotState | undefined,
+  coverageState: WaitingTimeSnapshot["coverageState"],
+  source: WaitingTimeSnapshot["source"],
+): MetricTrustState | null {
+  if (coverageState === "conflict") return "conflict";
+  if (!source) return "unavailable-no-source";
+  if (state) return state;
+  return null;
 }
 
 export function buildMetricTrustMetadata(input: MetricTrustInput): MetricTrust[] {
@@ -123,6 +217,12 @@ export function buildMetricTrustMetadata(input: MetricTrustInput): MetricTrust[]
     {
       key: "sleP85",
       label: "SLE P85",
+      unit: "working days",
+      asOf: input.periodLabel,
+      capturedAt: null,
+      unknownCount: flowDetailsAvailable ? Math.max(0, input.sleEligibleCount - input.sleUsableCount) : null,
+      previousValue: null,
+      previousPeriodLabel: null,
       value: input.sleP85,
       p85: input.sleP85,
       definition: "The working-day expectation that 85% of eligible completed Cycle Time observations finish within.",
@@ -138,5 +238,6 @@ export function buildMetricTrustMetadata(input: MetricTrustInput): MetricTrust[]
       state: sleState,
       reason: sleReason,
     },
+    waitingTimeTrust(input),
   ];
 }

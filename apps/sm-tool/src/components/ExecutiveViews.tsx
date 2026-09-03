@@ -59,6 +59,7 @@ export interface ExecutiveTeamMetric {
   prev?: string;
   trend?: "up" | "down" | "flat";
   trendGood?: boolean;
+  metricTrust?: MetricTrust;
 }
 
 export interface ExecutiveFlowStage {
@@ -372,7 +373,7 @@ function TrustMetricCard({ trust, diagnostic, open, onToggle, buttonRef }: { tru
         <span>{trust.label}</span>
         <button ref={buttonRef} type="button" className="metric-help-btn" aria-label={`Explain ${trust.label}`} aria-expanded={open} aria-controls={popoverId} onClick={onToggle}>i</button>
       </header>
-      <div><strong>{trust.value === null ? "-" : trust.value.toFixed(1)}</strong><small>working days</small></div>
+      <div><strong>{trust.value === null ? "-" : trust.value.toFixed(1)}</strong><small>{trust.unit}</small></div>
       <b>{trust.usableCount === null ? "Usable count unavailable" : `Based on ${trust.usableCount} usable item${trust.usableCount === 1 ? "" : "s"}`}</b>
       <p className={`metric-trust-state ${trust.state}`}>{stateLabel}{trust.state !== "complete" ? ` · ${trust.reason}` : ""}</p>
       {open ? <MetricTrustPopover trust={trust} diagnostic={diagnostic} popoverId={popoverId} /> : null}
@@ -407,7 +408,7 @@ function FlowTimeCards({ data, diagnostic }: { data: ExecutiveTeamDesignData; di
     <section aria-label="Flow Time">
       <SectionHeader title="Flow Time" sub={`${data.periodLabel} · working days · averages are not additive`} />
       <div className="exec-flow-metric-grid metric-trust-grid">
-        {data.metricTrust.map((trust) => (
+        {data.metricTrust.filter((trust) => trust.key !== "waitingTimePct").map((trust) => (
           <div key={trust.key} className="metric-trust-anchor" data-metric-trust-key={trust.key}>
             <TrustMetricCard trust={trust} diagnostic={diagnostic} open={openKey === trust.key} buttonRef={(element) => { buttonRefs.current[trust.key] = element ?? undefined; }} onToggle={() => setOpenKey((current) => current === trust.key ? null : trust.key)} />
           </div>
@@ -839,16 +840,18 @@ function MetricInsightModal({ data, metric, onClose, diagnostic }: { data: Execu
   const pointRefs = useRef<Record<number, HTMLButtonElement | null>>({});
   const definition = getMetricInsightDefinition(metric.label);
   const direction = resolveAdjacentHistoricalDirection(points.map((point) => ({ period: point.period, value: point.value })));
-  const unit = metric.unit ?? definition.unit;
-  const previousValue = parseMetricPreviousValue(metric.prev);
-  const change = metric.label === "Bottleneck" ? "Categorical state; no numeric trend is inferred." : previousValue === null ? "Unavailable · no comparable historical data for this metric." : `${metric.trend === "up" ? "Up" : metric.trend === "down" ? "Down" : "Unchanged"} from ${previousValue} ${unit}.`;
+  const trust = metric.metricTrust;
+  const unit = trust?.unit ?? metric.unit ?? definition.unit;
   const interpretation = metric.label === "Bottleneck" ? "Categorical current state." : validPoints.length === 1 ? "N/A · one valid period is available." : direction === "Unavailable" ? "Unavailable · no comparable historical data for this metric." : `${direction} · adjacent comparable periods only.`;
   const modalKey = metric.label.toLowerCase().replace(/[^a-z0-9]+/g, "-");
   const currentSnapshot = windowPoints.at(-1) ?? null;
-  const currentValueUnavailable = metric.value.trim() === "-";
-  const sourceLabel = definition.source ?? "Local selected-period metric snapshot";
-  const sampleLabel = historyKey && currentSnapshot ? currentSnapshot.sample ?? "Unavailable" : "Unavailable";
-  const usableLabel = historyKey && currentSnapshot ? currentSnapshot.usable ?? "Unavailable" : "Unavailable";
+  const currentValueUnavailable = trust ? trust.value === null || trust.value === undefined : metric.value.trim() === "-";
+  const previousValue = trust ? trust.previousValue : parseMetricPreviousValue(metric.prev);
+  const hasComparablePrevious = !currentValueUnavailable && Number.isFinite(previousValue);
+  const change = metric.label === "Bottleneck" ? "Categorical state; no numeric trend is inferred." : !hasComparablePrevious ? "Unavailable · no comparable historical data for this metric." : `${metric.trend === "up" ? "Up" : metric.trend === "down" ? "Down" : "Unchanged"} from ${previousValue} ${unit}.`;
+  const sourceLabel = trust?.source ?? definition.source ?? "Local selected-period metric snapshot";
+  const sampleLabel = trust ? trust.eligibleCount ?? "Unavailable" : historyKey && currentSnapshot ? currentSnapshot.sample ?? "Unavailable" : "Unavailable";
+  const usableLabel = trust ? trust.usableCount ?? "Unavailable" : historyKey && currentSnapshot ? currentSnapshot.usable ?? "Unavailable" : "Unavailable";
 
   useEffect(() => {
     const first = validIndexes[0];
@@ -876,6 +879,8 @@ function MetricInsightModal({ data, metric, onClose, diagnostic }: { data: Execu
     <header><div><h2 id={`metric-insight-${modalKey}-title`}>{metric.label} insight</h2><p>{data.teamName} · {data.periodLabel}</p></div><button ref={closeRef} type="button" aria-label="Close metric insight" onClick={onClose}>Close</button></header>
     <div className="metric-insight-body"><p><strong>Current</strong><br /><span className="metric-insight-value">{currentValueUnavailable ? "Unavailable" : `${metric.value} ${unit}`}</span>{currentValueUnavailable ? <small className="metric-insight-unavailable">{definition.unavailable ?? "Unavailable · no valid value exists for the selected period."}</small> : null}</p><p><strong>Change</strong> {change}</p><p><strong>Interpretation</strong> {interpretation} {definition.direction !== "categorical" ? (definition.direction === "lower" ? "Lower is better." : "Higher is better.") : "Categorical; no numeric direction is inferred."}</p><p><strong>Meaning</strong> {definition.meaning}</p>
       <p><strong>How collected</strong> {definition.collection ?? "Local selected-period metric snapshot."}</p>
+      {trust ? <p><strong>Metric state</strong> {trust.state}. {trust.reason}</p> : null}
+      {metric.detail ? <p><strong>Data state</strong> {metric.detail}</p> : null}
       {data.dataStatus.recalculateState === "loading" ? <p role="status">Loading {metric.label} insight… Last-known values remain visible.</p> : null}
       {data.dataStatus.recalculateState === "unavailable" ? <p role="status">{definition.unavailable ?? `Unavailable · ${metric.label} cannot be read from the current local metric contract.`}</p> : null}
       {data.dataStatus.stale ? <p className="metric-insight-warning" role="status">Showing last-known data · the source is newer than this calculation.</p> : null}
@@ -886,7 +891,7 @@ function MetricInsightModal({ data, metric, onClose, diagnostic }: { data: Execu
       {diagnostic ? <p><strong>Coverage</strong> Existing selected-period snapshot and metric contract; Monday-Friday working-day semantics remain unchanged. {historyKey ? `${validPoints.length} of ${points.length} comparable periods have usable values.` : "No separate historical series is available for this metric."}</p> : null}
       {focusedPeriod ? <p className="metric-insight-detail" role="status">{pinned ? "Pinned · " : ""}{focusedPeriod}: {points.find((point) => point.period === focusedPeriod)?.value == null ? "No data for this period." : `${points.find((point) => point.period === focusedPeriod)?.value?.toFixed(1)} ${unit} · as of ${focusedPeriod} · captured ${points.find((point) => point.period === focusedPeriod)?.capturedAt}; sample ${points.find((point) => point.period === focusedPeriod)?.sample ?? "Unavailable"}; usable ${points.find((point) => point.period === focusedPeriod)?.usable ?? "Unavailable"}; source ${points.find((point) => point.period === focusedPeriod)?.source ?? "Source unavailable"}`}</p> : null}
       <p className="metric-insight-mode-detail">{diagnostic ? (definition.diagnosticDetail ?? definition.calculation) : (definition.teamDetail ?? "Metric-specific local insight for the selected period.")}</p>
-      <details className="metric-insight-details"><summary>Data details</summary><dl><div><dt>As of</dt><dd>{currentSnapshot?.period ?? data.periodLabel}</dd></div><div><dt>Captured</dt><dd>{currentSnapshot?.capturedAt ?? "Unavailable"}</dd></div><div><dt>Sample / usable</dt><dd>{sampleLabel} / {usableLabel}</dd></div><div><dt>Source</dt><dd>{sourceLabel}</dd></div></dl></details>
+      <details className="metric-insight-details"><summary>Data details</summary><dl><div><dt>As of</dt><dd>{trust?.asOf ?? currentSnapshot?.period ?? data.periodLabel}</dd></div><div><dt>Captured</dt><dd>{trust?.capturedAt ?? currentSnapshot?.capturedAt ?? "Unavailable"}</dd></div><div><dt>Sample / usable</dt><dd>{sampleLabel} / {usableLabel}</dd></div><div><dt>Unknown</dt><dd>{trust?.unknownCount ?? "Unavailable"}</dd></div><div><dt>Source</dt><dd>{sourceLabel}</dd></div><div><dt>Basis</dt><dd>{trust?.basis ?? definition.calculation}</dd></div></dl></details>
       {diagnostic ? <details className="metric-insight-table"><summary>View data table</summary><table><thead><tr><th>Period</th><th>Value</th><th>Captured</th><th>Sample</th><th>Usable</th><th>Source</th></tr></thead><tbody>{points.map((point, index) => <tr key={`${point.period}-${index}`}><td>{point.period}</td><td>{point.value == null ? "No data" : point.value.toFixed(1)}</td><td>{point.capturedAt}</td><td>{point.sample ?? "Unavailable"}</td><td>{point.usable ?? "Unavailable"}</td><td>{point.source ?? sourceLabel}</td></tr>)}</tbody></table></details> : null}
     </div>
   </div></div>;

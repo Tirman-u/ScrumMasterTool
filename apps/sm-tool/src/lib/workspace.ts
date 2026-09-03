@@ -1,6 +1,7 @@
 import { parseCsv, parseDate, parseNumber } from "./csv";
 import {
   buildMetrics,
+  buildWaitingTimeSnapshot,
   buildSleValues,
   dedupeIssuesByLatestUpdate,
   dedupeTimeInStatusRowsByLatest,
@@ -1087,6 +1088,7 @@ export function normalizeTeamMetrics(raw: Record<string, unknown> | null): TeamM
   const cycleTimeCount = toNonNegativeIntegerOrNull(raw.cycleTimeCount) ?? cycleTimeDays.length;
   const uniqueIssues = toNonNegativeIntegerOrNull(raw.uniqueIssues) ?? Math.max(doneIssues, cycleTimeCount);
   const totalImportedRows = toNonNegativeIntegerOrNull(raw.totalImportedRows) ?? uniqueIssues;
+  const generatedAt = typeof raw.generatedAt === "string" ? raw.generatedAt : new Date().toISOString();
   const normalizedFlowTimingDetails = normalizeFlowTimingDetails(raw.flowTimingDetails);
   const flowTimingDetails =
     raw.flowTimingBasis === "working-days"
@@ -1122,7 +1124,7 @@ export function normalizeTeamMetrics(raw: Record<string, unknown> | null): TeamM
       : effectiveCycleTimeDays.reduce((sum, value) => sum + value, 0) / effectiveCycleTimeDays.length;
 
   return {
-    generatedAt: typeof raw.generatedAt === "string" ? raw.generatedAt : new Date().toISOString(),
+    generatedAt,
     teamName,
     totalImportedRows,
     uniqueIssues,
@@ -1143,11 +1145,38 @@ export function normalizeTeamMetrics(raw: Record<string, unknown> | null): TeamM
     flowTiming: normalizeFlowTiming(raw.flowTiming),
     flowTimingBasis: "working-days",
     flowTimingDetails,
+    waitingTime: normalizeWaitingTimeSnapshot(raw.waitingTime) ?? buildWaitingTimeSnapshot(flowTimingDetails, undefined, generatedAt, "local-cache"),
     multiSprint: {
       count: Math.max(0, multiSprintCount),
       percentage: multiSprintPercentage < 0 ? 0 : multiSprintPercentage,
     },
     multiSprintIssueKeys,
+  };
+}
+
+function normalizeWaitingTimeSnapshot(value: unknown): TeamMetrics["waitingTime"] {
+  if (!isRecord(value)) return undefined;
+  const coverageState = value.coverageState;
+  if (coverageState !== "complete" && coverageState !== "partial" && coverageState !== "unavailable" && coverageState !== "conflict") return undefined;
+  const stateValues = ["complete", "partial", "unavailable", "unavailable-no-source", "conflict", "stale-last-known", "needs-review-config", "error-with-retry"] as const;
+  const state = stateValues.includes(value.state as typeof stateValues[number]) ? value.state as typeof stateValues[number] : undefined;
+  const numberOrUndefined = (candidate: unknown): number | undefined => typeof candidate === "number" && Number.isFinite(candidate) ? candidate : undefined;
+  const source = value.source === "local-import" || value.source === "local-cache" || value.source === "local-recalculation" ? value.source : undefined;
+  return {
+    waitingDurationWorkingDays: numberOrUndefined(value.waitingDurationWorkingDays),
+    cycleDurationWorkingDays: numberOrUndefined(value.cycleDurationWorkingDays),
+    waitingPct: numberOrUndefined(value.waitingPct),
+    sampleCount: numberOrUndefined(value.sampleCount),
+    usableCount: numberOrUndefined(value.usableCount),
+    unknownCount: numberOrUndefined(value.unknownCount),
+    coverageState,
+    state,
+    asOf: typeof value.asOf === "string" ? value.asOf : undefined,
+    capturedAt: typeof value.capturedAt === "string" ? value.capturedAt : undefined,
+    source,
+    semanticVersion: typeof value.semanticVersion === "string" ? value.semanticVersion : undefined,
+    retryAvailable: value.retryAvailable === true,
+    reason: typeof value.reason === "string" ? value.reason : undefined,
   };
 }
 
@@ -1238,6 +1267,7 @@ function normalizeTeamProgressSnapshot(value: Record<string, unknown>): TeamProg
       doneBugRatioPct: toNullableNumber(metrics.doneBugRatioPct),
       openWipCount: toNonNegativeIntegerOrNull(metrics.openWipCount) ?? 0,
       openWipAvgAgeDays: toNullableNumber(metrics.openWipAvgAgeDays),
+      waitingTime: normalizeWaitingTimeSnapshot(metrics.waitingTime),
     },
   };
 }

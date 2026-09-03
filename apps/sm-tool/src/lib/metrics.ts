@@ -5,6 +5,7 @@ import {
   type SleValues,
   type TeamConfig,
   type TeamMetrics,
+  type WaitingTimeSnapshot,
   type VelocityPoint,
 } from "../types/contracts";
 import { type TimeInStatusIssueRow } from "./time-in-status";
@@ -12,6 +13,54 @@ import { calendarDurationToWorkingDays, workingDaysBetween } from "./working-day
 import { adaptLegacyWorkflowConfig, classifyUnifiedFlowStatus, validateUnifiedFlowStatusConfig } from "./flow-presentation";
 
 export const DEFAULT_SLE_ISSUE_TYPES = ["Task", "Bug", "Story"] as const;
+
+export function buildWaitingTimeSnapshot(
+  details: FlowTimingIssueDetail[],
+  asOf?: string,
+  capturedAt?: string,
+  source: WaitingTimeSnapshot["source"] = "local-recalculation",
+  semanticVersion?: string,
+): WaitingTimeSnapshot {
+  const sampleCount = details.length;
+  const usable = details.filter((detail) => {
+    const cycle = detail.activeTimeDays;
+    const implementation = detail.cycleTimeDays;
+    return cycle !== null && implementation !== null
+      && Number.isFinite(cycle) && Number.isFinite(implementation)
+      && cycle >= 0 && implementation >= 0 && implementation <= cycle;
+  });
+  const cycleDurationWorkingDays = usable.reduce((sum, detail) => sum + (detail.activeTimeDays ?? 0), 0);
+  const waitingDurationWorkingDays = usable.reduce((sum, detail) => sum + ((detail.activeTimeDays ?? 0) - (detail.cycleTimeDays ?? 0)), 0);
+  const waitingPct = cycleDurationWorkingDays > 0 ? (waitingDurationWorkingDays / cycleDurationWorkingDays) * 100 : undefined;
+  const invariantValid = waitingPct === undefined || (Number.isFinite(waitingPct) && waitingPct >= 0 && waitingPct <= 100);
+  const usableCount = usable.length;
+  const state: WaitingTimeSnapshot["state"] = !invariantValid || usableCount === 0
+    ? "unavailable"
+    : usableCount < sampleCount ? "partial" : "complete";
+  return {
+    waitingDurationWorkingDays,
+    cycleDurationWorkingDays,
+    waitingPct: invariantValid ? waitingPct : undefined,
+    sampleCount,
+    usableCount,
+    unknownCount: sampleCount - usableCount,
+    coverageState: !invariantValid || usableCount === 0 ? "unavailable" : usableCount < sampleCount ? "partial" : "complete",
+    state,
+    asOf,
+    capturedAt,
+    source,
+    semanticVersion,
+    reason: !invariantValid
+      ? "Unavailable · waiting and Cycle Time durations violate the expected range."
+      : usableCount === 0
+        ? cycleDurationWorkingDays === 0 && sampleCount > 0
+          ? "Unavailable · usable Cycle Time duration is zero."
+          : "Unavailable · no usable Cycle Time denominator for this period."
+        : usableCount < sampleCount
+          ? `${usableCount} of ${sampleCount} observations usable; excluded or invalid observations reduce coverage.`
+          : undefined,
+  };
+}
 
 export function dedupeIssuesByLatestUpdate(issues: ParsedIssue[]): ParsedIssue[] {
   const byKey = new Map<string, ParsedIssue>();
@@ -130,8 +179,9 @@ export function buildMetrics(
   const multiSprintPercentage = doneIssues.length === 0 ? 0 : (multiSprintCount / doneIssues.length) * 100;
 
   const cycleTimeByIssueKey = new Map(cycleTimeIssues.map((item) => [normalize(item.issueKey), item.cycleTimeDays]));
+  const generatedAt = new Date().toISOString();
   const metrics: TeamMetrics = {
-    generatedAt: new Date().toISOString(),
+    generatedAt,
     teamName: teamConfig.teamName,
     totalImportedRows: allRowsCount,
     uniqueIssues: includedIssues.length,
@@ -158,6 +208,7 @@ export function buildMetrics(
     flowTiming: summarizeFlowTimingDetails(flowTimingDetails, teamConfig),
     flowTimingBasis: "working-days",
     flowTimingDetails,
+    waitingTime: buildWaitingTimeSnapshot(flowTimingDetails, undefined, generatedAt),
     multiSprint: {
       count: multiSprintCount,
       percentage: multiSprintPercentage,
