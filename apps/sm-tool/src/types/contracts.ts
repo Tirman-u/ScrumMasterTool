@@ -49,6 +49,14 @@ export interface WorkflowConfig {
   funnelStatuses?: string[];
   activeStatuses?: string[];
   implementingStatuses?: string[];
+  statusSets?: UnifiedFlowStatusConfig;
+}
+
+export interface UnifiedFlowStatusConfig {
+  leadStatuses: string[];
+  cycleStatuses: string[];
+  implementationStatuses: string[];
+  doneStatuses: string[];
 }
 
 export interface FlowTimingConfig {

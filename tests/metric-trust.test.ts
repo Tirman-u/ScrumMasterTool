@@ -59,6 +59,7 @@ describe("Executive metric trust affordance", () => {
     expect(trust.every((metric) => metric.coveragePct === null)).toBe(true);
     expect(trust.find((metric) => metric.key === "sleP85")?.usableCount).toBeNull();
     expect(trust.every((metric) => metric.periodLabel === "March 2026")).toBe(true);
+    expect(trust.map((metric) => metric.label)).toEqual(["Lead Time", "Cycle Time", "Implementation Time", "SLE P85"]);
   });
 
   it("reports complete, partial, fallback, unavailable, and selected-period states from fixtures", () => {
@@ -110,5 +111,8 @@ describe("Executive metric trust affordance", () => {
     expect(viewsSource).toContain("data-metric-trust-key");
     expect(stylesSource).toContain(".metric-trust-grid");
     expect(stylesSource).toContain("@media (max-width: 620px)");
+    expect(trustSource).not.toContain('? "Active Time" : "Cycle Time"');
+    expect(appSource).toContain("getWorkflowCompatibilityBuckets(team.config).excludedStatuses");
+    expect(appSource).not.toContain("...(team.config.workflowConfig?.funnelStatuses ?? [])");
   });
 });

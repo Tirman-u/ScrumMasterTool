@@ -73,7 +73,7 @@ function flowMetricTrust(
 
   return {
     key,
-    label: key === "leadTime" ? "Lead Time" : key === "activeTime" ? "Active Time" : "Cycle Time",
+    label: key === "leadTime" ? "Lead Time" : key === "activeTime" ? "Cycle Time" : "Implementation Time",
     value: metric.avgDays,
     p85: metric.p85,
     definition,
@@ -97,9 +97,9 @@ function flowMetricTrust(
 export function buildMetricTrustMetadata(input: MetricTrustInput): MetricTrust[] {
   const flowDetailsAvailable = input.flowDetails.length > 0;
   const flowMetrics = [
-    flowMetricTrust(input, "leadTime", input.flowTiming.leadTime, "Working days from the configured lead-time start to Done.", "Funnel + Active + Implementing durations to Done."),
-    flowMetricTrust(input, "activeTime", input.flowTiming.activeTime, "Working days spent in Active and Implementing statuses before Done.", "Active + Implementing durations to Done."),
-    flowMetricTrust(input, "cycleTime", input.flowTiming.cycleTime, "Working days spent in Implementing statuses before Done.", "Implementing durations to Done."),
+    flowMetricTrust(input, "leadTime", input.flowTiming.leadTime, "Working days from the configured Lead Time start to Done.", "Lead Time durations to Done."),
+    flowMetricTrust(input, "activeTime", input.flowTiming.activeTime, "Working days through the configured Cycle Time flow before Done.", "Cycle Time durations to Done."),
+    flowMetricTrust(input, "cycleTime", input.flowTiming.cycleTime, "Working days in the configured Implementation Time flow before Done.", "Implementation Time durations to Done."),
   ];
   const snapshotOnlySle = !flowDetailsAvailable && input.sleP85 !== null;
   const sleState: MetricTrustState = input.sleP85 === null || (!snapshotOnlySle && input.sleUsableCount === 0)

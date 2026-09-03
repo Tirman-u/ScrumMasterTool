@@ -30,7 +30,19 @@ import { isDefaultNonFlowStatus, isTerminalOrCancelledStatus } from "./lib/time-
 import { workingDaysBetween } from "./lib/working-days";
 import { buildExecutiveFlowSummary } from "./lib/metric-consistency";
 import { buildMetricTrustMetadata, type MetricTrust } from "./lib/metric-trust";
-import { adaptLegacyWorkflowConfig, FLOW_PRESENTATION_METRICS } from "./lib/flow-presentation";
+import {
+  adaptLegacyWorkflowConfig,
+  buildUnifiedFlowStatusConfigFromLegacyGroups,
+  classifyUnifiedFlowStatus,
+  FLOW_PRESENTATION_METRICS,
+  legacyGroupsFromUnifiedFlowStatusConfig,
+  normalizeUnifiedFlowStatusConfig,
+  classifyWorkflowStatusForReport,
+  getWorkflowCompatibilityBuckets,
+  hasExplicitWorkflowStatusConfiguration,
+  validatedWorkflowStatusOrder,
+  validateUnifiedFlowStatusConfig,
+} from "./lib/flow-presentation";
 import { mapFlowTimingPresentation, type FlowPresentationMetricId } from "./lib/flow-presentation";
 import { buildTeamDataStatus } from "./lib/team-data-status";
 import { parseTeamRouteSearch, routeHistoryAction, serializeTeamRoute, validateTeamRoute, type TeamRouteState } from "./lib/team-route";
@@ -104,6 +116,7 @@ import {
   type SleValues,
   type ParsedIssue,
   type TeamConfig,
+  type UnifiedFlowStatusConfig,
   type TeamEntityType,
   type VelocityConfig,
   type TeamMetrics,
@@ -428,7 +441,7 @@ const CONFIGURABLE_METRICS: ConfigurableMetricDefinition[] = [
     label: "Lead Time",
     group: "Core",
     source: "Time in Status",
-    description: "Funnel-to-Done flow time.",
+    description: "Lead Time from upstream intake to Done.",
     defaultScopes: ["team", "value-stream", "art", "portfolio"],
     safeMetricIds: ["flow-time"],
   },
@@ -437,7 +450,7 @@ const CONFIGURABLE_METRICS: ConfigurableMetricDefinition[] = [
     label: "Cycle Time",
     group: "Core",
     source: "Time in Status",
-    description: "Active + Implementing flow time to Done.",
+    description: "Cycle Time through the configured delivery flow to Done.",
     defaultScopes: ["team", "value-stream", "art", "portfolio"],
     safeMetricIds: ["flow-time"],
   },
@@ -446,7 +459,7 @@ const CONFIGURABLE_METRICS: ConfigurableMetricDefinition[] = [
     label: "Implementation Time",
     group: "Core",
     source: "Time in Status",
-    description: "Implementing-to-Done flow time.",
+    description: "Implementation Time from execution start to Done.",
     defaultScopes: ["team", "value-stream", "art", "portfolio"],
     safeMetricIds: ["flow-time"],
   },
@@ -1132,7 +1145,7 @@ const METRIC_HELP: Record<MetricHelpKey, MetricHelpCopy> = {
   },
   leadTime: {
     title: "Lead Time",
-    meaning: "Flow time from Funnel until Done, measured in Monday-Friday working days.",
+    meaning: "Lead Time from upstream intake until Done, measured in Monday-Friday working days.",
     whyGood: "Lower is better. It shows the stakeholder wait time across planning and delivery flow.",
     improveTips: [
       "Reduce time spent waiting in Funnel with clearer intake and prioritization.",
@@ -1142,7 +1155,7 @@ const METRIC_HELP: Record<MetricHelpKey, MetricHelpCopy> = {
   },
   activeTime: {
     title: "Cycle Time",
-    meaning: "Working days from the configured active flow through Active and Implementing to Done.",
+    meaning: "Cycle Time through the configured delivery flow to Done, measured in Monday-Friday working days.",
     whyGood: "Lower is better. This is the current name for the former Active Time definition.",
     improveTips: [
       "Keep active WIP small and finish started items before starting new ones.",
@@ -1152,7 +1165,7 @@ const METRIC_HELP: Record<MetricHelpKey, MetricHelpCopy> = {
   },
   flowCycleTime: {
     title: "Implementation Time",
-    meaning: "Working days in Implementing statuses before Done.",
+    meaning: "Implementation Time in configured execution statuses before Done, measured in Monday-Friday working days.",
     whyGood: "Lower is better. It focuses on execution time after committed work starts.",
     improveTips: [
       "Break implementation work into smaller deliverable slices.",
@@ -1269,7 +1282,7 @@ const METRIC_HELP: Record<MetricHelpKey, MetricHelpCopy> = {
   },
   cycleTimeDistribution: {
     title: "Implementation Time Distribution",
-    meaning: "How long completed items spent in Implementing before Done, grouped into simple time bands.",
+    meaning: "How long completed items spent in Implementation Time before Done, grouped into simple time bands.",
     whyGood: "It shows whether most work finishes quickly or whether a meaningful share gets stuck for much longer.",
     improveTips: [
       "Look first at the slowest band and the issue types that appear there most often.",
@@ -1664,13 +1677,9 @@ export default function App(): JSX.Element {
   const [newTeamEntityType, setNewTeamEntityType] = useState<TeamEntityType>("team");
   const [newTeamJql, setNewTeamJql] = useState("");
 
-  const [doneStatusesInput, setDoneStatusesInput] = useState("");
   const [bugIssueTypesInput, setBugIssueTypesInput] = useState("Bug");
   const [bugDefaultStoryPointsInput, setBugDefaultStoryPointsInput] = useState("");
-  const [sprintScopeStatusesInput, setSprintScopeStatusesInput] = useState("");
   const [backlogStatusesInput, setBacklogStatusesInput] = useState("");
-  const [funnelStatusesInput, setFunnelStatusesInput] = useState("");
-  const [implementingStatusesInput, setImplementingStatusesInput] = useState("");
   const [functionalCoverageInput, setFunctionalCoverageInput] = useState("");
   const [unitTestCoverageInput, setUnitTestCoverageInput] = useState("");
   const [technicalDebtInput, setTechnicalDebtInput] = useState("");
@@ -1681,6 +1690,7 @@ export default function App(): JSX.Element {
   const [funnelStatusDraft, setFunnelStatusDraft] = useState("");
   const [implementingStatusDraft, setImplementingStatusDraft] = useState("");
   const [draftConfig, setDraftConfig] = useState<TeamConfig | null>(null);
+  const [unifiedStatusDraft, setUnifiedStatusDraft] = useState<UnifiedFlowStatusConfig | null>(null);
   const [bottleneckPeriodInput, setBottleneckPeriodInput] = useState(() => monthKey(new Date()));
   const [bottleneckRows, setBottleneckRows] = useState<BottleneckDraftRow[]>(() => [createEmptyBottleneckRow()]);
   const [bottleneckFlowStatuses, setBottleneckFlowStatuses] = useState<string[]>([]);
@@ -1690,6 +1700,7 @@ export default function App(): JSX.Element {
   const [dashboardDetailOpen, setDashboardDetailOpen] = useState(false);
   const [doneDefinitionOpen, setDoneDefinitionOpen] = useState(false);
   const [configurationPanelOpen, setConfigurationPanelOpen] = useState(false);
+  const [workflowSaveConfirmationOpen, setWorkflowSaveConfirmationOpen] = useState(false);
   const [agingWipCompactOpen, setAgingWipCompactOpen] = useState(false);
   const [bottleneckPanelOpen, setBottleneckPanelOpen] = useState(false);
   const [openMetricHelpKey, setOpenMetricHelpKey] = useState<MetricHelpKey | null>(null);
@@ -2051,13 +2062,11 @@ export default function App(): JSX.Element {
   useEffect(() => {
     if (!selectedTeam) {
       setDraftConfig(null);
-      setDoneStatusesInput("");
+      setUnifiedStatusDraft(null);
+      setWorkflowSaveConfirmationOpen(false);
       setBugIssueTypesInput("Bug");
       setBugDefaultStoryPointsInput("");
-      setSprintScopeStatusesInput("");
       setBacklogStatusesInput("");
-      setFunnelStatusesInput("");
-      setImplementingStatusesInput("");
       setFunctionalCoverageInput("");
       setUnitTestCoverageInput("");
       setTechnicalDebtInput("");
@@ -2076,17 +2085,47 @@ export default function App(): JSX.Element {
     }
 
     setDraftConfig(structuredClone(selectedTeam.config));
-    setDoneStatusesInput((selectedTeam.config.doneConfig.doneStatuses ?? []).join(", "));
+    setWorkflowSaveConfirmationOpen(false);
     setBugIssueTypesInput((selectedTeam.config.bugConfig?.issueTypes ?? ["Bug"]).join(", "));
     setBugDefaultStoryPointsInput(formatOptionalNumberInput(selectedTeam.config.bugConfig?.defaultStoryPoints));
     const inferredWorkflow = inferWorkflowConfig(selectedTeam.parsedIssues, selectedTeam.config.doneConfig.doneStatuses ?? []);
     const configuredWorkflow = selectedTeam.config.workflowConfig;
+    const canonicalValidation = configuredWorkflow?.statusSets === undefined
+      ? null
+      : validateUnifiedFlowStatusConfig(configuredWorkflow.statusSets);
+    const canonicalGroups = canonicalValidation?.config
+      ? legacyGroupsFromUnifiedFlowStatusConfig(canonicalValidation.config)
+      : null;
+    if (configuredWorkflow?.statusSets !== undefined) {
+      const raw = configuredWorkflow.statusSets;
+      setUnifiedStatusDraft(normalizeUnifiedFlowStatusConfig(raw) ?? {
+        leadStatuses: Array.isArray(raw.leadStatuses) ? raw.leadStatuses : [],
+        cycleStatuses: Array.isArray(raw.cycleStatuses) ? raw.cycleStatuses : [],
+        implementationStatuses: Array.isArray(raw.implementationStatuses) ? raw.implementationStatuses : [],
+        doneStatuses: Array.isArray(raw.doneStatuses) ? raw.doneStatuses : [],
+      });
+    } else {
+      setUnifiedStatusDraft(buildUnifiedFlowStatusConfigFromLegacyGroups({
+        funnelStatuses: configuredWorkflow?.funnelStatuses,
+        activeStatuses: configuredWorkflow?.activeStatuses,
+        implementingStatuses: configuredWorkflow?.implementingStatuses,
+        doneStatuses: selectedTeam.config.doneConfig.doneStatuses,
+      }).config);
+    }
     const hasConfiguredWorkflow =
+      configuredWorkflow?.statusSets !== undefined ||
       (configuredWorkflow?.backlogStatuses?.length ?? 0) > 0 ||
       (configuredWorkflow?.funnelStatuses?.length ?? 0) > 0 ||
       (configuredWorkflow?.activeStatuses?.length ?? 0) > 0 ||
       (configuredWorkflow?.implementingStatuses?.length ?? 0) > 0;
-    const workflowInput: InferredWorkflowConfig = hasConfiguredWorkflow
+    const workflowInput: InferredWorkflowConfig = configuredWorkflow?.statusSets !== undefined
+      ? {
+          backlogStatuses: configuredWorkflow.backlogStatuses?.length ? configuredWorkflow.backlogStatuses : [],
+          funnelStatuses: canonicalGroups?.funnelStatuses ?? configuredWorkflow.statusSets.leadStatuses ?? [],
+          activeStatuses: canonicalGroups?.activeStatuses ?? configuredWorkflow.statusSets.cycleStatuses ?? [],
+          implementingStatuses: canonicalGroups?.implementingStatuses ?? configuredWorkflow.statusSets.implementationStatuses ?? [],
+        }
+      : hasConfiguredWorkflow
       ? {
           backlogStatuses:
             configuredWorkflow?.backlogStatuses && configuredWorkflow.backlogStatuses.length > 0
@@ -2106,16 +2145,7 @@ export default function App(): JSX.Element {
               : inferredWorkflow.implementingStatuses,
         }
       : inferredWorkflow;
-    const configuredActiveStatuses = workflowInput.activeStatuses;
-    setSprintScopeStatusesInput(
-      (configuredActiveStatuses && configuredActiveStatuses.length > 0
-        ? configuredActiveStatuses
-        : inferredWorkflow.activeStatuses
-      ).join(", "),
-    );
     setBacklogStatusesInput(workflowInput.backlogStatuses.join(", "));
-    setFunnelStatusesInput(workflowInput.funnelStatuses.join(", "));
-    setImplementingStatusesInput(workflowInput.implementingStatuses.join(", "));
     setFunctionalCoverageInput(formatOptionalNumberInput(selectedTeam.config.engineeringMetrics?.functionalTestCoveragePct));
     setUnitTestCoverageInput(formatOptionalNumberInput(selectedTeam.config.engineeringMetrics?.unitTestCoveragePct));
     setTechnicalDebtInput(formatOptionalNumberInput(selectedTeam.config.engineeringMetrics?.technicalDebtAvgDays));
@@ -2604,8 +2634,8 @@ export default function App(): JSX.Element {
 
 
   const doneStatusList = useMemo(() => {
-    return parseCommaSeparatedList(doneStatusesInput);
-  }, [doneStatusesInput]);
+    return unifiedStatusDraft?.doneStatuses ?? [];
+  }, [unifiedStatusDraft]);
 
   const bugIssueTypeList = useMemo(() => {
     return parseCommaSeparatedList(bugIssueTypesInput);
@@ -2635,24 +2665,36 @@ export default function App(): JSX.Element {
   }, [selectedTeam, bugIssueTypeList]);
 
   const sprintScopeStatusList = useMemo(() => {
-    return parseCommaSeparatedList(sprintScopeStatusesInput);
-  }, [sprintScopeStatusesInput]);
+    return unifiedStatusDraft?.cycleStatuses ?? [];
+  }, [unifiedStatusDraft]);
 
   const backlogStatusList = useMemo(() => {
     return parseCommaSeparatedList(backlogStatusesInput);
   }, [backlogStatusesInput]);
 
   const funnelStatusList = useMemo(() => {
-    return parseCommaSeparatedList(funnelStatusesInput);
-  }, [funnelStatusesInput]);
+    if (!unifiedStatusDraft) return [];
+    const cycle = new Set(unifiedStatusDraft.cycleStatuses.map((value) => normalizeTextValue(value)));
+    return unifiedStatusDraft.leadStatuses.filter((value) => !cycle.has(normalizeTextValue(value)));
+  }, [unifiedStatusDraft]);
 
   const implementingStatusList = useMemo(() => {
-    return parseCommaSeparatedList(implementingStatusesInput);
-  }, [implementingStatusesInput]);
+    return unifiedStatusDraft?.implementationStatuses ?? [];
+  }, [unifiedStatusDraft]);
 
-  const flowWorkStatusList = useMemo(() => {
-    return parseCommaSeparatedList([...sprintScopeStatusList, ...implementingStatusList].join(", "));
-  }, [sprintScopeStatusList, implementingStatusList]);
+  const draftUnifiedStatusConfig = unifiedStatusDraft;
+
+  const draftDisplayUnifiedStatusConfig = useMemo(() => {
+    const raw = draftConfig?.workflowConfig?.statusSets;
+    return draftUnifiedStatusConfig ?? (raw
+      ? normalizeUnifiedFlowStatusConfig(raw) ?? {
+          leadStatuses: raw.leadStatuses ?? [],
+          cycleStatuses: raw.cycleStatuses ?? [],
+          implementationStatuses: raw.implementationStatuses ?? [],
+          doneStatuses: raw.doneStatuses ?? [],
+        }
+      : null);
+  }, [draftConfig, draftUnifiedStatusConfig]);
 
   const detectedWorkflowStatuses = useMemo(() => {
     return buildDetectedWorkflowStatuses(selectedTeam, selectedTeamBottleneckEntries);
@@ -4879,6 +4921,13 @@ export default function App(): JSX.Element {
       return;
     }
 
+    if (!workflowSaveConfirmationOpen) {
+      setWorkflowSaveConfirmationOpen(true);
+      setStatus("Review the status-role mapping, then confirm save.");
+      return;
+    }
+    setWorkflowSaveConfirmationOpen(false);
+
     const normalizedVelocity = normalizeVelocityConfig(draftConfig.velocityConfig);
     const workflowVelocityConfig: VelocityConfig =
       normalizedVelocity.mode === "sprint-story-points"
@@ -4913,6 +4962,13 @@ export default function App(): JSX.Element {
             updatedAt: new Date().toISOString(),
           };
 
+    const unifiedValidation = validateUnifiedFlowStatusConfig(unifiedStatusDraft);
+    if (unifiedValidation.state !== "valid" || !unifiedValidation.config) {
+      setStatus(`Could not save team settings. ${unifiedValidation.errors.join(" ")}`);
+      return;
+    }
+    const compatibilityGroups = legacyGroupsFromUnifiedFlowStatusConfig(unifiedValidation.config);
+
     const operationId = beginOperation("Saving team", "Saving settings…", "Save team settings");
     teamSaveRetryRef.current = () => void handleSaveAdvancedConfig(event);
     try {
@@ -4920,10 +4976,7 @@ export default function App(): JSX.Element {
         ...draftConfig,
         doneConfig: {
           ...draftConfig.doneConfig,
-          doneStatuses: doneStatusesInput
-            .split(",")
-            .map((value) => value.trim())
-            .filter((value) => value.length > 0),
+          doneStatuses: unifiedValidation.config.doneStatuses,
         },
         cycleTimeConfig: {
           endDateSource: "resolvedOrUpdated",
@@ -4935,13 +4988,14 @@ export default function App(): JSX.Element {
         },
         velocityConfig: workflowVelocityConfig,
         sprintScopeConfig: {
-          statuses: flowWorkStatusList,
+          statuses: unifiedValidation.config.cycleStatuses,
         },
         workflowConfig: {
           backlogStatuses: backlogStatusList,
-          funnelStatuses: funnelStatusList,
-          activeStatuses: sprintScopeStatusList,
-          implementingStatuses: implementingStatusList,
+          funnelStatuses: compatibilityGroups.funnelStatuses,
+          activeStatuses: compatibilityGroups.activeStatuses,
+          implementingStatuses: compatibilityGroups.implementingStatuses,
+          statusSets: unifiedValidation.config,
         },
         flowTimingConfig: normalizeFlowTimingConfig(draftConfig.flowTimingConfig),
         engineeringMetrics,
@@ -5510,8 +5564,17 @@ export default function App(): JSX.Element {
     setMobileNavOpen(false);
   }
 
+  function mutateUnifiedStatusDraft(mutator: (current: UnifiedFlowStatusConfig) => UnifiedFlowStatusConfig): void {
+    setUnifiedStatusDraft((current) => {
+      const fallback = current ?? normalizeUnifiedFlowStatusConfig(draftConfig?.workflowConfig?.statusSets) ?? {
+        leadStatuses: [], cycleStatuses: [], implementationStatuses: [], doneStatuses: [],
+      };
+      return mutator(fallback);
+    });
+  }
+
   function handleApplyClassicJiraPreset(): void {
-    setDoneStatusesInput("Done, Closed, Resolved");
+    mutateUnifiedStatusDraft((current) => ({ ...current, doneStatuses: ["Done", "Closed", "Resolved"] }));
     setDraftConfig((curr) =>
       curr
         ? {
@@ -5526,7 +5589,7 @@ export default function App(): JSX.Element {
   }
 
   function handleApplyAcTestPreset(): void {
-    setDoneStatusesInput("AC Test");
+    mutateUnifiedStatusDraft((current) => ({ ...current, doneStatuses: ["AC Test"] }));
     setDraftConfig((curr) =>
       curr
         ? {
@@ -5547,14 +5610,14 @@ export default function App(): JSX.Element {
     }
 
     const nextList = parseCommaSeparatedList([...doneStatusList, nextValue].join(", "));
-    setDoneStatusesInput(nextList.join(", "));
+    mutateUnifiedStatusDraft((current) => ({ ...current, doneStatuses: nextList }));
     setDoneStatusDraft("");
   }
 
   function handleRemoveDoneStatus(value: string): void {
     const normalized = normalizeTextValue(value);
     const nextList = doneStatusList.filter((item) => normalizeTextValue(item) !== normalized);
-    setDoneStatusesInput(nextList.join(", "));
+    mutateUnifiedStatusDraft((current) => ({ ...current, doneStatuses: nextList }));
   }
 
   function handleAddBugIssueType(): void {
@@ -5588,15 +5651,13 @@ export default function App(): JSX.Element {
       return;
     }
 
-    const nextList = parseCommaSeparatedList([...sprintScopeStatusList, nextValue].join(", "));
-    setSprintScopeStatusesInput(nextList.join(", "));
+    mutateUnifiedStatusDraft((current) => ({ ...current, cycleStatuses: [...current.cycleStatuses, nextValue], leadStatuses: [...current.leadStatuses, nextValue] }));
     setSprintScopeStatusDraft("");
   }
 
   function handleRemoveSprintScopeStatus(value: string): void {
     const normalized = normalizeTextValue(value);
-    const nextList = sprintScopeStatusList.filter((item) => normalizeTextValue(item) !== normalized);
-    setSprintScopeStatusesInput(nextList.join(", "));
+    mutateUnifiedStatusDraft((current) => ({ ...current, cycleStatuses: current.cycleStatuses.filter((item) => normalizeTextValue(item) !== normalized) }));
   }
 
   function handleAddBacklogStatus(): void {
@@ -5622,15 +5683,13 @@ export default function App(): JSX.Element {
       return;
     }
 
-    const nextList = parseCommaSeparatedList([...funnelStatusList, nextValue].join(", "));
-    setFunnelStatusesInput(nextList.join(", "));
+    mutateUnifiedStatusDraft((current) => ({ ...current, leadStatuses: [...current.leadStatuses, nextValue] }));
     setFunnelStatusDraft("");
   }
 
   function handleRemoveFunnelStatus(value: string): void {
     const normalized = normalizeTextValue(value);
-    const nextList = funnelStatusList.filter((item) => normalizeTextValue(item) !== normalized);
-    setFunnelStatusesInput(nextList.join(", "));
+    mutateUnifiedStatusDraft((current) => ({ ...current, leadStatuses: current.leadStatuses.filter((item) => normalizeTextValue(item) !== normalized) }));
   }
 
   function handleAddImplementingStatus(): void {
@@ -5639,38 +5698,31 @@ export default function App(): JSX.Element {
       return;
     }
 
-    const nextList = parseCommaSeparatedList([...implementingStatusList, nextValue].join(", "));
-    setImplementingStatusesInput(nextList.join(", "));
+    mutateUnifiedStatusDraft((current) => ({ ...current, implementationStatuses: [...current.implementationStatuses, nextValue], cycleStatuses: [...current.cycleStatuses, nextValue], leadStatuses: [...current.leadStatuses, nextValue] }));
     setImplementingStatusDraft("");
   }
 
   function handleRemoveImplementingStatus(value: string): void {
     const normalized = normalizeTextValue(value);
-    const nextList = implementingStatusList.filter((item) => normalizeTextValue(item) !== normalized);
-    setImplementingStatusesInput(nextList.join(", "));
+    mutateUnifiedStatusDraft((current) => ({ ...current, implementationStatuses: current.implementationStatuses.filter((item) => normalizeTextValue(item) !== normalized) }));
   }
 
   function handleClassifyWorkflowStatus(statusName: string, category: "backlog" | "funnel" | "active" | "implementing" | "done"): void {
     const normalized = normalizeTextValue(statusName);
     const withoutStatus = (values: string[]) => values.filter((item) => normalizeTextValue(item) !== normalized);
-
-    setBacklogStatusesInput((current) => withoutStatus(parseCommaSeparatedList(current)).join(", "));
-    setFunnelStatusesInput((current) => withoutStatus(parseCommaSeparatedList(current)).join(", "));
-    setSprintScopeStatusesInput((current) => withoutStatus(parseCommaSeparatedList(current)).join(", "));
-    setImplementingStatusesInput((current) => withoutStatus(parseCommaSeparatedList(current)).join(", "));
-    setDoneStatusesInput((current) => withoutStatus(parseCommaSeparatedList(current)).join(", "));
-
-    if (category === "backlog") {
-      setBacklogStatusesInput((current) => parseCommaSeparatedList([...parseCommaSeparatedList(current), statusName].join(", ")).join(", "));
-    } else if (category === "funnel") {
-      setFunnelStatusesInput((current) => parseCommaSeparatedList([...parseCommaSeparatedList(current), statusName].join(", ")).join(", "));
-    } else if (category === "active") {
-      setSprintScopeStatusesInput((current) => parseCommaSeparatedList([...parseCommaSeparatedList(current), statusName].join(", ")).join(", "));
-    } else if (category === "implementing") {
-      setImplementingStatusesInput((current) => parseCommaSeparatedList([...parseCommaSeparatedList(current), statusName].join(", ")).join(", "));
-    } else {
-      setDoneStatusesInput((current) => parseCommaSeparatedList([...parseCommaSeparatedList(current), statusName].join(", ")).join(", "));
-    }
+    mutateUnifiedStatusDraft((current) => {
+      const next = {
+        leadStatuses: withoutStatus(current.leadStatuses),
+        cycleStatuses: withoutStatus(current.cycleStatuses),
+        implementationStatuses: withoutStatus(current.implementationStatuses),
+        doneStatuses: withoutStatus(current.doneStatuses),
+      };
+      if (category === "funnel") next.leadStatuses.push(statusName);
+      if (category === "active") next.cycleStatuses.push(statusName), next.leadStatuses.push(statusName);
+      if (category === "implementing") next.implementationStatuses.push(statusName), next.cycleStatuses.push(statusName), next.leadStatuses.push(statusName);
+      if (category === "done") next.doneStatuses.push(statusName);
+      return next;
+    });
   }
 
   function handleToggleFlowTimingScope(scope: "closed" | "open", checked: boolean): void {
@@ -5699,7 +5751,7 @@ export default function App(): JSX.Element {
 
   function handleResetSprintScopeStatuses(): void {
     const autoDetected = selectedTeam ? inferWorkflowConfig(selectedTeam.parsedIssues, doneStatusList).activeStatuses : [];
-    setSprintScopeStatusesInput(autoDetected.join(", "));
+    mutateUnifiedStatusDraft((current) => ({ ...current, cycleStatuses: [...autoDetected, ...current.implementationStatuses], leadStatuses: [...current.leadStatuses, ...autoDetected] }));
     setSprintScopeStatusDraft("");
   }
 
@@ -5710,9 +5762,7 @@ export default function App(): JSX.Element {
 
     const autoDetected = inferWorkflowConfig(selectedTeam.parsedIssues, doneStatusList);
     setBacklogStatusesInput(autoDetected.backlogStatuses.join(", "));
-    setFunnelStatusesInput(autoDetected.funnelStatuses.join(", "));
-    setSprintScopeStatusesInput(autoDetected.activeStatuses.join(", "));
-    setImplementingStatusesInput(autoDetected.implementingStatuses.join(", "));
+    setUnifiedStatusDraft(buildUnifiedFlowStatusConfigFromLegacyGroups({ ...autoDetected, doneStatuses: doneStatusList }).config);
     setBacklogStatusDraft("");
     setFunnelStatusDraft("");
     setSprintScopeStatusDraft("");
@@ -6296,12 +6346,17 @@ export default function App(): JSX.Element {
     age: item.agingDays,
   }));
 
+  const executiveWorkflowMapping = adaptLegacyWorkflowConfig(selectedTeam?.config);
+  const workflowDisplay = (values: string[] | null): string =>
+    executiveWorkflowMapping.state === "complete"
+      ? values?.join(" · ") || "-"
+      : `Needs review${executiveWorkflowMapping.diagnostics[0] ? ` · ${executiveWorkflowMapping.diagnostics[0]}` : ""}`;
   const executiveWorkflowItems: ExecutiveWorkflowItem[] = [
-    { label: "Done Statuses", value: selectedTeam?.config.doneConfig.doneStatuses?.join(" · ") || "-" },
-    { label: "Backlog", value: selectedTeam?.config.workflowConfig?.backlogStatuses?.join(" · ") || detectedWorkflowStatuses.join(" · ") || "-" },
-    { label: "Funnel Statuses", value: selectedTeam?.config.workflowConfig?.funnelStatuses?.join(" · ") || "-" },
-    { label: "Active Statuses", value: selectedTeam?.config.workflowConfig?.activeStatuses?.join(" · ") || "-" },
-    { label: "Implementing Statuses", value: selectedTeam?.config.workflowConfig?.implementingStatuses?.join(" · ") || "-" },
+    { label: "Done Statuses", value: workflowDisplay(executiveWorkflowMapping.doneStatuses) },
+    { label: "Unmapped / excluded", value: selectedTeam?.config.workflowConfig?.backlogStatuses?.join(" · ") || detectedWorkflowStatuses.join(" · ") || "-" },
+    { label: "Lead Time statuses", value: workflowDisplay(executiveWorkflowMapping.leadStatuses) },
+    { label: "Cycle Time statuses", value: workflowDisplay(executiveWorkflowMapping.cycleStatuses) },
+    { label: "Implementation Time statuses", value: workflowDisplay(executiveWorkflowMapping.implementationStatuses) },
     { label: "Flow Time Scope", value: "Created / project entered -> Done" },
   ];
 
@@ -6385,7 +6440,7 @@ export default function App(): JSX.Element {
           }),
           executiveMetric("Lead Time", formatWorkingDays(getFlowPresentationValue(selectedTeamRow.current.flowTiming, "lead")?.avgDays ?? null).replace(" working days", ""), "warning", {
             unit: "working days",
-            sub: "Total flow time from Funnel to Done",
+            sub: "Total Lead Time from intake to Done",
             detail: `P85: ${formatWorkingDays(getFlowPresentationValue(selectedTeamRow.current.flowTiming, "lead")?.p85 ?? null)} · Based on ${getFlowPresentationValue(selectedTeamRow.current.flowTiming, "lead")?.count ?? 0} tickets`,
           }),
           executiveMetric(FLOW_LABELS.cycle, formatWorkingDays(getFlowPresentationValue(selectedTeamRow.current.flowTiming, "cycle")?.avgDays ?? null).replace(" working days", ""), "good", {
@@ -6540,6 +6595,15 @@ export default function App(): JSX.Element {
 
     const flowScope = normalizeFlowTimingConfig(draftConfig.flowTimingConfig);
     const statusMapping = adaptLegacyWorkflowConfig(draftConfig);
+    const rawUnifiedStatusConfig = draftConfig.workflowConfig?.statusSets;
+    const displayUnifiedStatusConfig = draftUnifiedStatusConfig ?? (rawUnifiedStatusConfig
+      ? normalizeUnifiedFlowStatusConfig(rawUnifiedStatusConfig) ?? {
+          leadStatuses: rawUnifiedStatusConfig.leadStatuses ?? [],
+          cycleStatuses: rawUnifiedStatusConfig.cycleStatuses ?? [],
+          implementationStatuses: rawUnifiedStatusConfig.implementationStatuses ?? [],
+          doneStatuses: rawUnifiedStatusConfig.doneStatuses ?? [],
+        }
+      : null);
 
     return (
       <section className={`exec-config-card exec-config-collapsible${configurationPanelOpen ? " open" : ""}`} aria-label="Team configuration">
@@ -6563,9 +6627,11 @@ export default function App(): JSX.Element {
             <h2>Team workflow setup</h2>
             <p>Configure how statuses map into Lead Time, Cycle Time, Implementation Time and Done. These controls update the same team config used by metrics.</p>
             <p className="exec-config-help" role="status">
-              Current metric mapping: Lead Time = Funnel + Active + Implementing; Cycle Time = Active + Implementing; Implementation Time = Implementing.
-              {statusMapping.state === "complete" ? " Legacy status fields were read without changing configuration." : ` ${statusMapping.diagnostics[0]}`}
+              {statusMapping.state === "complete"
+                ? "Status roles are ready to save. Lead Time contains Cycle Time and upstream intake; Cycle Time contains Implementation Time."
+                : `Review required · existing metric labels may not be comparable until this mapping is confirmed. ${statusMapping.diagnostics[0] ?? "Affected roles need review."}`}
             </p>
+            <p className="exec-config-help">Implementation Time is contained by Cycle Time, which is contained by Lead Time. Done is terminal and excluded from duration metrics.</p>
           </div>
           <div className="exec-config-head-actions">
             <button type="button" onClick={handleResetWorkflowStatuses}>Use auto-detect</button>
@@ -6577,21 +6643,21 @@ export default function App(): JSX.Element {
           <section className="exec-config-status-map">
             <header>
               <strong>Classify team statuses</strong>
-              <span>Lead Time = Funnel + Active + Implementing. Cycle Time = Active + Implementing. Implementation Time = Implementing.</span>
+              <span>Implementation Time is contained by Cycle Time, which is contained by Lead Time. Done is terminal and excluded.</span>
             </header>
             <div className="exec-status-grid">
               {detectedWorkflowStatuses.map((statusName) => {
                 const normalized = normalizeTextValue(statusName);
                 const category = backlogStatusList.some((item) => normalizeTextValue(item) === normalized)
                   ? "backlog"
-                  : funnelStatusList.some((item) => normalizeTextValue(item) === normalized)
-                    ? "funnel"
-                    : sprintScopeStatusList.some((item) => normalizeTextValue(item) === normalized)
-                      ? "active"
-                      : implementingStatusList.some((item) => normalizeTextValue(item) === normalized)
-                        ? "implementing"
-                        : doneStatusList.some((item) => normalizeTextValue(item) === normalized)
-                          ? "done"
+                  : displayUnifiedStatusConfig && classifyUnifiedFlowStatus(statusName, displayUnifiedStatusConfig) === "done"
+                    ? "done"
+                    : displayUnifiedStatusConfig && classifyUnifiedFlowStatus(statusName, displayUnifiedStatusConfig) === "implementation"
+                      ? "implementing"
+                      : displayUnifiedStatusConfig && classifyUnifiedFlowStatus(statusName, displayUnifiedStatusConfig) === "cycle"
+                        ? "active"
+                        : displayUnifiedStatusConfig && classifyUnifiedFlowStatus(statusName, displayUnifiedStatusConfig) === "lead"
+                          ? "funnel"
                           : "unmapped";
                 return (
                   <article key={`exec-status-${statusName}`} className={`exec-status-row ${category}`}>
@@ -6604,7 +6670,7 @@ export default function App(): JSX.Element {
                           className={category === target ? "active" : ""}
                           onClick={() => handleClassifyWorkflowStatus(statusName, target)}
                         >
-                          {target === "done" ? "Done" : target === "active" ? "Active" : target === "implementing" ? "Implementing" : target === "funnel" ? "Funnel" : "Backlog"}
+                          {target === "done" ? "Done" : target === "active" ? "Cycle Time" : target === "implementing" ? "Implementation Time" : target === "funnel" ? "Lead Time" : "Unmapped"}
                         </button>
                       ))}
                     </div>
@@ -6680,13 +6746,13 @@ export default function App(): JSX.Element {
               <div className="exec-mini-actions">
                 <button type="button" onClick={handleApplyClassicJiraPreset}>Classic Jira</button>
                 <button type="button" onClick={handleApplyAcTestPreset}>AC Test only</button>
-                <button type="button" onClick={() => setDoneStatusesInput("")}>Clear</button>
+                <button type="button" onClick={() => mutateUnifiedStatusDraft((current) => ({ ...current, doneStatuses: [] }))}>Clear</button>
               </div>
             </section>
 
             {renderExecutiveChipEditor({
-              label: "Backlog statuses",
-              help: "Before the flow funnel; excluded from Lead Time, Cycle Time and Implementation Time.",
+              label: "Unmapped / excluded statuses",
+              help: "Outside the configured duration roles; excluded from Lead Time, Cycle Time and Implementation Time.",
               values: backlogStatusList,
               draft: backlogStatusDraft,
               setDraft: setBacklogStatusDraft,
@@ -6696,37 +6762,37 @@ export default function App(): JSX.Element {
               emptyText: "No backlog statuses configured.",
             })}
             {renderExecutiveChipEditor({
-              label: "Funnel statuses",
-              help: "Counts only in Lead Time.",
-              values: funnelStatusList,
+              label: "Lead Time statuses",
+              help: "Statuses included in the end-to-end Lead Time set.",
+              values: displayUnifiedStatusConfig?.leadStatuses ?? [],
               draft: funnelStatusDraft,
               setDraft: setFunnelStatusDraft,
               onAdd: handleAddFunnelStatus,
               onRemove: handleRemoveFunnelStatus,
-              placeholder: "Add funnel status",
-              emptyText: "No funnel statuses configured.",
+              placeholder: "Add Lead Time status",
+              emptyText: "No Lead Time statuses configured.",
             })}
             {renderExecutiveChipEditor({
-              label: "Active statuses",
-              help: "After funnel but before implementation; counts in Lead Time and Cycle Time.",
-              values: sprintScopeStatusList,
+              label: "Cycle Time statuses",
+              help: "Statuses included in Cycle Time and nested inside Lead Time.",
+              values: displayUnifiedStatusConfig?.cycleStatuses ?? [],
               draft: sprintScopeStatusDraft,
               setDraft: setSprintScopeStatusDraft,
               onAdd: handleAddSprintScopeStatus,
               onRemove: handleRemoveSprintScopeStatus,
-              placeholder: "Add active status",
+              placeholder: "Add Cycle Time status",
               emptyText: "Auto-detect from active team flow.",
             })}
             {renderExecutiveChipEditor({
-              label: "Implementing statuses",
-              help: "Execution states; counts in Lead Time, Cycle Time and Implementation Time.",
-              values: implementingStatusList,
+              label: "Implementation Time statuses",
+              help: "Execution statuses nested inside Cycle Time and Lead Time.",
+              values: displayUnifiedStatusConfig?.implementationStatuses ?? [],
               draft: implementingStatusDraft,
               setDraft: setImplementingStatusDraft,
               onAdd: handleAddImplementingStatus,
               onRemove: handleRemoveImplementingStatus,
-              placeholder: "Add implementing status",
-              emptyText: "No implementing statuses configured.",
+              placeholder: "Add Implementation Time status",
+              emptyText: "No Implementation Time statuses configured.",
             })}
 
             <section className="exec-config-panel">
@@ -6772,8 +6838,16 @@ export default function App(): JSX.Element {
           </details>
 
           <div className="exec-config-save-row">
-            <button type="submit" disabled={busy}>Save Flow Configure</button>
+            <button type="submit" disabled={busy}>Save role mapping</button>
             <span>SLE is the existing P85 of eligible completed Cycle Time observations and uses Monday-Friday working days.</span>
+            {workflowSaveConfirmationOpen ? (
+              <div className="exec-config-confirm" role="alertdialog" aria-label="Confirm status-role mapping">
+                <strong>Confirm status-role mapping?</strong>
+                <span>This changes future metric interpretation. Existing source files are unchanged.</span>
+                <button type="submit" disabled={busy}>Confirm and save</button>
+                <button type="button" onClick={() => setWorkflowSaveConfirmationOpen(false)}>Keep editing</button>
+              </div>
+            ) : null}
           </div>
         </form>
 
@@ -7481,17 +7555,17 @@ export default function App(): JSX.Element {
                         <article className={`team-kpi-card${isMetricVisible("lead-time") ? "" : " metric-hidden"}`}>
                           {renderMetricLabel("Lead Time", "leadTime")}
                           <strong>{formatWorkingDays(getFlowPresentationValue(selectedTeamRow.current.flowTiming, "lead")?.avgDays ?? null)}</strong>
-                          <small>Funnel flow • {formatFlowTimingScopeLabel(selectedTeam.config.flowTimingConfig)} • {formatBasedOnTickets(getFlowPresentationValue(selectedTeamRow.current.flowTiming, "lead")?.count ?? 0)} • P85 {formatWorkingDays(getFlowPresentationValue(selectedTeamRow.current.flowTiming, "lead")?.p85 ?? null)}</small>
+                          <small>Lead Time flow • {formatFlowTimingScopeLabel(selectedTeam.config.flowTimingConfig)} • {formatBasedOnTickets(getFlowPresentationValue(selectedTeamRow.current.flowTiming, "lead")?.count ?? 0)} • P85 {formatWorkingDays(getFlowPresentationValue(selectedTeamRow.current.flowTiming, "lead")?.p85 ?? null)}</small>
                         </article>
                         <article className={`team-kpi-card${isMetricVisible("active-time") ? "" : " metric-hidden"}`}>
                           {renderMetricLabel(FLOW_LABELS.cycle, "activeTime")}
                           <strong>{formatWorkingDays(getFlowPresentationValue(selectedTeamRow.current.flowTiming, "cycle")?.avgDays ?? null)}</strong>
-                          <small>Active + Implementing • {formatFlowTimingScopeLabel(selectedTeam.config.flowTimingConfig)} • {formatBasedOnTickets(getFlowPresentationValue(selectedTeamRow.current.flowTiming, "cycle")?.count ?? 0)} • P85 {formatWorkingDays(getFlowPresentationValue(selectedTeamRow.current.flowTiming, "cycle")?.p85 ?? null)}</small>
+                          <small>Cycle Time flow • {formatFlowTimingScopeLabel(selectedTeam.config.flowTimingConfig)} • {formatBasedOnTickets(getFlowPresentationValue(selectedTeamRow.current.flowTiming, "cycle")?.count ?? 0)} • P85 {formatWorkingDays(getFlowPresentationValue(selectedTeamRow.current.flowTiming, "cycle")?.p85 ?? null)}</small>
                         </article>
                         <article className={`team-kpi-card${isMetricVisible("cycle-time") ? "" : " metric-hidden"}`}>
                           {renderMetricLabel(FLOW_LABELS.implementation, "flowCycleTime")}
                           <strong>{formatWorkingDays(getFlowPresentationValue(selectedTeamRow.current.flowTiming, "implementation")?.avgDays ?? null)}</strong>
-                          <small>Implementing • {formatFlowTimingScopeLabel(selectedTeam.config.flowTimingConfig)} • {formatBasedOnTickets(getFlowPresentationValue(selectedTeamRow.current.flowTiming, "implementation")?.count ?? 0)} • P85 {formatWorkingDays(getFlowPresentationValue(selectedTeamRow.current.flowTiming, "implementation")?.p85 ?? null)}</small>
+                          <small>Implementation Time flow • {formatFlowTimingScopeLabel(selectedTeam.config.flowTimingConfig)} • {formatBasedOnTickets(getFlowPresentationValue(selectedTeamRow.current.flowTiming, "implementation")?.count ?? 0)} • P85 {formatWorkingDays(getFlowPresentationValue(selectedTeamRow.current.flowTiming, "implementation")?.p85 ?? null)}</small>
                         </article>
                         <article className={`team-kpi-card${isMetricVisible("sle-p85") ? "" : " metric-hidden"}`}>
                           {renderMetricLabel("SLE P85", "sleP85")}
@@ -7972,14 +8046,14 @@ export default function App(): JSX.Element {
                             <article className={`team-kpi-card${isMetricVisibleInTeamView("lead-time") ? "" : " metric-hidden"}`}>
                               {renderMetricLabel("Lead Time", "leadTime")}
                               <strong>{formatWorkingDays(getFlowPresentationValue(selectedTeamRow.current.flowTiming, "lead")?.avgDays ?? null)}</strong>
-                              {renderTeamMetricExplainer("Total flow time from Funnel to Done. This is the customer wait time across planning and delivery.")}
-                              <small>Funnel to Done • {formatBasedOnTickets(getFlowPresentationValue(selectedTeamRow.current.flowTiming, "lead")?.count ?? 0)} • P85 {formatWorkingDays(getFlowPresentationValue(selectedTeamRow.current.flowTiming, "lead")?.p85 ?? null)}</small>
+                              {renderTeamMetricExplainer("Total Lead Time from upstream intake to Done. This is the customer wait time across planning and delivery.")}
+                              <small>Lead Time to Done • {formatBasedOnTickets(getFlowPresentationValue(selectedTeamRow.current.flowTiming, "lead")?.count ?? 0)} • P85 {formatWorkingDays(getFlowPresentationValue(selectedTeamRow.current.flowTiming, "lead")?.p85 ?? null)}</small>
                             </article>
                             <article className={`team-kpi-card${isMetricVisibleInTeamView("active-time") ? "" : " metric-hidden"}`}>
                               {renderMetricLabel(FLOW_LABELS.cycle, "activeTime")}
                               <strong>{formatWorkingDays(getFlowPresentationValue(selectedTeamRow.current.flowTiming, "cycle")?.avgDays ?? null)}</strong>
                               {renderTeamMetricExplainer("Time after Funnel until Done. This shows how long work spends in the active delivery flow.")}
-                              <small>Active + Implementing to Done • {formatBasedOnTickets(getFlowPresentationValue(selectedTeamRow.current.flowTiming, "cycle")?.count ?? 0)} • P85 {formatWorkingDays(getFlowPresentationValue(selectedTeamRow.current.flowTiming, "cycle")?.p85 ?? null)}</small>
+                              <small>Cycle Time flow to Done • {formatBasedOnTickets(getFlowPresentationValue(selectedTeamRow.current.flowTiming, "cycle")?.count ?? 0)} • P85 {formatWorkingDays(getFlowPresentationValue(selectedTeamRow.current.flowTiming, "cycle")?.p85 ?? null)}</small>
                             </article>
                             <article className={`team-kpi-card${isMetricVisibleInTeamView("cycle-time") ? "" : " metric-hidden"}`}>
                               {renderMetricLabel(FLOW_LABELS.implementation, "flowCycleTime")}
@@ -8531,7 +8605,7 @@ export default function App(): JSX.Element {
                                     <div>
                                       <h3>Classify team statuses</h3>
                                       <p>
-                                        Flow timing roles: Lead Time counts Funnel, Active, and Implementing. Cycle Time counts Active and Implementing. Implementation Time counts Implementing.
+                                        Implementation Time is contained by Cycle Time, which is contained by Lead Time. Done is terminal and excluded from duration metrics.
                                       </p>
                                     </div>
                                     <div className="workflow-status-head-actions">
@@ -8559,17 +8633,17 @@ export default function App(): JSX.Element {
                                         <article key={`workflow-status-${statusName}`} className={`workflow-status-row ${category}`}>
                                           <strong>{statusName}</strong>
                                           <div className="workflow-status-actions">
-                                            <button type="button" className={category === "backlog" ? "active" : ""} onClick={() => handleClassifyWorkflowStatus(statusName, "backlog")}>
-                                              Backlog
+                                          <button type="button" className={category === "backlog" ? "active" : ""} onClick={() => handleClassifyWorkflowStatus(statusName, "backlog")}>
+                                            Unmapped
                                             </button>
                                             <button type="button" className={category === "funnel" ? "active" : ""} onClick={() => handleClassifyWorkflowStatus(statusName, "funnel")}>
-                                              Funnel
+                                              Lead Time
                                             </button>
-                                            <button type="button" className={category === "active" ? "active" : ""} onClick={() => handleClassifyWorkflowStatus(statusName, "active")}>
-                                              Active
+                                          <button type="button" className={category === "active" ? "active" : ""} onClick={() => handleClassifyWorkflowStatus(statusName, "active")}>
+                                            Cycle Time
                                             </button>
-                                            <button type="button" className={category === "implementing" ? "active" : ""} onClick={() => handleClassifyWorkflowStatus(statusName, "implementing")}>
-                                              Implementing
+                                          <button type="button" className={category === "implementing" ? "active" : ""} onClick={() => handleClassifyWorkflowStatus(statusName, "implementing")}>
+                                            Implementation Time
                                             </button>
                                             <button type="button" className={category === "done" ? "active" : ""} onClick={() => handleClassifyWorkflowStatus(statusName, "done")}>
                                               Done
@@ -8671,17 +8745,17 @@ export default function App(): JSX.Element {
                                     <div className="done-config-presets">
                                       <button type="button" className="soft-btn" onClick={handleApplyClassicJiraPreset}>Classic Jira</button>
                                       <button type="button" className="soft-btn" onClick={handleApplyAcTestPreset}>AC Test only</button>
-                                      <button type="button" className="soft-btn" onClick={() => setDoneStatusesInput("")}>Clear</button>
+                                      <button type="button" className="soft-btn" onClick={() => mutateUnifiedStatusDraft((current) => ({ ...current, doneStatuses: [] }))}>Clear</button>
                                     </div>
                                   </section>
 
                                   <section className="done-config-panel">
-                                    <div className="done-config-panel-title">Backlog statuses</div>
+                                    <div className="done-config-panel-title">Unmapped / excluded statuses</div>
                                     <div className="done-chip-editor">
-                                      <div className="done-chip-editor-label">Before the flow funnel; excluded from Lead Time, Cycle Time, and Implementation Time</div>
+                                      <div className="done-chip-editor-label">Outside the duration roles; excluded from Lead Time, Cycle Time, and Implementation Time</div>
                                       <div className="done-chip-list">
                                         {backlogStatusList.length === 0 ? (
-                                          <span className="muted">No backlog statuses configured.</span>
+                                          <span className="muted">No unmapped/excluded statuses configured.</span>
                                         ) : (
                                           backlogStatusList.map((value) => (
                                             <button
@@ -8697,7 +8771,7 @@ export default function App(): JSX.Element {
                                         )}
                                       </div>
                                       <div className="done-chip-input-row">
-                                        <input
+                                          <input
                                           value={backlogStatusDraft}
                                           onChange={(event) => setBacklogStatusDraft(event.target.value)}
                                           onKeyDown={(event) => {
@@ -8706,7 +8780,7 @@ export default function App(): JSX.Element {
                                               handleAddBacklogStatus();
                                             }
                                           }}
-                                          placeholder="Add backlog status (e.g. Backlog)"
+                                          placeholder="Add unmapped status (e.g. Blocked)"
                                         />
                                         <button type="button" className="soft-btn" onClick={handleAddBacklogStatus}>Add</button>
                                       </div>
@@ -8714,14 +8788,14 @@ export default function App(): JSX.Element {
                                   </section>
 
                                   <section className="done-config-panel">
-                                    <div className="done-config-panel-title">Funnel statuses</div>
+                                    <div className="done-config-panel-title">Lead Time statuses</div>
                                     <div className="done-chip-editor">
                                       <div className="done-chip-editor-label">Counts only in Lead Time</div>
                                       <div className="done-chip-list">
-                                        {funnelStatusList.length === 0 ? (
-                                          <span className="muted">No funnel statuses configured.</span>
+                                        {(draftDisplayUnifiedStatusConfig?.leadStatuses ?? []).length === 0 ? (
+                                          <span className="muted">No Lead Time statuses configured.</span>
                                         ) : (
-                                          funnelStatusList.map((value) => (
+                                          (draftDisplayUnifiedStatusConfig?.leadStatuses ?? []).map((value: string) => (
                                             <button
                                               key={value}
                                               type="button"
@@ -8744,7 +8818,7 @@ export default function App(): JSX.Element {
                                               handleAddFunnelStatus();
                                             }
                                           }}
-                                          placeholder="Add funnel status (e.g. Funnel)"
+                                          placeholder="Add Lead Time status"
                                         />
                                         <button type="button" className="soft-btn" onClick={handleAddFunnelStatus}>Add</button>
                                       </div>
@@ -8752,14 +8826,14 @@ export default function App(): JSX.Element {
                                   </section>
 
                                   <section className="done-config-panel">
-                                    <div className="done-config-panel-title">Active statuses</div>
+                                    <div className="done-config-panel-title">Cycle Time statuses</div>
                                     <div className="done-chip-editor">
-                                      <div className="done-chip-editor-label">After funnel but before implementation; counts in Lead Time and Cycle Time</div>
+                                      <div className="done-chip-editor-label">Included in Lead Time and Cycle Time, outside the nested Implementation Time set</div>
                                       <div className="done-chip-list">
-                                        {sprintScopeStatusList.length === 0 ? (
-                                          <span className="muted">Auto-detect from active team flow.</span>
+                                        {(draftDisplayUnifiedStatusConfig?.cycleStatuses ?? []).length === 0 ? (
+                                          <span className="muted">Auto-detect from the Cycle Time flow.</span>
                                         ) : (
-                                          sprintScopeStatusList.map((value) => (
+                                          (draftDisplayUnifiedStatusConfig?.cycleStatuses ?? []).map((value: string) => (
                                             <button
                                               key={value}
                                               type="button"
@@ -8782,12 +8856,12 @@ export default function App(): JSX.Element {
                                               handleAddSprintScopeStatus();
                                             }
                                           }}
-                                          placeholder="Add active status (e.g. In Progress)"
+                                          placeholder="Add Cycle Time status (e.g. In Progress)"
                                         />
                                         <button type="button" className="soft-btn" onClick={handleAddSprintScopeStatus}>Add</button>
                                       </div>
                                       <small className="guide-note">
-                                        Sprint discipline metrics use Active and Implementing statuses together.
+                                        Sprint discipline metrics use the configured Cycle Time and Implementation Time roles.
                                       </small>
                                     </div>
 
@@ -8795,21 +8869,21 @@ export default function App(): JSX.Element {
                                       <button type="button" className="soft-btn" onClick={handleResetSprintScopeStatuses}>
                                         Use auto-detect
                                       </button>
-                                      <button type="button" className="soft-btn" onClick={() => setSprintScopeStatusesInput("")}>
+                                      <button type="button" className="soft-btn" onClick={() => mutateUnifiedStatusDraft((current) => ({ ...current, cycleStatuses: [], leadStatuses: current.leadStatuses.filter((status) => !current.cycleStatuses.includes(status)) }))}>
                                         Clear
                                       </button>
                                     </div>
                                   </section>
 
                                   <section className="done-config-panel">
-                                    <div className="done-config-panel-title">Implementing statuses</div>
+                                    <div className="done-config-panel-title">Implementation Time statuses</div>
                                     <div className="done-chip-editor">
-                                      <div className="done-chip-editor-label">Execution states; counts in Lead Time, Cycle Time, and Implementation Time</div>
+                                      <div className="done-chip-editor-label">Execution states inside Implementation Time, Cycle Time, and Lead Time</div>
                                       <div className="done-chip-list">
-                                        {implementingStatusList.length === 0 ? (
-                                          <span className="muted">No implementing statuses configured.</span>
+                                        {(draftDisplayUnifiedStatusConfig?.implementationStatuses ?? []).length === 0 ? (
+                                          <span className="muted">No Implementation Time statuses configured.</span>
                                         ) : (
-                                          implementingStatusList.map((value) => (
+                                          (draftDisplayUnifiedStatusConfig?.implementationStatuses ?? []).map((value: string) => (
                                             <button
                                               key={value}
                                               type="button"
@@ -8832,7 +8906,7 @@ export default function App(): JSX.Element {
                                               handleAddImplementingStatus();
                                             }
                                           }}
-                                          placeholder="Add implementing status (e.g. Implementing)"
+                                          placeholder="Add Implementation Time status"
                                         />
                                         <button type="button" className="soft-btn" onClick={handleAddImplementingStatus}>Add</button>
                                       </div>
@@ -8930,7 +9004,15 @@ export default function App(): JSX.Element {
                                 </details>
 
                                 <div className="preset-row">
-                                  <button type="submit" disabled={busy}>Save Team Workflow</button>
+                                  <button type="submit" disabled={busy}>Save role mapping</button>
+                                  {workflowSaveConfirmationOpen ? (
+                                    <div className="exec-config-confirm" role="alertdialog" aria-label="Confirm status-role mapping">
+                                      <strong>Confirm status-role mapping?</strong>
+                                      <span>This changes future metric interpretation. Existing source files are unchanged.</span>
+                                      <button type="submit" disabled={busy}>Confirm and save</button>
+                                      <button type="button" onClick={() => setWorkflowSaveConfirmationOpen(false)}>Keep editing</button>
+                                    </div>
+                                  ) : null}
                                 </div>
 
                                 <p className="guide-note">
@@ -8943,20 +9025,20 @@ export default function App(): JSX.Element {
                                   <strong>Done statuses</strong>
                                   <span>{doneStatusList.length > 0 ? doneStatusList.join(" • ") : "-"}</span>
                                 </div>
-                                <div className="done-config-collapsed-row">
-                                  <strong>Backlog statuses</strong>
+                                        <div className="done-config-collapsed-row">
+                                          <strong>Unmapped / excluded statuses</strong>
                                   <span>{backlogStatusList.length > 0 ? backlogStatusList.join(" • ") : "None"}</span>
                                 </div>
-                                <div className="done-config-collapsed-row">
-                                  <strong>Funnel statuses</strong>
+                                        <div className="done-config-collapsed-row">
+                                          <strong>Lead Time statuses</strong>
                                   <span>{funnelStatusList.length > 0 ? funnelStatusList.join(" • ") : "None"}</span>
                                 </div>
-                                <div className="done-config-collapsed-row">
-                                  <strong>Active statuses</strong>
+                                        <div className="done-config-collapsed-row">
+                                          <strong>Cycle Time statuses</strong>
                                   <span>{sprintScopeStatusList.length > 0 ? sprintScopeStatusList.join(" • ") : "Auto-detect"}</span>
                                 </div>
-                                <div className="done-config-collapsed-row">
-                                  <strong>Implementing statuses</strong>
+                                        <div className="done-config-collapsed-row">
+                                          <strong>Implementation Time statuses</strong>
                                   <span>{implementingStatusList.length > 0 ? implementingStatusList.join(" • ") : "None"}</span>
                                 </div>
                                 <div className="done-config-collapsed-row">
@@ -10927,12 +11009,7 @@ function getMaxBottleneckColumn(entry: BottleneckEntry): BottleneckEntry["column
 
 function buildBoardStatusMap(issues: ParsedIssue[], config?: TeamConfig): Map<string, string> {
   const statuses = new Map<string, string>();
-
-  config?.workflowConfig?.funnelStatuses?.forEach((status) => addBoardStatus(status, statuses));
-  config?.workflowConfig?.activeStatuses?.forEach((status) => addBoardStatus(status, statuses));
-  config?.workflowConfig?.implementingStatuses?.forEach((status) => addBoardStatus(status, statuses));
-  config?.workflowConfig?.backlogStatuses?.forEach((status) => addBoardStatus(status, statuses));
-  config?.doneConfig.doneStatuses?.forEach((status) => addBoardStatus(status, statuses));
+  validatedWorkflowStatusOrder(config).forEach((status) => addBoardStatus(status, statuses));
 
   issues.forEach((issue) => {
     addBoardStatus(issue.status, statuses);
@@ -11213,13 +11290,12 @@ function buildWorkflowStatusOrder(teamConfig: TeamConfig | undefined): string[] 
     return [];
   }
 
-  return sortWorkflowStatusLabels([
-    ...(teamConfig.workflowConfig.backlogStatuses ?? []),
-    ...(teamConfig.workflowConfig.funnelStatuses ?? []),
-    ...(teamConfig.workflowConfig.activeStatuses ?? []),
-    ...(teamConfig.workflowConfig.implementingStatuses ?? []),
-    ...(teamConfig.doneConfig.doneStatuses ?? []),
-  ]);
+  const mapping = adaptLegacyWorkflowConfig(teamConfig);
+  if (mapping.state !== "complete") {
+    return [];
+  }
+
+  return sortWorkflowStatusLabels(validatedWorkflowStatusOrder(teamConfig));
 }
 
 function sortWorkflowStatusLabels(values: string[]): string[] {
@@ -11258,34 +11334,19 @@ function getWorkflowBoardOrderRank(statusName: string): number {
 }
 
 function getTimeInStatusFlowRole(statusName: string, teamConfig: TeamConfig | undefined): TimeInStatusFlowRole {
-  const statusKey = normalizeTextValue(statusName);
-  const workflow = teamConfig?.workflowConfig;
-  const hasWorkflowConfig =
-    Boolean(workflow) &&
-    [
-      ...(workflow?.backlogStatuses ?? []),
-      ...(workflow?.funnelStatuses ?? []),
-      ...(workflow?.activeStatuses ?? []),
-      ...(workflow?.implementingStatuses ?? []),
-    ].length > 0;
+  const mapping = adaptLegacyWorkflowConfig(teamConfig);
+  const hasWorkflowConfig = hasExplicitWorkflowStatusConfiguration(teamConfig);
 
-  const hasStatus = (statuses: string[] | undefined): boolean =>
-    (statuses ?? []).some((status) => normalizeTextValue(status) === statusKey);
-
-  if (hasStatus(teamConfig?.doneConfig.doneStatuses) || getTimeInStatusStatusCategory(statusName) === "done") {
-    return "done";
+  if (hasWorkflowConfig && mapping.state !== "complete") {
+    return "other";
   }
-  if (hasStatus(workflow?.backlogStatuses)) {
-    return "backlog";
-  }
-  if (hasStatus(workflow?.funnelStatuses)) {
-    return "funnel";
-  }
-  if (hasStatus(workflow?.implementingStatuses)) {
-    return "implementation";
-  }
-  if (hasStatus(workflow?.activeStatuses)) {
-    return "active";
+  if (mapping.state === "complete") {
+    const role = classifyWorkflowStatusForReport(statusName, teamConfig);
+    if (role === "backlog") return "backlog";
+    if (role === "done") return "done";
+    if (role === "implementation") return "implementation";
+    if (role === "cycle") return "active";
+    if (role === "lead") return "funnel";
   }
 
   if (!hasWorkflowConfig) {
@@ -11364,14 +11425,12 @@ interface BottleneckStatusFilter {
 }
 
 function buildBottleneckCandidateStatusFilter(team: TeamRuntime): BottleneckStatusFilter {
+  const workflowMapping = adaptLegacyWorkflowConfig(team.config);
   const explicitFlowStatuses = normalizeFlowStatuses(team.config.bottleneckConfig?.flowStatuses ?? []);
   const configuredStatuses =
     explicitFlowStatuses.length > 0
       ? explicitFlowStatuses
-      : normalizeFlowStatuses([
-          ...(team.config.workflowConfig?.activeStatuses ?? []),
-          ...(team.config.workflowConfig?.implementingStatuses ?? []),
-        ]);
+      : normalizeFlowStatuses(workflowMapping.state === "complete" ? workflowMapping.cycleStatuses ?? [] : []);
 
   if (configuredStatuses.length > 0) {
     return {
@@ -11382,9 +11441,8 @@ function buildBottleneckCandidateStatusFilter(team: TeamRuntime): BottleneckStat
 
   const excludedStatuses = new Set(
     normalizeFlowStatuses([
-      ...(team.config.doneConfig.doneStatuses ?? []),
-      ...(team.config.workflowConfig?.backlogStatuses ?? []),
-      ...(team.config.workflowConfig?.funnelStatuses ?? []),
+      ...(workflowMapping.state === "complete" ? workflowMapping.doneStatuses ?? [] : []),
+      ...getWorkflowCompatibilityBuckets(team.config).excludedStatuses,
     ]).map((status) => normalizeTextValue(status)),
   );
   const candidateMap = new Map<string, string>();
@@ -12188,14 +12246,12 @@ function buildFlowEfficiencySnapshot(
   let activeDays = 0;
   let queueDays = 0;
   const queueColumns: BottleneckEntry["columns"] = [];
-  const workflowConfig = teamConfig?.workflowConfig;
-  const implementingStatuses = new Set((workflowConfig?.implementingStatuses ?? []).map(normalizeTextValue));
+  const workflowMapping = adaptLegacyWorkflowConfig(teamConfig);
+  const implementingStatuses = new Set((workflowMapping.implementationStatuses ?? []).map(normalizeTextValue));
   const configuredFlowStatuses = new Set(
     [
       ...(teamConfig?.bottleneckConfig?.flowStatuses ?? []),
-      ...(workflowConfig?.funnelStatuses ?? []),
-      ...(workflowConfig?.activeStatuses ?? []),
-      ...(workflowConfig?.implementingStatuses ?? []),
+      ...(workflowMapping.leadStatuses ?? []),
     ].map(normalizeTextValue),
   );
 
@@ -12565,7 +12621,8 @@ function isQueueTimeStatus(statusName: string, teamConfig: TeamConfig | undefine
     return false;
   }
 
-  const implementingStatuses = new Set((teamConfig?.workflowConfig?.implementingStatuses ?? []).map(normalizeTextValue));
+  const workflowMapping = adaptLegacyWorkflowConfig(teamConfig);
+  const implementingStatuses = new Set((workflowMapping.implementationStatuses ?? []).map(normalizeTextValue));
   if (implementingStatuses.has(normalized)) {
     return false;
   }

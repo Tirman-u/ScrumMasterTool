@@ -9,6 +9,7 @@ import {
 } from "../types/contracts";
 import { type TimeInStatusIssueRow } from "./time-in-status";
 import { calendarDurationToWorkingDays, workingDaysBetween } from "./working-days";
+import { adaptLegacyWorkflowConfig, classifyUnifiedFlowStatus, validateUnifiedFlowStatusConfig } from "./flow-presentation";
 
 export const DEFAULT_SLE_ISSUE_TYPES = ["Task", "Bug", "Story"] as const;
 
@@ -308,12 +309,53 @@ function pushIfUsable(target: number[], value: number | null): void {
   }
 }
 
-function buildFlowStatusClassifier(teamConfig: TeamConfig): {
+export function buildFlowStatusClassifier(teamConfig: TeamConfig): {
   isLead: (status: string) => boolean;
   isActive: (status: string) => boolean;
   isImplementation: (status: string) => boolean;
 } {
   const workflow = teamConfig.workflowConfig;
+  const unifiedValidation = workflow?.statusSets === undefined ? null : validateUnifiedFlowStatusConfig(workflow.statusSets);
+  const adapted = adaptLegacyWorkflowConfig(teamConfig);
+  const hasLegacyConfiguration = Boolean(
+    workflow && [workflow.funnelStatuses, workflow.implementingStatuses]
+      .some((statuses) => (statuses?.length ?? 0) > 0),
+  );
+  const unified = unifiedValidation?.config ?? (hasLegacyConfiguration && adapted.state === "complete"
+    ? {
+        leadStatuses: adapted.leadStatuses ?? [],
+        cycleStatuses: adapted.cycleStatuses ?? [],
+        implementationStatuses: adapted.implementationStatuses ?? [],
+        doneStatuses: adapted.doneStatuses ?? [],
+      }
+    : null);
+  if (workflow?.statusSets !== undefined && (unifiedValidation?.state !== "valid" || adapted.state !== "complete")) {
+    return {
+      isLead: () => false,
+      isActive: () => false,
+      isImplementation: () => false,
+    };
+  }
+  if (hasLegacyConfiguration && adapted.state !== "complete") {
+    return {
+      isLead: () => false,
+      isActive: () => false,
+      isImplementation: () => false,
+    };
+  }
+  if (unified) {
+    return {
+      isLead: (status) => {
+        const role = classifyUnifiedFlowStatus(status, unified);
+        return role === "lead" || role === "cycle" || role === "implementation";
+      },
+      isActive: (status) => {
+        const role = classifyUnifiedFlowStatus(status, unified);
+        return role === "cycle" || role === "implementation";
+      },
+      isImplementation: (status) => classifyUnifiedFlowStatus(status, unified) === "implementation",
+    };
+  }
   const backlogSet = buildStatusSet(workflow?.backlogStatuses);
   const funnelSet = buildStatusSet(workflow?.funnelStatuses);
   const configuredActiveStatuses =

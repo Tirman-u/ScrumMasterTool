@@ -8275,6 +8275,20 @@ textarea:focus-visible,
   flex-wrap: wrap;
 }
 
+.exec-config-confirm {
+  display: grid;
+  gap: 0.35rem;
+  flex: 1 1 100%;
+  padding: 0.7rem;
+  border: 1px solid var(--border-strong, #cbd5e1);
+  border-radius: 0.5rem;
+  background: var(--surface-muted, #f8fafc);
+}
+
+.exec-config-confirm button {
+  width: fit-content;
+}
+
 .exec-config-save-row button:first-child {
   border-color: #4f46e5;
   background: #4f46e5;
