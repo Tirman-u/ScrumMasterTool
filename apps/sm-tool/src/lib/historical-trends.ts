@@ -5,12 +5,25 @@ export interface HistoricalPeriodValue {
   value: number | null;
 }
 
+export function dedupeHistoricalPeriods<T extends { period: string; capturedAt: string }>(items: T[]): T[] {
+  const byPeriod = new Map<string, T>();
+  for (const item of items) {
+    const previous = byPeriod.get(item.period);
+    if (!previous || item.capturedAt > previous.capturedAt) byPeriod.set(item.period, item);
+  }
+  return [...byPeriod.values()].sort((left, right) => left.period.localeCompare(right.period));
+}
+
 export type HistoricalTrendLoadState = "loading" | "retrying" | "error" | "partial" | "unavailable" | "insufficient" | "ready";
 
 export function normalizeHistoricalPointIndex(points: HistoricalPeriodValue[], currentIndex: number): number {
   const current = points[currentIndex];
   if (current && current.value !== null && Number.isFinite(current.value)) return currentIndex;
   return points.findIndex((point) => point.value !== null && Number.isFinite(point.value));
+}
+
+export function hasAdjacentValidPair(points: HistoricalPeriodValue[]): boolean {
+  return points.some((point, index) => index > 0 && point.value !== null && Number.isFinite(point.value) && points[index - 1].value !== null && Number.isFinite(points[index - 1].value));
 }
 
 export function resolveHistoricalTrendState(input: {

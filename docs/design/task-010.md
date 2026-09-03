@@ -1,135 +1,111 @@
-# TASK 010 — Designer handoff: historical metric trends
+# TASK 010 — Designer handoff: Executive Summary metric insights
 
 ## 1. User decision
 
-Add one compact `Historical trends` interaction to the current team detail/Executive view. It helps a Team or Scrum Master answer: “Is this metric improving, worsening, or unchanged over comparable periods?” It must preserve the selected team and period context and never turn missing history into zero.
+Replace the large inline `Historical trends` block with one compact insight modal/popover opened from every important existing metric card where data exists. Eligible cards include Stories Done, Throughput, Avg Cycle Time, SLE P85, Aging WIP, Done Bug Ratio, Velocity, Bottleneck, and other existing cards with a valid historical contract.
 
-Initial metrics, only where historical snapshots exist:
-
-- Lead Time;
-- Cycle Time;
-- Implementation Time after the semantic migration makes that metric available;
-- SLE P85;
-- Waiting-time percentage.
-
-P85 is the only SLE percentile shown in this trend UI. Do not add trading-style actions, new metric formulas, or a separate dashboard route.
+This is an insight interaction, not a new dashboard or metric calculation. Preserve the selected team, shared period, mode, existing formulas, and current card hierarchy. Do not add P50 or a special P85 trendline status. Missing data is never shown as zero.
 
 ## 2. Information hierarchy
 
-1. Selected team, selected period, and comparison basis.
-2. Trend direction: improving, worsening, unchanged, or unavailable.
-3. Metric value over time, with unit and as-of period labels.
-4. Current-period value and sample/coverage context where available.
-5. Method note: lower is better for Lead/Cycle/Implementation/SLE; waiting percentage is also lower-is-better. Missing history is not zero.
+Inside the popup, show: metric name, current value, unit, selected team and period; change versus the previous comparable period with explicit `Improving`, `Worsening`, `Unchanged`, `N/A`, or `Unavailable`; an optional small line trend only with real comparable history; sample/usable count, `as-of`, `capturedAt`, and source; concise meaning and collection/calculation explanation; and missing/unavailable/partial/insufficient reason with safe last-known/retry state where applicable.
 
-The trend must state its comparison basis, for example `Last 6 comparable periods · current period highlighted`. The selected period filter is the sole authoritative historical-window endpoint and filter in both Team and Scrum Master modes; changing it must rebuild the window, current-point highlight, coverage, and direction summary without changing selected team or active mode. No trend-local period control may override it.
+The selected period is the sole authoritative historical-window endpoint/filter across Team, Scrum Master, cards, popup, chart, and table. There is no period control inside the popup.
 
 ## 3. Screen/flow specification
 
-### Placement and height
+### Card entry point
 
-Place `Historical trends` after the primary Team Overview metric cards and before secondary diagnostic panels. Do not repeat a full chart for every metric. Use one compact chart card with a metric selector (segmented control or compact tabs) and a single plot. Default to Cycle Time when available; otherwise the first available metric in the order above.
+Make each eligible metric card a keyboard-operable disclosure entry point. Use a real button or card button pattern with an accessible name such as `Open Avg Cycle Time insight`. Preserve the existing card value, unit, trend badge, and layout. A subtle `View insight` affordance may be used, but is not color-only.
 
-Desktop layout: card header with title and context on one line, metric selector beneath or inline, chart below, one-line accessible summary and legend. Target plot height 170–210px including axes; the section should not create a tall dashboard block.
+Card activation opens one popup anchored to the card on desktop and as a bottom sheet/full-width dialog on narrow mobile. Only one popup is open at a time. Opening another card replaces content in the same popup and keeps selected team/period unchanged.
 
-Team view is presentation-safe: selector, line/point chart, one clear direction summary, and no diagnostic configuration. Scrum Master view may expose sample/usable count and a concise “why unavailable” detail, but keeps the same compact chart height. Do not add a second trend chart grid unless the Architect explicitly expands scope.
+### Popup anatomy and copy
 
-### Context and comparison
+Header: `[Metric name] insight` plus `[Team name] · [selected period]`. Body order: `Current` value/unit; `Change` versus previous comparable period; optional `Trend`; `Meaning`; `How calculated`; and `Data details`.
 
-Show context in the card header: `[Team name] · [selected period]` and `Historical trend · [N comparable periods]`. Use the existing shared period control; do not add an independent period selector. Highlight the selected/current period with a stronger point or outline, not a different scale.
-
-For periods without a valid value, leave a gap in the line and show `No data` in the tooltip/table summary. Do not connect across missing periods in a way that implies a value. A valid numeric zero, if the metric contract permits it, is shown as `0`; missing/unavailable is shown as `-` plus a reason. Direction compares the selected current period with its immediately preceding period only when both are valid and adjacent in the selected historical window; a gap makes direction `Unavailable`/`Insufficient history`, never an inferred improvement or worsening.
-
-### Click, hover, and keyboard
-
-Hovering a valid point shows a high-contrast tooltip with metric name, value/unit, period, `as-of`, `capturedAt`, sample count, usable count, source, and comparison context when available. Hovering a missing period shows `No data for this period`, never `0`. If provenance is unavailable, say `Source unavailable` rather than inventing a source or timestamp.
-
-Each valid point is keyboard reachable through an equivalent focusable point with roving `tabIndex`: only the active point is in the tab order. ArrowLeft/ArrowRight move through periods; the equivalent orientation keys (ArrowUp/ArrowDown for a vertical point model) must also work; Home/End move to first/last point; Enter/Space pins the tooltip; Escape unpins it. Visible focus must remain obvious. Clicking a point pins its detail and updates the accessible summary, but does not change the selected global period or team. Clicking outside or pressing Escape unpins it.
-
-The chart must have a text alternative: `Cycle Time trend for [team], [N] comparable periods. Current period: [value]. Direction: improving. Lower is better.` Include gaps, unavailable reasons, as-of, capturedAt, sample, usable, and source in an adjacent details table or expandable `View data table`, especially for Scrum Master users.
-
-### Direction semantics
-
-Use the existing trend arrow/pill language and thresholds. The visible text must say `Improving`, `Worsening`, `Unchanged`, or `Unavailable`; arrows/colors reinforce but never carry the meaning alone. Compare the current selected period to the immediately preceding valid comparable period, or show `Insufficient history` when that comparison is not valid. Do not infer a direction across a missing period.
-
-Exact summary examples:
+Normative change copy:
 
 - `Improving · 4.2 working days, down from 5.0 in the previous comparable period.`
 - `Worsening · 7.1 working days, up from 5.8 in the previous comparable period.`
 - `Unchanged · within the existing neutral threshold.`
-- `Insufficient history · one valid period available.`
-- `Unavailable · no valid historical snapshot for this metric.`
+- `N/A · one valid period is available.`
+- `Unavailable · no comparable historical data for this metric.`
+
+Metric meaning/copy:
+
+| Metric | Meaning and direction |
+|---|---|
+| Stories Done | Completed items in the selected period. Higher is better with scope/context. |
+| Throughput | Completed items per the existing throughput unit. Higher is better. |
+| Avg Cycle Time | Average configured Cycle Time in working days. Lower is better. |
+| SLE P85 | 85% of valid completed items finished within this working-day duration. Lower is better. |
+| Aging WIP | Existing aging-WIP measure. Lower is better. |
+| Done Bug Ratio | Share of completed items classified as bugs. Lower is better. |
+| Velocity | Existing velocity measure and unit. Higher is better. |
+| Bottleneck | Existing categorical bottleneck state/measure. Compare category movement, not numeric magnitude. |
+
+`How calculated` uses the existing metric contract and source wording; no new formula is invented. Point detail includes `period`, value/unit, `as-of`, `capturedAt`, sample, usable, and source when available. Missing provenance is labelled unavailable, never fabricated.
+
+### Optional trend interaction
+
+Render the small trend only when at least two adjacent valid comparable periods exist in the selected window. Gaps remain gaps; never connect or compare across a missing/invalid period. One valid period shows value/provenance but `N/A · one valid period is available.` No duplicate same-period points may appear.
+
+Hover and focus expose the same detail: metric, period, value/unit, `as-of`, `capturedAt`, sample, usable, source. Clicking or Enter/Space pins the detail. Escape or outside click closes/unpins the current layer.
+
+### Team versus Scrum Master
+
+Team popup is presentation-safe: current value, one-line interpretation, short meaning, optional small trend, and compact data detail. Scrum Master popup is richer: full calculation/source note, sample versus usable count, coverage/gap explanation, last-known/error detail, and optional data table. Both use the same selected context and truth rules.
 
 ## 4. Component/state matrix
 
-| State | Visual/copy | Interaction |
+| State | Card | Popup behavior |
 |---|---|---|
-| Loading | Card skeleton/quiet spinner; `Loading historical trends…` | Keep team/period context visible; do not show placeholder zeros. |
-| Valid history | Line with points, unit-labelled axis, current point emphasis, direction summary | Hover/focus/click point details; selector changes metric only. |
-| Improving | `Improving` plus downward/appropriate arrow and text | Direction is announced in summary; color is secondary. |
-| Worsening | `Worsening` plus upward/appropriate arrow and text | Same interaction; no alarm-only color. |
-| Unchanged | `Unchanged` plus neutral arrow/text | Explain neutral threshold if needed. |
-| One valid period | `Insufficient history · one valid period available.` | Direction is `N/A`; render point/card context, no connecting trend claim. |
-| Missing history | `No historical data for this metric.` | Show `-`/gap and reason; selector remains available for other metrics. |
-| Partial history | `3 of 6 periods available.` | Gaps remain visible; direction only if adjacent valid comparison exists. |
-| Metric unavailable | `Implementation Time is unavailable until semantic migration is complete.` | Disabled selector option with reason, or omit only if no useful explanation is possible. |
-| Error | `Could not load historical trends. Current metrics are unchanged.` | Persistent inline `Try again`; retain last-known trend/data if available and label it as last known; do not claim a newly loaded trend. |
-| Empty team/history | `No historical snapshots are available for this team.` | Preserve selected team/period; no empty chart axes implying zero. |
-| Hover/focus | Tooltip/detail with period, as-of, value, unit, sample | Keyboard-equivalent to pointer; tooltip remains while focused/pinned. |
-| Mobile | Stacked selector, chart, summary, optional data table | Horizontal scroll only inside data table if needed; no page overflow. |
+| Valid current/history | Current value and existing trend affordance | Value, change, optional line trend, meaning, calculation, provenance |
+| Valid current/no history | Current value | `Unavailable · no comparable historical data for this metric.`; no trendline |
+| One valid period | Current value | `N/A · one valid period is available.`; no direction claim |
+| Partial history | Current value with coverage if supported | Gapped line; `3 of 6 comparable periods available.`; direction only for adjacent valid pair |
+| Missing current | `-` with reason | `Unavailable · no valid value for [selected period].`; no zero |
+| Loading | Existing card skeleton/quiet loading | `Loading [metric] insight…`; context visible; no placeholder zeros |
+| Retrying | Existing value/last-known card remains | `Retrying [metric] insight…`; last-known labelled; no false freshness |
+| Error | Existing card/current last-known value remains | `Could not load [metric] insight. Current metrics are unchanged.` + `Try again` |
+| Bottleneck categorical | Existing category | Explain category transition/current category; no numeric higher/lower semantics |
+| Popup closed | Existing card unchanged | Focus returns to opening card |
+| Mobile | Existing card remains compact/tappable | Bottom sheet/full-width dialog; internal scroll if needed |
 
-Metric-specific labels:
-
-| Metric | Display unit/meaning | Lower-is-better copy |
-|---|---|---|
-| Lead Time | `working days` from start/commitment to completion per existing contract | `Lower Lead Time means work reaches completion sooner.` |
-| Cycle Time | `working days` in the configured implementation flow per existing contract | `Lower Cycle Time means completed work moves through delivery faster.` |
-| Implementation Time | `working days` for the post-migration implementation semantic | `Lower Implementation Time means less time in implementation.` |
-| SLE P85 | `working days`; 85% of valid completed items finished within this duration | `Lower SLE P85 indicates a shorter delivery expectation.` |
-| Waiting-time percentage | `%` of the existing defined flow time spent waiting | `Lower waiting-time percentage indicates less queue/wait time.` |
-
-Facts (period/value/sample), calculation/meaning, and interpretation (direction) are separate in the card and tooltip. Never render unavailable as `0`.
-
-### Remediation contract
-
-- The selected period is the only historical-window endpoint/filter. Team, Scrum Master, metric selector, tooltip, summary, and data table all consume that same window.
-- A valid current period and the immediately previous period are required for a direction. Any missing/invalid period between them blocks inference; `[5, null, 4]` is not `Improving`.
-- Exactly one valid period renders the value and provenance but direction `N/A` with `Insufficient history · one valid period available.`
-- Point detail fields are normative: period, value/unit, as-of, capturedAt, sample, usable, and source. Omit a field only when the contract marks it unavailable, then show the unavailable reason.
-- Loading and retrying retain team/period context and last-known valid trend where present. Errors retain current metrics, identify that trend data is unavailable or last known, and expose `Try again`.
-- Team stays compact: direction, coverage, and essential value. Scrum Master may show full provenance, sample/usable counts, gaps, and unavailable reasons in the details table without increasing chart height.
+Loading, retrying, error, partial, unavailable, and one-valid-period states are explicit. Current/last-known data is retained during failure; status must not rewrite metric values or timestamps.
 
 ## 5. Visual system
 
-Reuse existing Executive chart-card, `Delivery Trends`, `Cycle Time Trend`, metric selector, trend pill/arrow, axis, tooltip, border, spacing, and typography tokens. Keep one restrained line color per metric and a neutral reference/grid treatment. Use point shape, line style, and text to distinguish current point, missing gap, and selected point.
+Reuse existing Executive metric cards, trend pills/arrows, chart-card, tooltip, dialog/popover, border, spacing, typography, and semantic status tokens. Remove the large inline trend block from the main view; the popup is the sole historical insight surface.
 
-Do not encode improving/worsening only with green/red. Recommended reinforcement: downward arrow plus `Improving` for lower-is-better metrics, upward arrow plus `Worsening`, neutral arrow for unchanged, dashed/gapped line for missing periods, muted outline for unavailable. SLE P85 is clearly labelled as `P85`; no P50/P70/P95 controls in this scope.
+Keep the popup compact: target desktop width 360–480px and a small trend plot 120–160px high. Use a clear divider between interpretation and provenance. Higher-is-better applies to Stories Done/Throughput/Velocity; lower-is-better applies to Avg Cycle Time/SLE P85/Aging WIP/Done Bug Ratio; Bottleneck is categorical.
 
 ## 6. Figma handoff
 
-Use the existing Executive Scrum Master Dashboard Make file referenced in `prompts/DESIGNER.md` as source of truth. No Figma mutation is required for this documentation-only task. Represent one `Historical trends` chart-card with variants for Team/Scrum Master, loading, valid/improving, valid/worsening, unchanged, insufficient, missing, partial, unavailable, error, hover/focus/pinned tooltip, and mobile stacked layout.
+Use the existing Executive Scrum Master Dashboard Make file referenced by `prompts/DESIGNER.md` as source of truth. No Figma mutation is required for this documentation-only task. Represent one reusable `Metric insight popup` with card-entry, Team/Scrum Master, valid/history, no-history, one-period, partial, unavailable, loading, retrying, error, pinned-point, desktop-popover, and mobile-bottom-sheet variants.
 
-Annotate the selected period/team context, no-zero rule, gap behavior, current-point emphasis, keyboard point navigation, and text-summary/data-table alternative. Reuse existing components/tokens; do not create a new visual language.
+Annotate focus return, focus trap, Escape/outside close, selected-period authority, no-zero/no-duplicate rules, provenance fields, and gap-aware optional trend behavior. Do not retain the old inline Historical trends block in the design handoff.
 
 ## 7. Accessibility
 
-- Give the chart card a heading and a concise `aria-label`/text summary that includes team, selected period, metric, direction, value/unit, and history coverage.
-- Keep the shared period control as the only period selector and preserve logical focus after period or metric changes.
-- Provide keyboard access to metric selector and every valid data point; support roving focus with Arrow/Home/End, Enter/Space pin, and Escape close.
-- Tooltip content must be readable on focus as well as hover, remain visible while focused/pinned, and meet contrast requirements.
-- Provide a semantic `View data table`/details alternative with period, as-of, value, unit, validity, and sample/usable count. Missing values are explicitly `No data`, not blank or zero.
-- Announce selector changes and pinned-point summaries politely; do not announce every pointer movement or chart redraw.
-- Use text, arrows, point shapes, and line gaps in addition to color. Ensure touch targets are at least the existing accessible control size.
+- Metric cards expose real button/disclosure semantics and explicit names; keyboard Enter/Space opens the insight.
+- Popup uses dialog semantics with a labelled title, visible focus, focus trap while open, Escape close, and outside-click close when it does not conflict with an active control.
+- On close, return focus to the exact opening card. Opening another card replaces popup content without losing focus context.
+- Optional trend points use roving `tabIndex`: ArrowLeft/Right and orientation-equivalent keys move points, Home/End jump to bounds, Enter/Space pins detail, and Escape unpins. Leading gaps must not leave zero reachable points.
+- Tooltip/detail is available on focus as well as hover and includes the same provenance fields. Provide `View data table` or semantic text summary.
+- Announce popup opening, metric selection, meaningful state changes, and pinned-point summaries politely; do not announce pointer movement or repeated redraws.
+- Use visible labels, icons/shapes, line gaps, and text so direction/state never rely on color. Meet contrast and touch-target requirements.
 
 ## 8. Acceptance criteria for Developer/QA
 
-1. Historical trends appears as one compact chart card in the existing Executive/Team Overview hierarchy and does not materially increase main-view height.
-2. The selector supports Lead Time, Cycle Time, Implementation Time when available, SLE P85, and waiting-time percentage when historical data exists; no new metric formula is introduced.
-3. Selected team, shared period, mode, and active tab context are preserved; the selected period is the sole authoritative historical-window endpoint/filter and no second period control is created.
-4. Current-period direction is explicitly labelled Improving, Worsening, Unchanged, Insufficient history, or Unavailable, with comparison basis and lower-is-better meaning available; direction never crosses a missing/invalid period.
-5. Missing, partial, invalid, or unavailable history is distinct from numeric zero; missing periods create visible gaps and do not create an implied interpolation or direction.
-6. Loading, retrying, error, empty, insufficient, partial, unavailable, hover, focus, pinned, and mobile states match the matrix. Errors retain last-known valid data/current metrics and offer a safe retry.
-7. Hover and keyboard point interaction expose the same period/value/unit/as-of/capturedAt/sample/usable/source detail. The text summary or data table is available without pointer input.
-8. Improving/worsening meaning is not conveyed by color alone; tooltip and chart contrast remain readable in the existing light/dark treatments.
-9. The card remains compact and responsive: mobile selector and summary stack, chart remains usable, and no page-level horizontal overflow or excessive vertical expansion occurs.
-10. QA verifies the remediation contract: selected-period window/filter changes, adjacency-aware direction with no gap inference, one-valid-period N/A, complete point provenance fields, roving tabindex and ArrowLeft/Right plus orientation equivalents/Home/End/Enter/Space/Escape behavior, truthful loading/retrying/error/partial/unavailable states with last-known retention, responsive layout, and unchanged existing metric calculations/data boundaries.
+1. The large inline Historical trends block is removed/replaced; no duplicate trend surface is added to the main view.
+2. Every specified existing metric card with data is clickable and keyboard-operable, opens the same reusable compact insight popup, and preserves team/period/mode context.
+3. Popup content includes meaning, collection/calculation, current value, change versus previous comparable period, explicit interpretation, units, sample/usable, as-of, capturedAt, and source where available.
+4. Optional trend appears only with real comparable history; no duplicate same-period points, no interpolation/inference across gaps, and one valid period is `N/A`.
+5. Selected period is the sole authoritative historical-window endpoint/filter across all cards, modes, popup content, chart, and table; no popup period selector exists.
+6. Direction semantics are correct: Stories Done/Throughput/Velocity higher is better; Avg Cycle Time/SLE P85/Aging WIP/Done Bug Ratio lower is better; Bottleneck is categorical. P85 has no special trendline status.
+7. Missing, unavailable, zero, partial, loading, retrying, error, and one-valid-period states are distinct; no unavailable value is substituted with 0, and errors retain last-known/current data with retry.
+8. Team popup is concise/presentation-safe; Scrum Master popup provides richer diagnostic/provenance/coverage detail without returning to a tall inline layout.
+9. Card keyboard entry, dialog focus trap, Escape/outside close, focus return, point roving tabindex/navigation/pin/unpin, hover/focus detail, and text/table fallback work on desktop and mobile.
+10. QA verifies responsive popup sizing/scroll, contrast/non-color semantics, selected-period changes, gap/duplicate handling, provenance completeness, state truthfulness, and unchanged existing formulas/data boundaries. No application code is part of this Designer handoff.

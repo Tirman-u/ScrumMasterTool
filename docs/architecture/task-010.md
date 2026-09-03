@@ -1,20 +1,13 @@
-# TASK 010 — Architect contract: historical metric trends
+# TASK 010 — Architect contract: Executive metric-card insight modal
 
-## Approved scope
+Replace the prior standalone inline Historical Trends block with one compact reusable insight modal/popover opened from eligible existing Executive metric cards. Preserve the selected team, shared selected period, mode, card hierarchy, formulas, and local-only data boundaries. Add no route, formula, Jira/network call, or data source.
 
-Add one compact, presentation-safe Historical trends card to the current Executive/Team Overview. It consumes existing persisted historical snapshots only; it does not add routes, formulas, network calls, Jira flow, or new data sources. Team and Scrum Master share the selected team and the App-owned period snapshot. The selected period is the sole historical-window endpoint and filter.
+Eligible stable cards include Stories Done, Throughput, Avg Cycle Time, SLE P85, Aging WIP, Done Bug Ratio, Velocity, Bottleneck, and other cards only where the existing metric contract is stable. Cards retain their current values, units, badges, and layout while becoming keyboard-operable disclosure controls. One modal is shared; opening another card replaces its content. Desktop uses a compact popover/modal and mobile uses a bottom-sheet/reflow layout.
 
-## Data and truth rules
+The modal shows metric meaning, existing collection/calculation wording, current value, previous comparable-period value/change, explicit Improving/Worsening/Unchanged/N/A/Unavailable interpretation, unit, sample/usable, as-of, capturedAt, and source where available. Missing or unavailable remains `-`/unavailable, never zero. Direction is higher-is-better for Stories Done/Throughput/Velocity, lower-is-better for time/Aging WIP/Done Bug Ratio, and categorical for Bottleneck. SLE P85 is shown without a special target/trendline status.
 
-- Candidate metrics are Lead Time, Cycle Time, Implementation Time only after its semantic migration, SLE P85, and waiting-time percentage when the existing snapshot contract provides them. P85 is the only exposed SLE percentile.
-- Missing, invalid, or unavailable values remain unavailable (`-`/gap), never zero. Valid zero remains numeric zero.
-- Direction is lower-is-better and compares only the selected window's immediately adjacent valid current and previous periods. Missing intervening periods prevent inference. One valid period is `Insufficient history`/N/A.
-- Point provenance retains period, value/unit, as-of/capturedAt, sample, usable, and source where available. No provenance is invented.
+Optional metric-specific history is rendered only when real adjacent comparable snapshots exist in the selected-period window. Same-period snapshots are deduplicated deterministically; gaps stay gaps and never support inferred direction; one valid point is N/A. The selected period is the sole window/filter authority and there is no modal period control. Point hover/focus/click/Enter/Space exposes and pins provenance-rich detail; text/table fallback remains available.
 
-## Presentation and interaction
+Loading, retrying, error, partial, insufficient, missing, and unavailable states are explicit. Errors preserve last-known/current values and expose a safe retry where the existing local operation supports it. Modal focus is trapped while open, Escape/outside click closes, and focus returns to the exact opening card. Team content is concise and presentation-safe; Scrum Master content may include richer source, coverage, calculation, and table diagnostics. Responsive layout must not clip or create page-level overflow.
 
-Use one compact chart card. Team mode is concise; Scrum Master may add coverage and source-quality detail. Loading, retrying, error, partial, unavailable, empty, and insufficient-history states are explicit. Errors preserve last-known valid trend data and expose a safe retry when the existing local operation supports it.
-
-Valid points are keyboard-operable with roving tabindex. ArrowLeft/Right and ArrowUp/Down move between valid points; Home/End jump to boundaries; Enter/Space pins detail; Escape unpins. Hover and focus expose the same accessible detail, and pointer exit removes unpinned detail. A semantic summary and data-table fallback provide team, selected period, axes/units, direction, gaps, and provenance without pointer input.
-
-Preserve existing metric calculations, Monday-Friday semantics, selected team/mode/tab/period, import/cache boundaries, and customer-data safety. Do not re-enable legacy UI or modify workspace/customer files.
+Do not modify Teams/**, teams/**, workspace.json, exports, cache, tokens, or customer data. Preserve existing metric calculations and Monday-Friday working-day semantics.

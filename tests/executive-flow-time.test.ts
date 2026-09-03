@@ -48,4 +48,24 @@ describe("Executive flow-time restoration", () => {
     expect(appSource).toContain("onExcludeIssue: (issueKey, reason)");
     expect(appSource).toContain("onRestoreAllIssues: () => void handleRestoreAllExcludedIssues()");
   });
+
+  it("uses one reusable metric insight popup and removes the standalone trend surface from both views", () => {
+    expect(viewsSource).toContain("function MetricInsightProvider");
+    expect(viewsSource).toContain('role="dialog" aria-modal="true"');
+    expect(viewsSource).toContain("Open ${metric.label} insight");
+    expect(viewsSource).toContain("document.addEventListener(\"keydown\", handleKeyDown)");
+    expect(viewsSource).toContain("dedupeHistoricalPeriods");
+    expect(viewsSource).not.toContain("<HistoricalTrendsCard data={data} />");
+    expect(viewsSource).toContain("selectedHistoricalPeriod");
+    expect(viewsSource).toContain("No trend is rendered");
+    expect(viewsSource).toContain("tabIndex={index === activePointIndex ? 0 : -1}");
+    expect(viewsSource).toContain('["ArrowLeft", "ArrowUp"]');
+    expect(viewsSource).toContain('["ArrowRight", "ArrowDown"]');
+    expect(viewsSource).toContain("metric-insight-point");
+    expect(viewsSource).toContain("focusedPeriod");
+    expect(viewsSource).toContain("hasAdjacentValidPair");
+    expect(viewsSource).toContain("aria-modal=\"true\"");
+    expect(viewsSource).toContain("window.requestAnimationFrame(() => openerRef.current?.focus())");
+    expect(viewsSource).toContain("slice(0, 8)");
+  });
 });

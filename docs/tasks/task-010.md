@@ -6,19 +6,19 @@
 
 Owner: Main/ScrumMaster
 Current stage: Designer
-Scope lock: compact historical trends for existing metric snapshots
+Scope lock: compact metric-card insight popup replacing inline historical trends
 
 ## User objective
 
-Show whether important flow metrics improve, worsen, or remain unchanged across comparable historical periods without making the main view excessively tall or presenting missing data as zero.
+Show whether important existing metric-card values improve, worsen, or remain unchanged through one compact accessible insight popup, without a tall inline trends block or presenting missing data as zero.
 
 ## Architect handoff
 
-Architect sequence starts with TASK 010 historical trends. Designer scope: compact, presentation-safe interaction using existing historical data, preserving selected team/period context and existing formulas. Candidate metrics are Lead Time, Cycle Time, Implementation Time after semantic migration, SLE P85, and waiting-time percentage.
+Corrected Architect decision: remove/replace the large inline Historical trends block. Existing important cards open one compact accessible metric insight popup, preserving selected team/period context and existing formulas. Cards include Stories Done, Throughput, Avg Cycle Time, SLE P85, Aging WIP, Done Bug Ratio, Velocity, Bottleneck, and other existing cards where data exists. Direction semantics are higher-is-better for throughput/stories/velocity, lower-is-better for time/aging/bug ratio, and categorical for Bottleneck. P85 has no special trendline status.
 
 ## Designer handoff
 
-Complete, remediation applied: [docs/design/task-010.md](../design/task-010.md). Adds the restored contract mapping for the sole authoritative selected-period window/filter, gap-aware adjacent-period direction, one-valid-period N/A, roving point keyboard model, complete point provenance (`as-of`/`capturedAt`/sample/usable/source), truthful loading/retrying/error/partial/unavailable states with last-known retention, and compact Team versus richer Scrum Master treatment.
+Complete, corrected scope: [docs/design/task-010.md](../design/task-010.md). Replaces the inline trend block with one reusable metric-card insight popup, including Team/Scrum Master variants, metric meaning/calculation/current/change interpretation, optional real-history trend only, provenance, missing/unavailable states, focus trap/Escape/outside close, keyboard card and point behavior, no-zero/no-duplicate rules, and responsive acceptance criteria.
 
 ## Developer handoff
 
@@ -31,6 +31,10 @@ Not started. QA must independently verify historical coverage, direction correct
 ## Open follow-ups
 
 - Implementation Time remains conditional on the approved semantic migration; no fallback metric label should imply equivalence before that migration is complete.
+
+## Scope correction note
+
+The corrected Architect decision supersedes the earlier inline Historical trends implementation and its related QA review evidence. The prior QA entries remain historical records, but the metric-card insight popup scope requires fresh Developer implementation and QA verification against the corrected Designer handoff.
 
 ## Designer remediation mapping
 
@@ -121,6 +125,18 @@ Verdict: `PASS`
 
 Release next step: may proceed.
 
+## Release QA — version 0.5.3
+
+Verdict: `PASS`
+
+- Root and app `package.json`/`package-lock.json` versions, including both lock root entries, are all `0.5.3`.
+- The four release-file diffs contain only version-field changes; dependency structure is unchanged.
+- Task 010 corrected popup remains under the recorded QA verdict `PASS WITH FOLLOW-UPS`; no new popup implementation changes are part of this release bump.
+- `git diff --check` passed. `npm run check` passed: typecheck, 30 test files / 155 tests, and production build.
+- No release-scope Teams/**, teams/**, workspace.json, customer data, cache, token, or application-logic changes were introduced. Existing dirty files and approved Task 010 implementation are excluded from the version-only release assessment.
+
+Release next step: may proceed.
+
 ## Developer implementation notes
 
 - Added one compact Historical trends card to the current Team and Scrum Master presentation views, backed only by existing progress snapshots.
@@ -143,3 +159,87 @@ Release next step: may proceed.
 - Roving point focus normalizes to the first valid point after metric/window changes, including leading gaps. Pointer exit and focus exit clear unpinned detail, while pinned detail persists until Escape or a new context/metric selection.
 - Added executable tests for leading-gap focus normalization and truthful trend state classification.
 - Validation: `npm run check` passed (30 test files / 152 tests and production build); `git diff --check` passed. No commit or push performed.
+
+## Developer corrected-popup remediation — 2026-09-03
+
+- Rendered `MetricInsightModal` now owns the complete optional trend interaction: hover/focus detail, roving tabindex, ArrowLeft/Right and Up/Down, Home/End, Enter/Space pinning, Escape unpinning, visible focus, semantic summary and diagnostic data-table fallback.
+- Trend rendering is limited to real adjacent comparable history; null gaps remain visible gaps and do not produce a connecting/inferred trend. Same-period snapshots are deduplicated by newest capture before selected-period filtering.
+- Current provenance (`as-of`, capturedAt, sample, usable, source) is derived from the selected-period-filtered window rather than the full-history tail. Team metric cards include Velocity and Bottleneck alongside the other stable Executive entries.
+- Removed the obsolete inline trend implementation and its CSS from the rendered production path. Validation: focused tests 10 passed; `npm run check` passed with 30 files / 154 tests and production build; `git diff --check` passed. No commit or push performed; browser QA remains required.
+
+## QA corrected-popup review — 2026-09-03
+
+Verdict: `FAIL`
+
+Evidence:
+
+- Reviewed `docs/architecture/task-010.md` and `docs/design/task-010.md`, current ExecutiveViews/App/styles and focused tests.
+- Focused tests passed: 10 tests (historical-trends and executive-flow-time). Full `npm run check` passed: 30 test files / 154 tests, typecheck, and production build. `git diff --check` passed.
+- Team and Scrum Master now use one `MetricInsightProvider`; the old `HistoricalTrendsCard` is not rendered by either view. Existing cards are wrapped by `InsightCardButton`, and modal semantics/focus trap/Escape/outside close/focus restoration are present.
+
+Findings:
+
+- P1: the rendered modal trend points are plain buttons without `onFocus`, `onMouseEnter`, `onClick`, keyboard navigation, roving `tabIndex`, pin/unpin behavior, or point detail output. The old inline component contains those handlers but is no longer rendered. This fails the required chart point hover/focus/pin and keyboard interaction contract.
+- P1: optional history is rendered whenever `validPoints.length >= 2`, even when the two valid points are separated by a null gap; this violates “only real adjacent comparable history” and can present a trend surface where no adjacent comparison exists.
+- P1: modal Data details uses `snapshots.at(-1)` from the entire deduplicated history rather than the selected-period window/current comparable snapshot. A popup for an earlier selected period can show future `capturedAt`, sample, usable, and source provenance.
+- P2: `HistoricalTrendsCard` and old historical CSS remain in the production source despite the corrected scope; they are dead legacy implementation and create regression/maintenance risk, although they do not currently render.
+- P2: Team view renders only `data.kpis.slice(0, 6)`, so listed `Velocity` and `Bottleneck` cards are not entry points in Team mode (they are present in Scrum Master’s first eight).
+
+Scope/data safety: no new formulas, routes, data sources, Jira/network calls, or Teams/workspace/customer/cache/token changes were found in the task-local implementation diff; unrelated dirty customer/workspace files were excluded.
+
+Required fixes: implement the point interaction contract in the rendered modal trend (or a shared component), suppress trend when no adjacent valid pair exists, derive modal provenance from the selected-period/current window, and confirm Team card eligibility or explicitly narrow the approved card list. Remove dead inline trend implementation after replacement is verified. Next task is blocked pending Developer remediation and fresh QA review.
+
+## Developer implementation — corrected popup scope — 2026-09-02
+
+- Replaced the rendered standalone Historical trends surface with a single reusable metric insight modal used by Executive metric cards in Team and Scrum Master presentations.
+- Existing card values and formulas remain unchanged; cards are keyboard-operable disclosure buttons with accessible names. The modal preserves selected team/period context, supports desktop modal/mobile bottom-sheet reflow, focus trap, Escape/outside close, and focus return.
+- Modal content includes current/change/interpretation, metric meaning, existing calculation wording, provenance and truthful unavailable/insufficient/error/loading states. Cycle Time and SLE P85 history use selected-period filtering and deterministic same-period deduplication; no zero substitution or P85 target line was added.
+- Added executable deduplication and popup wiring assertions. Validation: focused tests 10 passed; `npm run check` passed with 30 files / 154 tests and production build; `git diff --check` passed. No commit or push performed; browser-level QA remains required.
+
+## QA popup final re-review — 2026-09-03
+
+Verdict: `FAIL`
+
+Evidence:
+
+- Reviewed corrected architecture/design handoffs and current rendered `MetricInsightModal`, `MetricInsightProvider`, Team/Scrum Master card wiring, helper and CSS.
+- Focused tests: 10/10 passed. `npm run check`: passed typecheck, 30 test files / 154 tests, and production build. `git diff --check`: passed.
+- All eight listed KPI cards are now included in Team (`data.kpis.slice(0, 8)`) and Scrum Master; `InsightCardButton` is a real keyboard-operable button with an accessible name. Rendered modal has dialog semantics, focus trap, Escape/outside close, and opener focus restoration.
+- Rendered point buttons now implement roving tabindex, hover/focus detail, Arrow/Home/End, Enter/Space pinning, Escape unpinning, and pointer/focus exit behavior. Same-period snapshots are deduped by newest `capturedAt`; selected period filters the window; no P85 target/trendline is added.
+
+Findings:
+
+- P1: optional modal trend is gated by `validPoints.length >= 2`, not by existence of an immediately adjacent valid pair. With values separated by a missing period it still renders a trend surface, contrary to the explicit adjacent-comparable-history requirement, even though direction is unavailable.
+- P2: the old `HistoricalTrendsCard` implementation remains in `ExecutiveViews.tsx` behind a comment and the old `.historical-trends-*` CSS remains in `styles.css`. It is not currently rendered, but violates the corrected “no dead CSS/old inline implementation” scope and creates regression risk.
+- P2: no component/browser-level test actually exercises the rendered modal point lifecycle, focus trap/restore, Team card set, or mobile drawer; current tests are source-string/helper assertions. Browser smoke was not run in this environment.
+
+Scope/data safety: no new formulas, routes, data sources, Jira/network calls, or Teams/workspace/customer/cache/token changes found in task-local scope; unrelated dirty customer/workspace files excluded.
+
+Required fixes: gate the rendered trend on at least one adjacent valid pair in the selected/deduped window; remove dead HistoricalTrendsCard and historical-trends CSS; add rendered UI regression coverage. Next task remains blocked pending Developer remediation and fresh QA review.
+
+## QA corrected-popup final re-review — 2026-09-03
+
+Verdict: `PASS WITH FOLLOW-UPS`
+
+Evidence:
+
+- `MetricInsightModal` now gates the optional trend with `hasAdjacentValidPair(points)` after selected-window filtering and deterministic same-period deduplication. A gap-separated pair suppresses the trend and reports that gaps prevent comparison; adjacent valid pairs render gaps without interpolation.
+- The previously dead `HistoricalTrendsCard` implementation and `.historical-trends-*` CSS are gone. Team and Scrum Master both render eight card entry points (`slice(0, 8)`), including Velocity and Bottleneck, through the real `InsightCardButton` disclosure button.
+- Rendered popup points implement roving tabindex, hover/focus detail, Arrow/Home/End navigation, Enter/Space pinning, Escape unpinning, and pointer/focus exit cleanup. Dialog focus trap, outside close, Escape close, mobile bottom-sheet sizing, and exact opener focus restoration are present.
+- Popup uses selected-window `currentSnapshot` for provenance and exposes current/change/interpretation/meaning/calculation details, units, sample/usable, as-of/captured/source, missing/zero, partial/insufficient/error/loading behavior, and no P85 target/trendline.
+- Focused tests: 11/11 passed. `npm run check`: passed typecheck, 30 test files / 155 tests, and production build. `git diff --check`: passed.
+- No new formulas, routes, data sources, Jira/network calls, or Teams/workspace/customer/cache/token changes observed; unrelated dirty files excluded.
+
+Non-blocking follow-ups:
+
+- Add component/browser-level tests for actual rendered popup interactions and mobile visual overflow; browser smoke was not available in this environment.
+- Add an explicit fixture for the retrying visual state and equal-timestamp dedupe tie behavior if release hardening requires it.
+
+Next-task status: task may proceed; follow-ups are recorded and non-blocking.
+
+## Developer popup remediation 3 — 2026-09-03
+
+- Added `hasAdjacentValidPair` gating so separated valid points with a missing period do not render a trend; the popup reports that gaps prevent a trend.
+- Removed the obsolete inline implementation from `ExecutiveViews.tsx` and all `.historical-trends-*` CSS. The shared metric insight popup is the sole rendered trend surface.
+- Added executable adjacent-pair and rendered-popup wiring assertions covering keyboard lifecycle, focus trap/restore, selected-window behavior, deduplication, and all eight Team card entry points.
+- Validation: `npm run check` passed with 30 files / 155 tests and production build; `git diff --check` passed. No commit or push performed; browser-level QA remains required.

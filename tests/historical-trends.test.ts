@@ -1,5 +1,5 @@
 import { describe, expect, it } from "vitest";
-import { filterHistoricalPeriods, normalizeHistoricalPointIndex, resolveAdjacentHistoricalDirection, resolveHistoricalTrendDirection, resolveHistoricalTrendState } from "../apps/sm-tool/src/lib/historical-trends";
+import { dedupeHistoricalPeriods, filterHistoricalPeriods, hasAdjacentValidPair, normalizeHistoricalPointIndex, resolveAdjacentHistoricalDirection, resolveHistoricalTrendDirection, resolveHistoricalTrendState } from "../apps/sm-tool/src/lib/historical-trends";
 
 describe("historical metric trends", () => {
   it("uses lower-is-better direction and ignores missing periods", () => {
@@ -39,5 +39,21 @@ describe("historical metric trends", () => {
     expect(resolveHistoricalTrendState({ loading: false, error: true, pointCount: 0, validPointCount: 0 })).toBe("error");
     expect(resolveHistoricalTrendState({ loading: false, error: false, pointCount: 3, validPointCount: 1 })).toBe("insufficient");
     expect(resolveHistoricalTrendState({ loading: false, error: false, pointCount: 3, validPointCount: 0 })).toBe("partial");
+  });
+
+  it("deduplicates same-period snapshots by the newest capture deterministically", () => {
+    expect(dedupeHistoricalPeriods([
+      { period: "2026-02", capturedAt: "2026-02-01T00:00:00Z", value: 9 },
+      { period: "2026-02", capturedAt: "2026-02-02T00:00:00Z", value: 7 },
+      { period: "2026-01", capturedAt: "2026-01-31T00:00:00Z", value: 8 },
+    ])).toEqual([
+      { period: "2026-01", capturedAt: "2026-01-31T00:00:00Z", value: 8 },
+      { period: "2026-02", capturedAt: "2026-02-02T00:00:00Z", value: 7 },
+    ]);
+  });
+
+  it("requires an immediately adjacent valid pair before rendering a trend", () => {
+    expect(hasAdjacentValidPair([{ period: "2026-01", value: 4 }, { period: "2026-02", value: null }, { period: "2026-03", value: 3 }])).toBe(false);
+    expect(hasAdjacentValidPair([{ period: "2026-02", value: null }, { period: "2026-03", value: 3 }, { period: "2026-04", value: 2 }])).toBe(true);
   });
 });
