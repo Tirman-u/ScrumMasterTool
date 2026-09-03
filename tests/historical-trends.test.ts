@@ -1,5 +1,6 @@
 import { describe, expect, it } from "vitest";
 import { dedupeHistoricalPeriods, filterHistoricalPeriods, hasAdjacentValidPair, normalizeHistoricalPointIndex, resolveAdjacentHistoricalDirection, resolveHistoricalTrendDirection, resolveHistoricalTrendState } from "../apps/sm-tool/src/lib/historical-trends";
+import { getMetricInsightDefinition, metricInsightDefinitions, parseMetricPreviousValue } from "../apps/sm-tool/src/lib/metric-insights";
 
 describe("historical metric trends", () => {
   it("uses lower-is-better direction and ignores missing periods", () => {
@@ -55,5 +56,24 @@ describe("historical metric trends", () => {
   it("requires an immediately adjacent valid pair before rendering a trend", () => {
     expect(hasAdjacentValidPair([{ period: "2026-01", value: 4 }, { period: "2026-02", value: null }, { period: "2026-03", value: 3 }])).toBe(false);
     expect(hasAdjacentValidPair([{ period: "2026-02", value: null }, { period: "2026-03", value: 3 }, { period: "2026-04", value: 2 }])).toBe(true);
+  });
+
+  it("provides typed plain-language content for each approved card metric", () => {
+    const labels = ["Stories Done", "Throughput", "Avg Cycle Time", "SLE P85", "Aging WIP", "Done Bug Ratio", "Velocity", "Bottleneck"];
+    for (const label of labels) {
+      const definition = getMetricInsightDefinition(label);
+      expect(definition.label).toBe(label);
+      expect(definition.meaning.length).toBeGreaterThan(10);
+      expect(definition.calculation.length).toBeGreaterThan(10);
+      expect(definition.unit).not.toBe("existing metric unit");
+    }
+    expect(metricInsightDefinitions().map((definition) => definition.label)).toEqual(expect.arrayContaining(labels));
+  });
+
+  it("treats unavailable previous values as unavailable while preserving numeric zero", () => {
+    expect(parseMetricPreviousValue("-")).toBeNull();
+    expect(parseMetricPreviousValue(undefined)).toBeNull();
+    expect(parseMetricPreviousValue("last month")).toBeNull();
+    expect(parseMetricPreviousValue("0")).toBe(0);
   });
 });

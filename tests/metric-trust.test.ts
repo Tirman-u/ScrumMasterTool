@@ -24,7 +24,7 @@ describe("Executive metric trust affordance", () => {
     expect(flowSource).not.toContain("P50");
     expect(flowSource).not.toContain("P70");
     expect(flowSource).not.toContain("P95");
-    expect(viewsSource).toContain('badge="P85"');
+    expect(viewsSource).toContain("<dt>P85</dt>");
   });
 
   const snapshotFlowTiming = {

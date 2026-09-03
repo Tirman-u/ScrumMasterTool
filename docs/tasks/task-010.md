@@ -18,7 +18,7 @@ Corrected Architect decision: remove/replace the large inline Historical trends 
 
 ## Designer handoff
 
-Complete, corrected scope: [docs/design/task-010.md](../design/task-010.md). Replaces the inline trend block with one reusable metric-card insight popup, including Team/Scrum Master variants, metric meaning/calculation/current/change interpretation, optional real-history trend only, provenance, missing/unavailable states, focus trap/Escape/outside close, keyboard card and point behavior, no-zero/no-duplicate rules, and responsive acceptance criteria.
+Complete, remediation A: [docs/design/task-010.md](../design/task-010.md). Replaces the large inline trend/duplicate Visual Analytics surface with one reusable metric-card insight popup. Defines robust desktop two-column and mobile drawer layouts, typed metric content/copy for all eligible cards, provenance and truthful states, optional adjacent-history behavior, Team/Scrum Master density, focus trap/Escape/outside close/focus restore, keyboard card/point behavior, and acceptance criteria.
 
 ## Developer handoff
 
@@ -36,12 +36,12 @@ Not started. QA must independently verify historical coverage, direction correct
 
 The corrected Architect decision supersedes the earlier inline Historical trends implementation and its related QA review evidence. The prior QA entries remain historical records, but the metric-card insight popup scope requires fresh Developer implementation and QA verification against the corrected Designer handoff.
 
-## Designer remediation mapping
+## Designer remediation A mapping
 
-- Architect contract → design sections 2–4 and `Remediation contract`: selected period is the sole historical-window filter; no inference across gaps; one valid period is N/A.
-- Interaction contract → sections 3 and 7: roving `tabIndex`, ArrowLeft/Right plus orientation equivalents, Home/End, Enter/Space pin, Escape unpin, visible focus, and text/table fallback.
-- Trust/state contract → sections 4 and 8: point `as-of`/`capturedAt`/sample/usable/source; truthful loading/retrying/error/partial/unavailable states; last-known data retention and retry.
-- Mode contract → sections 3, 4, and remediation: compact Team presentation and richer Scrum Master diagnostics without a taller chart grid.
+- Layout/UI correction → design sections 3, 5, and 8: minimum-width desktop two-column grid, mobile drawer/reflow, no collapsed columns or vertical word wrapping, and Visual Analytics reconciliation.
+- Typed content/trust → sections 2–4 and 8: metric-specific meaning, calculation, current/previous change, direction, unit, source/as-of/sample/usable, and truthful missing/loading/error/retry/insufficient states.
+- History contract → sections 3, 4, and 8: selected period sole authority, adjacent comparable history only, deterministic same-period dedupe, no gap inference, one-valid-point N/A, and no special P85 trendline.
+- Interaction/accessibility → sections 3, 6, and 7: card disclosure, shared modal, focus trap, Escape/outside close, focus restore, roving point keyboard model, and text/table fallback.
 
 ## QA review — independent review
 
@@ -237,9 +237,106 @@ Non-blocking follow-ups:
 
 Next-task status: task may proceed; follow-ups are recorded and non-blocking.
 
+## Release QA — TASK 010 remediation A v0.5.4 — 2026-09-03
+
+Verdict: `PASS`
+
+Evidence:
+
+- `package.json`, `package-lock.json`, `apps/sm-tool/package.json`, and `apps/sm-tool/package-lock.json` all report version `0.5.4`; both lockfiles also have `packages[""].version` set to `0.5.4`.
+- The release diff contains exactly those four files. Each diff is version-only, including the lockfile root entries; dependency structure is unchanged.
+- The approved TASK 010 popup implementation remains present: typed metric insight registry, eight card entry points, adjacent-pair history gating, and accessible modal behavior. The prior implementation verdict remains `PASS WITH FOLLOW-UPS`.
+- `npm run check` passed: typecheck, 30 test files / 157 tests, and production build. `git diff --check` passed.
+- No release-scope `Teams/**`, `teams/**`, `workspace.json`, cache, export, customer-data, token, or unrelated application changes are included in the v0.5.4 version diff. Existing dirty workspace files and approved TASK 010 implementation changes were excluded from the release assessment.
+
+Open follow-ups:
+
+- Prior TASK 010 non-blocking rendered UI/browser coverage and retrying-state fixture follow-ups remain open.
+
+Next-task status: release may proceed; the prior TASK 010 follow-ups remain non-blocking.
+
+## QA remediation A review — 2026-09-03
+
+Verdict: `FAIL`
+
+Evidence:
+
+- Reviewed the current architecture/design handoffs and actual rendered `MetricInsightModal`/Team/Scrum Master source and CSS.
+- Confirmed modal detail CSS uses a readable desktop two-column `dl` grid (`minmax(140px, 1fr)` + `minmax(0, 1.5fr)`), `overflow-wrap:anywhere`, and mobile single-column/bottom-sheet rules. Cards are real buttons and Team/Scrum Master both use eight entry points, including Velocity and Bottleneck.
+- Confirmed typed metric definitions provide metric-specific meaning, calculation, unit/direction, current/change/interpretation and selected-window provenance; optional popup history is gated by adjacent valid pairs and deduped by newest capture. No new formulas/data sources/customer/workspace changes observed.
+- Focused tests: 12/12 passed. `npm run check`: passed typecheck, 30 test files / 156 tests, and production build. `git diff --check`: passed. Browser smoke was not available in this environment.
+
+Findings:
+
+- P1: Scrum Master still renders the old `Visual Analytics` section and its existing `Cycle Time Trend` with a P85 line and `ReferenceLine` to Delivery Expectation. The corrected handoff explicitly requires old Visual Analytics content to be removed or clearly non-duplicating and forbids a special P85 trendline/target; this remains a visible duplicate/contradictory surface beside the popup.
+- P2: `MetricInsightModal` contains a literal `\\n` between the “How collected/calculated” paragraph and diagnostic coverage JSX, which will render as stray text in the popup rather than whitespace.
+- P2: no real component/browser test verifies desktop two-column readability, mobile drawer, card activation, modal focus behavior, or rendered popup content; current checks are helper/source-contract assertions.
+
+Scope/data safety: no Teams/**, teams/**, workspace.json, exports, cache, token, customer-data, route, or new formula/data-source changes found in the task-local review.
+
+Required fixes: remove or explicitly separate the old Visual Analytics/P85 target surface, remove the literal newline artifact, and add rendered UI regression coverage. Next task is blocked pending remediation and fresh QA review.
+
+## QA fresh remediation A re-review — 2026-09-03
+
+Verdict: `FAIL`
+
+Evidence:
+
+- Confirmed `renderTrendCharts` no longer contains the old Cycle Time Trend/P85 line or Delivery Expectation `ReferenceLine`; remaining Scrum Master `Visual Analytics` is Throughput and Time in Status only and is non-duplicating with popup historical insight.
+- Confirmed modal source has no literal newline artifact, details use a desktop two-column grid with mobile single-column/bottom-sheet rules, and all eight Team/Scrum Master KPI cards use `InsightCardButton`, including Velocity and Bottleneck.
+- Confirmed typed `metric-insights` definitions and modal fields for meaning, calculation, unit, current/change/interpretation, selected-window provenance, sample/usable, as-of/captured/source, missing/zero and state copy. Adjacent-pair gating, gap handling, dedupe, no special P85 target, focus trap, keyboard point lifecycle, Escape/outside close and focus restoration are present.
+- Focused tests: 12/12 passed. `npm run check`: passed typecheck, 30 test files / 156 tests, and production build. `git diff --check`: passed. Browser smoke was unavailable in this environment.
+
+Findings:
+
+- P1: popup change rendering treats `metric.prev` value `"-"` as present because the condition is `metric.prev ? ...`. For metrics without a previous comparable value (notably Avg Cycle Time, SLE P85, and Velocity when prior data is absent), it can announce `Up/Down/Unchanged from -`, which is a false comparison rather than `N/A`/`Unavailable`.
+- P2: no rendered component/browser tests exercise the corrected popup content, missing-previous case, card activation, focus trap/restore, or mobile layout; current tests are helper/source-contract checks.
+
+Scope/data safety: no new formulas, routes, data sources, Jira/network calls, or Teams/workspace/customer/cache/token changes observed; unrelated dirty files excluded.
+
+Required fix: treat `"-"` and other unavailable previous values as unavailable before constructing change copy, and add a regression fixture/test. Add rendered UI/mobile coverage as a non-blocking hardening follow-up after the truthfulness fix. Next task remains blocked pending remediation and fresh QA review.
+
 ## Developer popup remediation 3 — 2026-09-03
 
 - Added `hasAdjacentValidPair` gating so separated valid points with a missing period do not render a trend; the popup reports that gaps prevent a trend.
 - Removed the obsolete inline implementation from `ExecutiveViews.tsx` and all `.historical-trends-*` CSS. The shared metric insight popup is the sole rendered trend surface.
 - Added executable adjacent-pair and rendered-popup wiring assertions covering keyboard lifecycle, focus trap/restore, selected-window behavior, deduplication, and all eight Team card entry points.
 - Validation: `npm run check` passed with 30 files / 155 tests and production build; `git diff --check` passed. No commit or push performed; browser-level QA remains required.
+
+## Developer remediation A follow-up — 2026-09-03
+
+- Removed the legacy Visual Analytics Cycle Time/P85 chart and Delivery Expectation reference line from Executive rendering; remaining charts are non-duplicating operational diagnostics.
+- Removed the literal `\\n` JSX artifact between calculation and coverage content.
+- Added regression assertions for the absent legacy P85 surface and newline artifact. Validation: `npm run check` passed with 30 files / 156 tests and production build; `git diff --check` passed. No commit or push performed.
+
+## Developer final truthfulness remediation — 2026-09-03
+
+- Previous comparison text now accepts only finite numeric values. Missing, `-`, blank, and non-numeric previous values render as unavailable; numeric zero remains valid.
+- Added executable parser fixtures for unavailable `-` and valid previous `0`, plus popup wiring assertions. No metric formulas or source data changed.
+
+## Developer remediation A — 2026-09-03
+
+- Added typed `metric-insights` registry content for the eight approved card metrics, including units, plain-language meaning, collection/calculation wording, and direction semantics. Popup values and provenance remain sourced from existing metric/snapshot contracts; generic unit text is only a safe fallback for unknown stable cards.
+- Hardened popup responsive layout with constrained readable columns on desktop and a stacked bottom-sheet layout on mobile, preventing vertical word collapse and page overflow.
+- Preserved optional history as a non-target, gap-aware diagnostic surface and retained existing Visual Analytics charts as separate diagnostic panels rather than another card-launched insight surface.
+- Added executable registry, card-coverage, and responsive/accessibility source-contract assertions. Validation: `npm run check` passed with 30 files / 156 tests and production build; `git diff --check` passed. No commit or push performed.
+
+## QA final remediation A re-review — 2026-09-03
+
+Verdict: `PASS WITH FOLLOW-UPS`
+
+Evidence:
+
+- `parseMetricPreviousValue` maps `-`, empty, undefined, and nonnumeric values to unavailable; numeric `0` remains valid. Modal change copy uses this parsed value and does not compare against unavailable data.
+- Old Cycle Time Trend/P85 target/Delivery Expectation surface and literal newline artifact are gone. Remaining Visual Analytics is limited to non-duplicating operational diagnostics. Popup desktop details use a readable two-column grid; mobile uses a stacked bottom-sheet layout.
+- All eight Team and Scrum Master KPI cards are keyboard-operable `InsightCardButton` entry points. Typed metric definitions, selected-window provenance, adjacent-pair/gap-aware history, deterministic dedupe, no special P85 target, dialog focus lifecycle and truthful states remain intact.
+- Focused tests: 12/12 passed. `npm run check`: passed typecheck, 30 test files / 156 tests, and production build. `git diff --check`: passed. Browser smoke was unavailable in this environment.
+
+Non-blocking follow-ups:
+
+- Add rendered component/browser tests for card activation, modal focus lifecycle, missing/zero previous values, and desktop/mobile layout.
+- Add a direct UI fixture for a distinct retrying presentation if needed for release hardening.
+
+Scope/data safety: no Teams/**, teams/**, workspace.json, exports, cache, token, customer-data, formula, route, or new data-source changes observed.
+
+Next-task status: task may proceed; follow-ups are recorded and non-blocking.

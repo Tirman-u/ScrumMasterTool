@@ -1,111 +1,130 @@
-# TASK 010 — Designer handoff: Executive Summary metric insights
+# TASK 010 — Designer handoff: Executive Summary metric insight popup
 
 ## 1. User decision
 
-Replace the large inline `Historical trends` block with one compact insight modal/popover opened from every important existing metric card where data exists. Eligible cards include Stories Done, Throughput, Avg Cycle Time, SLE P85, Aging WIP, Done Bug Ratio, Velocity, Bottleneck, and other existing cards with a valid historical contract.
+Replace the large inline Historical trends and duplicate Visual Analytics treatment with one compact reusable metric insight popup. Every eligible Executive Summary metric card is a keyboard-operable disclosure: Stories Done, Throughput, Avg Cycle Time, SLE P85, Aging WIP, Done Bug Ratio, Velocity, Bottleneck, and any other stable-contract card with data.
 
-This is an insight interaction, not a new dashboard or metric calculation. Preserve the selected team, shared period, mode, existing formulas, and current card hierarchy. Do not add P50 or a special P85 trendline status. Missing data is never shown as zero.
+The popup explains what changed. It does not add formulas, routes, data sources, P50, or a special P85 target/trendline. Preserve selected team, shared selected period, current card values, existing units/formulas, local-only boundaries, and Monday–Friday working-day semantics.
 
 ## 2. Information hierarchy
 
-Inside the popup, show: metric name, current value, unit, selected team and period; change versus the previous comparable period with explicit `Improving`, `Worsening`, `Unchanged`, `N/A`, or `Unavailable`; an optional small line trend only with real comparable history; sample/usable count, `as-of`, `capturedAt`, and source; concise meaning and collection/calculation explanation; and missing/unavailable/partial/insufficient reason with safe last-known/retry state where applicable.
+Popup reading order:
 
-The selected period is the sole authoritative historical-window endpoint/filter across Team, Scrum Master, cards, popup, chart, and table. There is no period control inside the popup.
+1. Metric name, selected team, selected period, and current value/unit.
+2. Change versus the previous comparable period.
+3. Explicit interpretation: `Improving`, `Worsening`, `Unchanged`, `N/A`, or `Unavailable`.
+4. Optional small metric-specific history only when comparable adjacent history exists.
+5. Meaning and existing collection/calculation explanation.
+6. `Sample`, `Usable`, `As of`, `Captured`, and `Source`.
+7. Missing/unavailable/partial/insufficient explanation and retry, when applicable.
+
+The selected period is the sole historical-window endpoint/filter across every card, mode, popup, optional chart, and table. The popup has no period control. Facts, calculations, interpretations, and recommendations/guidance remain visually separated.
 
 ## 3. Screen/flow specification
 
-### Card entry point
+### Card entry
 
-Make each eligible metric card a keyboard-operable disclosure entry point. Use a real button or card button pattern with an accessible name such as `Open Avg Cycle Time insight`. Preserve the existing card value, unit, trend badge, and layout. A subtle `View insight` affordance may be used, but is not color-only.
+Preserve the current card layout and value. Add a quiet, consistently placed `View insight` affordance or disclosure icon with visible text/label. The card is a real button/disclosure control with an accessible name such as `Open Avg Cycle Time insight`. Enter/Space opens the shared popup; card selection does not change team, period, or dashboard mode.
 
-Card activation opens one popup anchored to the card on desktop and as a bottom sheet/full-width dialog on narrow mobile. Only one popup is open at a time. Opening another card replaces content in the same popup and keeps selected team/period unchanged.
+### Desktop popup: robust two-column layout
 
-### Popup anatomy and copy
+Use one centered compact modal/popover, anchored to the card when space allows and falling back to centered modal placement when anchoring would clip. Minimum width is 360px; target width is 440–560px; maximum width is `min(560px, calc(100vw - 32px))`. Never allow the dialog to shrink into an ultra-narrow column.
 
-Header: `[Metric name] insight` plus `[Team name] · [selected period]`. Body order: `Current` value/unit; `Change` versus previous comparable period; optional `Trend`; `Meaning`; `How calculated`; and `Data details`.
+The body uses a readable two-column detail grid:
 
-Normative change copy:
-
-- `Improving · 4.2 working days, down from 5.0 in the previous comparable period.`
-- `Worsening · 7.1 working days, up from 5.8 in the previous comparable period.`
-- `Unchanged · within the existing neutral threshold.`
-- `N/A · one valid period is available.`
-- `Unavailable · no comparable historical data for this metric.`
-
-Metric meaning/copy:
-
-| Metric | Meaning and direction |
+| Left column | Right column |
 |---|---|
-| Stories Done | Completed items in the selected period. Higher is better with scope/context. |
-| Throughput | Completed items per the existing throughput unit. Higher is better. |
-| Avg Cycle Time | Average configured Cycle Time in working days. Lower is better. |
-| SLE P85 | 85% of valid completed items finished within this working-day duration. Lower is better. |
-| Aging WIP | Existing aging-WIP measure. Lower is better. |
-| Done Bug Ratio | Share of completed items classified as bugs. Lower is better. |
-| Velocity | Existing velocity measure and unit. Higher is better. |
-| Bottleneck | Existing categorical bottleneck state/measure. Compare category movement, not numeric magnitude. |
+| Current value/unit | Change vs previous comparable period |
+| Interpretation/direction | History coverage or optional mini-trend |
+| Meaning | How collected/calculated |
+| Sample / usable | As of / captured / source |
 
-`How calculated` uses the existing metric contract and source wording; no new formula is invented. Point detail includes `period`, value/unit, `as-of`, `capturedAt`, sample, usable, and source when available. Missing provenance is labelled unavailable, never fabricated.
+Each label/value pair has a minimum usable width; the grid uses `minmax(0, 1fr)` columns with a clear gap and stacks to one column below the mobile breakpoint. Long source strings may wrap normally, but no column may be narrower than its readable minimum, no horizontal page overflow is allowed, and no vertical writing/character-by-character wrapping is permitted. The popup body scrolls internally if needed; header and close control remain reachable.
 
-### Optional trend interaction
+### Mobile drawer
 
-Render the small trend only when at least two adjacent valid comparable periods exist in the selected window. Gaps remain gaps; never connect or compare across a missing/invalid period. One valid period shows value/provenance but `N/A · one valid period is available.` No duplicate same-period points may appear.
+At narrow widths, use a bottom sheet/full-width dialog with a visible drag/top boundary only as a visual affordance, not the sole close mechanism. Use one-column detail sections, full-width close/retry buttons, and internal vertical scrolling. Keep metric name/context sticky at the top when scrolling. No horizontal overflow, clipped source text, or collapsed detail columns.
 
-Hover and focus expose the same detail: metric, period, value/unit, `as-of`, `capturedAt`, sample, usable, source. Clicking or Enter/Space pins the detail. Escape or outside click closes/unpins the current layer.
+### Typed metric content
+
+| Card | Meaning / calculation copy | Direction |
+|---|---|---|
+| Stories Done | `Completed items in the selected period, from the existing completion data.` | Higher is better, interpreted with scope/context. |
+| Throughput | `Completed items per the existing throughput unit and period.` | Higher is better. |
+| Avg Cycle Time | `Average configured Cycle Time, measured in working days using the existing flow definition.` | Lower is better. |
+| SLE P85 | `85% of valid completed items finished within this working-day duration, using the existing SLE calculation.` | Lower is better. No target/trendline status. |
+| Aging WIP | `Existing aging-WIP measure for work still in progress.` | Lower is better. |
+| Done Bug Ratio | `Share of completed items classified as bugs under the existing bug mapping.` | Lower is better. |
+| Velocity | `Existing velocity measure for the selected period and configured unit.` | Higher is better. |
+| Bottleneck | `Existing categorical bottleneck result from the configured flow diagnostics.` | Categorical movement only; do not calculate numeric direction. |
+| Stable-contract card | Use its existing metric meaning, source, unit, and calculation wording. | Use only its approved contract direction. |
+
+Current value, previous comparable value, delta/direction, unit, sample/usable counts, as-of/capturedAt, and source are explicit fields. If a field is not available, show `Unavailable` with reason rather than inventing a value.
+
+### Optional history and change
+
+Show a small line/point history only when at least two adjacent valid comparable snapshots exist within the selected-period window. Deduplicate same-period snapshots deterministically before display. Gaps remain gaps; no comparison or inferred direction crosses a missing/invalid period. One valid point is `N/A · one valid period is available.`
+
+Point hover/focus/click/Enter/Space exposes the same detail fields as the popup and may pin the detail. The optional chart is secondary and never becomes a P85-specific target/trendline feature.
+
+Normative change copy: `Improving · 4.2 working days, down from 5.0 in the previous comparable period.`; `Worsening · 7.1 working days, up from 5.8 in the previous comparable period.`; `Unchanged · within the existing neutral threshold.`; `N/A · one valid period is available.`; `Unavailable · no comparable historical data for this metric.`
 
 ### Team versus Scrum Master
 
-Team popup is presentation-safe: current value, one-line interpretation, short meaning, optional small trend, and compact data detail. Scrum Master popup is richer: full calculation/source note, sample versus usable count, coverage/gap explanation, last-known/error detail, and optional data table. Both use the same selected context and truth rules.
+Team popup: concise current value, change, interpretation, short meaning/calculation, and essential provenance. Scrum Master popup: same hierarchy with fuller calculation/source text, sample versus usable, coverage/gaps, unavailable reason, last-known/error context, and `View data table`. Both remain the same size class and share semantics.
+
+### Visual Analytics reconciliation
+
+Remove the old standalone `Visual Analytics` sections and any large inline historical trend blocks that duplicate this insight. Existing non-historical analytics that answer a distinct approved question may remain, but must not repeat the same metric history, direction, or popup content. The Executive Summary card popup is the single source for metric-card historical insight.
 
 ## 4. Component/state matrix
 
-| State | Card | Popup behavior |
+| State | Card | Popup |
 |---|---|---|
-| Valid current/history | Current value and existing trend affordance | Value, change, optional line trend, meaning, calculation, provenance |
+| Valid current/history | Current value and disclosure affordance | Two-column details, explicit change/direction, optional adjacent-history mini-trend |
 | Valid current/no history | Current value | `Unavailable · no comparable historical data for this metric.`; no trendline |
 | One valid period | Current value | `N/A · one valid period is available.`; no direction claim |
-| Partial history | Current value with coverage if supported | Gapped line; `3 of 6 comparable periods available.`; direction only for adjacent valid pair |
-| Missing current | `-` with reason | `Unavailable · no valid value for [selected period].`; no zero |
-| Loading | Existing card skeleton/quiet loading | `Loading [metric] insight…`; context visible; no placeholder zeros |
-| Retrying | Existing value/last-known card remains | `Retrying [metric] insight…`; last-known labelled; no false freshness |
-| Error | Existing card/current last-known value remains | `Could not load [metric] insight. Current metrics are unchanged.` + `Try again` |
-| Bottleneck categorical | Existing category | Explain category transition/current category; no numeric higher/lower semantics |
-| Popup closed | Existing card unchanged | Focus returns to opening card |
-| Mobile | Existing card remains compact/tappable | Bottom sheet/full-width dialog; internal scroll if needed |
-
-Loading, retrying, error, partial, unavailable, and one-valid-period states are explicit. Current/last-known data is retained during failure; status must not rewrite metric values or timestamps.
+| Partial history | Current/last-known value | `3 of 6 comparable periods available.`; gaps visible; no cross-gap inference |
+| Missing current | `-` plus reason | `Unavailable · no valid value for [selected period].`; never zero |
+| Loading | Existing value/skeleton without zero placeholder | `Loading [metric] insight…`; context remains visible |
+| Retrying | Last-known value retained and labelled | `Retrying [metric] insight…`; no false freshness |
+| Error | Last-known/current value retained | `Could not load [metric] insight. Current metrics are unchanged.` + `Try again` |
+| Bottleneck | Existing category | Category meaning/current-to-previous category change; no numeric direction |
+| Closed | Card unchanged | Focus returns to opening card |
+| Mobile | Compact card | One-column bottom sheet/full-width dialog with internal scroll |
 
 ## 5. Visual system
 
-Reuse existing Executive metric cards, trend pills/arrows, chart-card, tooltip, dialog/popover, border, spacing, typography, and semantic status tokens. Remove the large inline trend block from the main view; the popup is the sole historical insight surface.
+Reuse existing Executive card, trend pill/arrow, popover/dialog, chart, tooltip, border, spacing, typography, and semantic status tokens. Desktop popup: 440–560px target, 360px minimum, 16–24px internal padding, 2-column grid with readable label/value pairs. Mobile: `calc(100vw - 24px)` or full-width bottom sheet, one-column stack, internal scroll.
 
-Keep the popup compact: target desktop width 360–480px and a small trend plot 120–160px high. Use a clear divider between interpretation and provenance. Higher-is-better applies to Stories Done/Throughput/Velocity; lower-is-better applies to Avg Cycle Time/SLE P85/Aging WIP/Done Bug Ratio; Bottleneck is categorical.
+Use visible labels, arrows, point shapes, line gaps, and text in addition to restrained color. Higher-is-better: Stories Done, Throughput, Velocity. Lower-is-better: Avg Cycle Time, SLE P85, Aging WIP, Done Bug Ratio. Bottleneck is categorical. No special P85 trendline status and no P50 control.
 
 ## 6. Figma handoff
 
-Use the existing Executive Scrum Master Dashboard Make file referenced by `prompts/DESIGNER.md` as source of truth. No Figma mutation is required for this documentation-only task. Represent one reusable `Metric insight popup` with card-entry, Team/Scrum Master, valid/history, no-history, one-period, partial, unavailable, loading, retrying, error, pinned-point, desktop-popover, and mobile-bottom-sheet variants.
+Use the existing Executive Scrum Master Dashboard Make file referenced by `prompts/DESIGNER.md`. No Figma mutation is required for this docs-only task. Represent one reusable `Metric insight popup` with variants for each typed metric, Team/Scrum Master density, valid/history, no-history, one-period, partial, unavailable, loading, retrying, error, desktop two-column, mobile one-column drawer, point focus/pin, and focus-trap states.
 
-Annotate focus return, focus trap, Escape/outside close, selected-period authority, no-zero/no-duplicate rules, provenance fields, and gap-aware optional trend behavior. Do not retain the old inline Historical trends block in the design handoff.
+Annotate the 360px minimum, 440–560px desktop target, two-column grid minimums, normal wrapping/no vertical text, selected-period authority, no duplicate same-period points, gap-aware history, exact provenance fields, old Visual Analytics removal/reconciliation, and focus return.
 
 ## 7. Accessibility
 
-- Metric cards expose real button/disclosure semantics and explicit names; keyboard Enter/Space opens the insight.
-- Popup uses dialog semantics with a labelled title, visible focus, focus trap while open, Escape close, and outside-click close when it does not conflict with an active control.
-- On close, return focus to the exact opening card. Opening another card replaces popup content without losing focus context.
-- Optional trend points use roving `tabIndex`: ArrowLeft/Right and orientation-equivalent keys move points, Home/End jump to bounds, Enter/Space pins detail, and Escape unpins. Leading gaps must not leave zero reachable points.
-- Tooltip/detail is available on focus as well as hover and includes the same provenance fields. Provide `View data table` or semantic text summary.
-- Announce popup opening, metric selection, meaningful state changes, and pinned-point summaries politely; do not announce pointer movement or repeated redraws.
-- Use visible labels, icons/shapes, line gaps, and text so direction/state never rely on color. Meet contrast and touch-target requirements.
+- Cards are real buttons/disclosures with explicit names and visible focus; Enter/Space opens the popup.
+- Popup has dialog semantics, labelled title, initial focus on close or first meaningful control, focus trap, Escape close, and outside-click close when it does not conflict with an active control.
+- Close restores focus to the exact opening card. Opening another card replaces the shared popup content without losing modal context.
+- Optional trend points use roving `tabIndex`: ArrowLeft/Right and orientation-equivalent keys, Home/End, Enter/Space pin, Escape unpin; leading gaps must not leave no valid point reachable.
+- Tooltip/detail works on focus as well as hover and includes period, value/unit, as-of, capturedAt, sample, usable, and source. Provide a semantic text summary or `View data table`.
+- Announce popup opening, metric change, and meaningful loading/error/retry state politely; do not announce pointer movement or repeated redraws.
+- Two-column layout must remain readable at zoom/reflow. Do not use CSS/markup that causes character-by-character vertical wrapping. Mobile controls are full-width and keyboard/touch reachable.
+- State/direction is conveyed with text, icons/shapes, and line gaps, never color alone. Meet contrast and touch-target requirements.
 
 ## 8. Acceptance criteria for Developer/QA
 
-1. The large inline Historical trends block is removed/replaced; no duplicate trend surface is added to the main view.
-2. Every specified existing metric card with data is clickable and keyboard-operable, opens the same reusable compact insight popup, and preserves team/period/mode context.
-3. Popup content includes meaning, collection/calculation, current value, change versus previous comparable period, explicit interpretation, units, sample/usable, as-of, capturedAt, and source where available.
-4. Optional trend appears only with real comparable history; no duplicate same-period points, no interpolation/inference across gaps, and one valid period is `N/A`.
-5. Selected period is the sole authoritative historical-window endpoint/filter across all cards, modes, popup content, chart, and table; no popup period selector exists.
-6. Direction semantics are correct: Stories Done/Throughput/Velocity higher is better; Avg Cycle Time/SLE P85/Aging WIP/Done Bug Ratio lower is better; Bottleneck is categorical. P85 has no special trendline status.
-7. Missing, unavailable, zero, partial, loading, retrying, error, and one-valid-period states are distinct; no unavailable value is substituted with 0, and errors retain last-known/current data with retry.
-8. Team popup is concise/presentation-safe; Scrum Master popup provides richer diagnostic/provenance/coverage detail without returning to a tall inline layout.
-9. Card keyboard entry, dialog focus trap, Escape/outside close, focus return, point roving tabindex/navigation/pin/unpin, hover/focus detail, and text/table fallback work on desktop and mobile.
-10. QA verifies responsive popup sizing/scroll, contrast/non-color semantics, selected-period changes, gap/duplicate handling, provenance completeness, state truthfulness, and unchanged existing formulas/data boundaries. No application code is part of this Designer handoff.
+1. The large inline Historical trends and duplicative old Visual Analytics metric-history sections are removed or reconciled; one metric-card insight popup is the single historical insight surface.
+2. Every eligible Executive Summary card with stable data is clickable and keyboard-operable, opens the shared popup, and preserves team, selected period, mode, and card hierarchy.
+3. Desktop popup has a robust readable 2-column detail grid, 360px minimum width and 440–560px target width; no collapsed ultra-narrow columns, vertical word wrapping, clipped content, or page-level horizontal overflow.
+4. Mobile uses a readable stacked bottom sheet/reflow dialog with internal scroll, full-width actions, no clipping/overflow, and preserved focus/close behavior.
+5. Typed content exists for Stories Done, Throughput, Avg Cycle Time, SLE P85, Aging WIP, Done Bug Ratio, Velocity, Bottleneck, and stable-contract cards: meaning, collection/calculation, unit, current, previous comparable change, interpretation, source/as-of/sample/usable.
+6. Optional history appears only for real adjacent comparable snapshots in the sole selected-period window; same-period points are deduplicated, gaps never support inference, and one valid point is N/A. SLE P85 has no special trendline/target status.
+7. Direction semantics are correct: higher-is-better for Stories Done/Throughput/Velocity; lower-is-better for time/Aging WIP/Done Bug Ratio; Bottleneck is categorical.
+8. Missing, unavailable, loading, retrying, error, partial, and insufficient states are truthful and distinct; unavailable is never zero, and errors retain current/last-known data with safe retry.
+9. Team popup is concise/presentation-safe; Scrum Master popup is richer with diagnostic/provenance/coverage detail without recreating a tall inline block.
+10. Card keyboard activation, modal focus trap, Escape/outside close, focus restoration, hover/focus/pinned point detail, semantic summary/table, responsive reflow, and contrast/non-color semantics pass QA. Existing formulas, data boundaries, and local-only scope remain unchanged.

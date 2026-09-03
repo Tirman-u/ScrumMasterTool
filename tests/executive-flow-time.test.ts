@@ -67,5 +67,14 @@ describe("Executive flow-time restoration", () => {
     expect(viewsSource).toContain("aria-modal=\"true\"");
     expect(viewsSource).toContain("window.requestAnimationFrame(() => openerRef.current?.focus())");
     expect(viewsSource).toContain("slice(0, 8)");
+    expect(viewsSource).toContain("metric-insight-details");
+    expect(viewsSource).toContain("definition.calculation");
+    expect(viewsSource).not.toContain('title="Cycle Time Trend"');
+    expect(viewsSource).not.toContain('dataKey="p85" name="P85"');
+    expect(viewsSource).not.toContain("\\n      {diagnostic");
+    expect(viewsSource).toContain("definition.meaning");
+    expect(viewsSource).toContain("metric-insight-backdrop");
+    expect(viewsSource).toContain("parseMetricPreviousValue(metric.prev)");
+    expect(viewsSource).toContain("previousValue === null");
   });
 });
