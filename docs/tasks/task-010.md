@@ -255,6 +255,43 @@ Open follow-ups:
 
 Next-task status: release may proceed; the prior TASK 010 follow-ups remain non-blocking.
 
+## QA — cache-correctness hotfix review — 2026-09-03
+
+Verdict: `PASS`
+
+Evidence:
+
+- `cloudflare-worker.mjs` applies the revalidation/bypass options and `cache-control: no-store, no-cache, must-revalidate` only for `/` and `/index.html` via `HTML_ENTRY_PATHS` and `fetchHtmlEntry`.
+- `/api/pilot-access` remains routed to the Durable Object before the HTML branch, and all other static paths continue through the unchanged `env.ASSETS.fetch(request)` path. The focused test verifies both entry paths and a non-entry asset.
+- `node --check cloudflare-worker.mjs` passed. Focused cache test passed: 1 file / 3 tests. Full `npm run check` passed: typecheck, 30 test files / 157 tests, and production build. `git diff --check` passed.
+- Approved TASK 010 MetricInsightModal popup implementation remains intact, including typed metric registry, eight card entry points, adjacent-pair history gating, and accessible modal behavior.
+- The hotfix diff is limited to `cloudflare-worker.mjs` plus the focused test. Existing dirty Teams/**, workspace and other task files were not part of this assessment; no customer/workspace data or tokens were changed.
+
+Open follow-ups:
+
+- None blocking. The cache test does not independently exercise the API Durable Object branch, but source inspection confirms its routing is unchanged.
+
+Next-task status: task may proceed; no cache-correctness blocker found.
+
+## Release QA — TASK 010 remediation A v0.5.5 — 2026-09-03
+
+Verdict: `PASS`
+
+Evidence:
+
+- `package.json`, `package-lock.json`, `apps/sm-tool/package.json`, and `apps/sm-tool/package-lock.json` all report version `0.5.5`; both lockfiles also have `packages[""].version` set to `0.5.5`.
+- The v0.5.5 release diff contains exactly those four files. Every hunk is version-only, including lockfile root entries; dependency structure is unchanged.
+- The cache hotfix remains intact: only `/` and `/index.html` use the explicit asset revalidation/bypass and no-store/no-cache/must-revalidate headers; API and other static asset routing remain unchanged.
+- Approved TASK 010 popup implementation remains intact: `MetricInsightModal`, typed metric definitions, eight card entry points, adjacent-pair history gating, and accessibility contracts are present. Prior implementation verdict remains `PASS WITH FOLLOW-UPS`.
+- `npm run check` passed: typecheck, 30 test files / 157 tests, and production build. `git diff --check` passed.
+- No release-scope `Teams/**`, `teams/**`, `workspace.json`, cache, customer-data, token, or unrelated application changes are included. Existing dirty workspace/task files and the cache-hotfix implementation were excluded from the four-file version diff.
+
+Open follow-ups:
+
+- Prior TASK 010 non-blocking rendered UI/browser coverage and retrying-state fixture follow-ups remain open.
+
+Next-task status: release may proceed; no v0.5.5 release blocker found.
+
 ## QA remediation A review — 2026-09-03
 
 Verdict: `FAIL`

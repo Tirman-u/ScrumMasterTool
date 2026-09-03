@@ -1,5 +1,6 @@
 const PILOT_ACCESS_KEY = "pins";
 const MASTER_ADMIN_PIN = "24680";
+const HTML_ENTRY_PATHS = new Set(["/", "/index.html"]);
 
 function defaultPins() {
   return [
@@ -47,6 +48,22 @@ function json(value, init = {}) {
   return new Response(JSON.stringify(value), { ...init, headers });
 }
 
+async function fetchHtmlEntry(request, assets) {
+  const response = await assets.fetch(request, {
+    cf: {
+      cacheEverything: false,
+      cacheTtl: 0,
+    },
+  });
+  const headers = new Headers(response.headers);
+  headers.set("cache-control", "no-store, no-cache, must-revalidate");
+  return new Response(response.body, {
+    status: response.status,
+    statusText: response.statusText,
+    headers,
+  });
+}
+
 export class PilotAccessStore {
   constructor(state) {
     this.state = state;
@@ -86,6 +103,10 @@ export default {
     if (url.pathname === "/api/pilot-access") {
       const id = env.PILOT_ACCESS.idFromName("global-pilot-access");
       return env.PILOT_ACCESS.get(id).fetch(request);
+    }
+
+    if (HTML_ENTRY_PATHS.has(url.pathname)) {
+      return fetchHtmlEntry(request, env.ASSETS);
     }
 
     return env.ASSETS.fetch(request);
