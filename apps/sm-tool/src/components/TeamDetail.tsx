@@ -57,7 +57,7 @@ const BULK_EXCLUSION_DAY_THRESHOLDS = [50, 100, 200, 300];
 export function TeamDetail({
   team,
   title = "Team detail",
-  subtitle = "Resolution date vs Cycle Time in working days",
+  subtitle = "Resolution date vs Implementation Time in working days",
   periodFilter,
   sleValues,
   lineVisibility,
@@ -159,10 +159,10 @@ export function TeamDetail({
       <h2>{title}</h2>
       <div className="detail-subtitle">{subtitle}</div>
 
-      <section className="chart-accessible-summary" aria-label="Cycle Time chart summary">
+      <section className="chart-accessible-summary" aria-label="Implementation Time chart summary">
         <strong>Chart summary</strong>
         <p>
-          {team.config.teamName} · {periodFilter === "all" ? "All periods" : periodFilter} · x-axis: resolution date · y-axis: Cycle Time in working days · visible SLE: {sleLineSummary.join(", ")} · {filteredChartData.length} completed item{filteredChartData.length === 1 ? "" : "s"}.
+          {team.config.teamName} · {periodFilter === "all" ? "All periods" : periodFilter} · x-axis: resolution date · y-axis: Implementation Time in working days · visible SLE: {sleLineSummary.join(", ")} · {filteredChartData.length} completed item{filteredChartData.length === 1 ? "" : "s"}.
         </p>
       </section>
       {invalidResolutionDateCount > 0 ? (
@@ -380,7 +380,7 @@ export function TeamDetail({
                 }
                 onExcludeIssues(
                   bulkExcludeIssueKeys,
-                  exclusionReason.trim() || `Cycle Time ${bulkExcludeThreshold}+ working days outlier`,
+                  exclusionReason.trim() || `Implementation Time ${bulkExcludeThreshold}+ working days outlier`,
                 );
                 setSelectedIssueKey(null);
                 setExclusionReason("");
@@ -453,7 +453,7 @@ function CustomTooltip({ active, payload }: { active?: boolean; payload?: Toolti
     <div className="chart-tooltip">
       <div className="tooltip-key">{point.issueKey}</div>
       <div className="tooltip-date">Resolved: {formatLongDate(point.resolutionDate)}</div>
-      <div className="tooltip-cycle">Cycle Time: {point.cycleTimeDays.toFixed(1)} working days</div>
+      <div className="tooltip-cycle">Implementation Time: {point.cycleTimeDays.toFixed(1)} working days</div>
     </div>
   );
 }

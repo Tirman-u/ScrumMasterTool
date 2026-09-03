@@ -413,7 +413,7 @@ function FlowTimeCards({ data, diagnostic }: { data: ExecutiveTeamDesignData; di
           </div>
         ))}
       </div>
-      {diagnostic ? <p className="exec-diagnostic-note">Time in Status is diagnostic only and is not added to Lead, Active, or Cycle Time.</p> : null}
+      {diagnostic ? <p className="exec-diagnostic-note">Time in Status is diagnostic only and is not added to Lead Time, Cycle Time, or Implementation Time.</p> : null}
     </section>
   );
 }
@@ -421,11 +421,11 @@ function FlowTimeCards({ data, diagnostic }: { data: ExecutiveTeamDesignData; di
 function CycleTimePanel({ data, presentationMode }: { data: ExecutiveTeamDesignData; presentationMode: boolean }) {
   const panel = data.cycleTimePanel;
   return (
-    <section className="exec-cycle-time-panel" aria-label="Cycle Time scatter">
+    <section className="exec-cycle-time-panel" aria-label="Implementation Time scatter">
       <TeamDetail
         team={panel.team}
-        title="Cycle Time"
-        subtitle={presentationMode ? "Resolution date vs Cycle Time in working days" : "Resolution date vs Cycle Time with SLE percentile lines"}
+        title="Implementation Time"
+        subtitle={presentationMode ? "Resolution date vs Implementation Time in working days" : "Resolution date vs Implementation Time with SLE percentile lines"}
         periodFilter={panel.periodFilter}
         sleValues={panel.sleValues}
         lineVisibility={presentationMode ? { p50: false, p70: false, p85: true, p95: false } : panel.lineVisibility}
@@ -485,8 +485,8 @@ const dashboardColumns: { key: keyof ExecutiveDashboardTeam; label: string; widt
   { key: "name", label: "Team", width: 170 },
   { key: "done", label: "Done" },
   { key: "lead", label: "Lead Time" },
-  { key: "active", label: "Active Time" },
-  { key: "cycle", label: "Cycle Time" },
+  { key: "active", label: "Cycle Time" },
+  { key: "cycle", label: "Implementation Time" },
   { key: "sle", label: "SLE P85" },
   { key: "bugRatio", label: "Bug Ratio" },
   { key: "workMix", label: "Work Mix" },
@@ -592,7 +592,7 @@ export function ExecutiveDashboard({
           <SummaryKpi label="Data Rows" value={summary.dataRows.toLocaleString()} />
           <SummaryKpi label="Done" value={summary.done.toLocaleString()} />
           <SummaryKpi label="Open Tickets" value={summary.openTickets.toLocaleString()} sig="warning" />
-          <SummaryKpi label="Avg Cycle Time" value={formatPlainDays(summary.avgCycleTime)} unit="working days" />
+        <SummaryKpi label="Avg Implementation Time" value={formatPlainDays(summary.avgCycleTime)} unit="working days" />
           <SummaryKpi label="Combined SLE P85" value={formatPlainDays(summary.sleP85)} unit="working days" sig="warning" />
           <div className="exec-summary-actions">
             <button type="button" onClick={onWorkspaceSetup}>Manage Views</button>
@@ -625,7 +625,7 @@ export function ExecutiveDashboard({
               <div className="exec-selected-metrics">
                 {[
                   ["Done", selected.done.toLocaleString(), "good" as ExecSig],
-                  ["Cycle Time", formatDays(selected.cycle), selected.cycle != null && selected.cycle > 20 ? "warning" as ExecSig : "good" as ExecSig],
+                  ["Implementation Time", formatDays(selected.cycle), selected.cycle != null && selected.cycle > 20 ? "warning" as ExecSig : "good" as ExecSig],
                   ["Lead Time", formatDays(selected.lead), "neutral" as ExecSig],
                   ["SLE P85", formatDays(selected.sle), "neutral" as ExecSig],
                   ["Bug Ratio", formatPercent(selected.bugRatio), selected.bugRatio != null && selected.bugRatio > 15 ? "critical" as ExecSig : selected.bugRatio != null && selected.bugRatio > 10 ? "warning" as ExecSig : "good" as ExecSig],
@@ -652,14 +652,14 @@ export function ExecutiveDashboard({
           ) : null}
         </div>
 
-        <ChartCard title="Cycle Time Comparison - All Teams" badge="working days · avg" height={120}>
+        <ChartCard title="Implementation Time Comparison - All Teams" badge="working days · avg" height={120}>
           <ResponsiveContainer width="100%" height="100%">
             <BarChart data={cycleComparData} margin={{ top: 4, right: 8, left: -20, bottom: 0 }}>
               <CartesianGrid strokeDasharray="2 4" stroke="#F1F5F9" vertical={false} />
               <XAxis dataKey="name" tick={{ fontSize: 9.5, fill: "#94A3B8" }} tickLine={false} axisLine={false} />
               <YAxis tick={{ fontSize: 10, fill: "#94A3B8" }} tickLine={false} axisLine={false} />
               <Tooltip content={<CustomTooltip unit="d" />} />
-              <Bar dataKey="value" name="Cycle Time" radius={[3, 3, 0, 0]} maxBarSize={28}>
+              <Bar dataKey="value" name="Implementation Time" radius={[3, 3, 0, 0]} maxBarSize={28}>
                 {cycleComparData.map((entry) => (
                   <Cell key={entry.name} fill={entry.highlight ? "#4F46E5" : entry.value > 20 ? "#D97706" : "#94A3B8"} fillOpacity={entry.highlight ? 1 : 0.6} />
                 ))}
@@ -753,7 +753,7 @@ function FlowPipeline({ data, periodLabel }: { data: ExecutiveTeamDesignData; pe
       </div>
       <footer>
         <SummaryKpi label="Total Queue Time" value={formatDays(queueDays)} sig="critical" />
-        <SummaryKpi label="Total Active Time" value={formatDays(activeDays)} sig="good" />
+        <SummaryKpi label="Total Cycle Time" value={formatDays(activeDays)} sig="good" />
         <SummaryKpi label="Flow Efficiency" value={flowEfficiencyPct === null ? "-" : `${flowEfficiencyPct.toFixed(1)}%`} sig={flowEfficiencySig} />
         <SummaryKpi label="Biggest Queue" value={biggestQueue ? `${biggestQueue.name} ${formatDays(biggestQueue.days)}` : "-"} sig="critical" />
         <SummaryKpi label="Delivery Expectation" value={data.kpis.find((kpi) => kpi.label === "Delivery Expectation")?.value ?? "-"} />
@@ -828,7 +828,7 @@ function MetricInsightModal({ data, metric, onClose, diagnostic }: { data: Execu
   const closeRef = useRef<HTMLButtonElement>(null);
   const snapshots = useMemo(() => dedupeHistoricalPeriods(data.historicalTrend), [data.historicalTrend]);
   const windowPoints = filterHistoricalPeriods(snapshots, data.selectedHistoricalPeriod);
-  const historyKey: "cycleTime" | "sleP85" | null = metric.label === "Avg Cycle Time" ? "cycleTime" : metric.label === "SLE P85" ? "sleP85" : null;
+  const historyKey: "cycleTime" | "sleP85" | null = metric.label === "Avg Implementation Time" ? "cycleTime" : metric.label === "SLE P85" ? "sleP85" : null;
   const points = historyKey ? windowPoints.map((point) => ({ ...point, value: point[historyKey] })) : [];
   const validPoints = points.filter((point) => point.value !== null && Number.isFinite(point.value));
   const adjacentPairExists = hasAdjacentValidPair(points);
@@ -1095,7 +1095,7 @@ export function ExecutiveTeamView({
           Overview
         </button>
          <button ref={(element) => { tabRefs.current.cycle = element ?? undefined; }} type="button" role="tab" id="team-cycle-time-tab" aria-controls={cyclePanelId} aria-selected={activeTab === "cycle"} tabIndex={activeTab === "cycle" ? 0 : -1} className={activeTab === "cycle" ? "active" : ""} onClick={() => onTabChange("cycle")} onKeyDown={handleTabKeyDown}>
-          Cycle Time
+          Implementation Time
         </button>
       </div>
       <div className="exec-team-context-row">

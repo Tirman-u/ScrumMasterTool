@@ -30,6 +30,8 @@ import { isDefaultNonFlowStatus, isTerminalOrCancelledStatus } from "./lib/time-
 import { workingDaysBetween } from "./lib/working-days";
 import { buildExecutiveFlowSummary } from "./lib/metric-consistency";
 import { buildMetricTrustMetadata, type MetricTrust } from "./lib/metric-trust";
+import { adaptLegacyWorkflowConfig, FLOW_PRESENTATION_METRICS } from "./lib/flow-presentation";
+import { mapFlowTimingPresentation, type FlowPresentationMetricId } from "./lib/flow-presentation";
 import { buildTeamDataStatus } from "./lib/team-data-status";
 import { parseTeamRouteSearch, routeHistoryAction, serializeTeamRoute, validateTeamRoute, type TeamRouteState } from "./lib/team-route";
 import { recalculateSelectedTeam, type TeamRecalculateState } from "./lib/team-recalculate";
@@ -111,6 +113,16 @@ import {
   type WorkspaceMetricConfig,
   type WorkspaceProfileConfig,
 } from "./types/contracts";
+
+const FLOW_LABELS = {
+  lead: FLOW_PRESENTATION_METRICS[0].label,
+  cycle: FLOW_PRESENTATION_METRICS[1].label,
+  implementation: FLOW_PRESENTATION_METRICS[2].label,
+} as const;
+
+function getFlowPresentationValue(flowTiming: TeamMetrics["flowTiming"], metricId: FlowPresentationMetricId) {
+  return mapFlowTimingPresentation(flowTiming).find(({ metric }) => metric.id === metricId)?.value ?? null;
+}
 import {
   ExecutiveDashboard,
   ExecutiveTeamView,
@@ -422,19 +434,19 @@ const CONFIGURABLE_METRICS: ConfigurableMetricDefinition[] = [
   },
   {
     id: "active-time",
-    label: "Active Time",
+    label: "Cycle Time",
     group: "Core",
     source: "Time in Status",
-    description: "After-Funnel-to-Done flow time.",
+    description: "Active + Implementing flow time to Done.",
     defaultScopes: ["team", "value-stream", "art", "portfolio"],
     safeMetricIds: ["flow-time"],
   },
   {
     id: "cycle-time",
-    label: "Cycle Time",
+    label: "Implementation Time",
     group: "Core",
     source: "Time in Status",
-    description: "Implementation-to-Done flow time.",
+    description: "Implementing-to-Done flow time.",
     defaultScopes: ["team", "value-stream", "art", "portfolio"],
     safeMetricIds: ["flow-time"],
   },
@@ -539,10 +551,10 @@ const CONFIGURABLE_METRICS: ConfigurableMetricDefinition[] = [
   },
   {
     id: "cycle-time-distribution",
-    label: "Cycle Time Distribution",
+    label: "Implementation Time Distribution",
     group: "Flow",
     source: "Time in Status",
-    description: "Cycle Time spread across short, normal and long-tail delivery bands.",
+    description: "Implementation Time spread across short, normal and long-tail delivery bands.",
     defaultScopes: ["team"],
     safeMetricIds: ["flow-time", "flow-predictability"],
   },
@@ -1109,7 +1121,7 @@ const METRIC_HELP: Record<MetricHelpKey, MetricHelpCopy> = {
     ],
   },
   avgCycleTime: {
-    title: "Avg Cycle Time",
+    title: "Avg Implementation Time",
     meaning: "Average implementation time in Monday-Friday working days.",
     whyGood: "Lower is better. Shorter cycle time means faster delivery.",
     improveTips: [
@@ -1129,9 +1141,9 @@ const METRIC_HELP: Record<MetricHelpKey, MetricHelpCopy> = {
     ],
   },
   activeTime: {
-    title: "Active Time",
-    meaning: "Flow time after Funnel until Done, measured in Monday-Friday working days.",
-    whyGood: "Lower is better. It isolates the active delivery pipeline by excluding Funnel waiting time.",
+    title: "Cycle Time",
+    meaning: "Working days from the configured active flow through Active and Implementing to Done.",
+    whyGood: "Lower is better. This is the current name for the former Active Time definition.",
     improveTips: [
       "Keep active WIP small and finish started items before starting new ones.",
       "Shorten analysis and refinement queues with explicit pull rules.",
@@ -1139,9 +1151,9 @@ const METRIC_HELP: Record<MetricHelpKey, MetricHelpCopy> = {
     ],
   },
   flowCycleTime: {
-    title: "Cycle Time",
-    meaning: "Implementation time from Implementing states until Done, measured in Monday-Friday working days.",
-    whyGood: "Lower is better. It focuses on execution speed after committed work starts.",
+    title: "Implementation Time",
+    meaning: "Working days in Implementing statuses before Done.",
+    whyGood: "Lower is better. It focuses on execution time after committed work starts.",
     improveTips: [
       "Break implementation work into smaller deliverable slices.",
       "Reduce review, test, and acceptance waiting time.",
@@ -1256,8 +1268,8 @@ const METRIC_HELP: Record<MetricHelpKey, MetricHelpCopy> = {
     ],
   },
   cycleTimeDistribution: {
-    title: "Cycle Time Distribution",
-    meaning: "How long completed items took from active implementation to Done, grouped into simple time bands.",
+    title: "Implementation Time Distribution",
+    meaning: "How long completed items spent in Implementing before Done, grouped into simple time bands.",
     whyGood: "It shows whether most work finishes quickly or whether a meaningful share gets stuck for much longer.",
     improveTips: [
       "Look first at the slowest band and the issue types that appear there most often.",
@@ -2313,7 +2325,8 @@ export default function App(): JSX.Element {
     const dataRowCount = dashboardTeams.reduce((sum, team) => sum + team.parsedIssues.length, 0);
     const importCount = dashboardTeams.reduce((sum, team) => sum + team.importFiles.length, 0);
     const cycleValues = dashboardRows
-      .map((row) => row.current.flowTiming.cycleTime)
+      .map((row) => getFlowPresentationValue(row.current.flowTiming, "implementation"))
+      .filter((value): value is NonNullable<typeof value> => value !== null)
       .filter((value) => value.avgDays !== null && Number.isFinite(value.avgDays) && value.count > 0);
     const combinedSleCycleTimes = dashboardRows.flatMap((row) => row.current.sleCycleTimes);
     const latestImportAt = dashboardTeams
@@ -3843,7 +3856,7 @@ export default function App(): JSX.Element {
         <div>
           <div className="table-title">Where time is spent</div>
           <div className="table-subtitle">
-            Average time per workflow status from the Time in Status export. Use this to spot queues; these status averages are diagnostic and are not added together with Active Time or Cycle Time.
+            Average time per workflow status from the Time in Status export. Use this to spot queues; these status averages are diagnostic and are not added together with Cycle Time or Implementation Time.
           </div>
         </div>
 
@@ -3921,7 +3934,7 @@ export default function App(): JSX.Element {
         </div>
 
         {selectedCycleTimeDistribution.total === 0 ? (
-          <p className="muted">No completed Cycle Time values for this period.</p>
+          <p className="muted">No completed Implementation Time values for this period.</p>
         ) : (
           <>
             <div className="distribution-summary-grid">
@@ -3962,7 +3975,7 @@ export default function App(): JSX.Element {
                   <tr>
                     <th>Issue type</th>
                     <th>Items</th>
-                    <th>Avg Cycle Time</th>
+                    <th>Avg Implementation Time</th>
                     <th>14+ days</th>
                   </tr>
                 </thead>
@@ -4049,7 +4062,7 @@ export default function App(): JSX.Element {
                     <th>Total</th>
                     <th>Open</th>
                     <th>Done</th>
-                    <th>Avg done Cycle Time</th>
+                    <th>Avg done Implementation Time</th>
                   </tr>
                 </thead>
                 <tbody>
@@ -4180,27 +4193,27 @@ export default function App(): JSX.Element {
         id: "lead-time" as ConfigurableMetricId,
         header: "Lead Time",
         cell: renderDetailedMetricCell(
-          formatWorkingDays(selectedTeamRow.current.flowTiming.leadTime.avgDays),
+          formatWorkingDays(getFlowPresentationValue(selectedTeamRow.current.flowTiming, "lead")?.avgDays ?? null),
           selectedTeamRow.trends.leadTime,
-          selectedTeamRow.previous ? formatWorkingDays(selectedTeamRow.previous.flowTiming.leadTime.avgDays) : "-",
+          selectedTeamRow.previous ? formatWorkingDays(getFlowPresentationValue(selectedTeamRow.previous.flowTiming, "lead")?.avgDays ?? null) : "-",
         ),
       },
       {
         id: "active-time" as ConfigurableMetricId,
-        header: "Active Time",
+        header: FLOW_LABELS.cycle,
         cell: renderDetailedMetricCell(
-          formatWorkingDays(selectedTeamRow.current.flowTiming.activeTime.avgDays),
+          formatWorkingDays(getFlowPresentationValue(selectedTeamRow.current.flowTiming, "cycle")?.avgDays ?? null),
           selectedTeamRow.trends.activeTime,
-          selectedTeamRow.previous ? formatWorkingDays(selectedTeamRow.previous.flowTiming.activeTime.avgDays) : "-",
+          selectedTeamRow.previous ? formatWorkingDays(getFlowPresentationValue(selectedTeamRow.previous.flowTiming, "cycle")?.avgDays ?? null) : "-",
         ),
       },
       {
         id: "cycle-time" as ConfigurableMetricId,
-        header: "Cycle Time",
+        header: FLOW_LABELS.implementation,
         cell: renderDetailedMetricCell(
-          formatWorkingDays(selectedTeamRow.current.flowTiming.cycleTime.avgDays),
+          formatWorkingDays(getFlowPresentationValue(selectedTeamRow.current.flowTiming, "implementation")?.avgDays ?? null),
           selectedTeamRow.trends.flowCycleTime,
-          selectedTeamRow.previous ? formatWorkingDays(selectedTeamRow.previous.flowTiming.cycleTime.avgDays) : "-",
+          selectedTeamRow.previous ? formatWorkingDays(getFlowPresentationValue(selectedTeamRow.previous.flowTiming, "implementation")?.avgDays ?? null) : "-",
         ),
       },
       {
@@ -5787,22 +5800,22 @@ export default function App(): JSX.Element {
       ],
       [
         "Lead Time",
-        formatWorkingDays(selectedTeamRow.current.flowTiming.leadTime.avgDays),
-        selectedTeamRow.previous ? formatWorkingDays(selectedTeamRow.previous.flowTiming.leadTime.avgDays) : "-",
+        formatWorkingDays(getFlowPresentationValue(selectedTeamRow.current.flowTiming, "lead")?.avgDays ?? null),
+        selectedTeamRow.previous ? formatWorkingDays(getFlowPresentationValue(selectedTeamRow.previous.flowTiming, "lead")?.avgDays ?? null) : "-",
         selectedTeamRow.trends.leadTime.label,
         periodMonth,
       ],
       [
-        "Active Time",
-        formatWorkingDays(selectedTeamRow.current.flowTiming.activeTime.avgDays),
-        selectedTeamRow.previous ? formatWorkingDays(selectedTeamRow.previous.flowTiming.activeTime.avgDays) : "-",
+        FLOW_LABELS.cycle,
+        formatWorkingDays(getFlowPresentationValue(selectedTeamRow.current.flowTiming, "cycle")?.avgDays ?? null),
+        selectedTeamRow.previous ? formatWorkingDays(getFlowPresentationValue(selectedTeamRow.previous.flowTiming, "cycle")?.avgDays ?? null) : "-",
         selectedTeamRow.trends.activeTime.label,
         periodMonth,
       ],
       [
-        "Cycle Time",
-        formatWorkingDays(selectedTeamRow.current.flowTiming.cycleTime.avgDays),
-        selectedTeamRow.previous ? formatWorkingDays(selectedTeamRow.previous.flowTiming.cycleTime.avgDays) : "-",
+        FLOW_LABELS.implementation,
+        formatWorkingDays(getFlowPresentationValue(selectedTeamRow.current.flowTiming, "implementation")?.avgDays ?? null),
+        selectedTeamRow.previous ? formatWorkingDays(getFlowPresentationValue(selectedTeamRow.previous.flowTiming, "implementation")?.avgDays ?? null) : "-",
         selectedTeamRow.trends.flowCycleTime.label,
         periodMonth,
       ],
@@ -5931,22 +5944,22 @@ export default function App(): JSX.Element {
       ],
       [
         "Lead Time",
-        formatWorkingDays(selectedTeamRow.current.flowTiming.leadTime.avgDays),
-        selectedTeamRow.previous ? formatWorkingDays(selectedTeamRow.previous.flowTiming.leadTime.avgDays) : "-",
+        formatWorkingDays(getFlowPresentationValue(selectedTeamRow.current.flowTiming, "lead")?.avgDays ?? null),
+        selectedTeamRow.previous ? formatWorkingDays(getFlowPresentationValue(selectedTeamRow.previous.flowTiming, "lead")?.avgDays ?? null) : "-",
         selectedTeamRow.trends.leadTime.label,
         periodMonth,
       ],
       [
-        "Active Time",
-        formatWorkingDays(selectedTeamRow.current.flowTiming.activeTime.avgDays),
-        selectedTeamRow.previous ? formatWorkingDays(selectedTeamRow.previous.flowTiming.activeTime.avgDays) : "-",
+        FLOW_LABELS.cycle,
+        formatWorkingDays(getFlowPresentationValue(selectedTeamRow.current.flowTiming, "cycle")?.avgDays ?? null),
+        selectedTeamRow.previous ? formatWorkingDays(getFlowPresentationValue(selectedTeamRow.previous.flowTiming, "cycle")?.avgDays ?? null) : "-",
         selectedTeamRow.trends.activeTime.label,
         periodMonth,
       ],
       [
-        "Cycle Time",
-        formatWorkingDays(selectedTeamRow.current.flowTiming.cycleTime.avgDays),
-        selectedTeamRow.previous ? formatWorkingDays(selectedTeamRow.previous.flowTiming.cycleTime.avgDays) : "-",
+        FLOW_LABELS.implementation,
+        formatWorkingDays(getFlowPresentationValue(selectedTeamRow.current.flowTiming, "implementation")?.avgDays ?? null),
+        selectedTeamRow.previous ? formatWorkingDays(getFlowPresentationValue(selectedTeamRow.previous.flowTiming, "implementation")?.avgDays ?? null) : "-",
         selectedTeamRow.trends.flowCycleTime.label,
         periodMonth,
       ],
@@ -6044,8 +6057,8 @@ export default function App(): JSX.Element {
       "Team",
       "Done",
       "Lead Time",
-      "Active Time",
-      "Cycle Time",
+      FLOW_LABELS.cycle,
+      FLOW_LABELS.implementation,
       "SLE P85",
       "Past SLE P85",
       "Old open tickets",
@@ -6060,9 +6073,9 @@ export default function App(): JSX.Element {
     const dashboardTeamMetricsRows = dashboardRows.map((row) => [
       row.team.config.teamName,
       formatMetricWithTrendCsv(String(row.current.done), row.trends.done),
-      formatMetricWithTrendCsv(formatWorkingDays(row.current.flowTiming.leadTime.avgDays), row.trends.leadTime),
-      formatMetricWithTrendCsv(formatWorkingDays(row.current.flowTiming.activeTime.avgDays), row.trends.activeTime),
-      formatMetricWithTrendCsv(formatWorkingDays(row.current.flowTiming.cycleTime.avgDays), row.trends.flowCycleTime),
+      formatMetricWithTrendCsv(formatWorkingDays(getFlowPresentationValue(row.current.flowTiming, "lead")?.avgDays ?? null), row.trends.leadTime),
+      formatMetricWithTrendCsv(formatWorkingDays(getFlowPresentationValue(row.current.flowTiming, "cycle")?.avgDays ?? null), row.trends.activeTime),
+      formatMetricWithTrendCsv(formatWorkingDays(getFlowPresentationValue(row.current.flowTiming, "implementation")?.avgDays ?? null), row.trends.flowCycleTime),
       formatMetricWithTrendCsv(formatWorkingDays(row.current.sle.p85), row.trends.sleP85),
       formatMetricWithTrendCsv(formatSleRiskValue(row.healthCurrent.sleRisk), row.healthTrends.sleRisk),
       formatMetricWithTrendCsv(
@@ -6156,9 +6169,9 @@ export default function App(): JSX.Element {
       dataRows: row.team.parsedIssues.length,
       done: row.current.done,
       openTickets: row.healthCurrent.agingWip.total,
-      lead: row.current.flowTiming.leadTime.avgDays,
-      active: row.current.flowTiming.activeTime.avgDays,
-      cycle: row.current.flowTiming.cycleTime.avgDays,
+      lead: getFlowPresentationValue(row.current.flowTiming, "lead")?.avgDays ?? null,
+      active: getFlowPresentationValue(row.current.flowTiming, "cycle")?.avgDays ?? null,
+      cycle: getFlowPresentationValue(row.current.flowTiming, "implementation")?.avgDays ?? null,
       sle: row.current.sle.p85,
       bugRatio,
       workMix: formatWorkMixSummary(row.healthCurrent.workMix),
@@ -6233,8 +6246,8 @@ export default function App(): JSX.Element {
         : null;
       return {
         label: formatMonthLabel(month).split(" ")[0],
-        p50: snapshot?.flowTiming.cycleTime.p50 ?? undefined,
-        p85: snapshot?.flowTiming.cycleTime.p85 ?? undefined,
+        p50: snapshot ? getFlowPresentationValue(snapshot.flowTiming, "implementation")?.p50 ?? undefined : undefined,
+        p85: snapshot ? getFlowPresentationValue(snapshot.flowTiming, "implementation")?.p85 ?? undefined : undefined,
       };
     })
     .filter((point) => point.p50 !== undefined || point.p85 !== undefined);
@@ -6327,12 +6340,12 @@ export default function App(): JSX.Element {
             trendGood: true,
             sub: formatThroughputStabilitySummary(),
           }),
-          executiveMetric("Avg Cycle Time", formatWorkingDays(selectedTeamRow.current.flowTiming.cycleTime.avgDays).replace(" working days", ""), executiveSigFromHealthTone(selectedTeamHealthSignals.sleRisk.tone), {
+          executiveMetric("Avg Implementation Time", formatWorkingDays(getFlowPresentationValue(selectedTeamRow.current.flowTiming, "implementation")?.avgDays ?? null).replace(" working days", ""), executiveSigFromHealthTone(selectedTeamHealthSignals.sleRisk.tone), {
             unit: "days",
-            prev: selectedTeamRow.previous ? formatWorkingDays(selectedTeamRow.previous.flowTiming.cycleTime.avgDays).replace(" working days", "") : "-",
+            prev: selectedTeamRow.previous ? formatWorkingDays(getFlowPresentationValue(selectedTeamRow.previous.flowTiming, "implementation")?.avgDays ?? null).replace(" working days", "") : "-",
             trend: executiveSigFromTrend(selectedTeamRow.trends.flowCycleTime, "down"),
             trendGood: false,
-            sub: `active ${formatWorkingDays(selectedTeamRow.current.flowTiming.activeTime.avgDays)} · lead ${formatWorkingDays(selectedTeamRow.current.flowTiming.leadTime.avgDays)}`,
+            sub: `cycle ${formatWorkingDays(getFlowPresentationValue(selectedTeamRow.current.flowTiming, "cycle")?.avgDays ?? null)} · lead ${formatWorkingDays(getFlowPresentationValue(selectedTeamRow.current.flowTiming, "lead")?.avgDays ?? null)}`,
           }),
           executiveMetric("SLE P85", formatWorkingDays(selectedTeamRow.current.sle.p85).replace(" working days", ""), selectedTeamHealthSignals.sleRisk.tone === "bad" ? "critical" : selectedTeamHealthSignals.sleRisk.tone === "warn" ? "warning" : "good", {
             unit: "days",
@@ -6370,20 +6383,20 @@ export default function App(): JSX.Element {
             sub: "Throughput - how many items completed recently",
             detail: formatPreviousMetricLine(previousPeriodLabel, `${selectedTeamHealth.throughput.lastMonth}/month`),
           }),
-          executiveMetric("Lead Time", formatWorkingDays(selectedTeamRow.current.flowTiming.leadTime.avgDays).replace(" working days", ""), "warning", {
+          executiveMetric("Lead Time", formatWorkingDays(getFlowPresentationValue(selectedTeamRow.current.flowTiming, "lead")?.avgDays ?? null).replace(" working days", ""), "warning", {
             unit: "working days",
             sub: "Total flow time from Funnel to Done",
-            detail: `P85: ${formatWorkingDays(selectedTeamRow.current.flowTiming.leadTime.p85)} · Based on ${selectedTeamRow.current.flowTiming.leadTime.count} tickets`,
+            detail: `P85: ${formatWorkingDays(getFlowPresentationValue(selectedTeamRow.current.flowTiming, "lead")?.p85 ?? null)} · Based on ${getFlowPresentationValue(selectedTeamRow.current.flowTiming, "lead")?.count ?? 0} tickets`,
           }),
-          executiveMetric("Active Time", formatWorkingDays(selectedTeamRow.current.flowTiming.activeTime.avgDays).replace(" working days", ""), "good", {
+          executiveMetric(FLOW_LABELS.cycle, formatWorkingDays(getFlowPresentationValue(selectedTeamRow.current.flowTiming, "cycle")?.avgDays ?? null).replace(" working days", ""), "good", {
             unit: "working days",
             sub: "Time after Funnel until Done in the active delivery flow",
-            detail: `P85: ${formatWorkingDays(selectedTeamRow.current.flowTiming.activeTime.p85)} · Based on ${selectedTeamRow.current.flowTiming.activeTime.count} tickets`,
+            detail: `P85: ${formatWorkingDays(getFlowPresentationValue(selectedTeamRow.current.flowTiming, "cycle")?.p85 ?? null)} · Based on ${getFlowPresentationValue(selectedTeamRow.current.flowTiming, "cycle")?.count ?? 0} tickets`,
           }),
-          executiveMetric("Cycle Time", formatWorkingDays(selectedTeamRow.current.flowTiming.cycleTime.avgDays).replace(" working days", ""), "warning", {
+          executiveMetric(FLOW_LABELS.implementation, formatWorkingDays(getFlowPresentationValue(selectedTeamRow.current.flowTiming, "implementation")?.avgDays ?? null).replace(" working days", ""), "warning", {
             unit: "working days",
             sub: "Implementation time from first hands-on work until Done",
-            detail: `P85: ${formatWorkingDays(selectedTeamRow.current.flowTiming.cycleTime.p85)} · Based on ${selectedTeamRow.current.flowTiming.cycleTime.count} items`,
+            detail: `P85: ${formatWorkingDays(getFlowPresentationValue(selectedTeamRow.current.flowTiming, "implementation")?.p85 ?? null)} · Based on ${getFlowPresentationValue(selectedTeamRow.current.flowTiming, "implementation")?.count ?? 0} items`,
           }),
           executiveMetric("Delivery Expectation", `≤ ${formatWorkingDays(selectedTeamRow.current.sle.p85).replace(" working days", "")}`, "good", {
             unit: "working days",
@@ -6393,7 +6406,7 @@ export default function App(): JSX.Element {
         ],
         flowHealth: [
           executiveMetric("Throughput", String(selectedTeamHealth.throughput.last30Days), "good", { unit: "/30d", sub: formatThroughputStabilitySummary() }),
-          executiveMetric("Cycle Time", formatWorkingDays(selectedTeamRow.current.flowTiming.cycleTime.avgDays).replace(" working days", ""), "warning", { unit: "days", sub: `p85: ${formatWorkingDays(selectedTeamRow.current.flowTiming.cycleTime.p85)}` }),
+          executiveMetric(FLOW_LABELS.implementation, formatWorkingDays(getFlowPresentationValue(selectedTeamRow.current.flowTiming, "implementation")?.avgDays ?? null).replace(" working days", ""), "warning", { unit: "days", sub: `p85: ${formatWorkingDays(getFlowPresentationValue(selectedTeamRow.current.flowTiming, "implementation")?.p85 ?? null)}` }),
           executiveMetric("Velocity", formatVelocityValue(selectedTeamRow.current.velocity, selectedTeam.config.velocityConfig), "good", { sub: selectedVelocityUnit }),
           executiveMetric("SLE Compliance", selectedTeamHealth.sleRisk.atRiskPct === null ? "-" : `${formatPercentValue(100 - selectedTeamHealth.sleRisk.atRiskPct)}%`, selectedTeamHealthSignals.sleRisk.tone === "bad" ? "critical" : "warning", { sub: formatSleRiskValue(selectedTeamHealth.sleRisk) }),
         ],
@@ -6450,7 +6463,7 @@ export default function App(): JSX.Element {
           onRestoreAllIssues: () => void handleRestoreAllExcludedIssues(),
         },
         throughputWeekly: executiveThroughputWeekly,
-        cycleTimeWeekly: executiveCycleTimeWeekly.length > 0 ? executiveCycleTimeWeekly : [{ label: "Current", p50: selectedTeamRow.current.flowTiming.cycleTime.p50 ?? 0, p85: selectedTeamRow.current.flowTiming.cycleTime.p85 ?? 0 }],
+        cycleTimeWeekly: executiveCycleTimeWeekly.length > 0 ? executiveCycleTimeWeekly : [{ label: "Current", p50: getFlowPresentationValue(selectedTeamRow.current.flowTiming, "implementation")?.p50 ?? 0, p85: getFlowPresentationValue(selectedTeamRow.current.flowTiming, "implementation")?.p85 ?? 0 }],
         timeInStatus: executiveTimeInStatus,
         agingDist: executiveAgingDist,
         bottleneckMonthly: executiveBottleneckMonthly,
@@ -6526,6 +6539,7 @@ export default function App(): JSX.Element {
     }
 
     const flowScope = normalizeFlowTimingConfig(draftConfig.flowTimingConfig);
+    const statusMapping = adaptLegacyWorkflowConfig(draftConfig);
 
     return (
       <section className={`exec-config-card exec-config-collapsible${configurationPanelOpen ? " open" : ""}`} aria-label="Team configuration">
@@ -6547,7 +6561,11 @@ export default function App(): JSX.Element {
           <div>
             <div className="exec-figma-section-head"><span>Configuration</span><small>Flow Configure · DoD · Bug Type · Engineering</small></div>
             <h2>Team workflow setup</h2>
-            <p>Configure how statuses map into Lead Time, Active Time, Cycle Time and Done. These controls update the same team config used by metrics.</p>
+            <p>Configure how statuses map into Lead Time, Cycle Time, Implementation Time and Done. These controls update the same team config used by metrics.</p>
+            <p className="exec-config-help" role="status">
+              Current metric mapping: Lead Time = Funnel + Active + Implementing; Cycle Time = Active + Implementing; Implementation Time = Implementing.
+              {statusMapping.state === "complete" ? " Legacy status fields were read without changing configuration." : ` ${statusMapping.diagnostics[0]}`}
+            </p>
           </div>
           <div className="exec-config-head-actions">
             <button type="button" onClick={handleResetWorkflowStatuses}>Use auto-detect</button>
@@ -6559,7 +6577,7 @@ export default function App(): JSX.Element {
           <section className="exec-config-status-map">
             <header>
               <strong>Classify team statuses</strong>
-              <span>Lead Time = Funnel + Active + Implementing. Active Time = Active + Implementing. Cycle Time = Implementing.</span>
+              <span>Lead Time = Funnel + Active + Implementing. Cycle Time = Active + Implementing. Implementation Time = Implementing.</span>
             </header>
             <div className="exec-status-grid">
               {detectedWorkflowStatuses.map((statusName) => {
@@ -6599,7 +6617,7 @@ export default function App(): JSX.Element {
           <section className="exec-config-panel exec-flow-scope-panel">
             <div>
               <div className="exec-config-panel-title">Flow timing scope</div>
-              <div className="exec-config-help">Choose which tickets are included when Lead, Active and Cycle Time are recalculated.</div>
+              <div className="exec-config-help">Choose which tickets are included when Lead Time, Cycle Time and Implementation Time are recalculated.</div>
             </div>
             <label>
               <input type="checkbox" checked={flowScope.includeClosedTickets} onChange={(event) => handleToggleFlowTimingScope("closed", event.target.checked)} />
@@ -6668,7 +6686,7 @@ export default function App(): JSX.Element {
 
             {renderExecutiveChipEditor({
               label: "Backlog statuses",
-              help: "Before the flow funnel; excluded from Lead, Active and Cycle Time.",
+              help: "Before the flow funnel; excluded from Lead Time, Cycle Time and Implementation Time.",
               values: backlogStatusList,
               draft: backlogStatusDraft,
               setDraft: setBacklogStatusDraft,
@@ -6690,7 +6708,7 @@ export default function App(): JSX.Element {
             })}
             {renderExecutiveChipEditor({
               label: "Active statuses",
-              help: "After funnel but before implementation; counts in Lead and Active Time.",
+              help: "After funnel but before implementation; counts in Lead Time and Cycle Time.",
               values: sprintScopeStatusList,
               draft: sprintScopeStatusDraft,
               setDraft: setSprintScopeStatusDraft,
@@ -6701,7 +6719,7 @@ export default function App(): JSX.Element {
             })}
             {renderExecutiveChipEditor({
               label: "Implementing statuses",
-              help: "Execution states; counts in Lead, Active and Cycle Time.",
+              help: "Execution states; counts in Lead Time, Cycle Time and Implementation Time.",
               values: implementingStatusList,
               draft: implementingStatusDraft,
               setDraft: setImplementingStatusDraft,
@@ -6755,7 +6773,7 @@ export default function App(): JSX.Element {
 
           <div className="exec-config-save-row">
             <button type="submit" disabled={busy}>Save Flow Configure</button>
-            <span>SLE is the P85 of completed items' Cycle Time and uses Monday-Friday working days.</span>
+            <span>SLE is the existing P85 of eligible completed Cycle Time observations and uses Monday-Friday working days.</span>
           </div>
         </form>
 
@@ -7316,8 +7334,8 @@ export default function App(): JSX.Element {
                           <th>{dashboardScopeCopy.navLabel}</th>
                           {isMetricVisible("stories-done") && <th>Done</th>}
                           {isMetricVisible("lead-time") && <th>Lead Time</th>}
-                          {isMetricVisible("active-time") && <th>Active Time</th>}
-                          {isMetricVisible("cycle-time") && <th>Cycle Time</th>}
+                          {isMetricVisible("active-time") && <th>{FLOW_LABELS.cycle}</th>}
+                          {isMetricVisible("cycle-time") && <th>{FLOW_LABELS.implementation}</th>}
                           {isMetricVisible("sle-p85") && <th>SLE P85</th>}
                           {isMetricVisible("bug-ratio") && <th>Bug Ratio</th>}
                           {isMetricVisible("work-mix") && <th>Work Mix</th>}
@@ -7345,9 +7363,9 @@ export default function App(): JSX.Element {
                               </button>
                             </td>
                             {isMetricVisible("stories-done") && <td>{renderMetricWithTrend(String(row.current.done), row.trends.done)}</td>}
-                            {isMetricVisible("lead-time") && <td>{renderMetricWithTrend(formatWorkingDays(row.current.flowTiming.leadTime.avgDays), row.trends.leadTime)}</td>}
-                            {isMetricVisible("active-time") && <td>{renderMetricWithTrend(formatWorkingDays(row.current.flowTiming.activeTime.avgDays), row.trends.activeTime)}</td>}
-                            {isMetricVisible("cycle-time") && <td>{renderMetricWithTrend(formatWorkingDays(row.current.flowTiming.cycleTime.avgDays), row.trends.flowCycleTime)}</td>}
+                            {isMetricVisible("lead-time") && <td>{renderMetricWithTrend(formatWorkingDays(getFlowPresentationValue(row.current.flowTiming, "lead")?.avgDays ?? null), row.trends.leadTime)}</td>}
+                            {isMetricVisible("active-time") && <td>{renderMetricWithTrend(formatWorkingDays(getFlowPresentationValue(row.current.flowTiming, "cycle")?.avgDays ?? null), row.trends.activeTime)}</td>}
+                            {isMetricVisible("cycle-time") && <td>{renderMetricWithTrend(formatWorkingDays(getFlowPresentationValue(row.current.flowTiming, "implementation")?.avgDays ?? null), row.trends.flowCycleTime)}</td>}
                             {isMetricVisible("sle-p85") && <td>{renderMetricWithTrend(formatWorkingDays(row.current.sle.p85), row.trends.sleP85)}</td>}
                             {isMetricVisible("bug-ratio") && (
                               <td>
@@ -7462,18 +7480,18 @@ export default function App(): JSX.Element {
                         </article>
                         <article className={`team-kpi-card${isMetricVisible("lead-time") ? "" : " metric-hidden"}`}>
                           {renderMetricLabel("Lead Time", "leadTime")}
-                          <strong>{formatWorkingDays(selectedTeamRow.current.flowTiming.leadTime.avgDays)}</strong>
-                          <small>Funnel flow • {formatFlowTimingScopeLabel(selectedTeam.config.flowTimingConfig)} • {formatBasedOnTickets(selectedTeamRow.current.flowTiming.leadTime.count)} • P85 {formatWorkingDays(selectedTeamRow.current.flowTiming.leadTime.p85)}</small>
+                          <strong>{formatWorkingDays(getFlowPresentationValue(selectedTeamRow.current.flowTiming, "lead")?.avgDays ?? null)}</strong>
+                          <small>Funnel flow • {formatFlowTimingScopeLabel(selectedTeam.config.flowTimingConfig)} • {formatBasedOnTickets(getFlowPresentationValue(selectedTeamRow.current.flowTiming, "lead")?.count ?? 0)} • P85 {formatWorkingDays(getFlowPresentationValue(selectedTeamRow.current.flowTiming, "lead")?.p85 ?? null)}</small>
                         </article>
                         <article className={`team-kpi-card${isMetricVisible("active-time") ? "" : " metric-hidden"}`}>
-                          {renderMetricLabel("Active Time", "activeTime")}
-                          <strong>{formatWorkingDays(selectedTeamRow.current.flowTiming.activeTime.avgDays)}</strong>
-                          <small>After Funnel • {formatFlowTimingScopeLabel(selectedTeam.config.flowTimingConfig)} • {formatBasedOnTickets(selectedTeamRow.current.flowTiming.activeTime.count)} • P85 {formatWorkingDays(selectedTeamRow.current.flowTiming.activeTime.p85)}</small>
+                          {renderMetricLabel(FLOW_LABELS.cycle, "activeTime")}
+                          <strong>{formatWorkingDays(getFlowPresentationValue(selectedTeamRow.current.flowTiming, "cycle")?.avgDays ?? null)}</strong>
+                          <small>Active + Implementing • {formatFlowTimingScopeLabel(selectedTeam.config.flowTimingConfig)} • {formatBasedOnTickets(getFlowPresentationValue(selectedTeamRow.current.flowTiming, "cycle")?.count ?? 0)} • P85 {formatWorkingDays(getFlowPresentationValue(selectedTeamRow.current.flowTiming, "cycle")?.p85 ?? null)}</small>
                         </article>
                         <article className={`team-kpi-card${isMetricVisible("cycle-time") ? "" : " metric-hidden"}`}>
-                          {renderMetricLabel("Cycle Time", "flowCycleTime")}
-                          <strong>{formatWorkingDays(selectedTeamRow.current.flowTiming.cycleTime.avgDays)}</strong>
-                          <small>Implementation • {formatFlowTimingScopeLabel(selectedTeam.config.flowTimingConfig)} • {formatBasedOnTickets(selectedTeamRow.current.flowTiming.cycleTime.count)} • P85 {formatWorkingDays(selectedTeamRow.current.flowTiming.cycleTime.p85)}</small>
+                          {renderMetricLabel(FLOW_LABELS.implementation, "flowCycleTime")}
+                          <strong>{formatWorkingDays(getFlowPresentationValue(selectedTeamRow.current.flowTiming, "implementation")?.avgDays ?? null)}</strong>
+                          <small>Implementing • {formatFlowTimingScopeLabel(selectedTeam.config.flowTimingConfig)} • {formatBasedOnTickets(getFlowPresentationValue(selectedTeamRow.current.flowTiming, "implementation")?.count ?? 0)} • P85 {formatWorkingDays(getFlowPresentationValue(selectedTeamRow.current.flowTiming, "implementation")?.p85 ?? null)}</small>
                         </article>
                         <article className={`team-kpi-card${isMetricVisible("sle-p85") ? "" : " metric-hidden"}`}>
                           {renderMetricLabel("SLE P85", "sleP85")}
@@ -7953,24 +7971,24 @@ export default function App(): JSX.Element {
                             </article>
                             <article className={`team-kpi-card${isMetricVisibleInTeamView("lead-time") ? "" : " metric-hidden"}`}>
                               {renderMetricLabel("Lead Time", "leadTime")}
-                              <strong>{formatWorkingDays(selectedTeamRow.current.flowTiming.leadTime.avgDays)}</strong>
+                              <strong>{formatWorkingDays(getFlowPresentationValue(selectedTeamRow.current.flowTiming, "lead")?.avgDays ?? null)}</strong>
                               {renderTeamMetricExplainer("Total flow time from Funnel to Done. This is the customer wait time across planning and delivery.")}
-                              <small>Funnel to Done • {formatBasedOnTickets(selectedTeamRow.current.flowTiming.leadTime.count)} • P85 {formatWorkingDays(selectedTeamRow.current.flowTiming.leadTime.p85)}</small>
+                              <small>Funnel to Done • {formatBasedOnTickets(getFlowPresentationValue(selectedTeamRow.current.flowTiming, "lead")?.count ?? 0)} • P85 {formatWorkingDays(getFlowPresentationValue(selectedTeamRow.current.flowTiming, "lead")?.p85 ?? null)}</small>
                             </article>
                             <article className={`team-kpi-card${isMetricVisibleInTeamView("active-time") ? "" : " metric-hidden"}`}>
-                              {renderMetricLabel("Active Time", "activeTime")}
-                              <strong>{formatWorkingDays(selectedTeamRow.current.flowTiming.activeTime.avgDays)}</strong>
+                              {renderMetricLabel(FLOW_LABELS.cycle, "activeTime")}
+                              <strong>{formatWorkingDays(getFlowPresentationValue(selectedTeamRow.current.flowTiming, "cycle")?.avgDays ?? null)}</strong>
                               {renderTeamMetricExplainer("Time after Funnel until Done. This shows how long work spends in the active delivery flow.")}
-                              <small>Active flow to Done • {formatBasedOnTickets(selectedTeamRow.current.flowTiming.activeTime.count)} • P85 {formatWorkingDays(selectedTeamRow.current.flowTiming.activeTime.p85)}</small>
+                              <small>Active + Implementing to Done • {formatBasedOnTickets(getFlowPresentationValue(selectedTeamRow.current.flowTiming, "cycle")?.count ?? 0)} • P85 {formatWorkingDays(getFlowPresentationValue(selectedTeamRow.current.flowTiming, "cycle")?.p85 ?? null)}</small>
                             </article>
                             <article className={`team-kpi-card${isMetricVisibleInTeamView("cycle-time") ? "" : " metric-hidden"}`}>
-                              {renderMetricLabel("Cycle Time", "flowCycleTime")}
-                              <strong>{formatWorkingDays(selectedTeamRow.current.flowTiming.cycleTime.avgDays)}</strong>
+                              {renderMetricLabel(FLOW_LABELS.implementation, "flowCycleTime")}
+                              <strong>{formatWorkingDays(getFlowPresentationValue(selectedTeamRow.current.flowTiming, "implementation")?.avgDays ?? null)}</strong>
                               {renderTeamMetricExplainer("Implementation time from first hands-on work until Done. This is the main delivery speed signal.")}
                               <small>
                                 {teamViewMode === "team"
-                                  ? `Implementation to Done • Average based on ${selectedTeamRow.current.flowTiming.cycleTime.count} items`
-                                  : `Implementation to Done • ${formatBasedOnTickets(selectedTeamRow.current.flowTiming.cycleTime.count)} • P85 ${formatWorkingDays(selectedTeamRow.current.flowTiming.cycleTime.p85)}`}
+                                  ? `Implementation to Done • Average based on ${getFlowPresentationValue(selectedTeamRow.current.flowTiming, "implementation")?.count ?? 0} items`
+                                  : `Implementation to Done • ${formatBasedOnTickets(getFlowPresentationValue(selectedTeamRow.current.flowTiming, "implementation")?.count ?? 0)} • P85 ${formatWorkingDays(getFlowPresentationValue(selectedTeamRow.current.flowTiming, "implementation")?.p85 ?? null)}`}
                               </small>
                             </article>
                             <article className={`team-kpi-card${isMetricVisibleInTeamView("sle-p85") ? "" : " metric-hidden"}`}>
@@ -8513,7 +8531,7 @@ export default function App(): JSX.Element {
                                     <div>
                                       <h3>Classify team statuses</h3>
                                       <p>
-                                        Flow timing roles: Lead Time counts Funnel, Active, and Implementing. Active Time counts Active and Implementing. Cycle Time counts Implementing.
+                                        Flow timing roles: Lead Time counts Funnel, Active, and Implementing. Cycle Time counts Active and Implementing. Implementation Time counts Implementing.
                                       </p>
                                     </div>
                                     <div className="workflow-status-head-actions">
@@ -8567,7 +8585,7 @@ export default function App(): JSX.Element {
                                   <div className="done-config-panel-title">Flow timing scope</div>
                                   <div className="done-chip-editor">
                                     <div className="done-chip-editor-label">
-                                      Choose which tickets are included when Lead, Active, and Cycle Time are recalculated.
+                                      Choose which tickets are included when Lead Time, Cycle Time, and Implementation Time are recalculated.
                                     </div>
                                     <label className="checkbox-row">
                                       <input
@@ -8660,7 +8678,7 @@ export default function App(): JSX.Element {
                                   <section className="done-config-panel">
                                     <div className="done-config-panel-title">Backlog statuses</div>
                                     <div className="done-chip-editor">
-                                      <div className="done-chip-editor-label">Before the flow funnel; excluded from Lead, Active, and Cycle Time</div>
+                                      <div className="done-chip-editor-label">Before the flow funnel; excluded from Lead Time, Cycle Time, and Implementation Time</div>
                                       <div className="done-chip-list">
                                         {backlogStatusList.length === 0 ? (
                                           <span className="muted">No backlog statuses configured.</span>
@@ -8736,7 +8754,7 @@ export default function App(): JSX.Element {
                                   <section className="done-config-panel">
                                     <div className="done-config-panel-title">Active statuses</div>
                                     <div className="done-chip-editor">
-                                      <div className="done-chip-editor-label">After funnel but before implementation; counts in Lead and Active Time</div>
+                                      <div className="done-chip-editor-label">After funnel but before implementation; counts in Lead Time and Cycle Time</div>
                                       <div className="done-chip-list">
                                         {sprintScopeStatusList.length === 0 ? (
                                           <span className="muted">Auto-detect from active team flow.</span>
@@ -8786,7 +8804,7 @@ export default function App(): JSX.Element {
                                   <section className="done-config-panel">
                                     <div className="done-config-panel-title">Implementing statuses</div>
                                     <div className="done-chip-editor">
-                                      <div className="done-chip-editor-label">Execution states; counts in Lead, Active, and Cycle Time</div>
+                                      <div className="done-chip-editor-label">Execution states; counts in Lead Time, Cycle Time, and Implementation Time</div>
                                       <div className="done-chip-list">
                                         {implementingStatusList.length === 0 ? (
                                           <span className="muted">No implementing statuses configured.</span>
@@ -8916,7 +8934,7 @@ export default function App(): JSX.Element {
                                 </div>
 
                                 <p className="guide-note">
-                                  SLE is the P85 of completed items' Cycle Time and uses Monday-Friday working days.
+                                  SLE is the existing P85 of eligible completed Cycle Time observations and uses Monday-Friday working days.
                                 </p>
                               </form>
                             ) : (
@@ -9015,11 +9033,11 @@ export default function App(): JSX.Element {
                         <Suspense fallback={<section className="panel-box">Loading cycle-time chart...</section>}>
                           <TeamDetail
                             team={selectedTeam}
-                            title={teamViewMode === "team" ? "Cycle Time" : "Cycle Time Scatter Plot"}
+                            title={teamViewMode === "team" ? FLOW_LABELS.implementation : "Implementation Time Scatter Plot"}
                             subtitle={
                               teamViewMode === "team"
                                 ? "Completed work and the delivery expectation in working days"
-                                : "Resolution date vs Cycle Time with SLE percentile lines"
+                                : "Resolution date vs Implementation Time with SLE percentile lines"
                             }
                             periodFilter={periodMonth}
                             sleValues={selectedTeamRow.current.sle}
@@ -10013,9 +10031,9 @@ function buildTrendBundle(current: TeamSnapshot, previous: TeamSnapshot | null):
   return {
     done: trend(current.done, previous?.done ?? null, "up"),
     avgCycleTime: trend(current.avgCycleTime, previous?.avgCycleTime ?? null, "down"),
-    leadTime: trend(current.flowTiming.leadTime.avgDays, previous?.flowTiming.leadTime.avgDays ?? null, "down"),
-    activeTime: trend(current.flowTiming.activeTime.avgDays, previous?.flowTiming.activeTime.avgDays ?? null, "down"),
-    flowCycleTime: trend(current.flowTiming.cycleTime.avgDays, previous?.flowTiming.cycleTime.avgDays ?? null, "down"),
+    leadTime: trend(getFlowPresentationValue(current.flowTiming, "lead")?.avgDays ?? null, previous ? getFlowPresentationValue(previous.flowTiming, "lead")?.avgDays ?? null : null, "down"),
+    activeTime: trend(getFlowPresentationValue(current.flowTiming, "cycle")?.avgDays ?? null, previous ? getFlowPresentationValue(previous.flowTiming, "cycle")?.avgDays ?? null : null, "down"),
+    flowCycleTime: trend(getFlowPresentationValue(current.flowTiming, "implementation")?.avgDays ?? null, previous ? getFlowPresentationValue(previous.flowTiming, "implementation")?.avgDays ?? null : null, "down"),
     sleP50: trend(current.sle.p50, previous?.sle.p50 ?? null, "down"),
     sleP70: trend(current.sle.p70, previous?.sle.p70 ?? null, "down"),
     sleP85: trend(current.sle.p85, previous?.sle.p85 ?? null, "down"),
@@ -10697,7 +10715,7 @@ function buildTeamProgressSnapshot(team: TeamRuntime, now: Date): TeamProgressSn
     importSignature: buildTeamImportSignature(team),
     metrics: {
       doneCount: team.metrics ? snapshot.done : null,
-      avgCycleTimeDays: snapshot.flowTiming.cycleTime.avgDays,
+      avgCycleTimeDays: getFlowPresentationValue(snapshot.flowTiming, "implementation")?.avgDays ?? null,
       sleP50Days: snapshot.sle.p50,
       sleP70Days: snapshot.sle.p70,
       sleP85Days: snapshot.sle.p85,
@@ -10756,7 +10774,7 @@ export function buildProgressComparisonSummary(history: TeamProgressSnapshot[]):
   }
 
   const rows: ProgressComparisonMetricRow[] = [
-    compareProgressMetric("Avg Cycle Time", "down", "days", latest.metrics.avgCycleTimeDays, previous.metrics.avgCycleTimeDays),
+    compareProgressMetric("Avg Implementation Time", "down", "days", latest.metrics.avgCycleTimeDays, previous.metrics.avgCycleTimeDays),
     compareProgressMetric("SLE P85", "down", "days", latest.metrics.sleP85Days, previous.metrics.sleP85Days),
     compareProgressMetric("2+ Sprint %", "down", "percent", latest.metrics.multiSprintPct, previous.metrics.multiSprintPct),
     compareProgressMetric("Velocity (latest)", "up", "count", latest.metrics.velocityLatest, previous.metrics.velocityLatest),

@@ -1010,7 +1010,7 @@ describe("buildProgressComparisonSummary", () => {
     expect(summary.unchangedCount).toBe(0);
 
     const rowByLabel = new Map(summary.rows.map((row) => [row.label, row.trend]));
-    expect(rowByLabel.get("Avg Cycle Time")).toBe("improved");
+    expect(rowByLabel.get("Avg Implementation Time")).toBe("improved");
     expect(rowByLabel.get("2+ Sprint %")).toBe("worsened");
     expect(rowByLabel.get("Velocity (latest)")).toBe("improved");
     expect(rowByLabel.get("Open ticket count")).toBe("worsened");
