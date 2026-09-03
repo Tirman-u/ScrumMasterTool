@@ -66,7 +66,7 @@ describe("Executive flow-time restoration", () => {
     expect(viewsSource).toContain("hasAdjacentValidPair");
     expect(viewsSource).toContain("aria-modal=\"true\"");
     expect(viewsSource).toContain("window.requestAnimationFrame(() => openerRef.current?.focus())");
-    expect(viewsSource).toContain("slice(0, 8)");
+    expect(viewsSource).toContain("data.kpis.map((metric) => <KpiCard");
     expect(viewsSource).toContain("metric-insight-details");
     expect(viewsSource).toContain("definition.calculation");
     expect(viewsSource).not.toContain('title="Cycle Time Trend"');

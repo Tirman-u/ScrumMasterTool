@@ -279,7 +279,7 @@ function KpiCard({ metric }: { metric: ExecutiveTeamMetric }) {
       </div>
       <div className="exec-kpi-sub">
         <TrendArrow metric={metric} />
-        {metric.prev ? <span>prev: {metric.prev}</span> : metric.sub ? <span>{metric.sub}</span> : null}
+        {metric.prev !== undefined ? <span>prev: {metric.prev}</span> : metric.sub ? <span>{metric.sub}</span> : null}
       </div>
     </InsightCardButton>
   );
@@ -845,6 +845,10 @@ function MetricInsightModal({ data, metric, onClose, diagnostic }: { data: Execu
   const interpretation = metric.label === "Bottleneck" ? "Categorical current state." : validPoints.length === 1 ? "N/A · one valid period is available." : direction === "Unavailable" ? "Unavailable · no comparable historical data for this metric." : `${direction} · adjacent comparable periods only.`;
   const modalKey = metric.label.toLowerCase().replace(/[^a-z0-9]+/g, "-");
   const currentSnapshot = windowPoints.at(-1) ?? null;
+  const currentValueUnavailable = metric.value.trim() === "-";
+  const sourceLabel = definition.source ?? "Local selected-period metric snapshot";
+  const sampleLabel = historyKey && currentSnapshot ? currentSnapshot.sample ?? "Unavailable" : "Unavailable";
+  const usableLabel = historyKey && currentSnapshot ? currentSnapshot.usable ?? "Unavailable" : "Unavailable";
 
   useEffect(() => {
     const first = validIndexes[0];
@@ -870,16 +874,20 @@ function MetricInsightModal({ data, metric, onClose, diagnostic }: { data: Execu
 
   return <div className="metric-insight-backdrop" role="presentation" onMouseDown={(event) => { if (event.target === event.currentTarget) onClose(); }}><div ref={dialogRef} className="metric-insight-modal" role="dialog" aria-modal="true" aria-labelledby={`metric-insight-${modalKey}-title`}>
     <header><div><h2 id={`metric-insight-${modalKey}-title`}>{metric.label} insight</h2><p>{data.teamName} · {data.periodLabel}</p></div><button ref={closeRef} type="button" aria-label="Close metric insight" onClick={onClose}>Close</button></header>
-    <div className="metric-insight-body"><p><strong>Current</strong><br /><span className="metric-insight-value">{metric.value === "-" ? "Unavailable" : `${metric.value} ${unit}`}</span></p><p><strong>Change</strong> {change}</p><p><strong>Interpretation</strong> {interpretation} {definition.direction !== "categorical" ? (definition.direction === "lower" ? "Lower is better." : "Higher is better.") : "Categorical; no numeric direction is inferred."}</p><p><strong>Meaning</strong> {definition.meaning}</p>
+    <div className="metric-insight-body"><p><strong>Current</strong><br /><span className="metric-insight-value">{currentValueUnavailable ? "Unavailable" : `${metric.value} ${unit}`}</span>{currentValueUnavailable ? <small className="metric-insight-unavailable">{definition.unavailable ?? "Unavailable · no valid value exists for the selected period."}</small> : null}</p><p><strong>Change</strong> {change}</p><p><strong>Interpretation</strong> {interpretation} {definition.direction !== "categorical" ? (definition.direction === "lower" ? "Lower is better." : "Higher is better.") : "Categorical; no numeric direction is inferred."}</p><p><strong>Meaning</strong> {definition.meaning}</p>
+      <p><strong>How collected</strong> {definition.collection ?? "Local selected-period metric snapshot."}</p>
       {data.dataStatus.recalculateState === "loading" ? <p role="status">Loading {metric.label} insight… Last-known values remain visible.</p> : null}
+      {data.dataStatus.recalculateState === "unavailable" ? <p role="status">{definition.unavailable ?? `Unavailable · ${metric.label} cannot be read from the current local metric contract.`}</p> : null}
+      {data.dataStatus.stale ? <p className="metric-insight-warning" role="status">Showing last-known data · the source is newer than this calculation.</p> : null}
       {data.dataStatus.recalculateState === "error" ? <div role="alert"><p>Could not load {metric.label} insight. Current metrics are unchanged.</p><button type="button" className="soft-btn" onClick={data.dataStatus.onRecalculate}>Try again</button></div> : null}
       {historyKey && adjacentPairExists ? <div className="metric-insight-trend" aria-label={`${metric.label} trend for ${data.teamName}; ${validPoints.length} valid comparable periods; direction ${direction}.`} onMouseLeave={() => { if (!pinned) setFocusedPeriod(null); }} onBlur={(event) => { if (!event.currentTarget.contains(event.relatedTarget as Node | null) && !pinned) setFocusedPeriod(null); }}>{points.map((point, index) => point.value === null ? <span key={`${point.period}-${index}`} className="metric-insight-gap" aria-label={`${point.period}: No data`} /> : <button key={`${point.period}-${index}`} ref={(element) => { pointRefs.current[index] = element; }} type="button" className={`metric-insight-point${focusedPeriod === point.period ? " selected" : ""}`} tabIndex={index === activePointIndex ? 0 : -1} aria-label={`${metric.label} ${point.period}: ${point.value.toFixed(1)} ${unit}; as of ${point.period}; captured ${point.capturedAt}; sample ${point.sample ?? "Unavailable"}; usable ${point.usable ?? "Unavailable"}; source ${point.source ?? "Source unavailable"}`} onMouseEnter={() => setFocusedPeriod(point.period)} onFocus={() => setFocusedPeriod(point.period)} onClick={() => { setFocusedPeriod(point.period); setPinned(true); }} onKeyDown={(event) => { const current = validIndexes.indexOf(index); const move = (next: number): void => { setActivePointIndex(next); setFocusedPeriod(points[next].period); pointRefs.current[next]?.focus(); }; if (event.key === "Escape") { event.preventDefault(); setFocusedPeriod(null); setPinned(false); } else if (["ArrowLeft", "ArrowUp"].includes(event.key)) { event.preventDefault(); move(validIndexes[Math.max(0, current - 1)]); } else if (["ArrowRight", "ArrowDown"].includes(event.key)) { event.preventDefault(); move(validIndexes[Math.min(validIndexes.length - 1, current + 1)]); } else if (event.key === "Home" || event.key === "End") { event.preventDefault(); move(event.key === "Home" ? validIndexes[0] : validIndexes.at(-1)!); } else if (event.key === "Enter" || event.key === " ") { event.preventDefault(); setFocusedPeriod(point.period); setPinned(true); } }}><span style={{ height: `${Math.max(8, Math.min(100, point.value / Math.max(...validPoints.map((item) => item.value ?? 0), 1) * 100))}%` }} /></button>)}</div> : null}
       {historyKey && !adjacentPairExists ? <p className="muted">{validPoints.length === 1 ? "N/A · one valid period is available." : "Unavailable · no adjacent comparable period pair; gaps prevent a trend."} No trend is rendered.</p> : null}
       <p><strong>How collected/calculated</strong> {definition.calculation}</p>
       {diagnostic ? <p><strong>Coverage</strong> Existing selected-period snapshot and metric contract; Monday-Friday working-day semantics remain unchanged. {historyKey ? `${validPoints.length} of ${points.length} comparable periods have usable values.` : "No separate historical series is available for this metric."}</p> : null}
       {focusedPeriod ? <p className="metric-insight-detail" role="status">{pinned ? "Pinned · " : ""}{focusedPeriod}: {points.find((point) => point.period === focusedPeriod)?.value == null ? "No data for this period." : `${points.find((point) => point.period === focusedPeriod)?.value?.toFixed(1)} ${unit} · as of ${focusedPeriod} · captured ${points.find((point) => point.period === focusedPeriod)?.capturedAt}; sample ${points.find((point) => point.period === focusedPeriod)?.sample ?? "Unavailable"}; usable ${points.find((point) => point.period === focusedPeriod)?.usable ?? "Unavailable"}; source ${points.find((point) => point.period === focusedPeriod)?.source ?? "Source unavailable"}`}</p> : null}
-      <details className="metric-insight-details"><summary>Data details</summary><dl><div><dt>As of</dt><dd>{currentSnapshot?.period ?? data.periodLabel}</dd></div><div><dt>Captured</dt><dd>{currentSnapshot?.capturedAt ?? "Unavailable"}</dd></div><div><dt>Sample / usable</dt><dd>{currentSnapshot?.sample ?? "Unavailable"} / {currentSnapshot?.usable ?? "Unavailable"}</dd></div><div><dt>Source</dt><dd>{currentSnapshot?.source ?? "Source unavailable"}</dd></div></dl></details>
-      {diagnostic ? <details className="metric-insight-table"><summary>View data table</summary><table><thead><tr><th>Period</th><th>Value</th><th>Captured</th><th>Sample</th><th>Usable</th><th>Source</th></tr></thead><tbody>{points.map((point, index) => <tr key={`${point.period}-${index}`}><td>{point.period}</td><td>{point.value == null ? "No data" : point.value.toFixed(1)}</td><td>{point.capturedAt}</td><td>{point.sample ?? "Unavailable"}</td><td>{point.usable ?? "Unavailable"}</td><td>{point.source ?? "Source unavailable"}</td></tr>)}</tbody></table></details> : null}
+      <p className="metric-insight-mode-detail">{diagnostic ? (definition.diagnosticDetail ?? definition.calculation) : (definition.teamDetail ?? "Metric-specific local insight for the selected period.")}</p>
+      <details className="metric-insight-details"><summary>Data details</summary><dl><div><dt>As of</dt><dd>{currentSnapshot?.period ?? data.periodLabel}</dd></div><div><dt>Captured</dt><dd>{currentSnapshot?.capturedAt ?? "Unavailable"}</dd></div><div><dt>Sample / usable</dt><dd>{sampleLabel} / {usableLabel}</dd></div><div><dt>Source</dt><dd>{sourceLabel}</dd></div></dl></details>
+      {diagnostic ? <details className="metric-insight-table"><summary>View data table</summary><table><thead><tr><th>Period</th><th>Value</th><th>Captured</th><th>Sample</th><th>Usable</th><th>Source</th></tr></thead><tbody>{points.map((point, index) => <tr key={`${point.period}-${index}`}><td>{point.period}</td><td>{point.value == null ? "No data" : point.value.toFixed(1)}</td><td>{point.capturedAt}</td><td>{point.sample ?? "Unavailable"}</td><td>{point.usable ?? "Unavailable"}</td><td>{point.source ?? sourceLabel}</td></tr>)}</tbody></table></details> : null}
     </div>
   </div></div>;
 }
@@ -897,7 +905,7 @@ function TeamDesignView({ data }: { data: ExecutiveTeamDesignData }) {
       <section>
         <SectionHeader title="Team Flow" sub={`Delivery health from the team's perspective · ${data.teamName} · ${data.periodLabel}`} />
         <div className="exec-flow-metric-grid">
-          {data.kpis.slice(0, 8).map((metric) => <FlowMetricCard key={metric.label} metric={metric} />)}
+          {data.kpis.map((metric) => <FlowMetricCard key={metric.label} metric={metric} />)}
         </div>
       </section>
       <FlowTimeCards data={data} diagnostic={false} />
@@ -921,7 +929,7 @@ function ScrumMasterDesignView({ data }: { data: ExecutiveTeamDesignData }) {
     <MetricInsightProvider data={data} diagnostic><div className="exec-team-design">
       <section>
         <SectionHeader title="Executive Summary" />
-        <div className="exec-kpi-grid">{data.kpis.slice(0, 8).map((metric) => <KpiCard key={metric.label} metric={metric} />)}</div>
+        <div className="exec-kpi-grid">{data.kpis.map((metric) => <KpiCard key={metric.label} metric={metric} />)}</div>
       </section>
       <section>
         <SectionHeader title="Team Health" />

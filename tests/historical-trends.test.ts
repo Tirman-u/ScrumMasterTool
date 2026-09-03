@@ -59,13 +59,16 @@ describe("historical metric trends", () => {
   });
 
   it("provides typed plain-language content for each approved card metric", () => {
-    const labels = ["Stories Done", "Throughput", "Avg Cycle Time", "SLE P85", "Aging WIP", "Done Bug Ratio", "Velocity", "Bottleneck"];
+    const labels = ["Stories Done", "Throughput", "Avg Cycle Time", "SLE P85", "Aging WIP", "Done Bug Ratio", "Velocity", "Bottleneck", "Work Past Expectation", "Completion Rate", "Lead Time", "Active Time", "Cycle Time", "Delivery Expectation", "Waiting Time %"];
     for (const label of labels) {
       const definition = getMetricInsightDefinition(label);
       expect(definition.label).toBe(label);
       expect(definition.meaning.length).toBeGreaterThan(10);
       expect(definition.calculation.length).toBeGreaterThan(10);
       expect(definition.unit).not.toBe("existing metric unit");
+      expect(definition.collection, label).toMatch(/^Local /);
+      expect(definition.source, label).toMatch(/^Local /);
+      expect(definition.unavailable).toContain("Unavailable");
     }
     expect(metricInsightDefinitions().map((definition) => definition.label)).toEqual(expect.arrayContaining(labels));
   });
@@ -75,5 +78,6 @@ describe("historical metric trends", () => {
     expect(parseMetricPreviousValue(undefined)).toBeNull();
     expect(parseMetricPreviousValue("last month")).toBeNull();
     expect(parseMetricPreviousValue("0")).toBe(0);
+    expect(parseMetricPreviousValue("5/month")).toBe(5);
   });
 });
