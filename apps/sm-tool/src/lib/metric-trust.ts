@@ -1,6 +1,6 @@
-import type { FlowTimingIssueDetail, TeamMetrics, WaitingTimeSnapshot, WaitingTimeSnapshotState } from "../types/contracts";
+import type { FlowTimingIssueDetail, MaintenanceLifecycleSnapshot, TeamMetrics, WaitingTimeSnapshot, WaitingTimeSnapshotState } from "../types/contracts";
 
-export type MetricTrustKey = "leadTime" | "activeTime" | "cycleTime" | "sleP85" | "waitingTimePct";
+export type MetricTrustKey = "leadTime" | "activeTime" | "cycleTime" | "sleP85" | "waitingTimePct" | "maintenancePct";
 export type MetricTrustState =
   | "complete"
   | "partial"
@@ -11,7 +11,14 @@ export type MetricTrustState =
   | "error-with-retry"
   | "conflict"
   | "stale-last-known"
-  | "needs-review-config";
+  | "needs-review-config"
+  | "not-configured"
+  | "invalid-key"
+  | "source-missing-parent-field"
+  | "configured-not-found"
+  | "no-recognized-completed-work"
+  | "ready-complete"
+  | "ready-partial-unknown-types";
 
 export interface MetricTrust {
   key: MetricTrustKey;
@@ -51,6 +58,8 @@ export interface MetricTrustInput {
   cycleFallbackUsed: boolean;
   waitingTimeSnapshot?: WaitingTimeSnapshot;
   previousWaitingTimeSnapshot?: WaitingTimeSnapshot;
+  maintenanceLifecycleSnapshot?: MaintenanceLifecycleSnapshot;
+  previousMaintenanceLifecycleSnapshot?: MaintenanceLifecycleSnapshot;
 }
 
 const BASIS = "Monday-Friday working days";
@@ -177,6 +186,51 @@ function waitingTimeTrust(input: MetricTrustInput): MetricTrust {
   };
 }
 
+function maintenanceLifecycleTrust(input: MetricTrustInput): MetricTrust {
+  const snapshot = input.maintenanceLifecycleSnapshot;
+  const value = snapshot?.maintenancePct ?? null;
+  const state: MetricTrustState = snapshot?.coverageState === "conflict" || snapshot?.state === "conflict"
+    ? "conflict"
+    : snapshot?.state === "ready-complete"
+      ? "complete"
+      : snapshot?.state === "ready-partial-unknown-types"
+        ? "partial"
+        : snapshot?.state === "stale-last-known"
+          ? "stale-last-known"
+          : snapshot?.state === "error-with-retry"
+            ? "error-with-retry"
+            : snapshot?.state ?? (value === null ? "unavailable" : snapshot?.coverageState === "partial" ? "partial" : "complete");
+  const previous = input.previousMaintenanceLifecycleSnapshot;
+  const previousValue = previous?.maintenancePct ?? null;
+  const comparablePrevious = previous?.asOf !== undefined && snapshot?.asOf !== undefined && previous.asOf !== snapshot.asOf && previous.semanticVersion !== undefined && previous.semanticVersion === snapshot.semanticVersion ? previousValue : null;
+  return {
+    key: "maintenancePct",
+    label: "Maintenance %",
+    unit: "%",
+    asOf: snapshot?.asOf ?? input.periodLabel,
+    capturedAt: snapshot?.capturedAt ?? null,
+    unknownCount: snapshot?.unknownCount ?? null,
+    previousValue: comparablePrevious,
+    previousPeriodLabel: comparablePrevious === null ? null : previous?.asOf ?? null,
+    value,
+    p85: null,
+    definition: "Share of completed direct-child recognized work classified as Maintenance.",
+    calculation: "Maintenance completed direct-child recognized work ÷ (Maintenance + Lifecycle completed direct-child recognized work) × 100.",
+    source: snapshot?.source ?? "Unavailable source",
+    fallback: snapshot?.reason ?? "None used.",
+    periodLabel: input.periodLabel,
+    basis: "Local imported CSV parent/EPIC equality and exact issue-type classification.",
+    eligibleCount: snapshot?.candidateCount ?? null,
+    usableCount: snapshot ? (snapshot.maintenanceCount ?? 0) + (snapshot.lifecycleCount ?? 0) : null,
+    coveragePct: snapshot?.candidateCount && snapshot.candidateCount > 0 ? (((snapshot.maintenanceCount ?? 0) + (snapshot.lifecycleCount ?? 0)) / snapshot.candidateCount) * 100 : null,
+    coverageState: snapshot?.coverageState,
+    semanticVersion: snapshot?.semanticVersion,
+    retryAvailable: snapshot?.state === "error-with-retry",
+    state,
+    reason: snapshot?.reason ?? "Unavailable · no maintenance lifecycle snapshot is available.",
+  };
+}
+
 function mapWaitingSnapshotState(
   state: WaitingTimeSnapshotState | undefined,
   coverageState: WaitingTimeSnapshot["coverageState"],
@@ -239,5 +293,6 @@ export function buildMetricTrustMetadata(input: MetricTrustInput): MetricTrust[]
       reason: sleReason,
     },
     waitingTimeTrust(input),
+    maintenanceLifecycleTrust(input),
   ];
 }

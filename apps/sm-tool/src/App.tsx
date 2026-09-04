@@ -21,6 +21,9 @@ import {
   DEFAULT_SLE_ISSUE_TYPES,
   buildSleValues,
   buildWaitingTimeSnapshot,
+  buildMaintenanceLifecycleSnapshot,
+  isValidMaintenanceLifecycleJiraKey,
+  validateMaintenanceLifecycleConfigForSave,
   countSprints,
   isCancelledIssue,
   isDone,
@@ -1685,6 +1688,7 @@ export default function App(): JSX.Element {
   const [functionalCoverageInput, setFunctionalCoverageInput] = useState("");
   const [unitTestCoverageInput, setUnitTestCoverageInput] = useState("");
   const [technicalDebtInput, setTechnicalDebtInput] = useState("");
+  const [maintenanceLifecycleKeyInput, setMaintenanceLifecycleKeyInput] = useState("");
   const [doneStatusDraft, setDoneStatusDraft] = useState("");
   const [bugIssueTypeDraft, setBugIssueTypeDraft] = useState("");
   const [sprintScopeStatusDraft, setSprintScopeStatusDraft] = useState("");
@@ -2072,6 +2076,7 @@ export default function App(): JSX.Element {
       setFunctionalCoverageInput("");
       setUnitTestCoverageInput("");
       setTechnicalDebtInput("");
+      setMaintenanceLifecycleKeyInput("");
       setSleIssueTypesDraft([...DEFAULT_SLE_ISSUE_TYPES]);
       setDoneStatusDraft("");
       setBugIssueTypeDraft("");
@@ -2151,6 +2156,7 @@ export default function App(): JSX.Element {
     setFunctionalCoverageInput(formatOptionalNumberInput(selectedTeam.config.engineeringMetrics?.functionalTestCoveragePct));
     setUnitTestCoverageInput(formatOptionalNumberInput(selectedTeam.config.engineeringMetrics?.unitTestCoveragePct));
     setTechnicalDebtInput(formatOptionalNumberInput(selectedTeam.config.engineeringMetrics?.technicalDebtAvgDays));
+    setMaintenanceLifecycleKeyInput(selectedTeam.config.maintenanceLifecycle?.maintenanceLifecycleJiraKey ?? "");
     setSleIssueTypesDraft(normalizeSleIssueTypes(selectedTeam.config.sleConfig.issueTypes));
     setDoneStatusDraft("");
     setBugIssueTypeDraft("");
@@ -4939,6 +4945,15 @@ export default function App(): JSX.Element {
     const unitTestCoverage = parseOptionalPercentInput(unitTestCoverageInput);
     const technicalDebtAvgDays = parseOptionalNonNegativeNumberInput(technicalDebtInput);
 
+    const maintenanceLifecycleSave = validateMaintenanceLifecycleConfigForSave(
+      maintenanceLifecycleKeyInput,
+      draftConfig.maintenanceLifecycle,
+    );
+    if (!maintenanceLifecycleSave.accepted) {
+      setStatus(`Could not save team settings. ${maintenanceLifecycleSave.error} Your previous settings are unchanged.`);
+      return;
+    }
+
     if (functionalCoverageInput.trim().length > 0 && functionalCoverage === null) {
       setStatus("Functional test coverage must be a number from 0 to 100.");
       return;
@@ -4974,7 +4989,7 @@ export default function App(): JSX.Element {
     const operationId = beginOperation("Saving team", "Saving settings…", "Save team settings");
     teamSaveRetryRef.current = () => void handleSaveAdvancedConfig(event);
     try {
-      const updatedConfig: TeamConfig = {
+    const updatedConfig: TeamConfig = {
         ...draftConfig,
         doneConfig: {
           ...draftConfig.doneConfig,
@@ -5001,6 +5016,7 @@ export default function App(): JSX.Element {
         },
         flowTimingConfig: normalizeFlowTimingConfig(draftConfig.flowTimingConfig),
         engineeringMetrics,
+        maintenanceLifecycle: maintenanceLifecycleSave.config,
         mapping: {
           ...draftConfig.mapping,
           issueType: normalizeOptionalMappingValue(draftConfig.mapping.issueType) ?? "Issue Type",
@@ -6389,6 +6405,7 @@ export default function App(): JSX.Element {
         )
       : [];
     const waitingTimeTrust = executiveMetricTrust.find((metric) => metric.key === "waitingTimePct");
+    const maintenanceTrust = executiveMetricTrust.find((metric) => metric.key === "maintenancePct");
     const waitingTimeValue = waitingTimeTrust?.value === null || waitingTimeTrust?.value === undefined ? "-" : waitingTimeTrust.value.toFixed(1);
     const waitingTimeTone: ExecSig = waitingTimeTrust?.state === "complete" ? "good" : waitingTimeTrust?.state === "partial" ? "warning" : "neutral";
     const waitingTimeCurrentValue = waitingTimeTrust?.value;
@@ -6482,6 +6499,12 @@ export default function App(): JSX.Element {
             sub: "Cycle-only waiting share · lower is better",
             detail: waitingTimeTrust?.reason ?? "Unavailable · valid Waiting Time % detail is not available for this period.",
             metricTrust: waitingTimeTrust,
+          }),
+          executiveMetric("Maintenance %", maintenanceTrust?.value == null ? "-" : maintenanceTrust.value.toFixed(1), maintenanceTrust?.state === "complete" ? "neutral" : maintenanceTrust?.state === "partial" ? "warning" : "neutral", {
+            unit: "%",
+            sub: "Recognized completed direct-child work classified as Maintenance",
+            detail: maintenanceTrust?.reason ?? "Unavailable · configure a lifecycle key and provide usable direct-child data.",
+            metricTrust: maintenanceTrust,
           }),
           executiveMetric("Delivery Expectation", `≤ ${formatWorkingDays(selectedTeamRow.current.sle.p85).replace(" working days", "")}`, "good", {
             unit: "working days",
@@ -6714,6 +6737,16 @@ export default function App(): JSX.Element {
               <input type="checkbox" checked={flowScope.includeOpenTickets} onChange={(event) => handleToggleFlowTimingScope("open", event.target.checked)} />
               <span>Open tickets</span>
             </label>
+          </section>
+
+          <section className="exec-config-panel" aria-labelledby="maintenance-lifecycle-key-label">
+            <label id="maintenance-lifecycle-key-label" htmlFor="maintenance-lifecycle-key"><strong>Maintenance lifecycle Jira key (optional)</strong></label>
+            <div className="exec-config-help">Use the parent/EPIC key already present in imported CSV data. Validated locally only; the app does not look up Jira or verify that this key exists or has children.</div>
+            <input id="maintenance-lifecycle-key" value={maintenanceLifecycleKeyInput} onChange={(event) => setMaintenanceLifecycleKeyInput(event.target.value)} placeholder="ABC-123" aria-describedby="maintenance-lifecycle-key-help maintenance-lifecycle-key-state" />
+            <div id="maintenance-lifecycle-key-help" className="exec-config-help">Maintenance % uses only direct-child completed work. Missing parent data is excluded and reduces coverage.</div>
+            <div id="maintenance-lifecycle-key-state" className="exec-config-help" role="status">
+              {!maintenanceLifecycleKeyInput.trim() ? "No maintenance lifecycle key configured." : isValidMaintenanceLifecycleJiraKey(maintenanceLifecycleKeyInput) ? "Key format looks valid. Jira existence is not verified." : "Enter a valid Jira key, such as ABC-123."}
+            </div>
           </section>
 
           <div className="exec-config-grid">
@@ -9582,6 +9615,30 @@ function buildExecutiveMetricTrust(
   const previousWaitingSnapshot = previousPeriod
     ? comparableSnapshots.filter((item) => item.asOf === previousPeriod).sort((left, right) => (left.capturedAt ?? "").localeCompare(right.capturedAt ?? "")).at(-1)
     : undefined;
+  const derivedMaintenanceSnapshot = buildMaintenanceLifecycleSnapshot(
+    parsedIssues,
+    teamConfig,
+    periodMonth,
+    referenceDate,
+    periodMonth,
+    metrics?.generatedAt,
+    "local-recalculation",
+  );
+  const comparableMaintenanceSnapshots = progressHistory
+    .map((item) => item.metrics.maintenanceLifecycle)
+    .filter((item): item is NonNullable<TeamProgressSnapshot["metrics"]["maintenanceLifecycle"]> => Boolean(item?.asOf && item.semanticVersion === derivedMaintenanceSnapshot.semanticVersion));
+  const maintenancePeriods = comparableMaintenanceSnapshots.map((item) => item.asOf as string);
+  const metricMaintenanceIsAuthoritative = metrics?.maintenanceLifecycle !== undefined && (
+    (metrics.maintenanceLifecycle.asOf === periodMonth && metrics.maintenanceLifecycle.semanticVersion === derivedMaintenanceSnapshot.semanticVersion) ||
+    (metrics.maintenanceLifecycle.asOf === undefined && metrics.maintenanceLifecycle.state !== "ready-complete")
+  );
+  const maintenanceSnapshot = metricMaintenanceIsAuthoritative && metrics?.maintenanceLifecycle
+    ? metrics.maintenanceLifecycle
+    : comparableMaintenanceSnapshots.filter((item) => item.asOf === periodMonth).sort((left, right) => (left.capturedAt ?? "").localeCompare(right.capturedAt ?? "")).at(-1) ?? derivedMaintenanceSnapshot;
+  const previousMaintenancePeriod = getPreviousPeriodKey(periodMonth, maintenancePeriods);
+  const previousMaintenanceSnapshot = previousMaintenancePeriod
+    ? comparableMaintenanceSnapshots.filter((item) => item.asOf === previousMaintenancePeriod).sort((left, right) => (left.capturedAt ?? "").localeCompare(right.capturedAt ?? "")).at(-1)
+    : undefined;
   return buildMetricTrustMetadata({
     flowTiming,
     flowDetails: scopedDetails,
@@ -9592,6 +9649,8 @@ function buildExecutiveMetricTrust(
     cycleFallbackUsed: fallbackUsed,
     waitingTimeSnapshot: waitingSnapshot,
     previousWaitingTimeSnapshot: previousWaitingSnapshot,
+    maintenanceLifecycleSnapshot: maintenanceSnapshot,
+    previousMaintenanceLifecycleSnapshot: previousMaintenanceSnapshot,
   });
 }
 
@@ -10854,6 +10913,7 @@ function buildTeamProgressSnapshot(team: TeamRuntime, now: Date): TeamProgressSn
       waitingTime: team.metrics?.waitingTime
         ? { ...team.metrics.waitingTime, semanticVersion: getWorkflowSemanticVersion(team.config) ?? undefined }
         : undefined,
+      maintenanceLifecycle: team.metrics?.maintenanceLifecycle,
     },
   };
 }

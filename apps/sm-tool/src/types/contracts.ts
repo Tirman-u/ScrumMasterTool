@@ -104,6 +104,14 @@ export interface CsvMapping {
   storyPoints?: string;
   sprint?: string;
   issueType?: string;
+  parent?: string;
+}
+
+export interface MaintenanceLifecycleConfig {
+  maintenanceLifecycleJiraKey?: string;
+  source?: "native" | "legacy";
+  migrationState?: "native" | "migrated-read" | "needs-review" | "conflict";
+  warning?: string;
 }
 
 export interface JiraSavedQuery {
@@ -156,6 +164,7 @@ export interface TeamConfig {
   engineeringMetrics?: EngineeringMetricsConfig;
   jiraQuery?: JiraQueryConfig;
   safeConfig?: SafeConfig;
+  maintenanceLifecycle?: MaintenanceLifecycleConfig;
 }
 
 export interface WorkspaceProfileConfig {
@@ -189,6 +198,7 @@ export interface ParsedIssue {
   resolution: string;
   assignee?: string;
   issueType: string;
+  parentIssueKey?: string;
   storyPoints: number | null;
   sprintRaw: string;
   sourceFile: string;
@@ -269,11 +279,40 @@ export interface TeamMetrics {
   flowTimingBasis?: "working-days";
   flowTimingDetails?: FlowTimingIssueDetail[];
   waitingTime?: WaitingTimeSnapshot;
+  maintenanceLifecycle?: MaintenanceLifecycleSnapshot;
   multiSprint: {
     count: number;
     percentage: number;
   };
   multiSprintIssueKeys: string[];
+}
+
+export type MaintenanceLifecycleCoverageState = "complete" | "partial" | "unavailable" | "conflict";
+export type MaintenanceLifecycleSnapshotState =
+  | "not-configured"
+  | "invalid-key"
+  | "source-missing-parent-field"
+  | "configured-not-found"
+  | "ready-complete"
+  | "ready-partial-unknown-types"
+  | "no-recognized-completed-work"
+  | "conflict"
+  | "stale-last-known"
+  | "error-with-retry";
+
+export interface MaintenanceLifecycleSnapshot {
+  maintenanceCount?: number;
+  lifecycleCount?: number;
+  unknownCount?: number;
+  candidateCount?: number;
+  maintenancePct?: number;
+  coverageState: MaintenanceLifecycleCoverageState;
+  state?: MaintenanceLifecycleSnapshotState;
+  asOf?: string;
+  capturedAt?: string;
+  source?: "local-import" | "local-cache" | "local-recalculation";
+  semanticVersion?: string;
+  reason?: string;
 }
 
 export type WaitingTimeCoverageState = "complete" | "partial" | "unavailable" | "conflict";
@@ -346,6 +385,7 @@ export interface TeamProgressSnapshot {
     openWipCount: number;
     openWipAvgAgeDays: number | null;
     waitingTime?: WaitingTimeSnapshot;
+    maintenanceLifecycle?: MaintenanceLifecycleSnapshot;
   };
 }
 

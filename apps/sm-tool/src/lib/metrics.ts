@@ -6,13 +6,112 @@ import {
   type TeamConfig,
   type TeamMetrics,
   type WaitingTimeSnapshot,
+  type MaintenanceLifecycleSnapshot,
+  type MaintenanceLifecycleSnapshotState,
   type VelocityPoint,
 } from "../types/contracts";
 import { type TimeInStatusIssueRow } from "./time-in-status";
 import { calendarDurationToWorkingDays, workingDaysBetween } from "./working-days";
+import { isIsoDateInPeriod } from "./period";
 import { adaptLegacyWorkflowConfig, classifyUnifiedFlowStatus, validateUnifiedFlowStatusConfig } from "./flow-presentation";
 
 export const DEFAULT_SLE_ISSUE_TYPES = ["Task", "Bug", "Story"] as const;
+
+export type MaintenanceLifecycleType = "Lifecycle" | "Maintenance" | "Unknown";
+
+export function isValidMaintenanceLifecycleJiraKey(value: string): boolean {
+  return /^[A-Z][A-Z0-9_]*-\d+$/i.test(value.trim());
+}
+
+export function validateMaintenanceLifecycleConfigForSave(
+  value: string,
+  previous: TeamConfig["maintenanceLifecycle"],
+): { accepted: true; config: TeamConfig["maintenanceLifecycle"] } | { accepted: false; config: TeamConfig["maintenanceLifecycle"]; error: string } {
+  const key = value.trim();
+  if (!key) {
+    return { accepted: true, config: undefined };
+  }
+  if (!isValidMaintenanceLifecycleJiraKey(key)) {
+    return {
+      accepted: false,
+      config: previous,
+      error: "Maintenance lifecycle key must use Jira key syntax such as ABC-123.",
+    };
+  }
+  return {
+    accepted: true,
+    config: {
+      maintenanceLifecycleJiraKey: key,
+      source: "native",
+      migrationState: "native",
+    },
+  };
+}
+
+export function classifyMaintenanceLifecycleIssueType(issueType: string): MaintenanceLifecycleType {
+  const normalized = issueType.trim().replace(/\s+/g, " ").toLocaleLowerCase();
+  if (normalized === "task" || normalized === "spike") return "Lifecycle";
+  if (normalized === "bug" || normalized === "production bug") return "Maintenance";
+  return "Unknown";
+}
+
+export function buildMaintenanceLifecycleSnapshot(
+  issues: ParsedIssue[],
+  teamConfig: TeamConfig,
+  period: string,
+  referenceDate: Date = new Date(),
+  asOf?: string,
+  capturedAt?: string,
+  source: NonNullable<MaintenanceLifecycleSnapshot["source"]> = "local-recalculation",
+): MaintenanceLifecycleSnapshot {
+  const key = teamConfig.maintenanceLifecycle?.maintenanceLifecycleJiraKey?.trim() ?? "";
+  const unavailable = (state: MaintenanceLifecycleSnapshotState, reason: string): MaintenanceLifecycleSnapshot => ({
+    coverageState: state === "conflict" ? "conflict" as const : "unavailable" as const,
+    state,
+    asOf,
+    capturedAt,
+    source,
+    semanticVersion: `maintenance-v1:${key.toLocaleLowerCase()}`,
+    reason,
+  });
+  if (!key) return unavailable("not-configured", "Unavailable · no maintenance lifecycle key configured.");
+  if (!isValidMaintenanceLifecycleJiraKey(key)) return unavailable("invalid-key", "Unavailable · the maintenance lifecycle key has invalid Jira-key syntax.");
+  if (!issues.some((issue) => issue.parentIssueKey !== undefined)) return unavailable("source-missing-parent-field", "Unavailable · imported data has no mapped parent/EPIC field.");
+
+  const completed = issues.filter((issue) => {
+    const date = issue.resolutionDate ?? issue.updated;
+    return date !== null && isIsoDateInPeriod(date.toISOString(), period, referenceDate) && isDone(issue, teamConfig);
+  });
+  const normalizedKey = key.toLocaleLowerCase();
+  const directChildren = completed.filter((issue) => issue.parentIssueKey?.trim().toLocaleLowerCase() === normalizedKey);
+  const matchingParentExists = issues.some((issue) => issue.parentIssueKey?.trim().toLocaleLowerCase() === normalizedKey);
+  if (!matchingParentExists) return unavailable("configured-not-found", "Unavailable · configured key could not be verified in the imported parent/EPIC field. Jira lookup is not available.");
+
+  const lifecycleCount = directChildren.filter((issue) => classifyMaintenanceLifecycleIssueType(issue.issueType) === "Lifecycle").length;
+  const maintenanceCount = directChildren.filter((issue) => classifyMaintenanceLifecycleIssueType(issue.issueType) === "Maintenance").length;
+  const unknownCount = Math.max(0, completed.length - directChildren.filter((issue) => classifyMaintenanceLifecycleIssueType(issue.issueType) !== "Unknown").length);
+  const candidateCount = completed.length;
+  const denominator = lifecycleCount + maintenanceCount;
+  if (denominator === 0) {
+    return { ...unavailable("no-recognized-completed-work", "Unavailable · no completed direct-child recognized work."), candidateCount, unknownCount };
+  }
+  const maintenancePct = (maintenanceCount / denominator) * 100;
+  const coverageState = unknownCount > 0 ? "partial" as const : "complete" as const;
+  return {
+    maintenanceCount,
+    lifecycleCount,
+    unknownCount,
+    candidateCount,
+    maintenancePct,
+    coverageState,
+    state: coverageState === "complete" ? "ready-complete" : "ready-partial-unknown-types",
+    asOf,
+    capturedAt,
+    source,
+    semanticVersion: `maintenance-v1:${normalizedKey}`,
+    reason: coverageState === "partial" ? `${denominator} recognized of ${candidateCount} completed candidates; unknown or unproven records reduce coverage.` : `Coverage: ${denominator} recognized completed direct children.`,
+  };
+}
 
 export function buildWaitingTimeSnapshot(
   details: FlowTimingIssueDetail[],
@@ -209,6 +308,7 @@ export function buildMetrics(
     flowTimingBasis: "working-days",
     flowTimingDetails,
     waitingTime: buildWaitingTimeSnapshot(flowTimingDetails, undefined, generatedAt),
+    maintenanceLifecycle: buildMaintenanceLifecycleSnapshot(includedIssues, teamConfig, "all", new Date(), undefined, generatedAt, "local-recalculation"),
     multiSprint: {
       count: multiSprintCount,
       percentage: multiSprintPercentage,

@@ -21,7 +21,7 @@ describe("Executive metric trust affordance", () => {
     const flowEnd = viewsSource.indexOf("function CycleTimePanel");
     const flowSource = viewsSource.slice(flowStart, flowEnd === -1 ? viewsSource.length : flowEnd);
     expect(trustFixture.map((metric) => metric.key)).toEqual(["leadTime", "activeTime", "cycleTime", "sleP85"]);
-    expect(flowSource).toContain('data.metricTrust.filter((trust) => trust.key !== "waitingTimePct").map');
+    expect(flowSource).toContain('data.metricTrust.filter((trust) => trust.key !== "waitingTimePct" && trust.key !== "maintenancePct").map');
     expect(flowSource).not.toContain("P50");
     expect(flowSource).not.toContain("P70");
     expect(flowSource).not.toContain("P95");
@@ -54,14 +54,14 @@ describe("Executive metric trust affordance", () => {
 
   it("keeps snapshot-only values and trust metadata consistent", () => {
     const trust = buildMetricTrustMetadata(input({ flowDetails: [] }));
-    expect(trust.map((metric) => metric.value)).toEqual([12, 7, 5, 8, null]);
+    expect(trust.map((metric) => metric.value)).toEqual([12, 7, 5, 8, null, null]);
     expect(trust.slice(0, 4).every((metric) => metric.state === "partial")).toBe(true);
     expect(trust.slice(0, 4).every((metric) => metric.source.includes("Persisted flowTiming snapshot"))).toBe(true);
     expect(trust.slice(0, 4).every((metric) => metric.coveragePct === null)).toBe(true);
     expect(trust.find((metric) => metric.key === "waitingTimePct")?.state).toBe("unavailable");
     expect(trust.find((metric) => metric.key === "sleP85")?.usableCount).toBeNull();
     expect(trust.every((metric) => metric.periodLabel === "March 2026")).toBe(true);
-    expect(trust.map((metric) => metric.label)).toEqual(["Lead Time", "Cycle Time", "Implementation Time", "SLE P85", "Waiting Time %"]);
+    expect(trust.map((metric) => metric.label)).toEqual(["Lead Time", "Cycle Time", "Implementation Time", "SLE P85", "Waiting Time %", "Maintenance %"]);
   });
 
   it("keeps the Waiting Time modal contract percent-based and does not invent a previous comparison", () => {
@@ -76,8 +76,8 @@ describe("Executive metric trust affordance", () => {
 
   it("reports complete, partial, fallback, unavailable, and selected-period states from fixtures", () => {
     const complete = buildMetricTrustMetadata(input({}));
-    expect(complete.map((metric) => metric.state)).toEqual(["complete", "complete", "complete", "complete", "complete"]);
-    expect(complete.every((metric) => metric.coveragePct === 100)).toBe(true);
+    expect(complete.map((metric) => metric.state)).toEqual(["complete", "complete", "complete", "complete", "complete", "unavailable"]);
+    expect(complete.slice(0, 5).every((metric) => metric.coveragePct === 100)).toBe(true);
     expect(complete.find((metric) => metric.key === "waitingTimePct")?.value).toBeCloseTo((8 / 30) * 100);
 
     const partial = buildMetricTrustMetadata(input({ flowDetails: [detail("SM-1", 5), detail("SM-2", null)], sleEligibleCount: 2, sleUsableCount: 1 }));
@@ -225,7 +225,7 @@ describe("Executive metric trust affordance", () => {
     expect(trustFixture.find((metric) => metric.key === "cycleTime")?.state).toBe("unavailable");
     expect(appSource).toContain("buildExecutiveMetricTrust(");
     expect(appSource).toContain('executiveMetric("Waiting Time %"');
-    expect(viewsSource).toContain('filter((trust) => trust.key !== "waitingTimePct")');
+    expect(viewsSource).toContain('filter((trust) => trust.key !== "waitingTimePct" && trust.key !== "maintenancePct")');
     expect(appSource).toContain("const executiveMetricTrust = selectedTeam && selectedTeamRow");
     expect(viewsSource).toContain("{data.kpis.map((metric) => <FlowMetricCard key={metric.label} metric={metric} />)}");
     expect(viewsSource).toContain("{data.kpis.map((metric) => <KpiCard key={metric.label} metric={metric} />)}");

@@ -59,6 +59,7 @@ interface ResolvedCsvMapping {
   storyPoints?: string;
   sprint?: string;
   issueType?: string;
+  parent?: string;
 }
 
 const WORKSPACE_DB_NAME = "sm-tool";
@@ -744,6 +745,15 @@ function resolveCsvMapping(
         sampleScore: () => 0,
       }) ??
       mapping.issueType,
+    parent:
+      resolveExactHeader(headers, mapping.parent) ??
+      resolveHeaderFromCandidates(headers, rows, {
+        match: (header) => {
+          const normalized = normalizeHeaderToken(header);
+          return normalized === "parent" || normalized.includes("epiclink") || normalized.includes("parentkey");
+        },
+        sampleScore: (header, sampleRows) => sampleRows.reduce((count, row) => count + ((row[header] ?? "").trim() ? 1 : 0), 0),
+      }) ?? undefined,
     storyPoints:
       resolveExactHeader(headers, mapping.storyPoints) ??
       resolveHeaderFromCandidates(headers, rows, {
@@ -873,6 +883,7 @@ function mapRowToIssue(
     assignee: mapping.assignee ? row[mapping.assignee] ?? "" : row["Assignee"] ?? "",
     issueType:
       (mapping.issueType ? row[mapping.issueType] : row["Issue Type"] ?? row["Issuetype"]) ?? "",
+    parentIssueKey: mapping.parent ? row[mapping.parent]?.trim() || undefined : undefined,
     storyPoints: mapping.storyPoints ? parseNumber(row[mapping.storyPoints]) : null,
     sprintRaw: mapping.sprint ? row[mapping.sprint] ?? "" : "",
     sourceFile,
@@ -1040,6 +1051,7 @@ function parseCachedIssue(value: Record<string, unknown>): ParsedIssue | null {
     resolutionDate: parseIsoDate(value.resolutionDate),
     updated: parseIsoDate(value.updated),
     status: typeof value.status === "string" ? value.status : "",
+    parentIssueKey: typeof value.parentIssueKey === "string" ? value.parentIssueKey : undefined,
     resolution: typeof value.resolution === "string" ? value.resolution : "",
     assignee: typeof value.assignee === "string" ? value.assignee : "",
     issueType: typeof value.issueType === "string" ? value.issueType : "",
@@ -1146,6 +1158,7 @@ export function normalizeTeamMetrics(raw: Record<string, unknown> | null): TeamM
     flowTimingBasis: "working-days",
     flowTimingDetails,
     waitingTime: normalizeWaitingTimeSnapshot(raw.waitingTime) ?? buildWaitingTimeSnapshot(flowTimingDetails, undefined, generatedAt, "local-cache"),
+    maintenanceLifecycle: normalizeMaintenanceLifecycleSnapshot(raw.maintenanceLifecycle),
     multiSprint: {
       count: Math.max(0, multiSprintCount),
       percentage: multiSprintPercentage < 0 ? 0 : multiSprintPercentage,
@@ -1177,6 +1190,20 @@ function normalizeWaitingTimeSnapshot(value: unknown): TeamMetrics["waitingTime"
     semanticVersion: typeof value.semanticVersion === "string" ? value.semanticVersion : undefined,
     retryAvailable: value.retryAvailable === true,
     reason: typeof value.reason === "string" ? value.reason : undefined,
+  };
+}
+
+function normalizeMaintenanceLifecycleSnapshot(value: unknown): TeamMetrics["maintenanceLifecycle"] {
+  if (!isRecord(value)) return undefined;
+  const coverageState = value.coverageState;
+  if (coverageState !== "complete" && coverageState !== "partial" && coverageState !== "unavailable" && coverageState !== "conflict") return undefined;
+  const states = ["not-configured", "invalid-key", "source-missing-parent-field", "configured-not-found", "ready-complete", "ready-partial-unknown-types", "no-recognized-completed-work", "conflict", "stale-last-known", "error-with-retry"] as const;
+  const state = states.includes(value.state as typeof states[number]) ? value.state as typeof states[number] : undefined;
+  const numberOrUndefined = (candidate: unknown): number | undefined => typeof candidate === "number" && Number.isFinite(candidate) ? candidate : undefined;
+  const source = value.source === "local-import" || value.source === "local-cache" || value.source === "local-recalculation" ? value.source : undefined;
+  return {
+    maintenanceCount: numberOrUndefined(value.maintenanceCount), lifecycleCount: numberOrUndefined(value.lifecycleCount), unknownCount: numberOrUndefined(value.unknownCount), candidateCount: numberOrUndefined(value.candidateCount), maintenancePct: numberOrUndefined(value.maintenancePct), coverageState, state,
+    asOf: typeof value.asOf === "string" ? value.asOf : undefined, capturedAt: typeof value.capturedAt === "string" ? value.capturedAt : undefined, source, semanticVersion: typeof value.semanticVersion === "string" ? value.semanticVersion : undefined, reason: typeof value.reason === "string" ? value.reason : undefined,
   };
 }
 
@@ -1639,6 +1666,7 @@ function buildDefaultTeamConfig(
       storyPoints: "Story points",
       sprint: "Sprint",
       issueType: "Issue Type",
+      parent: undefined,
     },
     velocityConfig: {
       mode: "weekly-ticket-count",

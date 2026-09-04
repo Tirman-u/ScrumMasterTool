@@ -52,6 +52,7 @@ const DEFINITION_DETAILS: Record<string, Pick<MetricInsightDefinition, "metricId
   "Forecast P85": { metricId: "forecast-p85", collection: "Local throughput and open-backlog forecast snapshot.", source: "Local forecast snapshot", unavailable: "Unavailable · forecast prerequisites are incomplete.", teamDetail: "A forecast signal, distinct from the Cycle Time SLE expectation.", diagnosticDetail: "Existing forecast result with no special target/trendline treatment." },
   "Implementation Time": { metricId: "implementation-time", collection: "Local imported issue history and configured Implementation Time statuses.", source: "Local flowTiming snapshot", unavailable: "Unavailable · no valid Implementation Time value exists for the selected period.", teamDetail: "Shorter implementation flow is generally better.", diagnosticDetail: "Uses the approved existing implementation-flow contract when available; no fallback formula is introduced." },
   "Waiting Time %": { metricId: "waiting-time-percent", collection: "Local status-transition and flowTiming detail snapshot.", source: "Local flowTiming detail snapshot", unavailable: "Unavailable · waiting-time coverage is not available for this period.", teamDetail: "Lower waiting share generally means smoother flow.", diagnosticDetail: "Uses the existing waiting-time share only when its approved contract is available." },
+  "Maintenance %": { metricId: "maintenance-percent", collection: "Local imported issue data and the mapped parent/EPIC field.", source: "Local imported CSV classification", unavailable: "Unavailable · configure a lifecycle key and provide usable direct-child data.", teamDetail: "A work-mix context measure; it is not intrinsically better or worse.", diagnosticDetail: "Task/Spike are Lifecycle; Bug/Production Bug are Maintenance; other types are Unknown." },
 };
 
 Object.assign(DEFINITIONS, {
@@ -68,6 +69,7 @@ Object.assign(DEFINITIONS, {
   "Lead Time": { label: "Lead Time", unit: "working days", direction: "lower", meaning: "Total flow time from intake or project entry until Done.", calculation: "Existing flowTiming Lead Time average using Monday-Friday working days." },
   "Implementation Time": { label: "Implementation Time", unit: "working days", direction: "lower", meaning: "Time spent in the configured Implementation Time flow before Done.", calculation: "Existing Implementation Time average using Monday-Friday working days." },
   "Waiting Time %": { label: "Waiting Time %", unit: "%", direction: "lower", meaning: "Share of usable Cycle Time spent waiting outside Implementation Time.", calculation: "Summed usable Cycle-only waiting duration outside Implementation Time ÷ summed usable Cycle Time duration × 100." },
+  "Maintenance %": { label: "Maintenance %", unit: "%", direction: "categorical", meaning: "Share of completed direct-child recognized work classified as Maintenance.", calculation: "Maintenance completed direct-child recognized work ÷ (Maintenance + Lifecycle completed direct-child recognized work) × 100." },
 });
 
 // Compatibility-only aliases are intentionally kept out of the ordinary registry

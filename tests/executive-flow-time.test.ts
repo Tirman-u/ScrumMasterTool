@@ -20,7 +20,7 @@ describe("Executive flow-time restoration", () => {
   };
 
   it("renders ordered flow-time cards from the selected snapshot and reuses TeamDetail", () => {
-    expect(viewsSource).toContain('data.metricTrust.filter((trust) => trust.key !== "waitingTimePct").map');
+    expect(viewsSource).toContain('data.metricTrust.filter((trust) => trust.key !== "waitingTimePct" && trust.key !== "maintenancePct").map');
     expect(viewsSource).toContain("<TrustMetricCard");
     expect(viewsSource).toContain("<TeamDetail");
     expect(viewsSource).toContain('lineVisibility={presentationMode ? { p50: false, p70: false, p85: true, p95: false }');

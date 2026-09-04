@@ -408,7 +408,7 @@ function FlowTimeCards({ data, diagnostic }: { data: ExecutiveTeamDesignData; di
     <section aria-label="Flow Time">
       <SectionHeader title="Flow Time" sub={`${data.periodLabel} · working days · averages are not additive`} />
       <div className="exec-flow-metric-grid metric-trust-grid">
-        {data.metricTrust.filter((trust) => trust.key !== "waitingTimePct").map((trust) => (
+        {data.metricTrust.filter((trust) => trust.key !== "waitingTimePct" && trust.key !== "maintenancePct").map((trust) => (
           <div key={trust.key} className="metric-trust-anchor" data-metric-trust-key={trust.key}>
             <TrustMetricCard trust={trust} diagnostic={diagnostic} open={openKey === trust.key} buttonRef={(element) => { buttonRefs.current[trust.key] = element ?? undefined; }} onToggle={() => setOpenKey((current) => current === trust.key ? null : trust.key)} />
           </div>
