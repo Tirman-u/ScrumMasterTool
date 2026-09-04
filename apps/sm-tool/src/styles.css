@@ -181,6 +181,12 @@ body,
   font-size: 0.78rem;
 }
 
+.operation-error-detail {
+  flex-basis: 100%;
+  color: var(--muted);
+  font-size: 0.75rem;
+}
+
 .operation-recovery-button {
   margin-left: auto;
   padding: 5px 9px;
@@ -235,6 +241,10 @@ body,
 
   .operation-recovery-button {
     margin-left: 0;
+  }
+
+  .operation-error-detail {
+    flex-basis: auto;
   }
 
   .metric-insight-backdrop { align-items: end; padding: 0; }

@@ -6,7 +6,6 @@ import {
   Database,
   FolderCog,
   Gauge,
-  KeyRound,
   Layers3,
   LockKeyhole,
   LogOut,
@@ -52,7 +51,7 @@ import { mapFlowTimingPresentation, type FlowPresentationMetricId } from "./lib/
 import { buildTeamDataStatus } from "./lib/team-data-status";
 import { parseTeamRouteSearch, routeHistoryAction, serializeTeamRoute, validateTeamRoute, type TeamRouteState } from "./lib/team-route";
 import { recalculateSelectedTeam, type TeamRecalculateState } from "./lib/team-recalculate";
-import { createOperation, finishOperation, type AppOperation, type AppOperationPhase, type AppRecoveryAction } from "./lib/app-operation";
+import { classifyOperationFailure, createOperation, finishOperation, nextRetryCount, type AppOperation, type AppOperationPhase, type AppRecoveryAction } from "./lib/app-operation";
 import { canDismissToast, classifyToastStatus, shouldClearForContextChange, type ToastStatus } from "./lib/status-toast";
 import {
   commitImportMonitorBaseline,
@@ -64,6 +63,7 @@ import {
   type ImportMonitorState,
 } from "./lib/import-monitor";
 import { BUILD_MARKER_LABEL } from "./lib/build-info";
+import { requestPilotSession } from "./lib/pilot-access";
 import {
   isMetricAvailableInView,
   normalizeTeamViewMode,
@@ -185,9 +185,6 @@ const EMPTY_FLOW_TIMING: TeamMetrics["flowTiming"] = {
 };
 const BOTTLENECK_HISTORY_START_MONTH = "2026-01";
 const ALL_TEAMS_PROFILE_ID = "__all-teams__";
-const PILOT_ACCESS_STORAGE_KEY = "sm-tool-pilot-access-v1";
-const PILOT_SESSION_STORAGE_KEY = "sm-tool-pilot-session-v1";
-const DEFAULT_MASTER_ADMIN_PIN = "24680";
 
 function readStoredTeamViewMode(): TeamViewMode {
   if (typeof window === "undefined") {
@@ -205,105 +202,15 @@ function isFiveDigitPin(value: string): boolean {
   return /^\d{5}$/.test(value);
 }
 
-function createDefaultPilotPins(): PilotAccessPin[] {
-  return [
-    {
-      id: "master-admin",
-      pin: DEFAULT_MASTER_ADMIN_PIN,
-      label: "Master Admin",
-      role: "admin",
-      active: true,
-      createdAt: new Date().toISOString(),
-    },
-  ];
-}
-
-function normalizePilotPins(value: unknown): PilotAccessPin[] {
-  if (!Array.isArray(value)) {
-    return createDefaultPilotPins();
-  }
-
-  const pins = value
-    .filter((item): item is Partial<PilotAccessPin> => Boolean(item) && typeof item === "object")
-    .map((item) => ({
-      id: typeof item.id === "string" && item.id.trim() ? item.id : crypto.randomUUID(),
-      pin: typeof item.pin === "string" ? item.pin : "",
-      label: typeof item.label === "string" && item.label.trim() ? item.label.trim() : "Pilot User",
-      role: item.role === "admin" ? "admin" as PilotAccessRole : "user" as PilotAccessRole,
-      active: item.active !== false,
-      createdAt: typeof item.createdAt === "string" ? item.createdAt : new Date().toISOString(),
-      lastUsedAt: typeof item.lastUsedAt === "string" ? item.lastUsedAt : undefined,
-    }))
-    .filter((item) => isFiveDigitPin(item.pin));
-
-  if (!pins.some((item) => item.role === "admin")) {
-    return [...pins, ...createDefaultPilotPins()];
-  }
-
-  return pins;
-}
-
-function readPilotPins(): PilotAccessPin[] {
-  if (typeof window === "undefined") {
-    return createDefaultPilotPins();
-  }
-
-  try {
-    const stored = window.localStorage.getItem(PILOT_ACCESS_STORAGE_KEY);
-    return normalizePilotPins(stored ? JSON.parse(stored) : null);
-  } catch {
-    return createDefaultPilotPins();
-  }
-}
-
-function readPilotSession(pins: PilotAccessPin[]): PilotSession | null {
-  if (typeof window === "undefined") {
-    return null;
-  }
-
-  try {
-    const stored = window.localStorage.getItem(PILOT_SESSION_STORAGE_KEY);
-    if (!stored) {
-      return null;
-    }
-    const parsed = JSON.parse(stored) as Partial<PilotSession>;
-    const pin = pins.find((item) => item.id === parsed.pinId && item.active);
-    if (!pin) {
-      return null;
-    }
-    return {
-      pinId: pin.id,
-      label: pin.label,
-      role: pin.role,
-      authenticatedAt: typeof parsed.authenticatedAt === "string" ? parsed.authenticatedAt : new Date().toISOString(),
-    };
-  } catch {
-    return null;
-  }
-}
-
-type Page = "workspace" | "dashboard" | "metrics" | "import" | "team" | "admin";
+type Page = "workspace" | "dashboard" | "metrics" | "import" | "team";
 type TeamTab = "overview" | "cycle" | "data";
 type TrendTone = "good" | "bad" | "neutral";
 type HealthTone = "good" | "warn" | "bad" | "neutral";
 type SleLineKey = "p50" | "p70" | "p85" | "p95";
-type PilotAccessRole = "admin" | "user";
-
-interface PilotAccessPin {
-  id: string;
-  pin: string;
-  label: string;
-  role: PilotAccessRole;
-  active: boolean;
-  createdAt: string;
-  lastUsedAt?: string;
-}
-
 interface PilotSession {
-  pinId: string;
+  sessionId: string;
   label: string;
-  role: PilotAccessRole;
-  authenticatedAt: string;
+  expiresAt: string | null;
 }
 
 function readTeamRouteState(): TeamRouteState {
@@ -1565,13 +1472,9 @@ interface BottleneckDraftRow {
 
 export default function App(): JSX.Element {
   const [page, setPage] = useState<Page>("workspace");
-  const [pilotPins, setPilotPins] = useState<PilotAccessPin[]>(() => readPilotPins());
-  const [pilotSession, setPilotSession] = useState<PilotSession | null>(() => readPilotSession(readPilotPins()));
+  const [pilotSession, setPilotSession] = useState<PilotSession | null>(null);
   const [pinInput, setPinInput] = useState("");
   const [loginError, setLoginError] = useState("");
-  const [newPilotPin, setNewPilotPin] = useState("");
-  const [newPilotPinLabel, setNewPilotPinLabel] = useState("");
-  const [newPilotPinRole, setNewPilotPinRole] = useState<PilotAccessRole>("user");
   const [mobileNavOpen, setMobileNavOpen] = useState(false);
   const initialTeamRoute = useMemo(() => readTeamRouteState(), []);
   const routeHydratedRef = useRef(false);
@@ -1611,18 +1514,20 @@ export default function App(): JSX.Element {
   const [operation, setOperation] = useState<AppOperation | null>(null);
   const operationIdRef = useRef(0);
   const operationRef = useRef<AppOperation | null>(null);
-  const legacyOperationIdRef = useRef<number | null>(null);
+  const retryCountRef = useRef(0);
   const teamSaveRetryRef = useRef<(() => void) | null>(null);
   const busy = operation?.state === "active";
-  const beginOperation = (phase: AppOperationPhase, message: string, action?: string): number => {
+  const beginOperation = (phase: AppOperationPhase, message: string, action?: string): number | null => {
+    if (operationRef.current?.state === "active") return null;
     const operationId = ++operationIdRef.current;
-    const next = createOperation(operationId, phase, message, action);
+    const next = { ...createOperation(operationId, phase, message, action), retryCount: retryCountRef.current };
+    retryCountRef.current = 0;
     operationRef.current = next;
     setOperation(next);
     return operationId;
   };
-  const completeOperation = (operationId: number, message: string, error = false, recovery?: string, recoveryAction?: AppRecoveryAction): void => {
-    const next = finishOperation(operationRef.current, operationId, error ? "error" : "complete", message, recovery, recoveryAction);
+  const completeOperation = (operationId: number, message: string, error = false, recovery?: string, recoveryAction?: AppRecoveryAction, details?: Pick<AppOperation, "errorKind" | "lastKnownAvailable" | "stale" | "diagnosticRef" | "retryCount">): void => {
+    const next = finishOperation(operationRef.current, operationId, error ? "error" : "complete", message, recovery, recoveryAction, details);
     if (next) {
       operationRef.current = next;
       setOperation(next);
@@ -1630,19 +1535,20 @@ export default function App(): JSX.Element {
   };
   const updateOperation = (operationId: number, phase: AppOperationPhase, message: string): void => {
     if (operationRef.current?.operationId !== operationId) return;
-    const next = { ...operationRef.current, phase, message, state: "active" as const };
+    const next = { ...operationRef.current, phase, message, state: "active" as const, busy: true };
     operationRef.current = next;
     setOperation(next);
   };
-  // Retain the existing action guards while older save flows are migrated to
-  // named phases; every transition still goes through the structured model.
-  const setBusy = (active: boolean): void => {
-    if (active) {
-      legacyOperationIdRef.current = beginOperation("Saving team", "Saving settings…");
-    } else if (legacyOperationIdRef.current !== null) {
-      completeOperation(legacyOperationIdRef.current, "Settings saved.");
-      legacyOperationIdRef.current = null;
-    }
+  const failOperation = (operationId: number, error: unknown, fallback: string): void => {
+    const failure = classifyOperationFailure(error, operationId);
+    const message = `${fallback} ${failure.message}`;
+    setStatus(message);
+    completeOperation(operationId, message, true, failure.recovery, failure.recoveryAction, {
+      errorKind: failure.errorKind,
+      lastKnownAvailable: true,
+      stale: true,
+      diagnosticRef: failure.diagnosticRef,
+    });
   };
   const [teamRecalculateState, setTeamRecalculateState] = useState<TeamRecalculateState>("idle");
   const [teamRecalculateMessage, setTeamRecalculateMessage] = useState("");
@@ -1770,26 +1676,6 @@ export default function App(): JSX.Element {
     setStatusValue("");
     setToastStatus(null);
   }, [page, selectedTeamId, teamTab, teamViewMode, periodMonth, statusRevision, toastStatus]);
-
-  useEffect(() => {
-    try {
-      window.localStorage.setItem(PILOT_ACCESS_STORAGE_KEY, JSON.stringify(pilotPins));
-    } catch {
-      // Pilot login still works for the current session if browser storage is unavailable.
-    }
-  }, [pilotPins]);
-
-  useEffect(() => {
-    try {
-      if (pilotSession) {
-        window.localStorage.setItem(PILOT_SESSION_STORAGE_KEY, JSON.stringify(pilotSession));
-      } else {
-        window.localStorage.removeItem(PILOT_SESSION_STORAGE_KEY);
-      }
-    } catch {
-      // Ignore storage failures for the pilot gate.
-    }
-  }, [pilotSession]);
 
   useEffect(() => {
     try {
@@ -3148,6 +3034,10 @@ export default function App(): JSX.Element {
   }
 
   async function handleRecalculateSelectedTeam(trigger: "manual" | "automatic" = "manual"): Promise<void> {
+    if (busy && !recalculateActiveRef.current) {
+      setStatus(`Unavailable while ${operation?.phase ?? "an operation"} is in progress.`);
+      return;
+    }
     if (recalculateActiveRef.current || teamRecalculateState === "loading") {
       if (trigger === "automatic" && pendingAutomaticManifestRef.current) {
         queuedAutomaticManifestRef.current = pendingAutomaticManifestRef.current;
@@ -3165,17 +3055,20 @@ export default function App(): JSX.Element {
 
     recalculateActiveRef.current = true;
     const operationId = beginOperation("Recalculating team", "Recalculating this team locally…", "Recalculate team");
+    if (operationId === null) return;
     const pendingManifest = pendingAutomaticManifestRef.current;
     pendingAutomaticManifestRef.current = null;
     setTeamRecalculateState("loading");
     setTeamRecalculateMessage(`Recalculating ${team.config.teamName} metrics.`);
     try {
+      updateOperation(operationId, "Writing local data", "Writing local team metrics…");
       const result = await recalculateSelectedTeam(
         {
           selectedTeam: team,
           workspaceAvailable: true,
           analyzeTeam,
           refreshTeam: async (selected) => {
+            updateOperation(operationId, "Reading back local data", "Verifying recalculated team data…");
             const refreshed = await listTeams(handle);
             const target = refreshed.find((item) => item.teamId === selected.teamId);
             if (!target) throw new Error("Selected team was not found after recalculation.");
@@ -3198,14 +3091,15 @@ export default function App(): JSX.Element {
         setTeamRecalculateMessage(trigger === "automatic" ? "Auto-update complete · metrics recalculated just now." : "Team recalculated just now.");
         completeOperation(operationId, "Team recalculated.");
       } else if (result.state === "error" && selectedTeamIdRef.current === teamIdAtStart) {
+        const failure = classifyOperationFailure(result.error, operationId);
         setTeamRecalculateState("error");
-        setTeamRecalculateMessage(`Could not recalculate this team. ${getErrorMessage(result.error)}`);
+        setTeamRecalculateMessage(failure.message);
         const retryState = { ...importMonitorStateRef.current, candidateFingerprint: null, stableScans: 0, phase: "stability-wait" as const };
         importMonitorStateRef.current = retryState;
-        setImportMonitorState(retryState);
-        const message = `Could not recalculate this team. ${getErrorMessage(result.error)} Your previous metrics remain available.`;
+      setImportMonitorState(retryState);
+      const message = `${failure.message} ${failure.errorKind === "locked-sync" ? "No partial data was used." : "Your previous metrics remain available."}`;
         setStatus(message);
-        completeOperation(operationId, message, true, "Try again", "retry-recalculate-team");
+        completeOperation(operationId, message, true, failure.recovery, "retry-recalculate-team", { errorKind: failure.errorKind, lastKnownAvailable: true, stale: true, diagnosticRef: failure.diagnosticRef });
       }
     } finally {
       recalculateActiveRef.current = false;
@@ -3220,7 +3114,7 @@ export default function App(): JSX.Element {
     }
   }
 
-  function handlePilotLogin(event: FormEvent<HTMLFormElement>): void {
+  async function handlePilotLogin(event: FormEvent<HTMLFormElement>): Promise<void> {
     event.preventDefault();
     const candidate = pinInput.trim();
     if (!isFiveDigitPin(candidate)) {
@@ -3228,21 +3122,16 @@ export default function App(): JSX.Element {
       return;
     }
 
-    const matchingPin = pilotPins.find((pin) => pin.pin === candidate && pin.active);
-    if (!matchingPin) {
-      setLoginError("PIN not found or inactive.");
+    const session = await requestPilotSession(candidate).catch(() => null);
+    if (!session) {
+      setLoginError("Access denied or unavailable. Ask the pilot operator to verify your access.");
       return;
     }
 
-    const authenticatedAt = new Date().toISOString();
-    setPilotPins((current) =>
-      current.map((pin) => pin.id === matchingPin.id ? { ...pin, lastUsedAt: authenticatedAt } : pin),
-    );
     setPilotSession({
-      pinId: matchingPin.id,
-      label: matchingPin.label,
-      role: matchingPin.role,
-      authenticatedAt,
+      sessionId: session.sessionId,
+      label: session.label,
+      expiresAt: session.expiresAt,
     });
     setPinInput("");
     setLoginError("");
@@ -3252,80 +3141,6 @@ export default function App(): JSX.Element {
     setPilotSession(null);
     setPage("workspace");
     setMobileNavOpen(false);
-  }
-
-  function handleAddPilotPin(event: FormEvent<HTMLFormElement>): void {
-    event.preventDefault();
-    const pin = newPilotPin.trim();
-    const label = newPilotPinLabel.trim() || (newPilotPinRole === "admin" ? "Admin" : "Pilot User");
-
-    if (!isFiveDigitPin(pin)) {
-      setStatus("Pilot PIN must be exactly 5 digits.");
-      return;
-    }
-
-    if (pilotPins.some((item) => item.pin === pin)) {
-      setStatus("This pilot PIN already exists.");
-      return;
-    }
-
-    setPilotPins((current) => [
-      ...current,
-      {
-        id: crypto.randomUUID(),
-        pin,
-        label,
-        role: newPilotPinRole,
-        active: true,
-        createdAt: new Date().toISOString(),
-      },
-    ]);
-    setNewPilotPin("");
-    setNewPilotPinLabel("");
-    setNewPilotPinRole("user");
-    setStatus(`Pilot PIN added for ${label}.`);
-  }
-
-  function canMutatePilotPin(pin: PilotAccessPin): boolean {
-    if (pin.role !== "admin") {
-      return true;
-    }
-
-    return pilotPins.filter((item) => item.role === "admin" && item.active && item.id !== pin.id).length > 0;
-  }
-
-  function handleTogglePilotPin(pinId: string): void {
-    const target = pilotPins.find((pin) => pin.id === pinId);
-    if (!target) {
-      return;
-    }
-
-    if (target.active && !canMutatePilotPin(target)) {
-      setStatus("At least one active admin PIN must remain.");
-      return;
-    }
-
-    setPilotPins((current) => current.map((pin) => pin.id === pinId ? { ...pin, active: !pin.active } : pin));
-    if (target.id === pilotSession?.pinId && target.active) {
-      handlePilotLogout();
-    }
-  }
-
-  function handleDeletePilotPin(pinId: string): void {
-    const target = pilotPins.find((pin) => pin.id === pinId);
-    if (!target) {
-      return;
-    }
-
-    if (!canMutatePilotPin(target)) {
-      setStatus("At least one active admin PIN must remain.");
-      return;
-    }
-
-    setPilotPins((current) => current.filter((pin) => pin.id !== pinId));
-    if (target.id === pilotSession?.pinId) {
-      handlePilotLogout();
-    }
   }
 
   function renderPilotLoginScreen(): JSX.Element {
@@ -3375,96 +3190,6 @@ export default function App(): JSX.Element {
     );
   }
 
-  function renderMasterAdminPage(): JSX.Element {
-    const activePins = pilotPins.filter((pin) => pin.active).length;
-    const adminPins = pilotPins.filter((pin) => pin.role === "admin").length;
-
-    return (
-      <section className="page-section pilot-admin-page">
-        <div className="pilot-admin-shell">
-          <header className="pilot-admin-head">
-            <div>
-              <div className="exec-figma-section-head"><span>Master Admin</span><small>PIN access for pilot users</small></div>
-              <h1>Pilot access control</h1>
-              <p>Manage temporary 5 digit PINs for the DEMO/PILOT hosted version.</p>
-            </div>
-            <div className="pilot-admin-summary">
-              <article><strong>{pilotPins.length}</strong><span>Total PINs</span></article>
-              <article><strong>{activePins}</strong><span>Active</span></article>
-              <article><strong>{adminPins}</strong><span>Admins</span></article>
-            </div>
-          </header>
-
-          <form className="pilot-admin-create" onSubmit={handleAddPilotPin}>
-            <label>
-              Label
-              <input value={newPilotPinLabel} onChange={(event) => setNewPilotPinLabel(event.target.value)} placeholder="e.g. Payments pilot" />
-            </label>
-            <label>
-              5 digit PIN
-              <input
-                value={newPilotPin}
-                onChange={(event) => setNewPilotPin(event.target.value.replace(/\D/g, "").slice(0, 5))}
-                inputMode="numeric"
-                pattern="[0-9]{5}"
-                maxLength={5}
-                placeholder="12345"
-              />
-            </label>
-            <label>
-              Role
-              <select value={newPilotPinRole} onChange={(event) => setNewPilotPinRole(event.target.value as PilotAccessRole)}>
-                <option value="user">Pilot user</option>
-                <option value="admin">Admin</option>
-              </select>
-            </label>
-            <button type="submit">Add PIN</button>
-          </form>
-
-          <section className="pilot-pin-table-card">
-            <div className="pilot-pin-table-head">
-              <strong>Access PINs</strong>
-              <span>Frontend pilot gate. Replace with backend auth before paid SaaS launch.</span>
-            </div>
-            <div className="exec-table-wrap">
-              <table className="pilot-pin-table">
-                <thead>
-                  <tr>
-                    <th>Label</th>
-                    <th>PIN</th>
-                    <th>Role</th>
-                    <th>Status</th>
-                    <th>Last used</th>
-                    <th>Actions</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  {pilotPins.map((pin) => (
-                    <tr key={pin.id}>
-                      <td>{pin.label}</td>
-                      <td><code>{pin.pin}</code></td>
-                      <td>{pin.role === "admin" ? "Admin" : "Pilot user"}</td>
-                      <td><span className={`pilot-status-pill ${pin.active ? "active" : "inactive"}`}>{pin.active ? "Active" : "Inactive"}</span></td>
-                      <td>{pin.lastUsedAt ? formatDateText(pin.lastUsedAt) : "-"}</td>
-                      <td>
-                        <button type="button" onClick={() => handleTogglePilotPin(pin.id)}>
-                          {pin.active ? "Disable" : "Enable"}
-                        </button>
-                        <button type="button" onClick={() => handleDeletePilotPin(pin.id)}>
-                          Delete
-                        </button>
-                      </td>
-                    </tr>
-                  ))}
-                </tbody>
-              </table>
-            </div>
-          </section>
-        </div>
-      </section>
-    );
-  }
-
   function renderWorkspaceAccessPanel(variant: "compact" | "full" = "full"): JSX.Element {
     return (
       <section className={`table-panel workspace-recent-panel metrics-workspace-panel ${variant}`}>
@@ -3477,7 +3202,7 @@ export default function App(): JSX.Element {
           </div>
         </div>
         <div className="metrics-workspace-actions">
-          <button className="soft-btn" onClick={handlePickWorkspace} disabled={busy || !fsApiSupported} aria-describedby={busy ? "metrics-workspace-lock" : undefined}>
+          <button className="soft-btn" onClick={handlePickWorkspace} disabled={busy} aria-describedby={busy ? "metrics-workspace-lock" : undefined}>
             {workspaceHandle ? "Switch Workspace" : "Choose Workspace"}
           </button>
           {workspaceOperationHint() ? <small id="metrics-workspace-lock" className="operation-lock-hint">{workspaceOperationHint()}</small> : null}
@@ -4497,6 +4222,11 @@ export default function App(): JSX.Element {
       return;
     }
 
+    const existingOperationId = operationRef.current?.state === "active" ? operationRef.current.operationId : null;
+    const operationId = existingOperationId ?? beginOperation("Saving workspace", "Saving workspace view settings…", "Save workspace view");
+    if (operationId === null) return;
+    const ownsOperation = existingOperationId === null;
+
     const config: WorkspaceConfig = {
       version: 1,
       name: workspaceHandle.name,
@@ -4506,9 +4236,18 @@ export default function App(): JSX.Element {
       metricConfig: workspaceMetricConfig,
     };
 
-    await saveWorkspaceConfig(workspaceHandle, config);
-    setWorkspaceProfiles(profiles);
-    setActiveWorkspaceProfileId(nextActiveProfileId);
+    try {
+      updateOperation(operationId, "Writing local data", "Saving workspace view settings…");
+      await saveWorkspaceConfig(workspaceHandle, config);
+      updateOperation(operationId, "Reading back local data", "Verifying workspace view settings…");
+      setWorkspaceProfiles(profiles);
+      setActiveWorkspaceProfileId(nextActiveProfileId);
+      if (ownsOperation) completeOperation(operationId, "Workspace view settings saved.");
+    } catch (error) {
+      const failure = classifyOperationFailure(error, operationId);
+      if (ownsOperation) completeOperation(operationId, failure.message, true, failure.recovery, "retry-workspace", { errorKind: failure.errorKind, lastKnownAvailable: true, stale: true, diagnosticRef: failure.diagnosticRef });
+      throw error;
+    }
   }
 
   async function persistWorkspaceMetricConfig(nextConfig: WorkspaceMetricConfig): Promise<void> {
@@ -4517,6 +4256,10 @@ export default function App(): JSX.Element {
     }
 
     const normalized = normalizeWorkspaceMetricConfig(nextConfig);
+    const existingOperationId = operationRef.current?.state === "active" ? operationRef.current.operationId : null;
+    const operationId = existingOperationId ?? beginOperation("Saving workspace", "Saving workspace metric settings…", "Save metric settings");
+    if (operationId === null) return;
+    const ownsOperation = existingOperationId === null;
     const config: WorkspaceConfig = {
       version: 1,
       name: workspaceHandle.name,
@@ -4526,8 +4269,26 @@ export default function App(): JSX.Element {
       metricConfig: normalized,
     };
 
-    await saveWorkspaceConfig(workspaceHandle, config);
-    setWorkspaceMetricConfig(normalized);
+    try {
+      updateOperation(operationId, "Writing local data", "Saving workspace metric settings…");
+      await saveWorkspaceConfig(workspaceHandle, config);
+      updateOperation(operationId, "Reading back local data", "Verifying workspace metric settings…");
+      setWorkspaceMetricConfig(normalized);
+      if (ownsOperation) completeOperation(operationId, "Workspace metric settings saved.");
+    } catch (error) {
+      const failure = classifyOperationFailure(error, operationId);
+      const message = `${failure.message} Your previous metric settings are unchanged.`;
+      setStatus(message);
+      if (ownsOperation) {
+        completeOperation(operationId, message, true, failure.recovery, failure.recoveryAction, {
+          errorKind: failure.errorKind,
+          lastKnownAvailable: true,
+          stale: true,
+          diagnosticRef: failure.diagnosticRef,
+        });
+      }
+      throw error;
+    }
   }
 
   async function refreshRememberedWorkspaces(): Promise<void> {
@@ -4594,29 +4355,42 @@ export default function App(): JSX.Element {
   }
 
   async function handlePickWorkspace(): Promise<void> {
+    if (busy) {
+      setStatus(`Unavailable while ${operation?.phase ?? "an operation"} is in progress.`);
+      return;
+    }
     if (!fsApiSupported) {
-      setStatus("File System Access API is not available in this browser.");
+      const operationId = beginOperation("Opening workspace", "This browser cannot access local folders. Use manual import.", "Manual import");
+      if (operationId === null) return;
+      completeOperation(operationId, "This browser cannot access local folders. Use manual import.", true, "Manual import", "manual-import", { errorKind: "unsupported-browser", lastKnownAvailable: Boolean(workspaceHandle), stale: Boolean(workspaceHandle), diagnosticRef: `op-${operationId}` });
       return;
     }
 
     const operationId = beginOperation("Opening workspace", "Loading workspace and teams…", "Choose Workspace");
+    if (operationId === null) return;
     try {
+      updateOperation(operationId, "Checking workspace", "Checking workspace access…");
       const handle = await pickWorkspaceDirectory();
       await rememberWorkspaceDirectory(handle);
       await refreshRememberedWorkspaces();
 
       updateOperation(operationId, "Updating local helper", "Updating the local Jira helper…");
       const helperResult = await reinstallWorkspaceHelper(handle);
-      updateOperation(operationId, "Opening workspace", "Loading workspace and teams…");
+      updateOperation(operationId, "Reading back local data", "Verifying workspace data…");
       const loadedTeams = await applyWorkspaceHandle(handle);
       setPage(loadedTeams.length > 0 ? "dashboard" : "workspace");
       const message = workspaceLoadStatus(handle, loadedTeams, helperResult);
       setStatus(message);
       completeOperation(operationId, message);
     } catch (error) {
-      const message = `Could not open workspace. ${getErrorMessage(error)} Choose Workspace to try again.`;
+      const failure = classifyOperationFailure(error, operationId);
+      const recoveryAction = failure.errorKind === "unsupported-browser" ? "manual-import" : "choose-workspace";
+      const recovery = recoveryAction === "manual-import" ? "Manual import" : "Choose Workspace";
+      const message = recoveryAction === "manual-import"
+        ? failure.message
+        : "Workspace selection was not completed. Choose Workspace again.";
       setStatus(message);
-      completeOperation(operationId, message, true, "Choose Workspace", "retry-workspace");
+      completeOperation(operationId, message, true, recovery, recoveryAction, { errorKind: failure.errorKind, lastKnownAvailable: Boolean(workspaceHandle), stale: Boolean(workspaceHandle), diagnosticRef: failure.diagnosticRef });
     } finally {
       // The operation ID guard prevents a stale open from clearing a newer action.
       if (operationRef.current?.operationId === operationId && operationRef.current.state === "active") {
@@ -4626,25 +4400,37 @@ export default function App(): JSX.Element {
   }
 
   async function handleOpenRememberedWorkspace(workspaceId: string): Promise<void> {
+    if (busy) {
+      setStatus(`Unavailable while ${operation?.phase ?? "an operation"} is in progress.`);
+      return;
+    }
     if (!fsApiSupported) {
-      setStatus("File System Access API is not available in this browser.");
+      const operationId = beginOperation("Opening workspace", "This browser cannot access local folders. Use manual import.", "Manual import");
+      if (operationId === null) return;
+      completeOperation(operationId, "This browser cannot access local folders. Use manual import.", true, "Manual import", "manual-import", { errorKind: "unsupported-browser", lastKnownAvailable: Boolean(workspaceHandle), stale: Boolean(workspaceHandle), diagnosticRef: `op-${operationId}` });
       return;
     }
 
     const operationId = beginOperation("Opening workspace", "Loading workspace and teams…", "Open workspace");
+    if (operationId === null) return;
+    if (operationRef.current?.operationId === operationId) {
+      const current = operationRef.current;
+      operationRef.current = { ...current, recoveryWorkspaceId: workspaceId };
+      setOperation(operationRef.current);
+    }
     try {
       updateOperation(operationId, "Restoring access", "Workspace permission is required to continue.");
       const handle = await openRememberedWorkspaceById(workspaceId);
       if (!handle) {
         const message = "Could not open remembered workspace. Permission was not granted. Choose Workspace manually.";
         setStatus(message);
-        completeOperation(operationId, message, true, "Choose Workspace", "retry-workspace");
+        completeOperation(operationId, message, true, "Re-check permission", "recheck-permission", { errorKind: "permission-denied", lastKnownAvailable: Boolean(workspaceHandle), stale: Boolean(workspaceHandle), diagnosticRef: `op-${operationId}` });
         return;
       }
 
       updateOperation(operationId, "Updating local helper", "Updating the local Jira helper…");
       const helperResult = await reinstallWorkspaceHelper(handle);
-      updateOperation(operationId, "Opening workspace", "Loading workspace and teams…");
+      updateOperation(operationId, "Reading back local data", "Verifying workspace data…");
       const loadedTeams = await applyWorkspaceHandle(handle);
       setPage(loadedTeams.length > 0 ? "dashboard" : "workspace");
       const message = workspaceLoadStatus(handle, loadedTeams, helperResult);
@@ -4652,9 +4438,9 @@ export default function App(): JSX.Element {
       completeOperation(operationId, message);
       await refreshRememberedWorkspaces();
     } catch (error) {
-      const message = `Could not open remembered workspace. ${getErrorMessage(error)} Choose Workspace manually.`;
-      setStatus(message);
-      completeOperation(operationId, message, true, "Choose Workspace", "retry-workspace");
+      const failure = classifyOperationFailure(error, operationId);
+      setStatus(failure.message);
+      completeOperation(operationId, failure.message, true, failure.recovery, failure.recoveryAction, { errorKind: failure.errorKind, lastKnownAvailable: Boolean(workspaceHandle), stale: Boolean(workspaceHandle), diagnosticRef: failure.diagnosticRef });
     } finally {
       if (operationRef.current?.operationId === operationId && operationRef.current.state === "active") {
         completeOperation(operationId, "Workspace operation finished.");
@@ -4665,12 +4451,24 @@ export default function App(): JSX.Element {
   function handleOperationRecovery(): void {
     const action = operation?.recoveryAction;
     if (!action || operation?.state !== "error" || busy) return;
+    retryCountRef.current = nextRetryCount(operation.retryCount);
     if (action === "retry-workspace") {
       void handlePickWorkspace();
     } else if (action === "retry-recalculate-all") {
       void handleRecalculateAll();
     } else if (action === "retry-team-save") {
       teamSaveRetryRef.current?.();
+    } else if (action === "recheck-permission") {
+      const recoveryWorkspaceId = operation?.recoveryWorkspaceId;
+      if (recoveryWorkspaceId) {
+        void handleOpenRememberedWorkspace(recoveryWorkspaceId);
+      } else {
+        void handlePickWorkspace();
+      }
+    } else if (action === "choose-workspace") {
+      void handlePickWorkspace();
+    } else if (action === "manual-import") {
+      setPage("import");
     } else {
       void handleRecalculateSelectedTeam("manual");
     }
@@ -4691,6 +4489,10 @@ export default function App(): JSX.Element {
   }
 
   async function handleCreateWorkspaceProfile(): Promise<void> {
+    if (busy) {
+      setStatus(`Unavailable while ${operation?.phase ?? "an operation"} is in progress.`);
+      return;
+    }
     if (!workspaceHandle) {
       setStatus("Choose workspace first.");
       return;
@@ -4728,6 +4530,10 @@ export default function App(): JSX.Element {
   }
 
   async function handleDeleteActiveWorkspaceProfile(): Promise<void> {
+    if (busy) {
+      setStatus(`Unavailable while ${operation?.phase ?? "an operation"} is in progress.`);
+      return;
+    }
     if (!workspaceHandle || activeWorkspaceProfileId === ALL_TEAMS_PROFILE_ID) {
       return;
     }
@@ -4743,6 +4549,10 @@ export default function App(): JSX.Element {
   }
 
   async function handleToggleTeamInWorkspaceProfile(teamId: string): Promise<void> {
+    if (busy) {
+      setStatus(`Unavailable while ${operation?.phase ?? "an operation"} is in progress.`);
+      return;
+    }
     if (!workspaceHandle || !activeWorkspaceProfile) {
       return;
     }
@@ -4795,9 +4605,12 @@ export default function App(): JSX.Element {
     };
 
     const operationId = beginOperation("Saving team", "Saving team settings…", "Save team");
+    if (operationId === null) return;
     teamSaveRetryRef.current = () => void handleUpdateTeamEntityType(teamId, entityType);
     try {
+      updateOperation(operationId, "Writing local data", "Saving team settings…");
       await saveTeamConfig(updatedTeam);
+      updateOperation(operationId, "Reading back local data", "Verifying team settings…");
       const refreshed = workspaceHandle
         ? await listTeams(workspaceHandle)
         : teams.map((item) => (item.teamId === teamId ? updatedTeam : item));
@@ -4806,9 +4619,10 @@ export default function App(): JSX.Element {
       setActiveMetricScope(getMetricScopeForEntityType(entityType));
       setStatus(`${team.config.teamName} moved to ${TEAM_ENTITY_LABELS[entityType]}.`);
     } catch (error) {
-      const message = `Could not save team settings. ${getErrorMessage(error)} Your previous settings are unchanged.`;
+      const failure = classifyOperationFailure(error, operationId);
+      const message = `${failure.message} Your previous settings are unchanged.`;
       setStatus(message);
-      completeOperation(operationId, message, true, "Try again", "retry-team-save");
+      completeOperation(operationId, message, true, failure.recovery, "retry-team-save", { errorKind: failure.errorKind, lastKnownAvailable: true, stale: true, diagnosticRef: failure.diagnosticRef });
     } finally {
       if (operationRef.current?.operationId === operationId && operationRef.current.state === "active") {
         completeOperation(operationId, "Team settings saved.");
@@ -4836,7 +4650,8 @@ export default function App(): JSX.Element {
       return;
     }
 
-    setBusy(true);
+    const operationId = beginOperation("Saving team", "Saving team settings…", "Save team settings");
+    if (operationId === null) return;
     try {
       const createdTeam = await addTeam(workspaceHandle, name, newTeamDescription.trim() || undefined, newTeamEntityType, jql);
       const loadedTeams = await listTeams(workspaceHandle);
@@ -4865,31 +4680,41 @@ export default function App(): JSX.Element {
       setShowAddTeamModal(false);
       setStatus(`${TEAM_ENTITY_LABELS[newTeamEntityType]} "${name}" created. Use renew-team.command in the workspace folder to pull Jira data.`);
     } catch (error) {
-      setStatus(`Failed to create team: ${getErrorMessage(error)}`);
+      failOperation(operationId, error, "Failed to create team.");
     } finally {
-      setBusy(false);
+      if (operationRef.current?.operationId === operationId && operationRef.current.state === "active") {
+        completeOperation(operationId, "Team settings saved.");
+      }
     }
   }
 
   async function handleRecalculateAll(): Promise<void> {
+    if (busy) {
+      setStatus(`Unavailable while ${operation?.phase ?? "an operation"} is in progress.`);
+      return;
+    }
     if (!workspaceHandle) {
       return;
     }
 
-    const operationId = beginOperation("Recalculating all teams", "Recalculating teams locally…", "Recalculate all");
+      const operationId = beginOperation("Recalculating all teams", "Recalculating teams locally…", "Recalculate all");
+    if (operationId === null) return;
     try {
+      updateOperation(operationId, "Writing local data", "Writing local team metrics…");
       const currentTeams = await listTeams(workspaceHandle);
       for (const team of currentTeams) {
         await analyzeTeam(team);
       }
 
+      updateOperation(operationId, "Reading back local data", "Verifying recalculated team data…");
       const refreshed = await listTeams(workspaceHandle);
       const refreshedWithProgress: TeamRuntime[] = [];
       let savedSnapshots = 0;
 
       for (const team of refreshed) {
         const snapshot = buildTeamProgressSnapshot(team, new Date());
-        const saveResult = await saveTeamProgressSnapshot(team, snapshot);
+          updateOperation(operationId, "Writing local data", "Saving team progress…");
+          const saveResult = await saveTeamProgressSnapshot(team, snapshot);
         if (saveResult.saved) {
           savedSnapshots += 1;
         }
@@ -4911,9 +4736,10 @@ export default function App(): JSX.Element {
       setStatus(message);
       completeOperation(operationId, message);
     } catch (error) {
-      const message = `Could not recalculate all teams. ${getErrorMessage(error)} Your previous metrics remain available.`;
+      const failure = classifyOperationFailure(error, operationId);
+      const message = `${failure.message} Your previous metrics remain available.`;
       setStatus(message);
-      completeOperation(operationId, message, true, "Try again", "retry-recalculate-all");
+      completeOperation(operationId, message, true, failure.recovery, "retry-recalculate-all", { errorKind: failure.errorKind, lastKnownAvailable: true, stale: true, diagnosticRef: failure.diagnosticRef });
     } finally {
       if (operationRef.current?.operationId === operationId && operationRef.current.state === "active") {
         completeOperation(operationId, "All-team recalculation finished.");
@@ -4923,6 +4749,11 @@ export default function App(): JSX.Element {
 
   async function handleSaveAdvancedConfig(event: FormEvent<HTMLFormElement>): Promise<void> {
     event.preventDefault();
+
+    if (busy) {
+      setStatus(`Unavailable while ${operation?.phase ?? "an operation"} is in progress.`);
+      return;
+    }
 
     if (!selectedTeam || !draftConfig) {
       setStatus("Select team first.");
@@ -4987,6 +4818,7 @@ export default function App(): JSX.Element {
     const compatibilityGroups = legacyGroupsFromUnifiedFlowStatusConfig(unifiedValidation.config);
 
     const operationId = beginOperation("Saving team", "Saving settings…", "Save team settings");
+    if (operationId === null) return;
     teamSaveRetryRef.current = () => void handleSaveAdvancedConfig(event);
     try {
     const updatedConfig: TeamConfig = {
@@ -5030,14 +4862,18 @@ export default function App(): JSX.Element {
         config: updatedConfig,
       };
 
+      updateOperation(operationId, "Writing local data", "Saving team settings…");
       await saveTeamConfig(updatedTeam);
+      updateOperation(operationId, "Writing local data", "Writing recalculated team metrics…");
       await analyzeTeam(updatedTeam);
+      updateOperation(operationId, "Reading back local data", "Verifying team metrics…");
       await refreshTeams();
       setStatus("Team config saved and metrics recalculated.");
     } catch (error) {
-      const message = `Could not save team settings. ${getErrorMessage(error)} Your previous settings are unchanged.`;
+      const failure = classifyOperationFailure(error, operationId);
+      const message = `${failure.message} Your previous settings are unchanged.`;
       setStatus(message);
-      completeOperation(operationId, message, true, "Try again", "retry-team-save");
+      completeOperation(operationId, message, true, failure.recovery, "retry-team-save", { errorKind: failure.errorKind, lastKnownAvailable: true, stale: true, diagnosticRef: failure.diagnosticRef });
     } finally {
       if (operationRef.current?.operationId === operationId && operationRef.current.state === "active") {
         completeOperation(operationId, "Team settings saved.");
@@ -5068,16 +4904,22 @@ export default function App(): JSX.Element {
       },
     };
 
-    setBusy(true);
+    const operationId = beginOperation("Saving team", "Saving team settings…", "Save team settings");
+    if (operationId === null) return;
     try {
+      updateOperation(operationId, "Writing local data", "Saving team settings…");
       await saveTeamConfig(updatedTeam);
+      updateOperation(operationId, "Writing local data", "Writing recalculated team metrics…");
       await analyzeTeam(updatedTeam);
+      updateOperation(operationId, "Reading back local data", "Verifying team metrics…");
       await refreshTeams();
       setStatus(`Bug type metric config saved for ${selectedTeam.config.teamName}.`);
     } catch (error) {
-      setStatus(`Failed to save bug metric config: ${getErrorMessage(error)}`);
+      failOperation(operationId, error, "Failed to save bug metric config.");
     } finally {
-      setBusy(false);
+      if (operationRef.current?.operationId === operationId && operationRef.current.state === "active") {
+        completeOperation(operationId, "Team settings saved.");
+      }
     }
   }
 
@@ -5086,20 +4928,25 @@ export default function App(): JSX.Element {
       return;
     }
 
-    setBusy(true);
+    const operationId = beginOperation("Saving team", "Saving team settings…", "Save team settings");
+    if (operationId === null) return;
     try {
       const updatedTeam: TeamRuntime = {
         ...selectedImportTeam,
         config: nextConfig,
       };
 
+      updateOperation(operationId, "Writing local data", "Saving team settings…");
       await saveTeamConfig(updatedTeam);
+      updateOperation(operationId, "Reading back local data", "Verifying team settings…");
       await refreshTeams();
       setStatus(successMessage);
     } catch (error) {
-      setStatus(`Failed to save team query: ${getErrorMessage(error)}`);
+      failOperation(operationId, error, "Failed to save team query.");
     } finally {
-      setBusy(false);
+      if (operationRef.current?.operationId === operationId && operationRef.current.state === "active") {
+        completeOperation(operationId, "Team settings saved.");
+      }
     }
   }
 
@@ -5182,15 +5029,20 @@ export default function App(): JSX.Element {
       manualBottleneck: nextEntries,
     };
 
-    setBusy(true);
+    const operationId = beginOperation("Saving team", "Saving team settings…", "Save team settings");
+    if (operationId === null) return;
     try {
+      updateOperation(operationId, "Writing local data", "Saving bottleneck data…");
       await saveTeamBottleneckEntries(updatedTeam, nextEntries);
+      updateOperation(operationId, "Reading back local data", "Verifying bottleneck data…");
       await refreshTeams();
       setStatus(`Bottleneck saved for ${selectedTeam.config.teamName} (${period}).`);
     } catch (error) {
-      setStatus(`Failed to save bottleneck: ${getErrorMessage(error)}`);
+      failOperation(operationId, error, "Failed to save bottleneck.");
     } finally {
-      setBusy(false);
+      if (operationRef.current?.operationId === operationId && operationRef.current.state === "active") {
+        completeOperation(operationId, "Team settings saved.");
+      }
     }
   }
 
@@ -5205,9 +5057,12 @@ export default function App(): JSX.Element {
       manualBottleneck: nextEntries,
     };
 
-    setBusy(true);
+    const operationId = beginOperation("Saving team", "Saving team settings…", "Save team settings");
+    if (operationId === null) return;
     try {
+      updateOperation(operationId, "Writing local data", "Saving bottleneck data…");
       await saveTeamBottleneckEntries(updatedTeam, nextEntries);
+      updateOperation(operationId, "Reading back local data", "Verifying bottleneck data…");
       await refreshTeams();
       if (bottleneckPeriodInput === period) {
         setBottleneckRows(buildBottleneckRowsFromStatuses(bottleneckFlowStatuses));
@@ -5215,9 +5070,11 @@ export default function App(): JSX.Element {
       }
       setStatus(`Removed bottleneck entry ${period} for ${selectedTeam.config.teamName}.`);
     } catch (error) {
-      setStatus(`Failed to delete bottleneck entry: ${getErrorMessage(error)}`);
+      failOperation(operationId, error, "Failed to delete bottleneck entry.");
     } finally {
-      setBusy(false);
+      if (operationRef.current?.operationId === operationId && operationRef.current.state === "active") {
+        completeOperation(operationId, "Team settings saved.");
+      }
     }
   }
 
@@ -5304,15 +5161,20 @@ export default function App(): JSX.Element {
       },
     };
 
-    setBusy(true);
+    const operationId = beginOperation("Saving team", "Saving team settings…", "Save team settings");
+    if (operationId === null) return;
     try {
+      updateOperation(operationId, "Writing local data", "Saving flow template…");
       await saveTeamConfig(updatedTeam);
+      updateOperation(operationId, "Reading back local data", "Verifying flow template…");
       await refreshTeams();
       setStatus("Flow template saved for " + selectedTeam.config.teamName + ".");
     } catch (error) {
-      setStatus("Failed to save flow template: " + getErrorMessage(error));
+      failOperation(operationId, error, "Failed to save flow template.");
     } finally {
-      setBusy(false);
+      if (operationRef.current?.operationId === operationId && operationRef.current.state === "active") {
+        completeOperation(operationId, "Team settings saved.");
+      }
     }
   }
 
@@ -5340,15 +5202,20 @@ export default function App(): JSX.Element {
       },
     };
 
-    setBusy(true);
+    const operationId = beginOperation("Saving team", "Saving team settings…", "Save team settings");
+    if (operationId === null) return;
     try {
+      updateOperation(operationId, "Writing local data", "Saving flow template…");
       await saveTeamConfig(updatedTeam);
+      updateOperation(operationId, "Reading back local data", "Verifying flow template…");
       await refreshTeams();
       setStatus("Flow template updated from current month rows for " + selectedTeam.config.teamName + ".");
     } catch (error) {
-      setStatus("Failed to save flow template from rows: " + getErrorMessage(error));
+      failOperation(operationId, error, "Failed to save flow template from rows.");
     } finally {
-      setBusy(false);
+      if (operationRef.current?.operationId === operationId && operationRef.current.state === "active") {
+        completeOperation(operationId, "Team settings saved.");
+      }
     }
   }
 
@@ -5396,10 +5263,14 @@ export default function App(): JSX.Element {
       },
     };
 
-    setBusy(true);
+    const operationId = beginOperation("Saving team", "Saving team settings…", "Save team settings");
+    if (operationId === null) return;
     try {
+      updateOperation(operationId, "Writing local data", "Saving issue exclusions…");
       await saveTeamConfig(updatedTeam);
+      updateOperation(operationId, "Writing local data", "Writing recalculated team metrics…");
       await analyzeTeam(updatedTeam);
+      updateOperation(operationId, "Reading back local data", "Verifying team metrics…");
       await refreshTeams();
 
       setStatus(
@@ -5408,9 +5279,11 @@ export default function App(): JSX.Element {
           : `Excluded ${keysToAdd.length} data-quality outliers for ${selectedTeam.config.teamName}.`,
       );
     } catch (error) {
-      setStatus(`Failed to exclude issue(s): ${getErrorMessage(error)}`);
+      failOperation(operationId, error, "Failed to exclude issue(s).");
     } finally {
-      setBusy(false);
+      if (operationRef.current?.operationId === operationId && operationRef.current.state === "active") {
+        completeOperation(operationId, "Team settings saved.");
+      }
     }
   }
 
@@ -5440,16 +5313,22 @@ export default function App(): JSX.Element {
       },
     };
 
-    setBusy(true);
+    const operationId = beginOperation("Saving team", "Saving team settings…", "Save team settings");
+    if (operationId === null) return;
     try {
+      updateOperation(operationId, "Writing local data", "Saving issue exclusions…");
       await saveTeamConfig(updatedTeam);
+      updateOperation(operationId, "Writing local data", "Writing recalculated team metrics…");
       await analyzeTeam(updatedTeam);
+      updateOperation(operationId, "Reading back local data", "Verifying team metrics…");
       await refreshTeams();
       setStatus("Restored " + issueKey + " into " + selectedTeam.config.teamName + " metrics.");
     } catch (error) {
-      setStatus(`Failed to restore issue: ${getErrorMessage(error)}`);
+      failOperation(operationId, error, "Failed to restore issue.");
     } finally {
-      setBusy(false);
+      if (operationRef.current?.operationId === operationId && operationRef.current.state === "active") {
+        completeOperation(operationId, "Team settings saved.");
+      }
     }
   }
 
@@ -5476,16 +5355,22 @@ export default function App(): JSX.Element {
       },
     };
 
-    setBusy(true);
+    const operationId = beginOperation("Saving team", "Saving team settings…", "Save team settings");
+    if (operationId === null) return;
     try {
+      updateOperation(operationId, "Writing local data", "Saving issue exclusions…");
       await saveTeamConfig(updatedTeam);
+      updateOperation(operationId, "Writing local data", "Writing recalculated team metrics…");
       await analyzeTeam(updatedTeam);
+      updateOperation(operationId, "Reading back local data", "Verifying team metrics…");
       await refreshTeams();
       setStatus("Restored all excluded anomalies for " + selectedTeam.config.teamName + ".");
     } catch (error) {
-      setStatus(`Failed to restore anomalies: ${getErrorMessage(error)}`);
+      failOperation(operationId, error, "Failed to restore anomalies.");
     } finally {
-      setBusy(false);
+      if (operationRef.current?.operationId === operationId && operationRef.current.state === "active") {
+        completeOperation(operationId, "Team settings saved.");
+      }
     }
   }
   function handleToggleSleLine(line: SleLineKey): void {
@@ -5545,16 +5430,22 @@ export default function App(): JSX.Element {
       },
     };
 
-    setBusy(true);
+    const operationId = beginOperation("Saving team", "Saving team settings…", "Save team settings");
+    if (operationId === null) return;
     try {
+      updateOperation(operationId, "Writing local data", "Saving SLE settings…");
       await saveTeamConfig(updatedTeam);
+      updateOperation(operationId, "Writing local data", "Writing recalculated team metrics…");
       await analyzeTeam(updatedTeam);
+      updateOperation(operationId, "Reading back local data", "Verifying team metrics…");
       await refreshTeams();
       setStatus(`SLE filter updated for ${selectedTeam.config.teamName}: ${nextTypes.join(", ")}.`);
     } catch (error) {
-      setStatus(`Failed to update SLE issue type filter: ${getErrorMessage(error)}`);
+      failOperation(operationId, error, "Failed to update SLE issue type filter.");
     } finally {
-      setBusy(false);
+      if (operationRef.current?.operationId === operationId && operationRef.current.state === "active") {
+        completeOperation(operationId, "Team settings saved.");
+      }
     }
   }
 
@@ -7061,30 +6952,18 @@ export default function App(): JSX.Element {
             <Upload className="nav-icon" size={17} />
             Import
           </button>
-          {pilotSession.role === "admin" ? (
-            <button
-              className={page === "admin" ? "nav-link active" : "nav-link"}
-              onClick={() => {
-                setPage("admin");
-                setMobileNavOpen(false);
-              }}
-            >
-              <KeyRound className="nav-icon" size={17} />
-              Master Admin
-            </button>
-          ) : null}
         </nav>
 
         <div className="nav-footer">
           <div className="pilot-session-card">
-            <span>{pilotSession.role === "admin" ? "Admin" : "Pilot user"}</span>
+            <span>Pilot user</span>
             <strong>{pilotSession.label}</strong>
             <button type="button" className="pilot-logout-button" onClick={handlePilotLogout}>
               <LogOut size={13} />
               Logout
             </button>
           </div>
-          <button className="link-btn" disabled={busy || !fsApiSupported} onClick={handlePickWorkspace} aria-describedby={busy ? "workspace-operation-lock" : undefined}>
+          <button className="link-btn" disabled={busy} onClick={handlePickWorkspace} aria-describedby={busy ? "workspace-operation-lock" : undefined}>
             {workspaceHandle ? "Switch Workspace" : "Choose Workspace"}
           </button>
           {busy ? <small id="workspace-operation-lock" className="operation-lock-hint">Unavailable while {operation?.phase ?? "an operation"} is in progress.</small> : null}
@@ -7116,14 +6995,15 @@ export default function App(): JSX.Element {
                 </button>
               ) : <span className="operation-recovery">{operation.recovery}</span>
             ) : null}
+            {operation && operation.state === "error" && operation.errorKind ? <small className="operation-error-detail">Recovery category: {operation.errorKind}. Reference: {operation.diagnosticRef ?? "unavailable"}</small> : null}
           </div>
         ) : null}
 
-        {!workspaceHandle && page !== "metrics" && page !== "admin" ? (
+        {!workspaceHandle && page !== "metrics" ? (
           <section className="page-section empty-state">
             <h2>Workspace required</h2>
             <p>Select your root folder to load teams and imports.</p>
-            <button disabled={busy || !fsApiSupported} onClick={handlePickWorkspace} aria-describedby={busy ? "empty-workspace-lock" : undefined}>
+            <button disabled={busy} onClick={handlePickWorkspace} aria-describedby={busy ? "empty-workspace-lock" : undefined}>
               Choose Workspace
             </button>
             {workspaceOperationHint() ? <small id="empty-workspace-lock" className="operation-lock-hint">{workspaceOperationHint()}</small> : null}
@@ -7156,7 +7036,6 @@ export default function App(): JSX.Element {
         ) : (
           <>
             {page === "metrics" && renderMetricsSetupPage()}
-            {page === "admin" && pilotSession.role === "admin" && renderMasterAdminPage()}
 
             {workspaceHandle && page === "workspace" && (
               <section className="page-section">
@@ -13420,8 +13299,5 @@ function inferWorkflowStatusRole(statusName: string, doneStatuses: string[]): Wo
 }
 
 function getErrorMessage(error: unknown): string {
-  if (error instanceof Error) {
-    return error.message;
-  }
-  return String(error);
+  return classifyOperationFailure(error, 0).message;
 }

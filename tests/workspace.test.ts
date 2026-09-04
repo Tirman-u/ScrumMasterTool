@@ -4,6 +4,7 @@ import os from "node:os";
 import path from "node:path";
 import { buildMetrics, dedupeIssuesByLatestUpdate } from "../src/domain/metrics.js";
 import { loadWorkspace, writeTeamCache } from "../src/io/workspace.js";
+import { writeJsonFile } from "../apps/sm-tool/src/lib/workspace";
 import { workingDaysBetween } from "../apps/sm-tool/src/lib/working-days.js";
 
 const HEADER = "Issue key,Created,Resolved,Updated,Status,Resolution,Story points,Sprint,Sprint";
@@ -176,5 +177,96 @@ describe("workspace pipeline", () => {
     expect(deduped[0].storyPoints).toBe(8);
     expect(deduped[0].sprintRaw).toBe("Sprint Z");
     expect(metrics.velocityMonthly).toEqual([{ month: "2026-02", value: 8 }]);
+  });
+});
+
+describe("browser workspace JSON writes", () => {
+  class FakeDirectory {
+    files = new Map<string, { content: string; failClose?: boolean; failRead?: boolean }>();
+
+    async getFileHandle(name: string, options?: { create?: boolean }): Promise<FakeFile> {
+      if (!this.files.has(name) && !options?.create) throw new Error("not found");
+      if (!this.files.has(name)) this.files.set(name, { content: "" });
+      return new FakeFile(this, name);
+    }
+
+    async removeEntry(name: string): Promise<void> {
+      this.files.delete(name);
+    }
+  }
+
+  class FakeFile {
+    constructor(private readonly directory: FakeDirectory, public name: string) {}
+
+    async getFile(): Promise<{ text: () => Promise<string> }> {
+      const entry = this.directory.files.get(this.name);
+      if (!entry || entry.failRead) throw new Error("injected read-back failure");
+      return { text: async () => entry.content };
+    }
+
+    async createWritable(): Promise<{ write: (value: string) => Promise<void>; close: () => Promise<void> }> {
+      const entry = this.directory.files.get(this.name);
+      if (!entry) throw new Error("not found");
+      let next = "";
+      return {
+        write: async (value: string) => { next = value; },
+        close: async () => {
+          if (entry.failClose) throw new Error("injected close failure");
+          entry.content = next;
+        },
+      };
+    }
+
+    async move(nextName: string): Promise<void> {
+      const entry = this.directory.files.get(this.name);
+      if (!entry) throw new Error("not found");
+      if (this.directory.files.has(nextName)) throw new Error("destination exists");
+      this.directory.files.delete(this.name);
+      this.directory.files.set(nextName, entry);
+      this.name = nextName;
+    }
+  }
+
+  it("keeps the previous destination when temp close/read-back verification fails", async () => {
+    const directory = new FakeDirectory();
+    directory.files.set("metrics.json", { content: '{"old":true}' });
+    const originalGetFileHandle = directory.getFileHandle.bind(directory);
+    directory.getFileHandle = async (name, options) => {
+      const handle = await originalGetFileHandle(name, options);
+      if (name.startsWith(".metrics.json.sm-tmp-")) {
+        const entry = directory.files.get(name);
+        if (entry) entry.failClose = true;
+      }
+      return handle;
+    };
+
+    await expect(writeJsonFile(directory as unknown as FileSystemDirectoryHandle, "metrics.json", { fresh: true })).rejects.toThrow();
+    expect(directory.files.get("metrics.json")?.content).toBe('{"old":true}');
+    expect([...directory.files.keys()].filter((name) => name.includes(".sm-tmp-")).length).toBe(0);
+  });
+
+  it("replaces an existing destination only after verified temp content", async () => {
+    const directory = new FakeDirectory();
+    directory.files.set("metrics.json", { content: '{"old":true}' });
+    await writeJsonFile(directory as unknown as FileSystemDirectoryHandle, "metrics.json", { fresh: true });
+    expect(directory.files.get("metrics.json")?.content).toBe(JSON.stringify({ fresh: true }, null, 2));
+    expect([...directory.files.keys()].some((name) => name.includes(".sm-backup-") || name.includes(".sm-tmp-"))).toBe(false);
+  });
+
+  it("preserves the destination when stable read-back fails", async () => {
+    const directory = new FakeDirectory();
+    directory.files.set("metrics.json", { content: '{"old":true}' });
+    const originalGetFileHandle = directory.getFileHandle.bind(directory);
+    directory.getFileHandle = async (name, options) => {
+      const handle = await originalGetFileHandle(name, options);
+      if (name.startsWith(".metrics.json.sm-tmp-")) {
+        const entry = directory.files.get(name);
+        if (entry) entry.failRead = true;
+      }
+      return handle;
+    };
+
+    await expect(writeJsonFile(directory as unknown as FileSystemDirectoryHandle, "metrics.json", { fresh: true })).rejects.toThrow();
+    expect(directory.files.get("metrics.json")?.content).toBe('{"old":true}');
   });
 });

@@ -71,6 +71,22 @@ const MAX_REMEMBERED_WORKSPACES = 12;
 const TEAM_PROGRESS_HISTORY_FILE = "progress-history.json";
 const TEAM_PROGRESS_HISTORY_LIMIT = 120;
 const METRIC_SCOPES: MetricScope[] = ["team", "value-stream", "art", "portfolio"];
+const fileWriteQueues = new WeakMap<object, Promise<void>>();
+
+async function withFileWriteMutex<T>(handle: object, operation: () => Promise<T>): Promise<T> {
+  const previous = fileWriteQueues.get(handle) ?? Promise.resolve();
+  let release!: () => void;
+  const current = new Promise<void>((resolve) => { release = resolve; });
+  const queued = previous.then(() => current);
+  fileWriteQueues.set(handle, queued);
+  await previous;
+  try {
+    return await operation();
+  } finally {
+    release();
+    if (fileWriteQueues.get(handle) === queued) fileWriteQueues.delete(handle);
+  }
+}
 
 interface RememberedWorkspaceRecord {
   id: string;
@@ -1615,19 +1631,112 @@ async function collectExistingFileNames(dir: FileSystemDirectoryHandle): Promise
 async function readJsonFile<T>(dirHandle: FileSystemDirectoryHandle, fileName: string): Promise<T | null> {
   try {
     const fileHandle = await dirHandle.getFileHandle(fileName);
-    const file = await fileHandle.getFile();
-    const content = await file.text();
+    const first = await (await fileHandle.getFile()).text();
+    const second = await (await fileHandle.getFile()).text();
+    if (first !== second) return null;
+    const content = second;
     return JSON.parse(content) as T;
   } catch {
     return null;
   }
 }
 
-async function writeJsonFile(dirHandle: FileSystemDirectoryHandle, fileName: string, data: unknown): Promise<void> {
-  const fileHandle = await dirHandle.getFileHandle(fileName, { create: true });
-  const writable = await fileHandle.createWritable();
-  await writable.write(JSON.stringify(data, null, 2));
-  await writable.close();
+interface MovableFileHandle extends FileSystemFileHandle {
+  move?: (name: string) => Promise<void>;
+}
+
+function assertSafeWriteName(fileName: string): void {
+  if (!fileName || fileName === "." || fileName === ".." || /[\\/]/.test(fileName)) {
+    throw new Error("invalid local write filename");
+  }
+}
+
+async function removeFileIfPresent(dirHandle: FileSystemDirectoryHandle, fileName: string): Promise<void> {
+  try {
+    await dirHandle.removeEntry(fileName);
+  } catch {
+    // Cleanup is best effort; the original destination is never removed here.
+  }
+}
+
+async function readStableText(fileHandle: FileSystemFileHandle): Promise<string> {
+  const first = await (await fileHandle.getFile()).text();
+  const second = await (await fileHandle.getFile()).text();
+  if (first !== second) throw new Error("read-back verification failed: file changed during read");
+  return second;
+}
+
+export async function writeJsonFile(dirHandle: FileSystemDirectoryHandle, fileName: string, data: unknown): Promise<void> {
+  assertSafeWriteName(fileName);
+  await withFileWriteMutex(dirHandle, async () => {
+    const serialized = JSON.stringify(data, null, 2);
+    let lastError: unknown;
+    for (let attempt = 0; attempt < 2; attempt += 1) {
+      const suffix = `${Date.now()}-${Math.random().toString(36).slice(2, 8)}`;
+      const tempName = `.${fileName}.sm-tmp-${suffix}`;
+      const backupName = `.${fileName}.sm-backup-${suffix}`;
+      let tempHandle: FileSystemFileHandle | null = null;
+      let destinationHandle: MovableFileHandle | null = null;
+      let backupCreated = false;
+      try {
+        tempHandle = await dirHandle.getFileHandle(tempName, { create: true });
+        const writable = await tempHandle.createWritable();
+        await writable.write(serialized);
+        await writable.close();
+        const verified = await readStableText(tempHandle);
+        if (verified !== serialized) throw new Error("read-back verification failed");
+
+        try {
+          destinationHandle = (await dirHandle.getFileHandle(fileName)) as MovableFileHandle;
+        } catch {
+          destinationHandle = null;
+        }
+        if (typeof (tempHandle as MovableFileHandle).move !== "function") {
+          throw new Error("atomic local file replacement is not supported by this browser");
+        }
+        const moveTemp = (tempHandle as MovableFileHandle).move!.bind(tempHandle);
+
+        if (destinationHandle) {
+          if (typeof destinationHandle.move !== "function") {
+            throw new Error("atomic local file replacement is not supported by this browser");
+          }
+          const moveDestination = destinationHandle.move.bind(destinationHandle);
+          await moveDestination(backupName);
+          backupCreated = true;
+          try {
+            await moveTemp(fileName);
+          } catch (replaceError) {
+            try {
+              await moveDestination(fileName);
+              backupCreated = false;
+            } catch {
+              // Keep the backup so the previous contents remain recoverable.
+            }
+            throw replaceError;
+          }
+        } else {
+          await moveTemp(fileName);
+        }
+        backupCreated = false;
+        await removeFileIfPresent(dirHandle, backupName);
+        return;
+      } catch (error) {
+        lastError = error;
+        if (backupCreated && destinationHandle && typeof destinationHandle.move === "function") {
+          try {
+            await destinationHandle.move!(fileName);
+            backupCreated = false;
+          } catch {
+            // Do not overwrite the destination with unverified data.
+          }
+        }
+        await removeFileIfPresent(dirHandle, tempName);
+        if (backupCreated) await removeFileIfPresent(dirHandle, backupName);
+        if (attempt === 0) await new Promise((resolve) => globalThis.setTimeout(resolve, 25));
+      }
+    }
+    throw lastError instanceof Error ? lastError : new Error("local write could not be verified");
+  });
 }
 
 function buildDefaultTeamConfig(

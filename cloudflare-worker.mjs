@@ -1,18 +1,8 @@
 const PILOT_ACCESS_KEY = "pins";
-const MASTER_ADMIN_PIN = "24680";
 const HTML_ENTRY_PATHS = new Set(["/", "/index.html"]);
 
 function defaultPins() {
-  return [
-    {
-      id: "master-admin",
-      pin: MASTER_ADMIN_PIN,
-      label: "Master Admin",
-      role: "admin",
-      active: true,
-      createdAt: new Date().toISOString(),
-    },
-  ];
+  return [];
 }
 
 function normalizePins(value) {
@@ -28,15 +18,11 @@ function normalizePins(value) {
       role: item.role === "admin" ? "admin" : "user",
       active: item.active !== false,
       createdAt: typeof item.createdAt === "string" ? item.createdAt : new Date().toISOString(),
+      ...(typeof item.expiresAt === "string" ? { expiresAt: item.expiresAt } : {}),
+      capabilities: Array.isArray(item.capabilities) ? item.capabilities.filter((capability) => typeof capability === "string").slice(0, 20) : [],
       ...(typeof item.lastUsedAt === "string" ? { lastUsedAt: item.lastUsedAt } : {}),
     }))
     .filter((item) => /^\d{5}$/.test(item.pin));
-
-  // Keep the temporary recovery admin available during the pilot. The final SaaS
-  // authentication layer must replace this hard-coded recovery path entirely.
-  if (!pins.some((item) => item.id === "master-admin")) {
-    pins.unshift(defaultPins()[0]);
-  }
 
   return pins;
 }
@@ -92,6 +78,21 @@ export class PilotAccessStore {
       return json(pins);
     }
 
+    if (request.method === "POST") {
+      let body;
+      try {
+        body = await request.json();
+      } catch {
+        return json({ error: "Invalid JSON" }, { status: 400 });
+      }
+      const pin = typeof body?.pin === "string" ? body.pin.trim() : "";
+      const match = normalizePins(await this.state.storage.get(PILOT_ACCESS_KEY)).find((item) => item.pin === pin && item.active && (!item.expiresAt || Date.parse(item.expiresAt) > Date.now()));
+      if (!match) return json({ error: "Access denied" }, { status: 403 });
+      const lastUsedAt = new Date().toISOString();
+      await this.state.storage.put(PILOT_ACCESS_KEY, normalizePins(await this.state.storage.get(PILOT_ACCESS_KEY)).map((item) => item.id === match.id ? { ...item, lastUsedAt } : item));
+      return json({ sessionId: crypto.randomUUID(), label: match.label, role: match.role, capabilities: match.capabilities, expiresAt: match.expiresAt ?? null });
+    }
+
     return json({ error: "Method not allowed" }, { status: 405 });
   }
 }
@@ -101,6 +102,12 @@ export default {
     const url = new URL(request.url);
 
     if (url.pathname === "/api/pilot-access") {
+      if (request.method === "PUT") {
+        const operatorToken = env.PILOT_OPERATOR_TOKEN;
+        if (!operatorToken || request.headers.get("authorization") !== `Bearer ${operatorToken}`) {
+          return json({ error: "Operator authorization required" }, { status: 403 });
+        }
+      }
       const id = env.PILOT_ACCESS.idFromName("global-pilot-access");
       return env.PILOT_ACCESS.get(id).fetch(request);
     }

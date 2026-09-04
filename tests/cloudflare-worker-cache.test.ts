@@ -34,4 +34,16 @@ describe("Cloudflare entry HTML cache policy", () => {
     expect(fetch.mock.calls[0]).toHaveLength(1);
     expect(await response.text()).toBe("asset");
   });
+
+  it("fails closed for unauthenticated pilot policy writes", async () => {
+    const response = await worker.fetch(new Request("https://pilot.example/api/pilot-access", {
+      method: "PUT",
+      body: "[]",
+    }), {
+      ASSETS: { fetch: vi.fn() },
+      PILOT_ACCESS: { idFromName: vi.fn(), get: vi.fn() },
+    });
+    expect(response.status).toBe(403);
+    expect(await response.json()).toMatchObject({ error: "Operator authorization required" });
+  });
 });
