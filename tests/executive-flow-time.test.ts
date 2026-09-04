@@ -63,7 +63,7 @@ describe("Executive flow-time restoration", () => {
     expect(viewsSource).toContain('["ArrowRight", "ArrowDown"]');
     expect(viewsSource).toContain("metric-insight-point");
     expect(viewsSource).toContain("focusedPeriod");
-    expect(viewsSource).toContain("hasAdjacentValidPair");
+    expect(viewsSource).toContain("adjacentPairExists");
     expect(viewsSource).toContain("aria-modal=\"true\"");
     expect(viewsSource).toContain("window.requestAnimationFrame(() => openerRef.current?.focus())");
     expect(viewsSource).toContain("data.kpis.map((metric) => <KpiCard");

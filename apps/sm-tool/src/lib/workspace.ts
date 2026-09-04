@@ -1219,7 +1219,7 @@ function normalizeMaintenanceLifecycleSnapshot(value: unknown): TeamMetrics["mai
   const source = value.source === "local-import" || value.source === "local-cache" || value.source === "local-recalculation" ? value.source : undefined;
   return {
     maintenanceCount: numberOrUndefined(value.maintenanceCount), lifecycleCount: numberOrUndefined(value.lifecycleCount), unknownCount: numberOrUndefined(value.unknownCount), candidateCount: numberOrUndefined(value.candidateCount), maintenancePct: numberOrUndefined(value.maintenancePct), coverageState, state,
-    asOf: typeof value.asOf === "string" ? value.asOf : undefined, capturedAt: typeof value.capturedAt === "string" ? value.capturedAt : undefined, source, semanticVersion: typeof value.semanticVersion === "string" ? value.semanticVersion : undefined, reason: typeof value.reason === "string" ? value.reason : undefined,
+    asOf: typeof value.asOf === "string" ? value.asOf : undefined, capturedAt: typeof value.capturedAt === "string" ? value.capturedAt : undefined, source, semanticVersion: typeof value.semanticVersion === "string" ? value.semanticVersion : undefined, statusConfigVersion: typeof value.statusConfigVersion === "string" ? value.statusConfigVersion : undefined, reason: typeof value.reason === "string" ? value.reason : undefined,
   };
 }
 
@@ -1281,7 +1281,7 @@ function isRecord(value: unknown): value is Record<string, unknown> {
   return typeof value === "object" && value !== null && !Array.isArray(value);
 }
 
-function normalizeTeamProgressSnapshot(value: Record<string, unknown>): TeamProgressSnapshot | null {
+export function normalizeTeamProgressSnapshot(value: Record<string, unknown>): TeamProgressSnapshot | null {
   const capturedAt = typeof value.capturedAt === "string" ? value.capturedAt : "";
   if (!capturedAt) {
     return null;
@@ -1301,6 +1301,9 @@ function normalizeTeamProgressSnapshot(value: Record<string, unknown>): TeamProg
     metrics: {
       doneCount: toNonNegativeIntegerOrNull(metrics.doneCount),
       avgCycleTimeDays: toNullableNumber(metrics.avgCycleTimeDays),
+      leadTimeDays: toNullableNumber(metrics.leadTimeDays),
+      activeTimeDays: toNullableNumber(metrics.activeTimeDays),
+      cycleTimeDays: toNullableNumber(metrics.cycleTimeDays),
       sleP50Days: toNullableNumber(metrics.sleP50Days),
       sleP70Days: toNullableNumber(metrics.sleP70Days),
       sleP85Days: toNullableNumber(metrics.sleP85Days),
@@ -1311,8 +1314,22 @@ function normalizeTeamProgressSnapshot(value: Record<string, unknown>): TeamProg
       openWipCount: toNonNegativeIntegerOrNull(metrics.openWipCount) ?? 0,
       openWipAvgAgeDays: toNullableNumber(metrics.openWipAvgAgeDays),
       waitingTime: normalizeWaitingTimeSnapshot(metrics.waitingTime),
+      maintenanceLifecycle: normalizeMaintenanceLifecycleSnapshot(metrics.maintenanceLifecycle),
+      bottleneck: typeof metrics.bottleneck === "string" ? metrics.bottleneck : null,
+      source: metrics.source === "local-import" || metrics.source === "local-cache" || metrics.source === "local-recalculation" ? metrics.source : undefined,
+      asOf: typeof metrics.asOf === "string" ? metrics.asOf : undefined,
+      semanticVersion: typeof metrics.semanticVersion === "string" ? metrics.semanticVersion : undefined,
+      statusConfigVersion: typeof metrics.statusConfigVersion === "string" ? metrics.statusConfigVersion : undefined,
+      sampleCounts: normalizeMetricCounts(metrics.sampleCounts),
+      usableCounts: normalizeMetricCounts(metrics.usableCounts),
+      unknownCounts: normalizeMetricCounts(metrics.unknownCounts),
     },
   };
+}
+
+function normalizeMetricCounts(value: unknown): Record<string, number | null> | undefined {
+  if (!isRecord(value)) return undefined;
+  return Object.fromEntries(Object.entries(value).map(([key, item]) => [key, item === null ? null : toNonNegativeIntegerOrNull(item)]));
 }
 
 function toNumberArray(value: unknown): number[] {

@@ -4,7 +4,7 @@ import os from "node:os";
 import path from "node:path";
 import { buildMetrics, dedupeIssuesByLatestUpdate } from "../src/domain/metrics.js";
 import { loadWorkspace, writeTeamCache } from "../src/io/workspace.js";
-import { writeJsonFile } from "../apps/sm-tool/src/lib/workspace";
+import { normalizeTeamProgressSnapshot, writeJsonFile } from "../apps/sm-tool/src/lib/workspace";
 import { workingDaysBetween } from "../apps/sm-tool/src/lib/working-days.js";
 
 const HEADER = "Issue key,Created,Resolved,Updated,Status,Resolution,Story points,Sprint,Sprint";
@@ -47,6 +47,33 @@ async function makeTempWorkspace(csvRows: string[]): Promise<string> {
 }
 
 describe("workspace pipeline", () => {
+  it("preserves historical flow, categorical bottleneck, and snapshot metadata across reload normalization", () => {
+    const raw = {
+      capturedAt: "2026-03-28T12:00:00.000Z",
+      importSignature: "fixture-import",
+      metrics: {
+        doneCount: 4,
+        avgCycleTimeDays: 3,
+        leadTimeDays: 8,
+        activeTimeDays: 5,
+        cycleTimeDays: 2,
+        sleP85Days: 6,
+        multiSprintPct: 0,
+        velocityLatest: 4,
+        doneBugRatioPct: 0,
+        openWipCount: 1,
+        openWipAvgAgeDays: 2,
+        bottleneck: "Review",
+        source: "local-import",
+        asOf: "2026-03-31",
+        semanticVersion: "task-017-v1",
+        statusConfigVersion: "workflow-v2",
+        maintenanceLifecycle: { coverageState: "partial", state: "ready-partial-unknown-types", maintenanceCount: 1, lifecycleCount: 2, unknownCount: 1, candidateCount: 4, maintenancePct: 33.3, source: "local-import", asOf: "2026-03-31", capturedAt: "2026-03-28T12:00:00.000Z" },
+      },
+    };
+    expect(normalizeTeamProgressSnapshot(raw)?.metrics).toMatchObject({ leadTimeDays: 8, activeTimeDays: 5, cycleTimeDays: 2, bottleneck: "Review", source: "local-import", asOf: "2026-03-31", semanticVersion: "task-017-v1", statusConfigVersion: "workflow-v2" });
+    expect(normalizeTeamProgressSnapshot(raw)?.metrics.maintenanceLifecycle).toMatchObject({ maintenanceCount: 1, lifecycleCount: 2, unknownCount: 1, coverageState: "partial", source: "local-import" });
+  });
   it("loads, dedupes and writes local cache files", async () => {
     const workspacePath = await makeTempWorkspace([
       "ALPHA-1,2026-01-01,2026-01-03,2026-01-04,Done,Done,3,Sprint A,",

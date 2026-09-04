@@ -156,6 +156,7 @@ import {
   type ExecutiveWorkflowItem,
   type HistoricalTrendSnapshot,
 } from "./components/ExecutiveViews";
+import { buildHistoricalMetricSeries, resolveHistoricalPeriodSnapshot, type HistoricalMetricSeries, type HistoricalMetricInput } from "./lib/historical-series";
 
 declare global {
   interface Window {
@@ -6269,19 +6270,82 @@ export default function App(): JSX.Element {
     { label: "Flow Time Scope", value: "Created / project entered -> Done" },
   ];
 
+    const historicalMetricIds = [
+      "stories-done", "throughput", "avg-cycle-time", "sle-p85", "aging-wip", "done-bug-ratio", "velocity", "bottleneck",
+      "lead-time", "cycle-time", "implementation-time", "waiting-time-pct", "maintenance-pct",
+    ];
     const historicalTrend: HistoricalTrendSnapshot[] = selectedTeam
       ? selectedTeam.progressHistory
           .map((snapshot) => ({
             period: snapshot.capturedAt.slice(0, 7),
             capturedAt: snapshot.capturedAt,
-            cycleTime: snapshot.metrics.avgCycleTimeDays,
+            cycleTime: snapshot.metrics.activeTimeDays ?? null,
             sleP85: snapshot.metrics.sleP85Days,
             sample: snapshot.metrics.doneCount ?? null,
             usable: snapshot.metrics.doneCount ?? null,
-            source: "Persisted progress snapshot",
+            source: snapshot.metrics.source ?? null,
+            storiesDone: snapshot.metrics.doneCount ?? null,
+            throughput: snapshot.metrics.doneCount ?? null,
+            avgCycleTime: snapshot.metrics.avgCycleTimeDays,
+            agingWip: snapshot.metrics.openWipAvgAgeDays,
+            doneBugRatio: snapshot.metrics.doneBugRatioPct,
+            velocity: snapshot.metrics.velocityLatest,
+            bottleneck: snapshot.metrics.bottleneck ?? null,
+            leadTime: snapshot.metrics.leadTimeDays ?? null,
+            implementationTime: snapshot.metrics.cycleTimeDays ?? null,
+            waitingTimePct: snapshot.metrics.waitingTime?.waitingPct ?? null,
+            maintenancePct: snapshot.metrics.maintenanceLifecycle?.maintenancePct ?? null,
+            asOf: snapshot.metrics.asOf,
+            semanticVersion: snapshot.metrics.semanticVersion,
+            statusConfigVersion: snapshot.metrics.statusConfigVersion,
+            metricsUnknownCount: snapshot.metrics.waitingTime?.unknownCount ?? snapshot.metrics.maintenanceLifecycle?.unknownCount ?? null,
+            metricMetadata: Object.fromEntries(historicalMetricIds.map((metricId) => {
+              const specialized = metricId === "waiting-time-pct" ? snapshot.metrics.waitingTime : metricId === "maintenance-pct" ? snapshot.metrics.maintenanceLifecycle : undefined;
+              return [metricId, { sample: snapshot.metrics.sampleCounts?.[metricId], usable: snapshot.metrics.usableCounts?.[metricId], unknown: snapshot.metrics.unknownCounts?.[metricId] ?? specialized?.unknownCount, source: specialized?.source ?? snapshot.metrics.source, asOf: specialized?.asOf ?? snapshot.metrics.asOf, capturedAt: specialized?.capturedAt ?? snapshot.capturedAt, semanticVersion: specialized?.semanticVersion ?? snapshot.metrics.semanticVersion, statusConfigVersion: specialized?.statusConfigVersion ?? snapshot.metrics.statusConfigVersion, state: specialized?.state, coverageState: specialized?.coverageState }];
+            })),
           }))
           .sort((left, right) => left.period.localeCompare(right.period))
       : [];
+    const historicalPeriodSnapshot = resolveHistoricalPeriodSnapshot(
+      periodMonth,
+      historicalTrend.map((point) => point.period),
+    );
+    const historicalSeries: Record<string, HistoricalMetricSeries> = {};
+    const historicalMetricDefinitions: Array<[string, keyof HistoricalTrendSnapshot, "aggregate-period" | "point-in-time", string, "higher" | "lower" | "categorical"]> = [
+      ["stories-done", "storiesDone", "aggregate-period", "items", "higher"],
+      ["throughput", "throughput", "aggregate-period", "items", "higher"],
+      ["avg-cycle-time", "avgCycleTime", "aggregate-period", "working days", "lower"],
+      ["sle-p85", "sleP85", "aggregate-period", "working days", "lower"],
+      ["aging-wip", "agingWip", "point-in-time", "working days", "lower"],
+      ["done-bug-ratio", "doneBugRatio", "aggregate-period", "%", "lower"],
+      ["velocity", "velocity", "aggregate-period", "items", "higher"],
+      ["bottleneck", "bottleneck", "point-in-time", "status", "categorical"],
+      ["lead-time", "leadTime", "aggregate-period", "working days", "lower"],
+      ["cycle-time", "cycleTime", "aggregate-period", "working days", "lower"],
+      ["implementation-time", "implementationTime", "aggregate-period", "working days", "lower"],
+      ["waiting-time-pct", "waitingTimePct", "aggregate-period", "%", "lower"],
+      ["maintenance-pct", "maintenancePct", "aggregate-period", "%", "lower"],
+    ];
+    historicalMetricDefinitions.forEach(([metricId, field, observationKind, unit, direction]) => {
+      const inputs: HistoricalMetricInput[] = historicalTrend.map((point) => ({
+        metricId,
+        observationKind,
+        unit,
+        period: point.period,
+        value: (point[field] as number | string | null | undefined) ?? null,
+        sampleCount: point.metricMetadata?.[metricId]?.sample ?? undefined,
+        usableCount: point.metricMetadata?.[metricId]?.usable ?? undefined,
+        unknownCount: point.metricMetadata?.[metricId]?.unknown ?? undefined,
+        asOf: point.metricMetadata?.[metricId]?.asOf ?? point.asOf,
+        capturedAt: point.metricMetadata?.[metricId]?.capturedAt ?? point.capturedAt,
+        source: point.metricMetadata?.[metricId]?.source ?? point.source ?? undefined,
+        semanticVersion: point.metricMetadata?.[metricId]?.semanticVersion,
+        statusConfigVersion: point.metricMetadata?.[metricId]?.statusConfigVersion,
+        state: point.metricMetadata?.[metricId]?.state,
+        coverageState: point.metricMetadata?.[metricId]?.coverageState,
+      }));
+      historicalSeries[metricId] = buildHistoricalMetricSeries(inputs, historicalPeriodSnapshot, direction);
+    });
     const executiveMetricTrust = selectedTeam && selectedTeamRow
       ? buildExecutiveMetricTrust(
           selectedTeam.metrics,
@@ -6426,6 +6490,7 @@ export default function App(): JSX.Element {
         flowTiming: selectedTeamRow.current.flowTiming,
         previousFlowTiming: selectedTeamRow.previous?.flowTiming ?? null,
         historicalTrend,
+        historicalSeries,
         selectedHistoricalPeriod: periodMonth,
         metricTrust: executiveMetricTrust,
         cycleTimePanel: {
@@ -10780,6 +10845,9 @@ function buildTeamProgressSnapshot(team: TeamRuntime, now: Date): TeamProgressSn
     metrics: {
       doneCount: team.metrics ? snapshot.done : null,
       avgCycleTimeDays: getFlowPresentationValue(snapshot.flowTiming, "implementation")?.avgDays ?? null,
+      leadTimeDays: getFlowPresentationValue(snapshot.flowTiming, "lead")?.avgDays ?? null,
+      activeTimeDays: getFlowPresentationValue(snapshot.flowTiming, "cycle")?.avgDays ?? null,
+      cycleTimeDays: getFlowPresentationValue(snapshot.flowTiming, "implementation")?.avgDays ?? null,
       sleP50Days: snapshot.sle.p50,
       sleP70Days: snapshot.sle.p70,
       sleP85Days: snapshot.sle.p85,
@@ -10792,7 +10860,22 @@ function buildTeamProgressSnapshot(team: TeamRuntime, now: Date): TeamProgressSn
       waitingTime: team.metrics?.waitingTime
         ? { ...team.metrics.waitingTime, semanticVersion: getWorkflowSemanticVersion(team.config) ?? undefined }
         : undefined,
-      maintenanceLifecycle: team.metrics?.maintenanceLifecycle,
+      maintenanceLifecycle: team.metrics?.maintenanceLifecycle ? { ...team.metrics.maintenanceLifecycle, statusConfigVersion: getWorkflowSemanticVersion(team.config) ?? undefined } : undefined,
+      bottleneck: buildEffectiveBottleneckEntries(team).find((entry) => entry.period === monthKey(now))?.columns[0]?.name ?? null,
+      source: "local-recalculation",
+      asOf: now.toISOString(),
+      semanticVersion: getWorkflowSemanticVersion(team.config) ?? undefined,
+      statusConfigVersion: getWorkflowSemanticVersion(team.config) ?? undefined,
+      sampleCounts: {
+        "stories-done": snapshot.done, throughput: snapshot.done, "avg-cycle-time": team.metrics?.flowTiming.cycleTime.count ?? null, "sle-p85": team.metrics?.cycleTimeCount ?? null, "aging-wip": health.agingWip.total, "done-bug-ratio": team.metrics?.doneIssueDetails.length ?? null, velocity: team.metrics?.velocityMonthly.length ?? null, "lead-time": team.metrics?.flowTiming.leadTime.count ?? null, "cycle-time": team.metrics?.flowTiming.activeTime.count ?? null, "implementation-time": team.metrics?.flowTiming.cycleTime.count ?? null, "waiting-time-pct": team.metrics?.waitingTime?.sampleCount ?? null, "maintenance-pct": team.metrics?.maintenanceLifecycle ? (team.metrics.maintenanceLifecycle.maintenanceCount ?? 0) + (team.metrics.maintenanceLifecycle.lifecycleCount ?? 0) : null,
+      },
+      usableCounts: {
+        "stories-done": snapshot.done, throughput: snapshot.done, "avg-cycle-time": team.metrics?.flowTiming.cycleTime.count ?? null, "sle-p85": team.metrics?.cycleTimeCount ?? null, "aging-wip": health.agingWip.total, "done-bug-ratio": team.metrics?.doneIssueDetails.length ?? null, velocity: team.metrics?.velocityMonthly.length ?? null, "lead-time": team.metrics?.flowTiming.leadTime.count ?? null, "cycle-time": team.metrics?.flowTiming.activeTime.count ?? null, "implementation-time": team.metrics?.flowTiming.cycleTime.count ?? null, "waiting-time-pct": team.metrics?.waitingTime?.usableCount ?? null, "maintenance-pct": team.metrics?.maintenanceLifecycle ? (team.metrics.maintenanceLifecycle.maintenanceCount ?? 0) + (team.metrics.maintenanceLifecycle.lifecycleCount ?? 0) : null,
+      },
+      unknownCounts: {
+        "waiting-time-pct": team.metrics?.waitingTime?.unknownCount ?? null,
+        "maintenance-pct": team.metrics?.maintenanceLifecycle?.unknownCount ?? null,
+      },
     },
   };
 }

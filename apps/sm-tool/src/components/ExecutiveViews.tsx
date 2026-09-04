@@ -15,8 +15,9 @@ import {
 import { TeamDetail } from "./TeamDetail";
 import { type IssueExclusion, type SleValues, type TeamMetrics, type TeamRuntime } from "../types/contracts";
 import { type MetricTrust, type MetricTrustKey } from "../lib/metric-trust";
-import { dedupeHistoricalPeriods, filterHistoricalPeriods, hasAdjacentValidPair, resolveAdjacentHistoricalDirection } from "../lib/historical-trends";
+import { dedupeHistoricalPeriods } from "../lib/historical-trends";
 import { getMetricInsightDefinition, parseMetricPreviousValue } from "../lib/metric-insights";
+import { type HistoricalMetricSeries, type HistoricalSeriesSource } from "../lib/historical-series";
 
 export type ExecSig = "good" | "warning" | "critical" | "neutral";
 
@@ -121,6 +122,7 @@ export interface ExecutiveTeamDesignData {
   flowTiming: TeamMetrics["flowTiming"];
   previousFlowTiming: TeamMetrics["flowTiming"] | null;
   historicalTrend: HistoricalTrendSnapshot[];
+  historicalSeries: Record<string, HistoricalMetricSeries>;
   selectedHistoricalPeriod: string;
   metricTrust: MetricTrust[];
   cycleTimePanel: {
@@ -178,7 +180,23 @@ export interface HistoricalTrendSnapshot {
   sleP85: number | null;
   sample: number | null;
   usable: number | null;
-  source: string | null;
+  source: HistoricalSeriesSource | null;
+  storiesDone?: number | null;
+  throughput?: number | null;
+  avgCycleTime?: number | null;
+  agingWip?: number | null;
+  doneBugRatio?: number | null;
+  velocity?: number | null;
+  bottleneck?: string | null;
+  leadTime?: number | null;
+  implementationTime?: number | null;
+  waitingTimePct?: number | null;
+  maintenancePct?: number | null;
+  asOf?: string;
+  semanticVersion?: string;
+  statusConfigVersion?: string;
+  metricsUnknownCount?: number | null;
+  metricMetadata?: Record<string, { sample?: number | null; usable?: number | null; unknown?: number | null; source?: HistoricalSeriesSource; asOf?: string; capturedAt?: string; semanticVersion?: string; statusConfigVersion?: string; state?: string; coverageState?: "complete" | "partial" | "unavailable" | "conflict" }>;
 }
 
 const sigColor: Record<ExecSig, string> = {
@@ -824,41 +842,48 @@ function InsightCardButton({ metric, children, className }: { metric: ExecutiveT
   return <button type="button" className={`${className} exec-insight-card-button`} aria-label={`Open ${metric.label} insight`} onClick={() => open(metric)}>{children}<span className="exec-insight-affordance">View insight</span></button>;
 }
 
+function formatHistoricalPointValue(value: number | string | null | undefined, unit: string): string {
+  if (value === null || value === undefined) return "No data";
+  return `${typeof value === "number" ? value.toFixed(1) : value}${unit ? ` ${unit}` : ""}`;
+}
+
 function MetricInsightModal({ data, metric, onClose, diagnostic }: { data: ExecutiveTeamDesignData; metric: ExecutiveTeamMetric; onClose: () => void; diagnostic: boolean }) {
   const dialogRef = useRef<HTMLDivElement>(null);
   const closeRef = useRef<HTMLButtonElement>(null);
-  const snapshots = useMemo(() => dedupeHistoricalPeriods(data.historicalTrend), [data.historicalTrend]);
-  const windowPoints = filterHistoricalPeriods(snapshots, data.selectedHistoricalPeriod);
-  const historyKey: "cycleTime" | "sleP85" | null = metric.label === "Avg Implementation Time" ? "cycleTime" : metric.label === "SLE P85" ? "sleP85" : null;
-  const points = historyKey ? windowPoints.map((point) => ({ ...point, value: point[historyKey] })) : [];
+  const historyMetricId: Record<string, string> = { "Stories Done": "stories-done", Throughput: "throughput", "Avg Cycle Time": "avg-cycle-time", "Avg Implementation Time": "implementation-time", "SLE P85": "sle-p85", "Aging WIP": "aging-wip", "Done Bug Ratio": "done-bug-ratio", Velocity: "velocity", Bottleneck: "bottleneck", "Lead Time": "lead-time", "Cycle Time": "cycle-time", "Implementation Time": "implementation-time", "Waiting Time %": "waiting-time-pct", "Maintenance %": "maintenance-pct" };
+  const series = data.historicalSeries[historyMetricId[metric.label] ?? metric.label] ?? null;
+  const legacySnapshots = useMemo(() => dedupeHistoricalPeriods(data.historicalTrend), [data.historicalTrend]);
+  const historyKey = series !== null;
+  const points = series?.points.map((point) => ({ ...point, period: point.bucketKey, value: point.value ?? null, capturedAt: point.capturedAt ?? "Unavailable", sample: point.sampleCount ?? null, usable: point.usableCount ?? null, source: point.source ?? null })) ?? (historyMetricId[metric.label] === "implementation-time" ? legacySnapshots.map((point) => ({ ...point, value: point.cycleTime })) : legacySnapshots.map((point) => ({ ...point, value: point.sleP85 })));
   const validPoints = points.filter((point) => point.value !== null && Number.isFinite(point.value));
-  const adjacentPairExists = hasAdjacentValidPair(points);
-  const validIndexes = points.map((point, index) => point.value !== null && Number.isFinite(point.value) ? index : -1).filter((index) => index >= 0);
+  const adjacentPairExists = series?.comparison.direction !== "unavailable" && series?.comparison.previousBucketKey !== undefined;
+  const validIndexes = points.map((point, index) => point.value !== null && (typeof point.value === "string" || Number.isFinite(point.value)) ? index : -1).filter((index) => index >= 0);
   const [activePointIndex, setActivePointIndex] = useState(0);
   const [focusedPeriod, setFocusedPeriod] = useState<string | null>(null);
   const [pinned, setPinned] = useState(false);
   const pointRefs = useRef<Record<number, HTMLButtonElement | null>>({});
   const definition = getMetricInsightDefinition(metric.label);
-  const direction = resolveAdjacentHistoricalDirection(points.map((point) => ({ period: point.period, value: point.value })));
+  const direction = series ? series.comparison.direction === "improved" ? "Improving" : series.comparison.direction === "worsened" ? "Worsening" : series.comparison.direction === "unchanged" ? "Unchanged" : series.comparison.direction === "changed" ? "Changed" : "Unavailable" : "Unavailable";
   const trust = metric.metricTrust;
   const unit = trust?.unit ?? metric.unit ?? definition.unit;
   const interpretation = metric.label === "Bottleneck" ? "Categorical current state." : validPoints.length === 1 ? "N/A · one valid period is available." : direction === "Unavailable" ? "Unavailable · no comparable historical data for this metric." : `${direction} · adjacent comparable periods only.`;
   const modalKey = metric.label.toLowerCase().replace(/[^a-z0-9]+/g, "-");
-  const currentSnapshot = windowPoints.at(-1) ?? null;
-  const currentValueUnavailable = trust ? trust.value === null || trust.value === undefined : metric.value.trim() === "-";
-  const previousValue = trust ? trust.previousValue : parseMetricPreviousValue(metric.prev);
+  const currentSnapshot = series ? points.find((point) => point.period === series.comparison.currentBucketKey) ?? null : points.at(-1) ?? null;
+  const currentValue = series ? currentSnapshot?.value ?? null : (trust?.value ?? (metric.value.trim() === "-" ? null : metric.value));
+  const currentValueUnavailable = currentValue === null || currentValue === undefined || (typeof currentValue === "string" && currentValue.trim() === "-");
+  const previousValue = series ? series.comparison.previousValue : (trust ? trust.previousValue : parseMetricPreviousValue(metric.prev));
   const hasComparablePrevious = !currentValueUnavailable && Number.isFinite(previousValue);
-  const change = metric.label === "Bottleneck" ? "Categorical state; no numeric trend is inferred." : !hasComparablePrevious ? "Unavailable · no comparable historical data for this metric." : `${metric.trend === "up" ? "Up" : metric.trend === "down" ? "Down" : "Unchanged"} from ${previousValue} ${unit}.`;
-  const sourceLabel = trust?.source ?? definition.source ?? "Local selected-period metric snapshot";
-  const sampleLabel = trust ? trust.eligibleCount ?? "Unavailable" : historyKey && currentSnapshot ? currentSnapshot.sample ?? "Unavailable" : "Unavailable";
-  const usableLabel = trust ? trust.usableCount ?? "Unavailable" : historyKey && currentSnapshot ? currentSnapshot.usable ?? "Unavailable" : "Unavailable";
+  const change = metric.label === "Bottleneck" ? "Categorical state; no numeric trend is inferred." : !hasComparablePrevious ? "Unavailable · no comparable historical data for this metric." : `${series ? direction : metric.trend === "up" ? "Up" : metric.trend === "down" ? "Down" : "Unchanged"} from ${previousValue} ${unit}.`;
+  const sourceLabel = series ? currentSnapshot?.source ?? "Unavailable" : (trust?.source ?? definition.source ?? "Local selected-period metric snapshot");
+  const sampleLabel = series ? currentSnapshot?.sample ?? "Unavailable" : (trust?.eligibleCount ?? "Unavailable");
+  const usableLabel = series ? currentSnapshot?.usable ?? "Unavailable" : (trust?.usableCount ?? "Unavailable");
 
   useEffect(() => {
     const first = validIndexes[0];
     setActivePointIndex((current) => validIndexes.includes(current) ? current : (first ?? 0));
     setFocusedPeriod(null);
     setPinned(false);
-  }, [metric.label, data.selectedHistoricalPeriod, data.historicalTrend]);
+  }, [metric.label, data.selectedHistoricalPeriod, data.historicalSeries]);
 
   useEffect(() => {
     closeRef.current?.focus();
@@ -877,22 +902,24 @@ function MetricInsightModal({ data, metric, onClose, diagnostic }: { data: Execu
 
   return <div className="metric-insight-backdrop" role="presentation" onMouseDown={(event) => { if (event.target === event.currentTarget) onClose(); }}><div ref={dialogRef} className="metric-insight-modal" role="dialog" aria-modal="true" aria-labelledby={`metric-insight-${modalKey}-title`}>
     <header><div><h2 id={`metric-insight-${modalKey}-title`}>{metric.label} insight</h2><p>{data.teamName} · {data.periodLabel}</p></div><button ref={closeRef} type="button" aria-label="Close metric insight" onClick={onClose}>Close</button></header>
-    <div className="metric-insight-body"><p><strong>Current</strong><br /><span className="metric-insight-value">{currentValueUnavailable ? "Unavailable" : `${metric.value} ${unit}`}</span>{currentValueUnavailable ? <small className="metric-insight-unavailable">{definition.unavailable ?? "Unavailable · no valid value exists for the selected period."}</small> : null}</p><p><strong>Change</strong> {change}</p><p><strong>Interpretation</strong> {interpretation} {definition.direction !== "categorical" ? (definition.direction === "lower" ? "Lower is better." : "Higher is better.") : "Categorical; no numeric direction is inferred."}</p><p><strong>Meaning</strong> {definition.meaning}</p>
+    <div className="metric-insight-body"><p><strong>Current</strong><br /><span className="metric-insight-value">{currentValueUnavailable ? "Unavailable" : `${currentValue} ${unit}`}</span>{currentValueUnavailable ? <small className="metric-insight-unavailable">{definition.unavailable ?? "Unavailable · no valid value exists for the selected period."}</small> : null}</p><p><strong>Change</strong> {change}</p><p><strong>Interpretation</strong> {interpretation} {definition.direction !== "categorical" ? (definition.direction === "lower" ? "Lower is better." : "Higher is better.") : "Categorical; no numeric direction is inferred."}</p><p><strong>Meaning</strong> {definition.meaning}</p>
       <p><strong>How collected</strong> {definition.collection ?? "Local selected-period metric snapshot."}</p>
+      {series && currentSnapshot ? <p><strong>History state</strong> {currentSnapshot.state ?? (currentSnapshot.coverageState === "complete" ? "ready" : currentSnapshot.coverageState ?? "unavailable")}. {currentSnapshot.reason ?? "Selected-period historical aggregate."}</p> : null}
       {trust ? <p><strong>Metric state</strong> {trust.state}. {trust.reason}</p> : null}
       {metric.detail ? <p><strong>Data state</strong> {metric.detail}</p> : null}
       {data.dataStatus.recalculateState === "loading" ? <p role="status">Loading {metric.label} insight… Last-known values remain visible.</p> : null}
       {data.dataStatus.recalculateState === "unavailable" ? <p role="status">{definition.unavailable ?? `Unavailable · ${metric.label} cannot be read from the current local metric contract.`}</p> : null}
       {data.dataStatus.stale ? <p className="metric-insight-warning" role="status">Showing last-known data · the source is newer than this calculation.</p> : null}
       {data.dataStatus.recalculateState === "error" ? <div role="alert"><p>Could not load {metric.label} insight. Current metrics are unchanged.</p><button type="button" className="soft-btn" onClick={data.dataStatus.onRecalculate}>Try again</button></div> : null}
-      {historyKey && adjacentPairExists ? <div className="metric-insight-trend" aria-label={`${metric.label} trend for ${data.teamName}; ${validPoints.length} valid comparable periods; direction ${direction}.`} onMouseLeave={() => { if (!pinned) setFocusedPeriod(null); }} onBlur={(event) => { if (!event.currentTarget.contains(event.relatedTarget as Node | null) && !pinned) setFocusedPeriod(null); }}>{points.map((point, index) => point.value === null ? <span key={`${point.period}-${index}`} className="metric-insight-gap" aria-label={`${point.period}: No data`} /> : <button key={`${point.period}-${index}`} ref={(element) => { pointRefs.current[index] = element; }} type="button" className={`metric-insight-point${focusedPeriod === point.period ? " selected" : ""}`} tabIndex={index === activePointIndex ? 0 : -1} aria-label={`${metric.label} ${point.period}: ${point.value.toFixed(1)} ${unit}; as of ${point.period}; captured ${point.capturedAt}; sample ${point.sample ?? "Unavailable"}; usable ${point.usable ?? "Unavailable"}; source ${point.source ?? "Source unavailable"}`} onMouseEnter={() => setFocusedPeriod(point.period)} onFocus={() => setFocusedPeriod(point.period)} onClick={() => { setFocusedPeriod(point.period); setPinned(true); }} onKeyDown={(event) => { const current = validIndexes.indexOf(index); const move = (next: number): void => { setActivePointIndex(next); setFocusedPeriod(points[next].period); pointRefs.current[next]?.focus(); }; if (event.key === "Escape") { event.preventDefault(); setFocusedPeriod(null); setPinned(false); } else if (["ArrowLeft", "ArrowUp"].includes(event.key)) { event.preventDefault(); move(validIndexes[Math.max(0, current - 1)]); } else if (["ArrowRight", "ArrowDown"].includes(event.key)) { event.preventDefault(); move(validIndexes[Math.min(validIndexes.length - 1, current + 1)]); } else if (event.key === "Home" || event.key === "End") { event.preventDefault(); move(event.key === "Home" ? validIndexes[0] : validIndexes.at(-1)!); } else if (event.key === "Enter" || event.key === " ") { event.preventDefault(); setFocusedPeriod(point.period); setPinned(true); } }}><span style={{ height: `${Math.max(8, Math.min(100, point.value / Math.max(...validPoints.map((item) => item.value ?? 0), 1) * 100))}%` }} /></button>)}</div> : null}
+      {historyKey && (adjacentPairExists || metric.label === "Bottleneck") ? <div className="metric-insight-trend" aria-label={`${metric.label} history for ${data.teamName}; ${validPoints.length} valid numeric periods; direction ${direction}.`} onMouseLeave={() => { if (!pinned) setFocusedPeriod(null); }} onBlur={(event) => { if (!event.currentTarget.contains(event.relatedTarget as Node | null) && !pinned) setFocusedPeriod(null); }}>{points.map((point, index) => point.value === null || (metric.label !== "Bottleneck" && (typeof point.value !== "number" || !Number.isFinite(point.value))) ? <span key={`${point.period}-${index}`} className="metric-insight-gap" aria-label={`${point.period}: ${point.value == null ? "No data" : `Categorical value ${point.value}`}`} /> : <button key={`${point.period}-${index}`} ref={(element) => { pointRefs.current[index] = element; }} type="button" className={`metric-insight-point${focusedPeriod === point.period ? " selected" : ""}`} tabIndex={index === activePointIndex ? 0 : -1} aria-label={`${metric.label} ${point.period}: ${formatHistoricalPointValue(point.value, unit)}; as of ${point.period}; captured ${point.capturedAt}; sample ${point.sample ?? "Unavailable"}; usable ${point.usable ?? "Unavailable"}; source ${point.source ?? "Source unavailable"}`} onMouseEnter={() => setFocusedPeriod(point.period)} onFocus={() => setFocusedPeriod(point.period)} onClick={() => { setFocusedPeriod(point.period); setPinned(true); }} onKeyDown={(event) => { const current = validIndexes.indexOf(index); const move = (next: number): void => { setActivePointIndex(next); setFocusedPeriod(points[next].period); pointRefs.current[next]?.focus(); }; if (event.key === "Escape") { event.preventDefault(); setFocusedPeriod(null); setPinned(false); } else if (["ArrowLeft", "ArrowUp"].includes(event.key)) { event.preventDefault(); move(validIndexes[Math.max(0, current - 1)]); } else if (["ArrowRight", "ArrowDown"].includes(event.key)) { event.preventDefault(); move(validIndexes[Math.min(validIndexes.length - 1, current + 1)]); } else if (event.key === "Home" || event.key === "End") { event.preventDefault(); move(event.key === "Home" ? validIndexes[0] : validIndexes.at(-1)!); } else if (event.key === "Enter" || event.key === " ") { event.preventDefault(); setFocusedPeriod(point.period); setPinned(true); } }}><span style={{ height: `${typeof point.value === "number" ? Math.max(8, Math.min(100, point.value / Math.max(...validPoints.map((item) => typeof item.value === "number" ? item.value : 0), 1) * 100)) : "50%"}` }} /></button>)}</div> : null}
       {historyKey && !adjacentPairExists ? <p className="muted">{validPoints.length === 1 ? "N/A · one valid period is available." : "Unavailable · no adjacent comparable period pair; gaps prevent a trend."} No trend is rendered.</p> : null}
+      {historyKey && metric.label === "Bottleneck" ? <p className="muted">Categorical snapshots are shown in the data table; no numeric trend line is rendered.</p> : null}
       <p><strong>How collected/calculated</strong> {definition.calculation}</p>
       {diagnostic ? <p><strong>Coverage</strong> Existing selected-period snapshot and metric contract; Monday-Friday working-day semantics remain unchanged. {historyKey ? `${validPoints.length} of ${points.length} comparable periods have usable values.` : "No separate historical series is available for this metric."}</p> : null}
-      {focusedPeriod ? <p className="metric-insight-detail" role="status">{pinned ? "Pinned · " : ""}{focusedPeriod}: {points.find((point) => point.period === focusedPeriod)?.value == null ? "No data for this period." : `${points.find((point) => point.period === focusedPeriod)?.value?.toFixed(1)} ${unit} · as of ${focusedPeriod} · captured ${points.find((point) => point.period === focusedPeriod)?.capturedAt}; sample ${points.find((point) => point.period === focusedPeriod)?.sample ?? "Unavailable"}; usable ${points.find((point) => point.period === focusedPeriod)?.usable ?? "Unavailable"}; source ${points.find((point) => point.period === focusedPeriod)?.source ?? "Source unavailable"}`}</p> : null}
+      {focusedPeriod ? <p className="metric-insight-detail" role="status">{pinned ? "Pinned · " : ""}{focusedPeriod}: {formatHistoricalPointValue(points.find((point) => point.period === focusedPeriod)?.value, unit)} · as of {focusedPeriod} · captured {points.find((point) => point.period === focusedPeriod)?.capturedAt}; sample {points.find((point) => point.period === focusedPeriod)?.sample ?? "Unavailable"}; usable {points.find((point) => point.period === focusedPeriod)?.usable ?? "Unavailable"}; source {points.find((point) => point.period === focusedPeriod)?.source ?? "Source unavailable"}</p> : null}
       <p className="metric-insight-mode-detail">{diagnostic ? (definition.diagnosticDetail ?? definition.calculation) : (definition.teamDetail ?? "Metric-specific local insight for the selected period.")}</p>
-      <details className="metric-insight-details"><summary>Data details</summary><dl><div><dt>As of</dt><dd>{trust?.asOf ?? currentSnapshot?.period ?? data.periodLabel}</dd></div><div><dt>Captured</dt><dd>{trust?.capturedAt ?? currentSnapshot?.capturedAt ?? "Unavailable"}</dd></div><div><dt>Sample / usable</dt><dd>{sampleLabel} / {usableLabel}</dd></div><div><dt>Unknown</dt><dd>{trust?.unknownCount ?? "Unavailable"}</dd></div><div><dt>Source</dt><dd>{sourceLabel}</dd></div><div><dt>Basis</dt><dd>{trust?.basis ?? definition.calculation}</dd></div></dl></details>
-      {diagnostic ? <details className="metric-insight-table"><summary>View data table</summary><table><thead><tr><th>Period</th><th>Value</th><th>Captured</th><th>Sample</th><th>Usable</th><th>Source</th></tr></thead><tbody>{points.map((point, index) => <tr key={`${point.period}-${index}`}><td>{point.period}</td><td>{point.value == null ? "No data" : point.value.toFixed(1)}</td><td>{point.capturedAt}</td><td>{point.sample ?? "Unavailable"}</td><td>{point.usable ?? "Unavailable"}</td><td>{point.source ?? sourceLabel}</td></tr>)}</tbody></table></details> : null}
+      <details className="metric-insight-details"><summary>Data details</summary><dl><div><dt>As of</dt><dd>{series ? currentSnapshot?.asOf ?? "Unavailable" : (trust?.asOf ?? currentSnapshot?.period ?? data.periodLabel)}</dd></div><div><dt>Captured</dt><dd>{series ? currentSnapshot?.capturedAt ?? "Unavailable" : (trust?.capturedAt ?? "Unavailable")}</dd></div><div><dt>Sample / usable</dt><dd>{sampleLabel} / {usableLabel}</dd></div><div><dt>Unknown</dt><dd>{series ? currentSnapshot?.unknownCount ?? "Unavailable" : (trust?.unknownCount ?? "Unavailable")}</dd></div><div><dt>Source</dt><dd>{sourceLabel}</dd></div><div><dt>Basis</dt><dd>{trust?.basis ?? definition.calculation}</dd></div>{series?.comparison.previousBucketKey?.startsWith("range:") ? <><div><dt>Boundary policy</dt><dd>{series.comparison.currentBoundaryPolicy ?? "Unavailable"} ({series.comparison.currentBoundaryClipped ? "clipped" : "aligned"}); previous: {series.comparison.previousBoundaryPolicy ?? "Unavailable"} ({series.comparison.previousBoundaryClipped ? "clipped" : "aligned"})</dd></div><div><dt>Previous range sample / usable / unknown</dt><dd>{series.comparison.previousSampleCount ?? "Unavailable"} / {series.comparison.previousUsableCount ?? "Unavailable"} / {series.comparison.previousUnknownCount ?? "Unavailable"}</dd></div><div><dt>Previous range source</dt><dd>{series.comparison.previousSource ?? "Unavailable"}</dd></div><div><dt>Previous range as of / captured</dt><dd>{series.comparison.previousAsOf ?? "Unavailable"} / {series.comparison.previousCapturedAt ?? "Unavailable"}</dd></div></> : null}</dl></details>
+      {diagnostic ? <details className="metric-insight-table"><summary>View data table</summary><table><thead><tr><th>Period</th><th>Value</th><th>Captured</th><th>Sample</th><th>Usable</th><th>Source</th></tr></thead><tbody>{points.map((point, index) => <tr key={`${point.period}-${index}`}><td>{point.period}</td><td>{formatHistoricalPointValue(point.value, unit)}</td><td>{point.capturedAt}</td><td>{point.sample ?? "Unavailable"}</td><td>{point.usable ?? "Unavailable"}</td><td>{point.source ?? sourceLabel}</td></tr>)}</tbody></table></details> : null}
     </div>
   </div></div>;
 }

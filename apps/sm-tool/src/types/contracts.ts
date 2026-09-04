@@ -312,6 +312,7 @@ export interface MaintenanceLifecycleSnapshot {
   capturedAt?: string;
   source?: "local-import" | "local-cache" | "local-recalculation";
   semanticVersion?: string;
+  statusConfigVersion?: string;
   reason?: string;
 }
 
@@ -339,6 +340,7 @@ export interface WaitingTimeSnapshot {
   capturedAt?: string;
   source?: "local-import" | "local-cache" | "local-recalculation";
   semanticVersion?: string;
+  statusConfigVersion?: string;
   retryAvailable?: boolean;
   reason?: string;
 }
@@ -375,6 +377,9 @@ export interface TeamProgressSnapshot {
   metrics: {
     doneCount?: number | null;
     avgCycleTimeDays: number | null;
+    leadTimeDays?: number | null;
+    activeTimeDays?: number | null;
+    cycleTimeDays?: number | null;
     sleP50Days?: number | null;
     sleP70Days?: number | null;
     sleP85Days: number | null;
@@ -386,6 +391,14 @@ export interface TeamProgressSnapshot {
     openWipAvgAgeDays: number | null;
     waitingTime?: WaitingTimeSnapshot;
     maintenanceLifecycle?: MaintenanceLifecycleSnapshot;
+    bottleneck?: string | null;
+    source?: "local-import" | "local-cache" | "local-recalculation";
+    asOf?: string;
+    semanticVersion?: string;
+    statusConfigVersion?: string;
+    sampleCounts?: Record<string, number | null>;
+    usableCounts?: Record<string, number | null>;
+    unknownCounts?: Record<string, number | null>;
   };
 }
 
