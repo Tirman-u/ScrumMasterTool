@@ -6277,7 +6277,7 @@ export default function App(): JSX.Element {
     const historicalTrend: HistoricalTrendSnapshot[] = selectedTeam
       ? selectedTeam.progressHistory
           .map((snapshot) => ({
-            period: snapshot.capturedAt.slice(0, 7),
+            period: (snapshot.metrics.asOf ?? snapshot.capturedAt).slice(0, 7),
             capturedAt: snapshot.capturedAt,
             cycleTime: snapshot.metrics.activeTimeDays ?? null,
             sleP85: snapshot.metrics.sleP85Days,
@@ -6615,7 +6615,7 @@ export default function App(): JSX.Element {
           onClick={() => setConfigurationPanelOpen((current) => !current)}
         >
           <span>{configurationPanelOpen ? "▾" : "›"}</span>
-          <strong>Configuration</strong>
+          <strong>Workflow &amp; status setup</strong>
           <small>Flow Configure · DoD · Bug Type · Engineering</small>
         </button>
 

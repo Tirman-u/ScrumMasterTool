@@ -1,12 +1,9 @@
 import { createContext, useContext, useEffect, useMemo, useRef, useState, type KeyboardEvent as ReactKeyboardEvent, type ReactNode } from "react";
 import {
-  Area,
-  AreaChart,
   Bar,
   BarChart,
   CartesianGrid,
   Cell,
-  ReferenceLine,
   ResponsiveContainer,
   Tooltip,
   XAxis,
@@ -14,8 +11,7 @@ import {
 } from "recharts";
 import { TeamDetail } from "./TeamDetail";
 import { type IssueExclusion, type SleValues, type TeamMetrics, type TeamRuntime } from "../types/contracts";
-import { type MetricTrust, type MetricTrustKey } from "../lib/metric-trust";
-import { dedupeHistoricalPeriods } from "../lib/historical-trends";
+import { type MetricTrust } from "../lib/metric-trust";
 import { getMetricInsightDefinition, parseMetricPreviousValue } from "../lib/metric-insights";
 import { type HistoricalMetricSeries, type HistoricalSeriesSource } from "../lib/historical-series";
 
@@ -355,81 +351,24 @@ function FlowMetricCard({ metric, wide = false }: { metric: ExecutiveTeamMetric;
   );
 }
 
-function MetricTrustPopover({ trust, diagnostic, popoverId }: { trust: MetricTrust; diagnostic: boolean; popoverId: string }) {
-  return (
-    <div className="metric-trust-popover" id={popoverId} role="region">
-      <strong>{trust.label} explanation</strong>
-      <div className="metric-trust-block"><span>What it measures</span><p>{trust.definition}</p></div>
-      <div className="metric-trust-block"><span>How it is calculated</span><p>{trust.calculation}</p></div>
-      {trust.interpretation ? <div className="metric-trust-block"><span>Interpretation</span><p>{trust.interpretation}</p></div> : null}
-      <div className="metric-trust-block"><span>Data basis</span><p>Selected period: {trust.periodLabel} · {trust.basis}</p></div>
-      <div className="metric-trust-block"><span>State</span><p>{trust.state[0].toUpperCase() + trust.state.slice(1)}. {trust.reason}</p></div>
-      {diagnostic ? (
-        <dl className="metric-trust-meta">
-          <div><dt>Eligible</dt><dd>{trust.eligibleCount ?? "Unavailable"}</dd></div>
-          <div><dt>Usable</dt><dd>{trust.usableCount ?? "Unavailable"}</dd></div>
-          <div><dt>Coverage</dt><dd>{trust.coveragePct === null ? "Unavailable" : `${trust.coveragePct.toFixed(0)}%`}</dd></div>
-          <div><dt>P85</dt><dd>{trust.p85 === null ? "Unavailable" : `${trust.p85.toFixed(1)} working days`}</dd></div>
-          <div><dt>Source</dt><dd>{trust.source}</dd></div>
-          <div><dt>Fallback</dt><dd>{trust.fallback}</dd></div>
-          <div><dt>Data quality</dt><dd>{trust.reason}</dd></div>
-        </dl>
-      ) : (
-        <p className="metric-trust-team-count">{trust.usableCount === null ? "Usable observations unavailable." : `Based on ${trust.usableCount} usable observation${trust.usableCount === 1 ? "" : "s"}.`}</p>
-      )}
-    </div>
-  );
-}
-
-function TrustMetricCard({ trust, diagnostic, open, onToggle, buttonRef }: { trust: MetricTrust; diagnostic: boolean; open: boolean; onToggle: () => void; buttonRef: (element: HTMLButtonElement | null) => void }) {
-  const popoverId = `metric-trust-${diagnostic ? "scrum-master" : "team"}-${trust.key}`;
-  const stateLabel = trust.state[0].toUpperCase() + trust.state.slice(1);
-  return (
-    <article className={`exec-figma-card exec-flow-metric metric-trust-card${open ? " open" : ""}`}>
-      <i style={{ background: sigColor[trust.state === "complete" ? "good" : trust.state === "partial" ? "warning" : "neutral"] }} />
-      <header className="metric-trust-card-header">
-        <span>{trust.label}</span>
-        <button ref={buttonRef} type="button" className="metric-help-btn" aria-label={`Explain ${trust.label}`} aria-expanded={open} aria-controls={popoverId} onClick={onToggle}>i</button>
-      </header>
-      <div><strong>{trust.value === null ? "-" : trust.value.toFixed(1)}</strong><small>{trust.unit}</small></div>
-      <b>{trust.usableCount === null ? "Usable count unavailable" : `Based on ${trust.usableCount} usable item${trust.usableCount === 1 ? "" : "s"}`}</b>
-      <p className={`metric-trust-state ${trust.state}`}>{stateLabel}{trust.state !== "complete" ? ` · ${trust.reason}` : ""}</p>
-      {open ? <MetricTrustPopover trust={trust} diagnostic={diagnostic} popoverId={popoverId} /> : null}
-    </article>
-  );
-}
-
 function FlowTimeCards({ data, diagnostic }: { data: ExecutiveTeamDesignData; diagnostic: boolean }) {
-  const [openKey, setOpenKey] = useState<MetricTrustKey | null>(null);
-  const buttonRefs = useRef<Partial<Record<MetricTrustKey, HTMLButtonElement>>>({});
-
-  useEffect(() => {
-    if (openKey === null) return;
-    const onKeyDown = (event: KeyboardEvent): void => {
-      if (event.key !== "Escape") return;
-      setOpenKey(null);
-      window.setTimeout(() => buttonRefs.current[openKey]?.focus(), 0);
-    };
-    const onPointerDown = (event: PointerEvent): void => {
-      const target = event.target as HTMLElement | null;
-      if (!target?.closest(`[data-metric-trust-key="${openKey}"]`)) setOpenKey(null);
-    };
-    document.addEventListener("keydown", onKeyDown);
-    document.addEventListener("pointerdown", onPointerDown);
-    return () => {
-      document.removeEventListener("keydown", onKeyDown);
-      document.removeEventListener("pointerdown", onPointerDown);
-    };
-  }, [openKey]);
+  const trustAsMetric = (trust: MetricTrust): ExecutiveTeamMetric => ({
+    label: trust.label,
+    value: trust.value === null ? "-" : trust.unit === "%" ? `${trust.value.toFixed(1)}%` : trust.value.toFixed(1),
+    unit: trust.unit,
+    sub: trust.usableCount === null ? "Usable observations unavailable" : `Based on ${trust.usableCount} usable observation${trust.usableCount === 1 ? "" : "s"}`,
+    detail: trust.state === "complete" ? undefined : trust.reason,
+    tone: trust.state === "complete" ? "good" : trust.state === "partial" ? "warning" : "neutral",
+    prev: trust.previousValue === null ? undefined : trust.unit === "%" ? `${trust.previousValue.toFixed(1)}%` : `${trust.previousValue.toFixed(1)} ${trust.unit}`,
+    metricTrust: trust,
+  });
 
   return (
     <section aria-label="Flow Time">
       <SectionHeader title="Flow Time" sub={`${data.periodLabel} · working days · averages are not additive`} />
       <div className="exec-flow-metric-grid metric-trust-grid">
         {data.metricTrust.filter((trust) => trust.key !== "waitingTimePct" && trust.key !== "maintenancePct").map((trust) => (
-          <div key={trust.key} className="metric-trust-anchor" data-metric-trust-key={trust.key}>
-            <TrustMetricCard trust={trust} diagnostic={diagnostic} open={openKey === trust.key} buttonRef={(element) => { buttonRefs.current[trust.key] = element ?? undefined; }} onToggle={() => setOpenKey((current) => current === trust.key ? null : trust.key)} />
-          </div>
+          <FlowMetricCard key={trust.key} metric={trustAsMetric(trust)} />
         ))}
       </div>
       {diagnostic ? <p className="exec-diagnostic-note">Time in Status is diagnostic only and is not added to Lead Time, Cycle Time, or Implementation Time.</p> : null}
@@ -440,11 +379,11 @@ function FlowTimeCards({ data, diagnostic }: { data: ExecutiveTeamDesignData; di
 function CycleTimePanel({ data, presentationMode }: { data: ExecutiveTeamDesignData; presentationMode: boolean }) {
   const panel = data.cycleTimePanel;
   return (
-    <section className="exec-cycle-time-panel" aria-label="Implementation Time scatter">
+    <section className="exec-cycle-time-panel" aria-label="Cycle Time scatter">
       <TeamDetail
         team={panel.team}
-        title="Implementation Time"
-        subtitle={presentationMode ? "Resolution date vs Implementation Time in working days" : "Resolution date vs Implementation Time with SLE percentile lines"}
+        title="Cycle Time"
+        subtitle={presentationMode ? "Resolution date vs Cycle Time in working days" : "Resolution date vs Cycle Time with SLE percentile lines"}
         periodFilter={panel.periodFilter}
         sleValues={panel.sleValues}
         lineVisibility={presentationMode ? { p50: false, p70: false, p85: true, p95: false } : panel.lineVisibility}
@@ -792,47 +731,6 @@ function QualityCard({ item }: { item: ExecutiveWorkflowItem }) {
   );
 }
 
-function renderTrendCharts(data: ExecutiveTeamDesignData, compact = false) {
-  return (
-    <div className="exec-chart-grid">
-      <ChartCard title={compact ? "Throughput - Last 12 Weeks" : "Throughput Trend"} badge="items/week" height={compact ? 145 : 155}>
-        <ResponsiveContainer width="100%" height="100%">
-          <AreaChart data={data.throughputWeekly} margin={{ top: 4, right: 4, left: -28, bottom: 0 }}>
-            <defs>
-              <linearGradient id={compact ? "teamThroughputGrad" : "smThroughputGrad"} x1="0" y1="0" x2="0" y2="1">
-                <stop offset="5%" stopColor={compact ? "#16A34A" : "#4F46E5"} stopOpacity={0.18} />
-                <stop offset="95%" stopColor={compact ? "#16A34A" : "#4F46E5"} stopOpacity={0.01} />
-              </linearGradient>
-            </defs>
-            <CartesianGrid strokeDasharray="2 4" stroke="#F1F5F9" vertical={false} />
-            <XAxis dataKey="label" tick={{ fontSize: 10, fill: "#94A3B8" }} tickLine={false} axisLine={false} interval={1} />
-            <YAxis tick={{ fontSize: 10, fill: "#94A3B8" }} tickLine={false} axisLine={false} />
-            <Tooltip content={<CustomTooltip unit=" items" />} />
-            <ReferenceLine y={data.throughputWeekly.at(-1)?.value ?? 0} stroke={compact ? "#16A34A" : "#4F46E5"} strokeDasharray="3 3" strokeWidth={1} />
-            <Area type="monotone" dataKey="value" name="Throughput" stroke={compact ? "#16A34A" : "#4F46E5"} strokeWidth={1.5} fill={`url(#${compact ? "teamThroughputGrad" : "smThroughputGrad"})`} dot={false} />
-          </AreaChart>
-        </ResponsiveContainer>
-      </ChartCard>
-
-      <ChartCard title={compact ? "Time in Status" : "Avg Time in Status"} badge="avg days" height={compact ? 145 : 155}>
-        <ResponsiveContainer width="100%" height="100%">
-          <BarChart data={[...data.timeInStatus].reverse()} layout="vertical" margin={{ top: 0, right: 8, left: 4, bottom: 0 }}>
-            <CartesianGrid strokeDasharray="2 4" stroke="#F1F5F9" horizontal={false} />
-            <XAxis type="number" tick={{ fontSize: 10, fill: "#94A3B8" }} tickLine={false} axisLine={false} />
-            <YAxis type="category" dataKey="name" tick={{ fontSize: 10, fill: "#475569" }} tickLine={false} axisLine={false} width={78} />
-            <Tooltip content={<CustomTooltip unit="d" />} />
-            <Bar dataKey="days" name="Avg Days" radius={[0, 3, 3, 0]} maxBarSize={12}>
-              {[...data.timeInStatus].reverse().map((entry, index) => (
-                <Cell key={`${entry.name}-${index}`} fill={sigColor[entry.signal]} fillOpacity={0.85} />
-              ))}
-            </Bar>
-          </BarChart>
-        </ResponsiveContainer>
-      </ChartCard>
-    </div>
-  );
-}
-
 interface InsightContextValue { open: (metric: ExecutiveTeamMetric) => void; }
 const InsightContext = createContext<InsightContextValue>({ open: () => undefined });
 function useMetricInsight(): InsightContextValue { return useContext(InsightContext); }
@@ -852,9 +750,8 @@ function MetricInsightModal({ data, metric, onClose, diagnostic }: { data: Execu
   const closeRef = useRef<HTMLButtonElement>(null);
   const historyMetricId: Record<string, string> = { "Stories Done": "stories-done", Throughput: "throughput", "Avg Cycle Time": "avg-cycle-time", "Avg Implementation Time": "implementation-time", "SLE P85": "sle-p85", "Aging WIP": "aging-wip", "Done Bug Ratio": "done-bug-ratio", Velocity: "velocity", Bottleneck: "bottleneck", "Lead Time": "lead-time", "Cycle Time": "cycle-time", "Implementation Time": "implementation-time", "Waiting Time %": "waiting-time-pct", "Maintenance %": "maintenance-pct" };
   const series = data.historicalSeries[historyMetricId[metric.label] ?? metric.label] ?? null;
-  const legacySnapshots = useMemo(() => dedupeHistoricalPeriods(data.historicalTrend), [data.historicalTrend]);
   const historyKey = series !== null;
-  const points = series?.points.map((point) => ({ ...point, period: point.bucketKey, value: point.value ?? null, capturedAt: point.capturedAt ?? "Unavailable", sample: point.sampleCount ?? null, usable: point.usableCount ?? null, source: point.source ?? null })) ?? (historyMetricId[metric.label] === "implementation-time" ? legacySnapshots.map((point) => ({ ...point, value: point.cycleTime })) : legacySnapshots.map((point) => ({ ...point, value: point.sleP85 })));
+  const points = series?.points.map((point) => ({ ...point, period: point.bucketKey, value: point.value ?? null, capturedAt: point.capturedAt ?? "Unavailable", sample: point.sampleCount ?? null, usable: point.usableCount ?? null, source: point.source ?? null })) ?? [];
   const validPoints = points.filter((point) => point.value !== null && Number.isFinite(point.value));
   const adjacentPairExists = series?.comparison.direction !== "unavailable" && series?.comparison.previousBucketKey !== undefined;
   const validIndexes = points.map((point, index) => point.value !== null && (typeof point.value === "string" || Number.isFinite(point.value)) ? index : -1).filter((index) => index >= 0);
@@ -902,16 +799,17 @@ function MetricInsightModal({ data, metric, onClose, diagnostic }: { data: Execu
 
   return <div className="metric-insight-backdrop" role="presentation" onMouseDown={(event) => { if (event.target === event.currentTarget) onClose(); }}><div ref={dialogRef} className="metric-insight-modal" role="dialog" aria-modal="true" aria-labelledby={`metric-insight-${modalKey}-title`}>
     <header><div><h2 id={`metric-insight-${modalKey}-title`}>{metric.label} insight</h2><p>{data.teamName} · {data.periodLabel}</p></div><button ref={closeRef} type="button" aria-label="Close metric insight" onClick={onClose}>Close</button></header>
-    <div className="metric-insight-body"><p><strong>Current</strong><br /><span className="metric-insight-value">{currentValueUnavailable ? "Unavailable" : `${currentValue} ${unit}`}</span>{currentValueUnavailable ? <small className="metric-insight-unavailable">{definition.unavailable ?? "Unavailable · no valid value exists for the selected period."}</small> : null}</p><p><strong>Change</strong> {change}</p><p><strong>Interpretation</strong> {interpretation} {definition.direction !== "categorical" ? (definition.direction === "lower" ? "Lower is better." : "Higher is better.") : "Categorical; no numeric direction is inferred."}</p><p><strong>Meaning</strong> {definition.meaning}</p>
+    <div className="metric-insight-body"><div className="metric-insight-main-grid"><div className="metric-insight-column"><p><strong>Current</strong><br /><span className="metric-insight-value">{currentValueUnavailable ? "Unavailable" : `${currentValue} ${unit}`}</span>{currentValueUnavailable ? <small className="metric-insight-unavailable">{definition.unavailable ?? "Unavailable · no valid value exists for the selected period."}</small> : null}</p><p><strong>Change</strong> {change}</p><p><strong>Interpretation</strong> {interpretation} {definition.direction !== "categorical" ? (definition.direction === "lower" ? "Lower is better." : "Higher is better.") : "Categorical; no numeric direction is inferred."}</p><p><strong>Meaning</strong> {definition.meaning}</p>
       <p><strong>How collected</strong> {definition.collection ?? "Local selected-period metric snapshot."}</p>
       {series && currentSnapshot ? <p><strong>History state</strong> {currentSnapshot.state ?? (currentSnapshot.coverageState === "complete" ? "ready" : currentSnapshot.coverageState ?? "unavailable")}. {currentSnapshot.reason ?? "Selected-period historical aggregate."}</p> : null}
       {trust ? <p><strong>Metric state</strong> {trust.state}. {trust.reason}</p> : null}
-      {metric.detail ? <p><strong>Data state</strong> {metric.detail}</p> : null}
+      {metric.detail ? <p><strong>Data state</strong> {metric.detail}</p> : null}</div><div className="metric-insight-column">
       {data.dataStatus.recalculateState === "loading" ? <p role="status">Loading {metric.label} insight… Last-known values remain visible.</p> : null}
       {data.dataStatus.recalculateState === "unavailable" ? <p role="status">{definition.unavailable ?? `Unavailable · ${metric.label} cannot be read from the current local metric contract.`}</p> : null}
       {data.dataStatus.stale ? <p className="metric-insight-warning" role="status">Showing last-known data · the source is newer than this calculation.</p> : null}
       {data.dataStatus.recalculateState === "error" ? <div role="alert"><p>Could not load {metric.label} insight. Current metrics are unchanged.</p><button type="button" className="soft-btn" onClick={data.dataStatus.onRecalculate}>Try again</button></div> : null}
       {historyKey && (adjacentPairExists || metric.label === "Bottleneck") ? <div className="metric-insight-trend" aria-label={`${metric.label} history for ${data.teamName}; ${validPoints.length} valid numeric periods; direction ${direction}.`} onMouseLeave={() => { if (!pinned) setFocusedPeriod(null); }} onBlur={(event) => { if (!event.currentTarget.contains(event.relatedTarget as Node | null) && !pinned) setFocusedPeriod(null); }}>{points.map((point, index) => point.value === null || (metric.label !== "Bottleneck" && (typeof point.value !== "number" || !Number.isFinite(point.value))) ? <span key={`${point.period}-${index}`} className="metric-insight-gap" aria-label={`${point.period}: ${point.value == null ? "No data" : `Categorical value ${point.value}`}`} /> : <button key={`${point.period}-${index}`} ref={(element) => { pointRefs.current[index] = element; }} type="button" className={`metric-insight-point${focusedPeriod === point.period ? " selected" : ""}`} tabIndex={index === activePointIndex ? 0 : -1} aria-label={`${metric.label} ${point.period}: ${formatHistoricalPointValue(point.value, unit)}; as of ${point.period}; captured ${point.capturedAt}; sample ${point.sample ?? "Unavailable"}; usable ${point.usable ?? "Unavailable"}; source ${point.source ?? "Source unavailable"}`} onMouseEnter={() => setFocusedPeriod(point.period)} onFocus={() => setFocusedPeriod(point.period)} onClick={() => { setFocusedPeriod(point.period); setPinned(true); }} onKeyDown={(event) => { const current = validIndexes.indexOf(index); const move = (next: number): void => { setActivePointIndex(next); setFocusedPeriod(points[next].period); pointRefs.current[next]?.focus(); }; if (event.key === "Escape") { event.preventDefault(); setFocusedPeriod(null); setPinned(false); } else if (["ArrowLeft", "ArrowUp"].includes(event.key)) { event.preventDefault(); move(validIndexes[Math.max(0, current - 1)]); } else if (["ArrowRight", "ArrowDown"].includes(event.key)) { event.preventDefault(); move(validIndexes[Math.min(validIndexes.length - 1, current + 1)]); } else if (event.key === "Home" || event.key === "End") { event.preventDefault(); move(event.key === "Home" ? validIndexes[0] : validIndexes.at(-1)!); } else if (event.key === "Enter" || event.key === " ") { event.preventDefault(); setFocusedPeriod(point.period); setPinned(true); } }}><span style={{ height: `${typeof point.value === "number" ? Math.max(8, Math.min(100, point.value / Math.max(...validPoints.map((item) => typeof item.value === "number" ? item.value : 0), 1) * 100)) : "50%"}` }} /></button>)}</div> : null}
+      {!historyKey ? <p className="muted">Unavailable · no typed historical series is available for this metric. No legacy history fallback is used.</p> : null}
       {historyKey && !adjacentPairExists ? <p className="muted">{validPoints.length === 1 ? "N/A · one valid period is available." : "Unavailable · no adjacent comparable period pair; gaps prevent a trend."} No trend is rendered.</p> : null}
       {historyKey && metric.label === "Bottleneck" ? <p className="muted">Categorical snapshots are shown in the data table; no numeric trend line is rendered.</p> : null}
       <p><strong>How collected/calculated</strong> {definition.calculation}</p>
@@ -919,7 +817,7 @@ function MetricInsightModal({ data, metric, onClose, diagnostic }: { data: Execu
       {focusedPeriod ? <p className="metric-insight-detail" role="status">{pinned ? "Pinned · " : ""}{focusedPeriod}: {formatHistoricalPointValue(points.find((point) => point.period === focusedPeriod)?.value, unit)} · as of {focusedPeriod} · captured {points.find((point) => point.period === focusedPeriod)?.capturedAt}; sample {points.find((point) => point.period === focusedPeriod)?.sample ?? "Unavailable"}; usable {points.find((point) => point.period === focusedPeriod)?.usable ?? "Unavailable"}; source {points.find((point) => point.period === focusedPeriod)?.source ?? "Source unavailable"}</p> : null}
       <p className="metric-insight-mode-detail">{diagnostic ? (definition.diagnosticDetail ?? definition.calculation) : (definition.teamDetail ?? "Metric-specific local insight for the selected period.")}</p>
       <details className="metric-insight-details"><summary>Data details</summary><dl><div><dt>As of</dt><dd>{series ? currentSnapshot?.asOf ?? "Unavailable" : (trust?.asOf ?? currentSnapshot?.period ?? data.periodLabel)}</dd></div><div><dt>Captured</dt><dd>{series ? currentSnapshot?.capturedAt ?? "Unavailable" : (trust?.capturedAt ?? "Unavailable")}</dd></div><div><dt>Sample / usable</dt><dd>{sampleLabel} / {usableLabel}</dd></div><div><dt>Unknown</dt><dd>{series ? currentSnapshot?.unknownCount ?? "Unavailable" : (trust?.unknownCount ?? "Unavailable")}</dd></div><div><dt>Source</dt><dd>{sourceLabel}</dd></div><div><dt>Basis</dt><dd>{trust?.basis ?? definition.calculation}</dd></div>{series?.comparison.previousBucketKey?.startsWith("range:") ? <><div><dt>Boundary policy</dt><dd>{series.comparison.currentBoundaryPolicy ?? "Unavailable"} ({series.comparison.currentBoundaryClipped ? "clipped" : "aligned"}); previous: {series.comparison.previousBoundaryPolicy ?? "Unavailable"} ({series.comparison.previousBoundaryClipped ? "clipped" : "aligned"})</dd></div><div><dt>Previous range sample / usable / unknown</dt><dd>{series.comparison.previousSampleCount ?? "Unavailable"} / {series.comparison.previousUsableCount ?? "Unavailable"} / {series.comparison.previousUnknownCount ?? "Unavailable"}</dd></div><div><dt>Previous range source</dt><dd>{series.comparison.previousSource ?? "Unavailable"}</dd></div><div><dt>Previous range as of / captured</dt><dd>{series.comparison.previousAsOf ?? "Unavailable"} / {series.comparison.previousCapturedAt ?? "Unavailable"}</dd></div></> : null}</dl></details>
-      {diagnostic ? <details className="metric-insight-table"><summary>View data table</summary><table><thead><tr><th>Period</th><th>Value</th><th>Captured</th><th>Sample</th><th>Usable</th><th>Source</th></tr></thead><tbody>{points.map((point, index) => <tr key={`${point.period}-${index}`}><td>{point.period}</td><td>{formatHistoricalPointValue(point.value, unit)}</td><td>{point.capturedAt}</td><td>{point.sample ?? "Unavailable"}</td><td>{point.usable ?? "Unavailable"}</td><td>{point.source ?? sourceLabel}</td></tr>)}</tbody></table></details> : null}
+      {diagnostic ? <details className="metric-insight-table"><summary>View data table</summary><table><thead><tr><th>Period</th><th>Value</th><th>Captured</th><th>Sample</th><th>Usable</th><th>Source</th></tr></thead><tbody>{points.map((point, index) => <tr key={`${point.period}-${index}`}><td>{point.period}</td><td>{formatHistoricalPointValue(point.value, unit)}</td><td>{point.capturedAt}</td><td>{point.sample ?? "Unavailable"}</td><td>{point.usable ?? "Unavailable"}</td><td>{point.source ?? sourceLabel}</td></tr>)}</tbody></table></details> : null}</div></div>
     </div>
   </div></div>;
 }
@@ -942,12 +840,8 @@ function TeamDesignView({ data }: { data: ExecutiveTeamDesignData }) {
       </section>
       <FlowTimeCards data={data} diagnostic={false} />
       <FlowPipeline data={data} periodLabel={data.periodLabel} />
-      <section>
-        <SectionHeader title="Delivery Trends" />
-        {renderTrendCharts(data, true)}
-        <div className="exec-quality-grid">
-          {data.qualityCards.map((item) => <QualityCard key={item.label} item={item} />)}
-        </div>
+      <section className="exec-quality-grid" aria-label="Quality context">
+        {data.qualityCards.map((item) => <QualityCard key={item.label} item={item} />)}
       </section>
     </div></MetricInsightProvider>
   );
@@ -972,39 +866,6 @@ function ScrumMasterDesignView({ data }: { data: ExecutiveTeamDesignData }) {
         </div>
       </section>
       <FlowTimeCards data={data} diagnostic />
-      <section>
-        <SectionHeader title="Visual Analytics" />
-        {renderTrendCharts(data)}
-        <div className="exec-secondary-chart-grid">
-          <ChartCard title="Aging Distribution" badge="open tickets" height={148}>
-            <ResponsiveContainer width="100%" height="100%">
-              <BarChart data={data.agingDist} margin={{ top: 4, right: 8, left: -28, bottom: 0 }}>
-                <CartesianGrid strokeDasharray="2 4" stroke="#F1F5F9" vertical={false} />
-                <XAxis dataKey="label" tick={{ fontSize: 10, fill: "#94A3B8" }} tickLine={false} axisLine={false} />
-                <YAxis tick={{ fontSize: 10, fill: "#94A3B8" }} tickLine={false} axisLine={false} />
-                <Tooltip content={<CustomTooltip unit=" tickets" />} />
-                <Bar dataKey="count" name="Tickets" radius={[3, 3, 0, 0]} maxBarSize={32}>
-                  {data.agingDist.map((entry, index) => <Cell key={entry.label} fill={index <= 1 ? "#16A34A" : index <= 3 ? "#D97706" : "#DC2626"} fillOpacity={0.85} />)}
-                </Bar>
-              </BarChart>
-            </ResponsiveContainer>
-          </ChartCard>
-          <ChartCard title="Bottleneck Duration by Month" badge="days in bottleneck status" height={148}>
-            <ResponsiveContainer width="100%" height="100%">
-              <BarChart data={data.bottleneckMonthly} margin={{ top: 4, right: 8, left: -28, bottom: 0 }}>
-                <CartesianGrid strokeDasharray="2 4" stroke="#F1F5F9" vertical={false} />
-                <XAxis dataKey="label" tick={{ fontSize: 10, fill: "#94A3B8" }} tickLine={false} axisLine={false} />
-                <YAxis tick={{ fontSize: 10, fill: "#94A3B8" }} tickLine={false} axisLine={false} />
-                <Tooltip content={<CustomTooltip unit="d" />} />
-                <Bar dataKey="value" name="Days" radius={[3, 3, 0, 0]} maxBarSize={40}>
-                  {data.bottleneckMonthly.map((entry) => <Cell key={entry.label} fill={(entry.value ?? 0) > 50 ? "#DC2626" : (entry.value ?? 0) > 20 ? "#D97706" : "#16A34A"} fillOpacity={0.85} />)}
-                </Bar>
-              </BarChart>
-            </ResponsiveContainer>
-          </ChartCard>
-        </div>
-      </section>
-
       <section className={`exec-drill-card${drillOpen ? " open" : ""}`}>
         <button type="button" onClick={() => setDrillOpen((current) => !current)}>
           <span>{drillOpen ? "▾" : "›"}</span>
@@ -1127,7 +988,7 @@ export function ExecutiveTeamView({
           Overview
         </button>
          <button ref={(element) => { tabRefs.current.cycle = element ?? undefined; }} type="button" role="tab" id="team-cycle-time-tab" aria-controls={cyclePanelId} aria-selected={activeTab === "cycle"} tabIndex={activeTab === "cycle" ? 0 : -1} className={activeTab === "cycle" ? "active" : ""} onClick={() => onTabChange("cycle")} onKeyDown={handleTabKeyDown}>
-          Implementation Time
+          Cycle Time
         </button>
       </div>
       <div className="exec-team-context-row">

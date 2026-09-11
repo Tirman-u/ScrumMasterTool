@@ -430,10 +430,7 @@ export async function importCsvFiles(
     const file = await sourceFileHandle.getFile();
     const destinationName = buildUniqueImportFileName(existingFileNames, sanitizeFileName(file.name));
     existingFileNames.add(destinationName.toLowerCase());
-    const destinationHandle = await destinationDir.getFileHandle(destinationName, { create: true });
-    const writable = await destinationHandle.createWritable();
-    await writable.write(await file.text());
-    await writable.close();
+    await writeVerifiedFile(destinationDir, destinationName, await file.text());
   }
 }
 
@@ -456,10 +453,7 @@ export async function importCsvContents(
   for (const file of files) {
     const destinationName = buildUniqueImportFileName(existingFileNames, sanitizeFileName(file.name));
     existingFileNames.add(destinationName.toLowerCase());
-    const destinationHandle = await destinationDir.getFileHandle(destinationName, { create: true });
-    const writable = await destinationHandle.createWritable();
-    await writable.write(file.text);
-    await writable.close();
+    await writeVerifiedFile(destinationDir, destinationName, file.text);
   }
 }
 
@@ -1683,10 +1677,9 @@ async function readStableText(fileHandle: FileSystemFileHandle): Promise<string>
   return second;
 }
 
-export async function writeJsonFile(dirHandle: FileSystemDirectoryHandle, fileName: string, data: unknown): Promise<void> {
+async function writeVerifiedFile(dirHandle: FileSystemDirectoryHandle, fileName: string, serialized: string): Promise<void> {
   assertSafeWriteName(fileName);
   await withFileWriteMutex(dirHandle, async () => {
-    const serialized = JSON.stringify(data, null, 2);
     let lastError: unknown;
     for (let attempt = 0; attempt < 2; attempt += 1) {
       const suffix = `${Date.now()}-${Math.random().toString(36).slice(2, 8)}`;
@@ -1754,6 +1747,10 @@ export async function writeJsonFile(dirHandle: FileSystemDirectoryHandle, fileNa
     }
     throw lastError instanceof Error ? lastError : new Error("local write could not be verified");
   });
+}
+
+export async function writeJsonFile(dirHandle: FileSystemDirectoryHandle, fileName: string, data: unknown): Promise<void> {
+  await writeVerifiedFile(dirHandle, fileName, JSON.stringify(data, null, 2));
 }
 
 function buildDefaultTeamConfig(

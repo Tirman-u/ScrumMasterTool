@@ -207,13 +207,15 @@ body,
 .exec-insight-card-button:focus-visible { outline: 3px solid #2563eb; outline-offset: 2px; }
 .exec-insight-affordance { display: block; margin-top: 8px; font-size: 0.72rem; color: var(--muted); }
 .metric-insight-backdrop { position: fixed; inset: 0; z-index: 20; display: grid; place-items: center; padding: 20px; background: rgb(15 23 42 / 45%); }
-.metric-insight-modal { width: min(480px, 100%); min-width: 0; max-height: min(720px, calc(100vh - 40px)); overflow: auto; border: 1px solid #cbd5e1; border-radius: 14px; background: #fff; color: #172033; box-shadow: 0 20px 50px rgb(15 23 42 / 28%); writing-mode: horizontal-tb; }
+.metric-insight-modal { width: min(760px, calc(100vw - 32px)); min-width: min(0, 100%); max-height: min(900px, calc(100vh - 32px)); overflow: auto; border: 1px solid #cbd5e1; border-radius: 16px; background: #fff; color: #172033; box-shadow: 0 20px 50px rgb(15 23 42 / 28%); writing-mode: horizontal-tb; }
 .metric-insight-modal * { min-width: 0; max-width: 100%; word-break: normal; overflow-wrap: anywhere; writing-mode: horizontal-tb; }
 .metric-insight-modal > header { display: flex; justify-content: space-between; gap: 16px; padding: 16px; border-bottom: 1px solid #e2e8f0; }
 .metric-insight-modal h2 { margin: 0; font-size: 1rem; }
 .metric-insight-modal header p { margin: 4px 0 0; color: var(--muted); font-size: 0.78rem; }
 .metric-insight-modal > header button { padding: 6px 9px; }
-.metric-insight-body { padding: 16px; font-size: 0.82rem; }
+.metric-insight-body { padding: 20px; font-size: 0.85rem; }
+.metric-insight-main-grid { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); gap: 16px; align-items: start; }
+.metric-insight-column { min-width: 0; }
 .metric-insight-body p { margin: 0 0 12px; }
 .metric-insight-value { display: inline-block; margin-top: 4px; font-size: 1.35rem; font-weight: 700; }
 .metric-insight-unavailable { display: block; margin-top: 4px; color: #92400e; line-height: 1.4; }
@@ -248,7 +250,8 @@ body,
   }
 
   .metric-insight-backdrop { align-items: end; padding: 0; }
-  .metric-insight-modal { width: 100%; max-height: 88vh; border-radius: 14px 14px 0 0; }
+  .metric-insight-modal { width: 100%; max-height: 88vh; border-radius: 16px 16px 0 0; }
+  .metric-insight-main-grid { grid-template-columns: 1fr; }
   .metric-insight-details dl { grid-template-columns: 1fr; }
 }
 
@@ -7762,35 +7765,6 @@ textarea:focus-visible,
 .metric-trust-state.unavailable,
 .metric-trust-state.loading,
 .metric-trust-state.error { color: #64748b; }
-
-.metric-trust-popover {
-  width: 100%;
-  margin-top: 10px;
-  padding: 10px;
-  border: 1px solid #cbd5e1;
-  border-radius: 9px;
-  background: #ffffff;
-  box-shadow: 0 8px 22px rgba(15, 23, 42, 0.12);
-  color: #334155;
-  font-size: 11px;
-  line-height: 1.45;
-}
-
-.metric-trust-popover > strong {
-  display: block;
-  margin-bottom: 7px;
-  color: #0f172a;
-  font-size: 13px;
-}
-
-.metric-trust-block + .metric-trust-block { margin-top: 7px; }
-.metric-trust-block > span { color: #64748b; font-size: 10px; font-weight: 800; text-transform: uppercase; }
-.metric-trust-block p { margin: 2px 0 0; }
-.metric-trust-meta { display: grid; gap: 4px; margin: 9px 0 0; }
-.metric-trust-meta > div { display: grid; grid-template-columns: 82px minmax(0, 1fr); gap: 6px; }
-.metric-trust-meta dt { color: #64748b; }
-.metric-trust-meta dd { margin: 0; overflow-wrap: anywhere; font-variant-numeric: tabular-nums; }
-.metric-trust-team-count { margin: 8px 0 0; color: #64748b; }
 
 .exec-flow-metric div strong {
   color: #0f172a;

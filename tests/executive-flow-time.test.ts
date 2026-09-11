@@ -21,7 +21,7 @@ describe("Executive flow-time restoration", () => {
 
   it("renders ordered flow-time cards from the selected snapshot and reuses TeamDetail", () => {
     expect(viewsSource).toContain('data.metricTrust.filter((trust) => trust.key !== "waitingTimePct" && trust.key !== "maintenancePct").map');
-    expect(viewsSource).toContain("<TrustMetricCard");
+    expect(viewsSource).toContain("<FlowMetricCard key={trust.key} metric={trustAsMetric(trust)} />");
     expect(viewsSource).toContain("<TeamDetail");
     expect(viewsSource).toContain('lineVisibility={presentationMode ? { p50: false, p70: false, p85: true, p95: false }');
     expect(viewsSource).toContain("presentationMode={!diagnostic}");
@@ -54,7 +54,8 @@ describe("Executive flow-time restoration", () => {
     expect(viewsSource).toContain('role="dialog" aria-modal="true"');
     expect(viewsSource).toContain("Open ${metric.label} insight");
     expect(viewsSource).toContain("document.addEventListener(\"keydown\", handleKeyDown)");
-    expect(viewsSource).toContain("dedupeHistoricalPeriods");
+    expect(viewsSource).toContain("No legacy history fallback is used.");
+    expect(viewsSource).not.toContain("legacySnapshots.map");
     expect(viewsSource).not.toContain("<HistoricalTrendsCard data={data} />");
     expect(viewsSource).toContain("selectedHistoricalPeriod");
     expect(viewsSource).toContain("No trend is rendered");

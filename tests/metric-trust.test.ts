@@ -25,7 +25,6 @@ describe("Executive metric trust affordance", () => {
     expect(flowSource).not.toContain("P50");
     expect(flowSource).not.toContain("P70");
     expect(flowSource).not.toContain("P95");
-    expect(viewsSource).toContain("<dt>P85</dt>");
   });
 
   const snapshotFlowTiming = {
@@ -234,12 +233,10 @@ describe("Executive metric trust affordance", () => {
     expect(appSource).toContain("cycleFallbackUsed: fallbackUsed");
     expect(trustSource).toContain("eligibleCount:");
     expect(trustSource).toContain("coveragePct:");
-    expect(viewsSource).toContain('aria-label={`Explain ${trust.label}`}');
-    expect(viewsSource).toContain("aria-expanded={open}");
-    expect(viewsSource).toContain("aria-controls={popoverId}");
-    expect(viewsSource).toContain("event.key !== \"Escape\"");
-    expect(viewsSource).toContain("buttonRefs.current[openKey]?.focus()");
-    expect(viewsSource).toContain("data-metric-trust-key");
+    expect(viewsSource).toContain("Open ${metric.label} insight");
+    expect(viewsSource).toContain('role="dialog" aria-modal="true"');
+    expect(viewsSource).not.toContain("function MetricTrustPopover");
+    expect(viewsSource).not.toContain("data-metric-trust-key");
     expect(stylesSource).toContain(".metric-trust-grid");
     expect(stylesSource).toContain("@media (max-width: 620px)");
     expect(trustSource).not.toContain('? "Active Time" : "Cycle Time"');
