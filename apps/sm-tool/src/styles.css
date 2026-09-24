@@ -203,6 +203,9 @@ body,
 }
 
 .exec-insight-card-button { display: block; width: 100%; text-align: left; cursor: pointer; color: inherit; position: relative; }
+.sr-only { position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px; overflow: hidden; clip: rect(0, 0, 0, 0); white-space: nowrap; border: 0; }
+.exec-delivery-expectation-grid { grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); }
+.exec-supporting-metric-grid { grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); }
 .exec-insight-card-button:hover { border-color: #94a3b8; }
 .exec-insight-card-button:focus-visible { outline: 3px solid #2563eb; outline-offset: 2px; }
 .exec-insight-affordance { display: block; margin-top: 8px; font-size: 0.72rem; color: var(--muted); }

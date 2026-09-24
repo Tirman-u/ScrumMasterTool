@@ -21,7 +21,7 @@ describe("Executive metric trust affordance", () => {
     const flowEnd = viewsSource.indexOf("function CycleTimePanel");
     const flowSource = viewsSource.slice(flowStart, flowEnd === -1 ? viewsSource.length : flowEnd);
     expect(trustFixture.map((metric) => metric.key)).toEqual(["leadTime", "activeTime", "cycleTime", "sleP85"]);
-    expect(flowSource).toContain('data.metricTrust.filter((trust) => trust.key !== "waitingTimePct" && trust.key !== "maintenancePct").map');
+    expect(flowSource).toContain('trust.key === "leadTime" || trust.key === "activeTime" || trust.key === "cycleTime"');
     expect(flowSource).not.toContain("P50");
     expect(flowSource).not.toContain("P70");
     expect(flowSource).not.toContain("P95");
@@ -224,10 +224,10 @@ describe("Executive metric trust affordance", () => {
     expect(trustFixture.find((metric) => metric.key === "cycleTime")?.state).toBe("unavailable");
     expect(appSource).toContain("buildExecutiveMetricTrust(");
     expect(appSource).toContain('executiveMetric("Waiting Time %"');
-    expect(viewsSource).toContain('filter((trust) => trust.key !== "waitingTimePct" && trust.key !== "maintenancePct")');
+    expect(viewsSource).toContain('trust.key === "leadTime" || trust.key === "activeTime" || trust.key === "cycleTime"');
     expect(appSource).toContain("const executiveMetricTrust = selectedTeam && selectedTeamRow");
-    expect(viewsSource).toContain("{data.kpis.map((metric) => <FlowMetricCard key={metric.label} metric={metric} />)}");
-    expect(viewsSource).toContain("{data.kpis.map((metric) => <KpiCard key={metric.label} metric={metric} />)}");
+    expect(viewsSource).not.toContain("{data.kpis.map((metric) => <FlowMetricCard key={metric.label} metric={metric} />)}");
+    expect(viewsSource).toContain("function SupportingMetrics");
     expect(trustSource).toContain("Summed usable Cycle-only waiting duration outside Implementation Time ÷ summed usable Cycle Time duration × 100.");
     expect(trustSource).toContain('label: "Waiting Time %"');
     expect(appSource).toContain("cycleFallbackUsed: fallbackUsed");

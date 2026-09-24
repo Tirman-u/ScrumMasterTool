@@ -1069,7 +1069,7 @@ const METRIC_HELP: Record<MetricHelpKey, MetricHelpCopy> = {
   activeTime: {
     title: "Cycle Time",
     meaning: "Cycle Time through the configured delivery flow to Done, measured in Monday-Friday working days.",
-    whyGood: "Lower is better. This is the current name for the former Active Time definition.",
+    whyGood: "Lower is better. Cycle Time measures the configured Active + Implementation flow.",
     improveTips: [
       "Keep active WIP small and finish started items before starting new ones.",
       "Shorten analysis and refinement queues with explicit pull rules.",
@@ -6423,8 +6423,8 @@ export default function App(): JSX.Element {
             sub: executiveBottleneckSummary,
           }),
           executiveMetric("Work Past Expectation", formatSleRiskValue(selectedTeamHealth.sleRisk), selectedTeamHealthSignals.sleRisk.tone === "bad" ? "critical" : "warning", {
-            sub: `${selectedTeamHealth.sleRisk.atRiskCount} of ${selectedTeamHealth.sleRisk.totalWip} open tickets`,
-            detail: `Open work past the team's 85% delivery expectation. Expectation: ${formatWorkingDays(selectedTeamHealth.sleRisk.thresholdDays)}`,
+            sub: `Older than SLE (${formatWorkingDays(selectedTeamHealth.sleRisk.thresholdDays)})`,
+            detail: `Open work older than this expectation. ${selectedTeamHealth.sleRisk.atRiskCount} of ${selectedTeamHealth.sleRisk.totalWip} open tickets.`,
           }),
           executiveMetric("Completion Rate", String(selectedTeamHealth.throughput.last30Days), "good", {
             unit: "tickets / 30d",
@@ -6451,7 +6451,7 @@ export default function App(): JSX.Element {
             prev: waitingTimeHasComparablePrevious ? `${waitingTimePreviousValue!.toFixed(1)}%` : undefined,
             trend: waitingTimeHasComparablePrevious ? waitingTimeCurrentValue! < waitingTimePreviousValue! ? "down" : waitingTimeCurrentValue! > waitingTimePreviousValue! ? "up" : "flat" : undefined,
             trendGood: false,
-            sub: "Cycle-only waiting share · lower is better",
+            sub: "Cycle-only waiting share · Implementation Time excluded · lower is better",
             detail: waitingTimeTrust?.reason ?? "Unavailable · valid Waiting Time % detail is not available for this period.",
             metricTrust: waitingTimeTrust,
           }),

@@ -235,23 +235,6 @@ function formatPercent(value: number | null): string {
   return value == null || !Number.isFinite(value) ? "-" : `${value.toFixed(1)}%`;
 }
 
-function trendColor(metric: ExecutiveTeamMetric): string | undefined {
-  if (!metric.trend || metric.trend === "flat") {
-    return metric.trend ? sigColor.neutral : undefined;
-  }
-  const goodTrend = metric.trendGood ?? true;
-  const improves = metric.trend === "up" ? goodTrend : !goodTrend;
-  return improves ? sigColor.good : sigColor.critical;
-}
-
-function TrendArrow({ metric }: { metric: ExecutiveTeamMetric }) {
-  if (!metric.trend) {
-    return null;
-  }
-  const arrow = metric.trend === "up" ? "↑" : metric.trend === "down" ? "↓" : "→";
-  return <span style={{ color: trendColor(metric), fontSize: 11, fontWeight: 700 }}>{arrow}</span>;
-}
-
 function SigBadge({ sig }: { sig: ExecSig }) {
   return (
     <span className="exec-figma-sig" style={{ color: sigColor[sig], background: sigBg[sig] }}>
@@ -277,26 +260,6 @@ function SummaryKpi({ label, value, unit, sig }: { label: string; value: string;
       <strong style={{ color: sig ? sigColor[sig] : undefined }}>{value}</strong>
       {unit ? <span>{unit}</span> : null}
     </div>
-  );
-}
-
-function KpiCard({ metric }: { metric: ExecutiveTeamMetric }) {
-  return (
-    <InsightCardButton metric={metric} className="exec-figma-card exec-kpi-card">
-      <i style={{ background: sigColor[metric.tone] }} />
-      <div className="exec-kpi-top">
-        <span>{metric.label}</span>
-        <SigBadge sig={metric.tone} />
-      </div>
-      <div className="exec-kpi-value">
-        <strong>{metric.value}</strong>
-        {metric.unit ? <small>{metric.unit}</small> : null}
-      </div>
-      <div className="exec-kpi-sub">
-        <TrendArrow metric={metric} />
-        {metric.prev !== undefined ? <span>prev: {metric.prev}</span> : metric.sub ? <span>{metric.sub}</span> : null}
-      </div>
-    </InsightCardButton>
   );
 }
 
@@ -364,14 +327,42 @@ function FlowTimeCards({ data, diagnostic }: { data: ExecutiveTeamDesignData; di
   });
 
   return (
-    <section aria-label="Flow Time">
-      <SectionHeader title="Flow Time" sub={`${data.periodLabel} · working days · averages are not additive`} />
+    <section aria-labelledby="exec-flow-time-heading">
+      <SectionHeader title="FLOW TIME" sub="Lead contains Cycle; Cycle contains Implementation." />
+      <span id="exec-flow-time-heading" className="sr-only">Flow Time</span>
       <div className="exec-flow-metric-grid metric-trust-grid">
-        {data.metricTrust.filter((trust) => trust.key !== "waitingTimePct" && trust.key !== "maintenancePct").map((trust) => (
+        {data.metricTrust.filter((trust) => trust.key === "leadTime" || trust.key === "activeTime" || trust.key === "cycleTime").map((trust) => (
           <FlowMetricCard key={trust.key} metric={trustAsMetric(trust)} />
         ))}
       </div>
       {diagnostic ? <p className="exec-diagnostic-note">Time in Status is diagnostic only and is not added to Lead Time, Cycle Time, or Implementation Time.</p> : null}
+    </section>
+  );
+}
+
+function DeliveryExpectation({ data }: { data: ExecutiveTeamDesignData }) {
+  const expectation = data.kpis.find((metric) => metric.label === "Delivery Expectation");
+  const workPast = data.kpis.find((metric) => metric.label === "Work Past Expectation");
+  return (
+    <section aria-label="Delivery Expectation">
+      <SectionHeader title="DELIVERY EXPECTATION" sub="One SLE P85 surface for the selected period." />
+      <div className="exec-flow-metric-grid exec-delivery-expectation-grid">
+        {expectation ? <FlowMetricCard metric={expectation} wide /> : null}
+        {workPast ? <FlowMetricCard metric={workPast} wide /> : null}
+      </div>
+    </section>
+  );
+}
+
+function SupportingMetrics({ data }: { data: ExecutiveTeamDesignData }) {
+  const duplicateLabels = new Set(["Lead Time", "Cycle Time", "Implementation Time", "Avg Cycle Time", "Avg Implementation Time", "SLE P85", "Delivery Expectation", "Work Past Expectation"]);
+  const metrics = data.kpis.filter((metric) => !duplicateLabels.has(metric.label));
+  return (
+    <section aria-label="Supporting and health metrics">
+      <SectionHeader title="SUPPORTING & HEALTH" sub="Additional delivery context for the selected period." />
+      <div className="exec-flow-metric-grid exec-supporting-metric-grid">
+        {metrics.map((metric) => <FlowMetricCard key={metric.label} metric={metric} />)}
+      </div>
     </section>
   );
 }
@@ -550,8 +541,8 @@ export function ExecutiveDashboard({
           <SummaryKpi label="Data Rows" value={summary.dataRows.toLocaleString()} />
           <SummaryKpi label="Done" value={summary.done.toLocaleString()} />
           <SummaryKpi label="Open Tickets" value={summary.openTickets.toLocaleString()} sig="warning" />
-        <SummaryKpi label="Avg Implementation Time" value={formatPlainDays(summary.avgCycleTime)} unit="working days" />
-          <SummaryKpi label="Combined SLE P85" value={formatPlainDays(summary.sleP85)} unit="working days" sig="warning" />
+          <SummaryKpi label="Implementation Time" value={formatPlainDays(summary.avgCycleTime)} unit="working days" />
+          <SummaryKpi label="Delivery Expectation" value={formatPlainDays(summary.sleP85)} unit="working days" sig="warning" />
           <div className="exec-summary-actions">
             <button type="button" onClick={onWorkspaceSetup}>Manage Views</button>
             <button type="button" onClick={onConfigureMetrics}>Configure Metrics</button>
@@ -670,67 +661,6 @@ export function ExecutiveDashboard({
   );
 }
 
-function FlowPipeline({ data, periodLabel }: { data: ExecutiveTeamDesignData; periodLabel: string }) {
-  const maxDays = Math.max(1, ...data.flowStages.map((stage) => stage.days));
-  const { queueDays, activeDays, flowEfficiencyPct, biggestQueueName, biggestQueueDays } = data.flowSummary;
-  const biggestQueue = biggestQueueName !== null && biggestQueueDays !== null
-    ? { name: biggestQueueName, days: biggestQueueDays }
-    : null;
-  const flowEfficiencySig: ExecSig = flowEfficiencyPct === null
-    ? "neutral"
-    : flowEfficiencyPct >= 75
-      ? "good"
-      : flowEfficiencyPct >= 45
-        ? "warning"
-        : "critical";
-
-  return (
-    <section className="exec-figma-card exec-flow-pipeline">
-      <header>
-        <div>
-          <strong>Where Time Is Spent</strong>
-          <span>avg working days per status · {periodLabel}</span>
-        </div>
-        <div>
-          <b className="queue">QUEUE</b>
-          <b className="active">ACTIVE</b>
-        </div>
-      </header>
-      <div className="exec-flow-arrow-row">
-        {data.flowStages.map((stage, index) => (
-          <div key={`${stage.name}-${index}`}>
-            {index < data.flowStages.length - 1 ? <em>›</em> : null}
-            <article style={{ background: sigBg[stage.signal], borderColor: sigBorder[stage.signal] }}>
-              <span style={{ color: sigColor[stage.signal] }}>{stage.type === "active" ? "ACTIVE" : "QUEUE"}</span>
-              <strong>{stage.name}</strong>
-              <b style={{ color: sigColor[stage.signal] }}>{stage.days.toFixed(1)}<small>d</small></b>
-              <i><u style={{ width: `${Math.max(8, (stage.days / maxDays) * 100)}%`, background: sigColor[stage.signal] }} /></i>
-            </article>
-          </div>
-        ))}
-      </div>
-      <footer>
-        <SummaryKpi label="Total Queue Time" value={formatDays(queueDays)} sig="critical" />
-        <SummaryKpi label="Total Cycle Time" value={formatDays(activeDays)} sig="good" />
-        <SummaryKpi label="Flow Efficiency" value={flowEfficiencyPct === null ? "-" : `${flowEfficiencyPct.toFixed(1)}%`} sig={flowEfficiencySig} />
-        <SummaryKpi label="Biggest Queue" value={biggestQueue ? `${biggestQueue.name} ${formatDays(biggestQueue.days)}` : "-"} sig="critical" />
-        <SummaryKpi label="Delivery Expectation" value={data.kpis.find((kpi) => kpi.label === "Delivery Expectation")?.value ?? "-"} />
-      </footer>
-    </section>
-  );
-}
-
-function QualityCard({ item }: { item: ExecutiveWorkflowItem }) {
-  return (
-    <article className="exec-figma-card exec-quality-card">
-      <strong>{item.label}</strong>
-      <b>{item.value}</b>
-      <p>{item.value === "-" ? item.label : item.value}</p>
-      <small>Manual value · not set</small>
-    </article>
-  );
-}
-
 interface InsightContextValue { open: (metric: ExecutiveTeamMetric) => void; }
 const InsightContext = createContext<InsightContextValue>({ open: () => undefined });
 function useMetricInsight(): InsightContextValue { return useContext(InsightContext); }
@@ -832,17 +762,9 @@ function MetricInsightProvider({ data, diagnostic, children }: { data: Executive
 function TeamDesignView({ data }: { data: ExecutiveTeamDesignData }) {
   return (
     <MetricInsightProvider data={data} diagnostic={false}><div className="exec-team-design">
-      <section>
-        <SectionHeader title="Team Flow" sub={`Delivery health from the team's perspective · ${data.teamName} · ${data.periodLabel}`} />
-        <div className="exec-flow-metric-grid">
-          {data.kpis.map((metric) => <FlowMetricCard key={metric.label} metric={metric} />)}
-        </div>
-      </section>
       <FlowTimeCards data={data} diagnostic={false} />
-      <FlowPipeline data={data} periodLabel={data.periodLabel} />
-      <section className="exec-quality-grid" aria-label="Quality context">
-        {data.qualityCards.map((item) => <QualityCard key={item.label} item={item} />)}
-      </section>
+      <DeliveryExpectation data={data} />
+      <SupportingMetrics data={data} />
     </div></MetricInsightProvider>
   );
 }
@@ -855,8 +777,10 @@ function ScrumMasterDesignView({ data }: { data: ExecutiveTeamDesignData }) {
     <MetricInsightProvider data={data} diagnostic><div className="exec-team-design">
       <section>
         <SectionHeader title="Executive Summary" />
-        <div className="exec-kpi-grid">{data.kpis.map((metric) => <KpiCard key={metric.label} metric={metric} />)}</div>
       </section>
+      <FlowTimeCards data={data} diagnostic />
+      <DeliveryExpectation data={data} />
+      <SupportingMetrics data={data} />
       <section>
         <SectionHeader title="Team Health" />
         <div className="exec-health-grid">
@@ -865,7 +789,6 @@ function ScrumMasterDesignView({ data }: { data: ExecutiveTeamDesignData }) {
           <HealthCard title="Process Health" icon="⚙">{data.processHealth.map((metric) => <MetricRow key={metric.label} metric={metric} />)}</HealthCard>
         </div>
       </section>
-      <FlowTimeCards data={data} diagnostic />
       <section className={`exec-drill-card${drillOpen ? " open" : ""}`}>
         <button type="button" onClick={() => setDrillOpen((current) => !current)}>
           <span>{drillOpen ? "▾" : "›"}</span>

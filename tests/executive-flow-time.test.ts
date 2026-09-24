@@ -20,7 +20,7 @@ describe("Executive flow-time restoration", () => {
   };
 
   it("renders ordered flow-time cards from the selected snapshot and reuses TeamDetail", () => {
-    expect(viewsSource).toContain('data.metricTrust.filter((trust) => trust.key !== "waitingTimePct" && trust.key !== "maintenancePct").map');
+    expect(viewsSource).toContain('trust.key === "leadTime" || trust.key === "activeTime" || trust.key === "cycleTime"');
     expect(viewsSource).toContain("<FlowMetricCard key={trust.key} metric={trustAsMetric(trust)} />");
     expect(viewsSource).toContain("<TeamDetail");
     expect(viewsSource).toContain('lineVisibility={presentationMode ? { p50: false, p70: false, p85: true, p95: false }');
@@ -67,7 +67,7 @@ describe("Executive flow-time restoration", () => {
     expect(viewsSource).toContain("adjacentPairExists");
     expect(viewsSource).toContain("aria-modal=\"true\"");
     expect(viewsSource).toContain("window.requestAnimationFrame(() => openerRef.current?.focus())");
-    expect(viewsSource).toContain("data.kpis.map((metric) => <KpiCard");
+    expect(viewsSource).toContain("function SupportingMetrics");
     expect(viewsSource).toContain("metric-insight-details");
     expect(viewsSource).toContain("definition.calculation");
     expect(viewsSource).not.toContain('title="Cycle Time Trend"');
