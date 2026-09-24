@@ -6461,29 +6461,29 @@ export default function App(): JSX.Element {
             detail: maintenanceTrust?.reason ?? "Unavailable · configure a lifecycle key and provide usable direct-child data.",
             metricTrust: maintenanceTrust,
           }),
-          executiveMetric("Delivery Expectation", `≤ ${formatWorkingDays(selectedTeamRow.current.sle.p85).replace(" working days", "")}`, "good", {
+          executiveMetric("SLE P85 / Delivery Expectation", `≤ ${formatWorkingDays(selectedTeamRow.current.sle.p85).replace(" working days", "")}`, "good", {
             unit: "working days",
-            sub: "Team's current delivery promise (SLE P85)",
+            sub: "Cycle Time delivery expectation at the existing SLE P85",
             detail: `${selectedTeamRow.current.sleCycleTimes.length} completed items in the SLE sample`,
           }),
+          executiveMetric("SLE Compliance", selectedTeamHealth.sleRisk.atRiskPct === null ? "-" : `${formatPercentValue(100 - selectedTeamHealth.sleRisk.atRiskPct)}%`, selectedTeamHealth.sleRisk.atRiskPct === null ? "neutral" : selectedTeamHealthSignals.sleRisk.tone === "bad" ? "critical" : "warning", { sub: formatSleComplianceSummary(selectedTeamHealth.sleRisk), detail: "Share of currently open work within the team’s existing SLE P85 delivery expectation." }),
+          executiveMetric("Open Bug Ratio", selectedTeamHealth.bugRatio.wipBugRatio === null ? "-" : `${formatPercentValue(selectedTeamHealth.bugRatio.wipBugRatio)}%`, selectedTeamHealth.bugRatio.wipBugRatio !== null && selectedTeamHealth.bugRatio.wipBugRatio > 15 ? "critical" : selectedTeamHealth.bugRatio.wipBugRatio !== null && selectedTeamHealth.bugRatio.wipBugRatio > 10 ? "warning" : selectedTeamHealth.bugRatio.wipBugRatio === null ? "neutral" : "good", { sub: `${selectedTeamHealth.bugRatio.wipBugCount} open bugs / ${selectedTeamHealth.bugRatio.wipTotal} open WIP items` }),
+          executiveMetric("Flow Efficiency", executiveFlowSummary.flowEfficiencyPct === null ? "-" : `${formatPercentValue(executiveFlowSummary.flowEfficiencyPct)}%`, executiveFlowEfficiencyTone, { sub: "active time ÷ (active time + queue time) × 100", detail: "Higher means more observed flow time was active rather than waiting." }),
+          executiveMetric("Forecast P85", selectedTeamHealth.forecast.p85Days === null ? "-" : `${selectedTeamHealth.forecast.p85Days} days`, selectedTeamHealthSignals.forecast.tone === "bad" ? "critical" : selectedTeamHealthSignals.forecast.tone === "warn" ? "warning" : "good", { sub: "calendar days · ~85% Monte Carlo confidence", detail: `Estimated time to finish ${selectedTeamHealth.forecast.backlogCount} currently open backlog items; distinct from Cycle Time SLE.` }),
         ],
         flowHealth: [
           executiveMetric("Throughput", String(selectedTeamHealth.throughput.last30Days), "good", { unit: "/30d", sub: formatThroughputStabilitySummary() }),
           executiveMetric(FLOW_LABELS.implementation, formatWorkingDays(getFlowPresentationValue(selectedTeamRow.current.flowTiming, "implementation")?.avgDays ?? null).replace(" working days", ""), "warning", { unit: "days", sub: `p85: ${formatWorkingDays(getFlowPresentationValue(selectedTeamRow.current.flowTiming, "implementation")?.p85 ?? null)}` }),
           executiveMetric("Velocity", formatVelocityValue(selectedTeamRow.current.velocity, selectedTeam.config.velocityConfig), "good", { sub: selectedVelocityUnit }),
-          executiveMetric("SLE Compliance", selectedTeamHealth.sleRisk.atRiskPct === null ? "-" : `${formatPercentValue(100 - selectedTeamHealth.sleRisk.atRiskPct)}%`, selectedTeamHealthSignals.sleRisk.tone === "bad" ? "critical" : "warning", { sub: formatSleRiskValue(selectedTeamHealth.sleRisk) }),
         ],
         workHealth: [
           executiveMetric("Aging WIP", formatWorkingDays(selectedTeamHealth.agingWip.avgDays).replace(" working days", ""), selectedTeamHealthSignals.wipAgeRisk.tone === "bad" ? "critical" : "warning", { unit: "days", sub: `oldest ${selectedTeamHealth.agingWip.topOldest[0]?.agingDays ?? 0}d` }),
           executiveMetric("Open Tickets", String(selectedTeamHealth.agingWip.total), selectedTeamHealth.agingWip.total > 0 ? "warning" : "good", { sub: `${selectedTeamHealth.staleWip.stalePct === null ? "-" : `${formatPercentValue(selectedTeamHealth.staleWip.stalePct)}%`} not updated` }),
           executiveMetric("Oldest Ticket", selectedTeamHealth.agingWip.topOldest[0]?.issueKey ?? "-", selectedTeamHealth.agingWip.topOldest[0]?.agingDays ? "critical" : "neutral", { sub: `${selectedTeamHealth.agingWip.topOldest[0]?.agingDays ?? 0} days in backlog` }),
-          executiveMetric("WIP Bug Ratio", selectedTeamHealth.bugRatio.wipBugRatio === null ? "-" : `${formatPercentValue(selectedTeamHealth.bugRatio.wipBugRatio)}%`, selectedTeamHealth.bugRatio.wipBugRatio !== null && selectedTeamHealth.bugRatio.wipBugRatio > 15 ? "critical" : selectedTeamHealth.bugRatio.wipBugRatio !== null && selectedTeamHealth.bugRatio.wipBugRatio > 10 ? "warning" : "good", { sub: `${selectedTeamHealth.bugRatio.wipBugCount} / ${selectedTeamHealth.bugRatio.wipTotal} open items` }),
         ],
         processHealth: [
           executiveMetric("Bottleneck", executiveFlowSummary.biggestQueueName ?? "-", executiveBottleneckTone, { sub: executiveBottleneckSummary }),
-          executiveMetric("Flow Efficiency", executiveFlowSummary.flowEfficiencyPct === null ? "-" : `${formatPercentValue(executiveFlowSummary.flowEfficiencyPct)}%`, executiveFlowEfficiencyTone, { sub: "active / (active + queue)" }),
           executiveMetric("Work Distribution", formatWorkMixSummary(selectedTeamHealth.workMix), "neutral", { sub: "Story · Bug · Sub-task" }),
-          executiveMetric("Forecast P85", selectedTeamHealth.forecast.p85Days === null ? "-" : `${selectedTeamHealth.forecast.p85Days} days`, selectedTeamHealthSignals.forecast.tone === "bad" ? "critical" : selectedTeamHealthSignals.forecast.tone === "warn" ? "warning" : "good", { sub: "Monte Carlo · 85% confidence" }),
         ],
         flowStages: executiveFlowStages,
         flowSummary: executiveFlowSummary,
@@ -10770,6 +10770,15 @@ function formatSleRiskValue(snapshot: SleRiskSnapshot): string {
   }
 
   return `${formatPercentValue(snapshot.atRiskPct)}% (${snapshot.atRiskCount})`;
+}
+
+function formatSleComplianceSummary(snapshot: SleRiskSnapshot): string {
+  if (snapshot.atRiskPct === null || snapshot.totalWip <= 0) {
+    return "Unavailable · no eligible open WIP or SLE threshold";
+  }
+
+  const withinCount = Math.max(0, snapshot.totalWip - snapshot.atRiskCount);
+  return `${withinCount} within SLE / ${snapshot.totalWip} eligible open WIP · ${snapshot.atRiskCount} over threshold`;
 }
 
 function formatStaleWipValue(snapshot: StaleWipSnapshot): string {

@@ -341,7 +341,7 @@ function FlowTimeCards({ data, diagnostic }: { data: ExecutiveTeamDesignData; di
 }
 
 function DeliveryExpectation({ data }: { data: ExecutiveTeamDesignData }) {
-  const expectation = data.kpis.find((metric) => metric.label === "Delivery Expectation");
+  const expectation = data.kpis.find((metric) => metric.label === "SLE P85 / Delivery Expectation" || metric.label === "Delivery Expectation");
   const workPast = data.kpis.find((metric) => metric.label === "Work Past Expectation");
   return (
     <section aria-label="Delivery Expectation">
@@ -355,7 +355,7 @@ function DeliveryExpectation({ data }: { data: ExecutiveTeamDesignData }) {
 }
 
 function SupportingMetrics({ data }: { data: ExecutiveTeamDesignData }) {
-  const duplicateLabels = new Set(["Lead Time", "Cycle Time", "Implementation Time", "Avg Cycle Time", "Avg Implementation Time", "SLE P85", "Delivery Expectation", "Work Past Expectation"]);
+  const duplicateLabels = new Set(["Lead Time", "Cycle Time", "Implementation Time", "Avg Cycle Time", "Avg Implementation Time", "SLE P85", "SLE P85 / Delivery Expectation", "Delivery Expectation", "Work Past Expectation"]);
   const metrics = data.kpis.filter((metric) => !duplicateLabels.has(metric.label));
   return (
     <section aria-label="Supporting and health metrics">
